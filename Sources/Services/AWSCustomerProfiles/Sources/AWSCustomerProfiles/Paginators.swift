@@ -45,6 +45,37 @@ extension PaginatorSequence where OperationStackInput == GetSimilarProfilesInput
     }
 }
 extension CustomerProfilesClient {
+    /// Paginate over `[ListDomainLayoutsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListDomainLayoutsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListDomainLayoutsOutput`
+    public func listDomainLayoutsPaginated(input: ListDomainLayoutsInput) -> ClientRuntime.PaginatorSequence<ListDomainLayoutsInput, ListDomainLayoutsOutput> {
+        return ClientRuntime.PaginatorSequence<ListDomainLayoutsInput, ListDomainLayoutsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listDomainLayouts(input:))
+    }
+}
+
+extension ListDomainLayoutsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListDomainLayoutsInput {
+        return ListDomainLayoutsInput(
+            domainName: self.domainName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListDomainLayoutsInput, OperationStackOutput == ListDomainLayoutsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listDomainLayoutsPaginated`
+    /// to access the nested member `[CustomerProfilesClientTypes.LayoutItem]`
+    /// - Returns: `[CustomerProfilesClientTypes.LayoutItem]`
+    public func items() async throws -> [CustomerProfilesClientTypes.LayoutItem] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension CustomerProfilesClient {
     /// Paginate over `[ListEventStreamsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

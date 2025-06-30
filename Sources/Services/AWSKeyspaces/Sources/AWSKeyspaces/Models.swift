@@ -274,6 +274,190 @@ extension KeyspacesClientTypes {
 
 extension KeyspacesClientTypes {
 
+    public enum CdcPropagateTags: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case table
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CdcPropagateTags] {
+            return [
+                .none,
+                .table
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .table: return "TABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KeyspacesClientTypes {
+
+    public enum CdcStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case disabling
+        case enabled
+        case enabling
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CdcStatus] {
+            return [
+                .disabled,
+                .disabling,
+                .enabled,
+                .enabling
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .disabling: return "DISABLING"
+            case .enabled: return "ENABLED"
+            case .enabling: return "ENABLING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KeyspacesClientTypes {
+
+    /// Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a single Amazon Keyspaces resource. Amazon Web Services-assigned tag names and values are automatically assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: in the Cost Allocation Report. You cannot backdate the application of a tag. For more information, see [Adding tags and labels to Amazon Keyspaces resources](https://docs.aws.amazon.com/keyspaces/latest/devguide/tagging-keyspaces.html) in the Amazon Keyspaces Developer Guide.
+    public struct Tag: Swift.Sendable {
+        /// The key of the tag. Tag keys are case sensitive. Each Amazon Keyspaces resource can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the tag. Tag values are case-sensitive and can be null.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension KeyspacesClientTypes {
+
+    public enum ViewType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case keysOnly
+        case newAndOldImages
+        case newImage
+        case oldImage
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ViewType] {
+            return [
+                .keysOnly,
+                .newAndOldImages,
+                .newImage,
+                .oldImage
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .keysOnly: return "KEYS_ONLY"
+            case .newAndOldImages: return "NEW_AND_OLD_IMAGES"
+            case .newImage: return "NEW_IMAGE"
+            case .oldImage: return "OLD_IMAGE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KeyspacesClientTypes {
+
+    /// The settings for the CDC stream of a table. For more information about CDC streams, see [Working with change data capture (CDC) streams in Amazon Keyspaces](https://docs.aws.amazon.com/keyspaces/latest/devguide/cdc.html) in the Amazon Keyspaces Developer Guide.
+    public struct CdcSpecification: Swift.Sendable {
+        /// Specifies that the stream inherits the tags from the table.
+        public var propagateTags: KeyspacesClientTypes.CdcPropagateTags?
+        /// The status of the CDC stream. You can enable or disable a stream for a table.
+        /// This member is required.
+        public var status: KeyspacesClientTypes.CdcStatus?
+        /// The tags (key-value pairs) that you want to apply to the stream.
+        public var tags: [KeyspacesClientTypes.Tag]?
+        /// The view type specifies the changes Amazon Keyspaces records for each changed row in the stream. After you create the stream, you can't make changes to this selection. The options are:
+        ///
+        /// * NEW_AND_OLD_IMAGES - both versions of the row, before and after the change. This is the default.
+        ///
+        /// * NEW_IMAGE - the version of the row after the change.
+        ///
+        /// * OLD_IMAGE - the version of the row before the change.
+        ///
+        /// * KEYS_ONLY - the partition and clustering keys of the row that was changed.
+        public var viewType: KeyspacesClientTypes.ViewType?
+
+        public init(
+            propagateTags: KeyspacesClientTypes.CdcPropagateTags? = nil,
+            status: KeyspacesClientTypes.CdcStatus? = nil,
+            tags: [KeyspacesClientTypes.Tag]? = nil,
+            viewType: KeyspacesClientTypes.ViewType? = nil
+        ) {
+            self.propagateTags = propagateTags
+            self.status = status
+            self.tags = tags
+            self.viewType = viewType
+        }
+    }
+}
+
+extension KeyspacesClientTypes {
+
+    /// The settings of the CDC stream of the table. For more information about CDC streams, see [Working with change data capture (CDC) streams in Amazon Keyspaces](https://docs.aws.amazon.com/keyspaces/latest/devguide/cdc.html) in the Amazon Keyspaces Developer Guide.
+    public struct CdcSpecificationSummary: Swift.Sendable {
+        /// The status of the CDC stream. Specifies if the table has a CDC stream.
+        /// This member is required.
+        public var status: KeyspacesClientTypes.CdcStatus?
+        /// The view type specifies the changes Amazon Keyspaces records for each changed row in the stream. This setting can't be changed, after the stream has been created. The options are:
+        ///
+        /// * NEW_AND_OLD_IMAGES - both versions of the row, before and after the change. This is the default.
+        ///
+        /// * NEW_IMAGE - the version of the row after the change.
+        ///
+        /// * OLD_IMAGE - the version of the row before the change.
+        ///
+        /// * KEYS_ONLY - the partition and clustering keys of the row that was changed.
+        public var viewType: KeyspacesClientTypes.ViewType?
+
+        public init(
+            status: KeyspacesClientTypes.CdcStatus? = nil,
+            viewType: KeyspacesClientTypes.ViewType? = nil
+        ) {
+            self.status = status
+            self.viewType = viewType
+        }
+    }
+}
+
+extension KeyspacesClientTypes {
+
     public enum ClientSideTimestampsStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case enabled
         case sdkUnknown(Swift.String)
@@ -530,11 +714,11 @@ extension KeyspacesClientTypes {
 
     /// The replication specification of the keyspace includes:
     ///
-    /// * regionList - up to six Amazon Web Services Regions where the keyspace is replicated in.
+    /// * regionList - the Amazon Web Services Regions where the keyspace is replicated in.
     ///
     /// * replicationStrategy - the required value is SINGLE_REGION or MULTI_REGION.
     public struct ReplicationSpecification: Swift.Sendable {
-        /// The regionList can contain up to six Amazon Web Services Regions where the keyspace is replicated in.
+        /// The regionList contains the Amazon Web Services Regions where the keyspace is replicated in.
         public var regionList: [Swift.String]?
         /// The replicationStrategy of a keyspace, the required value is SINGLE_REGION or MULTI_REGION.
         /// This member is required.
@@ -550,27 +734,6 @@ extension KeyspacesClientTypes {
     }
 }
 
-extension KeyspacesClientTypes {
-
-    /// Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a single Amazon Keyspaces resource. Amazon Web Services-assigned tag names and values are automatically assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: in the Cost Allocation Report. You cannot backdate the application of a tag. For more information, see [Adding tags and labels to Amazon Keyspaces resources](https://docs.aws.amazon.com/keyspaces/latest/devguide/tagging-keyspaces.html) in the Amazon Keyspaces Developer Guide.
-    public struct Tag: Swift.Sendable {
-        /// The key of the tag. Tag keys are case sensitive. Each Amazon Keyspaces resource can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value.
-        /// This member is required.
-        public var key: Swift.String?
-        /// The value of the tag. Tag values are case-sensitive and can be null.
-        /// This member is required.
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.key = key
-            self.value = value
-        }
-    }
-}
-
 public struct CreateKeyspaceInput: Swift.Sendable {
     /// The name of the keyspace to be created.
     /// This member is required.
@@ -579,7 +742,7 @@ public struct CreateKeyspaceInput: Swift.Sendable {
     ///
     /// * replicationStrategy - the required value is SINGLE_REGION or MULTI_REGION.
     ///
-    /// * regionList - if the replicationStrategy is MULTI_REGION, the regionList requires the current Region and at least one additional Amazon Web Services Region where the keyspace is going to be replicated in. The maximum number of supported replication Regions including the current Region is six.
+    /// * regionList - if the replicationStrategy is MULTI_REGION, the regionList requires the current Region and at least one additional Amazon Web Services Region where the keyspace is going to be replicated in.
     public var replicationSpecification: KeyspacesClientTypes.ReplicationSpecification?
     /// A list of key-value pair tags to be attached to the keyspace. For more information, see [Adding tags and labels to Amazon Keyspaces resources](https://docs.aws.amazon.com/keyspaces/latest/devguide/tagging-keyspaces.html) in the Amazon Keyspaces Developer Guide.
     public var tags: [KeyspacesClientTypes.Tag]?
@@ -892,6 +1055,8 @@ public struct CreateTableInput: Swift.Sendable {
     ///
     /// The default is throughput_mode:PAY_PER_REQUEST. For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html) in the Amazon Keyspaces Developer Guide.
     public var capacitySpecification: KeyspacesClientTypes.CapacitySpecification?
+    /// The CDC stream settings of the table.
+    public var cdcSpecification: KeyspacesClientTypes.CdcSpecification?
     /// Enables client-side timestamps for the table. By default, the setting is disabled. You can enable client-side timestamps with the following option:
     ///
     /// * status: "enabled"
@@ -974,6 +1139,7 @@ public struct CreateTableInput: Swift.Sendable {
     public init(
         autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification? = nil,
         capacitySpecification: KeyspacesClientTypes.CapacitySpecification? = nil,
+        cdcSpecification: KeyspacesClientTypes.CdcSpecification? = nil,
         clientSideTimestamps: KeyspacesClientTypes.ClientSideTimestamps? = nil,
         comment: KeyspacesClientTypes.Comment? = nil,
         defaultTimeToLive: Swift.Int? = nil,
@@ -988,6 +1154,7 @@ public struct CreateTableInput: Swift.Sendable {
     ) {
         self.autoScalingSpecification = autoScalingSpecification
         self.capacitySpecification = capacitySpecification
+        self.cdcSpecification = cdcSpecification
         self.clientSideTimestamps = clientSideTimestamps
         self.comment = comment
         self.defaultTimeToLive = defaultTimeToLive
@@ -1367,6 +1534,8 @@ public struct GetTableOutput: Swift.Sendable {
     ///
     /// * throughputMode:PROVISIONED
     public var capacitySpecification: KeyspacesClientTypes.CapacitySpecificationSummary?
+    /// The CDC stream settings of the table.
+    public var cdcSpecification: KeyspacesClientTypes.CdcSpecificationSummary?
     /// The client-side timestamps setting of the table.
     public var clientSideTimestamps: KeyspacesClientTypes.ClientSideTimestamps?
     /// The the description of the specified table.
@@ -1380,6 +1549,8 @@ public struct GetTableOutput: Swift.Sendable {
     /// The name of the keyspace that the specified table is stored in.
     /// This member is required.
     public var keyspaceName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the stream.
+    public var latestStreamArn: Swift.String?
     /// The point-in-time recovery status of the specified table.
     public var pointInTimeRecovery: KeyspacesClientTypes.PointInTimeRecoverySummary?
     /// Returns the Amazon Web Services Region specific settings of all Regions a multi-Region table is replicated in.
@@ -1399,12 +1570,14 @@ public struct GetTableOutput: Swift.Sendable {
 
     public init(
         capacitySpecification: KeyspacesClientTypes.CapacitySpecificationSummary? = nil,
+        cdcSpecification: KeyspacesClientTypes.CdcSpecificationSummary? = nil,
         clientSideTimestamps: KeyspacesClientTypes.ClientSideTimestamps? = nil,
         comment: KeyspacesClientTypes.Comment? = nil,
         creationTimestamp: Foundation.Date? = nil,
         defaultTimeToLive: Swift.Int? = nil,
         encryptionSpecification: KeyspacesClientTypes.EncryptionSpecification? = nil,
         keyspaceName: Swift.String? = nil,
+        latestStreamArn: Swift.String? = nil,
         pointInTimeRecovery: KeyspacesClientTypes.PointInTimeRecoverySummary? = nil,
         replicaSpecifications: [KeyspacesClientTypes.ReplicaSpecificationSummary]? = nil,
         resourceArn: Swift.String? = nil,
@@ -1414,12 +1587,14 @@ public struct GetTableOutput: Swift.Sendable {
         ttl: KeyspacesClientTypes.TimeToLive? = nil
     ) {
         self.capacitySpecification = capacitySpecification
+        self.cdcSpecification = cdcSpecification
         self.clientSideTimestamps = clientSideTimestamps
         self.comment = comment
         self.creationTimestamp = creationTimestamp
         self.defaultTimeToLive = defaultTimeToLive
         self.encryptionSpecification = encryptionSpecification
         self.keyspaceName = keyspaceName
+        self.latestStreamArn = latestStreamArn
         self.pointInTimeRecovery = pointInTimeRecovery
         self.replicaSpecifications = replicaSpecifications
         self.resourceArn = resourceArn
@@ -1927,7 +2102,7 @@ public struct UpdateKeyspaceInput: Swift.Sendable {
     public var keyspaceName: Swift.String?
     /// The replication specification of the keyspace includes:
     ///
-    /// * regionList - up to six Amazon Web Services Regions where the keyspace is replicated in.
+    /// * regionList - the Amazon Web Services Regions where the keyspace is replicated in.
     ///
     /// * replicationStrategy - the required value is SINGLE_REGION or MULTI_REGION.
     /// This member is required.
@@ -1974,6 +2149,8 @@ public struct UpdateTableInput: Swift.Sendable {
     ///
     /// The default is throughput_mode:PAY_PER_REQUEST. For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html) in the Amazon Keyspaces Developer Guide.
     public var capacitySpecification: KeyspacesClientTypes.CapacitySpecification?
+    /// The CDC stream settings of the table.
+    public var cdcSpecification: KeyspacesClientTypes.CdcSpecification?
     /// Enables client-side timestamps for the table. By default, the setting is disabled. You can enable client-side timestamps with the following option:
     ///
     /// * status: "enabled"
@@ -2023,6 +2200,7 @@ public struct UpdateTableInput: Swift.Sendable {
         addColumns: [KeyspacesClientTypes.ColumnDefinition]? = nil,
         autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification? = nil,
         capacitySpecification: KeyspacesClientTypes.CapacitySpecification? = nil,
+        cdcSpecification: KeyspacesClientTypes.CdcSpecification? = nil,
         clientSideTimestamps: KeyspacesClientTypes.ClientSideTimestamps? = nil,
         defaultTimeToLive: Swift.Int? = nil,
         encryptionSpecification: KeyspacesClientTypes.EncryptionSpecification? = nil,
@@ -2035,6 +2213,7 @@ public struct UpdateTableInput: Swift.Sendable {
         self.addColumns = addColumns
         self.autoScalingSpecification = autoScalingSpecification
         self.capacitySpecification = capacitySpecification
+        self.cdcSpecification = cdcSpecification
         self.clientSideTimestamps = clientSideTimestamps
         self.defaultTimeToLive = defaultTimeToLive
         self.encryptionSpecification = encryptionSpecification
@@ -2207,6 +2386,7 @@ extension CreateTableInput {
         guard let value else { return }
         try writer["autoScalingSpecification"].write(value.autoScalingSpecification, with: KeyspacesClientTypes.AutoScalingSpecification.write(value:to:))
         try writer["capacitySpecification"].write(value.capacitySpecification, with: KeyspacesClientTypes.CapacitySpecification.write(value:to:))
+        try writer["cdcSpecification"].write(value.cdcSpecification, with: KeyspacesClientTypes.CdcSpecification.write(value:to:))
         try writer["clientSideTimestamps"].write(value.clientSideTimestamps, with: KeyspacesClientTypes.ClientSideTimestamps.write(value:to:))
         try writer["comment"].write(value.comment, with: KeyspacesClientTypes.Comment.write(value:to:))
         try writer["defaultTimeToLive"].write(value.defaultTimeToLive)
@@ -2384,6 +2564,7 @@ extension UpdateTableInput {
         try writer["addColumns"].writeList(value.addColumns, memberWritingClosure: KeyspacesClientTypes.ColumnDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["autoScalingSpecification"].write(value.autoScalingSpecification, with: KeyspacesClientTypes.AutoScalingSpecification.write(value:to:))
         try writer["capacitySpecification"].write(value.capacitySpecification, with: KeyspacesClientTypes.CapacitySpecification.write(value:to:))
+        try writer["cdcSpecification"].write(value.cdcSpecification, with: KeyspacesClientTypes.CdcSpecification.write(value:to:))
         try writer["clientSideTimestamps"].write(value.clientSideTimestamps, with: KeyspacesClientTypes.ClientSideTimestamps.write(value:to:))
         try writer["defaultTimeToLive"].write(value.defaultTimeToLive)
         try writer["encryptionSpecification"].write(value.encryptionSpecification, with: KeyspacesClientTypes.EncryptionSpecification.write(value:to:))
@@ -2483,12 +2664,14 @@ extension GetTableOutput {
         let reader = responseReader
         var value = GetTableOutput()
         value.capacitySpecification = try reader["capacitySpecification"].readIfPresent(with: KeyspacesClientTypes.CapacitySpecificationSummary.read(from:))
+        value.cdcSpecification = try reader["cdcSpecification"].readIfPresent(with: KeyspacesClientTypes.CdcSpecificationSummary.read(from:))
         value.clientSideTimestamps = try reader["clientSideTimestamps"].readIfPresent(with: KeyspacesClientTypes.ClientSideTimestamps.read(from:))
         value.comment = try reader["comment"].readIfPresent(with: KeyspacesClientTypes.Comment.read(from:))
         value.creationTimestamp = try reader["creationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.defaultTimeToLive = try reader["defaultTimeToLive"].readIfPresent()
         value.encryptionSpecification = try reader["encryptionSpecification"].readIfPresent(with: KeyspacesClientTypes.EncryptionSpecification.read(from:))
         value.keyspaceName = try reader["keyspaceName"].readIfPresent() ?? ""
+        value.latestStreamArn = try reader["latestStreamArn"].readIfPresent()
         value.pointInTimeRecovery = try reader["pointInTimeRecovery"].readIfPresent(with: KeyspacesClientTypes.PointInTimeRecoverySummary.read(from:))
         value.replicaSpecifications = try reader["replicaSpecifications"].readListIfPresent(memberReadingClosure: KeyspacesClientTypes.ReplicaSpecificationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
@@ -3016,19 +3199,6 @@ extension ConflictException {
     }
 }
 
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InternalServerException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
@@ -3047,6 +3217,19 @@ extension ServiceQuotaExceededException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3264,6 +3447,17 @@ extension KeyspacesClientTypes.ReplicaSpecificationSummary {
     }
 }
 
+extension KeyspacesClientTypes.CdcSpecificationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.CdcSpecificationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.CdcSpecificationSummary()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.viewType = try reader["viewType"].readIfPresent()
+        return value
+    }
+}
+
 extension KeyspacesClientTypes.AutoScalingSpecification {
 
     static func write(value: KeyspacesClientTypes.AutoScalingSpecification?, to writer: SmithyJSON.Writer) throws {
@@ -3442,6 +3636,17 @@ extension KeyspacesClientTypes.ReplicaSpecification {
         try writer["readCapacityAutoScaling"].write(value.readCapacityAutoScaling, with: KeyspacesClientTypes.AutoScalingSettings.write(value:to:))
         try writer["readCapacityUnits"].write(value.readCapacityUnits)
         try writer["region"].write(value.region)
+    }
+}
+
+extension KeyspacesClientTypes.CdcSpecification {
+
+    static func write(value: KeyspacesClientTypes.CdcSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["propagateTags"].write(value.propagateTags)
+        try writer["status"].write(value.status)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: KeyspacesClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["viewType"].write(value.viewType)
     }
 }
 

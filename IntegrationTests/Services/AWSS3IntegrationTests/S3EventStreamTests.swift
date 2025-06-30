@@ -51,11 +51,11 @@ class S3EventStreamTests: S3XCTestCase {
             case .records(let record):
                 actualOutput = actualOutput + (String(data: record.payload ?? Data(), encoding: .utf8) ?? "")
             case .stats, .end:
-                continue
-            case .sdkUnknown(let data):
-                XCTFail(data)
+                break
             default:
-                XCTFail("Encountered an unexpected event in output stream.")
+                // adding default here accommodates future addition of new event types by the service
+                // the .sdkUnknown() event is ignored by this case as well
+                break
             }
         }
 

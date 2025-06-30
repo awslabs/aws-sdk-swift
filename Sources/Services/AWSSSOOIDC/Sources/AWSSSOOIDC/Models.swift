@@ -12,6 +12,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
+import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 import protocol AWSClientRuntime.AWSServiceError
@@ -76,6 +77,21 @@ public struct AuthorizationPendingException: ClientRuntime.ModeledError, AWSClie
     ) {
         self.properties.error = error
         self.properties.error_description = error_description
+    }
+}
+
+extension SSOOIDCClientTypes {
+
+    /// This structure contains Amazon Web Services-specific parameter extensions for the token endpoint responses and includes the identity context.
+    public struct AwsAdditionalDetails: Swift.Sendable {
+        /// STS context assertion that carries a user identifier to the Amazon Web Services service that it calls and can be used to obtain an identity-enhanced IAM role session. This value corresponds to the sts:identity_context claim in the ID token.
+        public var identityContext: Swift.String?
+
+        public init(
+            identityContext: Swift.String? = nil
+        ) {
+            self.identityContext = identityContext
+        }
     }
 }
 
@@ -511,6 +527,8 @@ extension CreateTokenWithIAMInput: Swift.CustomDebugStringConvertible {
 public struct CreateTokenWithIAMOutput: Swift.Sendable {
     /// A bearer token to access Amazon Web Services accounts and applications assigned to a user.
     public var accessToken: Swift.String?
+    /// A structure containing information from the idToken. Only the identityContext is in it, which is a value extracted from the idToken. This provides direct access to identity information without requiring JWT parsing.
+    public var awsAdditionalDetails: SSOOIDCClientTypes.AwsAdditionalDetails?
     /// Indicates the time in seconds when an access token will expire.
     public var expiresIn: Swift.Int
     /// A JSON Web Token (JWT) that identifies the user associated with the issued access token.
@@ -526,6 +544,7 @@ public struct CreateTokenWithIAMOutput: Swift.Sendable {
 
     public init(
         accessToken: Swift.String? = nil,
+        awsAdditionalDetails: SSOOIDCClientTypes.AwsAdditionalDetails? = nil,
         expiresIn: Swift.Int = 0,
         idToken: Swift.String? = nil,
         issuedTokenType: Swift.String? = nil,
@@ -534,6 +553,7 @@ public struct CreateTokenWithIAMOutput: Swift.Sendable {
         tokenType: Swift.String? = nil
     ) {
         self.accessToken = accessToken
+        self.awsAdditionalDetails = awsAdditionalDetails
         self.expiresIn = expiresIn
         self.idToken = idToken
         self.issuedTokenType = issuedTokenType
@@ -545,7 +565,7 @@ public struct CreateTokenWithIAMOutput: Swift.Sendable {
 
 extension CreateTokenWithIAMOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateTokenWithIAMOutput(expiresIn: \(Swift.String(describing: expiresIn)), issuedTokenType: \(Swift.String(describing: issuedTokenType)), scope: \(Swift.String(describing: scope)), tokenType: \(Swift.String(describing: tokenType)), accessToken: \"CONTENT_REDACTED\", idToken: \"CONTENT_REDACTED\", refreshToken: \"CONTENT_REDACTED\")"}
+        "CreateTokenWithIAMOutput(awsAdditionalDetails: \(Swift.String(describing: awsAdditionalDetails)), expiresIn: \(Swift.String(describing: expiresIn)), issuedTokenType: \(Swift.String(describing: issuedTokenType)), scope: \(Swift.String(describing: scope)), tokenType: \(Swift.String(describing: tokenType)), accessToken: \"CONTENT_REDACTED\", idToken: \"CONTENT_REDACTED\", refreshToken: \"CONTENT_REDACTED\")"}
 }
 
 /// Indicates that the client information sent in the request during registration is invalid.
@@ -854,6 +874,7 @@ extension CreateTokenWithIAMOutput {
         let reader = responseReader
         var value = CreateTokenWithIAMOutput()
         value.accessToken = try reader["accessToken"].readIfPresent()
+        value.awsAdditionalDetails = try reader["awsAdditionalDetails"].readIfPresent(with: SSOOIDCClientTypes.AwsAdditionalDetails.read(from:))
         value.expiresIn = try reader["expiresIn"].readIfPresent() ?? 0
         value.idToken = try reader["idToken"].readIfPresent()
         value.issuedTokenType = try reader["issuedTokenType"].readIfPresent()
@@ -984,11 +1005,25 @@ enum StartDeviceAuthorizationOutputError {
     }
 }
 
-extension InternalServerException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerException()
+        var value = AccessDeniedException()
+        value.properties.error = try reader["error"].readIfPresent()
+        value.properties.error_description = try reader["error_description"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension AuthorizationPendingException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AuthorizationPendingException {
+        let reader = baseError.errorBodyReader
+        var value = AuthorizationPendingException()
         value.properties.error = try reader["error"].readIfPresent()
         value.properties.error_description = try reader["error_description"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -1012,11 +1047,11 @@ extension ExpiredTokenException {
     }
 }
 
-extension SlowDownException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SlowDownException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = SlowDownException()
+        var value = InternalServerException()
         value.properties.error = try reader["error"].readIfPresent()
         value.properties.error_description = try reader["error_description"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -1026,11 +1061,11 @@ extension SlowDownException {
     }
 }
 
-extension UnauthorizedClientException {
+extension InvalidClientException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedClientException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidClientException {
         let reader = baseError.errorBodyReader
-        var value = UnauthorizedClientException()
+        var value = InvalidClientException()
         value.properties.error = try reader["error"].readIfPresent()
         value.properties.error_description = try reader["error_description"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -1045,20 +1080,6 @@ extension InvalidGrantException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidGrantException {
         let reader = baseError.errorBodyReader
         var value = InvalidGrantException()
-        value.properties.error = try reader["error"].readIfPresent()
-        value.properties.error_description = try reader["error_description"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AuthorizationPendingException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AuthorizationPendingException {
-        let reader = baseError.errorBodyReader
-        var value = AuthorizationPendingException()
         value.properties.error = try reader["error"].readIfPresent()
         value.properties.error_description = try reader["error_description"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -1096,39 +1117,39 @@ extension InvalidScopeException {
     }
 }
 
+extension SlowDownException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SlowDownException {
+        let reader = baseError.errorBodyReader
+        var value = SlowDownException()
+        value.properties.error = try reader["error"].readIfPresent()
+        value.properties.error_description = try reader["error_description"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnauthorizedClientException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedClientException {
+        let reader = baseError.errorBodyReader
+        var value = UnauthorizedClientException()
+        value.properties.error = try reader["error"].readIfPresent()
+        value.properties.error_description = try reader["error_description"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension UnsupportedGrantTypeException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnsupportedGrantTypeException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedGrantTypeException()
-        value.properties.error = try reader["error"].readIfPresent()
-        value.properties.error_description = try reader["error_description"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.error = try reader["error"].readIfPresent()
-        value.properties.error_description = try reader["error_description"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidClientException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidClientException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidClientException()
         value.properties.error = try reader["error"].readIfPresent()
         value.properties.error_description = try reader["error_description"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -1178,6 +1199,16 @@ extension InvalidRedirectUriException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension SSOOIDCClientTypes.AwsAdditionalDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSOOIDCClientTypes.AwsAdditionalDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSOOIDCClientTypes.AwsAdditionalDetails()
+        value.identityContext = try reader["identityContext"].readIfPresent()
         return value
     }
 }

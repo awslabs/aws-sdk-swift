@@ -2250,7 +2250,7 @@ public struct CreateTrailInput: Swift.Sendable {
     public var s3BucketName: Swift.String?
     /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see [Finding Your CloudTrail Log Files](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/get-and-view-cloudtrail-log-files.html#cloudtrail-find-log-files). The maximum length is 200 characters.
     public var s3KeyPrefix: Swift.String?
-    /// Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
+    /// Specifies the name or ARN of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
     public var snsTopicName: Swift.String?
     /// A list of tags.
     public var tagsList: [CloudTrailClientTypes.Tag]?
@@ -3275,6 +3275,139 @@ public struct GetDashboardOutput: Swift.Sendable {
         self.type = type
         self.updatedTimestamp = updatedTimestamp
         self.widgets = widgets
+    }
+}
+
+/// The event data store is not in a status that supports the operation.
+public struct InvalidEventDataStoreStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidEventDataStoreStatus" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct GetEventConfigurationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which you want to retrieve event configuration settings.
+    public var eventDataStore: Swift.String?
+
+    public init(
+        eventDataStore: Swift.String? = nil
+    ) {
+        self.eventDataStore = eventDataStore
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    public enum ModelType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case requestcontext
+        case tagcontext
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ModelType] {
+            return [
+                .requestcontext,
+                .tagcontext
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .requestcontext: return "RequestContext"
+            case .tagcontext: return "TagContext"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    /// An object that contains information types to be included in CloudTrail enriched events.
+    public struct ContextKeySelector: Swift.Sendable {
+        /// A list of keys defined by Type to be included in CloudTrail enriched events.
+        /// This member is required.
+        public var equals: [Swift.String]?
+        /// Specifies the type of the event record field in ContextKeySelector. Valid values include RequestContext, TagContext.
+        /// This member is required.
+        public var type: CloudTrailClientTypes.ModelType?
+
+        public init(
+            equals: [Swift.String]? = nil,
+            type: CloudTrailClientTypes.ModelType? = nil
+        ) {
+            self.equals = equals
+            self.type = type
+        }
+    }
+}
+
+extension CloudTrailClientTypes {
+
+    public enum MaxEventSize: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case large
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MaxEventSize] {
+            return [
+                .large,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .large: return "Large"
+            case .standard: return "Standard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetEventConfigurationOutput: Swift.Sendable {
+    /// The list of context key selectors that are configured for the event data store.
+    public var contextKeySelectors: [CloudTrailClientTypes.ContextKeySelector]?
+    /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which the event configuration settings are returned.
+    public var eventDataStoreArn: Swift.String?
+    /// The maximum allowed size for events stored in the specified event data store.
+    public var maxEventSize: CloudTrailClientTypes.MaxEventSize?
+
+    public init(
+        contextKeySelectors: [CloudTrailClientTypes.ContextKeySelector]? = nil,
+        eventDataStoreArn: Swift.String? = nil,
+        maxEventSize: CloudTrailClientTypes.MaxEventSize? = nil
+    ) {
+        self.contextKeySelectors = contextKeySelectors
+        self.eventDataStoreArn = eventDataStoreArn
+        self.maxEventSize = maxEventSize
     }
 }
 
@@ -5169,6 +5302,70 @@ public struct LookupEventsOutput: Swift.Sendable {
     }
 }
 
+/// The task can't be completed because you are signed in with an account that lacks permissions to view or create a service-linked role. Sign in with an account that has the required permissions and then try again.
+public struct InsufficientIAMAccessPermissionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Brief description of the exception returned by the request.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InsufficientIAMAccessPermission" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct PutEventConfigurationInput: Swift.Sendable {
+    /// A list of context key selectors that will be included to provide enriched event data.
+    /// This member is required.
+    public var contextKeySelectors: [CloudTrailClientTypes.ContextKeySelector]?
+    /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which you want to update event configuration settings.
+    public var eventDataStore: Swift.String?
+    /// The maximum allowed size for events to be stored in the specified event data store. If you are using context key selectors, MaxEventSize must be set to Large.
+    /// This member is required.
+    public var maxEventSize: CloudTrailClientTypes.MaxEventSize?
+
+    public init(
+        contextKeySelectors: [CloudTrailClientTypes.ContextKeySelector]? = nil,
+        eventDataStore: Swift.String? = nil,
+        maxEventSize: CloudTrailClientTypes.MaxEventSize? = nil
+    ) {
+        self.contextKeySelectors = contextKeySelectors
+        self.eventDataStore = eventDataStore
+        self.maxEventSize = maxEventSize
+    }
+}
+
+public struct PutEventConfigurationOutput: Swift.Sendable {
+    /// The list of context key selectors that are configured for the event data store.
+    public var contextKeySelectors: [CloudTrailClientTypes.ContextKeySelector]?
+    /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which the event configuration settings were updated.
+    public var eventDataStoreArn: Swift.String?
+    /// The maximum allowed size for events stored in the specified event data store.
+    public var maxEventSize: CloudTrailClientTypes.MaxEventSize?
+
+    public init(
+        contextKeySelectors: [CloudTrailClientTypes.ContextKeySelector]? = nil,
+        eventDataStoreArn: Swift.String? = nil,
+        maxEventSize: CloudTrailClientTypes.MaxEventSize? = nil
+    ) {
+        self.contextKeySelectors = contextKeySelectors
+        self.eventDataStoreArn = eventDataStoreArn
+        self.maxEventSize = maxEventSize
+    }
+}
+
 public struct PutEventSelectorsInput: Swift.Sendable {
     /// Specifies the settings for advanced event selectors. You can use advanced event selectors to log management events, data events for all resource types, and network activity events. You can add advanced event selectors, and conditions for your advanced event selectors, up to a maximum of 500 values for all conditions and selectors on a trail. You can use either AdvancedEventSelectors or EventSelectors, but not both. If you apply AdvancedEventSelectors to a trail, any existing EventSelectors are overwritten. For more information about advanced event selectors, see [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html) and [Logging network activity events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-network-events-with-cloudtrail.html) in the CloudTrail User Guide.
     public var advancedEventSelectors: [CloudTrailClientTypes.AdvancedEventSelector]?
@@ -5426,30 +5623,6 @@ public struct RemoveTagsInput: Swift.Sendable {
 public struct RemoveTagsOutput: Swift.Sendable {
 
     public init() { }
-}
-
-/// The event data store is not in a status that supports the operation.
-public struct InvalidEventDataStoreStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// Brief description of the exception returned by the request.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidEventDataStoreStatus" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
 }
 
 public struct RestoreEventDataStoreInput: Swift.Sendable {
@@ -6163,7 +6336,7 @@ public struct UpdateTrailInput: Swift.Sendable {
     public var s3BucketName: Swift.String?
     /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see [Finding Your CloudTrail Log Files](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/get-and-view-cloudtrail-log-files.html#cloudtrail-find-log-files). The maximum length is 200 characters.
     public var s3KeyPrefix: Swift.String?
-    /// Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
+    /// Specifies the name or ARN of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
     public var snsTopicName: Swift.String?
 
     public init(
@@ -6387,6 +6560,13 @@ extension GetDashboardInput {
     }
 }
 
+extension GetEventConfigurationInput {
+
+    static func urlPathProvider(_ value: GetEventConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetEventDataStoreInput {
 
     static func urlPathProvider(_ value: GetEventDataStoreInput) -> Swift.String? {
@@ -6516,6 +6696,13 @@ extension ListTrailsInput {
 extension LookupEventsInput {
 
     static func urlPathProvider(_ value: LookupEventsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension PutEventConfigurationInput {
+
+    static func urlPathProvider(_ value: PutEventConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6842,6 +7029,14 @@ extension GetDashboardInput {
     }
 }
 
+extension GetEventConfigurationInput {
+
+    static func write(value: GetEventConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EventDataStore"].write(value.eventDataStore)
+    }
+}
+
 extension GetEventDataStoreInput {
 
     static func write(value: GetEventDataStoreInput?, to writer: SmithyJSON.Writer) throws {
@@ -7028,6 +7223,16 @@ extension LookupEventsInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension PutEventConfigurationInput {
+
+    static func write(value: PutEventConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContextKeySelectors"].writeList(value.contextKeySelectors, memberWritingClosure: CloudTrailClientTypes.ContextKeySelector.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EventDataStore"].write(value.eventDataStore)
+        try writer["MaxEventSize"].write(value.maxEventSize)
     }
 }
 
@@ -7480,6 +7685,20 @@ extension GetDashboardOutput {
     }
 }
 
+extension GetEventConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEventConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetEventConfigurationOutput()
+        value.contextKeySelectors = try reader["ContextKeySelectors"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.ContextKeySelector.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eventDataStoreArn = try reader["EventDataStoreArn"].readIfPresent()
+        value.maxEventSize = try reader["MaxEventSize"].readIfPresent()
+        return value
+    }
+}
+
 extension GetEventDataStoreOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetEventDataStoreOutput {
@@ -7769,6 +7988,20 @@ extension LookupEventsOutput {
         var value = LookupEventsOutput()
         value.events = try reader["Events"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.Event.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension PutEventConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutEventConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutEventConfigurationOutput()
+        value.contextKeySelectors = try reader["ContextKeySelectors"].readListIfPresent(memberReadingClosure: CloudTrailClientTypes.ContextKeySelector.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.eventDataStoreArn = try reader["EventDataStoreArn"].readIfPresent()
+        value.maxEventSize = try reader["MaxEventSize"].readIfPresent()
         return value
     }
 }
@@ -8491,6 +8724,29 @@ enum GetDashboardOutputError {
     }
 }
 
+enum GetEventConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "CloudTrailARNInvalid": return try CloudTrailARNInvalidException.makeError(baseError: baseError)
+            case "EventDataStoreARNInvalid": return try EventDataStoreARNInvalidException.makeError(baseError: baseError)
+            case "EventDataStoreNotFound": return try EventDataStoreNotFoundException.makeError(baseError: baseError)
+            case "InvalidEventDataStoreCategory": return try InvalidEventDataStoreCategoryException.makeError(baseError: baseError)
+            case "InvalidEventDataStoreStatus": return try InvalidEventDataStoreStatusException.makeError(baseError: baseError)
+            case "InvalidParameterCombinationError": return try InvalidParameterCombinationException.makeError(baseError: baseError)
+            case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
+            case "NoManagementAccountSLRExists": return try NoManagementAccountSLRExistsException.makeError(baseError: baseError)
+            case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetEventDataStoreOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8848,6 +9104,35 @@ enum LookupEventsOutputError {
     }
 }
 
+enum PutEventConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "CloudTrailARNInvalid": return try CloudTrailARNInvalidException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "EventDataStoreARNInvalid": return try EventDataStoreARNInvalidException.makeError(baseError: baseError)
+            case "EventDataStoreNotFound": return try EventDataStoreNotFoundException.makeError(baseError: baseError)
+            case "InactiveEventDataStore": return try InactiveEventDataStoreException.makeError(baseError: baseError)
+            case "InsufficientDependencyServiceAccessPermission": return try InsufficientDependencyServiceAccessPermissionException.makeError(baseError: baseError)
+            case "InsufficientIAMAccessPermission": return try InsufficientIAMAccessPermissionException.makeError(baseError: baseError)
+            case "InvalidEventDataStoreCategory": return try InvalidEventDataStoreCategoryException.makeError(baseError: baseError)
+            case "InvalidEventDataStoreStatus": return try InvalidEventDataStoreStatusException.makeError(baseError: baseError)
+            case "InvalidParameterCombinationError": return try InvalidParameterCombinationException.makeError(baseError: baseError)
+            case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
+            case "NoManagementAccountSLRExists": return try NoManagementAccountSLRExistsException.makeError(baseError: baseError)
+            case "NotOrganizationMasterAccount": return try NotOrganizationMasterAccountException.makeError(baseError: baseError)
+            case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutEventSelectorsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8937,6 +9222,7 @@ enum RegisterOrganizationDelegatedAdminOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "DelegatedAdminAccountLimitExceeded": return try DelegatedAdminAccountLimitExceededException.makeError(baseError: baseError)
             case "InsufficientDependencyServiceAccessPermission": return try InsufficientDependencyServiceAccessPermissionException.makeError(baseError: baseError)
+            case "InsufficientIAMAccessPermission": return try InsufficientIAMAccessPermissionException.makeError(baseError: baseError)
             case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
             case "NotOrganizationManagementAccount": return try NotOrganizationManagementAccountException.makeError(baseError: baseError)
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
@@ -9044,6 +9330,7 @@ enum StartEventDataStoreIngestionOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "EventDataStoreARNInvalid": return try EventDataStoreARNInvalidException.makeError(baseError: baseError)
             case "EventDataStoreNotFound": return try EventDataStoreNotFoundException.makeError(baseError: baseError)
             case "InsufficientDependencyServiceAccessPermission": return try InsufficientDependencyServiceAccessPermissionException.makeError(baseError: baseError)
@@ -9143,6 +9430,7 @@ enum StopEventDataStoreIngestionOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "EventDataStoreARNInvalid": return try EventDataStoreARNInvalidException.makeError(baseError: baseError)
             case "EventDataStoreNotFound": return try EventDataStoreNotFoundException.makeError(baseError: baseError)
             case "InsufficientDependencyServiceAccessPermission": return try InsufficientDependencyServiceAccessPermissionException.makeError(baseError: baseError)
@@ -9322,6 +9610,45 @@ enum UpdateTrailOutputError {
     }
 }
 
+extension ChannelARNInvalidException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChannelARNInvalidException {
+        let reader = baseError.errorBodyReader
+        var value = ChannelARNInvalidException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ChannelNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChannelNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ChannelNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension CloudTrailARNInvalidException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudTrailARNInvalidException {
+        let reader = baseError.errorBodyReader
+        var value = CloudTrailARNInvalidException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ConflictException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
@@ -9335,11 +9662,37 @@ extension ConflictException {
     }
 }
 
-extension NotOrganizationMasterAccountException {
+extension EventDataStoreARNInvalidException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotOrganizationMasterAccountException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EventDataStoreARNInvalidException {
         let reader = baseError.errorBodyReader
-        var value = NotOrganizationMasterAccountException()
+        var value = EventDataStoreARNInvalidException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension EventDataStoreNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EventDataStoreNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = EventDataStoreNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InactiveEventDataStoreException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InactiveEventDataStoreException {
+        let reader = baseError.errorBodyReader
+        var value = InactiveEventDataStoreException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9374,11 +9727,11 @@ extension InvalidTrailNameException {
     }
 }
 
-extension ResourceNotFoundException {
+extension NoManagementAccountSLRExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoManagementAccountSLRExistsException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = NoManagementAccountSLRExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9387,50 +9740,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension ChannelNotFoundException {
+extension NotOrganizationMasterAccountException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChannelNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotOrganizationMasterAccountException {
         let reader = baseError.errorBodyReader
-        var value = ChannelNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension EventDataStoreNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EventDataStoreNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = EventDataStoreNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ChannelARNInvalidException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChannelARNInvalidException {
-        let reader = baseError.errorBodyReader
-        var value = ChannelARNInvalidException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InactiveEventDataStoreException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InactiveEventDataStoreException {
-        let reader = baseError.errorBodyReader
-        var value = InactiveEventDataStoreException()
+        var value = NotOrganizationMasterAccountException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9452,37 +9766,11 @@ extension OperationNotPermittedException {
     }
 }
 
-extension TagsLimitExceededException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagsLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = TagsLimitExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension EventDataStoreARNInvalidException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EventDataStoreARNInvalidException {
-        let reader = baseError.errorBodyReader
-        var value = EventDataStoreARNInvalidException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension UnsupportedOperationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
-        let reader = baseError.errorBodyReader
-        var value = UnsupportedOperationException()
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9504,11 +9792,11 @@ extension ResourceTypeNotSupportedException {
     }
 }
 
-extension NoManagementAccountSLRExistsException {
+extension TagsLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoManagementAccountSLRExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagsLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = NoManagementAccountSLRExistsException()
+        var value = TagsLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9517,11 +9805,11 @@ extension NoManagementAccountSLRExistsException {
     }
 }
 
-extension CloudTrailARNInvalidException {
+extension UnsupportedOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudTrailARNInvalidException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
         let reader = baseError.errorBodyReader
-        var value = CloudTrailARNInvalidException()
+        var value = UnsupportedOperationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9569,11 +9857,11 @@ extension QueryIdNotFoundException {
     }
 }
 
-extension ChannelMaxLimitExceededException {
+extension ChannelAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChannelMaxLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChannelAlreadyExistsException {
         let reader = baseError.errorBodyReader
-        var value = ChannelMaxLimitExceededException()
+        var value = ChannelAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9582,11 +9870,11 @@ extension ChannelMaxLimitExceededException {
     }
 }
 
-extension InvalidSourceException {
+extension ChannelMaxLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSourceException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChannelMaxLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = InvalidSourceException()
+        var value = ChannelMaxLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9608,11 +9896,11 @@ extension InvalidEventDataStoreCategoryException {
     }
 }
 
-extension ChannelAlreadyExistsException {
+extension InvalidSourceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ChannelAlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSourceException {
         let reader = baseError.errorBodyReader
-        var value = ChannelAlreadyExistsException()
+        var value = InvalidSourceException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9660,63 +9948,24 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension EventDataStoreAlreadyExistsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EventDataStoreAlreadyExistsException {
-        let reader = baseError.errorBodyReader
-        var value = EventDataStoreAlreadyExistsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidKmsKeyIdException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidKmsKeyIdException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidKmsKeyIdException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension OrganizationsNotInUseException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationsNotInUseException {
-        let reader = baseError.errorBodyReader
-        var value = OrganizationsNotInUseException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidEventSelectorsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEventSelectorsException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidEventSelectorsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension CloudTrailAccessNotEnabledException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudTrailAccessNotEnabledException {
         let reader = baseError.errorBodyReader
         var value = CloudTrailAccessNotEnabledException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension EventDataStoreAlreadyExistsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EventDataStoreAlreadyExistsException {
+        let reader = baseError.errorBodyReader
+        var value = EventDataStoreAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9738,37 +9987,50 @@ extension EventDataStoreMaxLimitExceededException {
     }
 }
 
-extension KmsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsException {
-        let reader = baseError.errorBodyReader
-        var value = KmsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension OrganizationNotInAllFeaturesModeException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationNotInAllFeaturesModeException {
-        let reader = baseError.errorBodyReader
-        var value = OrganizationNotInAllFeaturesModeException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InsufficientDependencyServiceAccessPermissionException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientDependencyServiceAccessPermissionException {
         let reader = baseError.errorBodyReader
         var value = InsufficientDependencyServiceAccessPermissionException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidEventSelectorsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEventSelectorsException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidEventSelectorsException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidKmsKeyIdException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidKmsKeyIdException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidKmsKeyIdException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KmsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsException {
+        let reader = baseError.errorBodyReader
+        var value = KmsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9790,11 +10052,11 @@ extension KmsKeyNotFoundException {
     }
 }
 
-extension TrailNotProvidedException {
+extension OrganizationNotInAllFeaturesModeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TrailNotProvidedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationNotInAllFeaturesModeException {
         let reader = baseError.errorBodyReader
-        var value = TrailNotProvidedException()
+        var value = OrganizationNotInAllFeaturesModeException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9803,11 +10065,11 @@ extension TrailNotProvidedException {
     }
 }
 
-extension KmsKeyDisabledException {
+extension OrganizationsNotInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsKeyDisabledException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationsNotInUseException {
         let reader = baseError.errorBodyReader
-        var value = KmsKeyDisabledException()
+        var value = OrganizationsNotInUseException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9816,11 +10078,24 @@ extension KmsKeyDisabledException {
     }
 }
 
-extension InvalidS3BucketNameException {
+extension CloudTrailInvalidClientTokenIdException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidS3BucketNameException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudTrailInvalidClientTokenIdException {
         let reader = baseError.errorBodyReader
-        var value = InvalidS3BucketNameException()
+        var value = CloudTrailInvalidClientTokenIdException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension CloudWatchLogsDeliveryUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudWatchLogsDeliveryUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = CloudWatchLogsDeliveryUnavailableException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9842,11 +10117,37 @@ extension InsufficientS3BucketPolicyException {
     }
 }
 
+extension InsufficientSnsTopicPolicyException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientSnsTopicPolicyException {
+        let reader = baseError.errorBodyReader
+        var value = InsufficientSnsTopicPolicyException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidCloudWatchLogsLogGroupArnException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidCloudWatchLogsLogGroupArnException {
         let reader = baseError.errorBodyReader
         var value = InvalidCloudWatchLogsLogGroupArnException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidCloudWatchLogsRoleArnException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidCloudWatchLogsRoleArnException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidCloudWatchLogsRoleArnException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9868,24 +10169,11 @@ extension InvalidParameterCombinationException {
     }
 }
 
-extension InsufficientSnsTopicPolicyException {
+extension InvalidS3BucketNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientSnsTopicPolicyException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidS3BucketNameException {
         let reader = baseError.errorBodyReader
-        var value = InsufficientSnsTopicPolicyException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
+        var value = InvalidS3BucketNameException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9920,11 +10208,11 @@ extension InvalidSnsTopicNameException {
     }
 }
 
-extension InvalidCloudWatchLogsRoleArnException {
+extension KmsKeyDisabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidCloudWatchLogsRoleArnException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsKeyDisabledException {
         let reader = baseError.errorBodyReader
-        var value = InvalidCloudWatchLogsRoleArnException()
+        var value = KmsKeyDisabledException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9959,6 +10247,19 @@ extension S3BucketDoesNotExistException {
     }
 }
 
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension TrailAlreadyExistsException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TrailAlreadyExistsException {
@@ -9972,24 +10273,11 @@ extension TrailAlreadyExistsException {
     }
 }
 
-extension CloudTrailInvalidClientTokenIdException {
+extension TrailNotProvidedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudTrailInvalidClientTokenIdException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TrailNotProvidedException {
         let reader = baseError.errorBodyReader
-        var value = CloudTrailInvalidClientTokenIdException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension CloudWatchLogsDeliveryUnavailableException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CloudWatchLogsDeliveryUnavailableException {
-        let reader = baseError.errorBodyReader
-        var value = CloudWatchLogsDeliveryUnavailableException()
+        var value = TrailNotProvidedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10102,11 +10390,11 @@ extension TrailNotFoundException {
     }
 }
 
-extension NotOrganizationManagementAccountException {
+extension AccountNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotOrganizationManagementAccountException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = NotOrganizationManagementAccountException()
+        var value = AccountNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10128,11 +10416,11 @@ extension AccountNotRegisteredException {
     }
 }
 
-extension AccountNotFoundException {
+extension NotOrganizationManagementAccountException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotOrganizationManagementAccountException {
         let reader = baseError.errorBodyReader
-        var value = AccountNotFoundException()
+        var value = NotOrganizationManagementAccountException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10172,6 +10460,19 @@ extension GenerateResponseException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> GenerateResponseException {
         let reader = baseError.errorBodyReader
         var value = GenerateResponseException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidEventDataStoreStatusException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEventDataStoreStatusException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidEventDataStoreStatusException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10284,6 +10585,19 @@ extension InvalidQueryStatusException {
     }
 }
 
+extension InvalidEventCategoryException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEventCategoryException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidEventCategoryException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidLookupAttributesException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLookupAttributesException {
@@ -10297,11 +10611,11 @@ extension InvalidLookupAttributesException {
     }
 }
 
-extension InvalidEventCategoryException {
+extension InsufficientIAMAccessPermissionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEventCategoryException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientIAMAccessPermissionException {
         let reader = baseError.errorBodyReader
-        var value = InvalidEventCategoryException()
+        var value = InsufficientIAMAccessPermissionException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10336,19 +10650,6 @@ extension ResourcePolicyNotValidException {
     }
 }
 
-extension CannotDelegateManagementAccountException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CannotDelegateManagementAccountException {
-        let reader = baseError.errorBodyReader
-        var value = CannotDelegateManagementAccountException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccountRegisteredException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountRegisteredException {
@@ -10362,11 +10663,11 @@ extension AccountRegisteredException {
     }
 }
 
-extension DelegatedAdminAccountLimitExceededException {
+extension CannotDelegateManagementAccountException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DelegatedAdminAccountLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CannotDelegateManagementAccountException {
         let reader = baseError.errorBodyReader
-        var value = DelegatedAdminAccountLimitExceededException()
+        var value = CannotDelegateManagementAccountException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10375,11 +10676,11 @@ extension DelegatedAdminAccountLimitExceededException {
     }
 }
 
-extension InvalidEventDataStoreStatusException {
+extension DelegatedAdminAccountLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEventDataStoreStatusException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DelegatedAdminAccountLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = InvalidEventDataStoreStatusException()
+        var value = DelegatedAdminAccountLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10614,6 +10915,23 @@ extension CloudTrailClientTypes.IngestionStatus {
         value.latestIngestionErrorCode = try reader["LatestIngestionErrorCode"].readIfPresent()
         value.latestIngestionAttemptTime = try reader["LatestIngestionAttemptTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.latestIngestionAttemptEventID = try reader["LatestIngestionAttemptEventID"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudTrailClientTypes.ContextKeySelector {
+
+    static func write(value: CloudTrailClientTypes.ContextKeySelector?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Equals"].writeList(value.equals, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailClientTypes.ContextKeySelector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudTrailClientTypes.ContextKeySelector()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.equals = try reader["Equals"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

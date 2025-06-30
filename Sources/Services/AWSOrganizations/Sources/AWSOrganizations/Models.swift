@@ -342,7 +342,7 @@ extension OrganizationsClientTypes {
 ///
 /// * ORGANIZATION_IS_ALREADY_PENDING_ALL_FEATURES_MIGRATION: The handshake request is invalid because the organization has already started the process to enable all features.
 ///
-/// * ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD: The request failed because the account is from a different marketplace than the accounts in the organization. For example, accounts with India addresses must be associated with the AISPL marketplace. All accounts in an organization must be from the same marketplace.
+/// * ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD: The request failed because the account is from a different marketplace than the accounts in the organization.
 ///
 /// * ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED: You attempted to change the membership of an account too quickly after its previous change.
 ///
@@ -1130,6 +1130,7 @@ extension OrganizationsClientTypes {
         case ouNumberLimitExceeded
         case policyContentLimitExceeded
         case policyNumberLimitExceeded
+        case policyTypeEnabledForThisService
         case serviceAccessNotEnabled
         case tagPolicyViolation
         case waitPeriodActive
@@ -1170,6 +1171,7 @@ extension OrganizationsClientTypes {
                 .ouNumberLimitExceeded,
                 .policyContentLimitExceeded,
                 .policyNumberLimitExceeded,
+                .policyTypeEnabledForThisService,
                 .serviceAccessNotEnabled,
                 .tagPolicyViolation,
                 .waitPeriodActive
@@ -1216,6 +1218,7 @@ extension OrganizationsClientTypes {
             case .ouNumberLimitExceeded: return "OU_NUMBER_LIMIT_EXCEEDED"
             case .policyContentLimitExceeded: return "POLICY_CONTENT_LIMIT_EXCEEDED"
             case .policyNumberLimitExceeded: return "POLICY_NUMBER_LIMIT_EXCEEDED"
+            case .policyTypeEnabledForThisService: return "POLICY_TYPE_ENABLED_FOR_THIS_SERVICE"
             case .serviceAccessNotEnabled: return "SERVICE_ACCESS_NOT_ENABLED"
             case .tagPolicyViolation: return "TAG_POLICY_VIOLATION"
             case .waitPeriodActive: return "WAIT_PERIOD_ACTIVE"
@@ -1291,7 +1294,16 @@ extension OrganizationsClientTypes {
 ///
 /// * POLICY_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the number of policies that you can have in an organization.
 ///
-/// * SERVICE_ACCESS_NOT_ENABLED: You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
+/// * POLICY_TYPE_ENABLED_FOR_THIS_SERVICE: You attempted to disable service access before you disabled the policy type (for example, SECURITYHUB_POLICY). To complete this operation, you must first disable the policy type.
+///
+/// * SERVICE_ACCESS_NOT_ENABLED:
+///
+/// * You attempted to register a delegated administrator before you enabled service access. Call the EnableAWSServiceAccess API first.
+///
+/// * You attempted to enable a policy type before you enabled service access. Call the EnableAWSServiceAccess API first.
+///
+///
+///
 ///
 /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
 ///
@@ -2012,6 +2024,7 @@ extension OrganizationsClientTypes {
         case chatbotPolicy
         case declarativePolicyEc2
         case resourceControlPolicy
+        case securityhubPolicy
         case serviceControlPolicy
         case tagPolicy
         case sdkUnknown(Swift.String)
@@ -2023,6 +2036,7 @@ extension OrganizationsClientTypes {
                 .chatbotPolicy,
                 .declarativePolicyEc2,
                 .resourceControlPolicy,
+                .securityhubPolicy,
                 .serviceControlPolicy,
                 .tagPolicy
             ]
@@ -2040,6 +2054,7 @@ extension OrganizationsClientTypes {
             case .chatbotPolicy: return "CHATBOT_POLICY"
             case .declarativePolicyEc2: return "DECLARATIVE_POLICY_EC2"
             case .resourceControlPolicy: return "RESOURCE_CONTROL_POLICY"
+            case .securityhubPolicy: return "SECURITYHUB_POLICY"
             case .serviceControlPolicy: return "SERVICE_CONTROL_POLICY"
             case .tagPolicy: return "TAG_POLICY"
             case let .sdkUnknown(s): return s
@@ -2323,6 +2338,8 @@ public struct CreatePolicyInput: Swift.Sendable {
     /// * [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
     ///
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+    ///
+    /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
     /// This member is required.
     public var type: OrganizationsClientTypes.PolicyType?
 
@@ -2673,6 +2690,7 @@ extension OrganizationsClientTypes {
         case backupPolicy
         case chatbotPolicy
         case declarativePolicyEc2
+        case securityhubPolicy
         case tagPolicy
         case sdkUnknown(Swift.String)
 
@@ -2682,6 +2700,7 @@ extension OrganizationsClientTypes {
                 .backupPolicy,
                 .chatbotPolicy,
                 .declarativePolicyEc2,
+                .securityhubPolicy,
                 .tagPolicy
             ]
         }
@@ -2697,6 +2716,7 @@ extension OrganizationsClientTypes {
             case .backupPolicy: return "BACKUP_POLICY"
             case .chatbotPolicy: return "CHATBOT_POLICY"
             case .declarativePolicyEc2: return "DECLARATIVE_POLICY_EC2"
+            case .securityhubPolicy: return "SECURITYHUB_POLICY"
             case .tagPolicy: return "TAG_POLICY"
             case let .sdkUnknown(s): return s
             }
@@ -2716,6 +2736,8 @@ public struct DescribeEffectivePolicyInput: Swift.Sendable {
     /// * [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
     ///
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+    ///
+    /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.EffectivePolicyType?
     /// When you're signed in as the management account, specify the ID of the account that you want details about. Specifying an organization root or organizational unit (OU) as the target is not supported.
@@ -2983,6 +3005,8 @@ public struct DisablePolicyTypeInput: Swift.Sendable {
     /// * [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
     ///
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+    ///
+    /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.PolicyType?
     /// The unique identifier (ID) of the root in which you want to disable a policy type. You can get the ID from the [ListRoots] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits.
@@ -3092,6 +3116,8 @@ public struct EnablePolicyTypeInput: Swift.Sendable {
     /// * [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
     ///
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+    ///
+    /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
     /// This member is required.
     public var policyType: OrganizationsClientTypes.PolicyType?
     /// The unique identifier (ID) of the root in which you want to enable a policy type. You can get the ID from the [ListRoots] operation. The [regex pattern](http://wikipedia.org/wiki/regex) for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits.
@@ -3795,6 +3821,8 @@ public struct ListPoliciesInput: Swift.Sendable {
     /// * [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
     ///
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+    ///
+    /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
     /// This member is required.
     public var filter: OrganizationsClientTypes.PolicyType?
     /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
@@ -3844,6 +3872,8 @@ public struct ListPoliciesForTargetInput: Swift.Sendable {
     /// * [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
     ///
     /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+    ///
+    /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
     /// This member is required.
     public var filter: OrganizationsClientTypes.PolicyType?
     /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
@@ -7163,11 +7193,11 @@ enum UpdatePolicyOutputError {
     }
 }
 
-extension HandshakeNotFoundException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> HandshakeNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = HandshakeNotFoundException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7190,13 +7220,25 @@ extension AccessDeniedForDependencyException {
     }
 }
 
-extension HandshakeConstraintViolationException {
+extension AWSOrganizationsNotInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> HandshakeConstraintViolationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AWSOrganizationsNotInUseException {
         let reader = baseError.errorBodyReader
-        var value = HandshakeConstraintViolationException()
+        var value = AWSOrganizationsNotInUseException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.reason = try reader["Reason"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConcurrentModificationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
+        let reader = baseError.errorBodyReader
+        var value = ConcurrentModificationException()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7217,11 +7259,11 @@ extension HandshakeAlreadyInStateException {
     }
 }
 
-extension InvalidInputException {
+extension HandshakeConstraintViolationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInputException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> HandshakeConstraintViolationException {
         let reader = baseError.errorBodyReader
-        var value = InvalidInputException()
+        var value = HandshakeConstraintViolationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -7231,11 +7273,11 @@ extension InvalidInputException {
     }
 }
 
-extension AWSOrganizationsNotInUseException {
+extension HandshakeNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AWSOrganizationsNotInUseException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> HandshakeNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = AWSOrganizationsNotInUseException()
+        var value = HandshakeNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7244,11 +7286,11 @@ extension AWSOrganizationsNotInUseException {
     }
 }
 
-extension AccessDeniedException {
+extension InvalidHandshakeTransitionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidHandshakeTransitionException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = InvalidHandshakeTransitionException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7257,12 +7299,13 @@ extension AccessDeniedException {
     }
 }
 
-extension ConcurrentModificationException {
+extension InvalidInputException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInputException {
         let reader = baseError.errorBodyReader
-        var value = ConcurrentModificationException()
+        var value = InvalidInputException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7297,12 +7340,13 @@ extension TooManyRequestsException {
     }
 }
 
-extension InvalidHandshakeTransitionException {
+extension ConstraintViolationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidHandshakeTransitionException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConstraintViolationException {
         let reader = baseError.errorBodyReader
-        var value = InvalidHandshakeTransitionException()
+        var value = ConstraintViolationException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7323,13 +7367,25 @@ extension DuplicatePolicyAttachmentException {
     }
 }
 
-extension ConstraintViolationException {
+extension PolicyChangesInProgressException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConstraintViolationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyChangesInProgressException {
         let reader = baseError.errorBodyReader
-        var value = ConstraintViolationException()
+        var value = PolicyChangesInProgressException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.reason = try reader["Reason"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension PolicyNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = PolicyNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7368,32 +7424,6 @@ extension UnsupportedAPIEndpointException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedAPIEndpointException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedAPIEndpointException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension PolicyChangesInProgressException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyChangesInProgressException {
-        let reader = baseError.errorBodyReader
-        var value = PolicyChangesInProgressException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension PolicyNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = PolicyNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7493,19 +7523,6 @@ extension ParentNotFoundException {
     }
 }
 
-extension PolicyTypeNotAvailableForOrganizationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyTypeNotAvailableForOrganizationException {
-        let reader = baseError.errorBodyReader
-        var value = PolicyTypeNotAvailableForOrganizationException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension DuplicatePolicyException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicatePolicyException {
@@ -7524,6 +7541,19 @@ extension MalformedPolicyDocumentException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MalformedPolicyDocumentException {
         let reader = baseError.errorBodyReader
         var value = MalformedPolicyDocumentException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension PolicyTypeNotAvailableForOrganizationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PolicyTypeNotAvailableForOrganizationException {
+        let reader = baseError.errorBodyReader
+        var value = PolicyTypeNotAvailableForOrganizationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7675,11 +7705,11 @@ extension PolicyTypeAlreadyEnabledException {
     }
 }
 
-extension DuplicateHandshakeException {
+extension AccountOwnerNotVerifiedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateHandshakeException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountOwnerNotVerifiedException {
         let reader = baseError.errorBodyReader
-        var value = DuplicateHandshakeException()
+        var value = AccountOwnerNotVerifiedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7688,11 +7718,11 @@ extension DuplicateHandshakeException {
     }
 }
 
-extension AccountOwnerNotVerifiedException {
+extension DuplicateHandshakeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccountOwnerNotVerifiedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateHandshakeException {
         let reader = baseError.errorBodyReader
-        var value = AccountOwnerNotVerifiedException()
+        var value = DuplicateHandshakeException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7727,19 +7757,6 @@ extension ChildNotFoundException {
     }
 }
 
-extension SourceParentNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SourceParentNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = SourceParentNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension DestinationParentNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DestinationParentNotFoundException {
@@ -7758,6 +7775,19 @@ extension DuplicateAccountException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DuplicateAccountException {
         let reader = baseError.errorBodyReader
         var value = DuplicateAccountException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SourceParentNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SourceParentNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = SourceParentNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

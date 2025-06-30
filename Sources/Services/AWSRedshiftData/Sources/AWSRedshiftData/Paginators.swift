@@ -197,11 +197,14 @@ extension RedshiftDataClient {
 extension ListStatementsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListStatementsInput {
         return ListStatementsInput(
+            clusterIdentifier: self.clusterIdentifier,
+            database: self.database,
             maxResults: self.maxResults,
             nextToken: token,
             roleLevel: self.roleLevel,
             statementName: self.statementName,
-            status: self.status
+            status: self.status,
+            workgroupName: self.workgroupName
         )}
 }
 

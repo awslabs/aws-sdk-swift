@@ -480,12 +480,18 @@ extension BedrockAgentClientTypes {
     public enum ActionGroupSignature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case amazonCodeinterpreter
         case amazonUserinput
+        case anthropicBash
+        case anthropicComputer
+        case anthropicTexteditor
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ActionGroupSignature] {
             return [
                 .amazonCodeinterpreter,
-                .amazonUserinput
+                .amazonUserinput,
+                .anthropicBash,
+                .anthropicComputer,
+                .anthropicTexteditor
             ]
         }
 
@@ -498,6 +504,9 @@ extension BedrockAgentClientTypes {
             switch self {
             case .amazonCodeinterpreter: return "AMAZON.CodeInterpreter"
             case .amazonUserinput: return "AMAZON.UserInput"
+            case .anthropicBash: return "ANTHROPIC.Bash"
+            case .anthropicComputer: return "ANTHROPIC.Computer"
+            case .anthropicTexteditor: return "ANTHROPIC.TextEditor"
             case let .sdkUnknown(s): return s
             }
         }
@@ -526,8 +535,22 @@ public struct CreateAgentActionGroupInput: Swift.Sendable {
     public var description: Swift.String?
     /// Contains details about the function schema for the action group or the JSON or YAML-formatted payload defining the schema.
     public var functionSchema: BedrockAgentClientTypes.FunctionSchema?
-    /// To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html) reprompting the user for more information.
+    /// Specify a built-in or computer use action for this action group. If you specify a value, you must leave the description, apiSchema, and actionGroupExecutor fields empty for this action group.
+    ///
+    /// * To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput.
+    ///
+    /// * To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter.
+    ///
+    /// * To allow your agent to use an Anthropic computer use tool, specify one of the following values. Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-computer-use.html).
+    ///
+    /// * ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots.
+    ///
+    /// * ANTHROPIC.TextEditor - Gives the agent permission to view, create and edit files.
+    ///
+    /// * ANTHROPIC.Bash - Gives the agent permission to run commands in a bash shell.
     public var parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature?
+    /// The configuration settings for a computer use action. Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-computer-use.html).
+    public var parentActionGroupSignatureParams: [Swift.String: Swift.String]?
 
     public init(
         actionGroupExecutor: BedrockAgentClientTypes.ActionGroupExecutor? = nil,
@@ -539,7 +562,8 @@ public struct CreateAgentActionGroupInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         functionSchema: BedrockAgentClientTypes.FunctionSchema? = nil,
-        parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature? = nil
+        parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature? = nil,
+        parentActionGroupSignatureParams: [Swift.String: Swift.String]? = nil
     ) {
         self.actionGroupExecutor = actionGroupExecutor
         self.actionGroupName = actionGroupName
@@ -551,6 +575,7 @@ public struct CreateAgentActionGroupInput: Swift.Sendable {
         self.description = description
         self.functionSchema = functionSchema
         self.parentActionGroupSignature = parentActionGroupSignature
+        self.parentActionGroupSignatureParams = parentActionGroupSignatureParams
     }
 }
 
@@ -586,6 +611,8 @@ extension BedrockAgentClientTypes {
         public var description: Swift.String?
         /// Defines functions that each define parameters that the agent needs to invoke from the user. Each function represents an action in an action group.
         public var functionSchema: BedrockAgentClientTypes.FunctionSchema?
+        /// The configuration settings for a computer use action. Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-computer-use.html).
+        public var parentActionGroupSignatureParams: [Swift.String: Swift.String]?
         /// If this field is set as AMAZON.UserInput, the agent can request the user for additional information when trying to complete a task. The description, apiSchema, and actionGroupExecutor fields must be blank for this action group. During orchestration, if the agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html) reprompting the user for more information.
         public var parentActionSignature: BedrockAgentClientTypes.ActionGroupSignature?
         /// The time at which the action group was last updated.
@@ -604,6 +631,7 @@ extension BedrockAgentClientTypes {
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             functionSchema: BedrockAgentClientTypes.FunctionSchema? = nil,
+            parentActionGroupSignatureParams: [Swift.String: Swift.String]? = nil,
             parentActionSignature: BedrockAgentClientTypes.ActionGroupSignature? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
@@ -618,6 +646,7 @@ extension BedrockAgentClientTypes {
             self.createdAt = createdAt
             self.description = description
             self.functionSchema = functionSchema
+            self.parentActionGroupSignatureParams = parentActionGroupSignatureParams
             self.parentActionSignature = parentActionSignature
             self.updatedAt = updatedAt
         }
@@ -800,8 +829,28 @@ public struct UpdateAgentActionGroupInput: Swift.Sendable {
     public var description: Swift.String?
     /// Contains details about the function schema for the action group or the JSON or YAML-formatted payload defining the schema.
     public var functionSchema: BedrockAgentClientTypes.FunctionSchema?
-    /// To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html) reprompting the user for more information.
+    /// Update the built-in or computer use action for this action group. If you specify a value, you must leave the description, apiSchema, and actionGroupExecutor fields empty for this action group.
+    ///
+    /// * To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput.
+    ///
+    /// * To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter.
+    ///
+    /// * To allow your agent to use an Anthropic computer use tool, specify one of the following values. Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-computer-use.html).
+    ///
+    /// * ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots.
+    ///
+    /// * ANTHROPIC.TextEditor - Gives the agent permission to view, create and edit files.
+    ///
+    /// * ANTHROPIC.Bash - Gives the agent permission to run commands in a bash shell.
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html) reprompting the user for more information.
     public var parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature?
+    /// The configuration settings for a computer use action. Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see [Configure an Amazon Bedrock Agent to complete tasks with computer use tools](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-computer-use.html).
+    public var parentActionGroupSignatureParams: [Swift.String: Swift.String]?
 
     public init(
         actionGroupExecutor: BedrockAgentClientTypes.ActionGroupExecutor? = nil,
@@ -813,7 +862,8 @@ public struct UpdateAgentActionGroupInput: Swift.Sendable {
         apiSchema: BedrockAgentClientTypes.APISchema? = nil,
         description: Swift.String? = nil,
         functionSchema: BedrockAgentClientTypes.FunctionSchema? = nil,
-        parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature? = nil
+        parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature? = nil,
+        parentActionGroupSignatureParams: [Swift.String: Swift.String]? = nil
     ) {
         self.actionGroupExecutor = actionGroupExecutor
         self.actionGroupId = actionGroupId
@@ -825,6 +875,7 @@ public struct UpdateAgentActionGroupInput: Swift.Sendable {
         self.description = description
         self.functionSchema = functionSchema
         self.parentActionGroupSignature = parentActionGroupSignature
+        self.parentActionGroupSignatureParams = parentActionGroupSignatureParams
     }
 }
 
@@ -1069,7 +1120,7 @@ extension BedrockAgentClientTypes {
         public var temperature: Swift.Float?
         /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for topK is the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topK to 50, the model selects the next token from among the top 50 most likely choices.
         public var topk: Swift.Int?
-        /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for Top P determines the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topP to 80, the model only selects the next token from the top 80% of the probability distribution of next tokens.
+        /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for Top P determines the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topP to 0.8, the model only selects the next token from the top 80% of the probability distribution of next tokens.
         public var topp: Swift.Float?
 
         public init(
@@ -1196,13 +1247,13 @@ extension BedrockAgentClientTypes {
         public var foundationModel: Swift.String?
         /// Contains inference parameters to use when the agent invokes a foundation model in the part of the agent sequence defined by the promptType. For more information, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
         public var inferenceConfiguration: BedrockAgentClientTypes.InferenceConfiguration?
-        /// Specifies whether to override the default parser Lambda function when parsing the raw foundation model output in the part of the agent sequence defined by the promptType. If you set the field as OVERRIDEN, the overrideLambda field in the [PromptOverrideConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptOverrideConfiguration.html) must be specified with the ARN of a Lambda function.
+        /// Specifies whether to override the default parser Lambda function when parsing the raw foundation model output in the part of the agent sequence defined by the promptType. If you set the field as OVERRIDDEN, the overrideLambda field in the [PromptOverrideConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptOverrideConfiguration.html) must be specified with the ARN of a Lambda function.
         public var parserMode: BedrockAgentClientTypes.CreationMode?
         /// Specifies whether to override the default prompt template for this promptType. Set this value to OVERRIDDEN to use the prompt that you provide in the basePromptTemplate. If you leave it as DEFAULT, the agent uses a default prompt template.
         public var promptCreationMode: BedrockAgentClientTypes.CreationMode?
         /// Specifies whether to allow the agent to carry out the step specified in the promptType. If you set this value to DISABLED, the agent skips that step. The default state for each promptType is as follows.
         ///
-        /// * PRE_PROCESSING – ENABLED
+        /// * PRE_PROCESSING – DISABLED
         ///
         /// * ORCHESTRATION – ENABLED
         ///
@@ -1482,6 +1533,38 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    /// Enum representing the invocation state of an agent alias
+    public enum AliasInvocationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Agent is actively processing requests
+        case acceptInvocations
+        /// Agent is paused and will not accept new requests
+        case rejectInvocations
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AliasInvocationState] {
+            return [
+                .acceptInvocations,
+                .rejectInvocations
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .acceptInvocations: return "ACCEPT_INVOCATIONS"
+            case .rejectInvocations: return "REJECT_INVOCATIONS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     /// Contains details about an alias of an agent.
     public struct AgentAlias: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the alias of the agent.
@@ -1513,6 +1596,8 @@ extension BedrockAgentClientTypes {
         /// The unique identifier of the agent.
         /// This member is required.
         public var agentId: Swift.String?
+        /// The invocation state for the agent alias. If the agent alias is running, the value is ACCEPT_INVOCATIONS. If the agent alias is paused, the value is REJECT_INVOCATIONS. Use the UpdateAgentAlias operation to change the invocation state.
+        public var aliasInvocationState: BedrockAgentClientTypes.AliasInvocationState?
         /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
         public var clientToken: Swift.String?
         /// The time at which the alias of the agent was created.
@@ -1536,6 +1621,7 @@ extension BedrockAgentClientTypes {
             agentAliasName: Swift.String? = nil,
             agentAliasStatus: BedrockAgentClientTypes.AgentAliasStatus? = nil,
             agentId: Swift.String? = nil,
+            aliasInvocationState: BedrockAgentClientTypes.AliasInvocationState? = nil,
             clientToken: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
@@ -1549,6 +1635,7 @@ extension BedrockAgentClientTypes {
             self.agentAliasName = agentAliasName
             self.agentAliasStatus = agentAliasStatus
             self.agentId = agentId
+            self.aliasInvocationState = aliasInvocationState
             self.clientToken = clientToken
             self.createdAt = createdAt
             self.description = description
@@ -1572,6 +1659,8 @@ extension BedrockAgentClientTypes {
         /// The status of the alias.
         /// This member is required.
         public var agentAliasStatus: BedrockAgentClientTypes.AgentAliasStatus?
+        /// The invocation state for the agent alias. If the agent alias is running, the value is ACCEPT_INVOCATIONS. If the agent alias is paused, the value is REJECT_INVOCATIONS. Use the UpdateAgentAlias operation to change the invocation state.
+        public var aliasInvocationState: BedrockAgentClientTypes.AliasInvocationState?
         /// The time at which the alias of the agent was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -1587,6 +1676,7 @@ extension BedrockAgentClientTypes {
             agentAliasId: Swift.String? = nil,
             agentAliasName: Swift.String? = nil,
             agentAliasStatus: BedrockAgentClientTypes.AgentAliasStatus? = nil,
+            aliasInvocationState: BedrockAgentClientTypes.AliasInvocationState? = nil,
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             routingConfiguration: [BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem]? = nil,
@@ -1595,6 +1685,7 @@ extension BedrockAgentClientTypes {
             self.agentAliasId = agentAliasId
             self.agentAliasName = agentAliasName
             self.agentAliasStatus = agentAliasStatus
+            self.aliasInvocationState = aliasInvocationState
             self.createdAt = createdAt
             self.description = description
             self.routingConfiguration = routingConfiguration
@@ -1991,7 +2082,7 @@ public struct UpdateAgentCollaboratorOutput: Swift.Sendable {
 
 extension BedrockAgentClientTypes {
 
-    /// Defines an agent node in your flow. You specify the agent to invoke at this point in the flow. For more information, see [Node types in Amazon Bedrock works](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html) in the Amazon Bedrock User Guide.
+    /// Defines an agent node in your flow. You specify the agent to invoke at this point in the flow. For more information, see [Node types in a flow](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html) in the Amazon Bedrock User Guide.
     public struct AgentFlowNodeConfiguration: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the alias of the agent to invoke.
         /// This member is required.
@@ -2773,6 +2864,8 @@ public struct UpdateAgentAliasInput: Swift.Sendable {
     /// The unique identifier of the agent.
     /// This member is required.
     public var agentId: Swift.String?
+    /// The invocation state for the agent alias. To pause the agent alias, set the value to REJECT_INVOCATIONS. To start the agent alias running again, set the value to ACCEPT_INVOCATIONS. Use the GetAgentAlias, or ListAgentAliases, operation to get the invocation state of an agent alias.
+    public var aliasInvocationState: BedrockAgentClientTypes.AliasInvocationState?
     /// Specifies a new description for the alias.
     public var description: Swift.String?
     /// Contains details about the routing configuration of the alias.
@@ -2782,12 +2875,14 @@ public struct UpdateAgentAliasInput: Swift.Sendable {
         agentAliasId: Swift.String? = nil,
         agentAliasName: Swift.String? = nil,
         agentId: Swift.String? = nil,
+        aliasInvocationState: BedrockAgentClientTypes.AliasInvocationState? = nil,
         description: Swift.String? = nil,
         routingConfiguration: [BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem]? = nil
     ) {
         self.agentAliasId = agentAliasId
         self.agentAliasName = agentAliasName
         self.agentId = agentId
+        self.aliasInvocationState = aliasInvocationState
         self.description = description
         self.routingConfiguration = routingConfiguration
     }
@@ -3703,6 +3798,115 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    public enum EnrichmentStrategyMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case chunkEntityExtraction
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnrichmentStrategyMethod] {
+            return [
+                .chunkEntityExtraction
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .chunkEntityExtraction: return "CHUNK_ENTITY_EXTRACTION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// The strategy used for performing context enrichment.
+    public struct EnrichmentStrategyConfiguration: Swift.Sendable {
+        /// The method used for the context enrichment strategy.
+        /// This member is required.
+        public var method: BedrockAgentClientTypes.EnrichmentStrategyMethod?
+
+        public init(
+            method: BedrockAgentClientTypes.EnrichmentStrategyMethod? = nil
+        ) {
+            self.method = method
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Context enrichment configuration is used to provide additional context to the RAG application using Amazon Bedrock foundation models.
+    public struct BedrockFoundationModelContextEnrichmentConfiguration: Swift.Sendable {
+        /// The enrichment stategy used to provide additional context. For example, Neptune GraphRAG uses Amazon Bedrock foundation models to perform chunk entity extraction.
+        /// This member is required.
+        public var enrichmentStrategyConfiguration: BedrockAgentClientTypes.EnrichmentStrategyConfiguration?
+        /// The Amazon Resource Name (ARN) of the model used to create vector embeddings for the knowledge base.
+        /// This member is required.
+        public var modelArn: Swift.String?
+
+        public init(
+            enrichmentStrategyConfiguration: BedrockAgentClientTypes.EnrichmentStrategyConfiguration? = nil,
+            modelArn: Swift.String? = nil
+        ) {
+            self.enrichmentStrategyConfiguration = enrichmentStrategyConfiguration
+            self.modelArn = modelArn
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    public enum ContextEnrichmentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bedrockFoundationModel
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContextEnrichmentType] {
+            return [
+                .bedrockFoundationModel
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bedrockFoundationModel: return "BEDROCK_FOUNDATION_MODEL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Context enrichment configuration is used to provide additional context to the RAG application.
+    public struct ContextEnrichmentConfiguration: Swift.Sendable {
+        /// The configuration of the Amazon Bedrock foundation model used for context enrichment.
+        public var bedrockFoundationModelConfiguration: BedrockAgentClientTypes.BedrockFoundationModelContextEnrichmentConfiguration?
+        /// The method used for context enrichment. It must be Amazon Bedrock foundation models.
+        /// This member is required.
+        public var type: BedrockAgentClientTypes.ContextEnrichmentType?
+
+        public init(
+            bedrockFoundationModelConfiguration: BedrockAgentClientTypes.BedrockFoundationModelContextEnrichmentConfiguration? = nil,
+            type: BedrockAgentClientTypes.ContextEnrichmentType? = nil
+        ) {
+            self.bedrockFoundationModelConfiguration = bedrockFoundationModelConfiguration
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     /// An Amazon S3 location.
     public struct S3Location: Swift.Sendable {
         /// The location's URI. For example, s3://my-bucket/chunk-processor/.
@@ -3973,6 +4177,8 @@ extension BedrockAgentClientTypes {
     public struct VectorIngestionConfiguration: Swift.Sendable {
         /// Details about how to chunk the documents in the data source. A chunk refers to an excerpt from a data source that is returned when the knowledge base that it belongs to is queried.
         public var chunkingConfiguration: BedrockAgentClientTypes.ChunkingConfiguration?
+        /// The context enrichment configuration used for ingestion of the data into the vector store.
+        public var contextEnrichmentConfiguration: BedrockAgentClientTypes.ContextEnrichmentConfiguration?
         /// A custom document transformer for parsed data source documents.
         public var customTransformationConfiguration: BedrockAgentClientTypes.CustomTransformationConfiguration?
         /// Configurations for a parser to use for parsing documents in your data source. If you exclude this field, the default parser will be used.
@@ -3980,10 +4186,12 @@ extension BedrockAgentClientTypes {
 
         public init(
             chunkingConfiguration: BedrockAgentClientTypes.ChunkingConfiguration? = nil,
+            contextEnrichmentConfiguration: BedrockAgentClientTypes.ContextEnrichmentConfiguration? = nil,
             customTransformationConfiguration: BedrockAgentClientTypes.CustomTransformationConfiguration? = nil,
             parsingConfiguration: BedrockAgentClientTypes.ParsingConfiguration? = nil
         ) {
             self.chunkingConfiguration = chunkingConfiguration
+            self.contextEnrichmentConfiguration = contextEnrichmentConfiguration
             self.customTransformationConfiguration = customTransformationConfiguration
             self.parsingConfiguration = parsingConfiguration
         }
@@ -4464,7 +4672,7 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
-    /// Defines a collector node in your flow. This node takes an iteration of inputs and consolidates them into an array in the output. For more information, see [Node types in Amazon Bedrock works](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html) in the Amazon Bedrock User Guide.
+    /// Defines a collector node in your flow. This node takes an iteration of inputs and consolidates them into an array in the output. For more information, see [Node types in a flow](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html) in the Amazon Bedrock User Guide.
     public struct CollectorFlowNodeConfiguration: Swift.Sendable {
 
         public init() { }
@@ -4498,7 +4706,7 @@ extension BedrockAgentClientTypes.FlowCondition: Swift.CustomDebugStringConverti
 
 extension BedrockAgentClientTypes {
 
-    /// Defines a condition node in your flow. You can specify conditions that determine which node comes next in the flow. For more information, see [Node types in Amazon Bedrock works](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html) in the Amazon Bedrock User Guide.
+    /// Defines a condition node in your flow. You can specify conditions that determine which node comes next in the flow. For more information, see [Node types in a flow](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html) in the Amazon Bedrock User Guide.
     public struct ConditionFlowNodeConfiguration: Swift.Sendable {
         /// An array of conditions. Each member contains the name of a condition and an expression that defines the condition.
         /// This member is required.
@@ -4514,6 +4722,58 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    public enum SupportedLanguages: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case python3
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SupportedLanguages] {
+            return [
+                .python3
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .python3: return "Python_3"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for an inline code node in your flow. Inline code nodes let you write and execute code directly within your flow, enabling data transformations, custom logic, and integrations without needing an external Lambda function.
+    public struct InlineCodeFlowNodeConfiguration: Swift.Sendable {
+        /// The code that's executed in your inline code node. The code can access input data from previous nodes in the flow, perform operations on that data, and produce output that can be used by other nodes in your flow. The code must be valid in the programming language that you specify.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The programming language used by your inline code node. The code must be valid in the programming language that you specify. Currently, only Python 3 (Python_3) is supported.
+        /// This member is required.
+        public var language: BedrockAgentClientTypes.SupportedLanguages?
+
+        public init(
+            code: Swift.String? = nil,
+            language: BedrockAgentClientTypes.SupportedLanguages? = nil
+        ) {
+            self.code = code
+            self.language = language
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.InlineCodeFlowNodeConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InlineCodeFlowNodeConfiguration(language: \(Swift.String(describing: language)), code: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentClientTypes {
+
     /// Contains configurations for the input flow node for a flow. This node takes the input from flow invocation and passes it to the next node in the data type that you specify.
     public struct InputFlowNodeConfiguration: Swift.Sendable {
 
@@ -4525,76 +4785,6 @@ extension BedrockAgentClientTypes {
 
     /// Contains configurations for an iterator node in a flow. Takes an input that is an array and iteratively sends each item of the array as an output to the following node. The size of the array is also returned in the output. The output flow node at the end of the flow iteration will return a response for each member of the array. To return only one response, you can include a collector node downstream from the iterator node.
     public struct IteratorFlowNodeConfiguration: Swift.Sendable {
-
-        public init() { }
-    }
-}
-
-extension BedrockAgentClientTypes {
-
-    /// Contains configurations for a knowledge base node in a flow. This node takes a query as the input and returns, as the output, the retrieved responses directly (as an array) or a response generated based on the retrieved responses. For more information, see [Node types in Amazon Bedrock works](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html) in the Amazon Bedrock User Guide.
-    public struct KnowledgeBaseFlowNodeConfiguration: Swift.Sendable {
-        /// Contains configurations for a guardrail to apply during query and response generation for the knowledge base in this configuration.
-        public var guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration?
-        /// The unique identifier of the knowledge base to query.
-        /// This member is required.
-        public var knowledgeBaseId: Swift.String?
-        /// The unique identifier of the model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html) to use to generate a response from the query results. Omit this field if you want to return the retrieved results as an array.
-        public var modelId: Swift.String?
-
-        public init(
-            guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration? = nil,
-            knowledgeBaseId: Swift.String? = nil,
-            modelId: Swift.String? = nil
-        ) {
-            self.guardrailConfiguration = guardrailConfiguration
-            self.knowledgeBaseId = knowledgeBaseId
-            self.modelId = modelId
-        }
-    }
-}
-
-extension BedrockAgentClientTypes {
-
-    /// Contains configurations for a Lambda function node in the flow. You specify the Lambda function to invoke and the inputs into the function. The output is the response that is defined in the Lambda function. For more information, see [Node types in Amazon Bedrock works](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html) in the Amazon Bedrock User Guide.
-    public struct LambdaFunctionFlowNodeConfiguration: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the Lambda function to invoke.
-        /// This member is required.
-        public var lambdaArn: Swift.String?
-
-        public init(
-            lambdaArn: Swift.String? = nil
-        ) {
-            self.lambdaArn = lambdaArn
-        }
-    }
-}
-
-extension BedrockAgentClientTypes {
-
-    /// Contains configurations for a Lex node in the flow. You specify a Amazon Lex bot to invoke. This node takes an utterance as the input and returns as the output the intent identified by the Amazon Lex bot. For more information, see [Node types in Amazon Bedrock works](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html) in the Amazon Bedrock User Guide.
-    public struct LexFlowNodeConfiguration: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the Amazon Lex bot alias to invoke.
-        /// This member is required.
-        public var botAliasArn: Swift.String?
-        /// The Region to invoke the Amazon Lex bot in.
-        /// This member is required.
-        public var localeId: Swift.String?
-
-        public init(
-            botAliasArn: Swift.String? = nil,
-            localeId: Swift.String? = nil
-        ) {
-            self.botAliasArn = botAliasArn
-            self.localeId = localeId
-        }
-    }
-}
-
-extension BedrockAgentClientTypes {
-
-    /// Contains configurations for an output flow node in the flow. You specify the data type expected for the input into the node in the type field and how to return the final output in the expression field.
-    public struct OutputFlowNodeConfiguration: Swift.Sendable {
 
         public init() { }
     }
@@ -4634,6 +4824,383 @@ extension BedrockAgentClientTypes {
         /// Contains inference configurations for a text prompt.
         case text(BedrockAgentClientTypes.PromptModelInferenceConfiguration)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    public enum PerformanceConfigLatency: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case optimized
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PerformanceConfigLatency] {
+            return [
+                .optimized,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .optimized: return "optimized"
+            case .standard: return "standard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// The performance-related configuration options for the knowledge base retrieval and generation process.
+    public struct PerformanceConfiguration: Swift.Sendable {
+        /// The latency optimization setting.
+        public var latency: BedrockAgentClientTypes.PerformanceConfigLatency?
+
+        public init(
+            latency: BedrockAgentClientTypes.PerformanceConfigLatency? = .standard
+        ) {
+            self.latency = latency
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Defines a custom prompt template for orchestrating the retrieval and generation process.
+    public struct KnowledgeBasePromptTemplate: Swift.Sendable {
+        /// The text of the prompt template.
+        public var textPromptTemplate: Swift.String?
+
+        public init(
+            textPromptTemplate: Swift.String? = nil
+        ) {
+            self.textPromptTemplate = textPromptTemplate
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.KnowledgeBasePromptTemplate: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "KnowledgeBasePromptTemplate(textPromptTemplate: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Configures how the knowledge base orchestrates the retrieval and generation process, allowing for customization of prompts, inference parameters, and performance settings.
+    public struct KnowledgeBaseOrchestrationConfiguration: Swift.Sendable {
+        /// The additional model-specific request parameters as key-value pairs to be included in the request to the foundation model.
+        public var additionalModelRequestFields: [Swift.String: Smithy.Document]?
+        /// Contains inference configurations for the prompt.
+        public var inferenceConfig: BedrockAgentClientTypes.PromptInferenceConfiguration?
+        /// The performance configuration options for the knowledge base retrieval and generation process.
+        public var performanceConfig: BedrockAgentClientTypes.PerformanceConfiguration?
+        /// A custom prompt template for orchestrating the retrieval and generation process.
+        public var promptTemplate: BedrockAgentClientTypes.KnowledgeBasePromptTemplate?
+
+        public init(
+            additionalModelRequestFields: [Swift.String: Smithy.Document]? = nil,
+            inferenceConfig: BedrockAgentClientTypes.PromptInferenceConfiguration? = nil,
+            performanceConfig: BedrockAgentClientTypes.PerformanceConfiguration? = nil,
+            promptTemplate: BedrockAgentClientTypes.KnowledgeBasePromptTemplate? = nil
+        ) {
+            self.additionalModelRequestFields = additionalModelRequestFields
+            self.inferenceConfig = inferenceConfig
+            self.performanceConfig = performanceConfig
+            self.promptTemplate = promptTemplate
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    public enum RerankingMetadataSelectionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case selective
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RerankingMetadataSelectionMode] {
+            return [
+                .all,
+                .selective
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .selective: return "SELECTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Specifies a metadata field to include or exclude during the reranking process.
+    public struct FieldForReranking: Swift.Sendable {
+        /// The name of the metadata field to include or exclude during reranking.
+        /// This member is required.
+        public var fieldName: Swift.String?
+
+        public init(
+            fieldName: Swift.String? = nil
+        ) {
+            self.fieldName = fieldName
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Configures the metadata fields to include or exclude during the reranking process when using selective mode.
+    public enum RerankingMetadataSelectiveModeConfiguration: Swift.Sendable {
+        /// Specifies the metadata fields to include in the reranking process.
+        case fieldstoinclude([BedrockAgentClientTypes.FieldForReranking])
+        /// Specifies the metadata fields to exclude from the reranking process.
+        case fieldstoexclude([BedrockAgentClientTypes.FieldForReranking])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Specifies how metadata fields should be handled during the reranking process.
+    public struct MetadataConfigurationForReranking: Swift.Sendable {
+        /// The mode for selecting metadata fields for reranking.
+        /// This member is required.
+        public var selectionMode: BedrockAgentClientTypes.RerankingMetadataSelectionMode?
+        /// The configuration for selective metadata field inclusion or exclusion during reranking.
+        public var selectiveModeConfiguration: BedrockAgentClientTypes.RerankingMetadataSelectiveModeConfiguration?
+
+        public init(
+            selectionMode: BedrockAgentClientTypes.RerankingMetadataSelectionMode? = nil,
+            selectiveModeConfiguration: BedrockAgentClientTypes.RerankingMetadataSelectiveModeConfiguration? = nil
+        ) {
+            self.selectionMode = selectionMode
+            self.selectiveModeConfiguration = selectiveModeConfiguration
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Configures the Amazon Bedrock model used for reranking retrieved results.
+    public struct VectorSearchBedrockRerankingModelConfiguration: Swift.Sendable {
+        /// Specifies additional model-specific request parameters as key-value pairs that are included in the request to the Amazon Bedrock reranker model.
+        public var additionalModelRequestFields: [Swift.String: Smithy.Document]?
+        /// The Amazon Resource Name (ARN) of the Amazon Bedrock reranker model.
+        /// This member is required.
+        public var modelArn: Swift.String?
+
+        public init(
+            additionalModelRequestFields: [Swift.String: Smithy.Document]? = nil,
+            modelArn: Swift.String? = nil
+        ) {
+            self.additionalModelRequestFields = additionalModelRequestFields
+            self.modelArn = modelArn
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Configures the Amazon Bedrock reranker model to improve the relevance of retrieved results.
+    public struct VectorSearchBedrockRerankingConfiguration: Swift.Sendable {
+        /// Specifies how metadata fields should be handled during the reranking process.
+        public var metadataConfiguration: BedrockAgentClientTypes.MetadataConfigurationForReranking?
+        /// Specifies the configuration for the Amazon Bedrock reranker model.
+        /// This member is required.
+        public var modelConfiguration: BedrockAgentClientTypes.VectorSearchBedrockRerankingModelConfiguration?
+        /// Specifies the number of results to return after reranking.
+        public var numberOfRerankedResults: Swift.Int?
+
+        public init(
+            metadataConfiguration: BedrockAgentClientTypes.MetadataConfigurationForReranking? = nil,
+            modelConfiguration: BedrockAgentClientTypes.VectorSearchBedrockRerankingModelConfiguration? = nil,
+            numberOfRerankedResults: Swift.Int? = nil
+        ) {
+            self.metadataConfiguration = metadataConfiguration
+            self.modelConfiguration = modelConfiguration
+            self.numberOfRerankedResults = numberOfRerankedResults
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    public enum VectorSearchRerankingConfigurationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bedrockRerankingModel
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VectorSearchRerankingConfigurationType] {
+            return [
+                .bedrockRerankingModel
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bedrockRerankingModel: return "BEDROCK_RERANKING_MODEL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Specifies how retrieved results from a knowledge base are reranked to improve relevance.
+    public struct VectorSearchRerankingConfiguration: Swift.Sendable {
+        /// Specifies the configuration for using an Amazon Bedrock reranker model to rerank retrieved results.
+        public var bedrockRerankingConfiguration: BedrockAgentClientTypes.VectorSearchBedrockRerankingConfiguration?
+        /// Specifies the type of reranking model to use. Currently, the only supported value is BEDROCK_RERANKING_MODEL.
+        /// This member is required.
+        public var type: BedrockAgentClientTypes.VectorSearchRerankingConfigurationType?
+
+        public init(
+            bedrockRerankingConfiguration: BedrockAgentClientTypes.VectorSearchBedrockRerankingConfiguration? = nil,
+            type: BedrockAgentClientTypes.VectorSearchRerankingConfigurationType? = nil
+        ) {
+            self.bedrockRerankingConfiguration = bedrockRerankingConfiguration
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for a knowledge base node in a flow. This node takes a query as the input and returns, as the output, the retrieved responses directly (as an array) or a response generated based on the retrieved responses. For more information, see [Node types in a flow](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html) in the Amazon Bedrock User Guide.
+    public struct KnowledgeBaseFlowNodeConfiguration: Swift.Sendable {
+        /// Contains configurations for a guardrail to apply during query and response generation for the knowledge base in this configuration.
+        public var guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration?
+        /// Contains inference configurations for the prompt.
+        public var inferenceConfiguration: BedrockAgentClientTypes.PromptInferenceConfiguration?
+        /// The unique identifier of the knowledge base to query.
+        /// This member is required.
+        public var knowledgeBaseId: Swift.String?
+        /// The unique identifier of the model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html) to use to generate a response from the query results. Omit this field if you want to return the retrieved results as an array.
+        public var modelId: Swift.String?
+        /// The number of results to retrieve from the knowledge base.
+        public var numberOfResults: Swift.Int?
+        /// The configuration for orchestrating the retrieval and generation process in the knowledge base node.
+        public var orchestrationConfiguration: BedrockAgentClientTypes.KnowledgeBaseOrchestrationConfiguration?
+        /// A custom prompt template to use with the knowledge base for generating responses.
+        public var promptTemplate: BedrockAgentClientTypes.KnowledgeBasePromptTemplate?
+        /// The configuration for reranking the retrieved results from the knowledge base to improve relevance.
+        public var rerankingConfiguration: BedrockAgentClientTypes.VectorSearchRerankingConfiguration?
+
+        public init(
+            guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration? = nil,
+            inferenceConfiguration: BedrockAgentClientTypes.PromptInferenceConfiguration? = nil,
+            knowledgeBaseId: Swift.String? = nil,
+            modelId: Swift.String? = nil,
+            numberOfResults: Swift.Int? = nil,
+            orchestrationConfiguration: BedrockAgentClientTypes.KnowledgeBaseOrchestrationConfiguration? = nil,
+            promptTemplate: BedrockAgentClientTypes.KnowledgeBasePromptTemplate? = nil,
+            rerankingConfiguration: BedrockAgentClientTypes.VectorSearchRerankingConfiguration? = nil
+        ) {
+            self.guardrailConfiguration = guardrailConfiguration
+            self.inferenceConfiguration = inferenceConfiguration
+            self.knowledgeBaseId = knowledgeBaseId
+            self.modelId = modelId
+            self.numberOfResults = numberOfResults
+            self.orchestrationConfiguration = orchestrationConfiguration
+            self.promptTemplate = promptTemplate
+            self.rerankingConfiguration = rerankingConfiguration
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for a Lambda function node in the flow. You specify the Lambda function to invoke and the inputs into the function. The output is the response that is defined in the Lambda function. For more information, see [Node types in a flow](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html) in the Amazon Bedrock User Guide.
+    public struct LambdaFunctionFlowNodeConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Lambda function to invoke.
+        /// This member is required.
+        public var lambdaArn: Swift.String?
+
+        public init(
+            lambdaArn: Swift.String? = nil
+        ) {
+            self.lambdaArn = lambdaArn
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for a Lex node in the flow. You specify a Amazon Lex bot to invoke. This node takes an utterance as the input and returns as the output the intent identified by the Amazon Lex bot. For more information, see [Node types in a flow](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html) in the Amazon Bedrock User Guide.
+    public struct LexFlowNodeConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon Lex bot alias to invoke.
+        /// This member is required.
+        public var botAliasArn: Swift.String?
+        /// The Region to invoke the Amazon Lex bot in.
+        /// This member is required.
+        public var localeId: Swift.String?
+
+        public init(
+            botAliasArn: Swift.String? = nil,
+            localeId: Swift.String? = nil
+        ) {
+            self.botAliasArn = botAliasArn
+            self.localeId = localeId
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for the controller node of a DoWhile loop in the flow.
+    public struct LoopControllerFlowNodeConfiguration: Swift.Sendable {
+        /// Specifies the condition that determines when the flow exits the DoWhile loop. The loop executes until this condition evaluates to true.
+        /// This member is required.
+        public var continueCondition: BedrockAgentClientTypes.FlowCondition?
+        /// Specifies the maximum number of times the DoWhile loop can iterate before the flow exits the loop.
+        public var maxIterations: Swift.Int?
+
+        public init(
+            continueCondition: BedrockAgentClientTypes.FlowCondition? = nil,
+            maxIterations: Swift.Int? = 10
+        ) {
+            self.continueCondition = continueCondition
+            self.maxIterations = maxIterations
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for the input node of a DoWhile loop in the flow.
+    public struct LoopInputFlowNodeConfiguration: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for an output flow node in the flow. You specify the data type expected for the input into the node in the type field and how to return the final output in the expression field.
+    public struct OutputFlowNodeConfiguration: Swift.Sendable {
+
+        public init() { }
     }
 }
 
@@ -5062,7 +5629,7 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
-    /// Contains configurations for a prompt node in the flow. You can use a prompt from Prompt management or you can define one in this node. If the prompt contains variables, the inputs into this node will fill in the variables. The output from this node is the response generated by the model. For more information, see [Node types in Amazon Bedrock works](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html) in the Amazon Bedrock User Guide.
+    /// Contains configurations for a prompt node in the flow. You can use a prompt from Prompt management or you can define one in this node. If the prompt contains variables, the inputs into this node will fill in the variables. The output from this node is the response generated by the model. For more information, see [Node types in a flow](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html) in the Amazon Bedrock User Guide.
     public struct PromptFlowNodeConfiguration: Swift.Sendable {
         /// Contains configurations for a guardrail to apply to the prompt in this node and the response generated from it.
         public var guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration?
@@ -5166,33 +5733,33 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
-    /// Contains configurations for a node in your flow. For more information, see [Node types in Amazon Bedrock works](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html) in the Amazon Bedrock User Guide.
-    public enum FlowNodeConfiguration: Swift.Sendable {
-        /// Contains configurations for an input flow node in your flow. The first node in the flow. inputs can't be specified for this node.
-        case input(BedrockAgentClientTypes.InputFlowNodeConfiguration)
-        /// Contains configurations for an output flow node in your flow. The last node in the flow. outputs can't be specified for this node.
-        case output(BedrockAgentClientTypes.OutputFlowNodeConfiguration)
-        /// Contains configurations for a knowledge base node in your flow. Queries a knowledge base and returns the retrieved results or generated response.
-        case knowledgebase(BedrockAgentClientTypes.KnowledgeBaseFlowNodeConfiguration)
-        /// Contains configurations for a Condition node in your flow. Defines conditions that lead to different branches of the flow.
-        case condition(BedrockAgentClientTypes.ConditionFlowNodeConfiguration)
-        /// Contains configurations for a Lex node in your flow. Invokes an Amazon Lex bot to identify the intent of the input and return the intent as the output.
-        case lex(BedrockAgentClientTypes.LexFlowNodeConfiguration)
-        /// Contains configurations for a prompt node in your flow. Runs a prompt and generates the model response as the output. You can use a prompt from Prompt management or you can configure one in this node.
-        case prompt(BedrockAgentClientTypes.PromptFlowNodeConfiguration)
-        /// Contains configurations for a Lambda function node in your flow. Invokes an Lambda function.
-        case lambdafunction(BedrockAgentClientTypes.LambdaFunctionFlowNodeConfiguration)
-        /// Contains configurations for a Storage node in your flow. Stores an input in an Amazon S3 location.
-        case storage(BedrockAgentClientTypes.StorageFlowNodeConfiguration)
-        /// Contains configurations for an agent node in your flow. Invokes an alias of an agent and returns the response.
-        case agent(BedrockAgentClientTypes.AgentFlowNodeConfiguration)
-        /// Contains configurations for a Retrieval node in your flow. Retrieves data from an Amazon S3 location and returns it as the output.
-        case retrieval(BedrockAgentClientTypes.RetrievalFlowNodeConfiguration)
-        /// Contains configurations for an iterator node in your flow. Takes an input that is an array and iteratively sends each item of the array as an output to the following node. The size of the array is also returned in the output. The output flow node at the end of the flow iteration will return a response for each member of the array. To return only one response, you can include a collector node downstream from the iterator node.
-        case iterator(BedrockAgentClientTypes.IteratorFlowNodeConfiguration)
-        /// Contains configurations for a collector node in your flow. Collects an iteration of inputs and consolidates them into an array of outputs.
-        case collector(BedrockAgentClientTypes.CollectorFlowNodeConfiguration)
+    public enum FlowNodeInputCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exitLoop
+        case loopCondition
+        case returnValueToLoopStart
         case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlowNodeInputCategory] {
+            return [
+                .exitLoop,
+                .loopCondition,
+                .returnValueToLoopStart
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exitLoop: return "ExitLoop"
+            case .loopCondition: return "LoopCondition"
+            case .returnValueToLoopStart: return "ReturnValueToLoopStart"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -5236,23 +5803,33 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
-    /// Contains configurations for an input to a node.
+    /// Contains configurations for an input in an Amazon Bedrock Flows node.
     public struct FlowNodeInput: Swift.Sendable {
+        /// Specifies how input data flows between iterations in a DoWhile loop.
+        ///
+        /// * LoopCondition - Controls whether the loop continues by evaluating condition expressions against the input data. Use this category to define the condition that determines if the loop should continue.
+        ///
+        /// * ReturnValueToLoopStart - Defines data to pass back to the start of the loop's next iteration. Use this category for variables that you want to update for each loop iteration.
+        ///
+        /// * ExitLoop - Defines the value that's available once the loop ends. Use this category to expose loop results to nodes outside the loop.
+        public var category: BedrockAgentClientTypes.FlowNodeInputCategory?
         /// An expression that formats the input for the node. For an explanation of how to create expressions, see [Expressions in Prompt flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-expressions.html).
         /// This member is required.
         public var expression: Swift.String?
-        /// A name for the input that you can reference.
+        /// Specifies a name for the input that you can reference.
         /// This member is required.
         public var name: Swift.String?
-        /// The data type of the input. If the input doesn't match this type at runtime, a validation error will be thrown.
+        /// Specifies the data type of the input. If the input doesn't match this type at runtime, a validation error will be thrown.
         /// This member is required.
         public var type: BedrockAgentClientTypes.FlowNodeIODataType?
 
         public init(
+            category: BedrockAgentClientTypes.FlowNodeInputCategory? = nil,
             expression: Swift.String? = nil,
             name: Swift.String? = nil,
             type: BedrockAgentClientTypes.FlowNodeIODataType? = nil
         ) {
+            self.category = category
             self.expression = expression
             self.name = name
             self.type = type
@@ -5262,7 +5839,7 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes.FlowNodeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "FlowNodeInput(name: \(Swift.String(describing: name)), type: \(Swift.String(describing: type)), expression: \"CONTENT_REDACTED\")"}
+        "FlowNodeInput(category: \(Swift.String(describing: category)), name: \(Swift.String(describing: name)), type: \(Swift.String(describing: type)), expression: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentClientTypes {
@@ -5292,11 +5869,15 @@ extension BedrockAgentClientTypes {
         case agent
         case collector
         case condition
+        case inlineCode
         case input
         case iterator
         case knowledgeBase
         case lambdaFunction
         case lex
+        case loop
+        case loopController
+        case loopInput
         case output
         case prompt
         case retrieval
@@ -5308,11 +5889,15 @@ extension BedrockAgentClientTypes {
                 .agent,
                 .collector,
                 .condition,
+                .inlineCode,
                 .input,
                 .iterator,
                 .knowledgeBase,
                 .lambdaFunction,
                 .lex,
+                .loop,
+                .loopController,
+                .loopInput,
                 .output,
                 .prompt,
                 .retrieval,
@@ -5330,11 +5915,15 @@ extension BedrockAgentClientTypes {
             case .agent: return "Agent"
             case .collector: return "Collector"
             case .condition: return "Condition"
+            case .inlineCode: return "InlineCode"
             case .input: return "Input"
             case .iterator: return "Iterator"
             case .knowledgeBase: return "KnowledgeBase"
             case .lambdaFunction: return "LambdaFunction"
             case .lex: return "Lex"
+            case .loop: return "Loop"
+            case .loopController: return "LoopController"
+            case .loopInput: return "LoopInput"
             case .output: return "Output"
             case .prompt: return "Prompt"
             case .retrieval: return "Retrieval"
@@ -5343,106 +5932,6 @@ extension BedrockAgentClientTypes {
             }
         }
     }
-}
-
-extension BedrockAgentClientTypes {
-
-    /// Contains configurations about a node in the flow.
-    public struct FlowNode: Swift.Sendable {
-        /// Contains configurations for the node.
-        public var configuration: BedrockAgentClientTypes.FlowNodeConfiguration?
-        /// An array of objects, each of which contains information about an input into the node.
-        public var inputs: [BedrockAgentClientTypes.FlowNodeInput]?
-        /// A name for the node.
-        /// This member is required.
-        public var name: Swift.String?
-        /// A list of objects, each of which contains information about an output from the node.
-        public var outputs: [BedrockAgentClientTypes.FlowNodeOutput]?
-        /// The type of node. This value must match the name of the key that you provide in the configuration you provide in the FlowNodeConfiguration field.
-        /// This member is required.
-        public var type: BedrockAgentClientTypes.FlowNodeType?
-
-        public init(
-            configuration: BedrockAgentClientTypes.FlowNodeConfiguration? = nil,
-            inputs: [BedrockAgentClientTypes.FlowNodeInput]? = nil,
-            name: Swift.String? = nil,
-            outputs: [BedrockAgentClientTypes.FlowNodeOutput]? = nil,
-            type: BedrockAgentClientTypes.FlowNodeType? = nil
-        ) {
-            self.configuration = configuration
-            self.inputs = inputs
-            self.name = name
-            self.outputs = outputs
-            self.type = type
-        }
-    }
-}
-
-extension BedrockAgentClientTypes {
-
-    /// The definition of the nodes and connections between nodes in the flow.
-    public struct FlowDefinition: Swift.Sendable {
-        /// An array of connection definitions in the flow.
-        public var connections: [BedrockAgentClientTypes.FlowConnection]?
-        /// An array of node definitions in the flow.
-        public var nodes: [BedrockAgentClientTypes.FlowNode]?
-
-        public init(
-            connections: [BedrockAgentClientTypes.FlowConnection]? = nil,
-            nodes: [BedrockAgentClientTypes.FlowNode]? = nil
-        ) {
-            self.connections = connections
-            self.nodes = nodes
-        }
-    }
-}
-
-extension BedrockAgentClientTypes.FlowDefinition: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CONTENT_REDACTED"
-    }
-}
-
-public struct CreateFlowInput: Swift.Sendable {
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
-    public var clientToken: Swift.String?
-    /// The Amazon Resource Name (ARN) of the KMS key to encrypt the flow.
-    public var customerEncryptionKeyArn: Swift.String?
-    /// A definition of the nodes and connections between nodes in the flow.
-    public var definition: BedrockAgentClientTypes.FlowDefinition?
-    /// A description for the flow.
-    public var description: Swift.String?
-    /// The Amazon Resource Name (ARN) of the service role with permissions to create and manage a flow. For more information, see [Create a service role for flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html) in the Amazon Bedrock User Guide.
-    /// This member is required.
-    public var executionRoleArn: Swift.String?
-    /// A name for the flow.
-    /// This member is required.
-    public var name: Swift.String?
-    /// Any tags that you want to attach to the flow. For more information, see [Tagging resources in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html).
-    public var tags: [Swift.String: Swift.String]?
-
-    public init(
-        clientToken: Swift.String? = nil,
-        customerEncryptionKeyArn: Swift.String? = nil,
-        definition: BedrockAgentClientTypes.FlowDefinition? = nil,
-        description: Swift.String? = nil,
-        executionRoleArn: Swift.String? = nil,
-        name: Swift.String? = nil,
-        tags: [Swift.String: Swift.String]? = nil
-    ) {
-        self.clientToken = clientToken
-        self.customerEncryptionKeyArn = customerEncryptionKeyArn
-        self.definition = definition
-        self.description = description
-        self.executionRoleArn = executionRoleArn
-        self.name = name
-        self.tags = tags
-    }
-}
-
-extension CreateFlowInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CreateFlowInput(clientToken: \(Swift.String(describing: clientToken)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), definition: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentClientTypes {
@@ -5480,70 +5969,6 @@ extension BedrockAgentClientTypes {
     }
 }
 
-public struct CreateFlowOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the flow.
-    /// This member is required.
-    public var arn: Swift.String?
-    /// The time at which the flow was created.
-    /// This member is required.
-    public var createdAt: Foundation.Date?
-    /// The Amazon Resource Name (ARN) of the KMS key that you encrypted the flow with.
-    public var customerEncryptionKeyArn: Swift.String?
-    /// A definition of the nodes and connections between nodes in the flow.
-    public var definition: BedrockAgentClientTypes.FlowDefinition?
-    /// The description of the flow.
-    public var description: Swift.String?
-    /// The Amazon Resource Name (ARN) of the service role with permissions to create a flow. For more information, see [Create a service role for flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html) in the Amazon Bedrock User Guide.
-    /// This member is required.
-    public var executionRoleArn: Swift.String?
-    /// The unique identifier of the flow.
-    /// This member is required.
-    public var id: Swift.String?
-    /// The name of the flow.
-    /// This member is required.
-    public var name: Swift.String?
-    /// The status of the flow. When you submit this request, the status will be NotPrepared. If creation fails, the status becomes Failed.
-    /// This member is required.
-    public var status: BedrockAgentClientTypes.FlowStatus?
-    /// The time at which the flow was last updated.
-    /// This member is required.
-    public var updatedAt: Foundation.Date?
-    /// The version of the flow. When you create a flow, the version created is the DRAFT version.
-    /// This member is required.
-    public var version: Swift.String?
-
-    public init(
-        arn: Swift.String? = nil,
-        createdAt: Foundation.Date? = nil,
-        customerEncryptionKeyArn: Swift.String? = nil,
-        definition: BedrockAgentClientTypes.FlowDefinition? = nil,
-        description: Swift.String? = nil,
-        executionRoleArn: Swift.String? = nil,
-        id: Swift.String? = nil,
-        name: Swift.String? = nil,
-        status: BedrockAgentClientTypes.FlowStatus? = nil,
-        updatedAt: Foundation.Date? = nil,
-        version: Swift.String? = nil
-    ) {
-        self.arn = arn
-        self.createdAt = createdAt
-        self.customerEncryptionKeyArn = customerEncryptionKeyArn
-        self.definition = definition
-        self.description = description
-        self.executionRoleArn = executionRoleArn
-        self.id = id
-        self.name = name
-        self.status = status
-        self.updatedAt = updatedAt
-        self.version = version
-    }
-}
-
-extension CreateFlowOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CreateFlowOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), definition: \"CONTENT_REDACTED\")"}
-}
-
 public struct DeleteFlowInput: Swift.Sendable {
     /// The unique identifier of the flow.
     /// This member is required.
@@ -5574,6 +5999,59 @@ public struct DeleteFlowOutput: Swift.Sendable {
 
 extension BedrockAgentClientTypes {
 
+    public enum ConcurrencyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automatic
+        case manual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConcurrencyType] {
+            return [
+                .automatic,
+                .manual
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatic: return "Automatic"
+            case .manual: return "Manual"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Determines how multiple nodes in a flow can run in parallel. Running nodes concurrently can improve your flow's performance.
+    public struct FlowAliasConcurrencyConfiguration: Swift.Sendable {
+        /// The maximum number of nodes that can be executed concurrently in the flow.
+        public var maxConcurrency: Swift.Int?
+        /// The type of concurrency to use for parallel node execution. Specify one of the following options:
+        ///
+        /// * Automatic - Amazon Bedrock determines which nodes can be executed in parallel based on the flow definition and its dependencies.
+        ///
+        /// * Manual - You specify which nodes can be executed in parallel.
+        /// This member is required.
+        public var type: BedrockAgentClientTypes.ConcurrencyType?
+
+        public init(
+            maxConcurrency: Swift.Int? = nil,
+            type: BedrockAgentClientTypes.ConcurrencyType? = nil
+        ) {
+            self.maxConcurrency = maxConcurrency
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     /// Contains information about a version that the alias maps to.
     public struct FlowAliasRoutingConfigurationListItem: Swift.Sendable {
         /// The version that the alias maps to.
@@ -5590,6 +6068,8 @@ extension BedrockAgentClientTypes {
 public struct CreateFlowAliasInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
+    /// The configuration that specifies how nodes in the flow are executed in parallel.
+    public var concurrencyConfiguration: BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration?
     /// A description for the alias.
     public var description: Swift.String?
     /// The unique identifier of the flow for which to create an alias.
@@ -5606,6 +6086,7 @@ public struct CreateFlowAliasInput: Swift.Sendable {
 
     public init(
         clientToken: Swift.String? = nil,
+        concurrencyConfiguration: BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration? = nil,
         description: Swift.String? = nil,
         flowIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -5613,6 +6094,7 @@ public struct CreateFlowAliasInput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
+        self.concurrencyConfiguration = concurrencyConfiguration
         self.description = description
         self.flowIdentifier = flowIdentifier
         self.name = name
@@ -5625,6 +6107,8 @@ public struct CreateFlowAliasOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the alias.
     /// This member is required.
     public var arn: Swift.String?
+    /// The configuration that specifies how nodes in the flow are executed in parallel.
+    public var concurrencyConfiguration: BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration?
     /// The time at which the alias was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -5648,6 +6132,7 @@ public struct CreateFlowAliasOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
+        concurrencyConfiguration: BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         flowId: Swift.String? = nil,
@@ -5657,6 +6142,7 @@ public struct CreateFlowAliasOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil
     ) {
         self.arn = arn
+        self.concurrencyConfiguration = concurrencyConfiguration
         self.createdAt = createdAt
         self.description = description
         self.flowId = flowId
@@ -5722,6 +6208,8 @@ public struct GetFlowAliasOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the flow.
     /// This member is required.
     public var arn: Swift.String?
+    /// The configuration that specifies how nodes in the flow are executed in parallel.
+    public var concurrencyConfiguration: BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration?
     /// The time at which the flow was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -5745,6 +6233,7 @@ public struct GetFlowAliasOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
+        concurrencyConfiguration: BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         flowId: Swift.String? = nil,
@@ -5754,6 +6243,7 @@ public struct GetFlowAliasOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil
     ) {
         self.arn = arn
+        self.concurrencyConfiguration = concurrencyConfiguration
         self.createdAt = createdAt
         self.description = description
         self.flowId = flowId
@@ -5793,6 +6283,8 @@ extension BedrockAgentClientTypes {
         /// The Amazon Resource Name (ARN) of the alias.
         /// This member is required.
         public var arn: Swift.String?
+        /// The configuration that specifies how nodes in the flow are executed concurrently.
+        public var concurrencyConfiguration: BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration?
         /// The time at which the alias was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
@@ -5816,6 +6308,7 @@ extension BedrockAgentClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            concurrencyConfiguration: BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration? = nil,
             createdAt: Foundation.Date? = nil,
             description: Swift.String? = nil,
             flowId: Swift.String? = nil,
@@ -5825,6 +6318,7 @@ extension BedrockAgentClientTypes {
             updatedAt: Foundation.Date? = nil
         ) {
             self.arn = arn
+            self.concurrencyConfiguration = concurrencyConfiguration
             self.createdAt = createdAt
             self.description = description
             self.flowId = flowId
@@ -5856,6 +6350,8 @@ public struct UpdateFlowAliasInput: Swift.Sendable {
     /// The unique identifier of the alias.
     /// This member is required.
     public var aliasIdentifier: Swift.String?
+    /// The configuration that specifies how nodes in the flow are executed in parallel.
+    public var concurrencyConfiguration: BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration?
     /// A description for the alias.
     public var description: Swift.String?
     /// The unique identifier of the flow.
@@ -5870,12 +6366,14 @@ public struct UpdateFlowAliasInput: Swift.Sendable {
 
     public init(
         aliasIdentifier: Swift.String? = nil,
+        concurrencyConfiguration: BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration? = nil,
         description: Swift.String? = nil,
         flowIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
         routingConfiguration: [BedrockAgentClientTypes.FlowAliasRoutingConfigurationListItem]? = nil
     ) {
         self.aliasIdentifier = aliasIdentifier
+        self.concurrencyConfiguration = concurrencyConfiguration
         self.description = description
         self.flowIdentifier = flowIdentifier
         self.name = name
@@ -5887,6 +6385,8 @@ public struct UpdateFlowAliasOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the flow.
     /// This member is required.
     public var arn: Swift.String?
+    /// The configuration that specifies how nodes in the flow are executed in parallel.
+    public var concurrencyConfiguration: BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration?
     /// The time at which the flow was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -5910,6 +6410,7 @@ public struct UpdateFlowAliasOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
+        concurrencyConfiguration: BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         flowId: Swift.String? = nil,
@@ -5919,6 +6420,7 @@ public struct UpdateFlowAliasOutput: Swift.Sendable {
         updatedAt: Foundation.Date? = nil
     ) {
         self.arn = arn
+        self.concurrencyConfiguration = concurrencyConfiguration
         self.createdAt = createdAt
         self.description = description
         self.flowId = flowId
@@ -5947,65 +6449,6 @@ public struct CreateFlowVersionInput: Swift.Sendable {
         self.description = description
         self.flowIdentifier = flowIdentifier
     }
-}
-
-public struct CreateFlowVersionOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the flow.
-    /// This member is required.
-    public var arn: Swift.String?
-    /// The time at which the flow was created.
-    /// This member is required.
-    public var createdAt: Foundation.Date?
-    /// The KMS key that the flow is encrypted with.
-    public var customerEncryptionKeyArn: Swift.String?
-    /// A definition of the nodes and connections in the flow.
-    public var definition: BedrockAgentClientTypes.FlowDefinition?
-    /// The description of the version.
-    public var description: Swift.String?
-    /// The Amazon Resource Name (ARN) of the service role with permissions to create a flow. For more information, see [Create a service role for flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html) in the Amazon Bedrock User Guide.
-    /// This member is required.
-    public var executionRoleArn: Swift.String?
-    /// The unique identifier of the flow.
-    /// This member is required.
-    public var id: Swift.String?
-    /// The name of the version.
-    /// This member is required.
-    public var name: Swift.String?
-    /// The status of the flow.
-    /// This member is required.
-    public var status: BedrockAgentClientTypes.FlowStatus?
-    /// The version of the flow that was created. Versions are numbered incrementally, starting from 1.
-    /// This member is required.
-    public var version: Swift.String?
-
-    public init(
-        arn: Swift.String? = nil,
-        createdAt: Foundation.Date? = nil,
-        customerEncryptionKeyArn: Swift.String? = nil,
-        definition: BedrockAgentClientTypes.FlowDefinition? = nil,
-        description: Swift.String? = nil,
-        executionRoleArn: Swift.String? = nil,
-        id: Swift.String? = nil,
-        name: Swift.String? = nil,
-        status: BedrockAgentClientTypes.FlowStatus? = nil,
-        version: Swift.String? = nil
-    ) {
-        self.arn = arn
-        self.createdAt = createdAt
-        self.customerEncryptionKeyArn = customerEncryptionKeyArn
-        self.definition = definition
-        self.description = description
-        self.executionRoleArn = executionRoleArn
-        self.id = id
-        self.name = name
-        self.status = status
-        self.version = version
-    }
-}
-
-extension CreateFlowVersionOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CreateFlowVersionOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), version: \(Swift.String(describing: version)), definition: \"CONTENT_REDACTED\")"}
 }
 
 public struct DeleteFlowVersionInput: Swift.Sendable {
@@ -6061,65 +6504,6 @@ public struct GetFlowVersionInput: Swift.Sendable {
         self.flowIdentifier = flowIdentifier
         self.flowVersion = flowVersion
     }
-}
-
-public struct GetFlowVersionOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the flow.
-    /// This member is required.
-    public var arn: Swift.String?
-    /// The time at which the flow was created.
-    /// This member is required.
-    public var createdAt: Foundation.Date?
-    /// The Amazon Resource Name (ARN) of the KMS key that the version of the flow is encrypted with.
-    public var customerEncryptionKeyArn: Swift.String?
-    /// The definition of the nodes and connections between nodes in the flow.
-    public var definition: BedrockAgentClientTypes.FlowDefinition?
-    /// The description of the flow.
-    public var description: Swift.String?
-    /// The Amazon Resource Name (ARN) of the service role with permissions to create a flow. For more information, see [Create a service role for flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html) in the Amazon Bedrock User Guide.
-    /// This member is required.
-    public var executionRoleArn: Swift.String?
-    /// The unique identifier of the flow.
-    /// This member is required.
-    public var id: Swift.String?
-    /// The name of the version.
-    /// This member is required.
-    public var name: Swift.String?
-    /// The status of the flow.
-    /// This member is required.
-    public var status: BedrockAgentClientTypes.FlowStatus?
-    /// The version of the flow for which information was retrieved.
-    /// This member is required.
-    public var version: Swift.String?
-
-    public init(
-        arn: Swift.String? = nil,
-        createdAt: Foundation.Date? = nil,
-        customerEncryptionKeyArn: Swift.String? = nil,
-        definition: BedrockAgentClientTypes.FlowDefinition? = nil,
-        description: Swift.String? = nil,
-        executionRoleArn: Swift.String? = nil,
-        id: Swift.String? = nil,
-        name: Swift.String? = nil,
-        status: BedrockAgentClientTypes.FlowStatus? = nil,
-        version: Swift.String? = nil
-    ) {
-        self.arn = arn
-        self.createdAt = createdAt
-        self.customerEncryptionKeyArn = customerEncryptionKeyArn
-        self.definition = definition
-        self.description = description
-        self.executionRoleArn = executionRoleArn
-        self.id = id
-        self.name = name
-        self.status = status
-        self.version = version
-    }
-}
-
-extension GetFlowVersionOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "GetFlowVersionOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), version: \(Swift.String(describing: version)), definition: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListFlowVersionsInput: Swift.Sendable {
@@ -6289,6 +6673,93 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    /// Details about a flow that contains connections that violate loop boundary rules.
+    public struct InvalidLoopBoundaryFlowValidationDetails: Swift.Sendable {
+        /// The name of the connection that violates loop boundary rules.
+        /// This member is required.
+        public var connection: Swift.String?
+        /// The source node of the connection that violates DoWhile loop boundary rules.
+        /// This member is required.
+        public var source: Swift.String?
+        /// The target node of the connection that violates DoWhile loop boundary rules.
+        /// This member is required.
+        public var target: Swift.String?
+
+        public init(
+            connection: Swift.String? = nil,
+            source: Swift.String? = nil,
+            target: Swift.String? = nil
+        ) {
+            self.connection = connection
+            self.source = source
+            self.target = target
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    public enum IncompatibleLoopNodeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case collector
+        case condition
+        case input
+        case iterator
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IncompatibleLoopNodeType] {
+            return [
+                .collector,
+                .condition,
+                .input,
+                .iterator
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .collector: return "Collector"
+            case .condition: return "Condition"
+            case .input: return "Input"
+            case .iterator: return "Iterator"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Details about a flow that contains an incompatible node in a DoWhile loop.
+    public struct LoopIncompatibleNodeTypeFlowValidationDetails: Swift.Sendable {
+        /// The node that's incompatible in the DoWhile loop.
+        /// This member is required.
+        public var incompatibleNodeName: Swift.String?
+        /// The node type of the incompatible node in the DoWhile loop. Some node types, like a condition node, aren't allowed in a DoWhile loop.
+        /// This member is required.
+        public var incompatibleNodeType: BedrockAgentClientTypes.IncompatibleLoopNodeType?
+        /// The Loop container node that contains an incompatible node.
+        /// This member is required.
+        public var node: Swift.String?
+
+        public init(
+            incompatibleNodeName: Swift.String? = nil,
+            incompatibleNodeType: BedrockAgentClientTypes.IncompatibleLoopNodeType? = nil,
+            node: Swift.String? = nil
+        ) {
+            self.incompatibleNodeName = incompatibleNodeName
+            self.incompatibleNodeType = incompatibleNodeType
+            self.node = node
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
     /// Details about a malformed condition expression in a node.
     public struct MalformedConditionExpressionFlowValidationDetails: Swift.Sendable {
         /// The error message describing why the condition expression is malformed.
@@ -6434,9 +6905,41 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
-    /// Details about a node missing required configuration.
+    /// Details about a flow that's missing a required LoopController node in a DoWhile loop.
+    public struct MissingLoopControllerNodeFlowValidationDetails: Swift.Sendable {
+        /// The DoWhile loop in a flow that's missing a required LoopController node.
+        /// This member is required.
+        public var loopNode: Swift.String?
+
+        public init(
+            loopNode: Swift.String? = nil
+        ) {
+            self.loopNode = loopNode
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Details about a flow that's missing a required LoopInput node in a DoWhile loop.
+    public struct MissingLoopInputNodeFlowValidationDetails: Swift.Sendable {
+        /// The DoWhile loop in a flow that's missing a required LoopInput node.
+        /// This member is required.
+        public var loopNode: Swift.String?
+
+        public init(
+            loopNode: Swift.String? = nil
+        ) {
+            self.loopNode = loopNode
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Details about a node missing a required configuration.
     public struct MissingNodeConfigurationFlowValidationDetails: Swift.Sendable {
-        /// The name of the node missing configuration.
+        /// The name of the node missing a required configuration.
         /// This member is required.
         public var node: Swift.String?
 
@@ -6496,6 +6999,38 @@ extension BedrockAgentClientTypes {
     public struct MissingStartingNodesFlowValidationDetails: Swift.Sendable {
 
         public init() { }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Details about a flow that contains multiple LoopController nodes in a DoWhile loop.
+    public struct MultipleLoopControllerNodesFlowValidationDetails: Swift.Sendable {
+        /// The DoWhile loop in a flow that contains multiple LoopController nodes.
+        /// This member is required.
+        public var loopNode: Swift.String?
+
+        public init(
+            loopNode: Swift.String? = nil
+        ) {
+            self.loopNode = loopNode
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Details about a flow that contains multiple LoopInput nodes in a DoWhile loop.
+    public struct MultipleLoopInputNodesFlowValidationDetails: Swift.Sendable {
+        /// The DoWhile loop in a flow that contains multiple LoopInput nodes.
+        /// This member is required.
+        public var loopNode: Swift.String?
+
+        public init(
+            loopNode: Swift.String? = nil
+        ) {
+            self.loopNode = loopNode
+        }
     }
 }
 
@@ -6762,6 +7297,18 @@ extension BedrockAgentClientTypes {
         case unknownnodeinput(BedrockAgentClientTypes.UnknownNodeInputFlowValidationDetails)
         /// Details about an unknown output for a node.
         case unknownnodeoutput(BedrockAgentClientTypes.UnknownNodeOutputFlowValidationDetails)
+        /// Details about a flow that's missing a required LoopInput node in a DoWhile loop.
+        case missingloopinputnode(BedrockAgentClientTypes.MissingLoopInputNodeFlowValidationDetails)
+        /// Details about a flow that's missing a required LoopController node in a DoWhile loop.
+        case missingloopcontrollernode(BedrockAgentClientTypes.MissingLoopControllerNodeFlowValidationDetails)
+        /// Details about a flow that contains multiple LoopInput nodes in a DoWhile loop.
+        case multipleloopinputnodes(BedrockAgentClientTypes.MultipleLoopInputNodesFlowValidationDetails)
+        /// Details about a flow that contains multiple LoopController nodes in a DoWhile loop.
+        case multipleloopcontrollernodes(BedrockAgentClientTypes.MultipleLoopControllerNodesFlowValidationDetails)
+        /// Details about a flow that includes incompatible node types in a DoWhile loop.
+        case loopincompatiblenodetype(BedrockAgentClientTypes.LoopIncompatibleNodeTypeFlowValidationDetails)
+        /// Details about a flow that includes connections that violate loop boundary rules.
+        case invalidloopboundary(BedrockAgentClientTypes.InvalidLoopBoundaryFlowValidationDetails)
         case sdkUnknown(Swift.String)
     }
 }
@@ -6802,6 +7349,8 @@ extension BedrockAgentClientTypes {
         case duplicateConditionExpression
         case duplicateConnections
         case incompatibleConnectionDataType
+        case invalidLoopBoundary
+        case loopIncompatibleNodeType
         case malformedConditionExpression
         case malformedNodeInputExpression
         case mismatchedNodeInputType
@@ -6809,10 +7358,14 @@ extension BedrockAgentClientTypes {
         case missingConnectionConfiguration
         case missingDefaultCondition
         case missingEndingNodes
+        case missingLoopControllerNode
+        case missingLoopInputNode
         case missingNodeConfiguration
         case missingNodeInput
         case missingNodeOutput
         case missingStartingNodes
+        case multipleLoopControllerNodes
+        case multipleLoopInputNodes
         case multipleNodeInputConnections
         case unfulfilledNodeInput
         case unknownConnectionCondition
@@ -6833,6 +7386,8 @@ extension BedrockAgentClientTypes {
                 .duplicateConditionExpression,
                 .duplicateConnections,
                 .incompatibleConnectionDataType,
+                .invalidLoopBoundary,
+                .loopIncompatibleNodeType,
                 .malformedConditionExpression,
                 .malformedNodeInputExpression,
                 .mismatchedNodeInputType,
@@ -6840,10 +7395,14 @@ extension BedrockAgentClientTypes {
                 .missingConnectionConfiguration,
                 .missingDefaultCondition,
                 .missingEndingNodes,
+                .missingLoopControllerNode,
+                .missingLoopInputNode,
                 .missingNodeConfiguration,
                 .missingNodeInput,
                 .missingNodeOutput,
                 .missingStartingNodes,
+                .multipleLoopControllerNodes,
+                .multipleLoopInputNodes,
                 .multipleNodeInputConnections,
                 .unfulfilledNodeInput,
                 .unknownConnectionCondition,
@@ -6870,6 +7429,8 @@ extension BedrockAgentClientTypes {
             case .duplicateConditionExpression: return "DuplicateConditionExpression"
             case .duplicateConnections: return "DuplicateConnections"
             case .incompatibleConnectionDataType: return "IncompatibleConnectionDataType"
+            case .invalidLoopBoundary: return "InvalidLoopBoundary"
+            case .loopIncompatibleNodeType: return "LoopIncompatibleNodeType"
             case .malformedConditionExpression: return "MalformedConditionExpression"
             case .malformedNodeInputExpression: return "MalformedNodeInputExpression"
             case .mismatchedNodeInputType: return "MismatchedNodeInputType"
@@ -6877,10 +7438,14 @@ extension BedrockAgentClientTypes {
             case .missingConnectionConfiguration: return "MissingConnectionConfiguration"
             case .missingDefaultCondition: return "MissingDefaultCondition"
             case .missingEndingNodes: return "MissingEndingNodes"
+            case .missingLoopControllerNode: return "MissingLoopControllerNode"
+            case .missingLoopInputNode: return "MissingLoopInputNode"
             case .missingNodeConfiguration: return "MissingNodeConfiguration"
             case .missingNodeInput: return "MissingNodeInput"
             case .missingNodeOutput: return "MissingNodeOutput"
             case .missingStartingNodes: return "MissingStartingNodes"
+            case .multipleLoopControllerNodes: return "MultipleLoopControllerNodes"
+            case .multipleLoopInputNodes: return "MultipleLoopInputNodes"
             case .multipleNodeInputConnections: return "MultipleNodeInputConnections"
             case .unfulfilledNodeInput: return "UnfulfilledNodeInput"
             case .unknownConnectionCondition: return "UnknownConnectionCondition"
@@ -6930,82 +7495,6 @@ extension BedrockAgentClientTypes {
             self.type = type
         }
     }
-}
-
-public struct GetFlowOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the flow.
-    /// This member is required.
-    public var arn: Swift.String?
-    /// The time at which the flow was created.
-    /// This member is required.
-    public var createdAt: Foundation.Date?
-    /// The Amazon Resource Name (ARN) of the KMS key that the flow is encrypted with.
-    public var customerEncryptionKeyArn: Swift.String?
-    /// The definition of the nodes and connections between the nodes in the flow.
-    public var definition: BedrockAgentClientTypes.FlowDefinition?
-    /// The description of the flow.
-    public var description: Swift.String?
-    /// The Amazon Resource Name (ARN) of the service role with permissions to create a flow. For more information, see [Create a service row for flows](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html) in the Amazon Bedrock User Guide.
-    /// This member is required.
-    public var executionRoleArn: Swift.String?
-    /// The unique identifier of the flow.
-    /// This member is required.
-    public var id: Swift.String?
-    /// The name of the flow.
-    /// This member is required.
-    public var name: Swift.String?
-    /// The status of the flow. The following statuses are possible:
-    ///
-    /// * NotPrepared – The flow has been created or updated, but hasn't been prepared. If you just created the flow, you can't test it. If you updated the flow, the DRAFT version won't contain the latest changes for testing. Send a [PrepareFlow](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PrepareFlow.html) request to package the latest changes into the DRAFT version.
-    ///
-    /// * Preparing – The flow is being prepared so that the DRAFT version contains the latest changes for testing.
-    ///
-    /// * Prepared – The flow is prepared and the DRAFT version contains the latest changes for testing.
-    ///
-    /// * Failed – The last API operation that you invoked on the flow failed. Send a [GetFlow](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_GetFlow.html) request and check the error message in the validations field.
-    /// This member is required.
-    public var status: BedrockAgentClientTypes.FlowStatus?
-    /// The time at which the flow was last updated.
-    /// This member is required.
-    public var updatedAt: Foundation.Date?
-    /// A list of validation error messages related to the last failed operation on the flow.
-    public var validations: [BedrockAgentClientTypes.FlowValidation]?
-    /// The version of the flow for which information was retrieved.
-    /// This member is required.
-    public var version: Swift.String?
-
-    public init(
-        arn: Swift.String? = nil,
-        createdAt: Foundation.Date? = nil,
-        customerEncryptionKeyArn: Swift.String? = nil,
-        definition: BedrockAgentClientTypes.FlowDefinition? = nil,
-        description: Swift.String? = nil,
-        executionRoleArn: Swift.String? = nil,
-        id: Swift.String? = nil,
-        name: Swift.String? = nil,
-        status: BedrockAgentClientTypes.FlowStatus? = nil,
-        updatedAt: Foundation.Date? = nil,
-        validations: [BedrockAgentClientTypes.FlowValidation]? = nil,
-        version: Swift.String? = nil
-    ) {
-        self.arn = arn
-        self.createdAt = createdAt
-        self.customerEncryptionKeyArn = customerEncryptionKeyArn
-        self.definition = definition
-        self.description = description
-        self.executionRoleArn = executionRoleArn
-        self.id = id
-        self.name = name
-        self.status = status
-        self.updatedAt = updatedAt
-        self.validations = validations
-        self.version = version
-    }
-}
-
-extension GetFlowOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "GetFlowOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), validations: \(Swift.String(describing: validations)), version: \(Swift.String(describing: version)), definition: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListFlowsInput: Swift.Sendable {
@@ -7124,109 +7613,6 @@ public struct PrepareFlowOutput: Swift.Sendable {
         self.id = id
         self.status = status
     }
-}
-
-public struct UpdateFlowInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the KMS key to encrypt the flow.
-    public var customerEncryptionKeyArn: Swift.String?
-    /// A definition of the nodes and the connections between the nodes in the flow.
-    public var definition: BedrockAgentClientTypes.FlowDefinition?
-    /// A description for the flow.
-    public var description: Swift.String?
-    /// The Amazon Resource Name (ARN) of the service role with permissions to create and manage a flow. For more information, see [Create a service role for flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html) in the Amazon Bedrock User Guide.
-    /// This member is required.
-    public var executionRoleArn: Swift.String?
-    /// The unique identifier of the flow.
-    /// This member is required.
-    public var flowIdentifier: Swift.String?
-    /// A name for the flow.
-    /// This member is required.
-    public var name: Swift.String?
-
-    public init(
-        customerEncryptionKeyArn: Swift.String? = nil,
-        definition: BedrockAgentClientTypes.FlowDefinition? = nil,
-        description: Swift.String? = nil,
-        executionRoleArn: Swift.String? = nil,
-        flowIdentifier: Swift.String? = nil,
-        name: Swift.String? = nil
-    ) {
-        self.customerEncryptionKeyArn = customerEncryptionKeyArn
-        self.definition = definition
-        self.description = description
-        self.executionRoleArn = executionRoleArn
-        self.flowIdentifier = flowIdentifier
-        self.name = name
-    }
-}
-
-extension UpdateFlowInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "UpdateFlowInput(customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), flowIdentifier: \(Swift.String(describing: flowIdentifier)), name: \(Swift.String(describing: name)), definition: \"CONTENT_REDACTED\")"}
-}
-
-public struct UpdateFlowOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the flow.
-    /// This member is required.
-    public var arn: Swift.String?
-    /// The time at which the flow was created.
-    /// This member is required.
-    public var createdAt: Foundation.Date?
-    /// The Amazon Resource Name (ARN) of the KMS key that the flow was encrypted with.
-    public var customerEncryptionKeyArn: Swift.String?
-    /// A definition of the nodes and the connections between nodes in the flow.
-    public var definition: BedrockAgentClientTypes.FlowDefinition?
-    /// The description of the flow.
-    public var description: Swift.String?
-    /// The Amazon Resource Name (ARN) of the service role with permissions to create a flow. For more information, see [Create a service role for flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html) in the Amazon Bedrock User Guide.
-    /// This member is required.
-    public var executionRoleArn: Swift.String?
-    /// The unique identifier of the flow.
-    /// This member is required.
-    public var id: Swift.String?
-    /// The name of the flow.
-    /// This member is required.
-    public var name: Swift.String?
-    /// The status of the flow. When you submit this request, the status will be NotPrepared. If updating fails, the status becomes Failed.
-    /// This member is required.
-    public var status: BedrockAgentClientTypes.FlowStatus?
-    /// The time at which the flow was last updated.
-    /// This member is required.
-    public var updatedAt: Foundation.Date?
-    /// The version of the flow. When you update a flow, the version updated is the DRAFT version.
-    /// This member is required.
-    public var version: Swift.String?
-
-    public init(
-        arn: Swift.String? = nil,
-        createdAt: Foundation.Date? = nil,
-        customerEncryptionKeyArn: Swift.String? = nil,
-        definition: BedrockAgentClientTypes.FlowDefinition? = nil,
-        description: Swift.String? = nil,
-        executionRoleArn: Swift.String? = nil,
-        id: Swift.String? = nil,
-        name: Swift.String? = nil,
-        status: BedrockAgentClientTypes.FlowStatus? = nil,
-        updatedAt: Foundation.Date? = nil,
-        version: Swift.String? = nil
-    ) {
-        self.arn = arn
-        self.createdAt = createdAt
-        self.customerEncryptionKeyArn = customerEncryptionKeyArn
-        self.definition = definition
-        self.description = description
-        self.executionRoleArn = executionRoleArn
-        self.id = id
-        self.name = name
-        self.status = status
-        self.updatedAt = updatedAt
-        self.version = version
-    }
-}
-
-extension UpdateFlowOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "UpdateFlowOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), definition: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetIngestionJobInput: Swift.Sendable {
@@ -9318,6 +9704,8 @@ extension BedrockAgentClientTypes {
         /// Contains the names of the fields to which to map information about the vector store.
         /// This member is required.
         public var fieldMapping: BedrockAgentClientTypes.MongoDbAtlasFieldMapping?
+        /// The name of the text search index in the MongoDB collection. This is required for using the hybrid search feature.
+        public var textIndexName: Swift.String?
         /// The name of the MongoDB Atlas vector search index.
         /// This member is required.
         public var vectorIndexName: Swift.String?
@@ -9329,6 +9717,7 @@ extension BedrockAgentClientTypes {
             endpoint: Swift.String? = nil,
             endpointServiceName: Swift.String? = nil,
             fieldMapping: BedrockAgentClientTypes.MongoDbAtlasFieldMapping? = nil,
+            textIndexName: Swift.String? = nil,
             vectorIndexName: Swift.String? = nil
         ) {
             self.collectionName = collectionName
@@ -9337,9 +9726,119 @@ extension BedrockAgentClientTypes {
             self.endpoint = endpoint
             self.endpointServiceName = endpointServiceName
             self.fieldMapping = fieldMapping
+            self.textIndexName = textIndexName
             self.vectorIndexName = vectorIndexName
         }
     }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains the names of the fields to which to map information about the vector store.
+    public struct NeptuneAnalyticsFieldMapping: Swift.Sendable {
+        /// The name of the field in which Amazon Bedrock stores metadata about the vector store.
+        /// This member is required.
+        public var metadataField: Swift.String?
+        /// The name of the field in which Amazon Bedrock stores the raw text from your data. The text is split according to the chunking strategy you choose.
+        /// This member is required.
+        public var textField: Swift.String?
+
+        public init(
+            metadataField: Swift.String? = nil,
+            textField: Swift.String? = nil
+        ) {
+            self.metadataField = metadataField
+            self.textField = textField
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains details about the storage configuration of the knowledge base in Amazon Neptune Analytics. For more information, see [Create a vector index in Amazon Neptune Analytics](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-neptune.html).
+    public struct NeptuneAnalyticsConfiguration: Swift.Sendable {
+        /// Contains the names of the fields to which to map information about the vector store.
+        /// This member is required.
+        public var fieldMapping: BedrockAgentClientTypes.NeptuneAnalyticsFieldMapping?
+        /// The Amazon Resource Name (ARN) of the Neptune Analytics vector store.
+        /// This member is required.
+        public var graphArn: Swift.String?
+
+        public init(
+            fieldMapping: BedrockAgentClientTypes.NeptuneAnalyticsFieldMapping? = nil,
+            graphArn: Swift.String? = nil
+        ) {
+            self.fieldMapping = fieldMapping
+            self.graphArn = graphArn
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.NeptuneAnalyticsConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "NeptuneAnalyticsConfiguration(fieldMapping: \(Swift.String(describing: fieldMapping)), graphArn: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains the names of the fields to which to map information about the vector store.
+    public struct OpenSearchManagedClusterFieldMapping: Swift.Sendable {
+        /// The name of the field in which Amazon Bedrock stores metadata about the vector store.
+        /// This member is required.
+        public var metadataField: Swift.String?
+        /// The name of the field in which Amazon Bedrock stores the raw text from your data. The text is split according to the chunking strategy you choose.
+        /// This member is required.
+        public var textField: Swift.String?
+        /// The name of the field in which Amazon Bedrock stores the vector embeddings for your data sources.
+        /// This member is required.
+        public var vectorField: Swift.String?
+
+        public init(
+            metadataField: Swift.String? = nil,
+            textField: Swift.String? = nil,
+            vectorField: Swift.String? = nil
+        ) {
+            self.metadataField = metadataField
+            self.textField = textField
+            self.vectorField = vectorField
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains details about the Managed Cluster configuration of the knowledge base in Amazon OpenSearch Service. For more information, see [Create a vector index in OpenSearch Managed Cluster](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-osm.html).
+    public struct OpenSearchManagedClusterConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the OpenSearch domain.
+        /// This member is required.
+        public var domainArn: Swift.String?
+        /// The endpoint URL the OpenSearch domain.
+        /// This member is required.
+        public var domainEndpoint: Swift.String?
+        /// Contains the names of the fields to which to map information about the vector store.
+        /// This member is required.
+        public var fieldMapping: BedrockAgentClientTypes.OpenSearchManagedClusterFieldMapping?
+        /// The name of the vector store.
+        /// This member is required.
+        public var vectorIndexName: Swift.String?
+
+        public init(
+            domainArn: Swift.String? = nil,
+            domainEndpoint: Swift.String? = nil,
+            fieldMapping: BedrockAgentClientTypes.OpenSearchManagedClusterFieldMapping? = nil,
+            vectorIndexName: Swift.String? = nil
+        ) {
+            self.domainArn = domainArn
+            self.domainEndpoint = domainEndpoint
+            self.fieldMapping = fieldMapping
+            self.vectorIndexName = vectorIndexName
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.OpenSearchManagedClusterConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OpenSearchManagedClusterConfiguration(domainArn: \(Swift.String(describing: domainArn)), domainEndpoint: \(Swift.String(describing: domainEndpoint)), fieldMapping: \(Swift.String(describing: fieldMapping)), vectorIndexName: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentClientTypes {
@@ -9449,6 +9948,8 @@ extension BedrockAgentClientTypes {
 
     /// Contains the names of the fields to which to map information about the vector store.
     public struct RdsFieldMapping: Swift.Sendable {
+        /// Provide a name for the universal metadata field where Amazon Bedrock will store any custom metadata from your data source.
+        public var customMetadataField: Swift.String?
         /// The name of the field in which Amazon Bedrock stores metadata about the vector store.
         /// This member is required.
         public var metadataField: Swift.String?
@@ -9463,11 +9964,13 @@ extension BedrockAgentClientTypes {
         public var vectorField: Swift.String?
 
         public init(
+            customMetadataField: Swift.String? = nil,
             metadataField: Swift.String? = nil,
             primaryKeyField: Swift.String? = nil,
             textField: Swift.String? = nil,
             vectorField: Swift.String? = nil
         ) {
+            self.customMetadataField = customMetadataField
             self.metadataField = metadataField
             self.primaryKeyField = primaryKeyField
             self.textField = textField
@@ -9573,6 +10076,8 @@ extension BedrockAgentClientTypes {
 
     public enum KnowledgeBaseStorageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mongoDbAtlas
+        case neptuneAnalytics
+        case opensearchManagedCluster
         case opensearchServerless
         case pinecone
         case rds
@@ -9582,6 +10087,8 @@ extension BedrockAgentClientTypes {
         public static var allCases: [KnowledgeBaseStorageType] {
             return [
                 .mongoDbAtlas,
+                .neptuneAnalytics,
+                .opensearchManagedCluster,
                 .opensearchServerless,
                 .pinecone,
                 .rds,
@@ -9597,6 +10104,8 @@ extension BedrockAgentClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .mongoDbAtlas: return "MONGO_DB_ATLAS"
+            case .neptuneAnalytics: return "NEPTUNE_ANALYTICS"
+            case .opensearchManagedCluster: return "OPENSEARCH_MANAGED_CLUSTER"
             case .opensearchServerless: return "OPENSEARCH_SERVERLESS"
             case .pinecone: return "PINECONE"
             case .rds: return "RDS"
@@ -9613,6 +10122,10 @@ extension BedrockAgentClientTypes {
     public struct StorageConfiguration: Swift.Sendable {
         /// Contains the storage configuration of the knowledge base in MongoDB Atlas.
         public var mongoDbAtlasConfiguration: BedrockAgentClientTypes.MongoDbAtlasConfiguration?
+        /// Contains details about the Neptune Analytics configuration of the knowledge base in Amazon Neptune. For more information, see [Create a vector index in Amazon Neptune Analytics.](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-neptune.html).
+        public var neptuneAnalyticsConfiguration: BedrockAgentClientTypes.NeptuneAnalyticsConfiguration?
+        /// Contains details about the storage configuration of the knowledge base in OpenSearch Managed Cluster. For more information, see [Create a vector index in Amazon OpenSearch Service](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-osm.html).
+        public var opensearchManagedClusterConfiguration: BedrockAgentClientTypes.OpenSearchManagedClusterConfiguration?
         /// Contains the storage configuration of the knowledge base in Amazon OpenSearch Service.
         public var opensearchServerlessConfiguration: BedrockAgentClientTypes.OpenSearchServerlessConfiguration?
         /// Contains the storage configuration of the knowledge base in Pinecone.
@@ -9627,6 +10140,8 @@ extension BedrockAgentClientTypes {
 
         public init(
             mongoDbAtlasConfiguration: BedrockAgentClientTypes.MongoDbAtlasConfiguration? = nil,
+            neptuneAnalyticsConfiguration: BedrockAgentClientTypes.NeptuneAnalyticsConfiguration? = nil,
+            opensearchManagedClusterConfiguration: BedrockAgentClientTypes.OpenSearchManagedClusterConfiguration? = nil,
             opensearchServerlessConfiguration: BedrockAgentClientTypes.OpenSearchServerlessConfiguration? = nil,
             pineconeConfiguration: BedrockAgentClientTypes.PineconeConfiguration? = nil,
             rdsConfiguration: BedrockAgentClientTypes.RdsConfiguration? = nil,
@@ -9634,6 +10149,8 @@ extension BedrockAgentClientTypes {
             type: BedrockAgentClientTypes.KnowledgeBaseStorageType? = nil
         ) {
             self.mongoDbAtlasConfiguration = mongoDbAtlasConfiguration
+            self.neptuneAnalyticsConfiguration = neptuneAnalyticsConfiguration
+            self.opensearchManagedClusterConfiguration = opensearchManagedClusterConfiguration
             self.opensearchServerlessConfiguration = opensearchServerlessConfiguration
             self.pineconeConfiguration = pineconeConfiguration
             self.rdsConfiguration = rdsConfiguration
@@ -10760,23 +11277,6 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
-public struct ValidateFlowDefinitionInput: Swift.Sendable {
-    /// The definition of a flow to validate.
-    /// This member is required.
-    public var definition: BedrockAgentClientTypes.FlowDefinition?
-
-    public init(
-        definition: BedrockAgentClientTypes.FlowDefinition? = nil
-    ) {
-        self.definition = definition
-    }
-}
-
-extension ValidateFlowDefinitionInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "ValidateFlowDefinitionInput(definition: \"CONTENT_REDACTED\")"}
-}
-
 public struct ValidateFlowDefinitionOutput: Swift.Sendable {
     /// Contains an array of objects, each of which contains an error identified by validation.
     /// This member is required.
@@ -10895,6 +11395,556 @@ public struct ListAgentVersionsOutput: Swift.Sendable {
         self.agentVersionSummaries = agentVersionSummaries
         self.nextToken = nextToken
     }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// The definition of the nodes and connections between nodes in the flow.
+    public struct FlowDefinition: Swift.Sendable {
+        /// An array of connection definitions in the flow.
+        public var connections: [BedrockAgentClientTypes.FlowConnection]?
+        /// An array of node definitions in the flow.
+        public var nodes: [BedrockAgentClientTypes.FlowNode]?
+
+        public init(
+            connections: [BedrockAgentClientTypes.FlowConnection]? = nil,
+            nodes: [BedrockAgentClientTypes.FlowNode]? = nil
+        ) {
+            self.connections = connections
+            self.nodes = nodes
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.FlowDefinition: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations about a node in the flow.
+    public struct FlowNode: Swift.Sendable {
+        /// Contains configurations for the node.
+        public var configuration: BedrockAgentClientTypes.FlowNodeConfiguration?
+        /// An array of objects, each of which contains information about an input into the node.
+        public var inputs: [BedrockAgentClientTypes.FlowNodeInput]?
+        /// A name for the node.
+        /// This member is required.
+        public var name: Swift.String?
+        /// A list of objects, each of which contains information about an output from the node.
+        public var outputs: [BedrockAgentClientTypes.FlowNodeOutput]?
+        /// The type of node. This value must match the name of the key that you provide in the configuration you provide in the FlowNodeConfiguration field.
+        /// This member is required.
+        public var type: BedrockAgentClientTypes.FlowNodeType?
+
+        public init(
+            configuration: BedrockAgentClientTypes.FlowNodeConfiguration? = nil,
+            inputs: [BedrockAgentClientTypes.FlowNodeInput]? = nil,
+            name: Swift.String? = nil,
+            outputs: [BedrockAgentClientTypes.FlowNodeOutput]? = nil,
+            type: BedrockAgentClientTypes.FlowNodeType? = nil
+        ) {
+            self.configuration = configuration
+            self.inputs = inputs
+            self.name = name
+            self.outputs = outputs
+            self.type = type
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for a node in your flow. For more information, see [Node types in a flow](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-nodes.html) in the Amazon Bedrock User Guide.
+    public indirect enum FlowNodeConfiguration: Swift.Sendable {
+        /// Contains configurations for an input flow node in your flow. The first node in the flow. inputs can't be specified for this node.
+        case input(BedrockAgentClientTypes.InputFlowNodeConfiguration)
+        /// Contains configurations for an output flow node in your flow. The last node in the flow. outputs can't be specified for this node.
+        case output(BedrockAgentClientTypes.OutputFlowNodeConfiguration)
+        /// Contains configurations for a knowledge base node in your flow. Queries a knowledge base and returns the retrieved results or generated response.
+        case knowledgebase(BedrockAgentClientTypes.KnowledgeBaseFlowNodeConfiguration)
+        /// Contains configurations for a condition node in your flow. Defines conditions that lead to different branches of the flow.
+        case condition(BedrockAgentClientTypes.ConditionFlowNodeConfiguration)
+        /// Contains configurations for a Lex node in your flow. Invokes an Amazon Lex bot to identify the intent of the input and return the intent as the output.
+        case lex(BedrockAgentClientTypes.LexFlowNodeConfiguration)
+        /// Contains configurations for a prompt node in your flow. Runs a prompt and generates the model response as the output. You can use a prompt from Prompt management or you can configure one in this node.
+        case prompt(BedrockAgentClientTypes.PromptFlowNodeConfiguration)
+        /// Contains configurations for a Lambda function node in your flow. Invokes an Lambda function.
+        case lambdafunction(BedrockAgentClientTypes.LambdaFunctionFlowNodeConfiguration)
+        /// Contains configurations for a storage node in your flow. Stores an input in an Amazon S3 location.
+        case storage(BedrockAgentClientTypes.StorageFlowNodeConfiguration)
+        /// Contains configurations for an agent node in your flow. Invokes an alias of an agent and returns the response.
+        case agent(BedrockAgentClientTypes.AgentFlowNodeConfiguration)
+        /// Contains configurations for a retrieval node in your flow. Retrieves data from an Amazon S3 location and returns it as the output.
+        case retrieval(BedrockAgentClientTypes.RetrievalFlowNodeConfiguration)
+        /// Contains configurations for an iterator node in your flow. Takes an input that is an array and iteratively sends each item of the array as an output to the following node. The size of the array is also returned in the output. The output flow node at the end of the flow iteration will return a response for each member of the array. To return only one response, you can include a collector node downstream from the iterator node.
+        case iterator(BedrockAgentClientTypes.IteratorFlowNodeConfiguration)
+        /// Contains configurations for a collector node in your flow. Collects an iteration of inputs and consolidates them into an array of outputs.
+        case collector(BedrockAgentClientTypes.CollectorFlowNodeConfiguration)
+        /// Contains configurations for an inline code node in your flow. Inline code nodes let you write and execute code directly within your flow, enabling data transformations, custom logic, and integrations without needing an external Lambda function.
+        case inlinecode(BedrockAgentClientTypes.InlineCodeFlowNodeConfiguration)
+        /// Contains configurations for a DoWhile loop in your flow.
+        case loop(BedrockAgentClientTypes.LoopFlowNodeConfiguration)
+        /// Contains input node configurations for a DoWhile loop in your flow.
+        case loopinput(BedrockAgentClientTypes.LoopInputFlowNodeConfiguration)
+        /// Contains controller node configurations for a DoWhile loop in your flow.
+        case loopcontroller(BedrockAgentClientTypes.LoopControllerFlowNodeConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentClientTypes {
+
+    /// Contains configurations for the nodes of a DoWhile loop in your flow. A DoWhile loop is made up of the following nodes:
+    ///
+    /// * Loop - The container node that holds the loop's flow definition. This node encompasses the entire loop structure.
+    ///
+    /// * LoopInput - The entry point node for the loop. This node receives inputs from nodes outside the loop and from previous loop iterations.
+    ///
+    /// * Body nodes - The processing nodes that execute within each loop iteration. These can be nodes for handling data in your flow, such as a prompt or Lambda function nodes. Some node types aren't supported inside a DoWhile loop body. For more information, see [LoopIncompatibleNodeTypeFlowValidationDetails](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_LoopIncompatibleNodeTypeFlowValidationDetails.html).
+    ///
+    /// * LoopController - The node that evaluates whether the loop should continue or exit based on a condition.
+    ///
+    ///
+    /// These nodes work together to create a loop that runs at least once and continues until a specified condition is met or a maximum number of iterations is reached.
+    public struct LoopFlowNodeConfiguration: Swift.Sendable {
+        /// The definition of the DoWhile loop nodes and connections between nodes in the flow.
+        /// This member is required.
+        public var definition: BedrockAgentClientTypes.FlowDefinition?
+
+        public init(
+            definition: BedrockAgentClientTypes.FlowDefinition? = nil
+        ) {
+            self.definition = definition
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.LoopFlowNodeConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "LoopFlowNodeConfiguration(definition: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateFlowInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    public var clientToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key to encrypt the flow.
+    public var customerEncryptionKeyArn: Swift.String?
+    /// A definition of the nodes and connections between nodes in the flow.
+    public var definition: BedrockAgentClientTypes.FlowDefinition?
+    /// A description for the flow.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the service role with permissions to create and manage a flow. For more information, see [Create a service role for flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html) in the Amazon Bedrock User Guide.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// A name for the flow.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Any tags that you want to attach to the flow. For more information, see [Tagging resources in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/tagging.html).
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        customerEncryptionKeyArn: Swift.String? = nil,
+        definition: BedrockAgentClientTypes.FlowDefinition? = nil,
+        description: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.customerEncryptionKeyArn = customerEncryptionKeyArn
+        self.definition = definition
+        self.description = description
+        self.executionRoleArn = executionRoleArn
+        self.name = name
+        self.tags = tags
+    }
+}
+
+extension CreateFlowInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateFlowInput(clientToken: \(Swift.String(describing: clientToken)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), definition: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateFlowOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the flow.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The time at which the flow was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the KMS key that you encrypted the flow with.
+    public var customerEncryptionKeyArn: Swift.String?
+    /// A definition of the nodes and connections between nodes in the flow.
+    public var definition: BedrockAgentClientTypes.FlowDefinition?
+    /// The description of the flow.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the service role with permissions to create a flow. For more information, see [Create a service role for flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html) in the Amazon Bedrock User Guide.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// The unique identifier of the flow.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the flow.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The status of the flow. When you submit this request, the status will be NotPrepared. If creation fails, the status becomes Failed.
+    /// This member is required.
+    public var status: BedrockAgentClientTypes.FlowStatus?
+    /// The time at which the flow was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+    /// The version of the flow. When you create a flow, the version created is the DRAFT version.
+    /// This member is required.
+    public var version: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        customerEncryptionKeyArn: Swift.String? = nil,
+        definition: BedrockAgentClientTypes.FlowDefinition? = nil,
+        description: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: BedrockAgentClientTypes.FlowStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        version: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.customerEncryptionKeyArn = customerEncryptionKeyArn
+        self.definition = definition
+        self.description = description
+        self.executionRoleArn = executionRoleArn
+        self.id = id
+        self.name = name
+        self.status = status
+        self.updatedAt = updatedAt
+        self.version = version
+    }
+}
+
+extension CreateFlowOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateFlowOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), definition: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateFlowVersionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the flow.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The time at which the flow was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The KMS key that the flow is encrypted with.
+    public var customerEncryptionKeyArn: Swift.String?
+    /// A definition of the nodes and connections in the flow.
+    public var definition: BedrockAgentClientTypes.FlowDefinition?
+    /// The description of the version.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the service role with permissions to create a flow. For more information, see [Create a service role for flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html) in the Amazon Bedrock User Guide.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// The unique identifier of the flow.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the version.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The status of the flow.
+    /// This member is required.
+    public var status: BedrockAgentClientTypes.FlowStatus?
+    /// The version of the flow that was created. Versions are numbered incrementally, starting from 1.
+    /// This member is required.
+    public var version: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        customerEncryptionKeyArn: Swift.String? = nil,
+        definition: BedrockAgentClientTypes.FlowDefinition? = nil,
+        description: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: BedrockAgentClientTypes.FlowStatus? = nil,
+        version: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.customerEncryptionKeyArn = customerEncryptionKeyArn
+        self.definition = definition
+        self.description = description
+        self.executionRoleArn = executionRoleArn
+        self.id = id
+        self.name = name
+        self.status = status
+        self.version = version
+    }
+}
+
+extension CreateFlowVersionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateFlowVersionOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), version: \(Swift.String(describing: version)), definition: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetFlowOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the flow.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The time at which the flow was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the KMS key that the flow is encrypted with.
+    public var customerEncryptionKeyArn: Swift.String?
+    /// The definition of the nodes and connections between the nodes in the flow.
+    public var definition: BedrockAgentClientTypes.FlowDefinition?
+    /// The description of the flow.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the service role with permissions to create a flow. For more information, see [Create a service row for flows](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html) in the Amazon Bedrock User Guide.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// The unique identifier of the flow.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the flow.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The status of the flow. The following statuses are possible:
+    ///
+    /// * NotPrepared – The flow has been created or updated, but hasn't been prepared. If you just created the flow, you can't test it. If you updated the flow, the DRAFT version won't contain the latest changes for testing. Send a [PrepareFlow](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PrepareFlow.html) request to package the latest changes into the DRAFT version.
+    ///
+    /// * Preparing – The flow is being prepared so that the DRAFT version contains the latest changes for testing.
+    ///
+    /// * Prepared – The flow is prepared and the DRAFT version contains the latest changes for testing.
+    ///
+    /// * Failed – The last API operation that you invoked on the flow failed. Send a [GetFlow](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_GetFlow.html) request and check the error message in the validations field.
+    /// This member is required.
+    public var status: BedrockAgentClientTypes.FlowStatus?
+    /// The time at which the flow was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+    /// A list of validation error messages related to the last failed operation on the flow.
+    public var validations: [BedrockAgentClientTypes.FlowValidation]?
+    /// The version of the flow for which information was retrieved.
+    /// This member is required.
+    public var version: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        customerEncryptionKeyArn: Swift.String? = nil,
+        definition: BedrockAgentClientTypes.FlowDefinition? = nil,
+        description: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: BedrockAgentClientTypes.FlowStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        validations: [BedrockAgentClientTypes.FlowValidation]? = nil,
+        version: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.customerEncryptionKeyArn = customerEncryptionKeyArn
+        self.definition = definition
+        self.description = description
+        self.executionRoleArn = executionRoleArn
+        self.id = id
+        self.name = name
+        self.status = status
+        self.updatedAt = updatedAt
+        self.validations = validations
+        self.version = version
+    }
+}
+
+extension GetFlowOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetFlowOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), validations: \(Swift.String(describing: validations)), version: \(Swift.String(describing: version)), definition: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetFlowVersionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the flow.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The time at which the flow was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the KMS key that the version of the flow is encrypted with.
+    public var customerEncryptionKeyArn: Swift.String?
+    /// The definition of the nodes and connections between nodes in the flow.
+    public var definition: BedrockAgentClientTypes.FlowDefinition?
+    /// The description of the flow.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the service role with permissions to create a flow. For more information, see [Create a service role for flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html) in the Amazon Bedrock User Guide.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// The unique identifier of the flow.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the version.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The status of the flow.
+    /// This member is required.
+    public var status: BedrockAgentClientTypes.FlowStatus?
+    /// The version of the flow for which information was retrieved.
+    /// This member is required.
+    public var version: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        customerEncryptionKeyArn: Swift.String? = nil,
+        definition: BedrockAgentClientTypes.FlowDefinition? = nil,
+        description: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: BedrockAgentClientTypes.FlowStatus? = nil,
+        version: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.customerEncryptionKeyArn = customerEncryptionKeyArn
+        self.definition = definition
+        self.description = description
+        self.executionRoleArn = executionRoleArn
+        self.id = id
+        self.name = name
+        self.status = status
+        self.version = version
+    }
+}
+
+extension GetFlowVersionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetFlowVersionOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), version: \(Swift.String(describing: version)), definition: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateFlowInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the KMS key to encrypt the flow.
+    public var customerEncryptionKeyArn: Swift.String?
+    /// A definition of the nodes and the connections between the nodes in the flow.
+    public var definition: BedrockAgentClientTypes.FlowDefinition?
+    /// A description for the flow.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the service role with permissions to create and manage a flow. For more information, see [Create a service role for flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html) in the Amazon Bedrock User Guide.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// The unique identifier of the flow.
+    /// This member is required.
+    public var flowIdentifier: Swift.String?
+    /// A name for the flow.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        customerEncryptionKeyArn: Swift.String? = nil,
+        definition: BedrockAgentClientTypes.FlowDefinition? = nil,
+        description: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        flowIdentifier: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.customerEncryptionKeyArn = customerEncryptionKeyArn
+        self.definition = definition
+        self.description = description
+        self.executionRoleArn = executionRoleArn
+        self.flowIdentifier = flowIdentifier
+        self.name = name
+    }
+}
+
+extension UpdateFlowInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateFlowInput(customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), flowIdentifier: \(Swift.String(describing: flowIdentifier)), name: \(Swift.String(describing: name)), definition: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateFlowOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the flow.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The time at which the flow was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the KMS key that the flow was encrypted with.
+    public var customerEncryptionKeyArn: Swift.String?
+    /// A definition of the nodes and the connections between nodes in the flow.
+    public var definition: BedrockAgentClientTypes.FlowDefinition?
+    /// The description of the flow.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the service role with permissions to create a flow. For more information, see [Create a service role for flows in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-permissions.html) in the Amazon Bedrock User Guide.
+    /// This member is required.
+    public var executionRoleArn: Swift.String?
+    /// The unique identifier of the flow.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the flow.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The status of the flow. When you submit this request, the status will be NotPrepared. If updating fails, the status becomes Failed.
+    /// This member is required.
+    public var status: BedrockAgentClientTypes.FlowStatus?
+    /// The time at which the flow was last updated.
+    /// This member is required.
+    public var updatedAt: Foundation.Date?
+    /// The version of the flow. When you update a flow, the version updated is the DRAFT version.
+    /// This member is required.
+    public var version: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        customerEncryptionKeyArn: Swift.String? = nil,
+        definition: BedrockAgentClientTypes.FlowDefinition? = nil,
+        description: Swift.String? = nil,
+        executionRoleArn: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: BedrockAgentClientTypes.FlowStatus? = nil,
+        updatedAt: Foundation.Date? = nil,
+        version: Swift.String? = nil
+    ) {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.customerEncryptionKeyArn = customerEncryptionKeyArn
+        self.definition = definition
+        self.description = description
+        self.executionRoleArn = executionRoleArn
+        self.id = id
+        self.name = name
+        self.status = status
+        self.updatedAt = updatedAt
+        self.version = version
+    }
+}
+
+extension UpdateFlowOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateFlowOutput(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), customerEncryptionKeyArn: \(Swift.String(describing: customerEncryptionKeyArn)), description: \(Swift.String(describing: description)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), definition: \"CONTENT_REDACTED\")"}
+}
+
+public struct ValidateFlowDefinitionInput: Swift.Sendable {
+    /// The definition of a flow to validate.
+    /// This member is required.
+    public var definition: BedrockAgentClientTypes.FlowDefinition?
+
+    public init(
+        definition: BedrockAgentClientTypes.FlowDefinition? = nil
+    ) {
+        self.definition = definition
+    }
+}
+
+extension ValidateFlowDefinitionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ValidateFlowDefinitionInput(definition: \"CONTENT_REDACTED\")"}
 }
 
 extension AssociateAgentCollaboratorInput {
@@ -11955,6 +13005,7 @@ extension CreateAgentActionGroupInput {
         try writer["description"].write(value.description)
         try writer["functionSchema"].write(value.functionSchema, with: BedrockAgentClientTypes.FunctionSchema.write(value:to:))
         try writer["parentActionGroupSignature"].write(value.parentActionGroupSignature)
+        try writer["parentActionGroupSignatureParams"].writeMap(value.parentActionGroupSignatureParams, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -12003,6 +13054,7 @@ extension CreateFlowAliasInput {
     static func write(value: CreateFlowAliasInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["concurrencyConfiguration"].write(value.concurrencyConfiguration, with: BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration.write(value:to:))
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
         try writer["routingConfiguration"].writeList(value.routingConfiguration, memberWritingClosure: BedrockAgentClientTypes.FlowAliasRoutingConfigurationListItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -12223,6 +13275,7 @@ extension UpdateAgentActionGroupInput {
         try writer["description"].write(value.description)
         try writer["functionSchema"].write(value.functionSchema, with: BedrockAgentClientTypes.FunctionSchema.write(value:to:))
         try writer["parentActionGroupSignature"].write(value.parentActionGroupSignature)
+        try writer["parentActionGroupSignatureParams"].writeMap(value.parentActionGroupSignatureParams, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -12231,6 +13284,7 @@ extension UpdateAgentAliasInput {
     static func write(value: UpdateAgentAliasInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["agentAliasName"].write(value.agentAliasName)
+        try writer["aliasInvocationState"].write(value.aliasInvocationState)
         try writer["description"].write(value.description)
         try writer["routingConfiguration"].writeList(value.routingConfiguration, memberWritingClosure: BedrockAgentClientTypes.AgentAliasRoutingConfigurationListItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -12285,6 +13339,7 @@ extension UpdateFlowAliasInput {
 
     static func write(value: UpdateFlowAliasInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["concurrencyConfiguration"].write(value.concurrencyConfiguration, with: BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration.write(value:to:))
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
         try writer["routingConfiguration"].writeList(value.routingConfiguration, memberWritingClosure: BedrockAgentClientTypes.FlowAliasRoutingConfigurationListItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -12425,6 +13480,7 @@ extension CreateFlowAliasOutput {
         let reader = responseReader
         var value = CreateFlowAliasOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.concurrencyConfiguration = try reader["concurrencyConfiguration"].readIfPresent(with: BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.flowId = try reader["flowId"].readIfPresent() ?? ""
@@ -12778,6 +13834,7 @@ extension GetFlowAliasOutput {
         let reader = responseReader
         var value = GetFlowAliasOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.concurrencyConfiguration = try reader["concurrencyConfiguration"].readIfPresent(with: BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.flowId = try reader["flowId"].readIfPresent() ?? ""
@@ -13241,6 +14298,7 @@ extension UpdateFlowAliasOutput {
         let reader = responseReader
         var value = UpdateFlowAliasOutput()
         value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.concurrencyConfiguration = try reader["concurrencyConfiguration"].readIfPresent(with: BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.flowId = try reader["flowId"].readIfPresent() ?? ""
@@ -14649,11 +15707,11 @@ enum ValidateFlowDefinitionOutputError {
     }
 }
 
-extension ConflictException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14662,11 +15720,11 @@ extension ConflictException {
     }
 }
 
-extension ServiceQuotaExceededException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
+        var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14701,12 +15759,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension ValidationException {
+extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14728,11 +15785,12 @@ extension ThrottlingException {
     }
 }
 
-extension AccessDeniedException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ValidationException()
+        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14996,6 +16054,7 @@ extension BedrockAgentClientTypes.AgentActionGroup {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.parentActionSignature = try reader["parentActionSignature"].readIfPresent()
+        value.parentActionGroupSignatureParams = try reader["parentActionGroupSignatureParams"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.actionGroupExecutor = try reader["actionGroupExecutor"].readIfPresent(with: BedrockAgentClientTypes.ActionGroupExecutor.read(from:))
         value.apiSchema = try reader["apiSchema"].readIfPresent(with: BedrockAgentClientTypes.APISchema.read(from:))
         value.functionSchema = try reader["functionSchema"].readIfPresent(with: BedrockAgentClientTypes.FunctionSchema.read(from:))
@@ -15158,6 +16217,7 @@ extension BedrockAgentClientTypes.AgentAlias {
         value.agentAliasHistoryEvents = try reader["agentAliasHistoryEvents"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.AgentAliasHistoryEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.agentAliasStatus = try reader["agentAliasStatus"].readIfPresent() ?? .sdkUnknown("")
         value.failureReasons = try reader["failureReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.aliasInvocationState = try reader["aliasInvocationState"].readIfPresent()
         return value
     }
 }
@@ -15217,6 +16277,7 @@ extension BedrockAgentClientTypes.VectorIngestionConfiguration {
     static func write(value: BedrockAgentClientTypes.VectorIngestionConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["chunkingConfiguration"].write(value.chunkingConfiguration, with: BedrockAgentClientTypes.ChunkingConfiguration.write(value:to:))
+        try writer["contextEnrichmentConfiguration"].write(value.contextEnrichmentConfiguration, with: BedrockAgentClientTypes.ContextEnrichmentConfiguration.write(value:to:))
         try writer["customTransformationConfiguration"].write(value.customTransformationConfiguration, with: BedrockAgentClientTypes.CustomTransformationConfiguration.write(value:to:))
         try writer["parsingConfiguration"].write(value.parsingConfiguration, with: BedrockAgentClientTypes.ParsingConfiguration.write(value:to:))
     }
@@ -15227,6 +16288,56 @@ extension BedrockAgentClientTypes.VectorIngestionConfiguration {
         value.chunkingConfiguration = try reader["chunkingConfiguration"].readIfPresent(with: BedrockAgentClientTypes.ChunkingConfiguration.read(from:))
         value.customTransformationConfiguration = try reader["customTransformationConfiguration"].readIfPresent(with: BedrockAgentClientTypes.CustomTransformationConfiguration.read(from:))
         value.parsingConfiguration = try reader["parsingConfiguration"].readIfPresent(with: BedrockAgentClientTypes.ParsingConfiguration.read(from:))
+        value.contextEnrichmentConfiguration = try reader["contextEnrichmentConfiguration"].readIfPresent(with: BedrockAgentClientTypes.ContextEnrichmentConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.ContextEnrichmentConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.ContextEnrichmentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bedrockFoundationModelConfiguration"].write(value.bedrockFoundationModelConfiguration, with: BedrockAgentClientTypes.BedrockFoundationModelContextEnrichmentConfiguration.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.ContextEnrichmentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.ContextEnrichmentConfiguration()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.bedrockFoundationModelConfiguration = try reader["bedrockFoundationModelConfiguration"].readIfPresent(with: BedrockAgentClientTypes.BedrockFoundationModelContextEnrichmentConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.BedrockFoundationModelContextEnrichmentConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.BedrockFoundationModelContextEnrichmentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enrichmentStrategyConfiguration"].write(value.enrichmentStrategyConfiguration, with: BedrockAgentClientTypes.EnrichmentStrategyConfiguration.write(value:to:))
+        try writer["modelArn"].write(value.modelArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.BedrockFoundationModelContextEnrichmentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.BedrockFoundationModelContextEnrichmentConfiguration()
+        value.enrichmentStrategyConfiguration = try reader["enrichmentStrategyConfiguration"].readIfPresent(with: BedrockAgentClientTypes.EnrichmentStrategyConfiguration.read(from:))
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.EnrichmentStrategyConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.EnrichmentStrategyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["method"].write(value.method)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.EnrichmentStrategyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.EnrichmentStrategyConfiguration()
+        value.method = try reader["method"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -16001,6 +17112,7 @@ extension BedrockAgentClientTypes.FlowNodeInput {
 
     static func write(value: BedrockAgentClientTypes.FlowNodeInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["category"].write(value.category)
         try writer["expression"].write(value.expression)
         try writer["name"].write(value.name)
         try writer["type"].write(value.type)
@@ -16012,6 +17124,7 @@ extension BedrockAgentClientTypes.FlowNodeInput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.expression = try reader["expression"].readIfPresent() ?? ""
+        value.category = try reader["category"].readIfPresent()
         return value
     }
 }
@@ -16027,6 +17140,8 @@ extension BedrockAgentClientTypes.FlowNodeConfiguration {
                 try writer["collector"].write(collector, with: BedrockAgentClientTypes.CollectorFlowNodeConfiguration.write(value:to:))
             case let .condition(condition):
                 try writer["condition"].write(condition, with: BedrockAgentClientTypes.ConditionFlowNodeConfiguration.write(value:to:))
+            case let .inlinecode(inlinecode):
+                try writer["inlineCode"].write(inlinecode, with: BedrockAgentClientTypes.InlineCodeFlowNodeConfiguration.write(value:to:))
             case let .input(input):
                 try writer["input"].write(input, with: BedrockAgentClientTypes.InputFlowNodeConfiguration.write(value:to:))
             case let .iterator(iterator):
@@ -16037,6 +17152,12 @@ extension BedrockAgentClientTypes.FlowNodeConfiguration {
                 try writer["lambdaFunction"].write(lambdafunction, with: BedrockAgentClientTypes.LambdaFunctionFlowNodeConfiguration.write(value:to:))
             case let .lex(lex):
                 try writer["lex"].write(lex, with: BedrockAgentClientTypes.LexFlowNodeConfiguration.write(value:to:))
+            case let .loop(loop):
+                try writer["loop"].write(loop, with: BedrockAgentClientTypes.LoopFlowNodeConfiguration.write(value:to:))
+            case let .loopcontroller(loopcontroller):
+                try writer["loopController"].write(loopcontroller, with: BedrockAgentClientTypes.LoopControllerFlowNodeConfiguration.write(value:to:))
+            case let .loopinput(loopinput):
+                try writer["loopInput"].write(loopinput, with: BedrockAgentClientTypes.LoopInputFlowNodeConfiguration.write(value:to:))
             case let .output(output):
                 try writer["output"].write(output, with: BedrockAgentClientTypes.OutputFlowNodeConfiguration.write(value:to:))
             case let .prompt(prompt):
@@ -16078,9 +17199,96 @@ extension BedrockAgentClientTypes.FlowNodeConfiguration {
                 return .iterator(try reader["iterator"].read(with: BedrockAgentClientTypes.IteratorFlowNodeConfiguration.read(from:)))
             case "collector":
                 return .collector(try reader["collector"].read(with: BedrockAgentClientTypes.CollectorFlowNodeConfiguration.read(from:)))
+            case "inlineCode":
+                return .inlinecode(try reader["inlineCode"].read(with: BedrockAgentClientTypes.InlineCodeFlowNodeConfiguration.read(from:)))
+            case "loop":
+                return .loop(try reader["loop"].read(with: BedrockAgentClientTypes.LoopFlowNodeConfiguration.read(from:)))
+            case "loopInput":
+                return .loopinput(try reader["loopInput"].read(with: BedrockAgentClientTypes.LoopInputFlowNodeConfiguration.read(from:)))
+            case "loopController":
+                return .loopcontroller(try reader["loopController"].read(with: BedrockAgentClientTypes.LoopControllerFlowNodeConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentClientTypes.LoopControllerFlowNodeConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.LoopControllerFlowNodeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["continueCondition"].write(value.continueCondition, with: BedrockAgentClientTypes.FlowCondition.write(value:to:))
+        try writer["maxIterations"].write(value.maxIterations)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.LoopControllerFlowNodeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.LoopControllerFlowNodeConfiguration()
+        value.continueCondition = try reader["continueCondition"].readIfPresent(with: BedrockAgentClientTypes.FlowCondition.read(from:))
+        value.maxIterations = try reader["maxIterations"].readIfPresent() ?? 10
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.FlowCondition {
+
+    static func write(value: BedrockAgentClientTypes.FlowCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["expression"].write(value.expression)
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.FlowCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.FlowCondition()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.expression = try reader["expression"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.LoopInputFlowNodeConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.LoopInputFlowNodeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.LoopInputFlowNodeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return BedrockAgentClientTypes.LoopInputFlowNodeConfiguration()
+    }
+}
+
+extension BedrockAgentClientTypes.LoopFlowNodeConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.LoopFlowNodeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["definition"].write(value.definition, with: BedrockAgentClientTypes.FlowDefinition.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.LoopFlowNodeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.LoopFlowNodeConfiguration()
+        value.definition = try reader["definition"].readIfPresent(with: BedrockAgentClientTypes.FlowDefinition.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.InlineCodeFlowNodeConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.InlineCodeFlowNodeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["code"].write(value.code)
+        try writer["language"].write(value.language)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.InlineCodeFlowNodeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.InlineCodeFlowNodeConfiguration()
+        value.code = try reader["code"].readIfPresent() ?? ""
+        value.language = try reader["language"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
@@ -16740,30 +17948,18 @@ extension BedrockAgentClientTypes.ConditionFlowNodeConfiguration {
     }
 }
 
-extension BedrockAgentClientTypes.FlowCondition {
-
-    static func write(value: BedrockAgentClientTypes.FlowCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["expression"].write(value.expression)
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.FlowCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentClientTypes.FlowCondition()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.expression = try reader["expression"].readIfPresent()
-        return value
-    }
-}
-
 extension BedrockAgentClientTypes.KnowledgeBaseFlowNodeConfiguration {
 
     static func write(value: BedrockAgentClientTypes.KnowledgeBaseFlowNodeConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["guardrailConfiguration"].write(value.guardrailConfiguration, with: BedrockAgentClientTypes.GuardrailConfiguration.write(value:to:))
+        try writer["inferenceConfiguration"].write(value.inferenceConfiguration, with: BedrockAgentClientTypes.PromptInferenceConfiguration.write(value:to:))
         try writer["knowledgeBaseId"].write(value.knowledgeBaseId)
         try writer["modelId"].write(value.modelId)
+        try writer["numberOfResults"].write(value.numberOfResults)
+        try writer["orchestrationConfiguration"].write(value.orchestrationConfiguration, with: BedrockAgentClientTypes.KnowledgeBaseOrchestrationConfiguration.write(value:to:))
+        try writer["promptTemplate"].write(value.promptTemplate, with: BedrockAgentClientTypes.KnowledgeBasePromptTemplate.write(value:to:))
+        try writer["rerankingConfiguration"].write(value.rerankingConfiguration, with: BedrockAgentClientTypes.VectorSearchRerankingConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.KnowledgeBaseFlowNodeConfiguration {
@@ -16772,6 +17968,175 @@ extension BedrockAgentClientTypes.KnowledgeBaseFlowNodeConfiguration {
         value.knowledgeBaseId = try reader["knowledgeBaseId"].readIfPresent() ?? ""
         value.modelId = try reader["modelId"].readIfPresent()
         value.guardrailConfiguration = try reader["guardrailConfiguration"].readIfPresent(with: BedrockAgentClientTypes.GuardrailConfiguration.read(from:))
+        value.numberOfResults = try reader["numberOfResults"].readIfPresent()
+        value.promptTemplate = try reader["promptTemplate"].readIfPresent(with: BedrockAgentClientTypes.KnowledgeBasePromptTemplate.read(from:))
+        value.inferenceConfiguration = try reader["inferenceConfiguration"].readIfPresent(with: BedrockAgentClientTypes.PromptInferenceConfiguration.read(from:))
+        value.rerankingConfiguration = try reader["rerankingConfiguration"].readIfPresent(with: BedrockAgentClientTypes.VectorSearchRerankingConfiguration.read(from:))
+        value.orchestrationConfiguration = try reader["orchestrationConfiguration"].readIfPresent(with: BedrockAgentClientTypes.KnowledgeBaseOrchestrationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.KnowledgeBaseOrchestrationConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.KnowledgeBaseOrchestrationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalModelRequestFields"].writeMap(value.additionalModelRequestFields, valueWritingClosure: SmithyReadWrite.WritingClosures.writeDocument(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["inferenceConfig"].write(value.inferenceConfig, with: BedrockAgentClientTypes.PromptInferenceConfiguration.write(value:to:))
+        try writer["performanceConfig"].write(value.performanceConfig, with: BedrockAgentClientTypes.PerformanceConfiguration.write(value:to:))
+        try writer["promptTemplate"].write(value.promptTemplate, with: BedrockAgentClientTypes.KnowledgeBasePromptTemplate.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.KnowledgeBaseOrchestrationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.KnowledgeBaseOrchestrationConfiguration()
+        value.promptTemplate = try reader["promptTemplate"].readIfPresent(with: BedrockAgentClientTypes.KnowledgeBasePromptTemplate.read(from:))
+        value.inferenceConfig = try reader["inferenceConfig"].readIfPresent(with: BedrockAgentClientTypes.PromptInferenceConfiguration.read(from:))
+        value.additionalModelRequestFields = try reader["additionalModelRequestFields"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDocument(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.performanceConfig = try reader["performanceConfig"].readIfPresent(with: BedrockAgentClientTypes.PerformanceConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.PerformanceConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.PerformanceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["latency"].write(value.latency)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.PerformanceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.PerformanceConfiguration()
+        value.latency = try reader["latency"].readIfPresent() ?? BedrockAgentClientTypes.PerformanceConfigLatency.standard
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.KnowledgeBasePromptTemplate {
+
+    static func write(value: BedrockAgentClientTypes.KnowledgeBasePromptTemplate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["textPromptTemplate"].write(value.textPromptTemplate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.KnowledgeBasePromptTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.KnowledgeBasePromptTemplate()
+        value.textPromptTemplate = try reader["textPromptTemplate"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.VectorSearchRerankingConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.VectorSearchRerankingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bedrockRerankingConfiguration"].write(value.bedrockRerankingConfiguration, with: BedrockAgentClientTypes.VectorSearchBedrockRerankingConfiguration.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.VectorSearchRerankingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.VectorSearchRerankingConfiguration()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.bedrockRerankingConfiguration = try reader["bedrockRerankingConfiguration"].readIfPresent(with: BedrockAgentClientTypes.VectorSearchBedrockRerankingConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.VectorSearchBedrockRerankingConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.VectorSearchBedrockRerankingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["metadataConfiguration"].write(value.metadataConfiguration, with: BedrockAgentClientTypes.MetadataConfigurationForReranking.write(value:to:))
+        try writer["modelConfiguration"].write(value.modelConfiguration, with: BedrockAgentClientTypes.VectorSearchBedrockRerankingModelConfiguration.write(value:to:))
+        try writer["numberOfRerankedResults"].write(value.numberOfRerankedResults)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.VectorSearchBedrockRerankingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.VectorSearchBedrockRerankingConfiguration()
+        value.modelConfiguration = try reader["modelConfiguration"].readIfPresent(with: BedrockAgentClientTypes.VectorSearchBedrockRerankingModelConfiguration.read(from:))
+        value.numberOfRerankedResults = try reader["numberOfRerankedResults"].readIfPresent()
+        value.metadataConfiguration = try reader["metadataConfiguration"].readIfPresent(with: BedrockAgentClientTypes.MetadataConfigurationForReranking.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.MetadataConfigurationForReranking {
+
+    static func write(value: BedrockAgentClientTypes.MetadataConfigurationForReranking?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["selectionMode"].write(value.selectionMode)
+        try writer["selectiveModeConfiguration"].write(value.selectiveModeConfiguration, with: BedrockAgentClientTypes.RerankingMetadataSelectiveModeConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.MetadataConfigurationForReranking {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.MetadataConfigurationForReranking()
+        value.selectionMode = try reader["selectionMode"].readIfPresent() ?? .sdkUnknown("")
+        value.selectiveModeConfiguration = try reader["selectiveModeConfiguration"].readIfPresent(with: BedrockAgentClientTypes.RerankingMetadataSelectiveModeConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.RerankingMetadataSelectiveModeConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.RerankingMetadataSelectiveModeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .fieldstoexclude(fieldstoexclude):
+                try writer["fieldsToExclude"].writeList(fieldstoexclude, memberWritingClosure: BedrockAgentClientTypes.FieldForReranking.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .fieldstoinclude(fieldstoinclude):
+                try writer["fieldsToInclude"].writeList(fieldstoinclude, memberWritingClosure: BedrockAgentClientTypes.FieldForReranking.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.RerankingMetadataSelectiveModeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "fieldsToInclude":
+                return .fieldstoinclude(try reader["fieldsToInclude"].readList(memberReadingClosure: BedrockAgentClientTypes.FieldForReranking.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "fieldsToExclude":
+                return .fieldstoexclude(try reader["fieldsToExclude"].readList(memberReadingClosure: BedrockAgentClientTypes.FieldForReranking.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.FieldForReranking {
+
+    static func write(value: BedrockAgentClientTypes.FieldForReranking?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fieldName"].write(value.fieldName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.FieldForReranking {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.FieldForReranking()
+        value.fieldName = try reader["fieldName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.VectorSearchBedrockRerankingModelConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.VectorSearchBedrockRerankingModelConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalModelRequestFields"].writeMap(value.additionalModelRequestFields, valueWritingClosure: SmithyReadWrite.WritingClosures.writeDocument(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["modelArn"].write(value.modelArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.VectorSearchBedrockRerankingModelConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.VectorSearchBedrockRerankingModelConfiguration()
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
+        value.additionalModelRequestFields = try reader["additionalModelRequestFields"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDocument(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -16817,6 +18182,23 @@ extension BedrockAgentClientTypes.FlowAliasRoutingConfigurationListItem {
     }
 }
 
+extension BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxConcurrency"].write(value.maxConcurrency)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.maxConcurrency = try reader["maxConcurrency"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentClientTypes.KnowledgeBase {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.KnowledgeBase {
@@ -16842,6 +18224,8 @@ extension BedrockAgentClientTypes.StorageConfiguration {
     static func write(value: BedrockAgentClientTypes.StorageConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["mongoDbAtlasConfiguration"].write(value.mongoDbAtlasConfiguration, with: BedrockAgentClientTypes.MongoDbAtlasConfiguration.write(value:to:))
+        try writer["neptuneAnalyticsConfiguration"].write(value.neptuneAnalyticsConfiguration, with: BedrockAgentClientTypes.NeptuneAnalyticsConfiguration.write(value:to:))
+        try writer["opensearchManagedClusterConfiguration"].write(value.opensearchManagedClusterConfiguration, with: BedrockAgentClientTypes.OpenSearchManagedClusterConfiguration.write(value:to:))
         try writer["opensearchServerlessConfiguration"].write(value.opensearchServerlessConfiguration, with: BedrockAgentClientTypes.OpenSearchServerlessConfiguration.write(value:to:))
         try writer["pineconeConfiguration"].write(value.pineconeConfiguration, with: BedrockAgentClientTypes.PineconeConfiguration.write(value:to:))
         try writer["rdsConfiguration"].write(value.rdsConfiguration, with: BedrockAgentClientTypes.RdsConfiguration.write(value:to:))
@@ -16854,10 +18238,46 @@ extension BedrockAgentClientTypes.StorageConfiguration {
         var value = BedrockAgentClientTypes.StorageConfiguration()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.opensearchServerlessConfiguration = try reader["opensearchServerlessConfiguration"].readIfPresent(with: BedrockAgentClientTypes.OpenSearchServerlessConfiguration.read(from:))
+        value.opensearchManagedClusterConfiguration = try reader["opensearchManagedClusterConfiguration"].readIfPresent(with: BedrockAgentClientTypes.OpenSearchManagedClusterConfiguration.read(from:))
         value.pineconeConfiguration = try reader["pineconeConfiguration"].readIfPresent(with: BedrockAgentClientTypes.PineconeConfiguration.read(from:))
         value.redisEnterpriseCloudConfiguration = try reader["redisEnterpriseCloudConfiguration"].readIfPresent(with: BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration.read(from:))
         value.rdsConfiguration = try reader["rdsConfiguration"].readIfPresent(with: BedrockAgentClientTypes.RdsConfiguration.read(from:))
         value.mongoDbAtlasConfiguration = try reader["mongoDbAtlasConfiguration"].readIfPresent(with: BedrockAgentClientTypes.MongoDbAtlasConfiguration.read(from:))
+        value.neptuneAnalyticsConfiguration = try reader["neptuneAnalyticsConfiguration"].readIfPresent(with: BedrockAgentClientTypes.NeptuneAnalyticsConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.NeptuneAnalyticsConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.NeptuneAnalyticsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fieldMapping"].write(value.fieldMapping, with: BedrockAgentClientTypes.NeptuneAnalyticsFieldMapping.write(value:to:))
+        try writer["graphArn"].write(value.graphArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.NeptuneAnalyticsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.NeptuneAnalyticsConfiguration()
+        value.graphArn = try reader["graphArn"].readIfPresent() ?? ""
+        value.fieldMapping = try reader["fieldMapping"].readIfPresent(with: BedrockAgentClientTypes.NeptuneAnalyticsFieldMapping.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.NeptuneAnalyticsFieldMapping {
+
+    static func write(value: BedrockAgentClientTypes.NeptuneAnalyticsFieldMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["metadataField"].write(value.metadataField)
+        try writer["textField"].write(value.textField)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.NeptuneAnalyticsFieldMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.NeptuneAnalyticsFieldMapping()
+        value.textField = try reader["textField"].readIfPresent() ?? ""
+        value.metadataField = try reader["metadataField"].readIfPresent() ?? ""
         return value
     }
 }
@@ -16872,6 +18292,7 @@ extension BedrockAgentClientTypes.MongoDbAtlasConfiguration {
         try writer["endpoint"].write(value.endpoint)
         try writer["endpointServiceName"].write(value.endpointServiceName)
         try writer["fieldMapping"].write(value.fieldMapping, with: BedrockAgentClientTypes.MongoDbAtlasFieldMapping.write(value:to:))
+        try writer["textIndexName"].write(value.textIndexName)
         try writer["vectorIndexName"].write(value.vectorIndexName)
     }
 
@@ -16885,6 +18306,7 @@ extension BedrockAgentClientTypes.MongoDbAtlasConfiguration {
         value.credentialsSecretArn = try reader["credentialsSecretArn"].readIfPresent() ?? ""
         value.fieldMapping = try reader["fieldMapping"].readIfPresent(with: BedrockAgentClientTypes.MongoDbAtlasFieldMapping.read(from:))
         value.endpointServiceName = try reader["endpointServiceName"].readIfPresent()
+        value.textIndexName = try reader["textIndexName"].readIfPresent()
         return value
     }
 }
@@ -16935,6 +18357,7 @@ extension BedrockAgentClientTypes.RdsFieldMapping {
 
     static func write(value: BedrockAgentClientTypes.RdsFieldMapping?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["customMetadataField"].write(value.customMetadataField)
         try writer["metadataField"].write(value.metadataField)
         try writer["primaryKeyField"].write(value.primaryKeyField)
         try writer["textField"].write(value.textField)
@@ -16948,6 +18371,7 @@ extension BedrockAgentClientTypes.RdsFieldMapping {
         value.vectorField = try reader["vectorField"].readIfPresent() ?? ""
         value.textField = try reader["textField"].readIfPresent() ?? ""
         value.metadataField = try reader["metadataField"].readIfPresent() ?? ""
+        value.customMetadataField = try reader["customMetadataField"].readIfPresent()
         return value
     }
 }
@@ -17024,6 +18448,46 @@ extension BedrockAgentClientTypes.PineconeFieldMapping {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.PineconeFieldMapping {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.PineconeFieldMapping()
+        value.textField = try reader["textField"].readIfPresent() ?? ""
+        value.metadataField = try reader["metadataField"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.OpenSearchManagedClusterConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.OpenSearchManagedClusterConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainArn"].write(value.domainArn)
+        try writer["domainEndpoint"].write(value.domainEndpoint)
+        try writer["fieldMapping"].write(value.fieldMapping, with: BedrockAgentClientTypes.OpenSearchManagedClusterFieldMapping.write(value:to:))
+        try writer["vectorIndexName"].write(value.vectorIndexName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.OpenSearchManagedClusterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.OpenSearchManagedClusterConfiguration()
+        value.domainEndpoint = try reader["domainEndpoint"].readIfPresent() ?? ""
+        value.domainArn = try reader["domainArn"].readIfPresent() ?? ""
+        value.vectorIndexName = try reader["vectorIndexName"].readIfPresent() ?? ""
+        value.fieldMapping = try reader["fieldMapping"].readIfPresent(with: BedrockAgentClientTypes.OpenSearchManagedClusterFieldMapping.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.OpenSearchManagedClusterFieldMapping {
+
+    static func write(value: BedrockAgentClientTypes.OpenSearchManagedClusterFieldMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["metadataField"].write(value.metadataField)
+        try writer["textField"].write(value.textField)
+        try writer["vectorField"].write(value.vectorField)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.OpenSearchManagedClusterFieldMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.OpenSearchManagedClusterFieldMapping()
+        value.vectorField = try reader["vectorField"].readIfPresent() ?? ""
         value.textField = try reader["textField"].readIfPresent() ?? ""
         value.metadataField = try reader["metadataField"].readIfPresent() ?? ""
         return value
@@ -17687,9 +19151,85 @@ extension BedrockAgentClientTypes.FlowValidationDetails {
                 return .unknownnodeinput(try reader["unknownNodeInput"].read(with: BedrockAgentClientTypes.UnknownNodeInputFlowValidationDetails.read(from:)))
             case "unknownNodeOutput":
                 return .unknownnodeoutput(try reader["unknownNodeOutput"].read(with: BedrockAgentClientTypes.UnknownNodeOutputFlowValidationDetails.read(from:)))
+            case "missingLoopInputNode":
+                return .missingloopinputnode(try reader["missingLoopInputNode"].read(with: BedrockAgentClientTypes.MissingLoopInputNodeFlowValidationDetails.read(from:)))
+            case "missingLoopControllerNode":
+                return .missingloopcontrollernode(try reader["missingLoopControllerNode"].read(with: BedrockAgentClientTypes.MissingLoopControllerNodeFlowValidationDetails.read(from:)))
+            case "multipleLoopInputNodes":
+                return .multipleloopinputnodes(try reader["multipleLoopInputNodes"].read(with: BedrockAgentClientTypes.MultipleLoopInputNodesFlowValidationDetails.read(from:)))
+            case "multipleLoopControllerNodes":
+                return .multipleloopcontrollernodes(try reader["multipleLoopControllerNodes"].read(with: BedrockAgentClientTypes.MultipleLoopControllerNodesFlowValidationDetails.read(from:)))
+            case "loopIncompatibleNodeType":
+                return .loopincompatiblenodetype(try reader["loopIncompatibleNodeType"].read(with: BedrockAgentClientTypes.LoopIncompatibleNodeTypeFlowValidationDetails.read(from:)))
+            case "invalidLoopBoundary":
+                return .invalidloopboundary(try reader["invalidLoopBoundary"].read(with: BedrockAgentClientTypes.InvalidLoopBoundaryFlowValidationDetails.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentClientTypes.InvalidLoopBoundaryFlowValidationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.InvalidLoopBoundaryFlowValidationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.InvalidLoopBoundaryFlowValidationDetails()
+        value.connection = try reader["connection"].readIfPresent() ?? ""
+        value.source = try reader["source"].readIfPresent() ?? ""
+        value.target = try reader["target"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.LoopIncompatibleNodeTypeFlowValidationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.LoopIncompatibleNodeTypeFlowValidationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.LoopIncompatibleNodeTypeFlowValidationDetails()
+        value.node = try reader["node"].readIfPresent() ?? ""
+        value.incompatibleNodeType = try reader["incompatibleNodeType"].readIfPresent() ?? .sdkUnknown("")
+        value.incompatibleNodeName = try reader["incompatibleNodeName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.MultipleLoopControllerNodesFlowValidationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.MultipleLoopControllerNodesFlowValidationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.MultipleLoopControllerNodesFlowValidationDetails()
+        value.loopNode = try reader["loopNode"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.MultipleLoopInputNodesFlowValidationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.MultipleLoopInputNodesFlowValidationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.MultipleLoopInputNodesFlowValidationDetails()
+        value.loopNode = try reader["loopNode"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.MissingLoopControllerNodeFlowValidationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.MissingLoopControllerNodeFlowValidationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.MissingLoopControllerNodeFlowValidationDetails()
+        value.loopNode = try reader["loopNode"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.MissingLoopInputNodeFlowValidationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.MissingLoopInputNodeFlowValidationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.MissingLoopInputNodeFlowValidationDetails()
+        value.loopNode = try reader["loopNode"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -18033,6 +19573,7 @@ extension BedrockAgentClientTypes.AgentAliasSummary {
         value.agentAliasStatus = try reader["agentAliasStatus"].readIfPresent() ?? .sdkUnknown("")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.aliasInvocationState = try reader["aliasInvocationState"].readIfPresent()
         return value
     }
 }
@@ -18123,6 +19664,7 @@ extension BedrockAgentClientTypes.FlowAliasSummary {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.routingConfiguration = try reader["routingConfiguration"].readListIfPresent(memberReadingClosure: BedrockAgentClientTypes.FlowAliasRoutingConfigurationListItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.concurrencyConfiguration = try reader["concurrencyConfiguration"].readIfPresent(with: BedrockAgentClientTypes.FlowAliasConcurrencyConfiguration.read(from:))
         value.flowId = try reader["flowId"].readIfPresent() ?? ""
         value.id = try reader["id"].readIfPresent() ?? ""
         value.arn = try reader["arn"].readIfPresent() ?? ""

@@ -101,9 +101,43 @@ extension ListAccessPointsInput: ClientRuntime.PaginateToken {
         return ListAccessPointsInput(
             accountId: self.accountId,
             bucket: self.bucket,
+            dataSourceId: self.dataSourceId,
+            dataSourceType: self.dataSourceType,
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+extension S3ControlClient {
+    /// Paginate over `[ListAccessPointsForDirectoryBucketsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAccessPointsForDirectoryBucketsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAccessPointsForDirectoryBucketsOutput`
+    public func listAccessPointsForDirectoryBucketsPaginated(input: ListAccessPointsForDirectoryBucketsInput) -> ClientRuntime.PaginatorSequence<ListAccessPointsForDirectoryBucketsInput, ListAccessPointsForDirectoryBucketsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAccessPointsForDirectoryBucketsInput, ListAccessPointsForDirectoryBucketsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccessPointsForDirectoryBuckets(input:))
+    }
+}
+
+extension ListAccessPointsForDirectoryBucketsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAccessPointsForDirectoryBucketsInput {
+        return ListAccessPointsForDirectoryBucketsInput(
+            accountId: self.accountId,
+            directoryBucket: self.directoryBucket,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAccessPointsForDirectoryBucketsInput, OperationStackOutput == ListAccessPointsForDirectoryBucketsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAccessPointsForDirectoryBucketsPaginated`
+    /// to access the nested member `[S3ControlClientTypes.AccessPoint]`
+    /// - Returns: `[S3ControlClientTypes.AccessPoint]`
+    public func accessPointList() async throws -> [S3ControlClientTypes.AccessPoint] {
+        return try await self.asyncCompactMap { item in item.accessPointList }
+    }
 }
 extension S3ControlClient {
     /// Paginate over `[ListAccessPointsForObjectLambdaOutput]` results.

@@ -1341,7 +1341,7 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes.AccountReceiver: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AccountReceiver(alias: \(Swift.String(describing: alias)), awsAccountId: \"CONTENT_REDACTED\")"}
+        "AccountReceiver(alias: \"CONTENT_REDACTED\", awsAccountId: \"CONTENT_REDACTED\")"}
 }
 
 extension PartnerCentralSellingClientTypes {
@@ -2736,7 +2736,7 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes.EngagementCustomer: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EngagementCustomer(companyName: \(Swift.String(describing: companyName)), industry: \(Swift.String(describing: industry)), countryCode: \"CONTENT_REDACTED\", websiteUrl: \"CONTENT_REDACTED\")"}
+        "EngagementCustomer(industry: \(Swift.String(describing: industry)), companyName: \"CONTENT_REDACTED\", countryCode: \"CONTENT_REDACTED\", websiteUrl: \"CONTENT_REDACTED\")"}
 }
 
 extension PartnerCentralSellingClientTypes {
@@ -3002,7 +3002,7 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes.EngagementMember: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EngagementMember(companyName: \(Swift.String(describing: companyName)), websiteUrl: \(Swift.String(describing: websiteUrl)), accountId: \"CONTENT_REDACTED\")"}
+        "EngagementMember(websiteUrl: \(Swift.String(describing: websiteUrl)), accountId: \"CONTENT_REDACTED\", companyName: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListEngagementMembersOutput: Swift.Sendable {
@@ -3111,7 +3111,7 @@ public struct ListEngagementsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The token for the next set of results. This value is returned from a previous call.
     public var nextToken: Swift.String?
-    /// An object that specifies the sort order of the results.
+    /// Specifies the sorting parameters for listing Engagements.
     public var sort: PartnerCentralSellingClientTypes.EngagementSort?
 
     public init(
@@ -3490,7 +3490,7 @@ public struct StartEngagementByAcceptingInvitationTaskInput: Swift.Sendable {
     /// Specifies the unique identifier of the EngagementInvitation to be accepted. Providing the correct identifier helps ensure that the correct engagement is processed.
     /// This member is required.
     public var identifier: Swift.String?
-    /// A list of objects specifying each tag name and value.
+    /// A map of the key-value pairs of the tag or tags to assign.
     public var tags: [PartnerCentralSellingClientTypes.Tag]?
 
     public init(
@@ -3750,7 +3750,7 @@ public struct StartEngagementFromOpportunityTaskInput: Swift.Sendable {
     /// The unique identifier of the opportunity from which the engagement task is to be initiated. This helps ensure that the task is applied to the correct opportunity.
     /// This member is required.
     public var identifier: Swift.String?
-    /// A list of objects specifying each tag name and value.
+    /// A map of the key-value pairs of the tag or tags to assign.
     public var tags: [PartnerCentralSellingClientTypes.Tag]?
 
     public init(
@@ -4014,6 +4014,11 @@ extension PartnerCentralSellingClientTypes {
     }
 }
 
+extension PartnerCentralSellingClientTypes.Invitation: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Invitation(payload: \(Swift.String(describing: payload)), receiver: \(Swift.String(describing: receiver)), message: \"CONTENT_REDACTED\")"}
+}
+
 public struct CreateEngagementInvitationInput: Swift.Sendable {
     /// Specifies the catalog related to the engagement. Accepted values are AWS and Sandbox, which determine the environment in which the engagement is managed.
     /// This member is required.
@@ -4092,6 +4097,11 @@ extension PartnerCentralSellingClientTypes {
             self.websiteUrl = websiteUrl
         }
     }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementMemberSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EngagementMemberSummary(websiteUrl: \(Swift.String(describing: websiteUrl)), companyName: \"CONTENT_REDACTED\")"}
 }
 
 extension PartnerCentralSellingClientTypes {
@@ -4238,7 +4248,7 @@ public struct GetEngagementInvitationOutput: Swift.Sendable {
 
 extension GetEngagementInvitationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetEngagementInvitationOutput(arn: \(Swift.String(describing: arn)), catalog: \(Swift.String(describing: catalog)), engagementDescription: \(Swift.String(describing: engagementDescription)), engagementId: \(Swift.String(describing: engagementId)), engagementTitle: \(Swift.String(describing: engagementTitle)), existingMembers: \(Swift.String(describing: existingMembers)), expirationDate: \(Swift.String(describing: expirationDate)), id: \(Swift.String(describing: id)), invitationDate: \(Swift.String(describing: invitationDate)), invitationMessage: \(Swift.String(describing: invitationMessage)), payload: \(Swift.String(describing: payload)), payloadType: \(Swift.String(describing: payloadType)), receiver: \(Swift.String(describing: receiver)), rejectionReason: \(Swift.String(describing: rejectionReason)), senderCompanyName: \(Swift.String(describing: senderCompanyName)), status: \(Swift.String(describing: status)), senderAwsAccountId: \"CONTENT_REDACTED\")"}
+        "GetEngagementInvitationOutput(arn: \(Swift.String(describing: arn)), catalog: \(Swift.String(describing: catalog)), engagementDescription: \(Swift.String(describing: engagementDescription)), engagementId: \(Swift.String(describing: engagementId)), engagementTitle: \(Swift.String(describing: engagementTitle)), existingMembers: \(Swift.String(describing: existingMembers)), expirationDate: \(Swift.String(describing: expirationDate)), id: \(Swift.String(describing: id)), invitationDate: \(Swift.String(describing: invitationDate)), payload: \(Swift.String(describing: payload)), payloadType: \(Swift.String(describing: payloadType)), receiver: \(Swift.String(describing: receiver)), rejectionReason: \(Swift.String(describing: rejectionReason)), senderCompanyName: \(Swift.String(describing: senderCompanyName)), status: \(Swift.String(describing: status)), invitationMessage: \"CONTENT_REDACTED\", senderAwsAccountId: \"CONTENT_REDACTED\")"}
 }
 
 extension PartnerCentralSellingClientTypes {
@@ -4480,6 +4490,34 @@ public struct RejectEngagementInvitationInput: Swift.Sendable {
         self.catalog = catalog
         self.identifier = identifier
         self.rejectionReason = rejectionReason
+    }
+}
+
+public struct GetSellingSystemSettingsInput: Swift.Sendable {
+    /// Specifies the catalog in which the settings are defined. Acceptable values include AWS for production and Sandbox for testing environments.
+    /// This member is required.
+    public var catalog: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil
+    ) {
+        self.catalog = catalog
+    }
+}
+
+public struct GetSellingSystemSettingsOutput: Swift.Sendable {
+    /// Specifies the catalog in which the settings are defined. Acceptable values include AWS for production and Sandbox for testing environments.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Specifies the ARN of the IAM Role used for resource snapshot job executions.
+    public var resourceSnapshotJobRoleArn: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        resourceSnapshotJobRoleArn: Swift.String? = nil
+    ) {
+        self.catalog = catalog
+        self.resourceSnapshotJobRoleArn = resourceSnapshotJobRoleArn
     }
 }
 
@@ -6274,6 +6312,38 @@ public struct UpdateOpportunityOutput: Swift.Sendable {
     }
 }
 
+public struct PutSellingSystemSettingsInput: Swift.Sendable {
+    /// Specifies the catalog in which the settings will be updated. Acceptable values include AWS for production and Sandbox for testing environments.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Specifies the ARN of the IAM Role used for resource snapshot job executions.
+    public var resourceSnapshotJobRoleIdentifier: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        resourceSnapshotJobRoleIdentifier: Swift.String? = nil
+    ) {
+        self.catalog = catalog
+        self.resourceSnapshotJobRoleIdentifier = resourceSnapshotJobRoleIdentifier
+    }
+}
+
+public struct PutSellingSystemSettingsOutput: Swift.Sendable {
+    /// Specifies the catalog in which the settings are defined. Acceptable values include AWS for production and Sandbox for testing environments.
+    /// This member is required.
+    public var catalog: Swift.String?
+    /// Specifies the ARN of the IAM Role used for resource snapshot job executions.
+    public var resourceSnapshotJobRoleArn: Swift.String?
+
+    public init(
+        catalog: Swift.String? = nil,
+        resourceSnapshotJobRoleArn: Swift.String? = nil
+    ) {
+        self.catalog = catalog
+        self.resourceSnapshotJobRoleArn = resourceSnapshotJobRoleArn
+    }
+}
+
 extension PartnerCentralSellingClientTypes {
 
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -6781,7 +6851,7 @@ public struct CreateResourceSnapshotJobInput: Swift.Sendable {
     /// The type of resource for which the snapshot job is being created. Must be one of the supported resource types i.e. Opportunity
     /// This member is required.
     public var resourceType: PartnerCentralSellingClientTypes.ResourceType?
-    /// A list of objects specifying each tag name and value.
+    /// A map of the key-value pairs of the tag or tags to assign.
     public var tags: [PartnerCentralSellingClientTypes.Tag]?
 
     public init(
@@ -7111,66 +7181,6 @@ public struct StopResourceSnapshotJobInput: Swift.Sendable {
     }
 }
 
-public struct GetSellingSystemSettingsInput: Swift.Sendable {
-    /// Specifies the catalog in which the settings are defined. Acceptable values include AWS for production and Sandbox for testing environments.
-    /// This member is required.
-    public var catalog: Swift.String?
-
-    public init(
-        catalog: Swift.String? = nil
-    ) {
-        self.catalog = catalog
-    }
-}
-
-public struct GetSellingSystemSettingsOutput: Swift.Sendable {
-    /// Specifies the catalog in which the settings are defined. Acceptable values include AWS for production and Sandbox for testing environments.
-    /// This member is required.
-    public var catalog: Swift.String?
-    /// Specifies the ARN of the IAM Role used for resource snapshot job executions.
-    public var resourceSnapshotJobRoleArn: Swift.String?
-
-    public init(
-        catalog: Swift.String? = nil,
-        resourceSnapshotJobRoleArn: Swift.String? = nil
-    ) {
-        self.catalog = catalog
-        self.resourceSnapshotJobRoleArn = resourceSnapshotJobRoleArn
-    }
-}
-
-public struct PutSellingSystemSettingsInput: Swift.Sendable {
-    /// Specifies the catalog in which the settings will be updated. Acceptable values include AWS for production and Sandbox for testing environments.
-    /// This member is required.
-    public var catalog: Swift.String?
-    /// Specifies the ARN of the IAM Role used for resource snapshot job executions.
-    public var resourceSnapshotJobRoleIdentifier: Swift.String?
-
-    public init(
-        catalog: Swift.String? = nil,
-        resourceSnapshotJobRoleIdentifier: Swift.String? = nil
-    ) {
-        self.catalog = catalog
-        self.resourceSnapshotJobRoleIdentifier = resourceSnapshotJobRoleIdentifier
-    }
-}
-
-public struct PutSellingSystemSettingsOutput: Swift.Sendable {
-    /// Specifies the catalog in which the settings are defined. Acceptable values include AWS for production and Sandbox for testing environments.
-    /// This member is required.
-    public var catalog: Swift.String?
-    /// Specifies the ARN of the IAM Role used for resource snapshot job executions.
-    public var resourceSnapshotJobRoleArn: Swift.String?
-
-    public init(
-        catalog: Swift.String? = nil,
-        resourceSnapshotJobRoleArn: Swift.String? = nil
-    ) {
-        self.catalog = catalog
-        self.resourceSnapshotJobRoleArn = resourceSnapshotJobRoleArn
-    }
-}
-
 extension PartnerCentralSellingClientTypes {
 
     public enum SolutionSortName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -7363,7 +7373,7 @@ public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource that you want to tag.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// A map of the key-value pairs of the tag or tags to assign to the resource.
+    /// A map of the key-value pairs of the tag or tags to assign.
     /// This member is required.
     public var tags: [PartnerCentralSellingClientTypes.Tag]?
 
@@ -9303,11 +9313,11 @@ enum UpdateOpportunityOutputError {
     }
 }
 
-extension InternalServerException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9329,27 +9339,12 @@ extension ConflictException {
     }
 }
 
-extension AccessDeniedException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.errorList = try reader["ErrorList"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ValidationExceptionError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["Message"].readIfPresent() ?? ""
-        value.properties.reason = try reader["Reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -9376,6 +9371,21 @@ extension ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
+        value.properties.errorList = try reader["ErrorList"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ValidationExceptionError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["Reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

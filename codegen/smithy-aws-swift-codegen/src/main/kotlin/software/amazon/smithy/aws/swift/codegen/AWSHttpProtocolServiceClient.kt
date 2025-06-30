@@ -95,7 +95,7 @@ class AWSHttpProtocolServiceClient(
                     ConfigProperty(
                         "httpClientEngine",
                         SmithyHTTPAPITypes.HttpClient,
-                        { it.format("AWSClientConfigDefaultsProvider.httpClientEngine()") },
+                        { it.format("AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration)") },
                     )
                 }
                 "httpClientConfiguration" -> {
@@ -113,6 +113,19 @@ class AWSHttpProtocolServiceClient(
                         { writer ->
                             writer.format(
                                 "\$N.accountIDEndpointMode()",
+                                AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider,
+                            )
+                        },
+                        true,
+                    )
+                }
+                "disableS3ExpressSessionAuth" -> {
+                    ConfigProperty(
+                        "disableS3ExpressSessionAuth",
+                        SwiftTypes.Bool.toOptional(),
+                        { writer ->
+                            writer.format(
+                                "\$N.disableS3ExpressSessionAuth()",
                                 AWSClientRuntimeTypes.Core.AWSClientConfigDefaultsProvider,
                             )
                         },
@@ -143,7 +156,7 @@ class AWSHttpProtocolServiceClient(
                             writer.write("region,")
                         }
                         "awsCredentialIdentityResolver" -> {
-                            writer.write("try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(),")
+                            writer.write("\$N(),", AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain)
                         }
                         "retryStrategyOptions" -> {
                             writer.write("try AWSClientConfigDefaultsProvider.retryStrategyOptions(),")
@@ -153,6 +166,9 @@ class AWSHttpProtocolServiceClient(
                         }
                         "responseChecksumValidation" -> {
                             writer.write("try AWSClientConfigDefaultsProvider.responseChecksumValidation(),")
+                        }
+                        "httpClientEngine" -> {
+                            writer.write("AWSClientConfigDefaultsProvider.httpClientEngine(),")
                         }
                         else -> {
                             writer.write("\$L,", property.default?.render(writer) ?: "nil")

@@ -183,6 +183,140 @@ extension CostOptimizationHubClientTypes {
 
 extension CostOptimizationHubClientTypes {
 
+    /// The Aurora DB cluster storage configuration used for recommendations.
+    public struct AuroraDbClusterStorageConfiguration: Swift.Sendable {
+        /// The storage type to associate with the Aurora DB cluster.
+        public var storageType: Swift.String?
+
+        public init(
+            storageType: Swift.String? = nil
+        ) {
+            self.storageType = storageType
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// Estimated discount details of the current and recommended resource configuration for a recommendation.
+    public struct EstimatedDiscounts: Swift.Sendable {
+        /// Estimated other discounts include all discounts that are not itemized. Itemized discounts include reservedInstanceDiscount and savingsPlansDiscount.
+        public var otherDiscount: Swift.Double?
+        /// Estimated reserved instance discounts.
+        public var reservedInstancesDiscount: Swift.Double?
+        /// Estimated Savings Plans discounts.
+        public var savingsPlansDiscount: Swift.Double?
+
+        public init(
+            otherDiscount: Swift.Double? = nil,
+            reservedInstancesDiscount: Swift.Double? = nil,
+            savingsPlansDiscount: Swift.Double? = nil
+        ) {
+            self.otherDiscount = otherDiscount
+            self.reservedInstancesDiscount = reservedInstancesDiscount
+            self.savingsPlansDiscount = savingsPlansDiscount
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// Contains pricing information about the specified resource.
+    public struct ResourcePricing: Swift.Sendable {
+        /// The savings estimate incorporating all discounts with Amazon Web Services, such as Reserved Instances and Savings Plans.
+        public var estimatedCostAfterDiscounts: Swift.Double?
+        /// The savings estimate using Amazon Web Services public pricing without incorporating any discounts.
+        public var estimatedCostBeforeDiscounts: Swift.Double?
+        /// The estimated discounts for a recommendation.
+        public var estimatedDiscounts: CostOptimizationHubClientTypes.EstimatedDiscounts?
+        /// The estimated net unused amortized commitment for the recommendation.
+        public var estimatedNetUnusedAmortizedCommitments: Swift.Double?
+
+        public init(
+            estimatedCostAfterDiscounts: Swift.Double? = nil,
+            estimatedCostBeforeDiscounts: Swift.Double? = nil,
+            estimatedDiscounts: CostOptimizationHubClientTypes.EstimatedDiscounts? = nil,
+            estimatedNetUnusedAmortizedCommitments: Swift.Double? = nil
+        ) {
+            self.estimatedCostAfterDiscounts = estimatedCostAfterDiscounts
+            self.estimatedCostBeforeDiscounts = estimatedCostBeforeDiscounts
+            self.estimatedDiscounts = estimatedDiscounts
+            self.estimatedNetUnusedAmortizedCommitments = estimatedNetUnusedAmortizedCommitments
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// Details about the usage.
+    public struct Usage: Swift.Sendable {
+        /// The operation value.
+        public var operation: Swift.String?
+        /// The product code.
+        public var productCode: Swift.String?
+        /// The usage unit.
+        public var unit: Swift.String?
+        /// The usage amount.
+        public var usageAmount: Swift.Double?
+        /// The usage type.
+        public var usageType: Swift.String?
+
+        public init(
+            operation: Swift.String? = nil,
+            productCode: Swift.String? = nil,
+            unit: Swift.String? = nil,
+            usageAmount: Swift.Double? = nil,
+            usageType: Swift.String? = nil
+        ) {
+            self.operation = operation
+            self.productCode = productCode
+            self.unit = unit
+            self.usageAmount = usageAmount
+            self.usageType = usageType
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// Cost impact of the resource recommendation.
+    public struct ResourceCostCalculation: Swift.Sendable {
+        /// Pricing details of the resource recommendation.
+        public var pricing: CostOptimizationHubClientTypes.ResourcePricing?
+        /// Usage details of the resource recommendation.
+        public var usages: [CostOptimizationHubClientTypes.Usage]?
+
+        public init(
+            pricing: CostOptimizationHubClientTypes.ResourcePricing? = nil,
+            usages: [CostOptimizationHubClientTypes.Usage]? = nil
+        ) {
+            self.pricing = pricing
+            self.usages = usages
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// Contains the details of an Aurora DB cluster storage.
+    public struct AuroraDbClusterStorage: Swift.Sendable {
+        /// The Aurora DB cluster storage configuration used for recommendations.
+        public var configuration: CostOptimizationHubClientTypes.AuroraDbClusterStorageConfiguration?
+        /// Cost impact of the resource recommendation.
+        public var costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation?
+
+        public init(
+            configuration: CostOptimizationHubClientTypes.AuroraDbClusterStorageConfiguration? = nil,
+            costCalculation: CostOptimizationHubClientTypes.ResourceCostCalculation? = nil
+        ) {
+            self.configuration = configuration
+            self.costCalculation = costCalculation
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
     /// Describes the Amazon Elastic Block Store performance configuration of the current and recommended resource configuration for a recommendation.
     public struct BlockStoragePerformanceConfiguration: Swift.Sendable {
         /// The number of I/O operations per second.
@@ -231,7 +365,7 @@ extension CostOptimizationHubClientTypes {
 
     /// The Compute Savings Plans configuration used for recommendations.
     public struct ComputeSavingsPlansConfiguration: Swift.Sendable {
-        /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the management account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
+        /// The account scope for which you want recommendations. Amazon Web Services calculates recommendations including the management account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
         public var accountScope: Swift.String?
         /// The hourly commitment for the Savings Plans type.
         public var hourlyCommitment: Swift.String?
@@ -480,6 +614,86 @@ extension CostOptimizationHubClientTypes {
 
 extension CostOptimizationHubClientTypes {
 
+    public enum PaymentOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allUpfront
+        case noUpfront
+        case partialUpfront
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PaymentOption] {
+            return [
+                .allUpfront,
+                .noUpfront,
+                .partialUpfront
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allUpfront: return "AllUpfront"
+            case .noUpfront: return "NoUpfront"
+            case .partialUpfront: return "PartialUpfront"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    public enum Term: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case oneYear
+        case threeYears
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Term] {
+            return [
+                .oneYear,
+                .threeYears
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .oneYear: return "OneYear"
+            case .threeYears: return "ThreeYears"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// The preferred configuration for Reserved Instances and Savings Plans commitment-based discounts, consisting of a payment option and a commitment duration.
+    public struct PreferredCommitment: Swift.Sendable {
+        /// The preferred upfront payment structure for commitments. If the value is null, it will default to AllUpfront (highest savings) where applicable.
+        public var paymentOption: CostOptimizationHubClientTypes.PaymentOption?
+        /// The preferred length of the commitment period. If the value is null, it will default to ThreeYears (highest savings) where applicable.
+        public var term: CostOptimizationHubClientTypes.Term?
+
+        public init(
+            paymentOption: CostOptimizationHubClientTypes.PaymentOption? = nil,
+            term: CostOptimizationHubClientTypes.Term? = nil
+        ) {
+            self.paymentOption = paymentOption
+            self.term = term
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
     public enum SavingsEstimationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afterDiscounts
         case beforeDiscounts
@@ -510,14 +724,18 @@ extension CostOptimizationHubClientTypes {
 public struct GetPreferencesOutput: Swift.Sendable {
     /// Retrieves the status of the "member account discount visibility" preference.
     public var memberAccountDiscountVisibility: CostOptimizationHubClientTypes.MemberAccountDiscountVisibility?
+    /// Retrieves the current preferences for how Reserved Instances and Savings Plans cost-saving opportunities are prioritized in terms of payment option and term length.
+    public var preferredCommitment: CostOptimizationHubClientTypes.PreferredCommitment?
     /// Retrieves the status of the "savings estimation mode" preference.
     public var savingsEstimationMode: CostOptimizationHubClientTypes.SavingsEstimationMode?
 
     public init(
         memberAccountDiscountVisibility: CostOptimizationHubClientTypes.MemberAccountDiscountVisibility? = nil,
+        preferredCommitment: CostOptimizationHubClientTypes.PreferredCommitment? = nil,
         savingsEstimationMode: CostOptimizationHubClientTypes.SavingsEstimationMode? = nil
     ) {
         self.memberAccountDiscountVisibility = memberAccountDiscountVisibility
+        self.preferredCommitment = preferredCommitment
         self.savingsEstimationMode = savingsEstimationMode
     }
 }
@@ -565,6 +783,114 @@ public struct GetRecommendationInput: Swift.Sendable {
 
 extension CostOptimizationHubClientTypes {
 
+    /// The DynamoDB reserved capacity configuration used for recommendations.
+    public struct DynamoDbReservedCapacityConfiguration: Swift.Sendable {
+        /// The account scope for which you want recommendations.
+        public var accountScope: Swift.String?
+        /// The capacity unit of the recommended reservation.
+        public var capacityUnits: Swift.String?
+        /// How much purchasing this reserved capacity costs you on a monthly basis.
+        public var monthlyRecurringCost: Swift.String?
+        /// The number of reserved capacity units that Amazon Web Services recommends that you purchase.
+        public var numberOfCapacityUnitsToPurchase: Swift.String?
+        /// The payment option for the commitment.
+        public var paymentOption: Swift.String?
+        /// The Amazon Web Services Region of the commitment.
+        public var reservedInstancesRegion: Swift.String?
+        /// The service for which you want recommendations.
+        public var service: Swift.String?
+        /// The reserved capacity recommendation term in years.
+        public var term: Swift.String?
+        /// How much purchasing this reserved capacity costs you upfront.
+        public var upfrontCost: Swift.String?
+
+        public init(
+            accountScope: Swift.String? = nil,
+            capacityUnits: Swift.String? = nil,
+            monthlyRecurringCost: Swift.String? = nil,
+            numberOfCapacityUnitsToPurchase: Swift.String? = nil,
+            paymentOption: Swift.String? = nil,
+            reservedInstancesRegion: Swift.String? = nil,
+            service: Swift.String? = nil,
+            term: Swift.String? = nil,
+            upfrontCost: Swift.String? = nil
+        ) {
+            self.accountScope = accountScope
+            self.capacityUnits = capacityUnits
+            self.monthlyRecurringCost = monthlyRecurringCost
+            self.numberOfCapacityUnitsToPurchase = numberOfCapacityUnitsToPurchase
+            self.paymentOption = paymentOption
+            self.reservedInstancesRegion = reservedInstancesRegion
+            self.service = service
+            self.term = term
+            self.upfrontCost = upfrontCost
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// Pricing details for your recommended reserved instance.
+    public struct ReservedInstancesPricing: Swift.Sendable {
+        /// The estimated cost of your recurring monthly fees for the recommended reserved instance across the month.
+        public var estimatedMonthlyAmortizedReservationCost: Swift.Double?
+        /// The remaining On-Demand cost estimated to not be covered by the recommended reserved instance, over the length of the lookback period.
+        public var estimatedOnDemandCost: Swift.Double?
+        /// The cost of paying for the recommended reserved instance monthly.
+        public var monthlyReservationEligibleCost: Swift.Double?
+        /// The savings percentage relative to the total On-Demand costs that are associated with this instance.
+        public var savingsPercentage: Swift.Double?
+
+        public init(
+            estimatedMonthlyAmortizedReservationCost: Swift.Double? = nil,
+            estimatedOnDemandCost: Swift.Double? = nil,
+            monthlyReservationEligibleCost: Swift.Double? = nil,
+            savingsPercentage: Swift.Double? = nil
+        ) {
+            self.estimatedMonthlyAmortizedReservationCost = estimatedMonthlyAmortizedReservationCost
+            self.estimatedOnDemandCost = estimatedOnDemandCost
+            self.monthlyReservationEligibleCost = monthlyReservationEligibleCost
+            self.savingsPercentage = savingsPercentage
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// Cost impact of the purchase recommendation.
+    public struct ReservedInstancesCostCalculation: Swift.Sendable {
+        /// Pricing details of the purchase recommendation.
+        public var pricing: CostOptimizationHubClientTypes.ReservedInstancesPricing?
+
+        public init(
+            pricing: CostOptimizationHubClientTypes.ReservedInstancesPricing? = nil
+        ) {
+            self.pricing = pricing
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// The DynamoDB reserved capacity recommendation details.
+    public struct DynamoDbReservedCapacity: Swift.Sendable {
+        /// The DynamoDB reserved capacity configuration used for recommendations.
+        public var configuration: CostOptimizationHubClientTypes.DynamoDbReservedCapacityConfiguration?
+        /// Cost impact of the purchase recommendation.
+        public var costCalculation: CostOptimizationHubClientTypes.ReservedInstancesCostCalculation?
+
+        public init(
+            configuration: CostOptimizationHubClientTypes.DynamoDbReservedCapacityConfiguration? = nil,
+            costCalculation: CostOptimizationHubClientTypes.ReservedInstancesCostCalculation? = nil
+        ) {
+            self.configuration = configuration
+            self.costCalculation = costCalculation
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
     /// The storage configuration used for recommendations.
     public struct StorageConfiguration: Swift.Sendable {
         /// The storage volume.
@@ -601,106 +927,6 @@ extension CostOptimizationHubClientTypes {
             self.attachmentState = attachmentState
             self.performance = performance
             self.storage = storage
-        }
-    }
-}
-
-extension CostOptimizationHubClientTypes {
-
-    /// Estimated discount details of the current and recommended resource configuration for a recommendation.
-    public struct EstimatedDiscounts: Swift.Sendable {
-        /// Estimated other discounts include all discounts that are not itemized. Itemized discounts include reservedInstanceDiscount and savingsPlansDiscount.
-        public var otherDiscount: Swift.Double?
-        /// Estimated reserved instance discounts.
-        public var reservedInstancesDiscount: Swift.Double?
-        /// Estimated Savings Plans discounts.
-        public var savingsPlansDiscount: Swift.Double?
-
-        public init(
-            otherDiscount: Swift.Double? = nil,
-            reservedInstancesDiscount: Swift.Double? = nil,
-            savingsPlansDiscount: Swift.Double? = nil
-        ) {
-            self.otherDiscount = otherDiscount
-            self.reservedInstancesDiscount = reservedInstancesDiscount
-            self.savingsPlansDiscount = savingsPlansDiscount
-        }
-    }
-}
-
-extension CostOptimizationHubClientTypes {
-
-    /// Contains pricing information about the specified resource.
-    public struct ResourcePricing: Swift.Sendable {
-        /// The savings estimate incorporating all discounts with Amazon Web Services, such as Reserved Instances and Savings Plans.
-        public var estimatedCostAfterDiscounts: Swift.Double?
-        /// The savings estimate using Amazon Web Services public pricing without incorporating any discounts.
-        public var estimatedCostBeforeDiscounts: Swift.Double?
-        /// The estimated discounts for a recommendation.
-        public var estimatedDiscounts: CostOptimizationHubClientTypes.EstimatedDiscounts?
-        /// The estimated net unused amortized commitment for the recommendation.
-        public var estimatedNetUnusedAmortizedCommitments: Swift.Double?
-
-        public init(
-            estimatedCostAfterDiscounts: Swift.Double? = nil,
-            estimatedCostBeforeDiscounts: Swift.Double? = nil,
-            estimatedDiscounts: CostOptimizationHubClientTypes.EstimatedDiscounts? = nil,
-            estimatedNetUnusedAmortizedCommitments: Swift.Double? = nil
-        ) {
-            self.estimatedCostAfterDiscounts = estimatedCostAfterDiscounts
-            self.estimatedCostBeforeDiscounts = estimatedCostBeforeDiscounts
-            self.estimatedDiscounts = estimatedDiscounts
-            self.estimatedNetUnusedAmortizedCommitments = estimatedNetUnusedAmortizedCommitments
-        }
-    }
-}
-
-extension CostOptimizationHubClientTypes {
-
-    /// Details about the usage.
-    public struct Usage: Swift.Sendable {
-        /// The operation value.
-        public var operation: Swift.String?
-        /// The product code.
-        public var productCode: Swift.String?
-        /// The usage unit.
-        public var unit: Swift.String?
-        /// The usage amount.
-        public var usageAmount: Swift.Double?
-        /// The usage type.
-        public var usageType: Swift.String?
-
-        public init(
-            operation: Swift.String? = nil,
-            productCode: Swift.String? = nil,
-            unit: Swift.String? = nil,
-            usageAmount: Swift.Double? = nil,
-            usageType: Swift.String? = nil
-        ) {
-            self.operation = operation
-            self.productCode = productCode
-            self.unit = unit
-            self.usageAmount = usageAmount
-            self.usageType = usageType
-        }
-    }
-}
-
-extension CostOptimizationHubClientTypes {
-
-    /// Cost impact of the resource recommendation.
-    public struct ResourceCostCalculation: Swift.Sendable {
-        /// Pricing details of the resource recommendation.
-        public var pricing: CostOptimizationHubClientTypes.ResourcePricing?
-        /// Usage details of the resource recommendation.
-        public var usages: [CostOptimizationHubClientTypes.Usage]?
-
-        public init(
-            pricing: CostOptimizationHubClientTypes.ResourcePricing? = nil,
-            usages: [CostOptimizationHubClientTypes.Usage]? = nil
-        ) {
-            self.pricing = pricing
-            self.usages = usages
         }
     }
 }
@@ -867,7 +1093,7 @@ extension CostOptimizationHubClientTypes {
 
     /// The EC2 instance Savings Plans configuration used for recommendations.
     public struct Ec2InstanceSavingsPlansConfiguration: Swift.Sendable {
-        /// The account scope that you want your recommendations for.
+        /// The account scope for which you want recommendations.
         public var accountScope: Swift.String?
         /// The hourly commitment for the Savings Plans type.
         public var hourlyCommitment: Swift.String?
@@ -921,7 +1147,7 @@ extension CostOptimizationHubClientTypes {
 
     /// The EC2 reserved instances configuration used for recommendations.
     public struct Ec2ReservedInstancesConfiguration: Swift.Sendable {
-        /// The account scope that you want your recommendations for.
+        /// The account scope for which you want recommendations.
         public var accountScope: Swift.String?
         /// Determines whether the recommendation is for a current generation instance.
         public var currentGeneration: Swift.String?
@@ -929,7 +1155,7 @@ extension CostOptimizationHubClientTypes {
         public var instanceFamily: Swift.String?
         /// The type of instance that Amazon Web Services recommends.
         public var instanceType: Swift.String?
-        /// How much purchasing reserved instances costs you on a monthly basis.
+        /// How much purchasing these reserved instances costs you on a monthly basis.
         public var monthlyRecurringCost: Swift.String?
         /// The number of normalized units that Amazon Web Services recommends that you purchase.
         public var normalizedUnitsToPurchase: Swift.String?
@@ -943,7 +1169,7 @@ extension CostOptimizationHubClientTypes {
         public var platform: Swift.String?
         /// The Amazon Web Services Region of the commitment.
         public var reservedInstancesRegion: Swift.String?
-        /// The service that you want your recommendations for.
+        /// The service for which you want recommendations.
         public var service: Swift.String?
         /// Determines whether the recommendation is size flexible.
         public var sizeFlexEligible: Swift.Bool?
@@ -988,48 +1214,6 @@ extension CostOptimizationHubClientTypes {
             self.tenancy = tenancy
             self.term = term
             self.upfrontCost = upfrontCost
-        }
-    }
-}
-
-extension CostOptimizationHubClientTypes {
-
-    /// Pricing details for your recommended reserved instance.
-    public struct ReservedInstancesPricing: Swift.Sendable {
-        /// The estimated cost of your recurring monthly fees for the recommended reserved instance across the month.
-        public var estimatedMonthlyAmortizedReservationCost: Swift.Double?
-        /// The remaining On-Demand cost estimated to not be covered by the recommended reserved instance, over the length of the lookback period.
-        public var estimatedOnDemandCost: Swift.Double?
-        /// The cost of paying for the recommended reserved instance monthly.
-        public var monthlyReservationEligibleCost: Swift.Double?
-        /// The savings percentage relative to the total On-Demand costs that are associated with this instance.
-        public var savingsPercentage: Swift.Double?
-
-        public init(
-            estimatedMonthlyAmortizedReservationCost: Swift.Double? = nil,
-            estimatedOnDemandCost: Swift.Double? = nil,
-            monthlyReservationEligibleCost: Swift.Double? = nil,
-            savingsPercentage: Swift.Double? = nil
-        ) {
-            self.estimatedMonthlyAmortizedReservationCost = estimatedMonthlyAmortizedReservationCost
-            self.estimatedOnDemandCost = estimatedOnDemandCost
-            self.monthlyReservationEligibleCost = monthlyReservationEligibleCost
-            self.savingsPercentage = savingsPercentage
-        }
-    }
-}
-
-extension CostOptimizationHubClientTypes {
-
-    /// Cost impact of the purchase recommendation.
-    public struct ReservedInstancesCostCalculation: Swift.Sendable {
-        /// Pricing details of the purchase recommendation.
-        public var pricing: CostOptimizationHubClientTypes.ReservedInstancesPricing?
-
-        public init(
-            pricing: CostOptimizationHubClientTypes.ReservedInstancesPricing? = nil
-        ) {
-            self.pricing = pricing
         }
     }
 }
@@ -1091,7 +1275,7 @@ extension CostOptimizationHubClientTypes {
 
     /// The ElastiCache reserved instances configuration used for recommendations.
     public struct ElastiCacheReservedInstancesConfiguration: Swift.Sendable {
-        /// The account scope that you want your recommendations for.
+        /// The account scope for which you want recommendations.
         public var accountScope: Swift.String?
         /// Determines whether the recommendation is for a current generation instance.
         public var currentGeneration: Swift.String?
@@ -1099,7 +1283,7 @@ extension CostOptimizationHubClientTypes {
         public var instanceFamily: Swift.String?
         /// The type of instance that Amazon Web Services recommends.
         public var instanceType: Swift.String?
-        /// How much purchasing reserved instances costs you on a monthly basis.
+        /// How much purchasing these reserved instances costs you on a monthly basis.
         public var monthlyRecurringCost: Swift.String?
         /// The number of normalized units that Amazon Web Services recommends that you purchase.
         public var normalizedUnitsToPurchase: Swift.String?
@@ -1109,7 +1293,7 @@ extension CostOptimizationHubClientTypes {
         public var paymentOption: Swift.String?
         /// The Amazon Web Services Region of the commitment.
         public var reservedInstancesRegion: Swift.String?
-        /// The service that you want your recommendations for.
+        /// The service for which you want recommendations.
         public var service: Swift.String?
         /// Determines whether the recommendation is size flexible.
         public var sizeFlexEligible: Swift.Bool?
@@ -1205,15 +1389,17 @@ extension CostOptimizationHubClientTypes {
 
 extension CostOptimizationHubClientTypes {
 
-    /// The OpenSearch reserved instances configuration used for recommendations.
-    public struct OpenSearchReservedInstancesConfiguration: Swift.Sendable {
-        /// The account scope that you want your recommendations for.
+    /// The MemoryDB reserved instances configuration used for recommendations. While the API reference uses "MemoryDB reserved instances", the user guide and other documentation refer to them as "MemoryDB reserved nodes", as the terms are used interchangeably.
+    public struct MemoryDbReservedInstancesConfiguration: Swift.Sendable {
+        /// The account scope for which you want recommendations.
         public var accountScope: Swift.String?
         /// Determines whether the recommendation is for a current generation instance.
         public var currentGeneration: Swift.String?
+        /// The instance family of the recommended reservation.
+        public var instanceFamily: Swift.String?
         /// The type of instance that Amazon Web Services recommends.
         public var instanceType: Swift.String?
-        /// How much purchasing reserved instances costs you on a monthly basis.
+        /// How much purchasing these reserved instances costs you on a monthly basis.
         public var monthlyRecurringCost: Swift.String?
         /// The number of normalized units that Amazon Web Services recommends that you purchase.
         public var normalizedUnitsToPurchase: Swift.String?
@@ -1223,7 +1409,87 @@ extension CostOptimizationHubClientTypes {
         public var paymentOption: Swift.String?
         /// The Amazon Web Services Region of the commitment.
         public var reservedInstancesRegion: Swift.String?
-        /// The service that you want your recommendations for.
+        /// The service for which you want recommendations.
+        public var service: Swift.String?
+        /// Determines whether the recommendation is size flexible.
+        public var sizeFlexEligible: Swift.Bool?
+        /// The reserved instances recommendation term in years.
+        public var term: Swift.String?
+        /// How much purchasing these reserved instances costs you upfront.
+        public var upfrontCost: Swift.String?
+
+        public init(
+            accountScope: Swift.String? = nil,
+            currentGeneration: Swift.String? = nil,
+            instanceFamily: Swift.String? = nil,
+            instanceType: Swift.String? = nil,
+            monthlyRecurringCost: Swift.String? = nil,
+            normalizedUnitsToPurchase: Swift.String? = nil,
+            numberOfInstancesToPurchase: Swift.String? = nil,
+            paymentOption: Swift.String? = nil,
+            reservedInstancesRegion: Swift.String? = nil,
+            service: Swift.String? = nil,
+            sizeFlexEligible: Swift.Bool? = nil,
+            term: Swift.String? = nil,
+            upfrontCost: Swift.String? = nil
+        ) {
+            self.accountScope = accountScope
+            self.currentGeneration = currentGeneration
+            self.instanceFamily = instanceFamily
+            self.instanceType = instanceType
+            self.monthlyRecurringCost = monthlyRecurringCost
+            self.normalizedUnitsToPurchase = normalizedUnitsToPurchase
+            self.numberOfInstancesToPurchase = numberOfInstancesToPurchase
+            self.paymentOption = paymentOption
+            self.reservedInstancesRegion = reservedInstancesRegion
+            self.service = service
+            self.sizeFlexEligible = sizeFlexEligible
+            self.term = term
+            self.upfrontCost = upfrontCost
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// The MemoryDB reserved instances recommendation details. While the API reference uses "MemoryDB reserved instances", the user guide and other documentation refer to them as "MemoryDB reserved nodes", as the terms are used interchangeably.
+    public struct MemoryDbReservedInstances: Swift.Sendable {
+        /// The MemoryDB reserved instances configuration used for recommendations.
+        public var configuration: CostOptimizationHubClientTypes.MemoryDbReservedInstancesConfiguration?
+        /// Cost impact of the purchase recommendation.
+        public var costCalculation: CostOptimizationHubClientTypes.ReservedInstancesCostCalculation?
+
+        public init(
+            configuration: CostOptimizationHubClientTypes.MemoryDbReservedInstancesConfiguration? = nil,
+            costCalculation: CostOptimizationHubClientTypes.ReservedInstancesCostCalculation? = nil
+        ) {
+            self.configuration = configuration
+            self.costCalculation = costCalculation
+        }
+    }
+}
+
+extension CostOptimizationHubClientTypes {
+
+    /// The OpenSearch reserved instances configuration used for recommendations.
+    public struct OpenSearchReservedInstancesConfiguration: Swift.Sendable {
+        /// The account scope for which you want recommendations.
+        public var accountScope: Swift.String?
+        /// Determines whether the recommendation is for a current generation instance.
+        public var currentGeneration: Swift.String?
+        /// The type of instance that Amazon Web Services recommends.
+        public var instanceType: Swift.String?
+        /// How much purchasing these reserved instances costs you on a monthly basis.
+        public var monthlyRecurringCost: Swift.String?
+        /// The number of normalized units that Amazon Web Services recommends that you purchase.
+        public var normalizedUnitsToPurchase: Swift.String?
+        /// The number of instances that Amazon Web Services recommends that you purchase.
+        public var numberOfInstancesToPurchase: Swift.String?
+        /// The payment option for the commitment.
+        public var paymentOption: Swift.String?
+        /// The Amazon Web Services Region of the commitment.
+        public var reservedInstancesRegion: Swift.String?
+        /// The service for which you want recommendations.
         public var service: Swift.String?
         /// Determines whether the recommendation is size flexible.
         public var sizeFlexEligible: Swift.Bool?
@@ -1380,7 +1646,7 @@ extension CostOptimizationHubClientTypes {
 
     /// The RDS reserved instances configuration used for recommendations.
     public struct RdsReservedInstancesConfiguration: Swift.Sendable {
-        /// The account scope that you want your recommendations for.
+        /// The account scope for which you want recommendations.
         public var accountScope: Swift.String?
         /// Determines whether the recommendation is for a current generation instance.
         public var currentGeneration: Swift.String?
@@ -1406,7 +1672,7 @@ extension CostOptimizationHubClientTypes {
         public var paymentOption: Swift.String?
         /// The Amazon Web Services Region of the commitment.
         public var reservedInstancesRegion: Swift.String?
-        /// The service that you want your recommendations for.
+        /// The service for which you want recommendations.
         public var service: Swift.String?
         /// Determines whether the recommendation is size flexible.
         public var sizeFlexEligible: Swift.Bool?
@@ -1478,7 +1744,7 @@ extension CostOptimizationHubClientTypes {
 
     /// The Redshift reserved instances configuration used for recommendations.
     public struct RedshiftReservedInstancesConfiguration: Swift.Sendable {
-        /// The account scope that you want your recommendations for.
+        /// The account scope for which you want recommendations.
         public var accountScope: Swift.String?
         /// Determines whether the recommendation is for a current generation instance.
         public var currentGeneration: Swift.String?
@@ -1486,7 +1752,7 @@ extension CostOptimizationHubClientTypes {
         public var instanceFamily: Swift.String?
         /// The type of instance that Amazon Web Services recommends.
         public var instanceType: Swift.String?
-        /// How much purchasing reserved instances costs you on a monthly basis.
+        /// How much purchasing these reserved instances costs you on a monthly basis.
         public var monthlyRecurringCost: Swift.String?
         /// The number of normalized units that Amazon Web Services recommends that you purchase.
         public var normalizedUnitsToPurchase: Swift.String?
@@ -1496,7 +1762,7 @@ extension CostOptimizationHubClientTypes {
         public var paymentOption: Swift.String?
         /// The Amazon Web Services Region of the commitment.
         public var reservedInstancesRegion: Swift.String?
-        /// The service that you want your recommendations for.
+        /// The service for which you want recommendations.
         public var service: Swift.String?
         /// Determines whether the recommendation is size flexible.
         public var sizeFlexEligible: Swift.Bool?
@@ -1560,7 +1826,7 @@ extension CostOptimizationHubClientTypes {
 
     /// The SageMaker Savings Plans configuration used for recommendations.
     public struct SageMakerSavingsPlansConfiguration: Swift.Sendable {
-        /// The account scope that you want your recommendations for.
+        /// The account scope for which you want recommendations.
         public var accountScope: Swift.String?
         /// The hourly commitment for the Savings Plans type.
         public var hourlyCommitment: Swift.String?
@@ -1636,6 +1902,12 @@ extension CostOptimizationHubClientTypes {
         case rdsdbinstance(CostOptimizationHubClientTypes.RdsDbInstance)
         /// The DB instance storage recommendation details.
         case rdsdbinstancestorage(CostOptimizationHubClientTypes.RdsDbInstanceStorage)
+        /// The Aurora DB cluster storage recommendation details.
+        case auroradbclusterstorage(CostOptimizationHubClientTypes.AuroraDbClusterStorage)
+        /// The DynamoDB reserved capacity recommendation details.
+        case dynamodbreservedcapacity(CostOptimizationHubClientTypes.DynamoDbReservedCapacity)
+        /// The MemoryDB reserved instances recommendation details.
+        case memorydbreservedinstances(CostOptimizationHubClientTypes.MemoryDbReservedInstances)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1643,7 +1915,9 @@ extension CostOptimizationHubClientTypes {
 extension CostOptimizationHubClientTypes {
 
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auroraDbClusterStorage
         case computeSavingsPlans
+        case dynamoDbReservedCapacity
         case ebsVolume
         case ec2AutoScalingGroup
         case ec2Instance
@@ -1652,6 +1926,7 @@ extension CostOptimizationHubClientTypes {
         case ecsService
         case elastiCacheReservedInstances
         case lambdaFunction
+        case memoryDbReservedInstances
         case openSearchReservedInstances
         case rdsDbInstance
         case rdsDbInstanceStorage
@@ -1662,7 +1937,9 @@ extension CostOptimizationHubClientTypes {
 
         public static var allCases: [ResourceType] {
             return [
+                .auroraDbClusterStorage,
                 .computeSavingsPlans,
+                .dynamoDbReservedCapacity,
                 .ebsVolume,
                 .ec2AutoScalingGroup,
                 .ec2Instance,
@@ -1671,6 +1948,7 @@ extension CostOptimizationHubClientTypes {
                 .ecsService,
                 .elastiCacheReservedInstances,
                 .lambdaFunction,
+                .memoryDbReservedInstances,
                 .openSearchReservedInstances,
                 .rdsDbInstance,
                 .rdsDbInstanceStorage,
@@ -1687,7 +1965,9 @@ extension CostOptimizationHubClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .auroraDbClusterStorage: return "AuroraDbClusterStorage"
             case .computeSavingsPlans: return "ComputeSavingsPlans"
+            case .dynamoDbReservedCapacity: return "DynamoDbReservedCapacity"
             case .ebsVolume: return "EbsVolume"
             case .ec2AutoScalingGroup: return "Ec2AutoScalingGroup"
             case .ec2Instance: return "Ec2Instance"
@@ -1696,6 +1976,7 @@ extension CostOptimizationHubClientTypes {
             case .ecsService: return "EcsService"
             case .elastiCacheReservedInstances: return "ElastiCacheReservedInstances"
             case .lambdaFunction: return "LambdaFunction"
+            case .memoryDbReservedInstances: return "MemoryDbReservedInstances"
             case .openSearchReservedInstances: return "OpenSearchReservedInstances"
             case .rdsDbInstance: return "RdsDbInstance"
             case .rdsDbInstanceStorage: return "RdsDbInstanceStorage"
@@ -1795,7 +2076,7 @@ extension CostOptimizationHubClientTypes {
 }
 
 public struct GetRecommendationOutput: Swift.Sendable {
-    /// The account that the recommendation is for.
+    /// The account to which the recommendation applies.
     public var accountId: Swift.String?
     /// The type of action you can take by adopting the recommendation.
     public var actionType: CostOptimizationHubClientTypes.ActionType?
@@ -1939,7 +2220,7 @@ extension CostOptimizationHubClientTypes {
 
     /// Describes a filter that returns a more specific list of recommendations. Filters recommendations by different dimensions.
     public struct Filter: Swift.Sendable {
-        /// The account that the recommendation is for.
+        /// The account to which the recommendation applies.
         public var accountIds: [Swift.String]?
         /// The type of action you can take by adopting the recommendation.
         public var actionTypes: [CostOptimizationHubClientTypes.ActionType]?
@@ -2069,7 +2350,7 @@ extension CostOptimizationHubClientTypes {
 
     /// Describes a recommendation.
     public struct Recommendation: Swift.Sendable {
-        /// The account that the recommendation is for.
+        /// The account to which the recommendation applies.
         public var accountId: Swift.String?
         /// The type of tasks that can be carried out by this action.
         public var actionType: Swift.String?
@@ -2328,14 +2609,18 @@ public struct UpdateEnrollmentStatusOutput: Swift.Sendable {
 public struct UpdatePreferencesInput: Swift.Sendable {
     /// Sets the "member account discount visibility" preference.
     public var memberAccountDiscountVisibility: CostOptimizationHubClientTypes.MemberAccountDiscountVisibility?
+    /// Sets the preferences for how Reserved Instances and Savings Plans cost-saving opportunities are prioritized in terms of payment option and term length.
+    public var preferredCommitment: CostOptimizationHubClientTypes.PreferredCommitment?
     /// Sets the "savings estimation mode" preference.
     public var savingsEstimationMode: CostOptimizationHubClientTypes.SavingsEstimationMode?
 
     public init(
         memberAccountDiscountVisibility: CostOptimizationHubClientTypes.MemberAccountDiscountVisibility? = nil,
+        preferredCommitment: CostOptimizationHubClientTypes.PreferredCommitment? = nil,
         savingsEstimationMode: CostOptimizationHubClientTypes.SavingsEstimationMode? = nil
     ) {
         self.memberAccountDiscountVisibility = memberAccountDiscountVisibility
+        self.preferredCommitment = preferredCommitment
         self.savingsEstimationMode = savingsEstimationMode
     }
 }
@@ -2343,14 +2628,18 @@ public struct UpdatePreferencesInput: Swift.Sendable {
 public struct UpdatePreferencesOutput: Swift.Sendable {
     /// Shows the status of the "member account discount visibility" preference.
     public var memberAccountDiscountVisibility: CostOptimizationHubClientTypes.MemberAccountDiscountVisibility?
+    /// Shows the updated preferences for how Reserved Instances and Savings Plans cost-saving opportunities are prioritized in terms of payment option and term length.
+    public var preferredCommitment: CostOptimizationHubClientTypes.PreferredCommitment?
     /// Shows the status of the "savings estimation mode" preference.
     public var savingsEstimationMode: CostOptimizationHubClientTypes.SavingsEstimationMode?
 
     public init(
         memberAccountDiscountVisibility: CostOptimizationHubClientTypes.MemberAccountDiscountVisibility? = nil,
+        preferredCommitment: CostOptimizationHubClientTypes.PreferredCommitment? = nil,
         savingsEstimationMode: CostOptimizationHubClientTypes.SavingsEstimationMode? = nil
     ) {
         self.memberAccountDiscountVisibility = memberAccountDiscountVisibility
+        self.preferredCommitment = preferredCommitment
         self.savingsEstimationMode = savingsEstimationMode
     }
 }
@@ -2469,6 +2758,7 @@ extension UpdatePreferencesInput {
     static func write(value: UpdatePreferencesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["memberAccountDiscountVisibility"].write(value.memberAccountDiscountVisibility)
+        try writer["preferredCommitment"].write(value.preferredCommitment, with: CostOptimizationHubClientTypes.PreferredCommitment.write(value:to:))
         try writer["savingsEstimationMode"].write(value.savingsEstimationMode)
     }
 }
@@ -2481,6 +2771,7 @@ extension GetPreferencesOutput {
         let reader = responseReader
         var value = GetPreferencesOutput()
         value.memberAccountDiscountVisibility = try reader["memberAccountDiscountVisibility"].readIfPresent()
+        value.preferredCommitment = try reader["preferredCommitment"].readIfPresent(with: CostOptimizationHubClientTypes.PreferredCommitment.read(from:))
         value.savingsEstimationMode = try reader["savingsEstimationMode"].readIfPresent()
         return value
     }
@@ -2584,6 +2875,7 @@ extension UpdatePreferencesOutput {
         let reader = responseReader
         var value = UpdatePreferencesOutput()
         value.memberAccountDiscountVisibility = try reader["memberAccountDiscountVisibility"].readIfPresent()
+        value.preferredCommitment = try reader["preferredCommitment"].readIfPresent(with: CostOptimizationHubClientTypes.PreferredCommitment.read(from:))
         value.savingsEstimationMode = try reader["savingsEstimationMode"].readIfPresent()
         return value
     }
@@ -2709,19 +3001,6 @@ enum UpdatePreferencesOutputError {
     }
 }
 
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
@@ -2741,6 +3020,19 @@ extension InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
+        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2773,6 +3065,23 @@ extension ResourceNotFoundException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.PreferredCommitment {
+
+    static func write(value: CostOptimizationHubClientTypes.PreferredCommitment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["paymentOption"].write(value.paymentOption)
+        try writer["term"].write(value.term)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.PreferredCommitment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.PreferredCommitment()
+        value.term = try reader["term"].readIfPresent()
+        value.paymentOption = try reader["paymentOption"].readIfPresent()
         return value
     }
 }
@@ -2813,18 +3122,109 @@ extension CostOptimizationHubClientTypes.ResourceDetails {
                 return .rdsdbinstance(try reader["rdsDbInstance"].read(with: CostOptimizationHubClientTypes.RdsDbInstance.read(from:)))
             case "rdsDbInstanceStorage":
                 return .rdsdbinstancestorage(try reader["rdsDbInstanceStorage"].read(with: CostOptimizationHubClientTypes.RdsDbInstanceStorage.read(from:)))
+            case "auroraDbClusterStorage":
+                return .auroradbclusterstorage(try reader["auroraDbClusterStorage"].read(with: CostOptimizationHubClientTypes.AuroraDbClusterStorage.read(from:)))
+            case "dynamoDbReservedCapacity":
+                return .dynamodbreservedcapacity(try reader["dynamoDbReservedCapacity"].read(with: CostOptimizationHubClientTypes.DynamoDbReservedCapacity.read(from:)))
+            case "memoryDbReservedInstances":
+                return .memorydbreservedinstances(try reader["memoryDbReservedInstances"].read(with: CostOptimizationHubClientTypes.MemoryDbReservedInstances.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
     }
 }
 
-extension CostOptimizationHubClientTypes.RdsDbInstanceStorage {
+extension CostOptimizationHubClientTypes.MemoryDbReservedInstances {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.RdsDbInstanceStorage {
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.MemoryDbReservedInstances {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostOptimizationHubClientTypes.RdsDbInstanceStorage()
-        value.configuration = try reader["configuration"].readIfPresent(with: CostOptimizationHubClientTypes.RdsDbInstanceStorageConfiguration.read(from:))
+        var value = CostOptimizationHubClientTypes.MemoryDbReservedInstances()
+        value.configuration = try reader["configuration"].readIfPresent(with: CostOptimizationHubClientTypes.MemoryDbReservedInstancesConfiguration.read(from:))
+        value.costCalculation = try reader["costCalculation"].readIfPresent(with: CostOptimizationHubClientTypes.ReservedInstancesCostCalculation.read(from:))
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.ReservedInstancesCostCalculation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.ReservedInstancesCostCalculation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.ReservedInstancesCostCalculation()
+        value.pricing = try reader["pricing"].readIfPresent(with: CostOptimizationHubClientTypes.ReservedInstancesPricing.read(from:))
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.ReservedInstancesPricing {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.ReservedInstancesPricing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.ReservedInstancesPricing()
+        value.estimatedOnDemandCost = try reader["estimatedOnDemandCost"].readIfPresent()
+        value.monthlyReservationEligibleCost = try reader["monthlyReservationEligibleCost"].readIfPresent()
+        value.savingsPercentage = try reader["savingsPercentage"].readIfPresent()
+        value.estimatedMonthlyAmortizedReservationCost = try reader["estimatedMonthlyAmortizedReservationCost"].readIfPresent()
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.MemoryDbReservedInstancesConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.MemoryDbReservedInstancesConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.MemoryDbReservedInstancesConfiguration()
+        value.accountScope = try reader["accountScope"].readIfPresent()
+        value.service = try reader["service"].readIfPresent()
+        value.term = try reader["term"].readIfPresent()
+        value.paymentOption = try reader["paymentOption"].readIfPresent()
+        value.reservedInstancesRegion = try reader["reservedInstancesRegion"].readIfPresent()
+        value.upfrontCost = try reader["upfrontCost"].readIfPresent()
+        value.monthlyRecurringCost = try reader["monthlyRecurringCost"].readIfPresent()
+        value.normalizedUnitsToPurchase = try reader["normalizedUnitsToPurchase"].readIfPresent()
+        value.numberOfInstancesToPurchase = try reader["numberOfInstancesToPurchase"].readIfPresent()
+        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.instanceFamily = try reader["instanceFamily"].readIfPresent()
+        value.sizeFlexEligible = try reader["sizeFlexEligible"].readIfPresent()
+        value.currentGeneration = try reader["currentGeneration"].readIfPresent()
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.DynamoDbReservedCapacity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.DynamoDbReservedCapacity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.DynamoDbReservedCapacity()
+        value.configuration = try reader["configuration"].readIfPresent(with: CostOptimizationHubClientTypes.DynamoDbReservedCapacityConfiguration.read(from:))
+        value.costCalculation = try reader["costCalculation"].readIfPresent(with: CostOptimizationHubClientTypes.ReservedInstancesCostCalculation.read(from:))
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.DynamoDbReservedCapacityConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.DynamoDbReservedCapacityConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.DynamoDbReservedCapacityConfiguration()
+        value.accountScope = try reader["accountScope"].readIfPresent()
+        value.service = try reader["service"].readIfPresent()
+        value.term = try reader["term"].readIfPresent()
+        value.paymentOption = try reader["paymentOption"].readIfPresent()
+        value.reservedInstancesRegion = try reader["reservedInstancesRegion"].readIfPresent()
+        value.upfrontCost = try reader["upfrontCost"].readIfPresent()
+        value.monthlyRecurringCost = try reader["monthlyRecurringCost"].readIfPresent()
+        value.numberOfCapacityUnitsToPurchase = try reader["numberOfCapacityUnitsToPurchase"].readIfPresent()
+        value.capacityUnits = try reader["capacityUnits"].readIfPresent()
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.AuroraDbClusterStorage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.AuroraDbClusterStorage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.AuroraDbClusterStorage()
+        value.configuration = try reader["configuration"].readIfPresent(with: CostOptimizationHubClientTypes.AuroraDbClusterStorageConfiguration.read(from:))
         value.costCalculation = try reader["costCalculation"].readIfPresent(with: CostOptimizationHubClientTypes.ResourceCostCalculation.read(from:))
         return value
     }
@@ -2876,6 +3276,27 @@ extension CostOptimizationHubClientTypes.Usage {
         value.operation = try reader["operation"].readIfPresent()
         value.productCode = try reader["productCode"].readIfPresent()
         value.unit = try reader["unit"].readIfPresent()
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.AuroraDbClusterStorageConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.AuroraDbClusterStorageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.AuroraDbClusterStorageConfiguration()
+        value.storageType = try reader["storageType"].readIfPresent()
+        return value
+    }
+}
+
+extension CostOptimizationHubClientTypes.RdsDbInstanceStorage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.RdsDbInstanceStorage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostOptimizationHubClientTypes.RdsDbInstanceStorage()
+        value.configuration = try reader["configuration"].readIfPresent(with: CostOptimizationHubClientTypes.RdsDbInstanceStorageConfiguration.read(from:))
+        value.costCalculation = try reader["costCalculation"].readIfPresent(with: CostOptimizationHubClientTypes.ResourceCostCalculation.read(from:))
         return value
     }
 }
@@ -3032,29 +3453,6 @@ extension CostOptimizationHubClientTypes.RedshiftReservedInstances {
     }
 }
 
-extension CostOptimizationHubClientTypes.ReservedInstancesCostCalculation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.ReservedInstancesCostCalculation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostOptimizationHubClientTypes.ReservedInstancesCostCalculation()
-        value.pricing = try reader["pricing"].readIfPresent(with: CostOptimizationHubClientTypes.ReservedInstancesPricing.read(from:))
-        return value
-    }
-}
-
-extension CostOptimizationHubClientTypes.ReservedInstancesPricing {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.ReservedInstancesPricing {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CostOptimizationHubClientTypes.ReservedInstancesPricing()
-        value.estimatedOnDemandCost = try reader["estimatedOnDemandCost"].readIfPresent()
-        value.monthlyReservationEligibleCost = try reader["monthlyReservationEligibleCost"].readIfPresent()
-        value.savingsPercentage = try reader["savingsPercentage"].readIfPresent()
-        value.estimatedMonthlyAmortizedReservationCost = try reader["estimatedMonthlyAmortizedReservationCost"].readIfPresent()
-        return value
-    }
-}
-
 extension CostOptimizationHubClientTypes.RedshiftReservedInstancesConfiguration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CostOptimizationHubClientTypes.RedshiftReservedInstancesConfiguration {
@@ -3062,17 +3460,17 @@ extension CostOptimizationHubClientTypes.RedshiftReservedInstancesConfiguration 
         var value = CostOptimizationHubClientTypes.RedshiftReservedInstancesConfiguration()
         value.accountScope = try reader["accountScope"].readIfPresent()
         value.service = try reader["service"].readIfPresent()
-        value.normalizedUnitsToPurchase = try reader["normalizedUnitsToPurchase"].readIfPresent()
         value.term = try reader["term"].readIfPresent()
         value.paymentOption = try reader["paymentOption"].readIfPresent()
+        value.reservedInstancesRegion = try reader["reservedInstancesRegion"].readIfPresent()
+        value.upfrontCost = try reader["upfrontCost"].readIfPresent()
+        value.monthlyRecurringCost = try reader["monthlyRecurringCost"].readIfPresent()
+        value.normalizedUnitsToPurchase = try reader["normalizedUnitsToPurchase"].readIfPresent()
         value.numberOfInstancesToPurchase = try reader["numberOfInstancesToPurchase"].readIfPresent()
         value.instanceFamily = try reader["instanceFamily"].readIfPresent()
         value.instanceType = try reader["instanceType"].readIfPresent()
-        value.reservedInstancesRegion = try reader["reservedInstancesRegion"].readIfPresent()
         value.sizeFlexEligible = try reader["sizeFlexEligible"].readIfPresent()
         value.currentGeneration = try reader["currentGeneration"].readIfPresent()
-        value.upfrontCost = try reader["upfrontCost"].readIfPresent()
-        value.monthlyRecurringCost = try reader["monthlyRecurringCost"].readIfPresent()
         return value
     }
 }
@@ -3095,16 +3493,16 @@ extension CostOptimizationHubClientTypes.OpenSearchReservedInstancesConfiguratio
         var value = CostOptimizationHubClientTypes.OpenSearchReservedInstancesConfiguration()
         value.accountScope = try reader["accountScope"].readIfPresent()
         value.service = try reader["service"].readIfPresent()
-        value.normalizedUnitsToPurchase = try reader["normalizedUnitsToPurchase"].readIfPresent()
         value.term = try reader["term"].readIfPresent()
         value.paymentOption = try reader["paymentOption"].readIfPresent()
-        value.numberOfInstancesToPurchase = try reader["numberOfInstancesToPurchase"].readIfPresent()
-        value.instanceType = try reader["instanceType"].readIfPresent()
         value.reservedInstancesRegion = try reader["reservedInstancesRegion"].readIfPresent()
-        value.currentGeneration = try reader["currentGeneration"].readIfPresent()
-        value.sizeFlexEligible = try reader["sizeFlexEligible"].readIfPresent()
         value.upfrontCost = try reader["upfrontCost"].readIfPresent()
         value.monthlyRecurringCost = try reader["monthlyRecurringCost"].readIfPresent()
+        value.normalizedUnitsToPurchase = try reader["normalizedUnitsToPurchase"].readIfPresent()
+        value.numberOfInstancesToPurchase = try reader["numberOfInstancesToPurchase"].readIfPresent()
+        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.currentGeneration = try reader["currentGeneration"].readIfPresent()
+        value.sizeFlexEligible = try reader["sizeFlexEligible"].readIfPresent()
         return value
     }
 }
@@ -3127,17 +3525,17 @@ extension CostOptimizationHubClientTypes.ElastiCacheReservedInstancesConfigurati
         var value = CostOptimizationHubClientTypes.ElastiCacheReservedInstancesConfiguration()
         value.accountScope = try reader["accountScope"].readIfPresent()
         value.service = try reader["service"].readIfPresent()
-        value.normalizedUnitsToPurchase = try reader["normalizedUnitsToPurchase"].readIfPresent()
         value.term = try reader["term"].readIfPresent()
         value.paymentOption = try reader["paymentOption"].readIfPresent()
+        value.reservedInstancesRegion = try reader["reservedInstancesRegion"].readIfPresent()
+        value.upfrontCost = try reader["upfrontCost"].readIfPresent()
+        value.monthlyRecurringCost = try reader["monthlyRecurringCost"].readIfPresent()
+        value.normalizedUnitsToPurchase = try reader["normalizedUnitsToPurchase"].readIfPresent()
         value.numberOfInstancesToPurchase = try reader["numberOfInstancesToPurchase"].readIfPresent()
         value.instanceFamily = try reader["instanceFamily"].readIfPresent()
         value.instanceType = try reader["instanceType"].readIfPresent()
-        value.reservedInstancesRegion = try reader["reservedInstancesRegion"].readIfPresent()
         value.currentGeneration = try reader["currentGeneration"].readIfPresent()
         value.sizeFlexEligible = try reader["sizeFlexEligible"].readIfPresent()
-        value.upfrontCost = try reader["upfrontCost"].readIfPresent()
-        value.monthlyRecurringCost = try reader["monthlyRecurringCost"].readIfPresent()
         return value
     }
 }
@@ -3160,17 +3558,17 @@ extension CostOptimizationHubClientTypes.RdsReservedInstancesConfiguration {
         var value = CostOptimizationHubClientTypes.RdsReservedInstancesConfiguration()
         value.accountScope = try reader["accountScope"].readIfPresent()
         value.service = try reader["service"].readIfPresent()
-        value.normalizedUnitsToPurchase = try reader["normalizedUnitsToPurchase"].readIfPresent()
         value.term = try reader["term"].readIfPresent()
         value.paymentOption = try reader["paymentOption"].readIfPresent()
+        value.reservedInstancesRegion = try reader["reservedInstancesRegion"].readIfPresent()
+        value.upfrontCost = try reader["upfrontCost"].readIfPresent()
+        value.monthlyRecurringCost = try reader["monthlyRecurringCost"].readIfPresent()
+        value.normalizedUnitsToPurchase = try reader["normalizedUnitsToPurchase"].readIfPresent()
         value.numberOfInstancesToPurchase = try reader["numberOfInstancesToPurchase"].readIfPresent()
         value.instanceFamily = try reader["instanceFamily"].readIfPresent()
         value.instanceType = try reader["instanceType"].readIfPresent()
-        value.reservedInstancesRegion = try reader["reservedInstancesRegion"].readIfPresent()
         value.sizeFlexEligible = try reader["sizeFlexEligible"].readIfPresent()
         value.currentGeneration = try reader["currentGeneration"].readIfPresent()
-        value.upfrontCost = try reader["upfrontCost"].readIfPresent()
-        value.monthlyRecurringCost = try reader["monthlyRecurringCost"].readIfPresent()
         value.licenseModel = try reader["licenseModel"].readIfPresent()
         value.databaseEdition = try reader["databaseEdition"].readIfPresent()
         value.databaseEngine = try reader["databaseEngine"].readIfPresent()
@@ -3197,20 +3595,20 @@ extension CostOptimizationHubClientTypes.Ec2ReservedInstancesConfiguration {
         var value = CostOptimizationHubClientTypes.Ec2ReservedInstancesConfiguration()
         value.accountScope = try reader["accountScope"].readIfPresent()
         value.service = try reader["service"].readIfPresent()
-        value.normalizedUnitsToPurchase = try reader["normalizedUnitsToPurchase"].readIfPresent()
         value.term = try reader["term"].readIfPresent()
         value.paymentOption = try reader["paymentOption"].readIfPresent()
+        value.reservedInstancesRegion = try reader["reservedInstancesRegion"].readIfPresent()
+        value.upfrontCost = try reader["upfrontCost"].readIfPresent()
+        value.monthlyRecurringCost = try reader["monthlyRecurringCost"].readIfPresent()
+        value.normalizedUnitsToPurchase = try reader["normalizedUnitsToPurchase"].readIfPresent()
         value.numberOfInstancesToPurchase = try reader["numberOfInstancesToPurchase"].readIfPresent()
         value.offeringClass = try reader["offeringClass"].readIfPresent()
         value.instanceFamily = try reader["instanceFamily"].readIfPresent()
         value.instanceType = try reader["instanceType"].readIfPresent()
-        value.reservedInstancesRegion = try reader["reservedInstancesRegion"].readIfPresent()
         value.currentGeneration = try reader["currentGeneration"].readIfPresent()
         value.platform = try reader["platform"].readIfPresent()
         value.tenancy = try reader["tenancy"].readIfPresent()
         value.sizeFlexEligible = try reader["sizeFlexEligible"].readIfPresent()
-        value.upfrontCost = try reader["upfrontCost"].readIfPresent()
-        value.monthlyRecurringCost = try reader["monthlyRecurringCost"].readIfPresent()
         return value
     }
 }

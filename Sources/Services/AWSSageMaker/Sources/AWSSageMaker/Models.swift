@@ -979,6 +979,15 @@ extension SageMakerClientTypes {
         case mlC6g8xlarge
         case mlC6gLarge
         case mlC6gXlarge
+        case mlC6in12xlarge
+        case mlC6in16xlarge
+        case mlC6in24xlarge
+        case mlC6in2xlarge
+        case mlC6in32xlarge
+        case mlC6in4xlarge
+        case mlC6in8xlarge
+        case mlC6inLarge
+        case mlC6inXlarge
         case mlC6i12xlarge
         case mlC6i16xlarge
         case mlC6i24xlarge
@@ -1004,6 +1013,16 @@ extension SageMakerClientTypes {
         case mlC7i8xlarge
         case mlC7iLarge
         case mlC7iXlarge
+        case mlC8g12xlarge
+        case mlC8g16xlarge
+        case mlC8g24xlarge
+        case mlC8g2xlarge
+        case mlC8g48xlarge
+        case mlC8g4xlarge
+        case mlC8g8xlarge
+        case mlC8gLarge
+        case mlC8gMedium
+        case mlC8gXlarge
         case mlDl124xlarge
         case mlG4dn12xlarge
         case mlG4dn16xlarge
@@ -1092,6 +1111,16 @@ extension SageMakerClientTypes {
         case mlM7i8xlarge
         case mlM7iLarge
         case mlM7iXlarge
+        case mlM8g12xlarge
+        case mlM8g16xlarge
+        case mlM8g24xlarge
+        case mlM8g2xlarge
+        case mlM8g48xlarge
+        case mlM8g4xlarge
+        case mlM8g8xlarge
+        case mlM8gLarge
+        case mlM8gMedium
+        case mlM8gXlarge
         case mlP216xlarge
         case mlP28xlarge
         case mlP2Xlarge
@@ -1103,6 +1132,8 @@ extension SageMakerClientTypes {
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlP6eGb20036xlarge
+        case mlP6B20048xlarge
         case mlR5d12xlarge
         case mlR5d24xlarge
         case mlR5d2xlarge
@@ -1138,6 +1169,14 @@ extension SageMakerClientTypes {
         case mlR6i8xlarge
         case mlR6iLarge
         case mlR6iXlarge
+        case mlR7gd12xlarge
+        case mlR7gd16xlarge
+        case mlR7gd2xlarge
+        case mlR7gd4xlarge
+        case mlR7gd8xlarge
+        case mlR7gdLarge
+        case mlR7gdMedium
+        case mlR7gdXlarge
         case mlR7i12xlarge
         case mlR7i16xlarge
         case mlR7i24xlarge
@@ -1207,6 +1246,15 @@ extension SageMakerClientTypes {
                 .mlC6g8xlarge,
                 .mlC6gLarge,
                 .mlC6gXlarge,
+                .mlC6in12xlarge,
+                .mlC6in16xlarge,
+                .mlC6in24xlarge,
+                .mlC6in2xlarge,
+                .mlC6in32xlarge,
+                .mlC6in4xlarge,
+                .mlC6in8xlarge,
+                .mlC6inLarge,
+                .mlC6inXlarge,
                 .mlC6i12xlarge,
                 .mlC6i16xlarge,
                 .mlC6i24xlarge,
@@ -1232,6 +1280,16 @@ extension SageMakerClientTypes {
                 .mlC7i8xlarge,
                 .mlC7iLarge,
                 .mlC7iXlarge,
+                .mlC8g12xlarge,
+                .mlC8g16xlarge,
+                .mlC8g24xlarge,
+                .mlC8g2xlarge,
+                .mlC8g48xlarge,
+                .mlC8g4xlarge,
+                .mlC8g8xlarge,
+                .mlC8gLarge,
+                .mlC8gMedium,
+                .mlC8gXlarge,
                 .mlDl124xlarge,
                 .mlG4dn12xlarge,
                 .mlG4dn16xlarge,
@@ -1320,6 +1378,16 @@ extension SageMakerClientTypes {
                 .mlM7i8xlarge,
                 .mlM7iLarge,
                 .mlM7iXlarge,
+                .mlM8g12xlarge,
+                .mlM8g16xlarge,
+                .mlM8g24xlarge,
+                .mlM8g2xlarge,
+                .mlM8g48xlarge,
+                .mlM8g4xlarge,
+                .mlM8g8xlarge,
+                .mlM8gLarge,
+                .mlM8gMedium,
+                .mlM8gXlarge,
                 .mlP216xlarge,
                 .mlP28xlarge,
                 .mlP2Xlarge,
@@ -1331,6 +1399,8 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlP6eGb20036xlarge,
+                .mlP6B20048xlarge,
                 .mlR5d12xlarge,
                 .mlR5d24xlarge,
                 .mlR5d2xlarge,
@@ -1366,6 +1436,14 @@ extension SageMakerClientTypes {
                 .mlR6i8xlarge,
                 .mlR6iLarge,
                 .mlR6iXlarge,
+                .mlR7gd12xlarge,
+                .mlR7gd16xlarge,
+                .mlR7gd2xlarge,
+                .mlR7gd4xlarge,
+                .mlR7gd8xlarge,
+                .mlR7gdLarge,
+                .mlR7gdMedium,
+                .mlR7gdXlarge,
                 .mlR7i12xlarge,
                 .mlR7i16xlarge,
                 .mlR7i24xlarge,
@@ -1441,6 +1519,15 @@ extension SageMakerClientTypes {
             case .mlC6g8xlarge: return "ml.c6g.8xlarge"
             case .mlC6gLarge: return "ml.c6g.large"
             case .mlC6gXlarge: return "ml.c6g.xlarge"
+            case .mlC6in12xlarge: return "ml.c6in.12xlarge"
+            case .mlC6in16xlarge: return "ml.c6in.16xlarge"
+            case .mlC6in24xlarge: return "ml.c6in.24xlarge"
+            case .mlC6in2xlarge: return "ml.c6in.2xlarge"
+            case .mlC6in32xlarge: return "ml.c6in.32xlarge"
+            case .mlC6in4xlarge: return "ml.c6in.4xlarge"
+            case .mlC6in8xlarge: return "ml.c6in.8xlarge"
+            case .mlC6inLarge: return "ml.c6in.large"
+            case .mlC6inXlarge: return "ml.c6in.xlarge"
             case .mlC6i12xlarge: return "ml.c6i.12xlarge"
             case .mlC6i16xlarge: return "ml.c6i.16xlarge"
             case .mlC6i24xlarge: return "ml.c6i.24xlarge"
@@ -1466,6 +1553,16 @@ extension SageMakerClientTypes {
             case .mlC7i8xlarge: return "ml.c7i.8xlarge"
             case .mlC7iLarge: return "ml.c7i.large"
             case .mlC7iXlarge: return "ml.c7i.xlarge"
+            case .mlC8g12xlarge: return "ml.c8g.12xlarge"
+            case .mlC8g16xlarge: return "ml.c8g.16xlarge"
+            case .mlC8g24xlarge: return "ml.c8g.24xlarge"
+            case .mlC8g2xlarge: return "ml.c8g.2xlarge"
+            case .mlC8g48xlarge: return "ml.c8g.48xlarge"
+            case .mlC8g4xlarge: return "ml.c8g.4xlarge"
+            case .mlC8g8xlarge: return "ml.c8g.8xlarge"
+            case .mlC8gLarge: return "ml.c8g.large"
+            case .mlC8gMedium: return "ml.c8g.medium"
+            case .mlC8gXlarge: return "ml.c8g.xlarge"
             case .mlDl124xlarge: return "ml.dl1.24xlarge"
             case .mlG4dn12xlarge: return "ml.g4dn.12xlarge"
             case .mlG4dn16xlarge: return "ml.g4dn.16xlarge"
@@ -1554,6 +1651,16 @@ extension SageMakerClientTypes {
             case .mlM7i8xlarge: return "ml.m7i.8xlarge"
             case .mlM7iLarge: return "ml.m7i.large"
             case .mlM7iXlarge: return "ml.m7i.xlarge"
+            case .mlM8g12xlarge: return "ml.m8g.12xlarge"
+            case .mlM8g16xlarge: return "ml.m8g.16xlarge"
+            case .mlM8g24xlarge: return "ml.m8g.24xlarge"
+            case .mlM8g2xlarge: return "ml.m8g.2xlarge"
+            case .mlM8g48xlarge: return "ml.m8g.48xlarge"
+            case .mlM8g4xlarge: return "ml.m8g.4xlarge"
+            case .mlM8g8xlarge: return "ml.m8g.8xlarge"
+            case .mlM8gLarge: return "ml.m8g.large"
+            case .mlM8gMedium: return "ml.m8g.medium"
+            case .mlM8gXlarge: return "ml.m8g.xlarge"
             case .mlP216xlarge: return "ml.p2.16xlarge"
             case .mlP28xlarge: return "ml.p2.8xlarge"
             case .mlP2Xlarge: return "ml.p2.xlarge"
@@ -1565,6 +1672,8 @@ extension SageMakerClientTypes {
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP6eGb20036xlarge: return "ml.p6e-gb200.36xlarge"
+            case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
             case .mlR5d24xlarge: return "ml.r5d.24xlarge"
             case .mlR5d2xlarge: return "ml.r5d.2xlarge"
@@ -1600,6 +1709,14 @@ extension SageMakerClientTypes {
             case .mlR6i8xlarge: return "ml.r6i.8xlarge"
             case .mlR6iLarge: return "ml.r6i.large"
             case .mlR6iXlarge: return "ml.r6i.xlarge"
+            case .mlR7gd12xlarge: return "ml.r7gd.12xlarge"
+            case .mlR7gd16xlarge: return "ml.r7gd.16xlarge"
+            case .mlR7gd2xlarge: return "ml.r7gd.2xlarge"
+            case .mlR7gd4xlarge: return "ml.r7gd.4xlarge"
+            case .mlR7gd8xlarge: return "ml.r7gd.8xlarge"
+            case .mlR7gdLarge: return "ml.r7gd.large"
+            case .mlR7gdMedium: return "ml.r7gd.medium"
+            case .mlR7gdXlarge: return "ml.r7gd.xlarge"
             case .mlR7i12xlarge: return "ml.r7i.12xlarge"
             case .mlR7i16xlarge: return "ml.r7i.16xlarge"
             case .mlR7i24xlarge: return "ml.r7i.24xlarge"
@@ -2143,6 +2260,22 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The details of the alarm to monitor during the AMI update.
+    public struct AlarmDetails: Swift.Sendable {
+        /// The name of the alarm.
+        /// This member is required.
+        public var alarmName: Swift.String?
+
+        public init(
+            alarmName: Swift.String? = nil
+        ) {
+            self.alarmName = alarmName
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum AlgorithmSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case creationTime
         case name
@@ -2591,6 +2724,22 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The configuration for a private hub model reference that points to a public SageMaker JumpStart model. For more information about private hubs, see [Private curated hubs for foundation model access control in JumpStart](https://docs.aws.amazon.com/sagemaker/latest/dg/jumpstart-curated-hubs.html).
+    public struct HubAccessConfig: Swift.Sendable {
+        /// The ARN of your private model hub content. This should be a ModelReference resource type that points to a SageMaker JumpStart public hub model.
+        /// This member is required.
+        public var hubContentArn: Swift.String?
+
+        public init(
+            hubContentArn: Swift.String? = nil
+        ) {
+            self.hubContentArn = hubContentArn
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum S3DataDistribution: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fullyReplicated
         case shardedByS3Key
@@ -2622,6 +2771,7 @@ extension SageMakerClientTypes {
 
     public enum S3DataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case augmentedManifestFile
+        case converse
         case manifestFile
         case s3Prefix
         case sdkUnknown(Swift.String)
@@ -2629,6 +2779,7 @@ extension SageMakerClientTypes {
         public static var allCases: [S3DataType] {
             return [
                 .augmentedManifestFile,
+                .converse,
                 .manifestFile,
                 .s3Prefix
             ]
@@ -2642,6 +2793,7 @@ extension SageMakerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .augmentedManifestFile: return "AugmentedManifestFile"
+            case .converse: return "Converse"
             case .manifestFile: return "ManifestFile"
             case .s3Prefix: return "S3Prefix"
             case let .sdkUnknown(s): return s
@@ -2656,11 +2808,19 @@ extension SageMakerClientTypes {
     public struct S3DataSource: Swift.Sendable {
         /// A list of one or more attribute names to use that are found in a specified augmented manifest file.
         public var attributeNames: [Swift.String]?
+        /// The configuration for a private hub model reference that points to a SageMaker JumpStart public hub model.
+        public var hubAccessConfig: SageMakerClientTypes.HubAccessConfig?
         /// A list of names of instance groups that get data from the S3 data source.
         public var instanceGroupNames: [Swift.String]?
+        /// The access configuration file to control access to the ML model. You can explicitly accept the model end-user license agreement (EULA) within the ModelAccessConfig.
+        ///
+        /// * If you are a Jumpstart user, see the [End-user license agreements](https://docs.aws.amazon.com/sagemaker/latest/dg/jumpstart-foundation-models-choose.html#jumpstart-foundation-models-choose-eula) section for more details on accepting the EULA.
+        ///
+        /// * If you are an AutoML user, see the Optional Parameters section of Create an AutoML job to fine-tune text generation models using the API for details on [How to set the EULA acceptance when fine-tuning a model using the AutoML API](https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-create-experiment-finetune-llms.html#autopilot-llms-finetuning-api-optional-params).
+        public var modelAccessConfig: SageMakerClientTypes.ModelAccessConfig?
         /// If you want SageMaker to replicate the entire dataset on each ML compute instance that is launched for model training, specify FullyReplicated. If you want SageMaker to replicate a subset of data on each ML compute instance that is launched for model training, specify ShardedByS3Key. If there are n ML compute instances launched for a training job, each instance gets approximately 1/n of the number of S3 objects. In this case, model training on each machine uses only the subset of training data. Don't choose more ML compute instances for training than available S3 objects. If you do, some nodes won't get any data and you will pay for nodes that aren't getting any training data. This applies in both File and Pipe modes. Keep this in mind when developing algorithms. In distributed training, where you use multiple ML compute EC2 instances, you might choose ShardedByS3Key. If the algorithm requires copying training data to the ML storage volume (when TrainingInputMode is set to File), this copies 1/n of the number of objects.
         public var s3DataDistributionType: SageMakerClientTypes.S3DataDistribution?
-        /// If you choose S3Prefix, S3Uri identifies a key name prefix. SageMaker uses all objects that match the specified key name prefix for model training. If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want SageMaker to use for model training. If you choose AugmentedManifestFile, S3Uri identifies an object that is an augmented manifest file in JSON lines format. This file contains the data you want to use for model training. AugmentedManifestFile can only be used if the Channel's input mode is Pipe.
+        /// If you choose S3Prefix, S3Uri identifies a key name prefix. SageMaker uses all objects that match the specified key name prefix for model training. If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want SageMaker to use for model training. If you choose AugmentedManifestFile, S3Uri identifies an object that is an augmented manifest file in JSON lines format. This file contains the data you want to use for model training. AugmentedManifestFile can only be used if the Channel's input mode is Pipe. If you choose Converse, S3Uri identifies an Amazon S3 location that contains data formatted according to Converse format. This format structures conversational messages with specific roles and content types used for training and fine-tuning foundational models.
         /// This member is required.
         public var s3DataType: SageMakerClientTypes.S3DataType?
         /// Depending on the value specified for the S3DataType, identifies either a key name prefix or a manifest. For example:
@@ -2676,13 +2836,17 @@ extension SageMakerClientTypes {
 
         public init(
             attributeNames: [Swift.String]? = nil,
+            hubAccessConfig: SageMakerClientTypes.HubAccessConfig? = nil,
             instanceGroupNames: [Swift.String]? = nil,
+            modelAccessConfig: SageMakerClientTypes.ModelAccessConfig? = nil,
             s3DataDistributionType: SageMakerClientTypes.S3DataDistribution? = nil,
             s3DataType: SageMakerClientTypes.S3DataType? = nil,
             s3Uri: Swift.String? = nil
         ) {
             self.attributeNames = attributeNames
+            self.hubAccessConfig = hubAccessConfig
             self.instanceGroupNames = instanceGroupNames
+            self.modelAccessConfig = modelAccessConfig
             self.s3DataDistributionType = s3DataDistributionType
             self.s3DataType = s3DataType
             self.s3Uri = s3Uri
@@ -2884,6 +3048,15 @@ extension SageMakerClientTypes {
         case mlC6i4xlarge
         case mlC6i8xlarge
         case mlC6iXlarge
+        case mlC7i12xlarge
+        case mlC7i16xlarge
+        case mlC7i24xlarge
+        case mlC7i2xlarge
+        case mlC7i48xlarge
+        case mlC7i4xlarge
+        case mlC7i8xlarge
+        case mlC7iLarge
+        case mlC7iXlarge
         case mlG4dn12xlarge
         case mlG4dn16xlarge
         case mlG4dn2xlarge
@@ -2934,6 +3107,15 @@ extension SageMakerClientTypes {
         case mlM6i8xlarge
         case mlM6iLarge
         case mlM6iXlarge
+        case mlM7i12xlarge
+        case mlM7i16xlarge
+        case mlM7i24xlarge
+        case mlM7i2xlarge
+        case mlM7i48xlarge
+        case mlM7i4xlarge
+        case mlM7i8xlarge
+        case mlM7iLarge
+        case mlM7iXlarge
         case mlP216xlarge
         case mlP28xlarge
         case mlP2Xlarge
@@ -2946,6 +3128,7 @@ extension SageMakerClientTypes {
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlP6B20048xlarge
         case mlR5d12xlarge
         case mlR5d16xlarge
         case mlR5d24xlarge
@@ -2962,6 +3145,15 @@ extension SageMakerClientTypes {
         case mlR58xlarge
         case mlR5Large
         case mlR5Xlarge
+        case mlR7i12xlarge
+        case mlR7i16xlarge
+        case mlR7i24xlarge
+        case mlR7i2xlarge
+        case mlR7i48xlarge
+        case mlR7i4xlarge
+        case mlR7i8xlarge
+        case mlR7iLarge
+        case mlR7iXlarge
         case mlT32xlarge
         case mlT3Large
         case mlT3Medium
@@ -2996,6 +3188,15 @@ extension SageMakerClientTypes {
                 .mlC6i4xlarge,
                 .mlC6i8xlarge,
                 .mlC6iXlarge,
+                .mlC7i12xlarge,
+                .mlC7i16xlarge,
+                .mlC7i24xlarge,
+                .mlC7i2xlarge,
+                .mlC7i48xlarge,
+                .mlC7i4xlarge,
+                .mlC7i8xlarge,
+                .mlC7iLarge,
+                .mlC7iXlarge,
                 .mlG4dn12xlarge,
                 .mlG4dn16xlarge,
                 .mlG4dn2xlarge,
@@ -3046,6 +3247,15 @@ extension SageMakerClientTypes {
                 .mlM6i8xlarge,
                 .mlM6iLarge,
                 .mlM6iXlarge,
+                .mlM7i12xlarge,
+                .mlM7i16xlarge,
+                .mlM7i24xlarge,
+                .mlM7i2xlarge,
+                .mlM7i48xlarge,
+                .mlM7i4xlarge,
+                .mlM7i8xlarge,
+                .mlM7iLarge,
+                .mlM7iXlarge,
                 .mlP216xlarge,
                 .mlP28xlarge,
                 .mlP2Xlarge,
@@ -3058,6 +3268,7 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlP6B20048xlarge,
                 .mlR5d12xlarge,
                 .mlR5d16xlarge,
                 .mlR5d24xlarge,
@@ -3074,6 +3285,15 @@ extension SageMakerClientTypes {
                 .mlR58xlarge,
                 .mlR5Large,
                 .mlR5Xlarge,
+                .mlR7i12xlarge,
+                .mlR7i16xlarge,
+                .mlR7i24xlarge,
+                .mlR7i2xlarge,
+                .mlR7i48xlarge,
+                .mlR7i4xlarge,
+                .mlR7i8xlarge,
+                .mlR7iLarge,
+                .mlR7iXlarge,
                 .mlT32xlarge,
                 .mlT3Large,
                 .mlT3Medium,
@@ -3114,6 +3334,15 @@ extension SageMakerClientTypes {
             case .mlC6i4xlarge: return "ml.c6i.4xlarge"
             case .mlC6i8xlarge: return "ml.c6i.8xlarge"
             case .mlC6iXlarge: return "ml.c6i.xlarge"
+            case .mlC7i12xlarge: return "ml.c7i.12xlarge"
+            case .mlC7i16xlarge: return "ml.c7i.16xlarge"
+            case .mlC7i24xlarge: return "ml.c7i.24xlarge"
+            case .mlC7i2xlarge: return "ml.c7i.2xlarge"
+            case .mlC7i48xlarge: return "ml.c7i.48xlarge"
+            case .mlC7i4xlarge: return "ml.c7i.4xlarge"
+            case .mlC7i8xlarge: return "ml.c7i.8xlarge"
+            case .mlC7iLarge: return "ml.c7i.large"
+            case .mlC7iXlarge: return "ml.c7i.xlarge"
             case .mlG4dn12xlarge: return "ml.g4dn.12xlarge"
             case .mlG4dn16xlarge: return "ml.g4dn.16xlarge"
             case .mlG4dn2xlarge: return "ml.g4dn.2xlarge"
@@ -3164,6 +3393,15 @@ extension SageMakerClientTypes {
             case .mlM6i8xlarge: return "ml.m6i.8xlarge"
             case .mlM6iLarge: return "ml.m6i.large"
             case .mlM6iXlarge: return "ml.m6i.xlarge"
+            case .mlM7i12xlarge: return "ml.m7i.12xlarge"
+            case .mlM7i16xlarge: return "ml.m7i.16xlarge"
+            case .mlM7i24xlarge: return "ml.m7i.24xlarge"
+            case .mlM7i2xlarge: return "ml.m7i.2xlarge"
+            case .mlM7i48xlarge: return "ml.m7i.48xlarge"
+            case .mlM7i4xlarge: return "ml.m7i.4xlarge"
+            case .mlM7i8xlarge: return "ml.m7i.8xlarge"
+            case .mlM7iLarge: return "ml.m7i.large"
+            case .mlM7iXlarge: return "ml.m7i.xlarge"
             case .mlP216xlarge: return "ml.p2.16xlarge"
             case .mlP28xlarge: return "ml.p2.8xlarge"
             case .mlP2Xlarge: return "ml.p2.xlarge"
@@ -3176,6 +3414,7 @@ extension SageMakerClientTypes {
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
             case .mlR5d16xlarge: return "ml.r5d.16xlarge"
             case .mlR5d24xlarge: return "ml.r5d.24xlarge"
@@ -3192,6 +3431,15 @@ extension SageMakerClientTypes {
             case .mlR58xlarge: return "ml.r5.8xlarge"
             case .mlR5Large: return "ml.r5.large"
             case .mlR5Xlarge: return "ml.r5.xlarge"
+            case .mlR7i12xlarge: return "ml.r7i.12xlarge"
+            case .mlR7i16xlarge: return "ml.r7i.16xlarge"
+            case .mlR7i24xlarge: return "ml.r7i.24xlarge"
+            case .mlR7i2xlarge: return "ml.r7i.2xlarge"
+            case .mlR7i48xlarge: return "ml.r7i.48xlarge"
+            case .mlR7i4xlarge: return "ml.r7i.4xlarge"
+            case .mlR7i8xlarge: return "ml.r7i.8xlarge"
+            case .mlR7iLarge: return "ml.r7i.large"
+            case .mlR7iXlarge: return "ml.r7i.xlarge"
             case .mlT32xlarge: return "ml.t3.2xlarge"
             case .mlT3Large: return "ml.t3.large"
             case .mlT3Medium: return "ml.t3.medium"
@@ -3240,14 +3488,7 @@ extension SageMakerClientTypes {
         public var instanceCount: Swift.Int?
         /// The configuration of a heterogeneous cluster in JSON format.
         public var instanceGroups: [SageMakerClientTypes.InstanceGroup]?
-        /// The ML compute instance type. SageMaker Training on Amazon Elastic Compute Cloud (EC2) P4de instances is in preview release starting December 9th, 2022. [Amazon EC2 P4de instances](http://aws.amazon.com/ec2/instance-types/p4/) (currently in preview) are powered by 8 NVIDIA A100 GPUs with 80GB high-performance HBM2e GPU memory, which accelerate the speed of training ML models that need to be trained on large datasets of high-resolution data. In this preview release, Amazon SageMaker supports ML training jobs on P4de instances (ml.p4de.24xlarge) to reduce model training time. The ml.p4de.24xlarge instances are available in the following Amazon Web Services Regions.
-        ///
-        /// * US East (N. Virginia) (us-east-1)
-        ///
-        /// * US West (Oregon) (us-west-2)
-        ///
-        ///
-        /// To request quota limit increase and start using P4de instances, contact the SageMaker Training service team through your account team.
+        /// The ML compute instance type.
         public var instanceType: SageMakerClientTypes.TrainingInstanceType?
         /// The duration of time in seconds to retain configured resources in a warm pool for subsequent training jobs.
         public var keepAlivePeriodInSeconds: Swift.Int?
@@ -3287,7 +3528,14 @@ extension SageMakerClientTypes {
 
     /// Specifies a limit to how long a job can run. When the job reaches the time limit, SageMaker ends the job. Use this API to cap costs. To stop a training job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost. The training algorithms provided by SageMaker automatically save the intermediate results of a model training job when possible. This attempt to save artifacts is only a best effort case as model might not be in a state from which it can be saved. For example, if training has just started, the model might not be ready to save. When saved, this intermediate data is a valid model artifact. You can use it to create a model with CreateModel. The Neural Topic Model (NTM) currently does not support saving intermediate model artifacts. When training NTMs, make sure that the maximum runtime is sufficient for the training job to complete.
     public struct StoppingCondition: Swift.Sendable {
-        /// The maximum length of time, in seconds, that a training or compilation job can be pending before it is stopped.
+        /// The maximum length of time, in seconds, that a training or compilation job can be pending before it is stopped. When working with training jobs that use capacity from [training plans](https://docs.aws.amazon.com/sagemaker/latest/dg/reserve-capacity-with-training-plans.html), not all Pending job states count against the MaxPendingTimeInSeconds limit. The following scenarios do not increment the MaxPendingTimeInSeconds counter:
+        ///
+        /// * The plan is in a Scheduled state: Jobs queued (in Pending status) before a plan's start date (waiting for scheduled start time)
+        ///
+        /// * Between capacity reservations: Jobs temporarily back to Pending status between two capacity reservation periods
+        ///
+        ///
+        /// MaxPendingTimeInSeconds only increments when jobs are actively waiting for capacity in an Active plan.
         public var maxPendingTimeInSeconds: Swift.Int?
         /// The maximum length of time, in seconds, that a training or compilation job can run before it is stopped. For compilation jobs, if the job does not complete during this time, a TimeOut error is generated. We recommend starting with 900 seconds and increasing as necessary based on your model. For all other jobs, if the job does not complete during this time, SageMaker ends the job. When RetryStrategy is specified in the job request, MaxRuntimeInSeconds specifies the maximum time for all of the attempts in total, not each individual attempt. The default value is 1 day. The maximum value is 28 days. The maximum time that a TrainingJob can run in total, including any time spent publishing metrics or archiving and uploading models after it has been stopped, is 30 days.
         public var maxRuntimeInSeconds: Swift.Int?
@@ -3564,6 +3812,19 @@ extension SageMakerClientTypes {
         /// The ML compute instance type for the transform job. If you are using built-in algorithms to transform moderately sized datasets, we recommend using ml.m4.xlarge or ml.m5.largeinstance types.
         /// This member is required.
         public var instanceType: SageMakerClientTypes.TransformInstanceType?
+        /// Specifies an option from a collection of preconfigured Amazon Machine Image (AMI) images. Each image is configured by Amazon Web Services with a set of software and driver versions. al2-ami-sagemaker-batch-gpu-470
+        ///
+        /// * Accelerator: GPU
+        ///
+        /// * NVIDIA driver version: 470
+        ///
+        ///
+        /// al2-ami-sagemaker-batch-gpu-535
+        ///
+        /// * Accelerator: GPU
+        ///
+        /// * NVIDIA driver version: 535
+        public var transformAmiVersion: Swift.String?
         /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt model data on the storage volume attached to the ML compute instance(s) that run the batch transform job. Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a VolumeKmsKeyId when using an instance type with local storage. For a list of instance types that support local instance storage, see [Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes). For more information about local instance storage encryption, see [SSD Instance Store Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssd-instance-store.html). The VolumeKmsKeyId can be any of the following formats:
         ///
         /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
@@ -3578,10 +3839,12 @@ extension SageMakerClientTypes {
         public init(
             instanceCount: Swift.Int? = nil,
             instanceType: SageMakerClientTypes.TransformInstanceType? = nil,
+            transformAmiVersion: Swift.String? = nil,
             volumeKmsKeyId: Swift.String? = nil
         ) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
+            self.transformAmiVersion = transformAmiVersion
             self.volumeKmsKeyId = volumeKmsKeyId
         }
     }
@@ -4500,6 +4763,7 @@ extension SageMakerClientTypes {
         case mlP38xlarge
         case mlP4de24xlarge
         case mlP4d24xlarge
+        case mlP5en48xlarge
         case mlP548xlarge
         case mlR512xlarge
         case mlR516xlarge
@@ -4665,6 +4929,7 @@ extension SageMakerClientTypes {
                 .mlP38xlarge,
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
+                .mlP5en48xlarge,
                 .mlP548xlarge,
                 .mlR512xlarge,
                 .mlR516xlarge,
@@ -4836,6 +5101,7 @@ extension SageMakerClientTypes {
             case .mlP38xlarge: return "ml.p3.8xlarge"
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
+            case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
             case .mlR512xlarge: return "ml.r5.12xlarge"
             case .mlR516xlarge: return "ml.r5.16xlarge"
@@ -8023,7 +8289,11 @@ public struct BatchDeleteClusterNodesInput: Swift.Sendable {
     /// The name of the SageMaker HyperPod cluster from which to delete the specified nodes.
     /// This member is required.
     public var clusterName: Swift.String?
-    /// A list of node IDs to be deleted from the specified cluster. For SageMaker HyperPod clusters using the Slurm workload manager, you cannot remove instances that are configured as Slurm controller nodes.
+    /// A list of node IDs to be deleted from the specified cluster.
+    ///
+    /// * For SageMaker HyperPod clusters using the Slurm workload manager, you cannot remove instances that are configured as Slurm controller nodes.
+    ///
+    /// * If you need to delete more than 99 instances, contact [Support](http://aws.amazon.com/contact-us/) for assistance.
     /// This member is required.
     public var nodeIds: [Swift.String]?
 
@@ -9035,6 +9305,82 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum CapacityReservationPreference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capacityReservationsOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationPreference] {
+            return [
+                .capacityReservationsOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .capacityReservationsOnly: return "capacity-reservations-only"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum NodeUnavailabilityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capacityPercentage
+        case instanceCount
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NodeUnavailabilityType] {
+            return [
+                .capacityPercentage,
+                .instanceCount
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .capacityPercentage: return "CAPACITY_PERCENTAGE"
+            case .instanceCount: return "INSTANCE_COUNT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The configuration of the size measurements of the AMI update. Using this configuration, you can specify whether SageMaker should update your instance group by an amount or percentage of instances.
+    public struct CapacitySizeConfig: Swift.Sendable {
+        /// Specifies whether SageMaker should process the update by amount or percentage of instances.
+        /// This member is required.
+        public var type: SageMakerClientTypes.NodeUnavailabilityType?
+        /// Specifies the amount or percentage of instances SageMaker updates at a time.
+        /// This member is required.
+        public var value: Swift.Int?
+
+        public init(
+            type: SageMakerClientTypes.NodeUnavailabilityType? = nil,
+            value: Swift.Int? = nil
+        ) {
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Configuration specifying how to treat different headers. If no headers are specified Amazon SageMaker AI will by default base64 encode when capturing the data.
     public struct CaptureContentTypeHeader: Swift.Sendable {
         /// The list of all content type headers that Amazon SageMaker AI will treat as CSV and capture accordingly.
@@ -9183,6 +9529,177 @@ extension SageMakerClientTypes {
             values: [Swift.String]? = nil
         ) {
             self.values = values
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A key-value pair that represents a parameter for the CloudFormation stack.
+    public struct CfnStackCreateParameter: Swift.Sendable {
+        /// The name of the CloudFormation parameter.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the CloudFormation parameter.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The CloudFormation template provider configuration for creating infrastructure resources.
+    public struct CfnCreateTemplateProvider: Swift.Sendable {
+        /// An array of CloudFormation stack parameters.
+        public var parameters: [SageMakerClientTypes.CfnStackCreateParameter]?
+        /// The IAM role that CloudFormation assumes when creating the stack.
+        public var roleARN: Swift.String?
+        /// A unique identifier for the template within the project.
+        /// This member is required.
+        public var templateName: Swift.String?
+        /// The Amazon S3 URL of the CloudFormation template.
+        /// This member is required.
+        public var templateURL: Swift.String?
+
+        public init(
+            parameters: [SageMakerClientTypes.CfnStackCreateParameter]? = nil,
+            roleARN: Swift.String? = nil,
+            templateName: Swift.String? = nil,
+            templateURL: Swift.String? = nil
+        ) {
+            self.parameters = parameters
+            self.roleARN = roleARN
+            self.templateName = templateName
+            self.templateURL = templateURL
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Details about the CloudFormation stack.
+    public struct CfnStackDetail: Swift.Sendable {
+        /// The unique identifier of the CloudFormation stack.
+        public var id: Swift.String?
+        /// The name of the CloudFormation stack.
+        public var name: Swift.String?
+        /// A human-readable message about the stack's current status.
+        /// This member is required.
+        public var statusMessage: Swift.String?
+
+        public init(
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.id = id
+            self.name = name
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A key-value pair representing a parameter used in the CloudFormation stack.
+    public struct CfnStackParameter: Swift.Sendable {
+        /// The name of the CloudFormation parameter.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the CloudFormation parameter.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A key-value pair representing a parameter used in the CloudFormation stack.
+    public struct CfnStackUpdateParameter: Swift.Sendable {
+        /// The name of the CloudFormation parameter.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the CloudFormation parameter.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Details about a CloudFormation template provider configuration and associated provisioning information.
+    public struct CfnTemplateProviderDetail: Swift.Sendable {
+        /// An array of CloudFormation stack parameters.
+        public var parameters: [SageMakerClientTypes.CfnStackParameter]?
+        /// The IAM role used by CloudFormation to create the stack.
+        public var roleARN: Swift.String?
+        /// Information about the CloudFormation stack created by the template provider.
+        public var stackDetail: SageMakerClientTypes.CfnStackDetail?
+        /// The unique identifier of the template within the project.
+        /// This member is required.
+        public var templateName: Swift.String?
+        /// The Amazon S3 URL of the CloudFormation template.
+        /// This member is required.
+        public var templateURL: Swift.String?
+
+        public init(
+            parameters: [SageMakerClientTypes.CfnStackParameter]? = nil,
+            roleARN: Swift.String? = nil,
+            stackDetail: SageMakerClientTypes.CfnStackDetail? = nil,
+            templateName: Swift.String? = nil,
+            templateURL: Swift.String? = nil
+        ) {
+            self.parameters = parameters
+            self.roleARN = roleARN
+            self.stackDetail = stackDetail
+            self.templateName = templateName
+            self.templateURL = templateURL
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Contains configuration details for updating an existing CloudFormation template provider in the project.
+    public struct CfnUpdateTemplateProvider: Swift.Sendable {
+        /// An array of CloudFormation stack parameters.
+        public var parameters: [SageMakerClientTypes.CfnStackUpdateParameter]?
+        /// The unique identifier of the template to update within the project.
+        /// This member is required.
+        public var templateName: Swift.String?
+        /// The Amazon S3 URL of the CloudFormation template.
+        /// This member is required.
+        public var templateURL: Swift.String?
+
+        public init(
+            parameters: [SageMakerClientTypes.CfnStackUpdateParameter]? = nil,
+            templateName: Swift.String? = nil,
+            templateURL: Swift.String? = nil
+        ) {
+            self.parameters = parameters
+            self.templateName = templateName
+            self.templateURL = templateURL
         }
     }
 }
@@ -9791,6 +10308,13 @@ extension SageMakerClientTypes {
         case mlG6Xlarge
         case mlGr64xlarge
         case mlGr68xlarge
+        case mlI3en12xlarge
+        case mlI3en24xlarge
+        case mlI3en2xlarge
+        case mlI3en3xlarge
+        case mlI3en6xlarge
+        case mlI3enLarge
+        case mlI3enXlarge
         case mlM512xlarge
         case mlM516xlarge
         case mlM524xlarge
@@ -9808,11 +10332,21 @@ extension SageMakerClientTypes {
         case mlM6i8xlarge
         case mlM6iLarge
         case mlM6iXlarge
+        case mlM7i12xlarge
+        case mlM7i16xlarge
+        case mlM7i24xlarge
+        case mlM7i2xlarge
+        case mlM7i48xlarge
+        case mlM7i4xlarge
+        case mlM7i8xlarge
+        case mlM7iLarge
+        case mlM7iXlarge
         case mlP4de24xlarge
         case mlP4d24xlarge
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlP6B20048xlarge
         case mlR6i12xlarge
         case mlR6i16xlarge
         case mlR6i24xlarge
@@ -9822,6 +10356,15 @@ extension SageMakerClientTypes {
         case mlR6i8xlarge
         case mlR6iLarge
         case mlR6iXlarge
+        case mlR7i12xlarge
+        case mlR7i16xlarge
+        case mlR7i24xlarge
+        case mlR7i2xlarge
+        case mlR7i48xlarge
+        case mlR7i4xlarge
+        case mlR7i8xlarge
+        case mlR7iLarge
+        case mlR7iXlarge
         case mlT32xlarge
         case mlT3Large
         case mlT3Medium
@@ -9881,6 +10424,13 @@ extension SageMakerClientTypes {
                 .mlG6Xlarge,
                 .mlGr64xlarge,
                 .mlGr68xlarge,
+                .mlI3en12xlarge,
+                .mlI3en24xlarge,
+                .mlI3en2xlarge,
+                .mlI3en3xlarge,
+                .mlI3en6xlarge,
+                .mlI3enLarge,
+                .mlI3enXlarge,
                 .mlM512xlarge,
                 .mlM516xlarge,
                 .mlM524xlarge,
@@ -9898,11 +10448,21 @@ extension SageMakerClientTypes {
                 .mlM6i8xlarge,
                 .mlM6iLarge,
                 .mlM6iXlarge,
+                .mlM7i12xlarge,
+                .mlM7i16xlarge,
+                .mlM7i24xlarge,
+                .mlM7i2xlarge,
+                .mlM7i48xlarge,
+                .mlM7i4xlarge,
+                .mlM7i8xlarge,
+                .mlM7iLarge,
+                .mlM7iXlarge,
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlP6B20048xlarge,
                 .mlR6i12xlarge,
                 .mlR6i16xlarge,
                 .mlR6i24xlarge,
@@ -9912,6 +10472,15 @@ extension SageMakerClientTypes {
                 .mlR6i8xlarge,
                 .mlR6iLarge,
                 .mlR6iXlarge,
+                .mlR7i12xlarge,
+                .mlR7i16xlarge,
+                .mlR7i24xlarge,
+                .mlR7i2xlarge,
+                .mlR7i48xlarge,
+                .mlR7i4xlarge,
+                .mlR7i8xlarge,
+                .mlR7iLarge,
+                .mlR7iXlarge,
                 .mlT32xlarge,
                 .mlT3Large,
                 .mlT3Medium,
@@ -9977,6 +10546,13 @@ extension SageMakerClientTypes {
             case .mlG6Xlarge: return "ml.g6.xlarge"
             case .mlGr64xlarge: return "ml.gr6.4xlarge"
             case .mlGr68xlarge: return "ml.gr6.8xlarge"
+            case .mlI3en12xlarge: return "ml.i3en.12xlarge"
+            case .mlI3en24xlarge: return "ml.i3en.24xlarge"
+            case .mlI3en2xlarge: return "ml.i3en.2xlarge"
+            case .mlI3en3xlarge: return "ml.i3en.3xlarge"
+            case .mlI3en6xlarge: return "ml.i3en.6xlarge"
+            case .mlI3enLarge: return "ml.i3en.large"
+            case .mlI3enXlarge: return "ml.i3en.xlarge"
             case .mlM512xlarge: return "ml.m5.12xlarge"
             case .mlM516xlarge: return "ml.m5.16xlarge"
             case .mlM524xlarge: return "ml.m5.24xlarge"
@@ -9994,11 +10570,21 @@ extension SageMakerClientTypes {
             case .mlM6i8xlarge: return "ml.m6i.8xlarge"
             case .mlM6iLarge: return "ml.m6i.large"
             case .mlM6iXlarge: return "ml.m6i.xlarge"
+            case .mlM7i12xlarge: return "ml.m7i.12xlarge"
+            case .mlM7i16xlarge: return "ml.m7i.16xlarge"
+            case .mlM7i24xlarge: return "ml.m7i.24xlarge"
+            case .mlM7i2xlarge: return "ml.m7i.2xlarge"
+            case .mlM7i48xlarge: return "ml.m7i.48xlarge"
+            case .mlM7i4xlarge: return "ml.m7i.4xlarge"
+            case .mlM7i8xlarge: return "ml.m7i.8xlarge"
+            case .mlM7iLarge: return "ml.m7i.large"
+            case .mlM7iXlarge: return "ml.m7i.xlarge"
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlR6i12xlarge: return "ml.r6i.12xlarge"
             case .mlR6i16xlarge: return "ml.r6i.16xlarge"
             case .mlR6i24xlarge: return "ml.r6i.24xlarge"
@@ -10008,6 +10594,15 @@ extension SageMakerClientTypes {
             case .mlR6i8xlarge: return "ml.r6i.8xlarge"
             case .mlR6iLarge: return "ml.r6i.large"
             case .mlR6iXlarge: return "ml.r6i.xlarge"
+            case .mlR7i12xlarge: return "ml.r7i.12xlarge"
+            case .mlR7i16xlarge: return "ml.r7i.16xlarge"
+            case .mlR7i24xlarge: return "ml.r7i.24xlarge"
+            case .mlR7i2xlarge: return "ml.r7i.2xlarge"
+            case .mlR7i48xlarge: return "ml.r7i.48xlarge"
+            case .mlR7i4xlarge: return "ml.r7i.4xlarge"
+            case .mlR7i8xlarge: return "ml.r7i.8xlarge"
+            case .mlR7iLarge: return "ml.r7i.large"
+            case .mlR7iXlarge: return "ml.r7i.xlarge"
             case .mlT32xlarge: return "ml.t3.2xlarge"
             case .mlT3Large: return "ml.t3.large"
             case .mlT3Medium: return "ml.t3.medium"
@@ -10067,6 +10662,69 @@ extension SageMakerClientTypes {
             case .instanceStress: return "InstanceStress"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The configurations that SageMaker uses when updating the AMI versions.
+    public struct RollingDeploymentPolicy: Swift.Sendable {
+        /// The maximum amount of instances in the cluster that SageMaker can update at a time.
+        /// This member is required.
+        public var maximumBatchSize: SageMakerClientTypes.CapacitySizeConfig?
+        /// The maximum amount of instances in the cluster that SageMaker can roll back at a time.
+        public var rollbackMaximumBatchSize: SageMakerClientTypes.CapacitySizeConfig?
+
+        public init(
+            maximumBatchSize: SageMakerClientTypes.CapacitySizeConfig? = nil,
+            rollbackMaximumBatchSize: SageMakerClientTypes.CapacitySizeConfig? = nil
+        ) {
+            self.maximumBatchSize = maximumBatchSize
+            self.rollbackMaximumBatchSize = rollbackMaximumBatchSize
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The configuration to use when updating the AMI versions.
+    public struct DeploymentConfiguration: Swift.Sendable {
+        /// An array that contains the alarms that SageMaker monitors to know whether to roll back the AMI update.
+        public var autoRollbackConfiguration: [SageMakerClientTypes.AlarmDetails]?
+        /// The policy that SageMaker uses when updating the AMI versions of the cluster.
+        public var rollingUpdatePolicy: SageMakerClientTypes.RollingDeploymentPolicy?
+        /// The duration in seconds that SageMaker waits before updating more instances in the cluster.
+        public var waitIntervalInSeconds: Swift.Int?
+
+        public init(
+            autoRollbackConfiguration: [SageMakerClientTypes.AlarmDetails]? = nil,
+            rollingUpdatePolicy: SageMakerClientTypes.RollingDeploymentPolicy? = nil,
+            waitIntervalInSeconds: Swift.Int? = nil
+        ) {
+            self.autoRollbackConfiguration = autoRollbackConfiguration
+            self.rollingUpdatePolicy = rollingUpdatePolicy
+            self.waitIntervalInSeconds = waitIntervalInSeconds
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The configuration object of the schedule that SageMaker follows when updating the AMI.
+    public struct ScheduledUpdateConfig: Swift.Sendable {
+        /// The configuration to use when updating the AMI versions.
+        public var deploymentConfig: SageMakerClientTypes.DeploymentConfiguration?
+        /// A cron expression that specifies the schedule that SageMaker follows when updating the AMI.
+        /// This member is required.
+        public var scheduleExpression: Swift.String?
+
+        public init(
+            deploymentConfig: SageMakerClientTypes.DeploymentConfiguration? = nil,
+            scheduleExpression: Swift.String? = nil
+        ) {
+            self.deploymentConfig = deploymentConfig
+            self.scheduleExpression = scheduleExpression
         }
     }
 }
@@ -10135,6 +10793,8 @@ extension SageMakerClientTypes {
         public var onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]?
         /// The customized Amazon VPC configuration at the instance group level that overrides the default Amazon VPC configuration of the SageMaker HyperPod cluster.
         public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
+        /// The configuration object of the schedule that SageMaker follows when updating the AMI.
+        public var scheduledUpdateConfig: SageMakerClientTypes.ScheduledUpdateConfig?
         /// The current status of the cluster instance group.
         ///
         /// * InService: The instance group is active and healthy.
@@ -10167,6 +10827,7 @@ extension SageMakerClientTypes {
             lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig? = nil,
             onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]? = nil,
             overrideVpcConfig: SageMakerClientTypes.VpcConfig? = nil,
+            scheduledUpdateConfig: SageMakerClientTypes.ScheduledUpdateConfig? = nil,
             status: SageMakerClientTypes.InstanceGroupStatus? = nil,
             targetCount: Swift.Int? = nil,
             threadsPerCore: Swift.Int? = nil,
@@ -10181,6 +10842,7 @@ extension SageMakerClientTypes {
             self.lifeCycleConfig = lifeCycleConfig
             self.onStartDeepHealthChecks = onStartDeepHealthChecks
             self.overrideVpcConfig = overrideVpcConfig
+            self.scheduledUpdateConfig = scheduledUpdateConfig
             self.status = status
             self.targetCount = targetCount
             self.threadsPerCore = threadsPerCore
@@ -10228,6 +10890,8 @@ extension SageMakerClientTypes {
         ///
         /// * To configure SageMaker HyperPod with a custom Amazon VPC, see [Custom Amazon VPC Setup for SageMaker HyperPod](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-prerequisites.html#sagemaker-hyperpod-prerequisites-optional-vpc).
         public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
+        /// The configuration object of the schedule that SageMaker uses to update the AMI.
+        public var scheduledUpdateConfig: SageMakerClientTypes.ScheduledUpdateConfig?
         /// Specifies the value for Threads per core. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For instance types that doesn't support multithreading, specify 1. For more information, see the reference table of [CPU cores and threads per CPU core per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cpu-options-supported-instances-values.html) in the Amazon Elastic Compute Cloud User Guide.
         public var threadsPerCore: Swift.Int?
         /// The Amazon Resource Name (ARN); of the training plan to use for this cluster instance group. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
@@ -10242,6 +10906,7 @@ extension SageMakerClientTypes {
             lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig? = nil,
             onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]? = nil,
             overrideVpcConfig: SageMakerClientTypes.VpcConfig? = nil,
+            scheduledUpdateConfig: SageMakerClientTypes.ScheduledUpdateConfig? = nil,
             threadsPerCore: Swift.Int? = nil,
             trainingPlanArn: Swift.String? = nil
         ) {
@@ -10253,6 +10918,7 @@ extension SageMakerClientTypes {
             self.lifeCycleConfig = lifeCycleConfig
             self.onStartDeepHealthChecks = onStartDeepHealthChecks
             self.overrideVpcConfig = overrideVpcConfig
+            self.scheduledUpdateConfig = scheduledUpdateConfig
             self.threadsPerCore = threadsPerCore
             self.trainingPlanArn = trainingPlanArn
         }
@@ -10353,6 +11019,8 @@ extension SageMakerClientTypes {
         public var instanceStorageConfigs: [SageMakerClientTypes.ClusterInstanceStorageConfig]?
         /// The type of the instance.
         public var instanceType: SageMakerClientTypes.ClusterInstanceType?
+        /// The time when the cluster was last updated.
+        public var lastSoftwareUpdateTime: Foundation.Date?
         /// The time when the instance is launched.
         public var launchTime: Foundation.Date?
         /// The LifeCycle configuration applied to the instance.
@@ -10376,6 +11044,7 @@ extension SageMakerClientTypes {
             instanceStatus: SageMakerClientTypes.ClusterInstanceStatusDetails? = nil,
             instanceStorageConfigs: [SageMakerClientTypes.ClusterInstanceStorageConfig]? = nil,
             instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
+            lastSoftwareUpdateTime: Foundation.Date? = nil,
             launchTime: Foundation.Date? = nil,
             lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig? = nil,
             overrideVpcConfig: SageMakerClientTypes.VpcConfig? = nil,
@@ -10390,6 +11059,7 @@ extension SageMakerClientTypes {
             self.instanceStatus = instanceStatus
             self.instanceStorageConfigs = instanceStorageConfigs
             self.instanceType = instanceType
+            self.lastSoftwareUpdateTime = lastSoftwareUpdateTime
             self.launchTime = launchTime
             self.lifeCycleConfig = lifeCycleConfig
             self.overrideVpcConfig = overrideVpcConfig
@@ -10447,6 +11117,8 @@ extension SageMakerClientTypes {
         /// The type of the instance.
         /// This member is required.
         public var instanceType: SageMakerClientTypes.ClusterInstanceType?
+        /// The time when SageMaker last updated the software of the instances in the cluster.
+        public var lastSoftwareUpdateTime: Foundation.Date?
         /// The time when the instance is launched.
         /// This member is required.
         public var launchTime: Foundation.Date?
@@ -10456,12 +11128,14 @@ extension SageMakerClientTypes {
             instanceId: Swift.String? = nil,
             instanceStatus: SageMakerClientTypes.ClusterInstanceStatusDetails? = nil,
             instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
+            lastSoftwareUpdateTime: Foundation.Date? = nil,
             launchTime: Foundation.Date? = nil
         ) {
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
             self.instanceStatus = instanceStatus
             self.instanceType = instanceType
+            self.lastSoftwareUpdateTime = lastSoftwareUpdateTime
             self.launchTime = launchTime
         }
     }
@@ -12467,6 +13141,8 @@ public struct CreateAppInput: Swift.Sendable {
     /// The domain ID.
     /// This member is required.
     public var domainId: Swift.String?
+    /// Indicates whether the application is launched in recovery mode.
+    public var recoveryMode: Swift.Bool?
     /// The instance type and the Amazon Resource Name (ARN) of the SageMaker AI image created on the instance. The value of InstanceType passed as part of the ResourceSpec in the CreateApp call overrides the value passed as part of the ResourceSpec configured for the user profile or the domain. If InstanceType is not specified in any of those three ResourceSpec values for a KernelGateway app, the CreateApp call fails with a request validation error.
     public var resourceSpec: SageMakerClientTypes.ResourceSpec?
     /// The name of the space. If this value is not set, then UserProfileName must be set.
@@ -12480,6 +13156,7 @@ public struct CreateAppInput: Swift.Sendable {
         appName: Swift.String? = nil,
         appType: SageMakerClientTypes.AppType? = nil,
         domainId: Swift.String? = nil,
+        recoveryMode: Swift.Bool? = nil,
         resourceSpec: SageMakerClientTypes.ResourceSpec? = nil,
         spaceName: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
@@ -12488,6 +13165,7 @@ public struct CreateAppInput: Swift.Sendable {
         self.appName = appName
         self.appType = appType
         self.domainId = domainId
+        self.recoveryMode = recoveryMode
         self.resourceSpec = resourceSpec
         self.spaceName = spaceName
         self.tags = tags
@@ -13815,6 +14493,23 @@ extension SageMakerClientTypes {
         case mlC54xlarge
         case mlC59xlarge
         case mlC5Xlarge
+        case mlC6i12xlarge
+        case mlC6i16xlarge
+        case mlC6i24xlarge
+        case mlC6i2xlarge
+        case mlC6i32xlarge
+        case mlC6i4xlarge
+        case mlC6i8xlarge
+        case mlC6iXlarge
+        case mlC7i12xlarge
+        case mlC7i16xlarge
+        case mlC7i24xlarge
+        case mlC7i2xlarge
+        case mlC7i48xlarge
+        case mlC7i4xlarge
+        case mlC7i8xlarge
+        case mlC7iLarge
+        case mlC7iXlarge
         case mlG4dn12xlarge
         case mlG4dn16xlarge
         case mlG4dn2xlarge
@@ -13829,6 +14524,22 @@ extension SageMakerClientTypes {
         case mlG54xlarge
         case mlG58xlarge
         case mlG5Xlarge
+        case mlG6e12xlarge
+        case mlG6e16xlarge
+        case mlG6e24xlarge
+        case mlG6e2xlarge
+        case mlG6e48xlarge
+        case mlG6e4xlarge
+        case mlG6e8xlarge
+        case mlG6eXlarge
+        case mlG612xlarge
+        case mlG616xlarge
+        case mlG624xlarge
+        case mlG62xlarge
+        case mlG648xlarge
+        case mlG64xlarge
+        case mlG68xlarge
+        case mlG6Xlarge
         case mlM410xlarge
         case mlM416xlarge
         case mlM42xlarge
@@ -13840,6 +14551,24 @@ extension SageMakerClientTypes {
         case mlM54xlarge
         case mlM5Large
         case mlM5Xlarge
+        case mlM6i12xlarge
+        case mlM6i16xlarge
+        case mlM6i24xlarge
+        case mlM6i2xlarge
+        case mlM6i32xlarge
+        case mlM6i4xlarge
+        case mlM6i8xlarge
+        case mlM6iLarge
+        case mlM6iXlarge
+        case mlM7i12xlarge
+        case mlM7i16xlarge
+        case mlM7i24xlarge
+        case mlM7i2xlarge
+        case mlM7i48xlarge
+        case mlM7i4xlarge
+        case mlM7i8xlarge
+        case mlM7iLarge
+        case mlM7iXlarge
         case mlP216xlarge
         case mlP28xlarge
         case mlP2Xlarge
@@ -13862,6 +14591,15 @@ extension SageMakerClientTypes {
         case mlR58xlarge
         case mlR5Large
         case mlR5Xlarge
+        case mlR7i12xlarge
+        case mlR7i16xlarge
+        case mlR7i24xlarge
+        case mlR7i2xlarge
+        case mlR7i48xlarge
+        case mlR7i4xlarge
+        case mlR7i8xlarge
+        case mlR7iLarge
+        case mlR7iXlarge
         case mlT32xlarge
         case mlT3Large
         case mlT3Medium
@@ -13879,6 +14617,23 @@ extension SageMakerClientTypes {
                 .mlC54xlarge,
                 .mlC59xlarge,
                 .mlC5Xlarge,
+                .mlC6i12xlarge,
+                .mlC6i16xlarge,
+                .mlC6i24xlarge,
+                .mlC6i2xlarge,
+                .mlC6i32xlarge,
+                .mlC6i4xlarge,
+                .mlC6i8xlarge,
+                .mlC6iXlarge,
+                .mlC7i12xlarge,
+                .mlC7i16xlarge,
+                .mlC7i24xlarge,
+                .mlC7i2xlarge,
+                .mlC7i48xlarge,
+                .mlC7i4xlarge,
+                .mlC7i8xlarge,
+                .mlC7iLarge,
+                .mlC7iXlarge,
                 .mlG4dn12xlarge,
                 .mlG4dn16xlarge,
                 .mlG4dn2xlarge,
@@ -13893,6 +14648,22 @@ extension SageMakerClientTypes {
                 .mlG54xlarge,
                 .mlG58xlarge,
                 .mlG5Xlarge,
+                .mlG6e12xlarge,
+                .mlG6e16xlarge,
+                .mlG6e24xlarge,
+                .mlG6e2xlarge,
+                .mlG6e48xlarge,
+                .mlG6e4xlarge,
+                .mlG6e8xlarge,
+                .mlG6eXlarge,
+                .mlG612xlarge,
+                .mlG616xlarge,
+                .mlG624xlarge,
+                .mlG62xlarge,
+                .mlG648xlarge,
+                .mlG64xlarge,
+                .mlG68xlarge,
+                .mlG6Xlarge,
                 .mlM410xlarge,
                 .mlM416xlarge,
                 .mlM42xlarge,
@@ -13904,6 +14675,24 @@ extension SageMakerClientTypes {
                 .mlM54xlarge,
                 .mlM5Large,
                 .mlM5Xlarge,
+                .mlM6i12xlarge,
+                .mlM6i16xlarge,
+                .mlM6i24xlarge,
+                .mlM6i2xlarge,
+                .mlM6i32xlarge,
+                .mlM6i4xlarge,
+                .mlM6i8xlarge,
+                .mlM6iLarge,
+                .mlM6iXlarge,
+                .mlM7i12xlarge,
+                .mlM7i16xlarge,
+                .mlM7i24xlarge,
+                .mlM7i2xlarge,
+                .mlM7i48xlarge,
+                .mlM7i4xlarge,
+                .mlM7i8xlarge,
+                .mlM7iLarge,
+                .mlM7iXlarge,
                 .mlP216xlarge,
                 .mlP28xlarge,
                 .mlP2Xlarge,
@@ -13926,6 +14715,15 @@ extension SageMakerClientTypes {
                 .mlR58xlarge,
                 .mlR5Large,
                 .mlR5Xlarge,
+                .mlR7i12xlarge,
+                .mlR7i16xlarge,
+                .mlR7i24xlarge,
+                .mlR7i2xlarge,
+                .mlR7i48xlarge,
+                .mlR7i4xlarge,
+                .mlR7i8xlarge,
+                .mlR7iLarge,
+                .mlR7iXlarge,
                 .mlT32xlarge,
                 .mlT3Large,
                 .mlT3Medium,
@@ -13949,6 +14747,23 @@ extension SageMakerClientTypes {
             case .mlC54xlarge: return "ml.c5.4xlarge"
             case .mlC59xlarge: return "ml.c5.9xlarge"
             case .mlC5Xlarge: return "ml.c5.xlarge"
+            case .mlC6i12xlarge: return "ml.c6i.12xlarge"
+            case .mlC6i16xlarge: return "ml.c6i.16xlarge"
+            case .mlC6i24xlarge: return "ml.c6i.24xlarge"
+            case .mlC6i2xlarge: return "ml.c6i.2xlarge"
+            case .mlC6i32xlarge: return "ml.c6i.32xlarge"
+            case .mlC6i4xlarge: return "ml.c6i.4xlarge"
+            case .mlC6i8xlarge: return "ml.c6i.8xlarge"
+            case .mlC6iXlarge: return "ml.c6i.xlarge"
+            case .mlC7i12xlarge: return "ml.c7i.12xlarge"
+            case .mlC7i16xlarge: return "ml.c7i.16xlarge"
+            case .mlC7i24xlarge: return "ml.c7i.24xlarge"
+            case .mlC7i2xlarge: return "ml.c7i.2xlarge"
+            case .mlC7i48xlarge: return "ml.c7i.48xlarge"
+            case .mlC7i4xlarge: return "ml.c7i.4xlarge"
+            case .mlC7i8xlarge: return "ml.c7i.8xlarge"
+            case .mlC7iLarge: return "ml.c7i.large"
+            case .mlC7iXlarge: return "ml.c7i.xlarge"
             case .mlG4dn12xlarge: return "ml.g4dn.12xlarge"
             case .mlG4dn16xlarge: return "ml.g4dn.16xlarge"
             case .mlG4dn2xlarge: return "ml.g4dn.2xlarge"
@@ -13963,6 +14778,22 @@ extension SageMakerClientTypes {
             case .mlG54xlarge: return "ml.g5.4xlarge"
             case .mlG58xlarge: return "ml.g5.8xlarge"
             case .mlG5Xlarge: return "ml.g5.xlarge"
+            case .mlG6e12xlarge: return "ml.g6e.12xlarge"
+            case .mlG6e16xlarge: return "ml.g6e.16xlarge"
+            case .mlG6e24xlarge: return "ml.g6e.24xlarge"
+            case .mlG6e2xlarge: return "ml.g6e.2xlarge"
+            case .mlG6e48xlarge: return "ml.g6e.48xlarge"
+            case .mlG6e4xlarge: return "ml.g6e.4xlarge"
+            case .mlG6e8xlarge: return "ml.g6e.8xlarge"
+            case .mlG6eXlarge: return "ml.g6e.xlarge"
+            case .mlG612xlarge: return "ml.g6.12xlarge"
+            case .mlG616xlarge: return "ml.g6.16xlarge"
+            case .mlG624xlarge: return "ml.g6.24xlarge"
+            case .mlG62xlarge: return "ml.g6.2xlarge"
+            case .mlG648xlarge: return "ml.g6.48xlarge"
+            case .mlG64xlarge: return "ml.g6.4xlarge"
+            case .mlG68xlarge: return "ml.g6.8xlarge"
+            case .mlG6Xlarge: return "ml.g6.xlarge"
             case .mlM410xlarge: return "ml.m4.10xlarge"
             case .mlM416xlarge: return "ml.m4.16xlarge"
             case .mlM42xlarge: return "ml.m4.2xlarge"
@@ -13974,6 +14805,24 @@ extension SageMakerClientTypes {
             case .mlM54xlarge: return "ml.m5.4xlarge"
             case .mlM5Large: return "ml.m5.large"
             case .mlM5Xlarge: return "ml.m5.xlarge"
+            case .mlM6i12xlarge: return "ml.m6i.12xlarge"
+            case .mlM6i16xlarge: return "ml.m6i.16xlarge"
+            case .mlM6i24xlarge: return "ml.m6i.24xlarge"
+            case .mlM6i2xlarge: return "ml.m6i.2xlarge"
+            case .mlM6i32xlarge: return "ml.m6i.32xlarge"
+            case .mlM6i4xlarge: return "ml.m6i.4xlarge"
+            case .mlM6i8xlarge: return "ml.m6i.8xlarge"
+            case .mlM6iLarge: return "ml.m6i.large"
+            case .mlM6iXlarge: return "ml.m6i.xlarge"
+            case .mlM7i12xlarge: return "ml.m7i.12xlarge"
+            case .mlM7i16xlarge: return "ml.m7i.16xlarge"
+            case .mlM7i24xlarge: return "ml.m7i.24xlarge"
+            case .mlM7i2xlarge: return "ml.m7i.2xlarge"
+            case .mlM7i48xlarge: return "ml.m7i.48xlarge"
+            case .mlM7i4xlarge: return "ml.m7i.4xlarge"
+            case .mlM7i8xlarge: return "ml.m7i.8xlarge"
+            case .mlM7iLarge: return "ml.m7i.large"
+            case .mlM7iXlarge: return "ml.m7i.xlarge"
             case .mlP216xlarge: return "ml.p2.16xlarge"
             case .mlP28xlarge: return "ml.p2.8xlarge"
             case .mlP2Xlarge: return "ml.p2.xlarge"
@@ -13996,6 +14845,15 @@ extension SageMakerClientTypes {
             case .mlR58xlarge: return "ml.r5.8xlarge"
             case .mlR5Large: return "ml.r5.large"
             case .mlR5Xlarge: return "ml.r5.xlarge"
+            case .mlR7i12xlarge: return "ml.r7i.12xlarge"
+            case .mlR7i16xlarge: return "ml.r7i.16xlarge"
+            case .mlR7i24xlarge: return "ml.r7i.24xlarge"
+            case .mlR7i2xlarge: return "ml.r7i.2xlarge"
+            case .mlR7i48xlarge: return "ml.r7i.48xlarge"
+            case .mlR7i4xlarge: return "ml.r7i.4xlarge"
+            case .mlR7i8xlarge: return "ml.r7i.8xlarge"
+            case .mlR7iLarge: return "ml.r7i.large"
+            case .mlR7iXlarge: return "ml.r7i.xlarge"
             case .mlT32xlarge: return "ml.t3.2xlarge"
             case .mlT3Large: return "ml.t3.large"
             case .mlT3Medium: return "ml.t3.medium"
@@ -14411,7 +15269,13 @@ extension SageMakerClientTypes {
 
     /// The KernelGateway app settings.
     public struct KernelGatewayAppSettings: Swift.Sendable {
-        /// A list of custom SageMaker AI images that are configured to run as a KernelGateway app.
+        /// A list of custom SageMaker AI images that are configured to run as a KernelGateway app. The maximum number of custom images are as follows.
+        ///
+        /// * On a domain level: 200
+        ///
+        /// * On a space level: 5
+        ///
+        /// * On a user profile level: 5
         public var customImages: [SageMakerClientTypes.CustomImage]?
         /// The default instance type and the Amazon Resource Name (ARN) of the default SageMaker AI image used by the KernelGateway app. The Amazon SageMaker AI Studio UI does not use the default instance type value set here. The default instance type set here is used when Apps are created using the CLI or CloudFormation and the instance type parameter value is not passed.
         public var defaultResourceSpec: SageMakerClientTypes.ResourceSpec?
@@ -15021,6 +15885,49 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The settings that apply to an Amazon SageMaker AI domain when you use it in Amazon SageMaker Unified Studio.
+    public struct UnifiedStudioSettings: Swift.Sendable {
+        /// The ID of the Amazon Web Services account that has the Amazon SageMaker Unified Studio domain. The default value, if you don't specify an ID, is the ID of the account that has the Amazon SageMaker AI domain.
+        public var domainAccountId: Swift.String?
+        /// The ID of the Amazon SageMaker Unified Studio domain associated with this domain.
+        public var domainId: Swift.String?
+        /// The Amazon Web Services Region where the domain is located in Amazon SageMaker Unified Studio. The default value, if you don't specify a Region, is the Region where the Amazon SageMaker AI domain is located.
+        public var domainRegion: Swift.String?
+        /// The ID of the environment that Amazon SageMaker Unified Studio associates with the domain.
+        public var environmentId: Swift.String?
+        /// The ID of the Amazon SageMaker Unified Studio project that corresponds to the domain.
+        public var projectId: Swift.String?
+        /// The location where Amazon S3 stores temporary execution data and other artifacts for the project that corresponds to the domain.
+        public var projectS3Path: Swift.String?
+        /// The ARN of the application managed by SageMaker AI and SageMaker Unified Studio in the Amazon Web Services IAM Identity Center.
+        public var singleSignOnApplicationArn: Swift.String?
+        /// Sets whether you can access the domain in Amazon SageMaker Studio: ENABLED You can access the domain in Amazon SageMaker Studio. If you migrate the domain to Amazon SageMaker Unified Studio, you can access it in both studio interfaces. DISABLED You can't access the domain in Amazon SageMaker Studio. If you migrate the domain to Amazon SageMaker Unified Studio, you can access it only in that studio interface. To migrate a domain to Amazon SageMaker Unified Studio, you specify the UnifiedStudioSettings data type when you use the UpdateDomain action.
+        public var studioWebPortalAccess: SageMakerClientTypes.FeatureStatus?
+
+        public init(
+            domainAccountId: Swift.String? = nil,
+            domainId: Swift.String? = nil,
+            domainRegion: Swift.String? = nil,
+            environmentId: Swift.String? = nil,
+            projectId: Swift.String? = nil,
+            projectS3Path: Swift.String? = nil,
+            singleSignOnApplicationArn: Swift.String? = nil,
+            studioWebPortalAccess: SageMakerClientTypes.FeatureStatus? = nil
+        ) {
+            self.domainAccountId = domainAccountId
+            self.domainId = domainId
+            self.domainRegion = domainRegion
+            self.environmentId = environmentId
+            self.projectId = projectId
+            self.projectS3Path = projectS3Path
+            self.singleSignOnApplicationArn = singleSignOnApplicationArn
+            self.studioWebPortalAccess = studioWebPortalAccess
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// A collection of settings that apply to the SageMaker Domain. These settings are specified through the CreateDomain API call.
     public struct DomainSettings: Swift.Sendable {
         /// A collection of settings that configure the Amazon Q experience within the domain. The AuthMode that you use to create the domain must be SSO.
@@ -15033,19 +15940,23 @@ extension SageMakerClientTypes {
         public var rStudioServerProDomainSettings: SageMakerClientTypes.RStudioServerProDomainSettings?
         /// The security groups for the Amazon Virtual Private Cloud that the Domain uses for communication between Domain-level apps and user apps.
         public var securityGroupIds: [Swift.String]?
+        /// The settings that apply to an SageMaker AI domain when you use it in Amazon SageMaker Unified Studio.
+        public var unifiedStudioSettings: SageMakerClientTypes.UnifiedStudioSettings?
 
         public init(
             amazonQSettings: SageMakerClientTypes.AmazonQSettings? = nil,
             dockerSettings: SageMakerClientTypes.DockerSettings? = nil,
             executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig? = nil,
             rStudioServerProDomainSettings: SageMakerClientTypes.RStudioServerProDomainSettings? = nil,
-            securityGroupIds: [Swift.String]? = nil
+            securityGroupIds: [Swift.String]? = nil,
+            unifiedStudioSettings: SageMakerClientTypes.UnifiedStudioSettings? = nil
         ) {
             self.amazonQSettings = amazonQSettings
             self.dockerSettings = dockerSettings
             self.executionRoleIdentityConfig = executionRoleIdentityConfig
             self.rStudioServerProDomainSettings = rStudioServerProDomainSettings
             self.securityGroupIds = securityGroupIds
+            self.unifiedStudioSettings = unifiedStudioSettings
         }
     }
 }
@@ -15151,14 +16062,18 @@ public struct CreateDomainInput: Swift.Sendable {
 public struct CreateDomainOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the created domain.
     public var domainArn: Swift.String?
+    /// The ID of the created domain.
+    public var domainId: Swift.String?
     /// The URL to the created domain.
     public var url: Swift.String?
 
     public init(
         domainArn: Swift.String? = nil,
+        domainId: Swift.String? = nil,
         url: Swift.String? = nil
     ) {
         self.domainArn = domainArn
+        self.domainId = domainId
         self.url = url
     }
 }
@@ -15611,6 +16526,25 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// Settings for the capacity reservation for the compute instances that SageMaker AI reserves for an endpoint.
+    public struct ProductionVariantCapacityReservationConfig: Swift.Sendable {
+        /// Options that you can choose for the capacity reservation. SageMaker AI supports the following options: capacity-reservations-only SageMaker AI launches instances only into an ML capacity reservation. If no capacity is available, the instances fail to launch.
+        public var capacityReservationPreference: SageMakerClientTypes.CapacityReservationPreference?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the ML capacity reservation that SageMaker AI applies when it deploys the endpoint.
+        public var mlReservationArn: Swift.String?
+
+        public init(
+            capacityReservationPreference: SageMakerClientTypes.CapacityReservationPreference? = nil,
+            mlReservationArn: Swift.String? = nil
+        ) {
+            self.capacityReservationPreference = capacityReservationPreference
+            self.mlReservationArn = mlReservationArn
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Specifies configuration for a core dump from the model container when the process crashes.
     public struct ProductionVariantCoreDumpConfig: Swift.Sendable {
         /// The Amazon S3 bucket to send the core dump to.
@@ -15646,13 +16580,15 @@ extension SageMakerClientTypes {
         case al2Gpu2
         case al2Gpu21
         case al2Gpu31
+        case al2Neuron2
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ProductionVariantInferenceAmiVersion] {
             return [
                 .al2Gpu2,
                 .al2Gpu21,
-                .al2Gpu31
+                .al2Gpu31,
+                .al2Neuron2
             ]
         }
 
@@ -15666,6 +16602,7 @@ extension SageMakerClientTypes {
             case .al2Gpu2: return "al2-ami-sagemaker-inference-gpu-2"
             case .al2Gpu21: return "al2-ami-sagemaker-inference-gpu-2-1"
             case .al2Gpu31: return "al2-ami-sagemaker-inference-gpu-3-1"
+            case .al2Neuron2: return "al2-ami-sagemaker-inference-neuron-2"
             case let .sdkUnknown(s): return s
             }
         }
@@ -15804,6 +16741,8 @@ extension SageMakerClientTypes {
     public struct ProductionVariant: Swift.Sendable {
         /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify the size of the EI instance to use for the production variant.
         public var acceleratorType: SageMakerClientTypes.ProductionVariantAcceleratorType?
+        /// Settings for the capacity reservation for the compute instances that SageMaker AI reserves for an endpoint.
+        public var capacityReservationConfig: SageMakerClientTypes.ProductionVariantCapacityReservationConfig?
         /// The timeout value, in seconds, for your inference container to pass health check by SageMaker Hosting. For more information about health check, see [How Your Container Should Respond to Health Check (Ping) Requests](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-inference-code.html#your-algorithms-inference-algo-ping-requests).
         public var containerStartupHealthCheckTimeoutInSeconds: Swift.Int?
         /// Specifies configuration for a core dump from the model container when the process crashes.
@@ -15839,6 +16778,13 @@ extension SageMakerClientTypes {
         /// * CUDA version: 12.4
         ///
         /// * NVIDIA Container Toolkit with disabled CUDA-compat mounting
+        ///
+        ///
+        /// al2-ami-sagemaker-inference-neuron-2
+        ///
+        /// * Accelerator: Inferentia2 and Trainium
+        ///
+        /// * Neuron driver version: 2.19
         public var inferenceAmiVersion: SageMakerClientTypes.ProductionVariantInferenceAmiVersion?
         /// Number of instances to launch initially.
         public var initialInstanceCount: Swift.Int?
@@ -15864,6 +16810,7 @@ extension SageMakerClientTypes {
 
         public init(
             acceleratorType: SageMakerClientTypes.ProductionVariantAcceleratorType? = nil,
+            capacityReservationConfig: SageMakerClientTypes.ProductionVariantCapacityReservationConfig? = nil,
             containerStartupHealthCheckTimeoutInSeconds: Swift.Int? = nil,
             coreDumpConfig: SageMakerClientTypes.ProductionVariantCoreDumpConfig? = nil,
             enableSSMAccess: Swift.Bool? = nil,
@@ -15880,6 +16827,7 @@ extension SageMakerClientTypes {
             volumeSizeInGB: Swift.Int? = nil
         ) {
             self.acceleratorType = acceleratorType
+            self.capacityReservationConfig = capacityReservationConfig
             self.containerStartupHealthCheckTimeoutInSeconds = containerStartupHealthCheckTimeoutInSeconds
             self.coreDumpConfig = coreDumpConfig
             self.enableSSMAccess = enableSSMAccess
@@ -17995,7 +18943,7 @@ extension SageMakerClientTypes {
 public struct CreateImageVersionInput: Swift.Sendable {
     /// A list of aliases created with the image version.
     public var aliases: [Swift.String]?
-    /// The registry path of the container image to use as the starting point for this version. The path is an Amazon ECR URI in the following format: .dkr.ecr..amazonaws.com/
+    /// The registry path of the container image to use as the starting point for this version. The path is an Amazon ECR URI in the following format: <acct-id>.dkr.ecr.<region>.amazonaws.com/<repo-name[:tag] or [@digest]>
     /// This member is required.
     public var baseImage: Swift.String?
     /// A unique ID. If not specified, the Amazon Web Services CLI and Amazon Web Services SDKs, such as the SDK for Python (Boto3), add a unique value to the call.
@@ -19384,11 +20332,11 @@ extension SageMakerClientTypes {
         ///
         /// * // KMS Key ID "1234abcd-12ab-34cd-56ef-1234567890ab"
         ///
-        /// * // Amazon Resource Name (ARN) of a KMS Key "arn:aws:kms:::key/"
+        /// * // Amazon Resource Name (ARN) of a KMS Key "arn:aws:kms:<region>:<account>:key/<key-id-12ab-34cd-56ef-1234567890ab>"
         ///
         /// * // KMS Key Alias "alias/ExampleAlias"
         ///
-        /// * // Amazon Resource Name (ARN) of a KMS Key Alias "arn:aws:kms:::alias/"
+        /// * // Amazon Resource Name (ARN) of a KMS Key Alias "arn:aws:kms:<region>:<account>:alias/<ExampleAlias>"
         ///
         ///
         /// For more information about key identifiers, see [Key identifiers (KeyID)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-id) in the Amazon Web Services Key Management Service (Amazon Web Services KMS) documentation.
@@ -19476,11 +20424,11 @@ extension SageMakerClientTypes {
         ///
         /// * // KMS Key ID "1234abcd-12ab-34cd-56ef-1234567890ab"
         ///
-        /// * // Amazon Resource Name (ARN) of a KMS Key "arn:aws:kms:::key/"
+        /// * // Amazon Resource Name (ARN) of a KMS Key "arn:aws:kms:<region>:<account>:key/<key-id-12ab-34cd-56ef-1234567890ab>"
         ///
         /// * // KMS Key Alias "alias/ExampleAlias"
         ///
-        /// * // Amazon Resource Name (ARN) of a KMS Key Alias "arn:aws:kms:::alias/"
+        /// * // Amazon Resource Name (ARN) of a KMS Key Alias "arn:aws:kms:<region>:<account>:alias/<ExampleAlias>"
         ///
         ///
         /// For more information about key identifiers, see [Key identifiers (KeyID)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-id) in the Amazon Web Services Key Management Service (Amazon Web Services KMS) documentation.
@@ -20555,13 +21503,7 @@ public struct CreateLabelingJobInput: Swift.Sendable {
     /// If you are creating an adjustment or verification labeling job, you must use a different LabelAttributeName than the one used in the original labeling job. The original labeling job is the Ground Truth labeling job that produced the labels that you want verified or adjusted. To learn more about adjustment and verification labeling jobs, see [Verify and Adjust Labels](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-verification-data.html).
     /// This member is required.
     public var labelAttributeName: Swift.String?
-    /// The S3 URI of the file, referred to as a label category configuration file, that defines the categories used to label the data objects. For 3D point cloud and video frame task types, you can add label category attributes and frame attributes to your label category configuration file. To learn how, see [Create a Labeling Category Configuration File for 3D Point Cloud Labeling Jobs](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-point-cloud-label-category-config.html). For named entity recognition jobs, in addition to "labels", you must provide worker instructions in the label category configuration file using the "instructions" parameter: "instructions": {"shortInstruction":"
-    /// Add header
-    ///
-    ///
-    ///     Add Instructions
-    ///
-    /// ", "fullInstruction":"Add additional instructions."}. For details and an example, see [Create a Named Entity Recognition Labeling Job (API) ](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-named-entity-recg.html#sms-creating-ner-api). For all other [built-in task types](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-task-types.html) and [custom tasks](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-custom-templates.html), your label category configuration file must be a JSON file in the following format. Identify the labels you want to use by replacing label_1, label_2,...,label_n with your label categories. {
+    /// The S3 URI of the file, referred to as a label category configuration file, that defines the categories used to label the data objects. For 3D point cloud and video frame task types, you can add label category attributes and frame attributes to your label category configuration file. To learn how, see [Create a Labeling Category Configuration File for 3D Point Cloud Labeling Jobs](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-point-cloud-label-category-config.html). For named entity recognition jobs, in addition to "labels", you must provide worker instructions in the label category configuration file using the "instructions" parameter: "instructions": {"shortInstruction":"<h1>Add header</h1><p>Add Instructions</p>", "fullInstruction":"<p>Add additional instructions.</p>"}. For details and an example, see [Create a Named Entity Recognition Labeling Job (API) ](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-named-entity-recg.html#sms-creating-ner-api). For all other [built-in task types](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-task-types.html) and [custom tasks](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-custom-templates.html), your label category configuration file must be a JSON file in the following format. Identify the labels you want to use by replacing label_1, label_2,...,label_n with your label categories. {
     ///     "document-version": "2018-11-28",
     ///
     ///
@@ -22498,15 +23440,19 @@ public struct CreateNotebookInstanceLifecycleConfigInput: Swift.Sendable {
     public var onCreate: [SageMakerClientTypes.NotebookInstanceLifecycleHook]?
     /// A shell script that runs every time you start a notebook instance, including when you create the notebook instance. The shell script must be a base64-encoded string.
     public var onStart: [SageMakerClientTypes.NotebookInstanceLifecycleHook]?
+    /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html).
+    public var tags: [SageMakerClientTypes.Tag]?
 
     public init(
         notebookInstanceLifecycleConfigName: Swift.String? = nil,
         onCreate: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil,
-        onStart: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil
+        onStart: [SageMakerClientTypes.NotebookInstanceLifecycleHook]? = nil,
+        tags: [SageMakerClientTypes.Tag]? = nil
     ) {
         self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
         self.onCreate = onCreate
         self.onStart = onStart
+        self.tags = tags
     }
 }
 
@@ -22532,6 +23478,14 @@ extension SageMakerClientTypes {
         case mlG54xlarge
         case mlG58xlarge
         case mlG5Xlarge
+        case mlG6e12xlarge
+        case mlG6e16xlarge
+        case mlG6e24xlarge
+        case mlG6e2xlarge
+        case mlG6e48xlarge
+        case mlG6e4xlarge
+        case mlG6e8xlarge
+        case mlG6eXlarge
         case mlG612xlarge
         case mlG616xlarge
         case mlG624xlarge
@@ -22562,6 +23516,14 @@ extension SageMakerClientTypes {
                 .mlG54xlarge,
                 .mlG58xlarge,
                 .mlG5Xlarge,
+                .mlG6e12xlarge,
+                .mlG6e16xlarge,
+                .mlG6e24xlarge,
+                .mlG6e2xlarge,
+                .mlG6e48xlarge,
+                .mlG6e4xlarge,
+                .mlG6e8xlarge,
+                .mlG6eXlarge,
                 .mlG612xlarge,
                 .mlG616xlarge,
                 .mlG624xlarge,
@@ -22598,6 +23560,14 @@ extension SageMakerClientTypes {
             case .mlG54xlarge: return "ml.g5.4xlarge"
             case .mlG58xlarge: return "ml.g5.8xlarge"
             case .mlG5Xlarge: return "ml.g5.xlarge"
+            case .mlG6e12xlarge: return "ml.g6e.12xlarge"
+            case .mlG6e16xlarge: return "ml.g6e.16xlarge"
+            case .mlG6e24xlarge: return "ml.g6e.24xlarge"
+            case .mlG6e2xlarge: return "ml.g6e.2xlarge"
+            case .mlG6e48xlarge: return "ml.g6e.48xlarge"
+            case .mlG6e4xlarge: return "ml.g6e.4xlarge"
+            case .mlG6e8xlarge: return "ml.g6e.8xlarge"
+            case .mlG6eXlarge: return "ml.g6e.xlarge"
             case .mlG612xlarge: return "ml.g6.12xlarge"
             case .mlG616xlarge: return "ml.g6.16xlarge"
             case .mlG624xlarge: return "ml.g6.24xlarge"
@@ -22969,6 +23939,8 @@ public struct CreatePartnerAppInput: Swift.Sendable {
     /// The ARN of the IAM role that the partner application uses.
     /// This member is required.
     public var executionRoleArn: Swift.String?
+    /// SageMaker Partner AI Apps uses Amazon Web Services KMS to encrypt data at rest using an Amazon Web Services managed key by default. For more control, specify a customer managed key.
+    public var kmsKeyId: Swift.String?
     /// Maintenance configuration settings for the SageMaker Partner AI App.
     public var maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig?
     /// The name to give the SageMaker Partner AI App.
@@ -22989,6 +23961,7 @@ public struct CreatePartnerAppInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         enableIamSessionBasedIdentity: Swift.Bool? = nil,
         executionRoleArn: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
         maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig? = nil,
         name: Swift.String? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
@@ -23000,6 +23973,7 @@ public struct CreatePartnerAppInput: Swift.Sendable {
         self.clientToken = clientToken
         self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
         self.executionRoleArn = executionRoleArn
+        self.kmsKeyId = kmsKeyId
         self.maintenanceConfig = maintenanceConfig
         self.name = name
         self.tags = tags
@@ -23703,7 +24677,7 @@ extension SageMakerClientTypes {
 
     /// Configuration for uploading output from the processing container.
     public struct ProcessingOutputConfig: Swift.Sendable {
-        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt the processing job output. KmsKeyId can be an ID of a KMS key, ARN of a KMS key, alias of a KMS key, or alias of a KMS key. The KmsKeyId is applied to all outputs.
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt the processing job output. KmsKeyId can be an ID of a KMS key, ARN of a KMS key, or alias of a KMS key. The KmsKeyId is applied to all outputs.
         public var kmsKeyId: Swift.String?
         /// An array of outputs configuring the data to upload from the processing container.
         /// This member is required.
@@ -23785,7 +24759,7 @@ public struct CreateProcessingJobInput: Swift.Sendable {
     /// Configures the processing job to run a specified Docker container image.
     /// This member is required.
     public var appSpecification: SageMakerClientTypes.AppSpecification?
-    /// The environment variables to set in the Docker container. Up to 100 key and values entries in the map are supported.
+    /// The environment variables to set in the Docker container. Up to 100 key and values entries in the map are supported. Do not include any security-sensitive information including account access IDs, secrets, or tokens in any environment fields. As part of the shared responsibility model, you are responsible for any potential exposure, unauthorized access, or compromise of your sensitive data if caused by security-sensitive information included in the request environment variable or plain text fields.
     public var environment: [Swift.String: Swift.String]?
     /// Associates a SageMaker job as a trial component with an experiment and trial. Specified when you call the following APIs:
     ///
@@ -23812,7 +24786,7 @@ public struct CreateProcessingJobInput: Swift.Sendable {
     public var roleArn: Swift.String?
     /// The time limit for how long the processing job is allowed to run.
     public var stoppingCondition: SageMakerClientTypes.ProcessingStoppingCondition?
-    /// (Optional) An array of key-value pairs. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-whatURL) in the Amazon Web Services Billing and Cost Management User Guide.
+    /// (Optional) An array of key-value pairs. For more information, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-whatURL) in the Amazon Web Services Billing and Cost Management User Guide. Do not include any security-sensitive information including account access IDs, secrets, or tokens in any tags. As part of the shared responsibility model, you are responsible for any potential exposure, unauthorized access, or compromise of your sensitive data if caused by security-sensitive information included in the request tag variable or plain text fields.
     public var tags: [SageMakerClientTypes.Tag]?
 
     public init(
@@ -23901,6 +24875,21 @@ extension SageMakerClientTypes {
     }
 }
 
+extension SageMakerClientTypes {
+
+    /// Contains configuration details for a template provider. Only one type of template provider can be specified.
+    public struct CreateTemplateProvider: Swift.Sendable {
+        /// The CloudFormation template provider configuration for creating infrastructure resources.
+        public var cfnTemplateProvider: SageMakerClientTypes.CfnCreateTemplateProvider?
+
+        public init(
+            cfnTemplateProvider: SageMakerClientTypes.CfnCreateTemplateProvider? = nil
+        ) {
+            self.cfnTemplateProvider = cfnTemplateProvider
+        }
+    }
+}
+
 public struct CreateProjectInput: Swift.Sendable {
     /// A description for the project.
     public var projectDescription: Swift.String?
@@ -23908,21 +24897,24 @@ public struct CreateProjectInput: Swift.Sendable {
     /// This member is required.
     public var projectName: Swift.String?
     /// The product ID and provisioning artifact ID to provision a service catalog. The provisioning artifact ID will default to the latest provisioning artifact ID of the product, if you don't provide the provisioning artifact ID. For more information, see [What is Amazon Web Services Service Catalog](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html).
-    /// This member is required.
     public var serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails?
     /// An array of key-value pairs that you want to use to organize and track your Amazon Web Services resource costs. For more information, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference Guide.
     public var tags: [SageMakerClientTypes.Tag]?
+    /// An array of template provider configurations for creating infrastructure resources for the project.
+    public var templateProviders: [SageMakerClientTypes.CreateTemplateProvider]?
 
     public init(
         projectDescription: Swift.String? = nil,
         projectName: Swift.String? = nil,
         serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails? = nil,
-        tags: [SageMakerClientTypes.Tag]? = nil
+        tags: [SageMakerClientTypes.Tag]? = nil,
+        templateProviders: [SageMakerClientTypes.CreateTemplateProvider]? = nil
     ) {
         self.projectDescription = projectDescription
         self.projectName = projectName
         self.serviceCatalogProvisioningDetails = serviceCatalogProvisioningDetails
         self.tags = tags
+        self.templateProviders = templateProviders
     }
 }
 
@@ -24122,6 +25114,12 @@ extension SageMakerClientTypes {
         public var jupyterServerAppSettings: SageMakerClientTypes.JupyterServerAppSettings?
         /// The KernelGateway app settings.
         public var kernelGatewayAppSettings: SageMakerClientTypes.KernelGatewayAppSettings?
+        /// If you enable this option, SageMaker AI creates the following resources on your behalf when you create the space:
+        ///
+        /// * The user profile that possesses the space.
+        ///
+        /// * The app that the space contains.
+        public var spaceManagedResources: SageMakerClientTypes.FeatureStatus?
         /// The storage settings for a space.
         public var spaceStorageSettings: SageMakerClientTypes.SpaceStorageSettings?
 
@@ -24132,6 +25130,7 @@ extension SageMakerClientTypes {
             jupyterLabAppSettings: SageMakerClientTypes.SpaceJupyterLabAppSettings? = nil,
             jupyterServerAppSettings: SageMakerClientTypes.JupyterServerAppSettings? = nil,
             kernelGatewayAppSettings: SageMakerClientTypes.KernelGatewayAppSettings? = nil,
+            spaceManagedResources: SageMakerClientTypes.FeatureStatus? = nil,
             spaceStorageSettings: SageMakerClientTypes.SpaceStorageSettings? = nil
         ) {
             self.appType = appType
@@ -24140,6 +25139,7 @@ extension SageMakerClientTypes {
             self.jupyterLabAppSettings = jupyterLabAppSettings
             self.jupyterServerAppSettings = jupyterServerAppSettings
             self.kernelGatewayAppSettings = kernelGatewayAppSettings
+            self.spaceManagedResources = spaceManagedResources
             self.spaceStorageSettings = spaceStorageSettings
         }
     }
@@ -24528,7 +25528,7 @@ public struct CreateTrainingJobInput: Swift.Sendable {
     public var enableManagedSpotTraining: Swift.Bool?
     /// Isolates the training container. No inbound or outbound network calls can be made, except for calls between peers within a training cluster for distributed training. If you enable network isolation for training jobs that are configured to use a VPC, SageMaker downloads and uploads customer data and model artifacts through the specified VPC, but the training container does not have network access.
     public var enableNetworkIsolation: Swift.Bool?
-    /// The environment variables to set in the Docker container.
+    /// The environment variables to set in the Docker container. Do not include any security-sensitive information including account access IDs, secrets, or tokens in any environment fields. As part of the shared responsibility model, you are responsible for any potential exposure, unauthorized access, or compromise of your sensitive data if caused by security-sensitive information included in the request environment variable or plain text fields.
     public var environment: [Swift.String: Swift.String]?
     /// Associates a SageMaker job as a trial component with an experiment and trial. Specified when you call the following APIs:
     ///
@@ -24538,7 +25538,7 @@ public struct CreateTrainingJobInput: Swift.Sendable {
     ///
     /// * [CreateTransformJob](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTransformJob.html)
     public var experimentConfig: SageMakerClientTypes.ExperimentConfig?
-    /// Algorithm-specific parameters that influence the quality of the model. You set hyperparameters before you start the learning process. For a list of hyperparameters for each training algorithm provided by SageMaker, see [Algorithms](https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html). You can specify a maximum of 100 hyperparameters. Each hyperparameter is a key-value pair. Each key and value is limited to 256 characters, as specified by the Length Constraint. Do not include any security-sensitive information including account access IDs, secrets or tokens in any hyperparameter field. If the use of security-sensitive credentials are detected, SageMaker will reject your training job request and return an exception error.
+    /// Algorithm-specific parameters that influence the quality of the model. You set hyperparameters before you start the learning process. For a list of hyperparameters for each training algorithm provided by SageMaker, see [Algorithms](https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html). You can specify a maximum of 100 hyperparameters. Each hyperparameter is a key-value pair. Each key and value is limited to 256 characters, as specified by the Length Constraint. Do not include any security-sensitive information including account access IDs, secrets, or tokens in any hyperparameter fields. As part of the shared responsibility model, you are responsible for any potential exposure, unauthorized access, or compromise of your sensitive data if caused by any security-sensitive information included in the request hyperparameter variable or plain text fields.
     public var hyperParameters: [Swift.String: Swift.String]?
     /// Contains information about the infrastructure health check configuration for the training job.
     public var infraCheckConfig: SageMakerClientTypes.InfraCheckConfig?
@@ -24566,7 +25566,7 @@ public struct CreateTrainingJobInput: Swift.Sendable {
     /// Specifies a limit to how long a model training job can run. It also specifies how long a managed Spot training job has to complete. When the job reaches the time limit, SageMaker ends the training job. Use this API to cap model training costs. To stop a job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost.
     /// This member is required.
     public var stoppingCondition: SageMakerClientTypes.StoppingCondition?
-    /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
+    /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html). Do not include any security-sensitive information including account access IDs, secrets, or tokens in any tags. As part of the shared responsibility model, you are responsible for any potential exposure, unauthorized access, or compromise of your sensitive data if caused by any security-sensitive information included in the request tag variable or plain text fields.
     public var tags: [SageMakerClientTypes.Tag]?
     /// Configuration of storage locations for the Amazon SageMaker Debugger TensorBoard output data.
     public var tensorBoardOutputConfig: SageMakerClientTypes.TensorBoardOutputConfig?
@@ -27041,6 +28041,8 @@ public struct DescribeAppOutput: Swift.Sendable {
     public var lastHealthCheckTimestamp: Foundation.Date?
     /// The timestamp of the last user's activity. LastUserActivityTimestamp is also updated when SageMaker AI performs health checks without user activity. As a result, this value is set to the same value as LastHealthCheckTimestamp.
     public var lastUserActivityTimestamp: Foundation.Date?
+    /// Indicates whether the application is launched in recovery mode.
+    public var recoveryMode: Swift.Bool?
     /// The instance type and the Amazon Resource Name (ARN) of the SageMaker AI image created on the instance.
     public var resourceSpec: SageMakerClientTypes.ResourceSpec?
     /// The name of the space. If this value is not set, then UserProfileName must be set.
@@ -27060,6 +28062,7 @@ public struct DescribeAppOutput: Swift.Sendable {
         failureReason: Swift.String? = nil,
         lastHealthCheckTimestamp: Foundation.Date? = nil,
         lastUserActivityTimestamp: Foundation.Date? = nil,
+        recoveryMode: Swift.Bool? = nil,
         resourceSpec: SageMakerClientTypes.ResourceSpec? = nil,
         spaceName: Swift.String? = nil,
         status: SageMakerClientTypes.AppStatus? = nil,
@@ -27074,6 +28077,7 @@ public struct DescribeAppOutput: Swift.Sendable {
         self.failureReason = failureReason
         self.lastHealthCheckTimestamp = lastHealthCheckTimestamp
         self.lastUserActivityTimestamp = lastUserActivityTimestamp
+        self.recoveryMode = recoveryMode
         self.resourceSpec = resourceSpec
         self.spaceName = spaceName
         self.status = status
@@ -28833,8 +29837,72 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The EC2 capacity reservations that are shared to an ML capacity reservation.
+    public struct Ec2CapacityReservation: Swift.Sendable {
+        /// The number of instances that are currently available in the EC2 capacity reservation.
+        public var availableInstanceCount: Swift.Int?
+        /// The unique identifier for an EC2 capacity reservation that's part of the ML capacity reservation.
+        public var ec2CapacityReservationId: Swift.String?
+        /// The number of instances that you allocated to the EC2 capacity reservation.
+        public var totalInstanceCount: Swift.Int?
+        /// The number of instances from the EC2 capacity reservation that are being used by the endpoint.
+        public var usedByCurrentEndpoint: Swift.Int?
+
+        public init(
+            availableInstanceCount: Swift.Int? = nil,
+            ec2CapacityReservationId: Swift.String? = nil,
+            totalInstanceCount: Swift.Int? = nil,
+            usedByCurrentEndpoint: Swift.Int? = nil
+        ) {
+            self.availableInstanceCount = availableInstanceCount
+            self.ec2CapacityReservationId = ec2CapacityReservationId
+            self.totalInstanceCount = totalInstanceCount
+            self.usedByCurrentEndpoint = usedByCurrentEndpoint
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Details about an ML capacity reservation.
+    public struct ProductionVariantCapacityReservationSummary: Swift.Sendable {
+        /// The number of instances that are currently available in the ML capacity reservation.
+        public var availableInstanceCount: Swift.Int?
+        /// The option that you chose for the capacity reservation. SageMaker AI supports the following options: capacity-reservations-only SageMaker AI launches instances only into an ML capacity reservation. If no capacity is available, the instances fail to launch.
+        public var capacityReservationPreference: SageMakerClientTypes.CapacityReservationPreference?
+        /// The EC2 capacity reservations that are shared to this ML capacity reservation, if any.
+        public var ec2CapacityReservations: [SageMakerClientTypes.Ec2CapacityReservation]?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the ML capacity reservation that SageMaker AI applies when it deploys the endpoint.
+        public var mlReservationArn: Swift.String?
+        /// The number of instances that you allocated to the ML capacity reservation.
+        public var totalInstanceCount: Swift.Int?
+        /// The number of instances from the ML capacity reservation that are being used by the endpoint.
+        public var usedByCurrentEndpoint: Swift.Int?
+
+        public init(
+            availableInstanceCount: Swift.Int? = nil,
+            capacityReservationPreference: SageMakerClientTypes.CapacityReservationPreference? = nil,
+            ec2CapacityReservations: [SageMakerClientTypes.Ec2CapacityReservation]? = nil,
+            mlReservationArn: Swift.String? = nil,
+            totalInstanceCount: Swift.Int? = nil,
+            usedByCurrentEndpoint: Swift.Int? = nil
+        ) {
+            self.availableInstanceCount = availableInstanceCount
+            self.capacityReservationPreference = capacityReservationPreference
+            self.ec2CapacityReservations = ec2CapacityReservations
+            self.mlReservationArn = mlReservationArn
+            self.totalInstanceCount = totalInstanceCount
+            self.usedByCurrentEndpoint = usedByCurrentEndpoint
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Describes weight and capacities for a production variant associated with an endpoint. If you sent a request to the UpdateEndpointWeightsAndCapacities API and the endpoint status is Updating, you get different desired and current values.
     public struct ProductionVariantSummary: Swift.Sendable {
+        /// Settings for the capacity reservation for the compute instances that SageMaker AI reserves for an endpoint.
+        public var capacityReservationConfig: SageMakerClientTypes.ProductionVariantCapacityReservationSummary?
         /// The number of instances associated with the variant.
         public var currentInstanceCount: Swift.Int?
         /// The serverless configuration for the endpoint.
@@ -28860,6 +29928,7 @@ extension SageMakerClientTypes {
         public var variantStatus: [SageMakerClientTypes.ProductionVariantStatus]?
 
         public init(
+            capacityReservationConfig: SageMakerClientTypes.ProductionVariantCapacityReservationSummary? = nil,
             currentInstanceCount: Swift.Int? = nil,
             currentServerlessConfig: SageMakerClientTypes.ProductionVariantServerlessConfig? = nil,
             currentWeight: Swift.Float? = nil,
@@ -28872,6 +29941,7 @@ extension SageMakerClientTypes {
             variantName: Swift.String? = nil,
             variantStatus: [SageMakerClientTypes.ProductionVariantStatus]? = nil
         ) {
+            self.capacityReservationConfig = capacityReservationConfig
             self.currentInstanceCount = currentInstanceCount
             self.currentServerlessConfig = currentServerlessConfig
             self.currentWeight = currentWeight
@@ -29777,12 +30847,14 @@ extension SageMakerClientTypes {
 
     public enum HubContentSupportStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deprecated
+        case restricted
         case supported
         case sdkUnknown(Swift.String)
 
         public static var allCases: [HubContentSupportStatus] {
             return [
                 .deprecated,
+                .restricted,
                 .supported
             ]
         }
@@ -29795,6 +30867,7 @@ extension SageMakerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .deprecated: return "Deprecated"
+            case .restricted: return "Restricted"
             case .supported: return "Supported"
             case let .sdkUnknown(s): return s
             }
@@ -29845,6 +30918,8 @@ public struct DescribeHubContentOutput: Swift.Sendable {
     /// The name of the hub that contains the content.
     /// This member is required.
     public var hubName: Swift.String?
+    /// The last modified time of the hub content.
+    public var lastModifiedTime: Foundation.Date?
     /// The minimum version of the hub content.
     public var referenceMinVersion: Swift.String?
     /// The ARN of the public hub content.
@@ -29869,6 +30944,7 @@ public struct DescribeHubContentOutput: Swift.Sendable {
         hubContentType: SageMakerClientTypes.HubContentType? = nil,
         hubContentVersion: Swift.String? = nil,
         hubName: Swift.String? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         referenceMinVersion: Swift.String? = nil,
         sageMakerPublicHubContentArn: Swift.String? = nil,
         supportStatus: SageMakerClientTypes.HubContentSupportStatus? = nil
@@ -29889,6 +30965,7 @@ public struct DescribeHubContentOutput: Swift.Sendable {
         self.hubContentType = hubContentType
         self.hubContentVersion = hubContentVersion
         self.hubName = hubName
+        self.lastModifiedTime = lastModifiedTime
         self.referenceMinVersion = referenceMinVersion
         self.sageMakerPublicHubContentArn = sageMakerPublicHubContentArn
         self.supportStatus = supportStatus
@@ -30653,6 +31730,112 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum InferenceComponentCapacitySizeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case capacityPercent
+        case copyCount
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InferenceComponentCapacitySizeType] {
+            return [
+                .capacityPercent,
+                .copyCount
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .capacityPercent: return "CAPACITY_PERCENT"
+            case .copyCount: return "COPY_COUNT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Specifies the type and size of the endpoint capacity to activate for a rolling deployment or a rollback strategy. You can specify your batches as either of the following:
+    ///
+    /// * A count of inference component copies
+    ///
+    /// * The overall percentage or your fleet
+    ///
+    ///
+    /// For a rollback strategy, if you don't specify the fields in this object, or if you set the Value parameter to 100%, then SageMaker AI uses a blue/green rollback strategy and rolls all traffic back to the blue fleet.
+    public struct InferenceComponentCapacitySize: Swift.Sendable {
+        /// Specifies the endpoint capacity type. COPY_COUNT The endpoint activates based on the number of inference component copies. CAPACITY_PERCENT The endpoint activates based on the specified percentage of capacity.
+        /// This member is required.
+        public var type: SageMakerClientTypes.InferenceComponentCapacitySizeType?
+        /// Defines the capacity size, either as a number of inference component copies or a capacity percentage.
+        /// This member is required.
+        public var value: Swift.Int?
+
+        public init(
+            type: SageMakerClientTypes.InferenceComponentCapacitySizeType? = nil,
+            value: Swift.Int? = nil
+        ) {
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Specifies a rolling deployment strategy for updating a SageMaker AI inference component.
+    public struct InferenceComponentRollingUpdatePolicy: Swift.Sendable {
+        /// The batch size for each rolling step in the deployment process. For each step, SageMaker AI provisions capacity on the new endpoint fleet, routes traffic to that fleet, and terminates capacity on the old endpoint fleet. The value must be between 5% to 50% of the copy count of the inference component.
+        /// This member is required.
+        public var maximumBatchSize: SageMakerClientTypes.InferenceComponentCapacitySize?
+        /// The time limit for the total deployment. Exceeding this limit causes a timeout.
+        public var maximumExecutionTimeoutInSeconds: Swift.Int?
+        /// The batch size for a rollback to the old endpoint fleet. If this field is absent, the value is set to the default, which is 100% of the total capacity. When the default is used, SageMaker AI provisions the entire capacity of the old fleet at once during rollback.
+        public var rollbackMaximumBatchSize: SageMakerClientTypes.InferenceComponentCapacitySize?
+        /// The length of the baking period, during which SageMaker AI monitors alarms for each batch on the new fleet.
+        /// This member is required.
+        public var waitIntervalInSeconds: Swift.Int?
+
+        public init(
+            maximumBatchSize: SageMakerClientTypes.InferenceComponentCapacitySize? = nil,
+            maximumExecutionTimeoutInSeconds: Swift.Int? = nil,
+            rollbackMaximumBatchSize: SageMakerClientTypes.InferenceComponentCapacitySize? = nil,
+            waitIntervalInSeconds: Swift.Int? = nil
+        ) {
+            self.maximumBatchSize = maximumBatchSize
+            self.maximumExecutionTimeoutInSeconds = maximumExecutionTimeoutInSeconds
+            self.rollbackMaximumBatchSize = rollbackMaximumBatchSize
+            self.waitIntervalInSeconds = waitIntervalInSeconds
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The deployment configuration for an endpoint that hosts inference components. The configuration includes the desired deployment strategy and rollback settings.
+    public struct InferenceComponentDeploymentConfig: Swift.Sendable {
+        /// Automatic rollback configuration for handling endpoint deployment failures and recovery.
+        public var autoRollbackConfiguration: SageMakerClientTypes.AutoRollbackConfig?
+        /// Specifies a rolling deployment strategy for updating a SageMaker AI endpoint.
+        /// This member is required.
+        public var rollingUpdatePolicy: SageMakerClientTypes.InferenceComponentRollingUpdatePolicy?
+
+        public init(
+            autoRollbackConfiguration: SageMakerClientTypes.AutoRollbackConfig? = nil,
+            rollingUpdatePolicy: SageMakerClientTypes.InferenceComponentRollingUpdatePolicy? = nil
+        ) {
+            self.autoRollbackConfiguration = autoRollbackConfiguration
+            self.rollingUpdatePolicy = rollingUpdatePolicy
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Details about the runtime settings for the model that is deployed with the inference component.
     public struct InferenceComponentRuntimeConfigSummary: Swift.Sendable {
         /// The number of runtime copies of the model container that are currently deployed.
@@ -30744,6 +31927,8 @@ public struct DescribeInferenceComponentOutput: Swift.Sendable {
     public var inferenceComponentName: Swift.String?
     /// The status of the inference component.
     public var inferenceComponentStatus: SageMakerClientTypes.InferenceComponentStatus?
+    /// The deployment and rollback settings that you assigned to the inference component.
+    public var lastDeploymentConfig: SageMakerClientTypes.InferenceComponentDeploymentConfig?
     /// The time when the inference component was last updated.
     /// This member is required.
     public var lastModifiedTime: Foundation.Date?
@@ -30762,6 +31947,7 @@ public struct DescribeInferenceComponentOutput: Swift.Sendable {
         inferenceComponentArn: Swift.String? = nil,
         inferenceComponentName: Swift.String? = nil,
         inferenceComponentStatus: SageMakerClientTypes.InferenceComponentStatus? = nil,
+        lastDeploymentConfig: SageMakerClientTypes.InferenceComponentDeploymentConfig? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         runtimeConfig: SageMakerClientTypes.InferenceComponentRuntimeConfigSummary? = nil,
         specification: SageMakerClientTypes.InferenceComponentSpecificationSummary? = nil,
@@ -30774,6 +31960,7 @@ public struct DescribeInferenceComponentOutput: Swift.Sendable {
         self.inferenceComponentArn = inferenceComponentArn
         self.inferenceComponentName = inferenceComponentName
         self.inferenceComponentStatus = inferenceComponentStatus
+        self.lastDeploymentConfig = lastDeploymentConfig
         self.lastModifiedTime = lastModifiedTime
         self.runtimeConfig = runtimeConfig
         self.specification = specification
@@ -31705,6 +32892,38 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum TrackingServerMaintenanceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case maintenanceComplete
+        case maintenanceFailed
+        case maintenanceInProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrackingServerMaintenanceStatus] {
+            return [
+                .maintenanceComplete,
+                .maintenanceFailed,
+                .maintenanceInProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .maintenanceComplete: return "MaintenanceComplete"
+            case .maintenanceFailed: return "MaintenanceFailed"
+            case .maintenanceInProgress: return "MaintenanceInProgress"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum TrackingServerStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case created
         case createFailed
@@ -31798,6 +33017,8 @@ public struct DescribeMlflowTrackingServerOutput: Swift.Sendable {
     public var roleArn: Swift.String?
     /// The ARN of the described tracking server.
     public var trackingServerArn: Swift.String?
+    /// The current maintenance status of the described MLflow Tracking Server.
+    public var trackingServerMaintenanceStatus: SageMakerClientTypes.TrackingServerMaintenanceStatus?
     /// The name of the described tracking server.
     public var trackingServerName: Swift.String?
     /// The size of the described tracking server.
@@ -31820,6 +33041,7 @@ public struct DescribeMlflowTrackingServerOutput: Swift.Sendable {
         mlflowVersion: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         trackingServerArn: Swift.String? = nil,
+        trackingServerMaintenanceStatus: SageMakerClientTypes.TrackingServerMaintenanceStatus? = nil,
         trackingServerName: Swift.String? = nil,
         trackingServerSize: SageMakerClientTypes.TrackingServerSize? = nil,
         trackingServerStatus: SageMakerClientTypes.TrackingServerStatus? = nil,
@@ -31836,6 +33058,7 @@ public struct DescribeMlflowTrackingServerOutput: Swift.Sendable {
         self.mlflowVersion = mlflowVersion
         self.roleArn = roleArn
         self.trackingServerArn = trackingServerArn
+        self.trackingServerMaintenanceStatus = trackingServerMaintenanceStatus
         self.trackingServerName = trackingServerName
         self.trackingServerSize = trackingServerSize
         self.trackingServerStatus = trackingServerStatus
@@ -33341,6 +34564,10 @@ public struct DescribePartnerAppOutput: Swift.Sendable {
     public var error: SageMakerClientTypes.ErrorInfo?
     /// The ARN of the IAM role associated with the SageMaker Partner AI App.
     public var executionRoleArn: Swift.String?
+    /// The Amazon Web Services KMS customer managed key used to encrypt the data at rest associated with SageMaker Partner AI Apps.
+    public var kmsKeyId: Swift.String?
+    /// The time that the SageMaker Partner AI App was last modified.
+    public var lastModifiedTime: Foundation.Date?
     /// Maintenance configuration settings for the SageMaker Partner AI App.
     public var maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig?
     /// The name of the SageMaker Partner AI App.
@@ -33363,6 +34590,8 @@ public struct DescribePartnerAppOutput: Swift.Sendable {
         enableIamSessionBasedIdentity: Swift.Bool? = nil,
         error: SageMakerClientTypes.ErrorInfo? = nil,
         executionRoleArn: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
         maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig? = nil,
         name: Swift.String? = nil,
         status: SageMakerClientTypes.PartnerAppStatus? = nil,
@@ -33378,6 +34607,8 @@ public struct DescribePartnerAppOutput: Swift.Sendable {
         self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
         self.error = error
         self.executionRoleArn = executionRoleArn
+        self.kmsKeyId = kmsKeyId
+        self.lastModifiedTime = lastModifiedTime
         self.maintenanceConfig = maintenanceConfig
         self.name = name
         self.status = status
@@ -33919,6 +35150,21 @@ extension SageMakerClientTypes {
     }
 }
 
+extension SageMakerClientTypes {
+
+    /// Details about a template provider configuration and associated provisioning information.
+    public struct TemplateProviderDetail: Swift.Sendable {
+        /// Details about a CloudFormation template provider configuration and associated provisioning information.
+        public var cfnTemplateProviderDetail: SageMakerClientTypes.CfnTemplateProviderDetail?
+
+        public init(
+            cfnTemplateProviderDetail: SageMakerClientTypes.CfnTemplateProviderDetail? = nil
+        ) {
+            self.cfnTemplateProviderDetail = cfnTemplateProviderDetail
+        }
+    }
+}
+
 public struct DescribeProjectOutput: Swift.Sendable {
     /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
     public var createdBy: SageMakerClientTypes.UserContext?
@@ -33946,8 +35192,9 @@ public struct DescribeProjectOutput: Swift.Sendable {
     /// Information about a provisioned service catalog product.
     public var serviceCatalogProvisionedProductDetails: SageMakerClientTypes.ServiceCatalogProvisionedProductDetails?
     /// Information used to provision a service catalog product. For information, see [What is Amazon Web Services Service Catalog](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html).
-    /// This member is required.
     public var serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails?
+    /// An array of template providers associated with the project.
+    public var templateProviderDetails: [SageMakerClientTypes.TemplateProviderDetail]?
 
     public init(
         createdBy: SageMakerClientTypes.UserContext? = nil,
@@ -33960,7 +35207,8 @@ public struct DescribeProjectOutput: Swift.Sendable {
         projectName: Swift.String? = nil,
         projectStatus: SageMakerClientTypes.ProjectStatus? = nil,
         serviceCatalogProvisionedProductDetails: SageMakerClientTypes.ServiceCatalogProvisionedProductDetails? = nil,
-        serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails? = nil
+        serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails? = nil,
+        templateProviderDetails: [SageMakerClientTypes.TemplateProviderDetail]? = nil
     ) {
         self.createdBy = createdBy
         self.creationTime = creationTime
@@ -33973,6 +35221,7 @@ public struct DescribeProjectOutput: Swift.Sendable {
         self.projectStatus = projectStatus
         self.serviceCatalogProvisionedProductDetails = serviceCatalogProvisionedProductDetails
         self.serviceCatalogProvisioningDetails = serviceCatalogProvisioningDetails
+        self.templateProviderDetails = templateProviderDetails
     }
 }
 
@@ -34554,7 +35803,7 @@ public struct DescribeTrainingJobOutput: Swift.Sendable {
     public var enableManagedSpotTraining: Swift.Bool?
     /// If you want to allow inbound or outbound network calls, except for calls between peers within a training cluster for distributed training, choose True. If you enable network isolation for training jobs that are configured to use a VPC, SageMaker downloads and uploads customer data and model artifacts through the specified VPC, but the training container does not have network access.
     public var enableNetworkIsolation: Swift.Bool?
-    /// The environment variables to set in the Docker container.
+    /// The environment variables to set in the Docker container. Do not include any security-sensitive information including account access IDs, secrets, or tokens in any environment fields. As part of the shared responsibility model, you are responsible for any potential exposure, unauthorized access, or compromise of your sensitive data if caused by security-sensitive information included in the request environment variable or plain text fields.
     public var environment: [Swift.String: Swift.String]?
     /// Associates a SageMaker job as a trial component with an experiment and trial. Specified when you call the following APIs:
     ///
@@ -34798,6 +36047,7 @@ extension SageMakerClientTypes {
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlP6B20048xlarge
         case mlTrn132xlarge
         case mlTrn248xlarge
         case sdkUnknown(Swift.String)
@@ -34808,6 +36058,7 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlP6B20048xlarge,
                 .mlTrn132xlarge,
                 .mlTrn248xlarge
             ]
@@ -34824,6 +36075,7 @@ extension SageMakerClientTypes {
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlTrn132xlarge: return "ml.trn1.32xlarge"
             case .mlTrn248xlarge: return "ml.trn2.48xlarge"
             case let .sdkUnknown(s): return s
@@ -36297,19 +37549,23 @@ extension SageMakerClientTypes {
         public var rStudioServerProDomainSettingsForUpdate: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate?
         /// The security groups for the Amazon Virtual Private Cloud that the Domain uses for communication between Domain-level apps and user apps.
         public var securityGroupIds: [Swift.String]?
+        /// The settings that apply to an SageMaker AI domain when you use it in Amazon SageMaker Unified Studio.
+        public var unifiedStudioSettings: SageMakerClientTypes.UnifiedStudioSettings?
 
         public init(
             amazonQSettings: SageMakerClientTypes.AmazonQSettings? = nil,
             dockerSettings: SageMakerClientTypes.DockerSettings? = nil,
             executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig? = nil,
             rStudioServerProDomainSettingsForUpdate: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate? = nil,
-            securityGroupIds: [Swift.String]? = nil
+            securityGroupIds: [Swift.String]? = nil,
+            unifiedStudioSettings: SageMakerClientTypes.UnifiedStudioSettings? = nil
         ) {
             self.amazonQSettings = amazonQSettings
             self.dockerSettings = dockerSettings
             self.executionRoleIdentityConfig = executionRoleIdentityConfig
             self.rStudioServerProDomainSettingsForUpdate = rStudioServerProDomainSettingsForUpdate
             self.securityGroupIds = securityGroupIds
+            self.unifiedStudioSettings = unifiedStudioSettings
         }
     }
 }
@@ -36899,7 +38155,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// The properties of an experiment as returned by the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API.
+    /// The properties of an experiment as returned by the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API. For information about experiments, see the [CreateExperiment](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateExperiment.html) API.
     public struct Experiment: Swift.Sendable {
         /// Who created the experiment.
         public var createdBy: SageMakerClientTypes.UserContext?
@@ -37269,7 +38525,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// A conditional statement for a search expression that includes a resource property, a Boolean operator, and a value. Resources that match the statement are returned in the results from the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API. If you specify a Value, but not an Operator, SageMaker uses the equals operator. In search, there are several property types: Metrics To define a metric filter, enter a value using the form "Metrics.", where  is a metric name. For example, the following filter searches for training jobs with an "accuracy" metric greater than "0.9": {
+    /// A conditional statement for a search expression that includes a resource property, a Boolean operator, and a value. Resources that match the statement are returned in the results from the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API. If you specify a Value, but not an Operator, SageMaker uses the equals operator. In search, there are several property types: Metrics To define a metric filter, enter a value using the form "Metrics.<name>", where <name> is a metric name. For example, the following filter searches for training jobs with an "accuracy" metric greater than "0.9": {
     ///     "Name": "Metrics.accuracy",
     ///
     ///
@@ -37278,7 +38534,7 @@ extension SageMakerClientTypes {
     ///
     ///     "Value": "0.9"
     ///
-    /// } HyperParameters To define a hyperparameter filter, enter a value with the form "HyperParameters.". Decimal hyperparameter values are treated as a decimal in a comparison if the specified Value is also a decimal value. If the specified Value is an integer, the decimal hyperparameter values are treated as integers. For example, the following filter is satisfied by training jobs with a "learning_rate" hyperparameter that is less than "0.5":  {
+    /// } HyperParameters To define a hyperparameter filter, enter a value with the form "HyperParameters.<name>". Decimal hyperparameter values are treated as a decimal in a comparison if the specified Value is also a decimal value. If the specified Value is an integer, the decimal hyperparameter values are treated as integers. For example, the following filter is satisfied by training jobs with a "learning_rate" hyperparameter that is less than "0.5":  {
     ///     "Name": "HyperParameters.learning_rate",
     ///
     ///
@@ -37287,7 +38543,7 @@ extension SageMakerClientTypes {
     ///
     ///     "Value": "0.5"
     ///
-    /// } Tags To define a tag filter, enter a value with the form Tags..
+    /// } Tags To define a tag filter, enter a value with the form Tags.<key>.
     public struct Filter: Swift.Sendable {
         /// A resource property name. For example, TrainingJobName. For valid property names, see [SearchRecord](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_SearchRecord.html). You must specify a valid property for the resource.
         /// This member is required.
@@ -38406,6 +39662,8 @@ public struct ImportHubContentInput: Swift.Sendable {
     /// The name of the hub to import content into.
     /// This member is required.
     public var hubName: Swift.String?
+    /// The status of the hub content resource.
+    public var supportStatus: SageMakerClientTypes.HubContentSupportStatus?
     /// Any tags associated with the hub content.
     public var tags: [SageMakerClientTypes.Tag]?
 
@@ -38420,6 +39678,7 @@ public struct ImportHubContentInput: Swift.Sendable {
         hubContentType: SageMakerClientTypes.HubContentType? = nil,
         hubContentVersion: Swift.String? = nil,
         hubName: Swift.String? = nil,
+        supportStatus: SageMakerClientTypes.HubContentSupportStatus? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil
     ) {
         self.documentSchemaVersion = documentSchemaVersion
@@ -38432,6 +39691,7 @@ public struct ImportHubContentInput: Swift.Sendable {
         self.hubContentType = hubContentType
         self.hubContentVersion = hubContentVersion
         self.hubName = hubName
+        self.supportStatus = supportStatus
         self.tags = tags
     }
 }
@@ -39668,7 +40928,6 @@ public struct ListClusterNodesOutput: Swift.Sendable {
     /// This member is required.
     public var clusterNodeSummaries: [SageMakerClientTypes.ClusterNodeSummary]?
     /// The next token specified for listing instances in a SageMaker HyperPod cluster.
-    /// This member is required.
     public var nextToken: Swift.String?
 
     public init(
@@ -39735,7 +40994,6 @@ public struct ListClustersOutput: Swift.Sendable {
     /// This member is required.
     public var clusterSummaries: [SageMakerClientTypes.ClusterSummary]?
     /// If the result of the previous ListClusters request was truncated, the response includes a NextToken. To retrieve the next set of clusters, use the token in the next request.
-    /// This member is required.
     public var nextToken: Swift.String?
 
     public init(
@@ -43045,6 +44303,8 @@ extension SageMakerClientTypes {
         ///
         /// * PENDING_MANUAL_APPROVAL - The model is waiting for manual approval.
         public var modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus?
+        /// A structure describing the current state of the model in its life cycle.
+        public var modelLifeCycle: SageMakerClientTypes.ModelLifeCycle?
         /// The Amazon Resource Name (ARN) of the model package.
         /// This member is required.
         public var modelPackageArn: Swift.String?
@@ -43063,6 +44323,7 @@ extension SageMakerClientTypes {
         public init(
             creationTime: Foundation.Date? = nil,
             modelApprovalStatus: SageMakerClientTypes.ModelApprovalStatus? = nil,
+            modelLifeCycle: SageMakerClientTypes.ModelLifeCycle? = nil,
             modelPackageArn: Swift.String? = nil,
             modelPackageDescription: Swift.String? = nil,
             modelPackageGroupName: Swift.String? = nil,
@@ -43072,6 +44333,7 @@ extension SageMakerClientTypes {
         ) {
             self.creationTime = creationTime
             self.modelApprovalStatus = modelApprovalStatus
+            self.modelLifeCycle = modelLifeCycle
             self.modelPackageArn = modelPackageArn
             self.modelPackageDescription = modelPackageDescription
             self.modelPackageGroupName = modelPackageGroupName
@@ -47333,7 +48595,14 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// A versioned model that can be deployed for SageMaker inference.
+    /// A container for your trained model that can be deployed for SageMaker inference. This can include inference code, artifacts, and metadata. The model package type can be one of the following.
+    ///
+    /// * Versioned model: A part of a model package group in Model Registry.
+    ///
+    /// * Unversioned model: Not part of a model package group and used in Amazon Web Services Marketplace.
+    ///
+    ///
+    /// For more information, see [CreateModelPackage](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateModelPackage.html).
     public struct ModelPackage: Swift.Sendable {
         /// An array of additional Inference Specification objects.
         public var additionalInferenceSpecifications: [SageMakerClientTypes.AdditionalInferenceSpecificationDefinition]?
@@ -47379,7 +48648,11 @@ extension SageMakerClientTypes {
         public var modelPackageDescription: Swift.String?
         /// The model group to which the model belongs.
         public var modelPackageGroupName: Swift.String?
-        /// The name of the model.
+        /// The name of the model package. The name can be as follows:
+        ///
+        /// * For a versioned model, the name is automatically generated by SageMaker Model Registry and follows the format 'ModelPackageGroupName/ModelPackageVersion'.
+        ///
+        /// * For an unversioned model, you must provide the name.
         public var modelPackageName: Swift.String?
         /// The status of the model package. This can be one of the following values.
         ///
@@ -47484,7 +48757,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// A group of versioned models in the model registry.
+    /// A group of versioned models in the Model Registry.
     public struct ModelPackageGroup: Swift.Sendable {
         /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
         public var createdBy: SageMakerClientTypes.UserContext?
@@ -47914,6 +49187,8 @@ extension SageMakerClientTypes {
         public var serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails?
         /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html).
         public var tags: [SageMakerClientTypes.Tag]?
+        /// An array of template providers associated with the project.
+        public var templateProviderDetails: [SageMakerClientTypes.TemplateProviderDetail]?
 
         public init(
             createdBy: SageMakerClientTypes.UserContext? = nil,
@@ -47927,7 +49202,8 @@ extension SageMakerClientTypes {
             projectStatus: SageMakerClientTypes.ProjectStatus? = nil,
             serviceCatalogProvisionedProductDetails: SageMakerClientTypes.ServiceCatalogProvisionedProductDetails? = nil,
             serviceCatalogProvisioningDetails: SageMakerClientTypes.ServiceCatalogProvisioningDetails? = nil,
-            tags: [SageMakerClientTypes.Tag]? = nil
+            tags: [SageMakerClientTypes.Tag]? = nil,
+            templateProviderDetails: [SageMakerClientTypes.TemplateProviderDetail]? = nil
         ) {
             self.createdBy = createdBy
             self.creationTime = creationTime
@@ -47941,6 +49217,7 @@ extension SageMakerClientTypes {
             self.serviceCatalogProvisionedProductDetails = serviceCatalogProvisionedProductDetails
             self.serviceCatalogProvisioningDetails = serviceCatalogProvisioningDetails
             self.tags = tags
+            self.templateProviderDetails = templateProviderDetails
         }
     }
 }
@@ -48118,6 +49395,35 @@ public struct RegisterDevicesInput: Swift.Sendable {
         self.deviceFleetName = deviceFleetName
         self.devices = devices
         self.tags = tags
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum Relation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case equalTo
+        case greaterThanOrEqualTo
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Relation] {
+            return [
+                .equalTo,
+                .greaterThanOrEqualTo
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .equalTo: return "EqualTo"
+            case .greaterThanOrEqualTo: return "GreaterThanOrEqualTo"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -48337,7 +49643,7 @@ extension SageMakerClientTypes {
 
     /// The list of key-value pairs used to filter your search results. If a search result contains a key from your list, it is included in the final search response if the value associated with the key in the result matches the value you specified. If the value doesn't match, the result is excluded from the search response. Any resources that don't have a key from the list that you've provided will also be included in the search response.
     public struct VisibilityConditions: Swift.Sendable {
-        /// The key that specifies the tag that you're using to filter the search results. It must be in the following format: Tags..
+        /// The key that specifies the tag that you're using to filter the search results. It must be in the following format: Tags.<key>.
         public var key: Swift.String?
         /// The value for the tag that you're using to filter the search results.
         public var value: Swift.String?
@@ -48803,9 +50109,16 @@ extension SageMakerClientTypes {
         public var model: SageMakerClientTypes.ModelDashboardModel?
         /// An Amazon SageMaker Model Card that documents details about a machine learning model.
         public var modelCard: SageMakerClientTypes.ModelCard?
-        /// A versioned model that can be deployed for SageMaker inference.
+        /// A container for your trained model that can be deployed for SageMaker inference. This can include inference code, artifacts, and metadata. The model package type can be one of the following.
+        ///
+        /// * Versioned model: A part of a model package group in Model Registry.
+        ///
+        /// * Unversioned model: Not part of a model package group and used in Amazon Web Services Marketplace.
+        ///
+        ///
+        /// For more information, see [CreateModelPackage](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateModelPackage.html).
         public var modelPackage: SageMakerClientTypes.ModelPackage?
-        /// A group of versioned models in the model registry.
+        /// A group of versioned models in the Model Registry.
         public var modelPackageGroup: SageMakerClientTypes.ModelPackageGroup?
         /// A SageMaker Model Building Pipeline instance.
         public var pipeline: SageMakerClientTypes.Pipeline?
@@ -48856,31 +50169,57 @@ extension SageMakerClientTypes {
     }
 }
 
+extension SageMakerClientTypes {
+
+    /// Represents the total number of matching results and indicates how accurate that count is. The Value field provides the count, which may be exact or estimated. The Relation field indicates whether it's an exact figure or a lower bound. This helps understand the full scope of search results, especially when dealing with large result sets.
+    public struct TotalHits: Swift.Sendable {
+        /// Indicates the relationship between the returned Value and the actual total number of matching results. Possible values are:
+        ///
+        /// * EqualTo: The Value is the exact count of matching results.
+        ///
+        /// * GreaterThanOrEqualTo: The Value is a lower bound of the actual count of matching results.
+        public var relation: SageMakerClientTypes.Relation?
+        /// The total number of matching results. This value may be exact or an estimate, depending on the Relation field.
+        public var value: Swift.Int?
+
+        public init(
+            relation: SageMakerClientTypes.Relation? = nil,
+            value: Swift.Int? = nil
+        ) {
+            self.relation = relation
+            self.value = value
+        }
+    }
+}
+
 public struct SearchOutput: Swift.Sendable {
     /// If the result of the previous Search request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request.
     public var nextToken: Swift.String?
     /// A list of SearchRecord objects.
     public var results: [SageMakerClientTypes.SearchRecord]?
+    /// The total number of matching results.
+    public var totalHits: SageMakerClientTypes.TotalHits?
 
     public init(
         nextToken: Swift.String? = nil,
-        results: [SageMakerClientTypes.SearchRecord]? = nil
+        results: [SageMakerClientTypes.SearchRecord]? = nil,
+        totalHits: SageMakerClientTypes.TotalHits? = nil
     ) {
         self.nextToken = nextToken
         self.results = results
+        self.totalHits = totalHits
     }
 }
 
 public struct SearchTrainingPlanOfferingsInput: Swift.Sendable {
     /// The desired duration in hours for the training plan offerings.
+    /// This member is required.
     public var durationHours: Swift.Int?
     /// A filter to search for reserved capacity offerings with an end time before a specified date.
     public var endTimeBefore: Foundation.Date?
     /// The number of instances you want to reserve in the training plan offerings. This allows you to specify the quantity of compute resources needed for your SageMaker training jobs or SageMaker HyperPod clusters, helping you find reserved capacity offerings that match your requirements.
-    /// This member is required.
     public var instanceCount: Swift.Int?
     /// The type of instance you want to search for in the available training plan offerings. This field allows you to filter the search results based on the specific compute resources you require for your SageMaker training jobs or SageMaker HyperPod clusters. When searching for training plan offerings, specifying the instance type helps you find Reserved Instances that match your computational needs.
-    /// This member is required.
     public var instanceType: SageMakerClientTypes.ReservedCapacityInstanceType?
     /// A filter to search for training plan offerings with a start time after a specified date.
     public var startTimeAfter: Foundation.Date?
@@ -49623,15 +50962,39 @@ public struct UpdateClusterSchedulerConfigOutput: Swift.Sendable {
     }
 }
 
+extension SageMakerClientTypes {
+
+    /// The configuration that describes specifications of the instance groups to update.
+    public struct UpdateClusterSoftwareInstanceGroupSpecification: Swift.Sendable {
+        /// The name of the instance group to update.
+        /// This member is required.
+        public var instanceGroupName: Swift.String?
+
+        public init(
+            instanceGroupName: Swift.String? = nil
+        ) {
+            self.instanceGroupName = instanceGroupName
+        }
+    }
+}
+
 public struct UpdateClusterSoftwareInput: Swift.Sendable {
     /// Specify the name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster you want to update for security patching.
     /// This member is required.
     public var clusterName: Swift.String?
+    /// The configuration to use when updating the AMI versions.
+    public var deploymentConfig: SageMakerClientTypes.DeploymentConfiguration?
+    /// The array of instance groups for which to update AMI versions.
+    public var instanceGroups: [SageMakerClientTypes.UpdateClusterSoftwareInstanceGroupSpecification]?
 
     public init(
-        clusterName: Swift.String? = nil
+        clusterName: Swift.String? = nil,
+        deploymentConfig: SageMakerClientTypes.DeploymentConfiguration? = nil,
+        instanceGroups: [SageMakerClientTypes.UpdateClusterSoftwareInstanceGroupSpecification]? = nil
     ) {
         self.clusterName = clusterName
+        self.deploymentConfig = deploymentConfig
+        self.instanceGroups = instanceGroups
     }
 }
 
@@ -50147,6 +51510,113 @@ public struct UpdateHubOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateHubContentInput: Swift.Sendable {
+    /// The description of the hub content.
+    public var hubContentDescription: Swift.String?
+    /// The display name of the hub content.
+    public var hubContentDisplayName: Swift.String?
+    /// A string that provides a description of the hub content. This string can include links, tables, and standard markdown formatting.
+    public var hubContentMarkdown: Swift.String?
+    /// The name of the hub content resource that you want to update.
+    /// This member is required.
+    public var hubContentName: Swift.String?
+    /// The searchable keywords of the hub content.
+    public var hubContentSearchKeywords: [Swift.String]?
+    /// The content type of the resource that you want to update. Only specify a Model or Notebook resource for this API. To update a ModelReference, use the UpdateHubContentReference API instead.
+    /// This member is required.
+    public var hubContentType: SageMakerClientTypes.HubContentType?
+    /// The hub content version that you want to update. For example, if you have two versions of a resource in your hub, you can update the second version.
+    /// This member is required.
+    public var hubContentVersion: Swift.String?
+    /// The name of the SageMaker hub that contains the hub content you want to update. You can optionally use the hub ARN instead.
+    /// This member is required.
+    public var hubName: Swift.String?
+    /// Indicates the current status of the hub content resource.
+    public var supportStatus: SageMakerClientTypes.HubContentSupportStatus?
+
+    public init(
+        hubContentDescription: Swift.String? = nil,
+        hubContentDisplayName: Swift.String? = nil,
+        hubContentMarkdown: Swift.String? = nil,
+        hubContentName: Swift.String? = nil,
+        hubContentSearchKeywords: [Swift.String]? = nil,
+        hubContentType: SageMakerClientTypes.HubContentType? = nil,
+        hubContentVersion: Swift.String? = nil,
+        hubName: Swift.String? = nil,
+        supportStatus: SageMakerClientTypes.HubContentSupportStatus? = nil
+    ) {
+        self.hubContentDescription = hubContentDescription
+        self.hubContentDisplayName = hubContentDisplayName
+        self.hubContentMarkdown = hubContentMarkdown
+        self.hubContentName = hubContentName
+        self.hubContentSearchKeywords = hubContentSearchKeywords
+        self.hubContentType = hubContentType
+        self.hubContentVersion = hubContentVersion
+        self.hubName = hubName
+        self.supportStatus = supportStatus
+    }
+}
+
+public struct UpdateHubContentOutput: Swift.Sendable {
+    /// The ARN of the private model hub that contains the updated hub content.
+    /// This member is required.
+    public var hubArn: Swift.String?
+    /// The ARN of the hub content resource that was updated.
+    /// This member is required.
+    public var hubContentArn: Swift.String?
+
+    public init(
+        hubArn: Swift.String? = nil,
+        hubContentArn: Swift.String? = nil
+    ) {
+        self.hubArn = hubArn
+        self.hubContentArn = hubContentArn
+    }
+}
+
+public struct UpdateHubContentReferenceInput: Swift.Sendable {
+    /// The name of the hub content resource that you want to update.
+    /// This member is required.
+    public var hubContentName: Swift.String?
+    /// The content type of the resource that you want to update. Only specify a ModelReference resource for this API. To update a Model or Notebook resource, use the UpdateHubContent API instead.
+    /// This member is required.
+    public var hubContentType: SageMakerClientTypes.HubContentType?
+    /// The name of the SageMaker hub that contains the hub content you want to update. You can optionally use the hub ARN instead.
+    /// This member is required.
+    public var hubName: Swift.String?
+    /// The minimum hub content version of the referenced model that you want to use. The minimum version must be older than the latest available version of the referenced model. To support all versions of a model, set the value to 1.0.0.
+    public var minVersion: Swift.String?
+
+    public init(
+        hubContentName: Swift.String? = nil,
+        hubContentType: SageMakerClientTypes.HubContentType? = nil,
+        hubName: Swift.String? = nil,
+        minVersion: Swift.String? = nil
+    ) {
+        self.hubContentName = hubContentName
+        self.hubContentType = hubContentType
+        self.hubName = hubName
+        self.minVersion = minVersion
+    }
+}
+
+public struct UpdateHubContentReferenceOutput: Swift.Sendable {
+    /// The ARN of the private model hub that contains the updated hub content.
+    /// This member is required.
+    public var hubArn: Swift.String?
+    /// The ARN of the hub content resource that was updated.
+    /// This member is required.
+    public var hubContentArn: Swift.String?
+
+    public init(
+        hubArn: Swift.String? = nil,
+        hubContentArn: Swift.String? = nil
+    ) {
+        self.hubArn = hubArn
+        self.hubContentArn = hubContentArn
+    }
+}
+
 public struct UpdateImageInput: Swift.Sendable {
     /// A list of properties to delete. Only the Description and DisplayName properties can be deleted.
     public var deleteProperties: [Swift.String]?
@@ -50272,6 +51742,8 @@ public struct UpdateImageVersionOutput: Swift.Sendable {
 }
 
 public struct UpdateInferenceComponentInput: Swift.Sendable {
+    /// The deployment configuration for the inference component. The configuration contains the desired deployment strategy and rollback settings.
+    public var deploymentConfig: SageMakerClientTypes.InferenceComponentDeploymentConfig?
     /// The name of the inference component.
     /// This member is required.
     public var inferenceComponentName: Swift.String?
@@ -50281,10 +51753,12 @@ public struct UpdateInferenceComponentInput: Swift.Sendable {
     public var specification: SageMakerClientTypes.InferenceComponentSpecification?
 
     public init(
+        deploymentConfig: SageMakerClientTypes.InferenceComponentDeploymentConfig? = nil,
         inferenceComponentName: Swift.String? = nil,
         runtimeConfig: SageMakerClientTypes.InferenceComponentRuntimeConfig? = nil,
         specification: SageMakerClientTypes.InferenceComponentSpecification? = nil
     ) {
+        self.deploymentConfig = deploymentConfig
         self.inferenceComponentName = inferenceComponentName
         self.runtimeConfig = runtimeConfig
         self.specification = specification
@@ -50844,6 +52318,21 @@ extension SageMakerClientTypes {
     }
 }
 
+extension SageMakerClientTypes {
+
+    /// Contains configuration details for updating an existing template provider in the project.
+    public struct UpdateTemplateProvider: Swift.Sendable {
+        /// The CloudFormation template provider configuration to update.
+        public var cfnTemplateProvider: SageMakerClientTypes.CfnUpdateTemplateProvider?
+
+        public init(
+            cfnTemplateProvider: SageMakerClientTypes.CfnUpdateTemplateProvider? = nil
+        ) {
+            self.cfnTemplateProvider = cfnTemplateProvider
+        }
+    }
+}
+
 public struct UpdateProjectInput: Swift.Sendable {
     /// The description for the project.
     public var projectDescription: Swift.String?
@@ -50854,17 +52343,21 @@ public struct UpdateProjectInput: Swift.Sendable {
     public var serviceCatalogProvisioningUpdateDetails: SageMakerClientTypes.ServiceCatalogProvisioningUpdateDetails?
     /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html). In addition, the project must have tag update constraints set in order to include this parameter in the request. For more information, see [Amazon Web Services Service Catalog Tag Update Constraints](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/constraints-resourceupdate.html).
     public var tags: [SageMakerClientTypes.Tag]?
+    /// The template providers to update in the project.
+    public var templateProvidersToUpdate: [SageMakerClientTypes.UpdateTemplateProvider]?
 
     public init(
         projectDescription: Swift.String? = nil,
         projectName: Swift.String? = nil,
         serviceCatalogProvisioningUpdateDetails: SageMakerClientTypes.ServiceCatalogProvisioningUpdateDetails? = nil,
-        tags: [SageMakerClientTypes.Tag]? = nil
+        tags: [SageMakerClientTypes.Tag]? = nil,
+        templateProvidersToUpdate: [SageMakerClientTypes.UpdateTemplateProvider]? = nil
     ) {
         self.projectDescription = projectDescription
         self.projectName = projectName
         self.serviceCatalogProvisioningUpdateDetails = serviceCatalogProvisioningUpdateDetails
         self.tags = tags
+        self.templateProvidersToUpdate = templateProvidersToUpdate
     }
 }
 
@@ -53560,6 +55053,20 @@ extension UpdateHubInput {
     }
 }
 
+extension UpdateHubContentInput {
+
+    static func urlPathProvider(_ value: UpdateHubContentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateHubContentReferenceInput {
+
+    static func urlPathProvider(_ value: UpdateHubContentReferenceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateImageInput {
 
     static func urlPathProvider(_ value: UpdateImageInput) -> Swift.String? {
@@ -53802,6 +55309,7 @@ extension CreateAppInput {
         try writer["AppName"].write(value.appName)
         try writer["AppType"].write(value.appType)
         try writer["DomainId"].write(value.domainId)
+        try writer["RecoveryMode"].write(value.recoveryMode)
         try writer["ResourceSpec"].write(value.resourceSpec, with: SageMakerClientTypes.ResourceSpec.write(value:to:))
         try writer["SpaceName"].write(value.spaceName)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -54429,6 +55937,7 @@ extension CreateNotebookInstanceLifecycleConfigInput {
         try writer["NotebookInstanceLifecycleConfigName"].write(value.notebookInstanceLifecycleConfigName)
         try writer["OnCreate"].writeList(value.onCreate, memberWritingClosure: SageMakerClientTypes.NotebookInstanceLifecycleHook.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["OnStart"].writeList(value.onStart, memberWritingClosure: SageMakerClientTypes.NotebookInstanceLifecycleHook.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -54458,6 +55967,7 @@ extension CreatePartnerAppInput {
         try writer["ClientToken"].write(value.clientToken)
         try writer["EnableIamSessionBasedIdentity"].write(value.enableIamSessionBasedIdentity)
         try writer["ExecutionRoleArn"].write(value.executionRoleArn)
+        try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["MaintenanceConfig"].write(value.maintenanceConfig, with: SageMakerClientTypes.PartnerAppMaintenanceConfig.write(value:to:))
         try writer["Name"].write(value.name)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -54550,6 +56060,7 @@ extension CreateProjectInput {
         try writer["ProjectName"].write(value.projectName)
         try writer["ServiceCatalogProvisioningDetails"].write(value.serviceCatalogProvisioningDetails, with: SageMakerClientTypes.ServiceCatalogProvisioningDetails.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TemplateProviders"].writeList(value.templateProviders, memberWritingClosure: SageMakerClientTypes.CreateTemplateProvider.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -55828,6 +57339,7 @@ extension ImportHubContentInput {
         try writer["HubContentType"].write(value.hubContentType)
         try writer["HubContentVersion"].write(value.hubContentVersion)
         try writer["HubName"].write(value.hubName)
+        try writer["SupportStatus"].write(value.supportStatus)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -57394,6 +58906,8 @@ extension UpdateClusterSoftwareInput {
     static func write(value: UpdateClusterSoftwareInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ClusterName"].write(value.clusterName)
+        try writer["DeploymentConfig"].write(value.deploymentConfig, with: SageMakerClientTypes.DeploymentConfiguration.write(value:to:))
+        try writer["InstanceGroups"].writeList(value.instanceGroups, memberWritingClosure: SageMakerClientTypes.UpdateClusterSoftwareInstanceGroupSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -57532,6 +59046,33 @@ extension UpdateHubInput {
     }
 }
 
+extension UpdateHubContentInput {
+
+    static func write(value: UpdateHubContentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HubContentDescription"].write(value.hubContentDescription)
+        try writer["HubContentDisplayName"].write(value.hubContentDisplayName)
+        try writer["HubContentMarkdown"].write(value.hubContentMarkdown)
+        try writer["HubContentName"].write(value.hubContentName)
+        try writer["HubContentSearchKeywords"].writeList(value.hubContentSearchKeywords, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["HubContentType"].write(value.hubContentType)
+        try writer["HubContentVersion"].write(value.hubContentVersion)
+        try writer["HubName"].write(value.hubName)
+        try writer["SupportStatus"].write(value.supportStatus)
+    }
+}
+
+extension UpdateHubContentReferenceInput {
+
+    static func write(value: UpdateHubContentReferenceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HubContentName"].write(value.hubContentName)
+        try writer["HubContentType"].write(value.hubContentType)
+        try writer["HubName"].write(value.hubName)
+        try writer["MinVersion"].write(value.minVersion)
+    }
+}
+
 extension UpdateImageInput {
 
     static func write(value: UpdateImageInput?, to writer: SmithyJSON.Writer) throws {
@@ -57567,6 +59108,7 @@ extension UpdateInferenceComponentInput {
 
     static func write(value: UpdateInferenceComponentInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DeploymentConfig"].write(value.deploymentConfig, with: SageMakerClientTypes.InferenceComponentDeploymentConfig.write(value:to:))
         try writer["InferenceComponentName"].write(value.inferenceComponentName)
         try writer["RuntimeConfig"].write(value.runtimeConfig, with: SageMakerClientTypes.InferenceComponentRuntimeConfig.write(value:to:))
         try writer["Specification"].write(value.specification, with: SageMakerClientTypes.InferenceComponentSpecification.write(value:to:))
@@ -57733,6 +59275,7 @@ extension UpdateProjectInput {
         try writer["ProjectName"].write(value.projectName)
         try writer["ServiceCatalogProvisioningUpdateDetails"].write(value.serviceCatalogProvisioningUpdateDetails, with: SageMakerClientTypes.ServiceCatalogProvisioningUpdateDetails.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TemplateProvidersToUpdate"].writeList(value.templateProvidersToUpdate, memberWritingClosure: SageMakerClientTypes.UpdateTemplateProvider.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -58068,6 +59611,7 @@ extension CreateDomainOutput {
         let reader = responseReader
         var value = CreateDomainOutput()
         value.domainArn = try reader["DomainArn"].readIfPresent()
+        value.domainId = try reader["DomainId"].readIfPresent()
         value.url = try reader["Url"].readIfPresent()
         return value
     }
@@ -59173,6 +60717,7 @@ extension DescribeAppOutput {
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.lastHealthCheckTimestamp = try reader["LastHealthCheckTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUserActivityTimestamp = try reader["LastUserActivityTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.recoveryMode = try reader["RecoveryMode"].readIfPresent()
         value.resourceSpec = try reader["ResourceSpec"].readIfPresent(with: SageMakerClientTypes.ResourceSpec.read(from:))
         value.spaceName = try reader["SpaceName"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
@@ -59762,6 +61307,7 @@ extension DescribeHubContentOutput {
         value.hubContentType = try reader["HubContentType"].readIfPresent() ?? .sdkUnknown("")
         value.hubContentVersion = try reader["HubContentVersion"].readIfPresent() ?? ""
         value.hubName = try reader["HubName"].readIfPresent() ?? ""
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.referenceMinVersion = try reader["ReferenceMinVersion"].readIfPresent()
         value.sageMakerPublicHubContentArn = try reader["SageMakerPublicHubContentArn"].readIfPresent()
         value.supportStatus = try reader["SupportStatus"].readIfPresent()
@@ -59875,6 +61421,7 @@ extension DescribeInferenceComponentOutput {
         value.inferenceComponentArn = try reader["InferenceComponentArn"].readIfPresent() ?? ""
         value.inferenceComponentName = try reader["InferenceComponentName"].readIfPresent() ?? ""
         value.inferenceComponentStatus = try reader["InferenceComponentStatus"].readIfPresent()
+        value.lastDeploymentConfig = try reader["LastDeploymentConfig"].readIfPresent(with: SageMakerClientTypes.InferenceComponentDeploymentConfig.read(from:))
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.runtimeConfig = try reader["RuntimeConfig"].readIfPresent(with: SageMakerClientTypes.InferenceComponentRuntimeConfigSummary.read(from:))
         value.specification = try reader["Specification"].readIfPresent(with: SageMakerClientTypes.InferenceComponentSpecificationSummary.read(from:))
@@ -60000,6 +61547,7 @@ extension DescribeMlflowTrackingServerOutput {
         value.mlflowVersion = try reader["MlflowVersion"].readIfPresent()
         value.roleArn = try reader["RoleArn"].readIfPresent()
         value.trackingServerArn = try reader["TrackingServerArn"].readIfPresent()
+        value.trackingServerMaintenanceStatus = try reader["TrackingServerMaintenanceStatus"].readIfPresent()
         value.trackingServerName = try reader["TrackingServerName"].readIfPresent()
         value.trackingServerSize = try reader["TrackingServerSize"].readIfPresent()
         value.trackingServerStatus = try reader["TrackingServerStatus"].readIfPresent()
@@ -60311,6 +61859,8 @@ extension DescribePartnerAppOutput {
         value.enableIamSessionBasedIdentity = try reader["EnableIamSessionBasedIdentity"].readIfPresent()
         value.error = try reader["Error"].readIfPresent(with: SageMakerClientTypes.ErrorInfo.read(from:))
         value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.maintenanceConfig = try reader["MaintenanceConfig"].readIfPresent(with: SageMakerClientTypes.PartnerAppMaintenanceConfig.read(from:))
         value.name = try reader["Name"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
@@ -60432,6 +61982,7 @@ extension DescribeProjectOutput {
         value.projectStatus = try reader["ProjectStatus"].readIfPresent() ?? .sdkUnknown("")
         value.serviceCatalogProvisionedProductDetails = try reader["ServiceCatalogProvisionedProductDetails"].readIfPresent(with: SageMakerClientTypes.ServiceCatalogProvisionedProductDetails.read(from:))
         value.serviceCatalogProvisioningDetails = try reader["ServiceCatalogProvisioningDetails"].readIfPresent(with: SageMakerClientTypes.ServiceCatalogProvisioningDetails.read(from:))
+        value.templateProviderDetails = try reader["TemplateProviderDetails"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.TemplateProviderDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -60948,7 +62499,7 @@ extension ListClusterNodesOutput {
         let reader = responseReader
         var value = ListClusterNodesOutput()
         value.clusterNodeSummaries = try reader["ClusterNodeSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterNodeSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.nextToken = try reader["NextToken"].readIfPresent() ?? ""
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -60961,7 +62512,7 @@ extension ListClustersOutput {
         let reader = responseReader
         var value = ListClustersOutput()
         value.clusterSummaries = try reader["ClusterSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.nextToken = try reader["NextToken"].readIfPresent() ?? ""
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -61943,6 +63494,7 @@ extension SearchOutput {
         var value = SearchOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.results = try reader["Results"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.SearchRecord.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.totalHits = try reader["TotalHits"].readIfPresent(with: SageMakerClientTypes.TotalHits.read(from:))
         return value
     }
 }
@@ -62366,6 +63918,32 @@ extension UpdateHubOutput {
         let reader = responseReader
         var value = UpdateHubOutput()
         value.hubArn = try reader["HubArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateHubContentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateHubContentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateHubContentOutput()
+        value.hubArn = try reader["HubArn"].readIfPresent() ?? ""
+        value.hubContentArn = try reader["HubContentArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateHubContentReferenceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateHubContentReferenceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateHubContentReferenceOutput()
+        value.hubArn = try reader["HubArn"].readIfPresent() ?? ""
+        value.hubContentArn = try reader["HubContentArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -67290,6 +68868,36 @@ enum UpdateHubOutputError {
     }
 }
 
+enum UpdateHubContentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceInUse": return try ResourceInUse.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateHubContentReferenceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceInUse": return try ResourceInUse.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateImageOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -68231,6 +69839,7 @@ extension SageMakerClientTypes.TransformResources {
         guard let value else { return }
         try writer["InstanceCount"].write(value.instanceCount)
         try writer["InstanceType"].write(value.instanceType)
+        try writer["TransformAmiVersion"].write(value.transformAmiVersion)
         try writer["VolumeKmsKeyId"].write(value.volumeKmsKeyId)
     }
 
@@ -68240,6 +69849,7 @@ extension SageMakerClientTypes.TransformResources {
         value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
         value.instanceCount = try reader["InstanceCount"].readIfPresent() ?? 0
         value.volumeKmsKeyId = try reader["VolumeKmsKeyId"].readIfPresent()
+        value.transformAmiVersion = try reader["TransformAmiVersion"].readIfPresent()
         return value
     }
 }
@@ -68512,7 +70122,9 @@ extension SageMakerClientTypes.S3DataSource {
     static func write(value: SageMakerClientTypes.S3DataSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AttributeNames"].writeList(value.attributeNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["HubAccessConfig"].write(value.hubAccessConfig, with: SageMakerClientTypes.HubAccessConfig.write(value:to:))
         try writer["InstanceGroupNames"].writeList(value.instanceGroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ModelAccessConfig"].write(value.modelAccessConfig, with: SageMakerClientTypes.ModelAccessConfig.write(value:to:))
         try writer["S3DataDistributionType"].write(value.s3DataDistributionType)
         try writer["S3DataType"].write(value.s3DataType)
         try writer["S3Uri"].write(value.s3Uri)
@@ -68526,6 +70138,23 @@ extension SageMakerClientTypes.S3DataSource {
         value.s3DataDistributionType = try reader["S3DataDistributionType"].readIfPresent()
         value.attributeNames = try reader["AttributeNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.instanceGroupNames = try reader["InstanceGroupNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.modelAccessConfig = try reader["ModelAccessConfig"].readIfPresent(with: SageMakerClientTypes.ModelAccessConfig.read(from:))
+        value.hubAccessConfig = try reader["HubAccessConfig"].readIfPresent(with: SageMakerClientTypes.HubAccessConfig.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.HubAccessConfig {
+
+    static func write(value: SageMakerClientTypes.HubAccessConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HubContentArn"].write(value.hubContentArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.HubAccessConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.HubAccessConfig()
+        value.hubContentArn = try reader["HubContentArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -69424,6 +71053,92 @@ extension SageMakerClientTypes.ClusterInstanceGroupDetails {
         value.trainingPlanArn = try reader["TrainingPlanArn"].readIfPresent()
         value.trainingPlanStatus = try reader["TrainingPlanStatus"].readIfPresent()
         value.overrideVpcConfig = try reader["OverrideVpcConfig"].readIfPresent(with: SageMakerClientTypes.VpcConfig.read(from:))
+        value.scheduledUpdateConfig = try reader["ScheduledUpdateConfig"].readIfPresent(with: SageMakerClientTypes.ScheduledUpdateConfig.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ScheduledUpdateConfig {
+
+    static func write(value: SageMakerClientTypes.ScheduledUpdateConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeploymentConfig"].write(value.deploymentConfig, with: SageMakerClientTypes.DeploymentConfiguration.write(value:to:))
+        try writer["ScheduleExpression"].write(value.scheduleExpression)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ScheduledUpdateConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ScheduledUpdateConfig()
+        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent() ?? ""
+        value.deploymentConfig = try reader["DeploymentConfig"].readIfPresent(with: SageMakerClientTypes.DeploymentConfiguration.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.DeploymentConfiguration {
+
+    static func write(value: SageMakerClientTypes.DeploymentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AutoRollbackConfiguration"].writeList(value.autoRollbackConfiguration, memberWritingClosure: SageMakerClientTypes.AlarmDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RollingUpdatePolicy"].write(value.rollingUpdatePolicy, with: SageMakerClientTypes.RollingDeploymentPolicy.write(value:to:))
+        try writer["WaitIntervalInSeconds"].write(value.waitIntervalInSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DeploymentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.DeploymentConfiguration()
+        value.rollingUpdatePolicy = try reader["RollingUpdatePolicy"].readIfPresent(with: SageMakerClientTypes.RollingDeploymentPolicy.read(from:))
+        value.waitIntervalInSeconds = try reader["WaitIntervalInSeconds"].readIfPresent()
+        value.autoRollbackConfiguration = try reader["AutoRollbackConfiguration"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AlarmDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.AlarmDetails {
+
+    static func write(value: SageMakerClientTypes.AlarmDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AlarmName"].write(value.alarmName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AlarmDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.AlarmDetails()
+        value.alarmName = try reader["AlarmName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SageMakerClientTypes.RollingDeploymentPolicy {
+
+    static func write(value: SageMakerClientTypes.RollingDeploymentPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaximumBatchSize"].write(value.maximumBatchSize, with: SageMakerClientTypes.CapacitySizeConfig.write(value:to:))
+        try writer["RollbackMaximumBatchSize"].write(value.rollbackMaximumBatchSize, with: SageMakerClientTypes.CapacitySizeConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.RollingDeploymentPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.RollingDeploymentPolicy()
+        value.maximumBatchSize = try reader["MaximumBatchSize"].readIfPresent(with: SageMakerClientTypes.CapacitySizeConfig.read(from:))
+        value.rollbackMaximumBatchSize = try reader["RollbackMaximumBatchSize"].readIfPresent(with: SageMakerClientTypes.CapacitySizeConfig.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.CapacitySizeConfig {
+
+    static func write(value: SageMakerClientTypes.CapacitySizeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CapacitySizeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.CapacitySizeConfig()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? 0
         return value
     }
 }
@@ -69524,6 +71239,7 @@ extension SageMakerClientTypes.ClusterNodeDetails {
         value.instanceStatus = try reader["InstanceStatus"].readIfPresent(with: SageMakerClientTypes.ClusterInstanceStatusDetails.read(from:))
         value.instanceType = try reader["InstanceType"].readIfPresent()
         value.launchTime = try reader["LaunchTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastSoftwareUpdateTime = try reader["LastSoftwareUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lifeCycleConfig = try reader["LifeCycleConfig"].readIfPresent(with: SageMakerClientTypes.ClusterLifeCycleConfig.read(from:))
         value.overrideVpcConfig = try reader["OverrideVpcConfig"].readIfPresent(with: SageMakerClientTypes.VpcConfig.read(from:))
         value.threadsPerCore = try reader["ThreadsPerCore"].readIfPresent()
@@ -70801,6 +72517,7 @@ extension SageMakerClientTypes.DomainSettings {
         try writer["ExecutionRoleIdentityConfig"].write(value.executionRoleIdentityConfig)
         try writer["RStudioServerProDomainSettings"].write(value.rStudioServerProDomainSettings, with: SageMakerClientTypes.RStudioServerProDomainSettings.write(value:to:))
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UnifiedStudioSettings"].write(value.unifiedStudioSettings, with: SageMakerClientTypes.UnifiedStudioSettings.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.DomainSettings {
@@ -70811,6 +72528,36 @@ extension SageMakerClientTypes.DomainSettings {
         value.executionRoleIdentityConfig = try reader["ExecutionRoleIdentityConfig"].readIfPresent()
         value.dockerSettings = try reader["DockerSettings"].readIfPresent(with: SageMakerClientTypes.DockerSettings.read(from:))
         value.amazonQSettings = try reader["AmazonQSettings"].readIfPresent(with: SageMakerClientTypes.AmazonQSettings.read(from:))
+        value.unifiedStudioSettings = try reader["UnifiedStudioSettings"].readIfPresent(with: SageMakerClientTypes.UnifiedStudioSettings.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.UnifiedStudioSettings {
+
+    static func write(value: SageMakerClientTypes.UnifiedStudioSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DomainAccountId"].write(value.domainAccountId)
+        try writer["DomainId"].write(value.domainId)
+        try writer["DomainRegion"].write(value.domainRegion)
+        try writer["EnvironmentId"].write(value.environmentId)
+        try writer["ProjectId"].write(value.projectId)
+        try writer["ProjectS3Path"].write(value.projectS3Path)
+        try writer["SingleSignOnApplicationArn"].write(value.singleSignOnApplicationArn)
+        try writer["StudioWebPortalAccess"].write(value.studioWebPortalAccess)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.UnifiedStudioSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.UnifiedStudioSettings()
+        value.studioWebPortalAccess = try reader["StudioWebPortalAccess"].readIfPresent()
+        value.domainAccountId = try reader["DomainAccountId"].readIfPresent()
+        value.domainRegion = try reader["DomainRegion"].readIfPresent()
+        value.domainId = try reader["DomainId"].readIfPresent()
+        value.projectId = try reader["ProjectId"].readIfPresent()
+        value.environmentId = try reader["EnvironmentId"].readIfPresent()
+        value.projectS3Path = try reader["ProjectS3Path"].readIfPresent()
+        value.singleSignOnApplicationArn = try reader["SingleSignOnApplicationArn"].readIfPresent()
         return value
     }
 }
@@ -71009,6 +72756,35 @@ extension SageMakerClientTypes.ProductionVariantSummary {
         value.desiredServerlessConfig = try reader["DesiredServerlessConfig"].readIfPresent(with: SageMakerClientTypes.ProductionVariantServerlessConfig.read(from:))
         value.managedInstanceScaling = try reader["ManagedInstanceScaling"].readIfPresent(with: SageMakerClientTypes.ProductionVariantManagedInstanceScaling.read(from:))
         value.routingConfig = try reader["RoutingConfig"].readIfPresent(with: SageMakerClientTypes.ProductionVariantRoutingConfig.read(from:))
+        value.capacityReservationConfig = try reader["CapacityReservationConfig"].readIfPresent(with: SageMakerClientTypes.ProductionVariantCapacityReservationSummary.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ProductionVariantCapacityReservationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProductionVariantCapacityReservationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ProductionVariantCapacityReservationSummary()
+        value.mlReservationArn = try reader["MlReservationArn"].readIfPresent()
+        value.capacityReservationPreference = try reader["CapacityReservationPreference"].readIfPresent()
+        value.totalInstanceCount = try reader["TotalInstanceCount"].readIfPresent()
+        value.availableInstanceCount = try reader["AvailableInstanceCount"].readIfPresent()
+        value.usedByCurrentEndpoint = try reader["UsedByCurrentEndpoint"].readIfPresent()
+        value.ec2CapacityReservations = try reader["Ec2CapacityReservations"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.Ec2CapacityReservation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.Ec2CapacityReservation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.Ec2CapacityReservation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.Ec2CapacityReservation()
+        value.ec2CapacityReservationId = try reader["Ec2CapacityReservationId"].readIfPresent()
+        value.totalInstanceCount = try reader["TotalInstanceCount"].readIfPresent()
+        value.availableInstanceCount = try reader["AvailableInstanceCount"].readIfPresent()
+        value.usedByCurrentEndpoint = try reader["UsedByCurrentEndpoint"].readIfPresent()
         return value
     }
 }
@@ -71471,6 +73247,7 @@ extension SageMakerClientTypes.ProductionVariant {
     static func write(value: SageMakerClientTypes.ProductionVariant?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AcceleratorType"].write(value.acceleratorType)
+        try writer["CapacityReservationConfig"].write(value.capacityReservationConfig, with: SageMakerClientTypes.ProductionVariantCapacityReservationConfig.write(value:to:))
         try writer["ContainerStartupHealthCheckTimeoutInSeconds"].write(value.containerStartupHealthCheckTimeoutInSeconds)
         try writer["CoreDumpConfig"].write(value.coreDumpConfig, with: SageMakerClientTypes.ProductionVariantCoreDumpConfig.write(value:to:))
         try writer["EnableSSMAccess"].write(value.enableSSMAccess)
@@ -71505,6 +73282,24 @@ extension SageMakerClientTypes.ProductionVariant {
         value.managedInstanceScaling = try reader["ManagedInstanceScaling"].readIfPresent(with: SageMakerClientTypes.ProductionVariantManagedInstanceScaling.read(from:))
         value.routingConfig = try reader["RoutingConfig"].readIfPresent(with: SageMakerClientTypes.ProductionVariantRoutingConfig.read(from:))
         value.inferenceAmiVersion = try reader["InferenceAmiVersion"].readIfPresent()
+        value.capacityReservationConfig = try reader["CapacityReservationConfig"].readIfPresent(with: SageMakerClientTypes.ProductionVariantCapacityReservationConfig.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ProductionVariantCapacityReservationConfig {
+
+    static func write(value: SageMakerClientTypes.ProductionVariantCapacityReservationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityReservationPreference"].write(value.capacityReservationPreference)
+        try writer["MlReservationArn"].write(value.mlReservationArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProductionVariantCapacityReservationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ProductionVariantCapacityReservationConfig()
+        value.capacityReservationPreference = try reader["CapacityReservationPreference"].readIfPresent()
+        value.mlReservationArn = try reader["MlReservationArn"].readIfPresent()
         return value
     }
 }
@@ -72551,6 +74346,61 @@ extension SageMakerClientTypes.InferenceComponentRuntimeConfigSummary {
         var value = SageMakerClientTypes.InferenceComponentRuntimeConfigSummary()
         value.desiredCopyCount = try reader["DesiredCopyCount"].readIfPresent()
         value.currentCopyCount = try reader["CurrentCopyCount"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.InferenceComponentDeploymentConfig {
+
+    static func write(value: SageMakerClientTypes.InferenceComponentDeploymentConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AutoRollbackConfiguration"].write(value.autoRollbackConfiguration, with: SageMakerClientTypes.AutoRollbackConfig.write(value:to:))
+        try writer["RollingUpdatePolicy"].write(value.rollingUpdatePolicy, with: SageMakerClientTypes.InferenceComponentRollingUpdatePolicy.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceComponentDeploymentConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.InferenceComponentDeploymentConfig()
+        value.rollingUpdatePolicy = try reader["RollingUpdatePolicy"].readIfPresent(with: SageMakerClientTypes.InferenceComponentRollingUpdatePolicy.read(from:))
+        value.autoRollbackConfiguration = try reader["AutoRollbackConfiguration"].readIfPresent(with: SageMakerClientTypes.AutoRollbackConfig.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.InferenceComponentRollingUpdatePolicy {
+
+    static func write(value: SageMakerClientTypes.InferenceComponentRollingUpdatePolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaximumBatchSize"].write(value.maximumBatchSize, with: SageMakerClientTypes.InferenceComponentCapacitySize.write(value:to:))
+        try writer["MaximumExecutionTimeoutInSeconds"].write(value.maximumExecutionTimeoutInSeconds)
+        try writer["RollbackMaximumBatchSize"].write(value.rollbackMaximumBatchSize, with: SageMakerClientTypes.InferenceComponentCapacitySize.write(value:to:))
+        try writer["WaitIntervalInSeconds"].write(value.waitIntervalInSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceComponentRollingUpdatePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.InferenceComponentRollingUpdatePolicy()
+        value.maximumBatchSize = try reader["MaximumBatchSize"].readIfPresent(with: SageMakerClientTypes.InferenceComponentCapacitySize.read(from:))
+        value.waitIntervalInSeconds = try reader["WaitIntervalInSeconds"].readIfPresent() ?? 0
+        value.maximumExecutionTimeoutInSeconds = try reader["MaximumExecutionTimeoutInSeconds"].readIfPresent()
+        value.rollbackMaximumBatchSize = try reader["RollbackMaximumBatchSize"].readIfPresent(with: SageMakerClientTypes.InferenceComponentCapacitySize.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.InferenceComponentCapacitySize {
+
+    static func write(value: SageMakerClientTypes.InferenceComponentCapacitySize?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceComponentCapacitySize {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.InferenceComponentCapacitySize()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? 0
         return value
     }
 }
@@ -74865,6 +76715,53 @@ extension SageMakerClientTypes.ServiceCatalogProvisionedProductDetails {
     }
 }
 
+extension SageMakerClientTypes.TemplateProviderDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TemplateProviderDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.TemplateProviderDetail()
+        value.cfnTemplateProviderDetail = try reader["CfnTemplateProviderDetail"].readIfPresent(with: SageMakerClientTypes.CfnTemplateProviderDetail.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.CfnTemplateProviderDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CfnTemplateProviderDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.CfnTemplateProviderDetail()
+        value.templateName = try reader["TemplateName"].readIfPresent() ?? ""
+        value.templateURL = try reader["TemplateURL"].readIfPresent() ?? ""
+        value.roleARN = try reader["RoleARN"].readIfPresent()
+        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CfnStackParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stackDetail = try reader["StackDetail"].readIfPresent(with: SageMakerClientTypes.CfnStackDetail.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.CfnStackDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CfnStackDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.CfnStackDetail()
+        value.name = try reader["Name"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SageMakerClientTypes.CfnStackParameter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CfnStackParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.CfnStackParameter()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
 extension SageMakerClientTypes.SpaceSettings {
 
     static func write(value: SageMakerClientTypes.SpaceSettings?, to writer: SmithyJSON.Writer) throws {
@@ -74875,6 +76772,7 @@ extension SageMakerClientTypes.SpaceSettings {
         try writer["JupyterLabAppSettings"].write(value.jupyterLabAppSettings, with: SageMakerClientTypes.SpaceJupyterLabAppSettings.write(value:to:))
         try writer["JupyterServerAppSettings"].write(value.jupyterServerAppSettings, with: SageMakerClientTypes.JupyterServerAppSettings.write(value:to:))
         try writer["KernelGatewayAppSettings"].write(value.kernelGatewayAppSettings, with: SageMakerClientTypes.KernelGatewayAppSettings.write(value:to:))
+        try writer["SpaceManagedResources"].write(value.spaceManagedResources)
         try writer["SpaceStorageSettings"].write(value.spaceStorageSettings, with: SageMakerClientTypes.SpaceStorageSettings.write(value:to:))
     }
 
@@ -74887,6 +76785,7 @@ extension SageMakerClientTypes.SpaceSettings {
         value.jupyterLabAppSettings = try reader["JupyterLabAppSettings"].readIfPresent(with: SageMakerClientTypes.SpaceJupyterLabAppSettings.read(from:))
         value.appType = try reader["AppType"].readIfPresent()
         value.spaceStorageSettings = try reader["SpaceStorageSettings"].readIfPresent(with: SageMakerClientTypes.SpaceStorageSettings.read(from:))
+        value.spaceManagedResources = try reader["SpaceManagedResources"].readIfPresent()
         value.customFileSystems = try reader["CustomFileSystems"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CustomFileSystem.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -76042,6 +77941,7 @@ extension SageMakerClientTypes.ClusterNodeSummary {
         value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
         value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
         value.launchTime = try reader["LaunchTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastSoftwareUpdateTime = try reader["LastSoftwareUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.instanceStatus = try reader["InstanceStatus"].readIfPresent(with: SageMakerClientTypes.ClusterInstanceStatusDetails.read(from:))
         return value
     }
@@ -76675,6 +78575,7 @@ extension SageMakerClientTypes.ModelPackageSummary {
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modelPackageStatus = try reader["ModelPackageStatus"].readIfPresent() ?? .sdkUnknown("")
         value.modelApprovalStatus = try reader["ModelApprovalStatus"].readIfPresent()
+        value.modelLifeCycle = try reader["ModelLifeCycle"].readIfPresent(with: SageMakerClientTypes.ModelLifeCycle.read(from:))
         return value
     }
 }
@@ -77613,6 +79514,7 @@ extension SageMakerClientTypes.Project {
         value.projectStatus = try reader["ProjectStatus"].readIfPresent()
         value.createdBy = try reader["CreatedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.templateProviderDetails = try reader["TemplateProviderDetails"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.TemplateProviderDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
@@ -77990,6 +79892,17 @@ extension SageMakerClientTypes.Experiment {
     }
 }
 
+extension SageMakerClientTypes.TotalHits {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TotalHits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.TotalHits()
+        value.value = try reader["Value"].readIfPresent()
+        value.relation = try reader["Relation"].readIfPresent()
+        return value
+    }
+}
+
 extension SageMakerClientTypes.TrainingPlanOffering {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrainingPlanOffering {
@@ -78036,6 +79949,7 @@ extension SageMakerClientTypes.ClusterInstanceGroupSpecification {
         try writer["LifeCycleConfig"].write(value.lifeCycleConfig, with: SageMakerClientTypes.ClusterLifeCycleConfig.write(value:to:))
         try writer["OnStartDeepHealthChecks"].writeList(value.onStartDeepHealthChecks, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerClientTypes.DeepHealthCheckType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["OverrideVpcConfig"].write(value.overrideVpcConfig, with: SageMakerClientTypes.VpcConfig.write(value:to:))
+        try writer["ScheduledUpdateConfig"].write(value.scheduledUpdateConfig, with: SageMakerClientTypes.ScheduledUpdateConfig.write(value:to:))
         try writer["ThreadsPerCore"].write(value.threadsPerCore)
         try writer["TrainingPlanArn"].write(value.trainingPlanArn)
     }
@@ -78133,6 +80047,34 @@ extension SageMakerClientTypes.PipelineDefinitionS3Location {
         try writer["Bucket"].write(value.bucket)
         try writer["ObjectKey"].write(value.objectKey)
         try writer["VersionId"].write(value.versionId)
+    }
+}
+
+extension SageMakerClientTypes.CreateTemplateProvider {
+
+    static func write(value: SageMakerClientTypes.CreateTemplateProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CfnTemplateProvider"].write(value.cfnTemplateProvider, with: SageMakerClientTypes.CfnCreateTemplateProvider.write(value:to:))
+    }
+}
+
+extension SageMakerClientTypes.CfnCreateTemplateProvider {
+
+    static func write(value: SageMakerClientTypes.CfnCreateTemplateProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Parameters"].writeList(value.parameters, memberWritingClosure: SageMakerClientTypes.CfnStackCreateParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RoleARN"].write(value.roleARN)
+        try writer["TemplateName"].write(value.templateName)
+        try writer["TemplateURL"].write(value.templateURL)
+    }
+}
+
+extension SageMakerClientTypes.CfnStackCreateParameter {
+
+    static func write(value: SageMakerClientTypes.CfnStackCreateParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
     }
 }
 
@@ -78292,6 +80234,14 @@ extension SageMakerClientTypes.VisibilityConditions {
     }
 }
 
+extension SageMakerClientTypes.UpdateClusterSoftwareInstanceGroupSpecification {
+
+    static func write(value: SageMakerClientTypes.UpdateClusterSoftwareInstanceGroupSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceGroupName"].write(value.instanceGroupName)
+    }
+}
+
 extension SageMakerClientTypes.GitConfigForUpdate {
 
     static func write(value: SageMakerClientTypes.GitConfigForUpdate?, to writer: SmithyJSON.Writer) throws {
@@ -78309,6 +80259,7 @@ extension SageMakerClientTypes.DomainSettingsForUpdate {
         try writer["ExecutionRoleIdentityConfig"].write(value.executionRoleIdentityConfig)
         try writer["RStudioServerProDomainSettingsForUpdate"].write(value.rStudioServerProDomainSettingsForUpdate, with: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate.write(value:to:))
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UnifiedStudioSettings"].write(value.unifiedStudioSettings, with: SageMakerClientTypes.UnifiedStudioSettings.write(value:to:))
     }
 }
 
@@ -78375,6 +80326,33 @@ extension SageMakerClientTypes.ServiceCatalogProvisioningUpdateDetails {
         guard let value else { return }
         try writer["ProvisioningArtifactId"].write(value.provisioningArtifactId)
         try writer["ProvisioningParameters"].writeList(value.provisioningParameters, memberWritingClosure: SageMakerClientTypes.ProvisioningParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SageMakerClientTypes.UpdateTemplateProvider {
+
+    static func write(value: SageMakerClientTypes.UpdateTemplateProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CfnTemplateProvider"].write(value.cfnTemplateProvider, with: SageMakerClientTypes.CfnUpdateTemplateProvider.write(value:to:))
+    }
+}
+
+extension SageMakerClientTypes.CfnUpdateTemplateProvider {
+
+    static func write(value: SageMakerClientTypes.CfnUpdateTemplateProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Parameters"].writeList(value.parameters, memberWritingClosure: SageMakerClientTypes.CfnStackUpdateParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TemplateName"].write(value.templateName)
+        try writer["TemplateURL"].write(value.templateURL)
+    }
+}
+
+extension SageMakerClientTypes.CfnStackUpdateParameter {
+
+    static func write(value: SageMakerClientTypes.CfnStackUpdateParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
     }
 }
 

@@ -52,6 +52,159 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
+extension InvoicingClientTypes {
+
+    /// The discounted amount.
+    public struct DiscountsBreakdownAmount: Swift.Sendable {
+        /// The discounted amount.
+        public var amount: Swift.String?
+        /// The list of discounts information.
+        public var description: Swift.String?
+        /// The details for the discount rate..
+        public var rate: Swift.String?
+
+        public init(
+            amount: Swift.String? = nil,
+            description: Swift.String? = nil,
+            rate: Swift.String? = nil
+        ) {
+            self.amount = amount
+            self.description = description
+            self.rate = rate
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// The discounts details.
+    public struct DiscountsBreakdown: Swift.Sendable {
+        /// The list of discounts information.
+        public var breakdown: [InvoicingClientTypes.DiscountsBreakdownAmount]?
+        /// The discount's total amount.
+        public var totalAmount: Swift.String?
+
+        public init(
+            breakdown: [InvoicingClientTypes.DiscountsBreakdownAmount]? = nil,
+            totalAmount: Swift.String? = nil
+        ) {
+            self.breakdown = breakdown
+            self.totalAmount = totalAmount
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// The fee amount.
+    public struct FeesBreakdownAmount: Swift.Sendable {
+        /// The fee amount.
+        public var amount: Swift.String?
+        /// The list of fees information.
+        public var description: Swift.String?
+        /// Details about the rate amount.
+        public var rate: Swift.String?
+
+        public init(
+            amount: Swift.String? = nil,
+            description: Swift.String? = nil,
+            rate: Swift.String? = nil
+        ) {
+            self.amount = amount
+            self.description = description
+            self.rate = rate
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// The details of fees.
+    public struct FeesBreakdown: Swift.Sendable {
+        /// The list of fees information.
+        public var breakdown: [InvoicingClientTypes.FeesBreakdownAmount]?
+        /// The total amount of fees.
+        public var totalAmount: Swift.String?
+
+        public init(
+            breakdown: [InvoicingClientTypes.FeesBreakdownAmount]? = nil,
+            totalAmount: Swift.String? = nil
+        ) {
+            self.breakdown = breakdown
+            self.totalAmount = totalAmount
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// The tax amount.
+    public struct TaxesBreakdownAmount: Swift.Sendable {
+        /// The tax amount.
+        public var amount: Swift.String?
+        /// The details of the taxes.
+        public var description: Swift.String?
+        /// The details of the tax rate.
+        public var rate: Swift.String?
+
+        public init(
+            amount: Swift.String? = nil,
+            description: Swift.String? = nil,
+            rate: Swift.String? = nil
+        ) {
+            self.amount = amount
+            self.description = description
+            self.rate = rate
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// The details of the taxes.
+    public struct TaxesBreakdown: Swift.Sendable {
+        /// A list of tax information.
+        public var breakdown: [InvoicingClientTypes.TaxesBreakdownAmount]?
+        /// The total amount for your taxes.
+        public var totalAmount: Swift.String?
+
+        public init(
+            breakdown: [InvoicingClientTypes.TaxesBreakdownAmount]? = nil,
+            totalAmount: Swift.String? = nil
+        ) {
+            self.breakdown = breakdown
+            self.totalAmount = totalAmount
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// Details about how the total amount was calculated and categorized.
+    public struct AmountBreakdown: Swift.Sendable {
+        /// The discounted amount.
+        public var discounts: InvoicingClientTypes.DiscountsBreakdown?
+        /// The fee amount.
+        public var fees: InvoicingClientTypes.FeesBreakdown?
+        /// The total of a set of the breakdown.
+        public var subTotalAmount: Swift.String?
+        /// The tax amount.
+        public var taxes: InvoicingClientTypes.TaxesBreakdown?
+
+        public init(
+            discounts: InvoicingClientTypes.DiscountsBreakdown? = nil,
+            fees: InvoicingClientTypes.FeesBreakdown? = nil,
+            subTotalAmount: Swift.String? = nil,
+            taxes: InvoicingClientTypes.TaxesBreakdown? = nil
+        ) {
+            self.discounts = discounts
+            self.fees = fees
+            self.subTotalAmount = subTotalAmount
+            self.taxes = taxes
+        }
+    }
+}
+
 /// The processing request failed because of an unknown error, exception, or failure.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -368,6 +521,27 @@ public struct BatchGetInvoiceProfileOutput: Swift.Sendable {
 
 extension InvoicingClientTypes {
 
+    /// The billing period for which you want to retrieve invoice-related documents.
+    public struct BillingPeriod: Swift.Sendable {
+        /// The billing period month.
+        /// This member is required.
+        public var month: Swift.Int?
+        /// The billing period year.
+        /// This member is required.
+        public var year: Swift.Int?
+
+        public init(
+            month: Swift.Int? = nil,
+            year: Swift.Int? = nil
+        ) {
+            self.month = month
+            self.year = year
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
     /// The tag structure that contains a tag key and value.
     public struct ResourceTag: Swift.Sendable {
         /// The object key of your of your resource tag.
@@ -447,6 +621,50 @@ public struct CreateInvoiceUnitOutput: Swift.Sendable {
     }
 }
 
+extension InvoicingClientTypes {
+
+    /// The details of currency exchange.
+    public struct CurrencyExchangeDetails: Swift.Sendable {
+        /// The currency exchange rate.
+        public var rate: Swift.String?
+        /// The exchange source currency.
+        public var sourceCurrencyCode: Swift.String?
+        /// The exchange target currency.
+        public var targetCurrencyCode: Swift.String?
+
+        public init(
+            rate: Swift.String? = nil,
+            sourceCurrencyCode: Swift.String? = nil,
+            targetCurrencyCode: Swift.String? = nil
+        ) {
+            self.rate = rate
+            self.sourceCurrencyCode = sourceCurrencyCode
+            self.targetCurrencyCode = targetCurrencyCode
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// The time period that you want invoice-related documents for.
+    public struct DateInterval: Swift.Sendable {
+        /// The end of the time period that you want invoice-related documents for. The end date is exclusive. For example, if end is 2019-01-10, Amazon Web Services retrieves invoice-related documents from the start date up to, but not including, 2018-01-10.
+        /// This member is required.
+        public var endDate: Foundation.Date?
+        /// The beginning of the time period that you want invoice-related documents for. The start date is inclusive. For example, if start is 2019-01-01, AWS retrieves invoices starting at 2019-01-01 up to the end date.
+        /// This member is required.
+        public var startDate: Foundation.Date?
+
+        public init(
+            endDate: Foundation.Date? = nil,
+            startDate: Foundation.Date? = nil
+        ) {
+            self.endDate = endDate
+            self.startDate = startDate
+        }
+    }
+}
+
 public struct DeleteInvoiceUnitInput: Swift.Sendable {
     /// The ARN to identify an invoice unit. This information can't be modified or deleted.
     /// This member is required.
@@ -467,6 +685,21 @@ public struct DeleteInvoiceUnitOutput: Swift.Sendable {
         invoiceUnitArn: Swift.String? = nil
     ) {
         self.invoiceUnitArn = invoiceUnitArn
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// The organization name providing Amazon Web Services services.
+    public struct Entity: Swift.Sendable {
+        /// The name of the entity that issues the Amazon Web Services invoice.
+        public var invoicingEntity: Swift.String?
+
+        public init(
+            invoicingEntity: Swift.String? = nil
+        ) {
+            self.invoicingEntity = invoicingEntity
+        }
     }
 }
 
@@ -546,6 +779,198 @@ public struct GetInvoiceUnitOutput: Swift.Sendable {
 
 extension InvoicingClientTypes {
 
+    /// The amount charged after taxes, in the preferred currency.
+    public struct InvoiceCurrencyAmount: Swift.Sendable {
+        /// Details about the invoice currency amount.
+        public var amountBreakdown: InvoicingClientTypes.AmountBreakdown?
+        /// The currency dominion of the invoice document.
+        public var currencyCode: Swift.String?
+        /// The details of currency exchange.
+        public var currencyExchangeDetails: InvoicingClientTypes.CurrencyExchangeDetails?
+        /// The invoice currency amount.
+        public var totalAmount: Swift.String?
+        /// Details about the invoice total amount before tax.
+        public var totalAmountBeforeTax: Swift.String?
+
+        public init(
+            amountBreakdown: InvoicingClientTypes.AmountBreakdown? = nil,
+            currencyCode: Swift.String? = nil,
+            currencyExchangeDetails: InvoicingClientTypes.CurrencyExchangeDetails? = nil,
+            totalAmount: Swift.String? = nil,
+            totalAmountBeforeTax: Swift.String? = nil
+        ) {
+            self.amountBreakdown = amountBreakdown
+            self.currencyCode = currencyCode
+            self.currencyExchangeDetails = currencyExchangeDetails
+            self.totalAmount = totalAmount
+            self.totalAmountBeforeTax = totalAmountBeforeTax
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    public enum InvoiceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creditMemo
+        case invoice
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InvoiceType] {
+            return [
+                .creditMemo,
+                .invoice
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creditMemo: return "CREDIT_MEMO"
+            case .invoice: return "INVOICE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// The invoice that the API retrieved.
+    public struct InvoiceSummary: Swift.Sendable {
+        /// The Amazon Web Services account ID.
+        public var accountId: Swift.String?
+        /// The summary with the product and service currency.
+        public var baseCurrencyAmount: InvoicingClientTypes.InvoiceCurrencyAmount?
+        /// The billing period of the invoice-related document.
+        public var billingPeriod: InvoicingClientTypes.BillingPeriod?
+        /// The invoice due date.
+        public var dueDate: Foundation.Date?
+        /// The organization name providing Amazon Web Services services.
+        public var entity: InvoicingClientTypes.Entity?
+        /// The invoice ID.
+        public var invoiceId: Swift.String?
+        /// The type of invoice.
+        public var invoiceType: InvoicingClientTypes.InvoiceType?
+        /// The issued date of the invoice.
+        public var issuedDate: Foundation.Date?
+        /// The initial or original invoice ID.
+        public var originalInvoiceId: Swift.String?
+        /// The summary with the customer configured currency.
+        public var paymentCurrencyAmount: InvoicingClientTypes.InvoiceCurrencyAmount?
+        /// The purchase order number associated to the invoice.
+        public var purchaseOrderNumber: Swift.String?
+        /// The summary with the tax currency.
+        public var taxCurrencyAmount: InvoicingClientTypes.InvoiceCurrencyAmount?
+
+        public init(
+            accountId: Swift.String? = nil,
+            baseCurrencyAmount: InvoicingClientTypes.InvoiceCurrencyAmount? = nil,
+            billingPeriod: InvoicingClientTypes.BillingPeriod? = nil,
+            dueDate: Foundation.Date? = nil,
+            entity: InvoicingClientTypes.Entity? = nil,
+            invoiceId: Swift.String? = nil,
+            invoiceType: InvoicingClientTypes.InvoiceType? = nil,
+            issuedDate: Foundation.Date? = nil,
+            originalInvoiceId: Swift.String? = nil,
+            paymentCurrencyAmount: InvoicingClientTypes.InvoiceCurrencyAmount? = nil,
+            purchaseOrderNumber: Swift.String? = nil,
+            taxCurrencyAmount: InvoicingClientTypes.InvoiceCurrencyAmount? = nil
+        ) {
+            self.accountId = accountId
+            self.baseCurrencyAmount = baseCurrencyAmount
+            self.billingPeriod = billingPeriod
+            self.dueDate = dueDate
+            self.entity = entity
+            self.invoiceId = invoiceId
+            self.invoiceType = invoiceType
+            self.issuedDate = issuedDate
+            self.originalInvoiceId = originalInvoiceId
+            self.paymentCurrencyAmount = paymentCurrencyAmount
+            self.purchaseOrderNumber = purchaseOrderNumber
+            self.taxCurrencyAmount = taxCurrencyAmount
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// Filters for your invoice summaries.
+    public struct InvoiceSummariesFilter: Swift.Sendable {
+        /// The billing period associated with the invoice documents.
+        public var billingPeriod: InvoicingClientTypes.BillingPeriod?
+        /// The name of the entity that issues the Amazon Web Services invoice.
+        public var invoicingEntity: Swift.String?
+        /// The date range for invoice summary retrieval.
+        public var timeInterval: InvoicingClientTypes.DateInterval?
+
+        public init(
+            billingPeriod: InvoicingClientTypes.BillingPeriod? = nil,
+            invoicingEntity: Swift.String? = nil,
+            timeInterval: InvoicingClientTypes.DateInterval? = nil
+        ) {
+            self.billingPeriod = billingPeriod
+            self.invoicingEntity = invoicingEntity
+            self.timeInterval = timeInterval
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    public enum ListInvoiceSummariesResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountId
+        case invoiceId
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListInvoiceSummariesResourceType] {
+            return [
+                .accountId,
+                .invoiceId
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountId: return "ACCOUNT_ID"
+            case .invoiceId: return "INVOICE_ID"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// Specifies the invoice summary.
+    public struct InvoiceSummariesSelector: Swift.Sendable {
+        /// The query identifier type (INVOICE_ID or ACCOUNT_ID).
+        /// This member is required.
+        public var resourceType: InvoicingClientTypes.ListInvoiceSummariesResourceType?
+        /// The value of the query identifier.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            resourceType: InvoicingClientTypes.ListInvoiceSummariesResourceType? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.resourceType = resourceType
+            self.value = value
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
     /// An invoice unit is a set of mutually exclusive accounts that correspond to your business entity. Invoice units allow you separate Amazon Web Services account costs and configures your invoice for each business entity going forward.
     public struct InvoiceUnit: Swift.Sendable {
         /// The assigned description for an invoice unit. This information can't be modified or deleted.
@@ -580,6 +1005,46 @@ extension InvoicingClientTypes {
             self.rule = rule
             self.taxInheritanceDisabled = taxInheritanceDisabled
         }
+    }
+}
+
+public struct ListInvoiceSummariesInput: Swift.Sendable {
+    /// Filters you can use to customize your invoice summary.
+    public var filter: InvoicingClientTypes.InvoiceSummariesFilter?
+    /// The maximum number of invoice summaries a paginated response can contain.
+    public var maxResults: Swift.Int?
+    /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+    public var nextToken: Swift.String?
+    /// The option to retrieve details for a specific invoice by providing its unique ID. Alternatively, access information for all invoices linked to the account by providing an account ID.
+    /// This member is required.
+    public var selector: InvoicingClientTypes.InvoiceSummariesSelector?
+
+    public init(
+        filter: InvoicingClientTypes.InvoiceSummariesFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        selector: InvoicingClientTypes.InvoiceSummariesSelector? = nil
+    ) {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.selector = selector
+    }
+}
+
+public struct ListInvoiceSummariesOutput: Swift.Sendable {
+    /// List of key (summary level) invoice details without line item details.
+    /// This member is required.
+    public var invoiceSummaries: [InvoicingClientTypes.InvoiceSummary]?
+    /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+    public var nextToken: Swift.String?
+
+    public init(
+        invoiceSummaries: [InvoicingClientTypes.InvoiceSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.invoiceSummaries = invoiceSummaries
+        self.nextToken = nextToken
     }
 }
 
@@ -775,6 +1240,13 @@ extension GetInvoiceUnitInput {
     }
 }
 
+extension ListInvoiceSummariesInput {
+
+    static func urlPathProvider(_ value: ListInvoiceSummariesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListInvoiceUnitsInput {
 
     static func urlPathProvider(_ value: ListInvoiceUnitsInput) -> Swift.String? {
@@ -845,6 +1317,17 @@ extension GetInvoiceUnitInput {
         guard let value else { return }
         try writer["AsOf"].writeTimestamp(value.asOf, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["InvoiceUnitArn"].write(value.invoiceUnitArn)
+    }
+}
+
+extension ListInvoiceSummariesInput {
+
+    static func write(value: ListInvoiceSummariesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filter"].write(value.filter, with: InvoicingClientTypes.InvoiceSummariesFilter.write(value:to:))
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["Selector"].write(value.selector, with: InvoicingClientTypes.InvoiceSummariesSelector.write(value:to:))
     }
 }
 
@@ -946,6 +1429,19 @@ extension GetInvoiceUnitOutput {
         value.name = try reader["Name"].readIfPresent()
         value.rule = try reader["Rule"].readIfPresent(with: InvoicingClientTypes.InvoiceUnitRule.read(from:))
         value.taxInheritanceDisabled = try reader["TaxInheritanceDisabled"].readIfPresent()
+        return value
+    }
+}
+
+extension ListInvoiceSummariesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListInvoiceSummariesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListInvoiceSummariesOutput()
+        value.invoiceSummaries = try reader["InvoiceSummaries"].readListIfPresent(memberReadingClosure: InvoicingClientTypes.InvoiceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -1072,6 +1568,24 @@ enum GetInvoiceUnitOutputError {
     }
 }
 
+enum ListInvoiceSummariesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvoicingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvoicingInternalServer": return try InternalServerException.makeError(baseError: baseError)
+            case "InvoicingResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "InvoicingThrottling": return try ThrottlingException.makeError(baseError: baseError)
+            case "InvoicingValidation": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListInvoiceUnitsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1162,11 +1676,11 @@ enum UpdateInvoiceUnitOutputError {
     }
 }
 
-extension ResourceNotFoundException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.resourceName = try reader["resourceName"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -1176,11 +1690,28 @@ extension ResourceNotFoundException {
     }
 }
 
-extension AccessDeniedException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        let httpResponse = baseError.httpResponse
+        var value = InternalServerException()
+        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
+            value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
+        }
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.resourceName = try reader["resourceName"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -1212,23 +1743,6 @@ extension ValidationException {
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.reason = try reader["reason"].readIfPresent()
         value.properties.resourceName = try reader["resourceName"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalServerException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
-        let reader = baseError.errorBodyReader
-        let httpResponse = baseError.httpResponse
-        var value = InternalServerException()
-        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
-            value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
-        }
-        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1297,6 +1811,162 @@ extension InvoicingClientTypes.InvoiceUnitRule {
     }
 }
 
+extension InvoicingClientTypes.InvoiceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.InvoiceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.InvoiceSummary()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.invoiceId = try reader["InvoiceId"].readIfPresent()
+        value.issuedDate = try reader["IssuedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.dueDate = try reader["DueDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.entity = try reader["Entity"].readIfPresent(with: InvoicingClientTypes.Entity.read(from:))
+        value.billingPeriod = try reader["BillingPeriod"].readIfPresent(with: InvoicingClientTypes.BillingPeriod.read(from:))
+        value.invoiceType = try reader["InvoiceType"].readIfPresent()
+        value.originalInvoiceId = try reader["OriginalInvoiceId"].readIfPresent()
+        value.purchaseOrderNumber = try reader["PurchaseOrderNumber"].readIfPresent()
+        value.baseCurrencyAmount = try reader["BaseCurrencyAmount"].readIfPresent(with: InvoicingClientTypes.InvoiceCurrencyAmount.read(from:))
+        value.taxCurrencyAmount = try reader["TaxCurrencyAmount"].readIfPresent(with: InvoicingClientTypes.InvoiceCurrencyAmount.read(from:))
+        value.paymentCurrencyAmount = try reader["PaymentCurrencyAmount"].readIfPresent(with: InvoicingClientTypes.InvoiceCurrencyAmount.read(from:))
+        return value
+    }
+}
+
+extension InvoicingClientTypes.InvoiceCurrencyAmount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.InvoiceCurrencyAmount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.InvoiceCurrencyAmount()
+        value.totalAmount = try reader["TotalAmount"].readIfPresent()
+        value.totalAmountBeforeTax = try reader["TotalAmountBeforeTax"].readIfPresent()
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
+        value.amountBreakdown = try reader["AmountBreakdown"].readIfPresent(with: InvoicingClientTypes.AmountBreakdown.read(from:))
+        value.currencyExchangeDetails = try reader["CurrencyExchangeDetails"].readIfPresent(with: InvoicingClientTypes.CurrencyExchangeDetails.read(from:))
+        return value
+    }
+}
+
+extension InvoicingClientTypes.CurrencyExchangeDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.CurrencyExchangeDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.CurrencyExchangeDetails()
+        value.sourceCurrencyCode = try reader["SourceCurrencyCode"].readIfPresent()
+        value.targetCurrencyCode = try reader["TargetCurrencyCode"].readIfPresent()
+        value.rate = try reader["Rate"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.AmountBreakdown {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.AmountBreakdown {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.AmountBreakdown()
+        value.subTotalAmount = try reader["SubTotalAmount"].readIfPresent()
+        value.discounts = try reader["Discounts"].readIfPresent(with: InvoicingClientTypes.DiscountsBreakdown.read(from:))
+        value.taxes = try reader["Taxes"].readIfPresent(with: InvoicingClientTypes.TaxesBreakdown.read(from:))
+        value.fees = try reader["Fees"].readIfPresent(with: InvoicingClientTypes.FeesBreakdown.read(from:))
+        return value
+    }
+}
+
+extension InvoicingClientTypes.FeesBreakdown {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.FeesBreakdown {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.FeesBreakdown()
+        value.breakdown = try reader["Breakdown"].readListIfPresent(memberReadingClosure: InvoicingClientTypes.FeesBreakdownAmount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.totalAmount = try reader["TotalAmount"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.FeesBreakdownAmount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.FeesBreakdownAmount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.FeesBreakdownAmount()
+        value.description = try reader["Description"].readIfPresent()
+        value.amount = try reader["Amount"].readIfPresent()
+        value.rate = try reader["Rate"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.TaxesBreakdown {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.TaxesBreakdown {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.TaxesBreakdown()
+        value.breakdown = try reader["Breakdown"].readListIfPresent(memberReadingClosure: InvoicingClientTypes.TaxesBreakdownAmount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.totalAmount = try reader["TotalAmount"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.TaxesBreakdownAmount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.TaxesBreakdownAmount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.TaxesBreakdownAmount()
+        value.description = try reader["Description"].readIfPresent()
+        value.amount = try reader["Amount"].readIfPresent()
+        value.rate = try reader["Rate"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.DiscountsBreakdown {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.DiscountsBreakdown {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.DiscountsBreakdown()
+        value.breakdown = try reader["Breakdown"].readListIfPresent(memberReadingClosure: InvoicingClientTypes.DiscountsBreakdownAmount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.totalAmount = try reader["TotalAmount"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.DiscountsBreakdownAmount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.DiscountsBreakdownAmount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.DiscountsBreakdownAmount()
+        value.description = try reader["Description"].readIfPresent()
+        value.amount = try reader["Amount"].readIfPresent()
+        value.rate = try reader["Rate"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.BillingPeriod {
+
+    static func write(value: InvoicingClientTypes.BillingPeriod?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Month"].write(value.month)
+        try writer["Year"].write(value.year)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.BillingPeriod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.BillingPeriod()
+        value.month = try reader["Month"].readIfPresent() ?? 0
+        value.year = try reader["Year"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension InvoicingClientTypes.Entity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.Entity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.Entity()
+        value.invoicingEntity = try reader["InvoicingEntity"].readIfPresent()
+        return value
+    }
+}
+
 extension InvoicingClientTypes.InvoiceUnit {
 
     static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.InvoiceUnit {
@@ -1338,6 +2008,34 @@ extension InvoicingClientTypes.ValidationExceptionField {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension InvoicingClientTypes.InvoiceSummariesSelector {
+
+    static func write(value: InvoicingClientTypes.InvoiceSummariesSelector?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceType"].write(value.resourceType)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension InvoicingClientTypes.InvoiceSummariesFilter {
+
+    static func write(value: InvoicingClientTypes.InvoiceSummariesFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BillingPeriod"].write(value.billingPeriod, with: InvoicingClientTypes.BillingPeriod.write(value:to:))
+        try writer["InvoicingEntity"].write(value.invoicingEntity)
+        try writer["TimeInterval"].write(value.timeInterval, with: InvoicingClientTypes.DateInterval.write(value:to:))
+    }
+}
+
+extension InvoicingClientTypes.DateInterval {
+
+    static func write(value: InvoicingClientTypes.DateInterval?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndDate"].writeTimestamp(value.endDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StartDate"].writeTimestamp(value.startDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }
 }
 

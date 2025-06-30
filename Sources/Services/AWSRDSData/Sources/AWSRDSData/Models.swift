@@ -1263,11 +1263,63 @@ enum RollbackTransactionOutputError {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension BadRequestException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+        let reader = baseError.errorBodyReader
+        var value = BadRequestException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DatabaseErrorException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DatabaseErrorException {
+        let reader = baseError.errorBodyReader
+        var value = DatabaseErrorException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension DatabaseNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DatabaseNotFoundException {
         let reader = baseError.errorBodyReader
         var value = DatabaseNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DatabaseResumingException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DatabaseResumingException {
+        let reader = baseError.errorBodyReader
+        var value = DatabaseResumingException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1287,50 +1339,11 @@ extension DatabaseUnavailableException {
     }
 }
 
-extension AccessDeniedException {
+extension ForbiddenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ForbiddenException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TransactionNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TransactionNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = TransactionNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidResourceStateException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidResourceStateException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidResourceStateException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DatabaseErrorException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DatabaseErrorException {
-        let reader = baseError.errorBodyReader
-        var value = DatabaseErrorException()
+        var value = ForbiddenException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1363,36 +1376,11 @@ extension InternalServerErrorException {
     }
 }
 
-extension StatementTimeoutException {
+extension InvalidResourceStateException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> StatementTimeoutException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidResourceStateException {
         let reader = baseError.errorBodyReader
-        var value = StatementTimeoutException()
-        value.properties.dbConnectionId = try reader["dbConnectionId"].readIfPresent() ?? 0
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceUnavailableError {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableError {
-        var value = ServiceUnavailableError()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DatabaseResumingException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DatabaseResumingException {
-        let reader = baseError.errorBodyReader
-        var value = DatabaseResumingException()
+        var value = InvalidResourceStateException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1414,37 +1402,49 @@ extension InvalidSecretException {
     }
 }
 
-extension BadRequestException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
-        let reader = baseError.errorBodyReader
-        var value = BadRequestException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ForbiddenException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ForbiddenException {
-        let reader = baseError.errorBodyReader
-        var value = ForbiddenException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension SecretsErrorException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SecretsErrorException {
         let reader = baseError.errorBodyReader
         var value = SecretsErrorException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceUnavailableError {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableError {
+        var value = ServiceUnavailableError()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension StatementTimeoutException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> StatementTimeoutException {
+        let reader = baseError.errorBodyReader
+        var value = StatementTimeoutException()
+        value.properties.dbConnectionId = try reader["dbConnectionId"].readIfPresent() ?? 0
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TransactionNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TransactionNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = TransactionNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

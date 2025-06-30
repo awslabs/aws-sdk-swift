@@ -2,6 +2,7 @@ software.amazon.smithy.aws.swift.codegen.AddProtocols
 software.amazon.smithy.aws.swift.codegen.customization.s3.S3ErrorIntegration
 software.amazon.smithy.aws.swift.codegen.customization.s3.S3ErrorWith200StatusIntegration
 software.amazon.smithy.aws.swift.codegen.customization.s3.S3Expires
+software.amazon.smithy.aws.swift.codegen.customization.s3.S3ExpressIntegration
 software.amazon.smithy.aws.swift.codegen.customization.s3.TruncatablePaginationIntegration
 software.amazon.smithy.aws.swift.codegen.customization.route53.Route53TrimHostedZone
 software.amazon.smithy.aws.swift.codegen.customization.route53.Route53InvalidBatchErrorIntegration
@@ -29,3 +30,7 @@ software.amazon.smithy.aws.swift.codegen.swiftintegrations.AmzSdkRetryHeadersInt
 software.amazon.smithy.swift.codegen.protocols.rpcv2cbor.CborValidateResponseHeaderIntegration
 software.amazon.smithy.aws.swift.codegen.customization.rds.AuthTokenGeneratorIntegration
 software.amazon.smithy.aws.swift.codegen.customization.dsql.AuthTokenGeneratorIntegration
+software.amazon.smithy.aws.swift.codegen.customization.credentialresolverservices.InternalModelIntegration
+software.amazon.smithy.aws.swift.codegen.customization.credentialresolverservices.IdentityProvidingSTSClientIntegration
+software.amazon.smithy.aws.swift.codegen.customization.credentialresolverservices.IdentityProvidingSSOClientIntegration
+software.amazon.smithy.aws.swift.codegen.customization.credentialresolverservices.IdentityProvidingSSOOIDCClientIntegration

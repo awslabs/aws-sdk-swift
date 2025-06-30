@@ -188,6 +188,7 @@ extension ApplicationAutoScalingClientTypes {
         case ec2spotfleetrequesttargetcapacity
         case ecsservicedesiredcount
         case emrinstancegroupinstancecount
+        case elasticachecacheclusternodes
         case elasticachereplicationgroupnodegroups
         case elasticachereplicationgroupreplicas
         case kafkabrokerstoragevolumesize
@@ -215,6 +216,7 @@ extension ApplicationAutoScalingClientTypes {
                 .ec2spotfleetrequesttargetcapacity,
                 .ecsservicedesiredcount,
                 .emrinstancegroupinstancecount,
+                .elasticachecacheclusternodes,
                 .elasticachereplicationgroupnodegroups,
                 .elasticachereplicationgroupreplicas,
                 .kafkabrokerstoragevolumesize,
@@ -248,6 +250,7 @@ extension ApplicationAutoScalingClientTypes {
             case .ec2spotfleetrequesttargetcapacity: return "ec2:spot-fleet-request:TargetCapacity"
             case .ecsservicedesiredcount: return "ecs:service:DesiredCount"
             case .emrinstancegroupinstancecount: return "elasticmapreduce:instancegroup:InstanceCount"
+            case .elasticachecacheclusternodes: return "elasticache:cache-cluster:Nodes"
             case .elasticachereplicationgroupnodegroups: return "elasticache:replication-group:NodeGroups"
             case .elasticachereplicationgroupreplicas: return "elasticache:replication-group:Replicas"
             case .kafkabrokerstoragevolumesize: return "kafka:broker-storage:VolumeSize"
@@ -368,6 +371,8 @@ public struct DeleteScalingPolicyInput: Swift.Sendable {
     ///
     /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
     ///
+    /// * Amazon ElastiCache cache cluster - The resource type is cache-cluster and the unique identifier is the cache cluster name. Example: cache-cluster/mycluster.
+    ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
@@ -412,6 +417,8 @@ public struct DeleteScalingPolicyInput: Swift.Sendable {
     /// * cassandra:table:WriteCapacityUnits - The provisioned write capacity for an Amazon Keyspaces table.
     ///
     /// * kafka:broker-storage:VolumeSize - The provisioned volume size (in GiB) for brokers in an Amazon MSK cluster.
+    ///
+    /// * elasticache:cache-cluster:Nodes - The number of nodes for an Amazon ElastiCache cache cluster.
     ///
     /// * elasticache:replication-group:NodeGroups - The number of node groups for an Amazon ElastiCache replication group.
     ///
@@ -481,6 +488,8 @@ public struct DeleteScheduledActionInput: Swift.Sendable {
     ///
     /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
     ///
+    /// * Amazon ElastiCache cache cluster - The resource type is cache-cluster and the unique identifier is the cache cluster name. Example: cache-cluster/mycluster.
+    ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
@@ -525,6 +534,8 @@ public struct DeleteScheduledActionInput: Swift.Sendable {
     /// * cassandra:table:WriteCapacityUnits - The provisioned write capacity for an Amazon Keyspaces table.
     ///
     /// * kafka:broker-storage:VolumeSize - The provisioned volume size (in GiB) for brokers in an Amazon MSK cluster.
+    ///
+    /// * elasticache:cache-cluster:Nodes - The number of nodes for an Amazon ElastiCache cache cluster.
     ///
     /// * elasticache:replication-group:NodeGroups - The number of node groups for an Amazon ElastiCache replication group.
     ///
@@ -597,6 +608,8 @@ public struct DeregisterScalableTargetInput: Swift.Sendable {
     ///
     /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
     ///
+    /// * Amazon ElastiCache cache cluster - The resource type is cache-cluster and the unique identifier is the cache cluster name. Example: cache-cluster/mycluster.
+    ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
@@ -641,6 +654,8 @@ public struct DeregisterScalableTargetInput: Swift.Sendable {
     /// * cassandra:table:WriteCapacityUnits - The provisioned write capacity for an Amazon Keyspaces table.
     ///
     /// * kafka:broker-storage:VolumeSize - The provisioned volume size (in GiB) for brokers in an Amazon MSK cluster.
+    ///
+    /// * elasticache:cache-cluster:Nodes - The number of nodes for an Amazon ElastiCache cache cluster.
     ///
     /// * elasticache:replication-group:NodeGroups - The number of node groups for an Amazon ElastiCache replication group.
     ///
@@ -735,6 +750,8 @@ public struct DescribeScalableTargetsInput: Swift.Sendable {
     ///
     /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
     ///
+    /// * Amazon ElastiCache cache cluster - The resource type is cache-cluster and the unique identifier is the cache cluster name. Example: cache-cluster/mycluster.
+    ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
@@ -778,6 +795,8 @@ public struct DescribeScalableTargetsInput: Swift.Sendable {
     /// * cassandra:table:WriteCapacityUnits - The provisioned write capacity for an Amazon Keyspaces table.
     ///
     /// * kafka:broker-storage:VolumeSize - The provisioned volume size (in GiB) for brokers in an Amazon MSK cluster.
+    ///
+    /// * elasticache:cache-cluster:Nodes - The number of nodes for an Amazon ElastiCache cache cluster.
     ///
     /// * elasticache:replication-group:NodeGroups - The number of node groups for an Amazon ElastiCache replication group.
     ///
@@ -880,6 +899,8 @@ extension ApplicationAutoScalingClientTypes {
         ///
         /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
         ///
+        /// * Amazon ElastiCache cache cluster - The resource type is cache-cluster and the unique identifier is the cache cluster name. Example: cache-cluster/mycluster.
+        ///
         /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
         ///
         /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
@@ -927,6 +948,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * cassandra:table:WriteCapacityUnits - The provisioned write capacity for an Amazon Keyspaces table.
         ///
         /// * kafka:broker-storage:VolumeSize - The provisioned volume size (in GiB) for brokers in an Amazon MSK cluster.
+        ///
+        /// * elasticache:cache-cluster:Nodes - The number of nodes for an Amazon ElastiCache cache cluster.
         ///
         /// * elasticache:replication-group:NodeGroups - The number of node groups for an Amazon ElastiCache replication group.
         ///
@@ -1029,6 +1052,8 @@ public struct DescribeScalingActivitiesInput: Swift.Sendable {
     ///
     /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
     ///
+    /// * Amazon ElastiCache cache cluster - The resource type is cache-cluster and the unique identifier is the cache cluster name. Example: cache-cluster/mycluster.
+    ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
@@ -1072,6 +1097,8 @@ public struct DescribeScalingActivitiesInput: Swift.Sendable {
     /// * cassandra:table:WriteCapacityUnits - The provisioned write capacity for an Amazon Keyspaces table.
     ///
     /// * kafka:broker-storage:VolumeSize - The provisioned volume size (in GiB) for brokers in an Amazon MSK cluster.
+    ///
+    /// * elasticache:cache-cluster:Nodes - The number of nodes for an Amazon ElastiCache cache cluster.
     ///
     /// * elasticache:replication-group:NodeGroups - The number of node groups for an Amazon ElastiCache replication group.
     ///
@@ -1236,6 +1263,8 @@ extension ApplicationAutoScalingClientTypes {
         ///
         /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
         ///
+        /// * Amazon ElastiCache cache cluster - The resource type is cache-cluster and the unique identifier is the cache cluster name. Example: cache-cluster/mycluster.
+        ///
         /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
         ///
         /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
@@ -1280,6 +1309,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * cassandra:table:WriteCapacityUnits - The provisioned write capacity for an Amazon Keyspaces table.
         ///
         /// * kafka:broker-storage:VolumeSize - The provisioned volume size (in GiB) for brokers in an Amazon MSK cluster.
+        ///
+        /// * elasticache:cache-cluster:Nodes - The number of nodes for an Amazon ElastiCache cache cluster.
         ///
         /// * elasticache:replication-group:NodeGroups - The number of node groups for an Amazon ElastiCache replication group.
         ///
@@ -1413,6 +1444,8 @@ public struct DescribeScalingPoliciesInput: Swift.Sendable {
     ///
     /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
     ///
+    /// * Amazon ElastiCache cache cluster - The resource type is cache-cluster and the unique identifier is the cache cluster name. Example: cache-cluster/mycluster.
+    ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
@@ -1456,6 +1489,8 @@ public struct DescribeScalingPoliciesInput: Swift.Sendable {
     /// * cassandra:table:WriteCapacityUnits - The provisioned write capacity for an Amazon Keyspaces table.
     ///
     /// * kafka:broker-storage:VolumeSize - The provisioned volume size (in GiB) for brokers in an Amazon MSK cluster.
+    ///
+    /// * elasticache:cache-cluster:Nodes - The number of nodes for an Amazon ElastiCache cache cluster.
     ///
     /// * elasticache:replication-group:NodeGroups - The number of node groups for an Amazon ElastiCache replication group.
     ///
@@ -1670,7 +1705,25 @@ extension ApplicationAutoScalingClientTypes {
 
 extension ApplicationAutoScalingClientTypes {
 
-    /// Describes a load metric for a predictive scaling policy. When returned in the output of DescribePolicies, it indicates that a predictive scaling policy uses individually specified load and scaling metrics instead of a metric pair.
+    /// Describes a load metric for a predictive scaling policy. When returned in the output of DescribePolicies, it indicates that a predictive scaling policy uses individually specified load and scaling metrics instead of a metric pair. The following predefined metrics are available for predictive scaling:
+    ///
+    /// * ECSServiceAverageCPUUtilization
+    ///
+    /// * ECSServiceAverageMemoryUtilization
+    ///
+    /// * ECSServiceCPUUtilization
+    ///
+    /// * ECSServiceMemoryUtilization
+    ///
+    /// * ECSServiceTotalCPUUtilization
+    ///
+    /// * ECSServiceTotalMemoryUtilization
+    ///
+    /// * ALBRequestCount
+    ///
+    /// * ALBRequestCountPerTarget
+    ///
+    /// * TotalALBRequestCount
     public struct PredictiveScalingPredefinedLoadMetricSpecification: Swift.Sendable {
         /// The metric type.
         /// This member is required.
@@ -1690,7 +1743,25 @@ extension ApplicationAutoScalingClientTypes {
 
 extension ApplicationAutoScalingClientTypes {
 
-    /// Represents a metric pair for a predictive scaling policy.
+    /// Represents a metric pair for a predictive scaling policy. The following predefined metrics are available for predictive scaling:
+    ///
+    /// * ECSServiceAverageCPUUtilization
+    ///
+    /// * ECSServiceAverageMemoryUtilization
+    ///
+    /// * ECSServiceCPUUtilization
+    ///
+    /// * ECSServiceMemoryUtilization
+    ///
+    /// * ECSServiceTotalCPUUtilization
+    ///
+    /// * ECSServiceTotalMemoryUtilization
+    ///
+    /// * ALBRequestCount
+    ///
+    /// * ALBRequestCountPerTarget
+    ///
+    /// * TotalALBRequestCount
     public struct PredictiveScalingPredefinedMetricPairSpecification: Swift.Sendable {
         /// Indicates which metrics to use. There are two different types of metrics for each metric type: one is a load metric and one is a scaling metric.
         /// This member is required.
@@ -1710,7 +1781,25 @@ extension ApplicationAutoScalingClientTypes {
 
 extension ApplicationAutoScalingClientTypes {
 
-    /// Describes a scaling metric for a predictive scaling policy. When returned in the output of DescribePolicies, it indicates that a predictive scaling policy uses individually specified load and scaling metrics instead of a metric pair.
+    /// Describes a scaling metric for a predictive scaling policy. When returned in the output of DescribePolicies, it indicates that a predictive scaling policy uses individually specified load and scaling metrics instead of a metric pair. The following predefined metrics are available for predictive scaling:
+    ///
+    /// * ECSServiceAverageCPUUtilization
+    ///
+    /// * ECSServiceAverageMemoryUtilization
+    ///
+    /// * ECSServiceCPUUtilization
+    ///
+    /// * ECSServiceMemoryUtilization
+    ///
+    /// * ECSServiceTotalCPUUtilization
+    ///
+    /// * ECSServiceTotalMemoryUtilization
+    ///
+    /// * ALBRequestCount
+    ///
+    /// * ALBRequestCountPerTarget
+    ///
+    /// * TotalALBRequestCount
     public struct PredictiveScalingPredefinedScalingMetricSpecification: Swift.Sendable {
         /// The metric type.
         /// This member is required.
@@ -2150,6 +2239,8 @@ extension ApplicationAutoScalingClientTypes {
         case ecsserviceaveragememoryutilization
         case elasticachedatabasecapacityusagecountedforevictpercentage
         case elasticachedatabasememoryusagecountedforevictpercentage
+        case elasticachedatabasememoryusagepercentage
+        case elasticacheenginecpuutilization
         case elasticacheprimaryenginecpuutilization
         case elasticachereplicaenginecpuutilization
         case kafkabrokerstorageutilization
@@ -2181,6 +2272,8 @@ extension ApplicationAutoScalingClientTypes {
                 .ecsserviceaveragememoryutilization,
                 .elasticachedatabasecapacityusagecountedforevictpercentage,
                 .elasticachedatabasememoryusagecountedforevictpercentage,
+                .elasticachedatabasememoryusagepercentage,
+                .elasticacheenginecpuutilization,
                 .elasticacheprimaryenginecpuutilization,
                 .elasticachereplicaenginecpuutilization,
                 .kafkabrokerstorageutilization,
@@ -2218,6 +2311,8 @@ extension ApplicationAutoScalingClientTypes {
             case .ecsserviceaveragememoryutilization: return "ECSServiceAverageMemoryUtilization"
             case .elasticachedatabasecapacityusagecountedforevictpercentage: return "ElastiCacheDatabaseCapacityUsageCountedForEvictPercentage"
             case .elasticachedatabasememoryusagecountedforevictpercentage: return "ElastiCacheDatabaseMemoryUsageCountedForEvictPercentage"
+            case .elasticachedatabasememoryusagepercentage: return "ElastiCacheDatabaseMemoryUsagePercentage"
+            case .elasticacheenginecpuutilization: return "ElastiCacheEngineCPUUtilization"
             case .elasticacheprimaryenginecpuutilization: return "ElastiCachePrimaryEngineCPUUtilization"
             case .elasticachereplicaenginecpuutilization: return "ElastiCacheReplicaEngineCPUUtilization"
             case .kafkabrokerstorageutilization: return "KafkaBrokerStorageUtilization"
@@ -2315,7 +2410,7 @@ extension ApplicationAutoScalingClientTypes {
         /// The name of the scaling policy.
         /// This member is required.
         public var policyName: Swift.String?
-        /// The scaling policy type. The following policy types are supported: TargetTrackingScaling—Not supported for Amazon EMR StepScaling—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune.
+        /// The scaling policy type. The following policy types are supported: TargetTrackingScaling—Not supported for Amazon EMR StepScaling—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune. PredictiveScaling—Only supported for Amazon ECS
         /// This member is required.
         public var policyType: ApplicationAutoScalingClientTypes.PolicyType?
         /// The predictive scaling policy configuration.
@@ -2351,6 +2446,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * Amazon MSK cluster - The resource type and unique identifier are specified using the cluster ARN. Example: arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5.
         ///
         /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
+        ///
+        /// * Amazon ElastiCache cache cluster - The resource type is cache-cluster and the unique identifier is the cache cluster name. Example: cache-cluster/mycluster.
         ///
         /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
         ///
@@ -2396,6 +2493,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * cassandra:table:WriteCapacityUnits - The provisioned write capacity for an Amazon Keyspaces table.
         ///
         /// * kafka:broker-storage:VolumeSize - The provisioned volume size (in GiB) for brokers in an Amazon MSK cluster.
+        ///
+        /// * elasticache:cache-cluster:Nodes - The number of nodes for an Amazon ElastiCache cache cluster.
         ///
         /// * elasticache:replication-group:NodeGroups - The number of node groups for an Amazon ElastiCache replication group.
         ///
@@ -2498,6 +2597,8 @@ public struct DescribeScheduledActionsInput: Swift.Sendable {
     ///
     /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
     ///
+    /// * Amazon ElastiCache cache cluster - The resource type is cache-cluster and the unique identifier is the cache cluster name. Example: cache-cluster/mycluster.
+    ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
@@ -2541,6 +2642,8 @@ public struct DescribeScheduledActionsInput: Swift.Sendable {
     /// * cassandra:table:WriteCapacityUnits - The provisioned write capacity for an Amazon Keyspaces table.
     ///
     /// * kafka:broker-storage:VolumeSize - The provisioned volume size (in GiB) for brokers in an Amazon MSK cluster.
+    ///
+    /// * elasticache:cache-cluster:Nodes - The number of nodes for an Amazon ElastiCache cache cluster.
     ///
     /// * elasticache:replication-group:NodeGroups - The number of node groups for an Amazon ElastiCache replication group.
     ///
@@ -2637,6 +2740,8 @@ extension ApplicationAutoScalingClientTypes {
         ///
         /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
         ///
+        /// * Amazon ElastiCache cache cluster - The resource type is cache-cluster and the unique identifier is the cache cluster name. Example: cache-cluster/mycluster.
+        ///
         /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
         ///
         /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
@@ -2681,6 +2786,8 @@ extension ApplicationAutoScalingClientTypes {
         /// * cassandra:table:WriteCapacityUnits - The provisioned write capacity for an Amazon Keyspaces table.
         ///
         /// * kafka:broker-storage:VolumeSize - The provisioned volume size (in GiB) for brokers in an Amazon MSK cluster.
+        ///
+        /// * elasticache:cache-cluster:Nodes - The number of nodes for an Amazon ElastiCache cache cluster.
         ///
         /// * elasticache:replication-group:NodeGroups - The number of node groups for an Amazon ElastiCache replication group.
         ///
@@ -2945,7 +3052,7 @@ public struct PutScalingPolicyInput: Swift.Sendable {
     /// The name of the scaling policy. You cannot change the name of a scaling policy, but you can delete the original scaling policy and create a new scaling policy with the same settings and a different name.
     /// This member is required.
     public var policyName: Swift.String?
-    /// The scaling policy type. This parameter is required if you are creating a scaling policy. The following policy types are supported: TargetTrackingScaling—Not supported for Amazon EMR. StepScaling—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune. For more information, see [Target tracking scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html) and [Step scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html) in the Application Auto Scaling User Guide.
+    /// The scaling policy type. This parameter is required if you are creating a scaling policy. The following policy types are supported: TargetTrackingScaling—Not supported for Amazon EMR. StepScaling—Not supported for DynamoDB, Amazon Comprehend, Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune. PredictiveScaling—Only supported for Amazon ECS. For more information, see [Target tracking scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-target-tracking.html), [Step scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/application-auto-scaling-step-scaling-policies.html), and [Predictive scaling policies](https://docs.aws.amazon.com/autoscaling/application/userguide/aas-create-predictive-scaling-policy.html) in the Application Auto Scaling User Guide.
     public var policyType: ApplicationAutoScalingClientTypes.PolicyType?
     /// The configuration of the predictive scaling policy.
     public var predictiveScalingPolicyConfiguration: ApplicationAutoScalingClientTypes.PredictiveScalingPolicyConfiguration?
@@ -2980,6 +3087,8 @@ public struct PutScalingPolicyInput: Swift.Sendable {
     /// * Amazon MSK cluster - The resource type and unique identifier are specified using the cluster ARN. Example: arn:aws:kafka:us-east-1:123456789012:cluster/demo-cluster-1/6357e0b2-0e6a-4b86-a0b4-70df934c2e31-5.
     ///
     /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
+    ///
+    /// * Amazon ElastiCache cache cluster - The resource type is cache-cluster and the unique identifier is the cache cluster name. Example: cache-cluster/mycluster.
     ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
@@ -3025,6 +3134,8 @@ public struct PutScalingPolicyInput: Swift.Sendable {
     /// * cassandra:table:WriteCapacityUnits - The provisioned write capacity for an Amazon Keyspaces table.
     ///
     /// * kafka:broker-storage:VolumeSize - The provisioned volume size (in GiB) for brokers in an Amazon MSK cluster.
+    ///
+    /// * elasticache:cache-cluster:Nodes - The number of nodes for an Amazon ElastiCache cache cluster.
     ///
     /// * elasticache:replication-group:NodeGroups - The number of node groups for an Amazon ElastiCache replication group.
     ///
@@ -3119,6 +3230,8 @@ public struct PutScheduledActionInput: Swift.Sendable {
     ///
     /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
     ///
+    /// * Amazon ElastiCache cache cluster - The resource type is cache-cluster and the unique identifier is the cache cluster name. Example: cache-cluster/mycluster.
+    ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
@@ -3163,6 +3276,8 @@ public struct PutScheduledActionInput: Swift.Sendable {
     /// * cassandra:table:WriteCapacityUnits - The provisioned write capacity for an Amazon Keyspaces table.
     ///
     /// * kafka:broker-storage:VolumeSize - The provisioned volume size (in GiB) for brokers in an Amazon MSK cluster.
+    ///
+    /// * elasticache:cache-cluster:Nodes - The number of nodes for an Amazon ElastiCache cache cluster.
     ///
     /// * elasticache:replication-group:NodeGroups - The number of node groups for an Amazon ElastiCache replication group.
     ///
@@ -3289,6 +3404,8 @@ public struct RegisterScalableTargetInput: Swift.Sendable {
     ///
     /// * Amazon ElastiCache replication group - The resource type is replication-group and the unique identifier is the replication group name. Example: replication-group/mycluster.
     ///
+    /// * Amazon ElastiCache cache cluster - The resource type is cache-cluster and the unique identifier is the cache cluster name. Example: cache-cluster/mycluster.
+    ///
     /// * Neptune cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:mycluster.
     ///
     /// * SageMaker serverless endpoint - The resource type is variant and the unique identifier is the resource ID. Example: endpoint/my-end-point/variant/KMeansClustering.
@@ -3335,6 +3452,8 @@ public struct RegisterScalableTargetInput: Swift.Sendable {
     /// * cassandra:table:WriteCapacityUnits - The provisioned write capacity for an Amazon Keyspaces table.
     ///
     /// * kafka:broker-storage:VolumeSize - The provisioned volume size (in GiB) for brokers in an Amazon MSK cluster.
+    ///
+    /// * elasticache:cache-cluster:Nodes - The number of nodes for an Amazon ElastiCache cache cluster.
     ///
     /// * elasticache:replication-group:NodeGroups - The number of node groups for an Amazon ElastiCache replication group.
     ///
@@ -4114,11 +4233,24 @@ enum UntagResourceOutputError {
     }
 }
 
-extension ValidationException {
+extension ConcurrentUpdateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentUpdateException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = ConcurrentUpdateException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalServiceException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServiceException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4140,24 +4272,11 @@ extension ObjectNotFoundException {
     }
 }
 
-extension ConcurrentUpdateException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentUpdateException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = ConcurrentUpdateException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalServiceException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceException {
-        let reader = baseError.errorBodyReader
-        var value = InternalServiceException()
+        var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

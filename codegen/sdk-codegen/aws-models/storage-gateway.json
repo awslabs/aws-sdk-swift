@@ -193,6 +193,12 @@
                     "traits": {
                         "smithy.api#enumValue": "UNKNOWN_ERROR"
                     }
+                },
+                "INSUFFICIENT_PERMISSIONS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "INSUFFICIENT_PERMISSIONS"
+                    }
                 }
             }
         },
@@ -684,7 +690,7 @@
                 "NetworkInterfaceId": {
                     "target": "com.amazonaws.storagegateway#NetworkInterfaceId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The network interface of the gateway on which to expose the iSCSI target. Only IPv4\n         addresses are accepted. Use <a>DescribeGatewayInformation</a> to get a list of\n         the network interfaces available on a gateway.</p>\n         <p>Valid Values: A valid IP address.</p>",
+                        "smithy.api#documentation": "<p>The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4\n         and IPv6 addresses. Use <a>DescribeGatewayInformation</a> to get a list of the\n         network interfaces available on a gateway.</p>\n         <p>Valid Values: A valid IP address.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -1608,7 +1614,7 @@
                 "NetworkInterfaceId": {
                     "target": "com.amazonaws.storagegateway#NetworkInterfaceId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The network interface of the gateway on which to expose the iSCSI target. Only IPv4\n         addresses are accepted. Use <a>DescribeGatewayInformation</a> to get a list of\n         the network interfaces available on a gateway.</p>\n         <p>Valid Values: A valid IP address.</p>",
+                        "smithy.api#documentation": "<p>The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4\n         and IPv6 addresses. Use <a>DescribeGatewayInformation</a> to get a list of the\n         network interfaces available on a gateway.</p>\n         <p>Valid Values: A valid IP address.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -1755,7 +1761,7 @@
                 "ClientList": {
                     "target": "com.amazonaws.storagegateway#FileShareClientList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The list of clients that are allowed to access the S3 File Gateway. The list must\n         contain either valid IP addresses or valid CIDR blocks.</p>"
+                        "smithy.api#documentation": "<p>The list of clients that are allowed to access the S3 File Gateway. The list must\n         contain either valid IPv4/IPv6 addresses or valid CIDR blocks.</p>"
                     }
                 },
                 "Squash": {
@@ -2316,7 +2322,7 @@
                 "NetworkInterfaceId": {
                     "target": "com.amazonaws.storagegateway#NetworkInterfaceId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The network interface of the gateway on which to expose the iSCSI target. Only IPv4\n         addresses are accepted. Use <a>DescribeGatewayInformation</a> to get a list of\n         the network interfaces available on a gateway.</p>\n         <p>Valid Values: A valid IP address.</p>",
+                        "smithy.api#documentation": "<p>The network interface of the gateway on which to expose the iSCSI target. Accepts IPv4\n         and IPv6 addresses. Use <a>DescribeGatewayInformation</a> to get a list of the\n         network interfaces available on a gateway.</p>\n         <p>Valid Values: A valid IP address.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -5983,6 +5989,62 @@
                 }
             }
         },
+        "com.amazonaws.storagegateway#EvictFilesFailingUpload": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.storagegateway#EvictFilesFailingUploadInput"
+            },
+            "output": {
+                "target": "com.amazonaws.storagegateway#EvictFilesFailingUploadOutput"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.storagegateway#InternalServerError"
+                },
+                {
+                    "target": "com.amazonaws.storagegateway#InvalidGatewayRequestException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Starts a process that cleans the specified file share's cache of file entries that are\n         failing upload to Amazon S3. This API operation reports success if the request is\n         received with valid arguments, and there are no other cache clean operations currently\n         in-progress for the specified file share. After a successful request, the cache clean\n         operation occurs asynchronously and reports progress using CloudWatch logs and\n         notifications.</p>\n         <important>\n            <p>If <code>ForceRemove</code> is set to <code>True</code>, the cache clean operation\n            will delete file data from the gateway which might otherwise be recoverable. We\n            recommend using this operation only after all other methods to clear files failing\n            upload have been exhausted, and if your business need outweighs the potential data\n            loss.</p>\n         </important>"
+            }
+        },
+        "com.amazonaws.storagegateway#EvictFilesFailingUploadInput": {
+            "type": "structure",
+            "members": {
+                "FileShareARN": {
+                    "target": "com.amazonaws.storagegateway#FileShareARN",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the file share for which you want to start the cache\n         clean operation.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ForceRemove": {
+                    "target": "com.amazonaws.storagegateway#Boolean2",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>Specifies whether cache entries with full or partial file data currently stored on the\n         gateway will be forcibly removed by the cache clean operation.</p>\n         <p>Valid arguments:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>False</code> - The cache clean operation skips cache entries failing upload\n               if they are associated with data currently stored on the gateway. This preserves the\n               cached data.</p>\n            </li>\n            <li>\n               <p>\n                  <code>True</code> - The cache clean operation removes cache entries failing upload\n               even if they are associated with data currently stored on the gateway. This deletes\n               the cached data.</p>\n               <important>\n                  <p>If <code>ForceRemove</code> is set to <code>True</code>, the cache clean\n                  operation will delete file data from the gateway which might otherwise be\n                  recoverable.</p>\n               </important>\n            </li>\n         </ul>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.storagegateway#EvictFilesFailingUploadOutput": {
+            "type": "structure",
+            "members": {
+                "NotificationId": {
+                    "target": "com.amazonaws.storagegateway#string",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The randomly generated ID of the CloudWatch notification associated with the\n         cache clean operation. This ID is in UUID format.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.storagegateway#FileShareARN": {
             "type": "string",
             "traits": {
@@ -6008,10 +6070,10 @@
         "com.amazonaws.storagegateway#FileShareClientList": {
             "type": "list",
             "member": {
-                "target": "com.amazonaws.storagegateway#IPV4AddressCIDR"
+                "target": "com.amazonaws.storagegateway#Ipv4OrIpv6AddressCIDR"
             },
             "traits": {
-                "smithy.api#documentation": "<p>The list of clients that are allowed to access the S3 File Gateway. The list must\n         contain either valid IP addresses or valid CIDR blocks.</p>",
+                "smithy.api#documentation": "<p>The list of clients that are allowed to access the S3 File Gateway. The list must\n         contain either valid IPv4/IPv6 addresses or valid CIDR blocks.</p>",
                 "smithy.api#length": {
                     "min": 1,
                     "max": 100
@@ -6464,10 +6526,10 @@
             "type": "string",
             "traits": {
                 "smithy.api#length": {
-                    "min": 6,
+                    "min": 2,
                     "max": 1024
                 },
-                "smithy.api#pattern": "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])(:(\\d+))?$"
+                "smithy.api#pattern": "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])(:(\\d+))?$|^(?:\\[(?:(?:(?:[A-Fa-f0-9]{1,4}:){6}|(?=(?:[A-Fa-f0-9]{0,4}:){0,6}(?:[0-9]{1,3}\\.){3}[0-9]{1,3}(?![:.\\w]))(?:(?:[0-9A-Fa-f]{1,4}:){0,5}|:)(?:(?::[0-9A-Fa-f]{1,4}){1,5}:|:)|::(?:[A-Fa-f0-9]{1,4}:){5})(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}|(?=(?:[A-Fa-f0-9]{0,4}:){0,7}[A-Fa-f0-9]{0,4}(?![:.\\w]))(?:(?:[0-9A-Fa-f]{1,4}:){1,7}|:)(?:(:[0-9A-Fa-f]{1,4}){1,7}|:)|(?:[A-Fa-f0-9]{1,4}:){7}:|:(:[A-Fa-f0-9]{1,4}){7})\\]:\\d+$|^(?:(?:(?:[A-Fa-f0-9]{1,4}:){6}|(?=(?:[A-Fa-f0-9]{0,4}:){0,6}(?:[0-9]{1,3}\\.){3}[0-9]{1,3}(?![:.\\w]))(?:(?:[0-9A-Fa-f]{1,4}:){0,5}|:)(?:(?::[0-9A-Fa-f]{1,4}){1,5}:|:)|::(?:[A-Fa-f0-9]{1,4}:){5})(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}|(?=(?:[A-Fa-f0-9]{0,4}:){0,7}[A-Fa-f0-9]{0,4}(?![:.\\w]))(?:(?:[0-9A-Fa-f]{1,4}:){1,7}|:)(?:(:[0-9A-Fa-f]{1,4}){1,7}|:)|(?:[A-Fa-f0-9]{1,4}:){7}:|:(:[A-Fa-f0-9]{1,4}){7})$)$"
             }
         },
         "com.amazonaws.storagegateway#HostEnvironment": {
@@ -6545,12 +6607,6 @@
                 "smithy.api#pattern": "^((25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])(\\.(?!$)|$)){4}$"
             }
         },
-        "com.amazonaws.storagegateway#IPV4AddressCIDR": {
-            "type": "string",
-            "traits": {
-                "smithy.api#pattern": "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/([0-9]|[1-2][0-9]|3[0-2]))?$"
-            }
-        },
         "com.amazonaws.storagegateway#Initiator": {
             "type": "string",
             "traits": {
@@ -6622,6 +6678,12 @@
                 }
             }
         },
+        "com.amazonaws.storagegateway#Ipv4OrIpv6AddressCIDR": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(?:\\/(?:[0-9]|[1-2][0-9]|3[0-2]))?$|^(?:(?:(?:[A-Fa-f0-9]{1,4}:){6}|(?=(?:[A-Fa-f0-9]{0,4}:){0,6}(?:[0-9]{1,3}\\.){3}[0-9]{1,3}(?![:.\\w]))(?:(?:[0-9A-Fa-f]{1,4}:){0,5}|:)(?:(?::[0-9A-Fa-f]{1,4}){1,5}:|:)|::(?:[A-Fa-f0-9]{1,4}:){5})(?:(?:25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}|(?=(?:[A-Fa-f0-9]{0,4}:){0,7}[A-Fa-f0-9]{0,4}(?![:.\\w]))(?:(?:[0-9A-Fa-f]{1,4}:){1,7}|:)(?:(:[0-9A-Fa-f]{1,4}){1,7}|:)|(?:[A-Fa-f0-9]{1,4}:){7}:|:(:[A-Fa-f0-9]{1,4}){7})(?:\\/(?:12[0-8]|1[01][0-9]|[1-9]?[0-9]))?$"
+            }
+        },
         "com.amazonaws.storagegateway#IqnName": {
             "type": "string",
             "traits": {
@@ -6678,7 +6740,7 @@
                 "DomainControllers": {
                     "target": "com.amazonaws.storagegateway#Hosts",
                     "traits": {
-                        "smithy.api#documentation": "<p>List of IPv4 addresses, NetBIOS names, or host names of your domain server. If you need\n         to specify the port number include it after the colon (“:”). For example,\n            <code>mydc.mydomain.com:389</code>.</p>"
+                        "smithy.api#documentation": "<p>List of IP addresses, NetBIOS names, or host names of your domain server. If you need to\n         specify the port number include it after the colon (“:”). For example,\n            <code>mydc.mydomain.com:389</code>.</p>\n         <note>\n            <p>S3 File Gateway supports IPv6 addresses in addition to IPv4 and other existing\n            formats.</p>\n            <p>FSx File Gateway does not support IPv6.</p>\n         </note>"
                     }
                 },
                 "TimeoutInSeconds": {
@@ -6719,7 +6781,7 @@
                 "ActiveDirectoryStatus": {
                     "target": "com.amazonaws.storagegateway#ActiveDirectoryStatus",
                     "traits": {
-                        "smithy.api#documentation": "<p>Indicates the status of the gateway as a member of the Active Directory domain.</p>\n         <note>\n            <p>This field is only used as part of a <code>JoinDomain</code> request. It is not\n            affected by Active Directory connectivity changes that occur after the\n               <code>JoinDomain</code> request succeeds.</p>\n         </note>\n         <ul>\n            <li>\n               <p>\n                  <code>ACCESS_DENIED</code>: Indicates that the <code>JoinDomain</code> operation\n               failed due to an authentication error.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DETACHED</code>: Indicates that gateway is not joined to a domain.</p>\n            </li>\n            <li>\n               <p>\n                  <code>JOINED</code>: Indicates that the gateway has successfully joined a\n               domain.</p>\n            </li>\n            <li>\n               <p>\n                  <code>JOINING</code>: Indicates that a <code>JoinDomain</code> operation is in\n               progress.</p>\n            </li>\n            <li>\n               <p>\n                  <code>NETWORK_ERROR</code>: Indicates that <code>JoinDomain</code> operation\n               failed due to a network or connectivity error.</p>\n            </li>\n            <li>\n               <p>\n                  <code>TIMEOUT</code>: Indicates that the <code>JoinDomain</code> operation failed\n               because the operation didn't complete within the allotted time.</p>\n            </li>\n            <li>\n               <p>\n                  <code>UNKNOWN_ERROR</code>: Indicates that the <code>JoinDomain</code> operation\n               failed due to another type of error.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>Indicates the status of the gateway as a member of the Active Directory domain.</p>\n         <note>\n            <p>This field is only used as part of a <code>JoinDomain</code> request. It is not\n            affected by Active Directory connectivity changes that occur after the\n               <code>JoinDomain</code> request succeeds.</p>\n         </note>\n         <ul>\n            <li>\n               <p>\n                  <code>ACCESS_DENIED</code>: Indicates that the <code>JoinDomain</code> operation\n               failed due to an authentication error.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DETACHED</code>: Indicates that gateway is not joined to a domain.</p>\n            </li>\n            <li>\n               <p>\n                  <code>JOINED</code>: Indicates that the gateway has successfully joined a\n               domain.</p>\n            </li>\n            <li>\n               <p>\n                  <code>JOINING</code>: Indicates that a <code>JoinDomain</code> operation is in\n               progress.</p>\n            </li>\n            <li>\n               <p>\n                  <code>INSUFFICIENT_PERMISSIONS</code>: Indicates that the <code>JoinDomain</code>\n               operation failed because the specified user lacks the necessary permissions to join\n               the domain.</p>\n            </li>\n            <li>\n               <p>\n                  <code>NETWORK_ERROR</code>: Indicates that <code>JoinDomain</code> operation\n               failed due to a network or connectivity error.</p>\n            </li>\n            <li>\n               <p>\n                  <code>TIMEOUT</code>: Indicates that the <code>JoinDomain</code> operation failed\n               because the operation didn't complete within the allotted time.</p>\n            </li>\n            <li>\n               <p>\n                  <code>UNKNOWN_ERROR</code>: Indicates that the <code>JoinDomain</code> operation\n               failed due to another type of error.</p>\n            </li>\n         </ul>"
                     }
                 }
             },
@@ -6810,7 +6872,12 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Returns a list of existing cache reports for all file shares associated with your\n            Amazon Web Services account. This list includes all information provided by the\n            <code>DescribeCacheReport</code> action, such as report name, status, completion\n         progress, start time, end time, filters, and tags.</p>"
+                "smithy.api#documentation": "<p>Returns a list of existing cache reports for all file shares associated with your\n            Amazon Web Services account. This list includes all information provided by the\n            <code>DescribeCacheReport</code> action, such as report name, status, completion\n         progress, start time, end time, filters, and tags.</p>",
+                "smithy.api#paginated": {
+                    "inputToken": "Marker",
+                    "outputToken": "Marker",
+                    "items": "CacheReportList"
+                }
             }
         },
         "com.amazonaws.storagegateway#ListCacheReportsInput": {
@@ -7669,7 +7736,7 @@
             "traits": {
                 "smithy.api#length": {
                     "min": 1,
-                    "max": 1000
+                    "max": 2000
                 }
             }
         },
@@ -7882,7 +7949,7 @@
                 "Ipv6Address": {
                     "target": "com.amazonaws.storagegateway#string",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Internet Protocol version 6 (IPv6) address of the interface. <i>Currently not\n            supported</i>.</p>"
+                        "smithy.api#documentation": "<p>The Internet Protocol version 6 (IPv6) address of the interface.</p>\n         <note>\n            <p>This element returns IPv6 addresses for all gateway types except FSx File Gateway.</p>\n         </note>"
                     }
                 }
             },
@@ -7892,10 +7959,7 @@
             }
         },
         "com.amazonaws.storagegateway#NetworkInterfaceId": {
-            "type": "string",
-            "traits": {
-                "smithy.api#pattern": "^\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z$"
-            }
+            "type": "string"
         },
         "com.amazonaws.storagegateway#NextUpdateAvailabilityDate": {
             "type": "string",
@@ -9129,7 +9193,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Starts generating a report of the file metadata currently cached by an S3 File Gateway for a specific file share. You can use this report to identify and resolve\n         issues if you have files failing upload from your gateway to Amazon S3. The report\n         is a CSV file containing a list of files which match the set of filter parameters you\n         specify in the request.</p>\n         <note>\n            <p>The <b>Files Failing Upload</b> flag is reset every 24\n            hours and during gateway reboot. If this report captures the files after the reset, but\n            before they become flagged again, they will not be reported as <b>Files Failing Upload</b>.</p>\n         </note>\n         <p>The following requirements must be met to successfully generate a cache report:</p>\n         <ul>\n            <li>\n               <p>You must have permissions to list the entire Amazon S3 bucket associated\n               with the specified file share.</p>\n            </li>\n            <li>\n               <p>No other cache reports can currently be in-progress for the specified file\n               share.</p>\n            </li>\n            <li>\n               <p>There must be fewer than 10 existing cache reports for the specified file\n               share.</p>\n            </li>\n            <li>\n               <p>The gateway must be online and connected to Amazon Web Services.</p>\n            </li>\n            <li>\n               <p>The root disk must have at least 20GB of free space when report generation\n               starts.</p>\n            </li>\n            <li>\n               <p>You must specify at least one value for <code>InclusionFilters</code> or\n                  <code>ExclusionFilters</code> in the request.</p>\n            </li>\n         </ul>"
+                "smithy.api#documentation": "<p>Starts generating a report of the file metadata currently cached by an S3 File Gateway for a specific file share. You can use this report to identify and resolve\n         issues if you have files failing upload from your gateway to Amazon S3. The report\n         is a CSV file containing a list of files which match the set of filter parameters you\n         specify in the request.</p>\n         <note>\n            <p>The <b>Files Failing Upload</b> flag is reset every 24\n            hours and during gateway reboot. If this report captures the files after the reset, but\n            before they become flagged again, they will not be reported as <b>Files Failing Upload</b>.</p>\n         </note>\n         <p>The following requirements must be met to successfully generate a cache report:</p>\n         <ul>\n            <li>\n               <p>You must have <code>s3:PutObject</code> and <code>s3:AbortMultipartUpload</code>\n               permissions for the Amazon S3 bucket where you want to store the cache\n               report.</p>\n            </li>\n            <li>\n               <p>No other cache reports can currently be in-progress for the specified file\n               share.</p>\n            </li>\n            <li>\n               <p>There must be fewer than 10 existing cache reports for the specified file\n               share.</p>\n            </li>\n            <li>\n               <p>The gateway must be online and connected to Amazon Web Services.</p>\n            </li>\n            <li>\n               <p>The root disk must have at least 20GB of free space when report generation\n               starts.</p>\n            </li>\n            <li>\n               <p>You must specify at least one value for <code>InclusionFilters</code> or\n                  <code>ExclusionFilters</code> in the request.</p>\n            </li>\n         </ul>"
             }
         },
         "com.amazonaws.storagegateway#StartCacheReportInput": {
@@ -9151,14 +9215,14 @@
                 "LocationARN": {
                     "target": "com.amazonaws.storagegateway#LocationARN",
                     "traits": {
-                        "smithy.api#documentation": "<p>The ARN of the Amazon S3 bucket where the cache report will be saved.</p>\n         <note>\n            <p>We do not recommend saving the cache report to the same Amazon S3 bucket for\n            which you are generating the report.</p>\n            <p>This field does not accept access point ARNs.</p>\n         </note>",
+                        "smithy.api#documentation": "<p>The ARN of the Amazon S3 bucket where you want to save the cache report.</p>\n         <note>\n            <p>We do not recommend saving the cache report to the same Amazon S3 bucket for\n            which you are generating the report.</p>\n            <p>This field does not accept access point ARNs.</p>\n         </note>",
                         "smithy.api#required": {}
                     }
                 },
                 "BucketRegion": {
                     "target": "com.amazonaws.storagegateway#RegionId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Web Services Region of the Amazon S3 bucket associated with the file\n         share for which you want to generate the cache report.</p>",
+                        "smithy.api#documentation": "<p>The Amazon Web Services Region of the Amazon S3 bucket where you want to save the\n         cache report.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -9469,6 +9533,9 @@
                 },
                 {
                     "target": "com.amazonaws.storagegateway#DisassociateFileSystem"
+                },
+                {
+                    "target": "com.amazonaws.storagegateway#EvictFilesFailingUpload"
                 },
                 {
                     "target": "com.amazonaws.storagegateway#JoinDomain"
@@ -11810,7 +11877,7 @@
                 "ClientList": {
                     "target": "com.amazonaws.storagegateway#FileShareClientList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The list of clients that are allowed to access the S3 File Gateway. The list must\n         contain either valid IP addresses or valid CIDR blocks.</p>"
+                        "smithy.api#documentation": "<p>The list of clients that are allowed to access the S3 File Gateway. The list must\n         contain either valid IPv4/IPv6 addresses or valid CIDR blocks.</p>"
                     }
                 },
                 "Squash": {

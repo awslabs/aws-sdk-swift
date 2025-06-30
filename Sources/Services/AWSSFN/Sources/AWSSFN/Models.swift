@@ -6869,46 +6869,6 @@ enum ValidateStateMachineDefinitionOutputError {
     }
 }
 
-extension TooManyTags {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTags {
-        let reader = baseError.errorBodyReader
-        var value = TooManyTags()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceName = try reader["resourceName"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension KmsThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = KmsThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension KmsAccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsAccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = KmsAccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ActivityAlreadyExists {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ActivityAlreadyExists {
@@ -6961,6 +6921,72 @@ extension InvalidName {
     }
 }
 
+extension KmsAccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsAccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = KmsAccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KmsThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = KmsThrottlingException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyTags {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTags {
+        let reader = baseError.errorBodyReader
+        var value = TooManyTags()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.resourceName = try reader["resourceName"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidArn {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArn {
+        let reader = baseError.errorBodyReader
+        var value = InvalidArn()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidDefinition {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDefinition {
@@ -6974,13 +7000,12 @@ extension InvalidDefinition {
     }
 }
 
-extension ValidationException {
+extension InvalidLoggingConfiguration {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLoggingConfiguration {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = InvalidLoggingConfiguration()
         value.properties.message = try reader["message"].readIfPresent()
-        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6993,6 +7018,32 @@ extension InvalidTracingConfiguration {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTracingConfiguration {
         let reader = baseError.errorBodyReader
         var value = InvalidTracingConfiguration()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension StateMachineAlreadyExists {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> StateMachineAlreadyExists {
+        let reader = baseError.errorBodyReader
+        var value = StateMachineAlreadyExists()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension StateMachineDeleting {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> StateMachineDeleting {
+        let reader = baseError.errorBodyReader
+        var value = StateMachineDeleting()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7027,64 +7078,13 @@ extension StateMachineTypeNotSupported {
     }
 }
 
-extension InvalidLoggingConfiguration {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLoggingConfiguration {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = InvalidLoggingConfiguration()
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidArn {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArn {
-        let reader = baseError.errorBodyReader
-        var value = InvalidArn()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension StateMachineAlreadyExists {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> StateMachineAlreadyExists {
-        let reader = baseError.errorBodyReader
-        var value = StateMachineAlreadyExists()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension StateMachineDeleting {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> StateMachineDeleting {
-        let reader = baseError.errorBodyReader
-        var value = StateMachineDeleting()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7132,12 +7132,11 @@ extension ActivityDoesNotExist {
     }
 }
 
-extension KmsInvalidStateException {
+extension ExecutionDoesNotExist {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsInvalidStateException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExecutionDoesNotExist {
         let reader = baseError.errorBodyReader
-        var value = KmsInvalidStateException()
-        value.properties.kmsKeyState = try reader["kmsKeyState"].readIfPresent()
+        var value = ExecutionDoesNotExist()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7146,11 +7145,12 @@ extension KmsInvalidStateException {
     }
 }
 
-extension ExecutionDoesNotExist {
+extension KmsInvalidStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExecutionDoesNotExist {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsInvalidStateException {
         let reader = baseError.errorBodyReader
-        var value = ExecutionDoesNotExist()
+        var value = KmsInvalidStateException()
+        value.properties.kmsKeyState = try reader["kmsKeyState"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7198,19 +7198,6 @@ extension InvalidToken {
     }
 }
 
-extension ExecutionNotRedrivable {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExecutionNotRedrivable {
-        let reader = baseError.errorBodyReader
-        var value = ExecutionNotRedrivable()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ExecutionLimitExceeded {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExecutionLimitExceeded {
@@ -7224,11 +7211,11 @@ extension ExecutionLimitExceeded {
     }
 }
 
-extension TaskTimedOut {
+extension ExecutionNotRedrivable {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TaskTimedOut {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExecutionNotRedrivable {
         let reader = baseError.errorBodyReader
-        var value = TaskTimedOut()
+        var value = ExecutionNotRedrivable()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7242,6 +7229,19 @@ extension TaskDoesNotExist {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TaskDoesNotExist {
         let reader = baseError.errorBodyReader
         var value = TaskDoesNotExist()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TaskTimedOut {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TaskTimedOut {
+        let reader = baseError.errorBodyReader
+        var value = TaskTimedOut()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

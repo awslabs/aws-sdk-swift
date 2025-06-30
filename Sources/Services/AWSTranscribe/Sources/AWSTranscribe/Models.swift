@@ -353,6 +353,7 @@ extension TranscribeClientTypes {
         case enZa
         case esEs
         case esUs
+        case etEe
         case etEt
         case euEs
         case faIr
@@ -423,6 +424,7 @@ extension TranscribeClientTypes {
         case viVn
         case woSn
         case zhCn
+        case zhHk
         case zhTw
         case zuZa
         case sdkUnknown(Swift.String)
@@ -460,6 +462,7 @@ extension TranscribeClientTypes {
                 .enZa,
                 .esEs,
                 .esUs,
+                .etEe,
                 .etEt,
                 .euEs,
                 .faIr,
@@ -530,6 +533,7 @@ extension TranscribeClientTypes {
                 .viVn,
                 .woSn,
                 .zhCn,
+                .zhHk,
                 .zhTw,
                 .zuZa
             ]
@@ -573,6 +577,7 @@ extension TranscribeClientTypes {
             case .enZa: return "en-ZA"
             case .esEs: return "es-ES"
             case .esUs: return "es-US"
+            case .etEe: return "et-EE"
             case .etEt: return "et-ET"
             case .euEs: return "eu-ES"
             case .faIr: return "fa-IR"
@@ -643,6 +648,7 @@ extension TranscribeClientTypes {
             case .viVn: return "vi-VN"
             case .woSn: return "wo-SN"
             case .zhCn: return "zh-CN"
+            case .zhHk: return "zh-HK"
             case .zhTw: return "zh-TW"
             case .zuZa: return "zu-ZA"
             case let .sdkUnknown(s): return s
@@ -1494,14 +1500,24 @@ extension TranscribeClientTypes {
 extension TranscribeClientTypes {
 
     public enum MedicalScribeNoteTemplate: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case behavioralSoap
+        case birp
+        case dap
         case girpp
         case historyAndPhysical
+        case physicalSoap
+        case sirp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MedicalScribeNoteTemplate] {
             return [
+                .behavioralSoap,
+                .birp,
+                .dap,
                 .girpp,
-                .historyAndPhysical
+                .historyAndPhysical,
+                .physicalSoap,
+                .sirp
             ]
         }
 
@@ -1512,8 +1528,13 @@ extension TranscribeClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .behavioralSoap: return "BEHAVIORAL_SOAP"
+            case .birp: return "BIRP"
+            case .dap: return "DAP"
             case .girpp: return "GIRPP"
             case .historyAndPhysical: return "HISTORY_AND_PHYSICAL"
+            case .physicalSoap: return "PHYSICAL_SOAP"
+            case .sirp: return "SIRP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1526,9 +1547,19 @@ extension TranscribeClientTypes {
     public struct ClinicalNoteGenerationSettings: Swift.Sendable {
         /// Specify one of the following templates to use for the clinical note summary. The default is HISTORY_AND_PHYSICAL.
         ///
-        /// * HISTORY_AND_PHYSICAL: Provides summaries for key sections of the clinical documentation. Sections include Chief Complaint, History of Present Illness, Review of Systems, Past Medical History, Assessment, and Plan.
+        /// * HISTORY_AND_PHYSICAL: Provides summaries for key sections of the clinical documentation. Examples of sections include Chief Complaint, History of Present Illness, Review of Systems, Past Medical History, Assessment, and Plan.
         ///
-        /// * GIRPP: Provides summaries based on the patients progress toward goals. Sections include Goal, Intervention, Response, Progress, and Plan.
+        /// * GIRPP: Provides summaries based on the patients progress toward goals. Examples of sections include Goal, Intervention, Response, Progress, and Plan.
+        ///
+        /// * BIRP: Focuses on the patient's behavioral patterns and responses. Examples of sections include Behavior, Intervention, Response, and Plan.
+        ///
+        /// * SIRP: Emphasizes the situational context of therapy. Examples of sections include Situation, Intervention, Response, and Plan.
+        ///
+        /// * DAP: Provides a simplified format for clinical documentation. Examples of sections include Data, Assessment, and Plan.
+        ///
+        /// * BEHAVIORAL_SOAP: Behavioral health focused documentation format. Examples of sections include Subjective, Objective, Assessment, and Plan.
+        ///
+        /// * PHYSICAL_SOAP: Physical health focused documentation format. Examples of sections include Subjective, Objective, Assessment, and Plan.
         public var noteTemplate: TranscribeClientTypes.MedicalScribeNoteTemplate?
 
         public init(
@@ -6559,11 +6590,24 @@ enum UpdateVocabularyFilterOutputError {
     }
 }
 
-extension LimitExceededException {
+extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = BadRequestException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -6585,24 +6629,11 @@ extension InternalFailureException {
     }
 }
 
-extension BadRequestException {
+extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BadRequestException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = BadRequestException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = LimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

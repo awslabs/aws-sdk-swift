@@ -5,12 +5,12 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import class AwsCommonRuntimeKit.CredentialsProvider
 import ClientRuntime
 import enum Smithy.ClientError
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolvedByCRT
 import struct Foundation.TimeInterval
+import struct Foundation.UUID
+import struct Smithy.Attributes
 
 // swiftlint:disable type_name
 // ^ Required to mute swiftlint warning about type name being too long.
@@ -21,8 +21,11 @@ import struct Foundation.TimeInterval
 /// Then, it will call STS to get assumed credentials for the desired role.
 ///
 /// For more information see [Assume role credential provider](https://docs.aws.amazon.com/sdkref/latest/guide/feature-assume-role-credentials.html)
-public struct STSAssumeRoleAWSCredentialIdentityResolver: AWSCredentialIdentityResolvedByCRT {
-    public let crtAWSCredentialIdentityResolver: AwsCommonRuntimeKit.CredentialsProvider
+public struct STSAssumeRoleAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
+    private let awsCredentialIdentityResolver: any AWSCredentialIdentityResolver
+    private let roleARN: String
+    private let roleSessionName: String
+    private let durationSeconds: TimeInterval
 
     /// Creates a credential identity resolver that uses another resolver to assume a role from the AWS Security Token Service (STS).
     ///
@@ -34,25 +37,42 @@ public struct STSAssumeRoleAWSCredentialIdentityResolver: AWSCredentialIdentityR
     public init(
         awsCredentialIdentityResolver: any AWSCredentialIdentityResolver,
         roleArn: String,
-        sessionName: String,
+        sessionName: String?,
         durationSeconds: TimeInterval = 900
     ) throws {
-        try validateString(name: sessionName, regex: "^[\\w+=,.@-]*$")
-        self.crtAWSCredentialIdentityResolver = try AwsCommonRuntimeKit.CredentialsProvider(source: .sts(
-            bootstrap: SDKDefaultIO.shared.clientBootstrap,
-            tlsContext: SDKDefaultIO.shared.tlsContext,
-            credentialsProvider: try awsCredentialIdentityResolver.getCRTAWSCredentialIdentityResolver(),
-            roleArn: roleArn,
-            sessionName: sessionName,
-            duration: durationSeconds
-        ))
+        self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
+        self.roleARN = roleArn
+        self.roleSessionName = sessionName ?? UUID().uuidString
+        self.durationSeconds = durationSeconds
+        try validateSessionName(name: roleSessionName, regex: "^[\\w+=,.@-]*$")
+    }
+
+    public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
+        guard let identityProperties, let internalSTSClient = identityProperties.get(
+            key: InternalClientKeys.internalSTSClientKey
+        ) else {
+            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+                "STSAssumeRoleAWSCredentialIdentityResolver: "
+                + "Missing IdentityProvidingSTSClient in identity properties."
+            )
+        }
+
+        let underlyingCreds = try await awsCredentialIdentityResolver.getIdentity(
+            identityProperties: identityProperties
+        )
+        return try await internalSTSClient.assumeRoleWithCreds(
+            creds: underlyingCreds,
+            roleARN: roleARN,
+            roleSessionName: roleSessionName,
+            durationSeconds: durationSeconds
+        )
+    }
+
+    func validateSessionName(name: String, regex: String) throws {
+        guard name.range(of: regex, options: .regularExpression) != nil else {
+            throw ClientError.invalidValue("The input value [\(name)] does not match the required regex: \(regex)")
+        }
     }
 }
 
 // swiftlint:enable type_name
-
-func validateString(name: String, regex: String) throws {
-    guard name.range(of: regex, options: .regularExpression) != nil else {
-        throw ClientError.invalidValue("The input value [\(name)] does not match the required regex: \(regex)")
-    }
-}

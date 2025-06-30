@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "AWSBedrockRuntime",
     platforms: [
-        .macOS(.v10_15), .iOS(.v13)
+        .macOS(.v12), .iOS(.v13)
     ],
     products: [
         .library(name: "AWSBedrockRuntime", targets: ["AWSBedrockRuntime"])
@@ -20,7 +20,27 @@ let package = Package(
             exact: "0.0.1"
         ),
         .package(
+            id: "aws-sdk-swift.AWSSDKEventStreamsAuth",
+            exact: "0.0.1"
+        ),
+        .package(
             id: "aws-sdk-swift.AWSSDKHTTPAuth",
+            exact: "0.0.1"
+        ),
+        .package(
+            id: "aws-sdk-swift.AWSSDKIdentity",
+            exact: "0.0.1"
+        ),
+        .package(
+            id: "aws-sdk-swift.InternalAWSSSO",
+            exact: "0.0.1"
+        ),
+        .package(
+            id: "aws-sdk-swift.InternalAWSSSOOIDC",
+            exact: "0.0.1"
+        ),
+        .package(
+            id: "aws-sdk-swift.InternalAWSSTS",
             exact: "0.0.1"
         ),
         .package(
@@ -41,12 +61,32 @@ let package = Package(
                     package: "aws-sdk-swift.AWSSDKChecksums"
                 ),
                 .product(
+                    name: "AWSSDKEventStreamsAuth",
+                    package: "aws-sdk-swift.AWSSDKEventStreamsAuth"
+                ),
+                .product(
                     name: "AWSSDKHTTPAuth",
                     package: "aws-sdk-swift.AWSSDKHTTPAuth"
                 ),
                 .product(
+                    name: "AWSSDKIdentity",
+                    package: "aws-sdk-swift.AWSSDKIdentity"
+                ),
+                .product(
                     name: "ClientRuntime",
                     package: "smithy-swift"
+                ),
+                .product(
+                    name: "InternalAWSSSO",
+                    package: "aws-sdk-swift.InternalAWSSSO"
+                ),
+                .product(
+                    name: "InternalAWSSSOOIDC",
+                    package: "aws-sdk-swift.InternalAWSSSOOIDC"
+                ),
+                .product(
+                    name: "InternalAWSSTS",
+                    package: "aws-sdk-swift.InternalAWSSTS"
                 ),
                 .product(
                     name: "Smithy",
@@ -62,6 +102,10 @@ let package = Package(
                 ),
                 .product(
                     name: "SmithyHTTPAPI",
+                    package: "smithy-swift"
+                ),
+                .product(
+                    name: "SmithyHTTPAuth",
                     package: "smithy-swift"
                 ),
                 .product(

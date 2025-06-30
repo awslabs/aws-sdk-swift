@@ -6,8 +6,11 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.customization.RulesBasedAuthSchemeResolverGenerator
+import software.amazon.smithy.aws.swift.codegen.customization.s3.isS3
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKEventStreamsAuthTypes
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.InternalClientTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
@@ -19,6 +22,7 @@ import software.amazon.smithy.swift.codegen.integration.DefaultHTTPProtocolCusto
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolServiceClient
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
+import software.amazon.smithy.swift.codegen.integration.SmokeTestGenerator
 import software.amazon.smithy.swift.codegen.model.isInputEventStream
 import software.amazon.smithy.swift.codegen.model.isOutputEventStream
 
@@ -34,8 +38,10 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
         if (config.serviceSpecificConfigProperties().any { it.memberName == "accountIdEndpointMode" }) {
             writer.write("  .withAccountIDEndpointMode(value: config.accountIdEndpointMode)")
         }
-        writer.write("  .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: \$S)", "aws.auth#sigv4")
         writer.write("  .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: \$S)", "aws.auth#sigv4a")
+        if (ctx.service.isS3) {
+            writer.write("  .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: \$S)", "aws.auth#sigv4-s3express")
+        }
         writer.write("  .withRegion(value: config.region)")
         writer.write("  .withRequestChecksumCalculation(value: config.requestChecksumCalculation)")
         writer.write("  .withResponseChecksumValidation(value: config.responseChecksumValidation)")
@@ -43,6 +49,9 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
             val signingName = AWSAuthUtils.signingServiceName(serviceShape)
             writer.write("  .withSigningName(value: \$S)", signingName)
             writer.write("  .withSigningRegion(value: config.signingRegion)")
+        }
+        if (ctx.service.isS3) {
+            writer.write("  .withClientConfig(value: config)") // this is used in S3 Express
         }
     }
 
@@ -57,7 +66,36 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
     }
 
     override fun renderInternals(ctx: ProtocolGenerator.GenerationContext) {
-        AuthSchemeResolverGenerator().render(ctx)
+        AuthSchemeResolverGenerator(
+            // Skip auth option customization w/ internal service clients for protocol test codegen.
+            // Internal service clients are contained in aws-sdk-swift targets that ARE NOT vended externally
+            //  via a product, meaning service clients generated outside of aws-sdk-swift CANNOT depend on
+            //  the internal service clients. Not to mention it's not even needed for protocol tests.
+            //
+            // Also skip auth option customization for internal service clients themselves.
+            // SSO::getRoleCredentials, SSOOIDC::createToken, and STS::assumeRoleWithWebIdentity are all noAuth.
+            if (ctx.settings.forProtocolTests || ctx.settings.visibility == "internal") {
+                null
+            } else {
+                { authOptionName, writer ->
+                    writer.write(
+                        "$authOptionName.identityProperties.set(key: \$N.internalSTSClientKey, value: \$N())",
+                        AWSSDKIdentityTypes.InternalClientKeys,
+                        InternalClientTypes.IdentityProvidingSTSClient,
+                    )
+                    writer.write(
+                        "$authOptionName.identityProperties.set(key: \$N.internalSSOClientKey, value: \$N())",
+                        AWSSDKIdentityTypes.InternalClientKeys,
+                        InternalClientTypes.IdentityProvidingSSOClient,
+                    )
+                    writer.write(
+                        "$authOptionName.identityProperties.set(key: \$N.internalSSOOIDCClientKey, value: \$N())",
+                        AWSSDKIdentityTypes.InternalClientKeys,
+                        InternalClientTypes.IdentityProvidingSSOOIDCClient,
+                    )
+                }
+            },
+        ).render(ctx)
         // Generate rules-based auth scheme resolver for services that depend on endpoint resolver for auth scheme resolution
         if (AuthSchemeResolverGenerator.usesRulesBasedAuthResolver(ctx)) {
             RulesBasedAuthSchemeResolverGenerator().render(ctx)
@@ -77,4 +115,8 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
     override val endpointMiddlewareSymbol: Symbol = AWSClientRuntimeTypes.Core.AWSEndpointResolverMiddleware
 
     override val unknownServiceErrorSymbol: Symbol = AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
+
+    override val queryCompatibleUtilsSymbol: Symbol = AWSClientRuntimeTypes.AWSQuery.AWSQueryCompatibleUtils
+
+    override fun smokeTestGenerator(ctx: ProtocolGenerator.GenerationContext): SmokeTestGenerator = AWSSmokeTestGenerator(ctx)
 }

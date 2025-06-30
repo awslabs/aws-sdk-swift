@@ -970,12 +970,14 @@ extension PaymentCryptographyDataClientTypes {
     public enum KeyCheckValueAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ansiX924
         case cmac
+        case hmac
         case sdkUnknown(Swift.String)
 
         public static var allCases: [KeyCheckValueAlgorithm] {
             return [
                 .ansiX924,
-                .cmac
+                .cmac,
+                .hmac
             ]
         }
 
@@ -988,6 +990,7 @@ extension PaymentCryptographyDataClientTypes {
             switch self {
             case .ansiX924: return "ANSI_X9_24"
             case .cmac: return "CMAC"
+            case .hmac: return "HMAC"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1000,6 +1003,10 @@ extension PaymentCryptographyDataClientTypes {
         case aes128
         case aes192
         case aes256
+        case hmacSha224
+        case hmacSha256
+        case hmacSha384
+        case hmacSha512
         case tdes2key
         case tdes3key
         case sdkUnknown(Swift.String)
@@ -1009,6 +1016,10 @@ extension PaymentCryptographyDataClientTypes {
                 .aes128,
                 .aes192,
                 .aes256,
+                .hmacSha224,
+                .hmacSha256,
+                .hmacSha384,
+                .hmacSha512,
                 .tdes2key,
                 .tdes3key
             ]
@@ -1024,6 +1035,10 @@ extension PaymentCryptographyDataClientTypes {
             case .aes128: return "AES_128"
             case .aes192: return "AES_192"
             case .aes256: return "AES_256"
+            case .hmacSha224: return "HMAC_SHA224"
+            case .hmacSha256: return "HMAC_SHA256"
+            case .hmacSha384: return "HMAC_SHA384"
+            case .hmacSha512: return "HMAC_SHA512"
             case .tdes2key: return "TDES_2KEY"
             case .tdes3key: return "TDES_3KEY"
             case let .sdkUnknown(s): return s
@@ -3766,13 +3781,12 @@ enum VerifyPinDataOutputError {
     }
 }
 
-extension ValidationException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: PaymentCryptographyDataClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        var value = AccessDeniedException()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3793,6 +3807,19 @@ extension InternalServerException {
     }
 }
 
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ThrottlingException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
@@ -3806,25 +3833,13 @@ extension ThrottlingException {
     }
 }
 
-extension AccessDeniedException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
+        var value = ValidationException()
+        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: PaymentCryptographyDataClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

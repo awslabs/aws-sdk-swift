@@ -516,20 +516,53 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes {
 
+    public enum EnvironmentVariableType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case plaintext
+        case secretsManager
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnvironmentVariableType] {
+            return [
+                .plaintext,
+                .secretsManager
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .plaintext: return "PLAINTEXT"
+            case .secretsManager: return "SECRETS_MANAGER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CodePipelineClientTypes {
+
     /// The environment variables for the action.
     public struct EnvironmentVariable: Swift.Sendable {
         /// The environment variable name in the key-value pair.
         /// This member is required.
         public var name: Swift.String?
+        /// Specifies the type of use for the environment variable value. The value can be either PLAINTEXT or SECRETS_MANAGER. If the value is SECRETS_MANAGER, provide the Secrets reference in the EnvironmentVariable value.
+        public var type: CodePipelineClientTypes.EnvironmentVariableType?
         /// The environment variable value in the key-value pair.
         /// This member is required.
         public var value: Swift.String?
 
         public init(
             name: Swift.String? = nil,
+            type: CodePipelineClientTypes.EnvironmentVariableType? = nil,
             value: Swift.String? = nil
         ) {
             self.name = name
+            self.type = type
             self.value = value
         }
     }
@@ -1001,6 +1034,29 @@ extension CodePipelineClientTypes {
             self.latestInPipelineExecution = latestInPipelineExecution
             self.pipelineExecutionId = pipelineExecutionId
         }
+    }
+}
+
+/// The action execution was not found.
+public struct ActionExecutionNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ActionExecutionNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -3327,7 +3383,7 @@ extension CodePipelineClientTypes {
         public var created: Foundation.Date?
         /// The Amazon Resource Name (ARN) of the pipeline.
         public var pipelineArn: Swift.String?
-        /// The date and time that polling for source changes (periodic checks) was stopped for the pipeline, in timestamp format. You can migrate (update) a polling pipeline to use event-based change detection. For example, for a pipeline with a CodeCommit source, we recommend you migrate (update) your pipeline to use CloudWatch Events. To learn more, see [Migrate polling pipelines to use event-based change detection](https://docs.aws.amazon.com/codepipeline/latest/userguide/update-change-detection.html) in the CodePipeline User Guide.
+        /// The date and time that polling for source changes (periodic checks) was stopped for the pipeline, in timestamp format. Pipelines that are inactive for longer than 30 days will have polling disabled for the pipeline. For more information, see [pollingDisabledAt](https://docs.aws.amazon.com/codepipeline/latest/userguide/reference-pipeline-structure.html#metadata.pollingDisabledAt) in the pipeline structure reference. For the steps to migrate your pipeline from polling to event-based change detection, see [Migrate polling pipelines to use event-based change detection](https://docs.aws.amazon.com/codepipeline/latest/userguide/update-change-detection.html). You can migrate (update) a polling pipeline to use event-based change detection. For example, for a pipeline with a CodeCommit source, we recommend you migrate (update) your pipeline to use CloudWatch Events. To learn more, see [Migrate polling pipelines to use event-based change detection](https://docs.aws.amazon.com/codepipeline/latest/userguide/update-change-detection.html) in the CodePipeline User Guide.
         public var pollingDisabledAt: Foundation.Date?
         /// The date and time the pipeline was last updated, in timestamp format.
         public var updated: Foundation.Date?
@@ -4386,6 +4442,179 @@ public struct ListActionTypesOutput: Swift.Sendable {
     ) {
         self.actionTypes = actionTypes
         self.nextToken = nextToken
+    }
+}
+
+extension CodePipelineClientTypes {
+
+    public enum TargetFilterName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case targetStatus
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TargetFilterName] {
+            return [
+                .targetStatus
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .targetStatus: return "TARGET_STATUS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CodePipelineClientTypes {
+
+    /// Filters the list of targets.
+    public struct TargetFilter: Swift.Sendable {
+        /// The name on which to filter.
+        public var name: CodePipelineClientTypes.TargetFilterName?
+        /// The values on which to filter.
+        public var values: [Swift.String]?
+
+        public init(
+            name: CodePipelineClientTypes.TargetFilterName? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+public struct ListDeployActionExecutionTargetsInput: Swift.Sendable {
+    /// The execution ID for the deploy action.
+    /// This member is required.
+    public var actionExecutionId: Swift.String?
+    /// Filters the targets for a specified deploy action.
+    public var filters: [CodePipelineClientTypes.TargetFilter]?
+    /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// An identifier that was returned from the previous list action types call, which can be used to return the next set of action types in the list.
+    public var nextToken: Swift.String?
+    /// The name of the pipeline with the deploy action.
+    public var pipelineName: Swift.String?
+
+    public init(
+        actionExecutionId: Swift.String? = nil,
+        filters: [CodePipelineClientTypes.TargetFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        pipelineName: Swift.String? = nil
+    ) {
+        self.actionExecutionId = actionExecutionId
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.pipelineName = pipelineName
+    }
+}
+
+extension CodePipelineClientTypes {
+
+    /// The context for the event for the deploy action.
+    public struct DeployTargetEventContext: Swift.Sendable {
+        /// The context message for the event for the deploy action.
+        public var message: Swift.String?
+        /// The command ID for the event for the deploy action.
+        public var ssmCommandId: Swift.String?
+
+        public init(
+            message: Swift.String? = nil,
+            ssmCommandId: Swift.String? = nil
+        ) {
+            self.message = message
+            self.ssmCommandId = ssmCommandId
+        }
+    }
+}
+
+extension CodePipelineClientTypes {
+
+    /// A lifecycle event for the deploy action.
+    public struct DeployTargetEvent: Swift.Sendable {
+        /// The context for the event for the deploy action.
+        public var context: CodePipelineClientTypes.DeployTargetEventContext?
+        /// The end time for the event for the deploy action.
+        public var endTime: Foundation.Date?
+        /// The name of the event for the deploy action.
+        public var name: Swift.String?
+        /// The start time for the event for the deploy action.
+        public var startTime: Foundation.Date?
+        /// The status of the event for the deploy action.
+        public var status: Swift.String?
+
+        public init(
+            context: CodePipelineClientTypes.DeployTargetEventContext? = nil,
+            endTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.context = context
+            self.endTime = endTime
+            self.name = name
+            self.startTime = startTime
+            self.status = status
+        }
+    }
+}
+
+extension CodePipelineClientTypes {
+
+    /// The target for the deploy action.
+    public struct DeployActionExecutionTarget: Swift.Sendable {
+        /// The end time for the deploy action.
+        public var endTime: Foundation.Date?
+        /// The lifecycle events for the deploy action.
+        public var events: [CodePipelineClientTypes.DeployTargetEvent]?
+        /// The start time for the deploy action.
+        public var startTime: Foundation.Date?
+        /// The status of the deploy action.
+        public var status: Swift.String?
+        /// The ID of the target for the deploy action.
+        public var targetId: Swift.String?
+        /// The type of target for the deploy action.
+        public var targetType: Swift.String?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            events: [CodePipelineClientTypes.DeployTargetEvent]? = nil,
+            startTime: Foundation.Date? = nil,
+            status: Swift.String? = nil,
+            targetId: Swift.String? = nil,
+            targetType: Swift.String? = nil
+        ) {
+            self.endTime = endTime
+            self.events = events
+            self.startTime = startTime
+            self.status = status
+            self.targetId = targetId
+            self.targetType = targetType
+        }
+    }
+}
+
+public struct ListDeployActionExecutionTargetsOutput: Swift.Sendable {
+    /// An identifier that was returned from the previous list action types call, which can be used to return the next set of action types in the list.
+    public var nextToken: Swift.String?
+    /// The targets for the deploy action.
+    public var targets: [CodePipelineClientTypes.DeployActionExecutionTarget]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        targets: [CodePipelineClientTypes.DeployActionExecutionTarget]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.targets = targets
     }
 }
 
@@ -6564,6 +6793,13 @@ extension ListActionTypesInput {
     }
 }
 
+extension ListDeployActionExecutionTargetsInput {
+
+    static func urlPathProvider(_ value: ListDeployActionExecutionTargetsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListPipelineExecutionsInput {
 
     static func urlPathProvider(_ value: ListPipelineExecutionsInput) -> Swift.String? {
@@ -6909,6 +7145,18 @@ extension ListActionTypesInput {
         try writer["actionOwnerFilter"].write(value.actionOwnerFilter)
         try writer["nextToken"].write(value.nextToken)
         try writer["regionFilter"].write(value.regionFilter)
+    }
+}
+
+extension ListDeployActionExecutionTargetsInput {
+
+    static func write(value: ListDeployActionExecutionTargetsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actionExecutionId"].write(value.actionExecutionId)
+        try writer["filters"].writeList(value.filters, memberWritingClosure: CodePipelineClientTypes.TargetFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["pipelineName"].write(value.pipelineName)
     }
 }
 
@@ -7352,6 +7600,19 @@ extension ListActionTypesOutput {
         var value = ListActionTypesOutput()
         value.actionTypes = try reader["actionTypes"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.ActionType.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDeployActionExecutionTargetsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDeployActionExecutionTargetsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDeployActionExecutionTargetsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.targets = try reader["targets"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.DeployActionExecutionTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7909,6 +8170,23 @@ enum ListActionTypesOutputError {
     }
 }
 
+enum ListDeployActionExecutionTargetsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ActionExecutionNotFoundException": return try ActionExecutionNotFoundException.makeError(baseError: baseError)
+            case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "PipelineNotFoundException": return try PipelineNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListPipelineExecutionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8341,11 +8619,11 @@ enum UpdatePipelineOutputError {
     }
 }
 
-extension JobNotFoundException {
+extension InvalidNonceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> JobNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNonceException {
         let reader = baseError.errorBodyReader
-        var value = JobNotFoundException()
+        var value = InvalidNonceException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8354,11 +8632,11 @@ extension JobNotFoundException {
     }
 }
 
-extension InvalidNonceException {
+extension JobNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNonceException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> JobNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = InvalidNonceException()
+        var value = JobNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8385,6 +8663,19 @@ extension InvalidClientTokenException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidClientTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidClientTokenException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConcurrentModificationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
+        let reader = baseError.errorBodyReader
+        var value = ConcurrentModificationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8432,11 +8723,11 @@ extension TooManyTagsException {
     }
 }
 
-extension ConcurrentModificationException {
+extension InvalidActionDeclarationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConcurrentModificationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidActionDeclarationException {
         let reader = baseError.errorBodyReader
-        var value = ConcurrentModificationException()
+        var value = InvalidActionDeclarationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8458,11 +8749,11 @@ extension InvalidBlockerDeclarationException {
     }
 }
 
-extension InvalidActionDeclarationException {
+extension InvalidStageDeclarationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidActionDeclarationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidStageDeclarationException {
         let reader = baseError.errorBodyReader
-        var value = InvalidActionDeclarationException()
+        var value = InvalidStageDeclarationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8476,19 +8767,6 @@ extension InvalidStructureException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidStructureException {
         let reader = baseError.errorBodyReader
         var value = InvalidStructureException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidStageDeclarationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidStageDeclarationException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidStageDeclarationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8612,6 +8890,19 @@ extension InvalidNextTokenException {
     }
 }
 
+extension ActionExecutionNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ActionExecutionNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ActionExecutionNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidArnException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArnException {
@@ -8651,6 +8942,19 @@ extension ConcurrentPipelineExecutionsLimitExceededException {
     }
 }
 
+extension ConditionNotOverridableException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConditionNotOverridableException {
+        let reader = baseError.errorBodyReader
+        var value = ConditionNotOverridableException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ConflictException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
@@ -8669,19 +8973,6 @@ extension NotLatestPipelineExecutionException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotLatestPipelineExecutionException {
         let reader = baseError.errorBodyReader
         var value = NotLatestPipelineExecutionException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConditionNotOverridableException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConditionNotOverridableException {
-        let reader = baseError.errorBodyReader
-        var value = ConditionNotOverridableException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9368,6 +9659,7 @@ extension CodePipelineClientTypes.EnvironmentVariable {
     static func write(value: CodePipelineClientTypes.EnvironmentVariable?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["name"].write(value.name)
+        try writer["type"].write(value.type)
         try writer["value"].write(value.value)
     }
 
@@ -9376,6 +9668,7 @@ extension CodePipelineClientTypes.EnvironmentVariable {
         var value = CodePipelineClientTypes.EnvironmentVariable()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }
@@ -10170,6 +10463,46 @@ extension CodePipelineClientTypes.ActionExecutionInput {
     }
 }
 
+extension CodePipelineClientTypes.DeployActionExecutionTarget {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.DeployActionExecutionTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodePipelineClientTypes.DeployActionExecutionTarget()
+        value.targetId = try reader["targetId"].readIfPresent()
+        value.targetType = try reader["targetType"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.events = try reader["events"].readListIfPresent(memberReadingClosure: CodePipelineClientTypes.DeployTargetEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CodePipelineClientTypes.DeployTargetEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.DeployTargetEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodePipelineClientTypes.DeployTargetEvent()
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.context = try reader["context"].readIfPresent(with: CodePipelineClientTypes.DeployTargetEventContext.read(from:))
+        return value
+    }
+}
+
+extension CodePipelineClientTypes.DeployTargetEventContext {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.DeployTargetEventContext {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodePipelineClientTypes.DeployTargetEventContext()
+        value.ssmCommandId = try reader["ssmCommandId"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
 extension CodePipelineClientTypes.PipelineExecutionSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodePipelineClientTypes.PipelineExecutionSummary {
@@ -10442,6 +10775,15 @@ extension CodePipelineClientTypes.LatestInPipelineExecutionFilter {
         guard let value else { return }
         try writer["pipelineExecutionId"].write(value.pipelineExecutionId)
         try writer["startTimeRange"].write(value.startTimeRange)
+    }
+}
+
+extension CodePipelineClientTypes.TargetFilter {
+
+    static func write(value: CodePipelineClientTypes.TargetFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

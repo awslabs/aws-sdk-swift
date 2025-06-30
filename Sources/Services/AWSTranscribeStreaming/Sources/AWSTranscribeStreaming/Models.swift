@@ -47,9 +47,9 @@ extension TranscribeStreamingClientTypes {
         public var confidence: Swift.Double?
         /// The word or words identified as PII.
         public var content: Swift.String?
-        /// The end time, in milliseconds, of the utterance that was identified as PII.
+        /// The end time of the utterance that was identified as PII in seconds, with millisecond precision (e.g., 1.056)
         public var endTime: Swift.Double
-        /// The start time, in milliseconds, of the utterance that was identified as PII.
+        /// The start time of the utterance that was identified as PII in seconds, with millisecond precision (e.g., 1.056)
         public var startTime: Swift.Double
         /// The type of PII identified. For example, NAME or CREDIT_DEBIT_NUMBER.
         public var type: Swift.String?
@@ -109,13 +109,13 @@ extension TranscribeStreamingClientTypes {
         public var confidence: Swift.Double?
         /// The word or punctuation that was transcribed.
         public var content: Swift.String?
-        /// The end time, in milliseconds, of the transcribed item.
+        /// The end time of the transcribed item in seconds, with millisecond precision (e.g., 1.056)
         public var endTime: Swift.Double
         /// If speaker partitioning is enabled, Speaker labels the speaker of the specified item.
         public var speaker: Swift.String?
         /// If partial result stabilization is enabled, Stable indicates whether the specified item is stable (true) or if it may change when the segment is complete (false).
         public var stable: Swift.Bool?
-        /// The start time, in milliseconds, of the transcribed item.
+        /// The start time of the transcribed item in seconds, with millisecond precision (e.g., 1.056)
         public var startTime: Swift.Double
         /// The type of item identified. Options are: PRONUNCIATION (spoken words) and PUNCTUATION.
         public var type: TranscribeStreamingClientTypes.ItemType?
@@ -840,14 +840,24 @@ extension TranscribeStreamingClientTypes {
 extension TranscribeStreamingClientTypes {
 
     public enum MedicalScribeNoteTemplate: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case behavioralSoap
+        case birp
+        case dap
         case girpp
         case historyAndPhysical
+        case physicalSoap
+        case sirp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MedicalScribeNoteTemplate] {
             return [
+                .behavioralSoap,
+                .birp,
+                .dap,
                 .girpp,
-                .historyAndPhysical
+                .historyAndPhysical,
+                .physicalSoap,
+                .sirp
             ]
         }
 
@@ -858,8 +868,13 @@ extension TranscribeStreamingClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .behavioralSoap: return "BEHAVIORAL_SOAP"
+            case .birp: return "BIRP"
+            case .dap: return "DAP"
             case .girpp: return "GIRPP"
             case .historyAndPhysical: return "HISTORY_AND_PHYSICAL"
+            case .physicalSoap: return "PHYSICAL_SOAP"
+            case .sirp: return "SIRP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -872,9 +887,19 @@ extension TranscribeStreamingClientTypes {
     public struct ClinicalNoteGenerationSettings: Swift.Sendable {
         /// Specify one of the following templates to use for the clinical note summary. The default is HISTORY_AND_PHYSICAL.
         ///
-        /// * HISTORY_AND_PHYSICAL: Provides summaries for key sections of the clinical documentation. Sections include Chief Complaint, History of Present Illness, Review of Systems, Past Medical History, Assessment, and Plan.
+        /// * HISTORY_AND_PHYSICAL: Provides summaries for key sections of the clinical documentation. Examples of sections include Chief Complaint, History of Present Illness, Review of Systems, Past Medical History, Assessment, and Plan.
         ///
-        /// * GIRPP: Provides summaries based on the patients progress toward goals. Sections include Goal, Intervention, Response, Progress, and Plan.
+        /// * GIRPP: Provides summaries based on the patients progress toward goals. Examples of sections include Goal, Intervention, Response, Progress, and Plan.
+        ///
+        /// * BIRP: Focuses on the patient's behavioral patterns and responses. Examples of sections include Behavior, Intervention, Response, and Plan.
+        ///
+        /// * SIRP: Emphasizes the situational context of therapy. Examples of sections include Situation, Intervention, Response, and Plan.
+        ///
+        /// * DAP: Provides a simplified format for clinical documentation. Examples of sections include Data, Assessment, and Plan.
+        ///
+        /// * BEHAVIORAL_SOAP: Behavioral health focused documentation format. Examples of sections include Subjective, Objective, Assessment, and Plan.
+        ///
+        /// * PHYSICAL_SOAP: Physical health focused documentation format. Examples of sections include Subjective, Objective, Assessment, and Plan.
         public var noteTemplate: TranscribeStreamingClientTypes.MedicalScribeNoteTemplate?
         /// The name of the Amazon S3 bucket where you want the output of Amazon Web Services HealthScribe post-stream analytics stored. Don't include the S3:// prefix of the specified bucket. HealthScribe outputs transcript and clinical note files under the prefix: S3://$output-bucket-name/healthscribe-streaming/session-id/post-stream-analytics/clinical-notes The role ResourceAccessRoleArn specified in the MedicalScribeConfigurationEvent must have permission to use the specified location. You can change Amazon S3 permissions using the [ Amazon Web Services Management Console ](https://console.aws.amazon.com/s3). See also [Permissions Required for IAM User Roles ](https://docs.aws.amazon.com/transcribe/latest/dg/security_iam_id-based-policy-examples.html#auth-role-iam-user) .
         /// This member is required.
@@ -1553,9 +1578,9 @@ extension TranscribeStreamingClientTypes {
         public var confidence: Swift.Double?
         /// The word or words identified as PHI.
         public var content: Swift.String?
-        /// The end time, in milliseconds, of the utterance that was identified as PHI.
+        /// The end time, in seconds, of the utterance that was identified as PHI.
         public var endTime: Swift.Double
-        /// The start time, in milliseconds, of the utterance that was identified as PHI.
+        /// The start time, in seconds, of the utterance that was identified as PHI.
         public var startTime: Swift.Double
 
         public init(
@@ -1582,11 +1607,11 @@ extension TranscribeStreamingClientTypes {
         public var confidence: Swift.Double?
         /// The word or punctuation that was transcribed.
         public var content: Swift.String?
-        /// The end time, in milliseconds, of the transcribed item.
+        /// The end time, in seconds, of the transcribed item.
         public var endTime: Swift.Double
         /// If speaker partitioning is enabled, Speaker labels the speaker of the specified item.
         public var speaker: Swift.String?
-        /// The start time, in milliseconds, of the transcribed item.
+        /// The start time, in seconds, of the transcribed item.
         public var startTime: Swift.Double
         /// The type of item identified. Options are: PRONUNCIATION (spoken words) and PUNCTUATION.
         public var type: TranscribeStreamingClientTypes.ItemType?
@@ -1666,13 +1691,13 @@ extension TranscribeStreamingClientTypes {
         public var alternatives: [TranscribeStreamingClientTypes.MedicalAlternative]?
         /// Indicates the channel identified for the Result.
         public var channelId: Swift.String?
-        /// The end time, in milliseconds, of the Result.
+        /// The end time, in seconds, of the Result.
         public var endTime: Swift.Double
         /// Indicates if the segment is complete. If IsPartial is true, the segment is not complete. If IsPartial is false, the segment is complete.
         public var isPartial: Swift.Bool
         /// Provides a unique identifier for the Result.
         public var resultId: Swift.String?
-        /// The start time, in milliseconds, of the Result.
+        /// The start time, in seconds, of the Result.
         public var startTime: Swift.Double
 
         public init(
@@ -2022,7 +2047,7 @@ extension TranscribeStreamingClientTypes {
         public var alternatives: [TranscribeStreamingClientTypes.Alternative]?
         /// Indicates which audio channel is associated with the Result.
         public var channelId: Swift.String?
-        /// The end time, in milliseconds, of the Result.
+        /// The end time of the Result in seconds, with millisecond precision (e.g., 1.056).
         public var endTime: Swift.Double
         /// Indicates if the segment is complete. If IsPartial is true, the segment is not complete. If IsPartial is false, the segment is complete.
         public var isPartial: Swift.Bool
@@ -2032,7 +2057,7 @@ extension TranscribeStreamingClientTypes {
         public var languageIdentification: [TranscribeStreamingClientTypes.LanguageWithScore]?
         /// Provides a unique identifier for the Result.
         public var resultId: Swift.String?
-        /// The start time, in milliseconds, of the Result.
+        /// The start time of the Result in seconds, with millisecond precision (e.g., 1.056).
         public var startTime: Swift.Double
 
         public init(
@@ -3343,11 +3368,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension ServiceUnavailableException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = ServiceUnavailableException()
+        var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3356,11 +3381,11 @@ extension ServiceUnavailableException {
     }
 }
 
-extension ConflictException {
+extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = ServiceUnavailableException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -1364,6 +1364,7 @@ extension AutoScalingClientTypes {
     public enum CpuManufacturer: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case amazonWebServices
         case amd
+        case apple
         case intel
         case sdkUnknown(Swift.String)
 
@@ -1371,6 +1372,7 @@ extension AutoScalingClientTypes {
             return [
                 .amazonWebServices,
                 .amd,
+                .apple,
                 .intel
             ]
         }
@@ -1384,6 +1386,7 @@ extension AutoScalingClientTypes {
             switch self {
             case .amazonWebServices: return "amazon-web-services"
             case .amd: return "amd"
+            case .apple: return "apple"
             case .intel: return "intel"
             case let .sdkUnknown(s): return s
             }
@@ -1522,7 +1525,7 @@ extension AutoScalingClientTypes {
 
 extension AutoScalingClientTypes {
 
-    /// Specifies the minimum and maximum for the NetworkBandwidthGbps object when you specify [InstanceRequirements](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html) for an Auto Scaling group. Setting the minimum bandwidth does not guarantee that your instance will achieve the minimum bandwidth. Amazon EC2 will identify instance types that support the specified minimum bandwidth, but the actual bandwidth of your instance might go below the specified minimum at times. For more information, see [Available instance bandwidth](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-network-bandwidth.html#available-instance-bandwidth) in the Amazon EC2 User Guide for Linux Instances.
+    /// Specifies the minimum and maximum for the NetworkBandwidthGbps object when you specify [InstanceRequirements](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_InstanceRequirements.html) for an Auto Scaling group. Setting the minimum bandwidth does not guarantee that your instance will achieve the minimum bandwidth. Amazon EC2 will identify instance types that support the specified minimum bandwidth, but the actual bandwidth of your instance might go below the specified minimum at times. For more information, see [Available instance bandwidth](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-network-bandwidth.html#available-instance-bandwidth) in the Amazon EC2 User Guide.
     public struct NetworkBandwidthGbpsRequest: Swift.Sendable {
         /// The maximum amount of network bandwidth, in gigabits per second (Gbps).
         public var max: Swift.Double?
@@ -1606,7 +1609,7 @@ extension AutoScalingClientTypes {
     /// * ExcludedInstanceTypes - The instance types to exclude from the list, even if they match your specified attributes.
     ///
     ///
-    /// You must specify VCpuCount and MemoryMiB. All other attributes are optional. Any unspecified optional attribute is set to its default. For more information, see [Create a mixed instances group using attribute-based instance type selection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-mixed-instances-group-attribute-based-instance-type-selection.html) in the Amazon EC2 Auto Scaling User Guide. For help determining which instance types match your attributes before you apply them to your Auto Scaling group, see [Preview instance types with specified attributes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html#ec2fleet-get-instance-types-from-instance-requirements) in the Amazon EC2 User Guide for Linux Instances.
+    /// You must specify VCpuCount and MemoryMiB. All other attributes are optional. Any unspecified optional attribute is set to its default. For more information, see [Create a mixed instances group using attribute-based instance type selection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-mixed-instances-group-attribute-based-instance-type-selection.html) in the Amazon EC2 Auto Scaling User Guide. For help determining which instance types match your attributes before you apply them to your Auto Scaling group, see [Preview instance types with specified attributes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html#ec2fleet-get-instance-types-from-instance-requirements) in the Amazon EC2 User Guide.
     public struct InstanceRequirements: Swift.Sendable {
         /// The minimum and maximum number of accelerators (GPUs, FPGAs, or Amazon Web Services Inferentia chips) for an instance type. To exclude accelerator-enabled instance types, set Max to 0. Default: No minimum or maximum limits
         public var acceleratorCount: AutoScalingClientTypes.AcceleratorCountRequest?
@@ -1659,11 +1662,11 @@ extension AutoScalingClientTypes {
         public var allowedInstanceTypes: [Swift.String]?
         /// Indicates whether bare metal instance types are included, excluded, or required. Default: excluded
         public var bareMetal: AutoScalingClientTypes.BareMetal?
-        /// The minimum and maximum baseline bandwidth performance for an instance type, in Mbps. For more information, see [Amazon EBS–optimized instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html) in the Amazon EC2 User Guide for Linux Instances. Default: No minimum or maximum limits
+        /// The minimum and maximum baseline bandwidth performance for an instance type, in Mbps. For more information, see [Amazon EBS–optimized instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html) in the Amazon EC2 User Guide. Default: No minimum or maximum limits
         public var baselineEbsBandwidthMbps: AutoScalingClientTypes.BaselineEbsBandwidthMbpsRequest?
         /// The baseline performance factors for the instance requirements.
         public var baselinePerformanceFactors: AutoScalingClientTypes.BaselinePerformanceFactorsRequest?
-        /// Indicates whether burstable performance instance types are included, excluded, or required. For more information, see [Burstable performance instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html) in the Amazon EC2 User Guide for Linux Instances. Default: excluded
+        /// Indicates whether burstable performance instance types are included, excluded, or required. For more information, see [Burstable performance instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html) in the Amazon EC2 User Guide. Default: excluded
         public var burstablePerformance: AutoScalingClientTypes.BurstablePerformance?
         /// Lists which specific CPU manufacturers to include.
         ///
@@ -1673,6 +1676,8 @@ extension AutoScalingClientTypes {
         ///
         /// * For instance types with Amazon Web Services CPUs, specify amazon-web-services.
         ///
+        /// * For instance types with Apple CPUs, specify apple.
+        ///
         ///
         /// Don't confuse the CPU hardware manufacturer with the CPU hardware architecture. Instances will be launched with a compatible CPU architecture based on the Amazon Machine Image (AMI) that you specify in your launch template. Default: Any manufacturer
         public var cpuManufacturers: [AutoScalingClientTypes.CpuManufacturer]?
@@ -1680,14 +1685,14 @@ extension AutoScalingClientTypes {
         public var excludedInstanceTypes: [Swift.String]?
         /// Indicates whether current or previous generation instance types are included.
         ///
-        /// * For current generation instance types, specify current. The current generation includes EC2 instance types currently recommended for use. This typically includes the latest two to three generations in each instance family. For more information, see [Instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html) in the Amazon EC2 User Guide for Linux Instances.
+        /// * For current generation instance types, specify current. The current generation includes EC2 instance types currently recommended for use. This typically includes the latest two to three generations in each instance family. For more information, see [Instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html) in the Amazon EC2 User Guide.
         ///
         /// * For previous generation instance types, specify previous.
         ///
         ///
         /// Default: Any current or previous generation
         public var instanceGenerations: [AutoScalingClientTypes.InstanceGeneration]?
-        /// Indicates whether instance types with instance store volumes are included, excluded, or required. For more information, see [Amazon EC2 instance store](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html) in the Amazon EC2 User Guide for Linux Instances. Default: included
+        /// Indicates whether instance types with instance store volumes are included, excluded, or required. For more information, see [Amazon EC2 instance store](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html) in the Amazon EC2 User Guide. Default: included
         public var localStorage: AutoScalingClientTypes.LocalStorage?
         /// Indicates the type of local storage that is required.
         ///
@@ -1790,7 +1795,7 @@ extension AutoScalingClientTypes {
     public struct LaunchTemplateOverrides: Swift.Sendable {
         /// The instance requirements. Amazon EC2 Auto Scaling uses your specified requirements to identify instance types. Then, it uses your On-Demand and Spot allocation strategies to launch instances from these instance types. You can specify up to four separate sets of instance requirements per Auto Scaling group. This is useful for provisioning instances from different Amazon Machine Images (AMIs) in the same Auto Scaling group. To do this, create the AMIs and create a new launch template for each AMI. Then, create a compatible set of instance requirements for each launch template. If you specify InstanceRequirements, you can't specify InstanceType.
         public var instanceRequirements: AutoScalingClientTypes.InstanceRequirements?
-        /// The instance type, such as m3.xlarge. You must specify an instance type that is supported in your requested Region and Availability Zones. For more information, see [Instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html) in the Amazon EC2 User Guide for Linux Instances. You can specify up to 40 instance types per Auto Scaling group.
+        /// The instance type, such as m3.xlarge. You must specify an instance type that is supported in your requested Region and Availability Zones. For more information, see [Instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html) in the Amazon EC2 User Guide. You can specify up to 40 instance types per Auto Scaling group.
         public var instanceType: Swift.String?
         /// Provides a launch template for the specified instance type or set of instance requirements. For example, some instance types might require a launch template with a different AMI. If not provided, Amazon EC2 Auto Scaling uses the launch template that's specified in the LaunchTemplate definition. For more information, see [Specifying a different launch template for an instance type](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups-launch-template-overrides.html) in the Amazon EC2 Auto Scaling User Guide. You can specify up to 20 launch templates per Auto Scaling group. The launch templates specified in the overrides and in the LaunchTemplate definition count towards this limit.
         public var launchTemplateSpecification: AutoScalingClientTypes.LaunchTemplateSpecification?
@@ -1933,7 +1938,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     public var mixedInstancesPolicy: AutoScalingClientTypes.MixedInstancesPolicy?
     /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see [Use instance scale-in protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html) in the Amazon EC2 Auto Scaling User Guide.
     public var newInstancesProtectedFromScaleIn: Swift.Bool?
-    /// The name of the placement group into which to launch your instances. For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide for Linux Instances. A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
+    /// The name of the placement group into which to launch your instances. For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide. A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
     public var placementGroup: Swift.String?
     /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services service on your behalf. By default, Amazon EC2 Auto Scaling uses a service-linked role named AWSServiceRoleForAutoScaling, which it creates if it does not exist. For more information, see [Service-linked roles](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-service-linked-role.html) in the Amazon EC2 Auto Scaling User Guide.
     public var serviceLinkedRoleARN: Swift.String?
@@ -2080,7 +2085,7 @@ extension AutoScalingClientTypes {
 
     /// Describes a block device mapping.
     public struct BlockDeviceMapping: Swift.Sendable {
-        /// The device name assigned to the volume (for example, /dev/sdh or xvdh). For more information, see [Device naming on Linux instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/device_naming.html) in the Amazon EC2 User Guide for Linux Instances. To define a block device mapping, set the device name and exactly one of the following properties: Ebs, NoDevice, or VirtualName.
+        /// The device name assigned to the volume (for example, /dev/sdh or xvdh). For more information, see [Device naming on Linux instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/device_naming.html) in the Amazon EC2 User Guide. To define a block device mapping, set the device name and exactly one of the following properties: Ebs, NoDevice, or VirtualName.
         /// This member is required.
         public var deviceName: Swift.String?
         /// Information to attach an EBS volume to an instance at launch.
@@ -2203,27 +2208,27 @@ extension AutoScalingClientTypes {
 public struct CreateLaunchConfigurationInput: Swift.Sendable {
     /// Specifies whether to assign a public IPv4 address to the group's instances. If the instance is launched into a default subnet, the default is to assign a public IPv4 address, unless you disabled the option to assign a public IPv4 address on the subnet. If the instance is launched into a nondefault subnet, the default is not to assign a public IPv4 address, unless you enabled the option to assign a public IPv4 address on the subnet. If you specify true, each instance in the Auto Scaling group receives a unique public IPv4 address. For more information, see [Provide network connectivity for your Auto Scaling instances using Amazon VPC](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-in-vpc.html) in the Amazon EC2 Auto Scaling User Guide. If you specify this property, you must specify at least one subnet for VPCZoneIdentifier when you create your group.
     public var associatePublicIpAddress: Swift.Bool?
-    /// The block device mapping entries that define the block devices to attach to the instances at launch. By default, the block devices specified in the block device mapping for the AMI are used. For more information, see [Block device mappings](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html) in the Amazon EC2 User Guide for Linux Instances.
+    /// The block device mapping entries that define the block devices to attach to the instances at launch. By default, the block devices specified in the block device mapping for the AMI are used. For more information, see [Block device mappings](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html) in the Amazon EC2 User Guide.
     public var blockDeviceMappings: [AutoScalingClientTypes.BlockDeviceMapping]?
     /// Available for backward compatibility.
     public var classicLinkVPCId: Swift.String?
     /// Available for backward compatibility.
     public var classicLinkVPCSecurityGroups: [Swift.String]?
-    /// Specifies whether the launch configuration is optimized for EBS I/O (true) or not (false). The optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O performance. This optimization is not available with all instance types. Additional fees are incurred when you enable EBS optimization for an instance type that is not EBS-optimized by default. For more information, see [Amazon EBS-optimized instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html) in the Amazon EC2 User Guide for Linux Instances. The default value is false.
+    /// Specifies whether the launch configuration is optimized for EBS I/O (true) or not (false). The optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal I/O performance. This optimization is not available with all instance types. Additional fees are incurred when you enable EBS optimization for an instance type that is not EBS-optimized by default. For more information, see [Amazon EBS-optimized instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html) in the Amazon EC2 User Guide. The default value is false.
     public var ebsOptimized: Swift.Bool?
     /// The name or the Amazon Resource Name (ARN) of the instance profile associated with the IAM role for the instance. The instance profile contains the IAM role. For more information, see [IAM role for applications that run on Amazon EC2 instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/us-iam-role.html) in the Amazon EC2 Auto Scaling User Guide.
     public var iamInstanceProfile: Swift.String?
-    /// The ID of the Amazon Machine Image (AMI) that was assigned during registration. For more information, see [Find a Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html) in the Amazon EC2 User Guide for Linux Instances. If you specify InstanceId, an ImageId is not required.
+    /// The ID of the Amazon Machine Image (AMI) that was assigned during registration. For more information, see [Find a Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html) in the Amazon EC2 User Guide. If you specify InstanceId, an ImageId is not required.
     public var imageId: Swift.String?
     /// The ID of the instance to use to create the launch configuration. The new launch configuration derives attributes from the instance, except for the block device mapping. To create a launch configuration with a block device mapping or override any other instance attributes, specify them as part of the same request. For more information, see [Create a launch configuration](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-config.html) in the Amazon EC2 Auto Scaling User Guide.
     public var instanceId: Swift.String?
     /// Controls whether instances in this group are launched with detailed (true) or basic (false) monitoring. The default value is true (enabled). When detailed monitoring is enabled, Amazon CloudWatch generates metrics every minute and your account is charged a fee. When you disable detailed monitoring, CloudWatch generates metrics every 5 minutes. For more information, see [Configure monitoring for Auto Scaling instances](https://docs.aws.amazon.com/autoscaling/latest/userguide/enable-as-instance-metrics.html) in the Amazon EC2 Auto Scaling User Guide.
     public var instanceMonitoring: AutoScalingClientTypes.InstanceMonitoring?
-    /// Specifies the instance type of the EC2 instance. For information about available instance types, see [Available instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#AvailableInstanceTypes) in the Amazon EC2 User Guide for Linux Instances. If you specify InstanceId, an InstanceType is not required.
+    /// Specifies the instance type of the EC2 instance. For information about available instance types, see [Available instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#AvailableInstanceTypes) in the Amazon EC2 User Guide. If you specify InstanceId, an InstanceType is not required.
     public var instanceType: Swift.String?
-    /// The ID of the kernel associated with the AMI. We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see [User provided kernels](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html) in the Amazon EC2 User Guide for Linux Instances.
+    /// The ID of the kernel associated with the AMI. We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see [User provided kernels](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html) in the Amazon EC2 User Guide.
     public var kernelId: Swift.String?
-    /// The name of the key pair. For more information, see [Amazon EC2 key pairs and Amazon EC2 instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon EC2 User Guide for Linux Instances.
+    /// The name of the key pair. For more information, see [Amazon EC2 key pairs and Amazon EC2 instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon EC2 User Guide.
     public var keyName: Swift.String?
     /// The name of the launch configuration. This name must be unique per Region per account.
     /// This member is required.
@@ -2232,7 +2237,7 @@ public struct CreateLaunchConfigurationInput: Swift.Sendable {
     public var metadataOptions: AutoScalingClientTypes.InstanceMetadataOptions?
     /// The tenancy of the instance, either default or dedicated. An instance with dedicated tenancy runs on isolated, single-tenant hardware and can only be launched into a VPC. To launch dedicated instances into a shared tenancy VPC (a VPC with the instance placement tenancy attribute set to default), you must set the value of this property to dedicated. If you specify PlacementTenancy, you must specify at least one subnet for VPCZoneIdentifier when you create your group. Valid values: default | dedicated
     public var placementTenancy: Swift.String?
-    /// The ID of the RAM disk to select. We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see [User provided kernels](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html) in the Amazon EC2 User Guide for Linux Instances.
+    /// The ID of the RAM disk to select. We recommend that you use PV-GRUB instead of kernels and RAM disks. For more information, see [User provided kernels](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html) in the Amazon EC2 User Guide.
     public var ramdiskId: Swift.String?
     /// A list that contains the security group IDs to assign to the instances in the Auto Scaling group. For more information, see [Control traffic to your Amazon Web Services resources using security groups](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html) in the Amazon Virtual Private Cloud User Guide.
     public var securityGroups: [Swift.String]?
@@ -2576,6 +2581,8 @@ public struct DescribeAutoScalingGroupsInput: Swift.Sendable {
     public var autoScalingGroupNames: [Swift.String]?
     /// One or more filters to limit the results based on specific tags.
     public var filters: [AutoScalingClientTypes.Filter]?
+    /// Specifies whether to include information about Amazon EC2 instances in the response. When set to true (default), the response includes instance details.
+    public var includeInstances: Swift.Bool?
     /// The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.
     public var maxRecords: Swift.Int?
     /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -2584,11 +2591,13 @@ public struct DescribeAutoScalingGroupsInput: Swift.Sendable {
     public init(
         autoScalingGroupNames: [Swift.String]? = nil,
         filters: [AutoScalingClientTypes.Filter]? = nil,
+        includeInstances: Swift.Bool? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.autoScalingGroupNames = autoScalingGroupNames
         self.filters = filters
+        self.includeInstances = includeInstances
         self.maxRecords = maxRecords
         self.nextToken = nextToken
     }
@@ -3016,7 +3025,7 @@ extension AutoScalingClientTypes {
         public var minSize: Swift.Int?
         /// The mixed instances policy for the group.
         public var mixedInstancesPolicy: AutoScalingClientTypes.MixedInstancesPolicy?
-        /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in.
+        /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see [Use instance scale-in protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html) in the Amazon EC2 Auto Scaling User Guide.
         public var newInstancesProtectedFromScaleIn: Swift.Bool?
         /// The name of the placement group into which to launch your instances, if any.
         public var placementGroup: Swift.String?
@@ -3674,7 +3683,7 @@ extension AutoScalingClientTypes {
     public struct LaunchConfiguration: Swift.Sendable {
         /// Specifies whether to assign a public IPv4 address to the group's instances. If the instance is launched into a default subnet, the default is to assign a public IPv4 address, unless you disabled the option to assign a public IPv4 address on the subnet. If the instance is launched into a nondefault subnet, the default is not to assign a public IPv4 address, unless you enabled the option to assign a public IPv4 address on the subnet. For more information, see [Provide network connectivity for your Auto Scaling instances using Amazon VPC](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-in-vpc.html) in the Amazon EC2 Auto Scaling User Guide.
         public var associatePublicIpAddress: Swift.Bool?
-        /// The block device mapping entries that define the block devices to attach to the instances at launch. By default, the block devices specified in the block device mapping for the AMI are used. For more information, see [Block device mappings](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html) in the Amazon EC2 User Guide for Linux Instances.
+        /// The block device mapping entries that define the block devices to attach to the instances at launch. By default, the block devices specified in the block device mapping for the AMI are used. For more information, see [Block device mappings](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html) in the Amazon EC2 User Guide.
         public var blockDeviceMappings: [AutoScalingClientTypes.BlockDeviceMapping]?
         /// Available for backward compatibility.
         public var classicLinkVPCId: Swift.String?
@@ -3683,21 +3692,21 @@ extension AutoScalingClientTypes {
         /// The creation date and time for the launch configuration.
         /// This member is required.
         public var createdTime: Foundation.Date?
-        /// Specifies whether the launch configuration is optimized for EBS I/O (true) or not (false). For more information, see [Amazon EBS-optimized instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html) in the Amazon EC2 User Guide for Linux Instances.
+        /// Specifies whether the launch configuration is optimized for EBS I/O (true) or not (false). For more information, see [Amazon EBS-optimized instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-optimized.html) in the Amazon EC2 User Guide.
         public var ebsOptimized: Swift.Bool?
         /// The name or the Amazon Resource Name (ARN) of the instance profile associated with the IAM role for the instance. The instance profile contains the IAM role. For more information, see [IAM role for applications that run on Amazon EC2 instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/us-iam-role.html) in the Amazon EC2 Auto Scaling User Guide.
         public var iamInstanceProfile: Swift.String?
-        /// The ID of the Amazon Machine Image (AMI) to use to launch your EC2 instances. For more information, see [Find a Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html) in the Amazon EC2 User Guide for Linux Instances.
+        /// The ID of the Amazon Machine Image (AMI) to use to launch your EC2 instances. For more information, see [Find a Linux AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html) in the Amazon EC2 User Guide.
         /// This member is required.
         public var imageId: Swift.String?
         /// Controls whether instances in this group are launched with detailed (true) or basic (false) monitoring. For more information, see [Configure monitoring for Auto Scaling instances](https://docs.aws.amazon.com/autoscaling/latest/userguide/enable-as-instance-metrics.html) in the Amazon EC2 Auto Scaling User Guide.
         public var instanceMonitoring: AutoScalingClientTypes.InstanceMonitoring?
-        /// The instance type for the instances. For information about available instance types, see [Available instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#AvailableInstanceTypes) in the Amazon EC2 User Guide for Linux Instances.
+        /// The instance type for the instances. For information about available instance types, see [Available instance types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#AvailableInstanceTypes) in the Amazon EC2 User Guide.
         /// This member is required.
         public var instanceType: Swift.String?
         /// The ID of the kernel associated with the AMI.
         public var kernelId: Swift.String?
-        /// The name of the key pair. For more information, see [Amazon EC2 key pairs and Amazon EC2 instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon EC2 User Guide for Linux Instances.
+        /// The name of the key pair. For more information, see [Amazon EC2 key pairs and Amazon EC2 instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) in the Amazon EC2 User Guide.
         public var keyName: Swift.String?
         /// The Amazon Resource Name (ARN) of the launch configuration.
         public var launchConfigurationARN: Swift.String?
@@ -3714,7 +3723,7 @@ extension AutoScalingClientTypes {
         public var securityGroups: [Swift.String]?
         /// The maximum hourly price to be paid for any Spot Instance launched to fulfill the request. Spot Instances are launched when the price you specify exceeds the current Spot price. For more information, see [Requesting Spot Instances for fault-tolerant and flexible applications](https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-template-spot-instances.html) in the Amazon EC2 Auto Scaling User Guide.
         public var spotPrice: Swift.String?
-        /// The user data to make available to the launched EC2 instances. For more information, see [Instance metadata and user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html) (Linux) and [Instance metadata and user data](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-instance-metadata.html) (Windows). If you are using a command line tool, base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide base64-encoded text. User data is limited to 16 KB.
+        /// The user data to make available to the launched EC2 instances. For more information, see [Instance metadata and user data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html) in the Amazon EC2 User Guide. If you are using a command line tool, base64-encoding is performed for you, and you can load the text from a file. Otherwise, you must provide base64-encoded text. User data is limited to 16 KB.
         public var userData: Swift.String?
 
         public init(
@@ -6428,7 +6437,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public var availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?
     /// One or more Availability Zones for the group.
     public var availabilityZones: [Swift.String]?
-    /// Enables or disables Capacity Rebalancing. For more information, see [Use Capacity Rebalancing to handle Amazon EC2 Spot Interruptions](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-capacity-rebalancing.html) in the Amazon EC2 Auto Scaling User Guide.
+    /// Enables or disables Capacity Rebalancing. If Capacity Rebalancing is disabled, proactive replacement of at-risk Spot Instances does not occur. For more information, see [Capacity Rebalancing in Auto Scaling to replace at-risk Spot Instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-capacity-rebalancing.html) in the Amazon EC2 Auto Scaling User Guide. To suspend rebalancing across Availability Zones, use the [SuspendProcesses](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_SuspendedProcess.html) API.
     public var capacityRebalance: Swift.Bool?
     /// The capacity reservation specification for the Auto Scaling group.
     public var capacityReservationSpecification: AutoScalingClientTypes.CapacityReservationSpecification?
@@ -6462,7 +6471,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public var mixedInstancesPolicy: AutoScalingClientTypes.MixedInstancesPolicy?
     /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see [Use instance scale-in protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html) in the Amazon EC2 Auto Scaling User Guide.
     public var newInstancesProtectedFromScaleIn: Swift.Bool?
-    /// The name of an existing placement group into which to launch your instances. To remove the placement group setting, pass an empty string for placement-group. For more information about placement groups, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide for Linux Instances. A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
+    /// The name of an existing placement group into which to launch your instances. To remove the placement group setting, pass an empty string for placement-group. For more information about placement groups, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide. A cluster placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a cluster placement group.
     public var placementGroup: Swift.String?
     /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services on your behalf. For more information, see [Service-linked roles](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-service-linked-role.html) in the Amazon EC2 Auto Scaling User Guide.
     public var serviceLinkedRoleARN: Swift.String?
@@ -7267,6 +7276,7 @@ extension DescribeAutoScalingGroupsInput {
         guard let value else { return }
         try writer["AutoScalingGroupNames"].writeList(value.autoScalingGroupNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Filters"].writeList(value.filters, memberWritingClosure: AutoScalingClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IncludeInstances"].write(value.includeInstances)
         try writer["MaxRecords"].write(value.maxRecords)
         try writer["NextToken"].write(value.nextToken)
         try writer["Action"].write("DescribeAutoScalingGroups")
@@ -9437,11 +9447,11 @@ enum UpdateAutoScalingGroupOutputError {
     }
 }
 
-extension ServiceLinkedRoleFailure {
+extension ResourceContentionFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServiceLinkedRoleFailure {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceContentionFault {
         let reader = baseError.errorBodyReader
-        var value = ServiceLinkedRoleFailure()
+        var value = ResourceContentionFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9450,11 +9460,11 @@ extension ServiceLinkedRoleFailure {
     }
 }
 
-extension ResourceContentionFault {
+extension ServiceLinkedRoleFailure {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ResourceContentionFault {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ServiceLinkedRoleFailure {
         let reader = baseError.errorBodyReader
-        var value = ResourceContentionFault()
+        var value = ServiceLinkedRoleFailure()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

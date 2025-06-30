@@ -299,10 +299,10 @@ extension ForbiddenException {
     }
 }
 
-extension LimitExceededException {
+extension GoneException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
-        var value = LimitExceededException()
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> GoneException {
+        var value = GoneException()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -310,10 +310,10 @@ extension LimitExceededException {
     }
 }
 
-extension GoneException {
+extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> GoneException {
-        var value = GoneException()
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+        var value = LimitExceededException()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

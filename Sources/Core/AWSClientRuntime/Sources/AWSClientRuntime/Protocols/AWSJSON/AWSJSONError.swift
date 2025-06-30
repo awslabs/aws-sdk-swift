@@ -35,21 +35,3 @@ public struct AWSJSONError: BaseError {
         self.responseReader = responseReader
     }
 }
-
-extension AWSJSONError {
-    @_spi(SmithyReadWrite)
-    public static func makeQueryCompatibleError(
-        httpResponse: HTTPResponse,
-        responseReader: Reader,
-        noErrorWrapping: Bool,
-        errorDetails: String?
-    ) throws -> AWSJSONError {
-        let errorCode = try AwsQueryCompatibleErrorDetails.parse(errorDetails).code
-        return try AWSJSONError(
-            httpResponse: httpResponse,
-            responseReader: responseReader,
-            noErrorWrapping: noErrorWrapping,
-            code: errorCode
-        )
-    }
-}

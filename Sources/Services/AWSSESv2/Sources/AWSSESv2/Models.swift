@@ -259,6 +259,108 @@ extension SESv2ClientTypes {
     }
 }
 
+extension SESv2ClientTypes {
+
+    public enum AttachmentContentDisposition: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attachment
+        case inline
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttachmentContentDisposition] {
+            return [
+                .attachment,
+                .inline
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .attachment: return "ATTACHMENT"
+            case .inline: return "INLINE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    public enum AttachmentContentTransferEncoding: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case base64
+        case quotedPrintable
+        case sevenBit
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttachmentContentTransferEncoding] {
+            return [
+                .base64,
+                .quotedPrintable,
+                .sevenBit
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .base64: return "BASE64"
+            case .quotedPrintable: return "QUOTED_PRINTABLE"
+            case .sevenBit: return "SEVEN_BIT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// Contains metadata and attachment raw content.
+    public struct Attachment: Swift.Sendable {
+        /// A brief description of the attachment content.
+        public var contentDescription: Swift.String?
+        /// A standard descriptor indicating how the attachment should be rendered in the email. Supported values: ATTACHMENT or INLINE.
+        public var contentDisposition: SESv2ClientTypes.AttachmentContentDisposition?
+        /// Unique identifier for the attachment, used for referencing attachments with INLINE disposition in HTML content.
+        public var contentId: Swift.String?
+        /// Specifies how the attachment is encoded. Supported values: BASE64, QUOTED_PRINTABLE, SEVEN_BIT.
+        public var contentTransferEncoding: SESv2ClientTypes.AttachmentContentTransferEncoding?
+        /// The MIME type of the attachment. Example: application/pdf, image/jpeg
+        public var contentType: Swift.String?
+        /// The file name for the attachment as it will appear in the email. Amazon SES restricts certain file extensions. To ensure attachments are accepted, check the [Unsupported attachment types](https://docs.aws.amazon.com/ses/latest/dg/mime-types.html) in the Amazon SES Developer Guide.
+        /// This member is required.
+        public var fileName: Swift.String?
+        /// The raw data of the attachment. It needs to be base64-encoded if you are accessing Amazon SES directly through the HTTPS interface. If you are accessing Amazon SES using an Amazon Web Services SDK, the SDK takes care of the base 64-encoding for you.
+        /// This member is required.
+        public var rawContent: Foundation.Data?
+
+        public init(
+            contentDescription: Swift.String? = nil,
+            contentDisposition: SESv2ClientTypes.AttachmentContentDisposition? = nil,
+            contentId: Swift.String? = nil,
+            contentTransferEncoding: SESv2ClientTypes.AttachmentContentTransferEncoding? = nil,
+            contentType: Swift.String? = nil,
+            fileName: Swift.String? = nil,
+            rawContent: Foundation.Data? = nil
+        ) {
+            self.contentDescription = contentDescription
+            self.contentDisposition = contentDisposition
+            self.contentId = contentId
+            self.contentTransferEncoding = contentTransferEncoding
+            self.contentType = contentType
+            self.fileName = fileName
+            self.rawContent = rawContent
+        }
+    }
+}
+
 /// The input you provided is invalid.
 public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -861,6 +963,8 @@ extension SESv2ClientTypes {
 
     /// An object that defines the email template to use for an email message, and the values to use for any message variables in that template. An email template is a type of message template that contains content that you want to reuse in email messages that you send. You can specifiy the email template by providing the name or ARN of an email template previously saved in your Amazon SES account or by providing the full template content.
     public struct Template: Swift.Sendable {
+        /// The List of attachments to include in your email. All recipients will receive the same attachments.
+        public var attachments: [SESv2ClientTypes.Attachment]?
         /// The list of message headers that will be added to the email message.
         public var headers: [SESv2ClientTypes.MessageHeader]?
         /// The Amazon Resource Name (ARN) of the template.
@@ -869,16 +973,18 @@ extension SESv2ClientTypes {
         public var templateContent: SESv2ClientTypes.EmailTemplateContent?
         /// An object that defines the values to use for message variables in the template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the value to use for that variable.
         public var templateData: Swift.String?
-        /// The name of the template. You will refer to this name when you send email using the SendTemplatedEmail or SendBulkTemplatedEmail operations.
+        /// The name of the template. You will refer to this name when you send email using the SendEmail or SendBulkEmail operations.
         public var templateName: Swift.String?
 
         public init(
+            attachments: [SESv2ClientTypes.Attachment]? = nil,
             headers: [SESv2ClientTypes.MessageHeader]? = nil,
             templateArn: Swift.String? = nil,
             templateContent: SESv2ClientTypes.EmailTemplateContent? = nil,
             templateData: Swift.String? = nil,
             templateName: Swift.String? = nil
         ) {
+            self.attachments = attachments
             self.headers = headers
             self.templateArn = templateArn
             self.templateContent = templateContent
@@ -2325,6 +2431,8 @@ extension SESv2ClientTypes {
 
     /// Represents the email message that you're sending. The Message object consists of a subject line and a message body.
     public struct Message: Swift.Sendable {
+        /// The List of attachments to include in your email. All recipients will receive the same attachments.
+        public var attachments: [SESv2ClientTypes.Attachment]?
         /// The body of the message. You can specify an HTML version of the message, a text-only version of the message, or both.
         /// This member is required.
         public var body: SESv2ClientTypes.Body?
@@ -2335,10 +2443,12 @@ extension SESv2ClientTypes {
         public var subject: SESv2ClientTypes.Content?
 
         public init(
+            attachments: [SESv2ClientTypes.Attachment]? = nil,
             body: SESv2ClientTypes.Body? = nil,
             headers: [SESv2ClientTypes.MessageHeader]? = nil,
             subject: SESv2ClientTypes.Content? = nil
         ) {
+            self.attachments = attachments
             self.body = body
             self.headers = headers
             self.subject = subject
@@ -2348,7 +2458,7 @@ extension SESv2ClientTypes {
 
 extension SESv2ClientTypes {
 
-    /// An object that defines the entire content of the email, including the message headers and the body content. You can create a simple email message, in which you specify the subject and the text and HTML versions of the message body. You can also create raw messages, in which you specify a complete MIME-formatted message. Raw messages can include attachments and custom headers.
+    /// An object that defines the entire content of the email, including the message headers, body content, and attachments. For a simple email message, you specify the subject and provide both text and HTML versions of the message body. You can also add attachments to simple and templated messages. For a raw message, you provide a complete MIME-formatted message, which can include custom headers and attachments.
     public struct EmailContent: Swift.Sendable {
         /// The raw email message. The message has to meet the following criteria:
         ///
@@ -2366,7 +2476,7 @@ extension SESv2ClientTypes {
         ///
         /// * The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in [RFC 5321](https://tools.ietf.org/html/rfc5321).
         public var raw: SESv2ClientTypes.RawMessage?
-        /// The simple email message. The message consists of a subject and a message body.
+        /// The simple email message. The message consists of a subject, message body and attachments list.
         public var simple: SESv2ClientTypes.Message?
         /// The template to use for the email message.
         public var template: SESv2ClientTypes.Template?
@@ -2469,14 +2579,17 @@ extension SESv2ClientTypes {
         case awsSesApSoutheast2
         case awsSesApSoutheast3
         case awsSesApSouth1
+        case awsSesApSouth2
         case awsSesCaCentral1
         case awsSesEuCentral1
+        case awsSesEuCentral2
         case awsSesEuNorth1
         case awsSesEuSouth1
         case awsSesEuWest1
         case awsSesEuWest2
         case awsSesEuWest3
         case awsSesIlCentral1
+        case awsSesMeCentral1
         case awsSesMeSouth1
         case awsSesSaEast1
         case awsSesUsEast1
@@ -2497,14 +2610,17 @@ extension SESv2ClientTypes {
                 .awsSesApSoutheast2,
                 .awsSesApSoutheast3,
                 .awsSesApSouth1,
+                .awsSesApSouth2,
                 .awsSesCaCentral1,
                 .awsSesEuCentral1,
+                .awsSesEuCentral2,
                 .awsSesEuNorth1,
                 .awsSesEuSouth1,
                 .awsSesEuWest1,
                 .awsSesEuWest2,
                 .awsSesEuWest3,
                 .awsSesIlCentral1,
+                .awsSesMeCentral1,
                 .awsSesMeSouth1,
                 .awsSesSaEast1,
                 .awsSesUsEast1,
@@ -2531,14 +2647,17 @@ extension SESv2ClientTypes {
             case .awsSesApSoutheast2: return "AWS_SES_AP_SOUTHEAST_2"
             case .awsSesApSoutheast3: return "AWS_SES_AP_SOUTHEAST_3"
             case .awsSesApSouth1: return "AWS_SES_AP_SOUTH_1"
+            case .awsSesApSouth2: return "AWS_SES_AP_SOUTH_2"
             case .awsSesCaCentral1: return "AWS_SES_CA_CENTRAL_1"
             case .awsSesEuCentral1: return "AWS_SES_EU_CENTRAL_1"
+            case .awsSesEuCentral2: return "AWS_SES_EU_CENTRAL_2"
             case .awsSesEuNorth1: return "AWS_SES_EU_NORTH_1"
             case .awsSesEuSouth1: return "AWS_SES_EU_SOUTH_1"
             case .awsSesEuWest1: return "AWS_SES_EU_WEST_1"
             case .awsSesEuWest2: return "AWS_SES_EU_WEST_2"
             case .awsSesEuWest3: return "AWS_SES_EU_WEST_3"
             case .awsSesIlCentral1: return "AWS_SES_IL_CENTRAL_1"
+            case .awsSesMeCentral1: return "AWS_SES_ME_CENTRAL_1"
             case .awsSesMeSouth1: return "AWS_SES_ME_SOUTH_1"
             case .awsSesSaEast1: return "AWS_SES_SA_EAST_1"
             case .awsSesUsEast1: return "AWS_SES_US_EAST_1"
@@ -2614,6 +2733,8 @@ extension SESv2ClientTypes {
         ///
         /// * AWS_SES_AP_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Mumbai) region using Deterministic Easy-DKIM (DEED).
         ///
+        /// * AWS_SES_AP_SOUTH_2 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Hyderabad) region using Deterministic Easy-DKIM (DEED).
+        ///
         /// * AWS_SES_EU_WEST_3 – Configure DKIM for the identity by replicating from a parent identity in Europe (Paris) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_EU_WEST_2 – Configure DKIM for the identity by replicating from a parent identity in Europe (London) region using Deterministic Easy-DKIM (DEED).
@@ -2625,6 +2746,8 @@ extension SESv2ClientTypes {
         /// * AWS_SES_AP_NORTHEAST_3 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Osaka) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_AP_NORTHEAST_2 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Seoul) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_ME_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Middle East (UAE) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_ME_SOUTH_1 – Configure DKIM for the identity by replicating from a parent identity in Middle East (Bahrain) region using Deterministic Easy-DKIM (DEED).
         ///
@@ -2643,6 +2766,8 @@ extension SESv2ClientTypes {
         /// * AWS_SES_AP_SOUTHEAST_3 – Configure DKIM for the identity by replicating from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_EU_CENTRAL_1 – Configure DKIM for the identity by replicating from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_CENTRAL_2 – Configure DKIM for the identity by replicating from a parent identity in Europe (Zurich) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_US_EAST_1 – Configure DKIM for the identity by replicating from a parent identity in US East (N. Virginia) region using Deterministic Easy-DKIM (DEED).
         ///
@@ -2774,6 +2899,8 @@ extension SESv2ClientTypes {
         ///
         /// * AWS_SES_AP_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Mumbai) region using Deterministic Easy-DKIM (DEED).
         ///
+        /// * AWS_SES_AP_SOUTH_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Hyderabad) region using Deterministic Easy-DKIM (DEED).
+        ///
         /// * AWS_SES_EU_WEST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Paris) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_EU_WEST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (London) region using Deterministic Easy-DKIM (DEED).
@@ -2785,6 +2912,8 @@ extension SESv2ClientTypes {
         /// * AWS_SES_AP_NORTHEAST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Osaka) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_AP_NORTHEAST_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Seoul) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_ME_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Middle East (UAE) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_ME_SOUTH_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Middle East (Bahrain) region using Deterministic Easy-DKIM (DEED).
         ///
@@ -2803,6 +2932,8 @@ extension SESv2ClientTypes {
         /// * AWS_SES_AP_SOUTHEAST_3 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Asia Pacific (Jakarta) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_EU_CENTRAL_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Frankfurt) region using Deterministic Easy-DKIM (DEED).
+        ///
+        /// * AWS_SES_EU_CENTRAL_2 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in Europe (Zurich) region using Deterministic Easy-DKIM (DEED).
         ///
         /// * AWS_SES_US_EAST_1 – Indicates that DKIM was configured for the identity by replicating signing attributes from a parent identity in US East (N. Virginia) region using Deterministic Easy-DKIM (DEED).
         ///
@@ -4341,7 +4472,7 @@ extension SESv2ClientTypes {
         ///
         /// * CLICK - The recipient clicked one or more links in the email.
         ///
-        /// * RENDERING_FAILURE - The email wasn't sent because of a template rendering issue. This event type can occur when template data is missing, or when there is a mismatch between template parameters and data. (This event type only occurs when you send email using the [SendTemplatedEmail](https://docs.aws.amazon.com/ses/latest/APIReference/API_SendTemplatedEmail.html) or [SendBulkTemplatedEmail](https://docs.aws.amazon.com/ses/latest/APIReference/API_SendBulkTemplatedEmail.html) API operations.)
+        /// * RENDERING_FAILURE - The email wasn't sent because of a template rendering issue. This event type can occur when template data is missing, or when there is a mismatch between template parameters and data. (This event type only occurs when you send email using the [SendEmail](https://docs.aws.amazon.com/ses/latest/APIReference-V2/API_SendEmail.html) or [SendBulkEmail](https://docs.aws.amazon.com/ses/latest/APIReference-V2/API_SendBulkEmail.html) API operations.)
         ///
         /// * DELIVERY_DELAY - The email couldn't be delivered to the recipient’s mail server because a temporary issue occurred. Delivery delays can occur, for example, when the recipient's inbox is full, or when the receiving email server experiences a transient issue.
         ///
@@ -12104,6 +12235,19 @@ enum UpdateEmailTemplateOutputError {
     }
 }
 
+extension BadRequestException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+        let reader = baseError.errorBodyReader
+        var value = BadRequestException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InternalServiceErrorException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceErrorException {
@@ -12130,37 +12274,11 @@ extension NotFoundException {
     }
 }
 
-extension BadRequestException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
-        let reader = baseError.errorBodyReader
-        var value = BadRequestException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension TooManyRequestsException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
         var value = TooManyRequestsException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension LimitExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12195,11 +12313,11 @@ extension ConcurrentModificationException {
     }
 }
 
-extension MailFromDomainNotVerifiedException {
+extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MailFromDomainNotVerifiedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = MailFromDomainNotVerifiedException()
+        var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12221,11 +12339,11 @@ extension AccountSuspendedException {
     }
 }
 
-extension SendingPausedException {
+extension MailFromDomainNotVerifiedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SendingPausedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MailFromDomainNotVerifiedException {
         let reader = baseError.errorBodyReader
-        var value = SendingPausedException()
+        var value = MailFromDomainNotVerifiedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12239,6 +12357,19 @@ extension MessageRejected {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MessageRejected {
         let reader = baseError.errorBodyReader
         var value = MessageRejected()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SendingPausedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SendingPausedException {
+        let reader = baseError.errorBodyReader
+        var value = SendingPausedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -13472,11 +13603,26 @@ extension SESv2ClientTypes.Template {
 
     static func write(value: SESv2ClientTypes.Template?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Attachments"].writeList(value.attachments, memberWritingClosure: SESv2ClientTypes.Attachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Headers"].writeList(value.headers, memberWritingClosure: SESv2ClientTypes.MessageHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TemplateArn"].write(value.templateArn)
         try writer["TemplateContent"].write(value.templateContent, with: SESv2ClientTypes.EmailTemplateContent.write(value:to:))
         try writer["TemplateData"].write(value.templateData)
         try writer["TemplateName"].write(value.templateName)
+    }
+}
+
+extension SESv2ClientTypes.Attachment {
+
+    static func write(value: SESv2ClientTypes.Attachment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContentDescription"].write(value.contentDescription)
+        try writer["ContentDisposition"].write(value.contentDisposition)
+        try writer["ContentId"].write(value.contentId)
+        try writer["ContentTransferEncoding"].write(value.contentTransferEncoding)
+        try writer["ContentType"].write(value.contentType)
+        try writer["FileName"].write(value.fileName)
+        try writer["RawContent"].write(value.rawContent)
     }
 }
 
@@ -13501,6 +13647,7 @@ extension SESv2ClientTypes.Message {
 
     static func write(value: SESv2ClientTypes.Message?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Attachments"].writeList(value.attachments, memberWritingClosure: SESv2ClientTypes.Attachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Body"].write(value.body, with: SESv2ClientTypes.Body.write(value:to:))
         try writer["Headers"].writeList(value.headers, memberWritingClosure: SESv2ClientTypes.MessageHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Subject"].write(value.subject, with: SESv2ClientTypes.Content.write(value:to:))

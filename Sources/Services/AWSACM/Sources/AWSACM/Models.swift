@@ -292,6 +292,25 @@ public struct AddTagsToCertificateInput: Swift.Sendable {
 
 extension ACMClientTypes {
 
+    /// Contains information for HTTP-based domain validation of certificates requested through Amazon CloudFront and issued by ACM. This field exists only when the certificate type is AMAZON_ISSUED and the validation method is HTTP.
+    public struct HttpRedirect: Swift.Sendable {
+        /// The URL including the domain to be validated. The certificate authority sends GET requests here during validation.
+        public var redirectFrom: Swift.String?
+        /// The URL hosting the validation token. RedirectFrom must return this content or redirect here.
+        public var redirectTo: Swift.String?
+
+        public init(
+            redirectFrom: Swift.String? = nil,
+            redirectTo: Swift.String? = nil
+        ) {
+            self.redirectFrom = redirectFrom
+            self.redirectTo = redirectTo
+        }
+    }
+}
+
+extension ACMClientTypes {
+
     public enum RecordType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cname
         case sdkUnknown(Swift.String)
@@ -347,12 +366,14 @@ extension ACMClientTypes {
     public enum ValidationMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dns
         case email
+        case http
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ValidationMethod] {
             return [
                 .dns,
-                .email
+                .email,
+                .http
             ]
         }
 
@@ -365,6 +386,7 @@ extension ACMClientTypes {
             switch self {
             case .dns: return "DNS"
             case .email: return "EMAIL"
+            case .http: return "HTTP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -410,7 +432,9 @@ extension ACMClientTypes {
         /// A fully qualified domain name (FQDN) in the certificate. For example, www.example.com or example.com.
         /// This member is required.
         public var domainName: Swift.String?
-        /// Contains the CNAME record that you add to your DNS database for domain validation. For more information, see [Use DNS to Validate Domain Ownership](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-validate-dns.html). Note: The CNAME information that you need does not include the name of your domain. If you include  your domain name in the DNS database CNAME record, validation fails.  For example, if the name is "_a79865eb4cd1a6ab990a45779b4e0b96.yourdomain.com", only "_a79865eb4cd1a6ab990a45779b4e0b96" must be used.
+        /// Contains information for HTTP-based domain validation of certificates requested through Amazon CloudFront and issued by ACM. This field exists only when the certificate type is AMAZON_ISSUED and the validation method is HTTP.
+        public var httpRedirect: ACMClientTypes.HttpRedirect?
+        /// Contains the CNAME record that you add to your DNS database for domain validation. For more information, see [Use DNS to Validate Domain Ownership](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-validate-dns.html). The CNAME information that you need does not include the name of your domain. If you include your domain name in the DNS database CNAME record, validation fails. For example, if the name is _a79865eb4cd1a6ab990a45779b4e0b96.yourdomain.com, only _a79865eb4cd1a6ab990a45779b4e0b96 must be used.
         public var resourceRecord: ACMClientTypes.ResourceRecord?
         /// The domain name that ACM used to send domain validation emails.
         public var validationDomain: Swift.String?
@@ -429,6 +453,7 @@ extension ACMClientTypes {
 
         public init(
             domainName: Swift.String? = nil,
+            httpRedirect: ACMClientTypes.HttpRedirect? = nil,
             resourceRecord: ACMClientTypes.ResourceRecord? = nil,
             validationDomain: Swift.String? = nil,
             validationEmails: [Swift.String]? = nil,
@@ -436,6 +461,7 @@ extension ACMClientTypes {
             validationStatus: ACMClientTypes.DomainStatus? = nil
         ) {
             self.domainName = domainName
+            self.httpRedirect = httpRedirect
             self.resourceRecord = resourceRecord
             self.validationDomain = validationDomain
             self.validationEmails = validationEmails
@@ -732,6 +758,32 @@ extension ACMClientTypes {
 
 extension ACMClientTypes {
 
+    public enum CertificateManagedBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cloudfront
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CertificateManagedBy] {
+            return [
+                .cloudfront
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudfront: return "CLOUDFRONT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
     public enum CertificateTransparencyLoggingPreference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -761,15 +813,48 @@ extension ACMClientTypes {
 
 extension ACMClientTypes {
 
-    /// Structure that contains options for your certificate. Currently, you can use this only to specify whether to opt in to or out of certificate transparency logging. Some browsers require that public certificates issued for your domain be recorded in a log. Certificates that are not logged typically generate a browser error. Transparency makes it possible for you to detect SSL/TLS certificates that have been mistakenly or maliciously issued for your domain. For general information, see [Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency).
+    public enum CertificateExport: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CertificateExport] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ACMClientTypes {
+
+    /// Structure that contains options for your certificate. You can use this structure to specify whether to opt in to or out of certificate transparency logging and export your certificate. Some browsers require that public certificates issued for your domain be recorded in a log. Certificates that are not logged typically generate a browser error. Transparency makes it possible for you to detect SSL/TLS certificates that have been mistakenly or maliciously issued for your domain. For general information, see [Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency). You can export public ACM certificates to use with Amazon Web Services services as well as outside Amazon Web Services Cloud. For more information, see [Certificate Manager exportable public certificate](https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html).
     public struct CertificateOptions: Swift.Sendable {
         /// You can opt out of certificate transparency logging by specifying the DISABLED option. Opt in by specifying ENABLED.
         public var certificateTransparencyLoggingPreference: ACMClientTypes.CertificateTransparencyLoggingPreference?
+        /// You can opt in to allow the export of your certificates by specifying ENABLED.
+        public var export: ACMClientTypes.CertificateExport?
 
         public init(
-            certificateTransparencyLoggingPreference: ACMClientTypes.CertificateTransparencyLoggingPreference? = nil
+            certificateTransparencyLoggingPreference: ACMClientTypes.CertificateTransparencyLoggingPreference? = nil,
+            export: ACMClientTypes.CertificateExport? = nil
         ) {
             self.certificateTransparencyLoggingPreference = certificateTransparencyLoggingPreference
+            self.export = export
         }
     }
 }
@@ -880,6 +965,7 @@ extension ACMClientTypes {
         case privilegeWithdrawn
         case removeFromCrl
         case superceded
+        case superseded
         case unspecified
         case sdkUnknown(Swift.String)
 
@@ -894,6 +980,7 @@ extension ACMClientTypes {
                 .privilegeWithdrawn,
                 .removeFromCrl,
                 .superceded,
+                .superseded,
                 .unspecified
             ]
         }
@@ -914,6 +1001,7 @@ extension ACMClientTypes {
             case .privilegeWithdrawn: return "PRIVILEGE_WITHDRAWN"
             case .removeFromCrl: return "REMOVE_FROM_CRL"
             case .superceded: return "SUPERCEDED"
+            case .superseded: return "SUPERSEDED"
             case .unspecified: return "UNSPECIFIED"
             case let .sdkUnknown(s): return s
             }
@@ -1027,6 +1115,8 @@ extension ACMClientTypes {
         public var keyAlgorithm: ACMClientTypes.KeyAlgorithm?
         /// A list of Key Usage X.509 v3 extension objects. Each object is a string value that identifies the purpose of the public key contained in the certificate. Possible extension values include DIGITAL_SIGNATURE, KEY_ENCHIPHERMENT, NON_REPUDIATION, and more.
         public var keyUsages: [ACMClientTypes.KeyUsage]?
+        /// Identifies the Amazon Web Services service that manages the certificate issued by ACM.
+        public var managedBy: ACMClientTypes.CertificateManagedBy?
         /// The time after which the certificate is not valid.
         public var notAfter: Foundation.Date?
         /// The time before which the certificate is not valid.
@@ -1068,6 +1158,7 @@ extension ACMClientTypes {
             issuer: Swift.String? = nil,
             keyAlgorithm: ACMClientTypes.KeyAlgorithm? = nil,
             keyUsages: [ACMClientTypes.KeyUsage]? = nil,
+            managedBy: ACMClientTypes.CertificateManagedBy? = nil,
             notAfter: Foundation.Date? = nil,
             notBefore: Foundation.Date? = nil,
             options: ACMClientTypes.CertificateOptions? = nil,
@@ -1095,6 +1186,7 @@ extension ACMClientTypes {
             self.issuer = issuer
             self.keyAlgorithm = keyAlgorithm
             self.keyUsages = keyUsages
+            self.managedBy = managedBy
             self.notAfter = notAfter
             self.notBefore = notBefore
             self.options = options
@@ -1383,7 +1475,7 @@ public struct ImportCertificateOutput: Swift.Sendable {
     }
 }
 
-/// One or more of of request parameters specified is not valid.
+/// One or more of request parameters specified is not valid.
 public struct InvalidArgsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1433,21 +1525,29 @@ extension ACMClientTypes {
 
     /// This structure can be used in the [ListCertificates] action to filter the output of the certificate list.
     public struct Filters: Swift.Sendable {
+        /// Specify ENABLED or DISABLED to identify certificates that can be exported.
+        public var exportOption: ACMClientTypes.CertificateExport?
         /// Specify one or more [ExtendedKeyUsage] extension values.
         public var extendedKeyUsage: [ACMClientTypes.ExtendedKeyUsageName]?
         /// Specify one or more algorithms that can be used to generate key pairs. Default filtering returns only RSA_1024 and RSA_2048 certificates that have at least one domain. To return other certificate types, provide the desired type signatures in a comma-separated list. For example, "keyTypes": ["RSA_2048","RSA_4096"] returns both RSA_2048 and RSA_4096 certificates.
         public var keyTypes: [ACMClientTypes.KeyAlgorithm]?
         /// Specify one or more [KeyUsage] extension values.
         public var keyUsage: [ACMClientTypes.KeyUsageName]?
+        /// Identifies the Amazon Web Services service that manages the certificate issued by ACM.
+        public var managedBy: ACMClientTypes.CertificateManagedBy?
 
         public init(
+            exportOption: ACMClientTypes.CertificateExport? = nil,
             extendedKeyUsage: [ACMClientTypes.ExtendedKeyUsageName]? = nil,
             keyTypes: [ACMClientTypes.KeyAlgorithm]? = nil,
-            keyUsage: [ACMClientTypes.KeyUsageName]? = nil
+            keyUsage: [ACMClientTypes.KeyUsageName]? = nil,
+            managedBy: ACMClientTypes.CertificateManagedBy? = nil
         ) {
+            self.exportOption = exportOption
             self.extendedKeyUsage = extendedKeyUsage
             self.keyTypes = keyTypes
             self.keyUsage = keyUsage
+            self.managedBy = managedBy
         }
     }
 }
@@ -1548,11 +1648,13 @@ extension ACMClientTypes {
         public var createdAt: Foundation.Date?
         /// Fully qualified domain name (FQDN), such as www.example.com or example.com, for the certificate.
         public var domainName: Swift.String?
+        /// Indicates if export is enabled for the certificate.
+        public var exportOption: ACMClientTypes.CertificateExport?
         /// Indicates whether the certificate has been exported. This value exists only when the certificate type is PRIVATE.
         public var exported: Swift.Bool?
         /// Contains a list of Extended Key Usage X.509 v3 extension objects. Each object specifies a purpose for which the certificate public key can be used and consists of a name and an object identifier (OID).
         public var extendedKeyUsages: [ACMClientTypes.ExtendedKeyUsageName]?
-        /// When called by [ListCertificates], indicates whether the full list of subject alternative names has been included in the response. If false, the response includes all of the subject alternative names included in the certificate. If true, the response only includes the first 100 subject alternative names included in the certificate. To display the full list of subject alternative names, use [DescribeCertificate].
+        /// When called by [ListCertificates](https://docs.aws.amazon.com/acm/latestAPIReference/API_ListCertificates.html), indicates whether the full list of subject alternative names has been included in the response. If false, the response includes all of the subject alternative names included in the certificate. If true, the response only includes the first 100 subject alternative names included in the certificate. To display the full list of subject alternative names, use [DescribeCertificate](https://docs.aws.amazon.com/acm/latestAPIReference/API_DescribeCertificate.html).
         public var hasAdditionalSubjectAlternativeNames: Swift.Bool?
         /// The date and time when the certificate was imported. This value exists only when the certificate type is IMPORTED.
         public var importedAt: Foundation.Date?
@@ -1564,6 +1666,8 @@ extension ACMClientTypes {
         public var keyAlgorithm: ACMClientTypes.KeyAlgorithm?
         /// A list of Key Usage X.509 v3 extension objects. Each object is a string value that identifies the purpose of the public key contained in the certificate. Possible extension values include DIGITAL_SIGNATURE, KEY_ENCHIPHERMENT, NON_REPUDIATION, and more.
         public var keyUsages: [ACMClientTypes.KeyUsageName]?
+        /// Identifies the Amazon Web Services service that manages the certificate issued by ACM.
+        public var managedBy: ACMClientTypes.CertificateManagedBy?
         /// The time after which the certificate is not valid.
         public var notAfter: Foundation.Date?
         /// The time before which the certificate is not valid.
@@ -1574,7 +1678,7 @@ extension ACMClientTypes {
         public var revokedAt: Foundation.Date?
         /// The status of the certificate. A certificate enters status PENDING_VALIDATION upon being requested, unless it fails for any of the reasons given in the troubleshooting topic [Certificate request fails](https://docs.aws.amazon.com/acm/latest/userguide/troubleshooting-failed.html). ACM makes repeated attempts to validate a certificate for 72 hours and then times out. If a certificate shows status FAILED or VALIDATION_TIMED_OUT, delete the request, correct the issue with [DNS validation](https://docs.aws.amazon.com/acm/latest/userguide/dns-validation.html) or [Email validation](https://docs.aws.amazon.com/acm/latest/userguide/email-validation.html), and try again. If validation succeeds, the certificate enters status ISSUED.
         public var status: ACMClientTypes.CertificateStatus?
-        /// One or more domain names (subject alternative names) included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CN) of the certificate and additional domain names that can be used to connect to the website. When called by [ListCertificates], this parameter will only return the first 100 subject alternative names included in the certificate. To display the full list of subject alternative names, use [DescribeCertificate].
+        /// One or more domain names (subject alternative names) included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CN) of the certificate and additional domain names that can be used to connect to the website. When called by [ListCertificates](https://docs.aws.amazon.com/acm/latestAPIReference/API_ListCertificates.html), this parameter will only return the first 100 subject alternative names included in the certificate. To display the full list of subject alternative names, use [DescribeCertificate](https://docs.aws.amazon.com/acm/latestAPIReference/API_DescribeCertificate.html).
         public var subjectAlternativeNameSummaries: [Swift.String]?
         /// The source of the certificate. For certificates provided by ACM, this value is AMAZON_ISSUED. For certificates that you imported with [ImportCertificate], this value is IMPORTED. ACM does not provide [managed renewal](https://docs.aws.amazon.com/acm/latest/userguide/acm-renewal.html) for imported certificates. For more information about the differences between certificates that you import and those that ACM provides, see [Importing Certificates](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the Certificate Manager User Guide.
         public var type: ACMClientTypes.CertificateType?
@@ -1583,6 +1687,7 @@ extension ACMClientTypes {
             certificateArn: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             domainName: Swift.String? = nil,
+            exportOption: ACMClientTypes.CertificateExport? = nil,
             exported: Swift.Bool? = nil,
             extendedKeyUsages: [ACMClientTypes.ExtendedKeyUsageName]? = nil,
             hasAdditionalSubjectAlternativeNames: Swift.Bool? = nil,
@@ -1591,6 +1696,7 @@ extension ACMClientTypes {
             issuedAt: Foundation.Date? = nil,
             keyAlgorithm: ACMClientTypes.KeyAlgorithm? = nil,
             keyUsages: [ACMClientTypes.KeyUsageName]? = nil,
+            managedBy: ACMClientTypes.CertificateManagedBy? = nil,
             notAfter: Foundation.Date? = nil,
             notBefore: Foundation.Date? = nil,
             renewalEligibility: ACMClientTypes.RenewalEligibility? = nil,
@@ -1602,6 +1708,7 @@ extension ACMClientTypes {
             self.certificateArn = certificateArn
             self.createdAt = createdAt
             self.domainName = domainName
+            self.exportOption = exportOption
             self.exported = exported
             self.extendedKeyUsages = extendedKeyUsages
             self.hasAdditionalSubjectAlternativeNames = hasAdditionalSubjectAlternativeNames
@@ -1610,6 +1717,7 @@ extension ACMClientTypes {
             self.issuedAt = issuedAt
             self.keyAlgorithm = keyAlgorithm
             self.keyUsages = keyUsages
+            self.managedBy = managedBy
             self.notAfter = notAfter
             self.notBefore = notBefore
             self.renewalEligibility = renewalEligibility
@@ -1779,7 +1887,9 @@ public struct RequestCertificateInput: Swift.Sendable {
     ///
     /// Other listed algorithms are for imported certificates only. When you request a private PKI certificate signed by a CA from Amazon Web Services Private CA, the specified signing algorithm family (RSA or ECDSA) must match the algorithm family of the CA's secret key. Default: RSA_2048
     public var keyAlgorithm: ACMClientTypes.KeyAlgorithm?
-    /// Currently, you can use this parameter to specify whether to add the certificate to a certificate transparency log. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser. For more information, see [Opting Out of Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-bestpractices.html#best-practices-transparency).
+    /// Identifies the Amazon Web Services service that manages the certificate issued by ACM.
+    public var managedBy: ACMClientTypes.CertificateManagedBy?
+    /// You can use this parameter to specify whether to add the certificate to a certificate transparency log and export your certificate. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser. For more information, see [Opting Out of Certificate Transparency Logging](https://docs.aws.amazon.com/acm/latest/userguide/acm-bestpractices.html#best-practices-transparency). You can export public ACM certificates to use with Amazon Web Services services as well as outside the Amazon Web Services Cloud. For more information, see [Certificate Manager exportable public certificate](https://docs.aws.amazon.com/acm/latest/userguide/acm-exportable-certificates.html).
     public var options: ACMClientTypes.CertificateOptions?
     /// Additional FQDNs to be included in the Subject Alternative Name extension of the ACM certificate. For example, add the name www.example.net to a certificate for which the DomainName field is www.example.com if users can reach your site by using either name. The maximum number of domain names that you can add to an ACM certificate is 100. However, the initial quota is 10 domain names. If you need more than 10 names, you must request a quota increase. For more information, see [Quotas](https://docs.aws.amazon.com/acm/latest/userguide/acm-limits.html). The maximum length of a SAN DNS name is 253 octets. The name is made up of multiple labels separated by periods. No label can be longer than 63 octets. Consider the following examples:
     ///
@@ -1800,6 +1910,7 @@ public struct RequestCertificateInput: Swift.Sendable {
         domainValidationOptions: [ACMClientTypes.DomainValidationOption]? = nil,
         idempotencyToken: Swift.String? = nil,
         keyAlgorithm: ACMClientTypes.KeyAlgorithm? = nil,
+        managedBy: ACMClientTypes.CertificateManagedBy? = nil,
         options: ACMClientTypes.CertificateOptions? = nil,
         subjectAlternativeNames: [Swift.String]? = nil,
         tags: [ACMClientTypes.Tag]? = nil,
@@ -1810,6 +1921,7 @@ public struct RequestCertificateInput: Swift.Sendable {
         self.domainValidationOptions = domainValidationOptions
         self.idempotencyToken = idempotencyToken
         self.keyAlgorithm = keyAlgorithm
+        self.managedBy = managedBy
         self.options = options
         self.subjectAlternativeNames = subjectAlternativeNames
         self.tags = tags
@@ -1883,11 +1995,39 @@ public struct ResendValidationEmailInput: Swift.Sendable {
     }
 }
 
+public struct RevokeCertificateInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the public or private certificate that will be revoked. The ARN must have the following form: arn:aws:acm:region:account:certificate/12345678-1234-1234-1234-123456789012
+    /// This member is required.
+    public var certificateArn: Swift.String?
+    /// Specifies why you revoked the certificate.
+    /// This member is required.
+    public var revocationReason: ACMClientTypes.RevocationReason?
+
+    public init(
+        certificateArn: Swift.String? = nil,
+        revocationReason: ACMClientTypes.RevocationReason? = nil
+    ) {
+        self.certificateArn = certificateArn
+        self.revocationReason = revocationReason
+    }
+}
+
+public struct RevokeCertificateOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the public or private certificate that was revoked.
+    public var certificateArn: Swift.String?
+
+    public init(
+        certificateArn: Swift.String? = nil
+    ) {
+        self.certificateArn = certificateArn
+    }
+}
+
 public struct UpdateCertificateOptionsInput: Swift.Sendable {
     /// ARN of the requested certificate to update. This must be of the form: arn:aws:acm:us-east-1:account:certificate/12345678-1234-1234-1234-123456789012
     /// This member is required.
     public var certificateArn: Swift.String?
-    /// Use to update the options for your certificate. Currently, you can specify whether to add your certificate to a transparency log. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser.
+    /// Use to update the options for your certificate. Currently, you can specify whether to add your certificate to a transparency log or export your certificate. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser.
     /// This member is required.
     public var options: ACMClientTypes.CertificateOptions?
 
@@ -1994,6 +2134,13 @@ extension RequestCertificateInput {
 extension ResendValidationEmailInput {
 
     static func urlPathProvider(_ value: ResendValidationEmailInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension RevokeCertificateInput {
+
+    static func urlPathProvider(_ value: RevokeCertificateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -2123,6 +2270,7 @@ extension RequestCertificateInput {
         try writer["DomainValidationOptions"].writeList(value.domainValidationOptions, memberWritingClosure: ACMClientTypes.DomainValidationOption.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["IdempotencyToken"].write(value.idempotencyToken)
         try writer["KeyAlgorithm"].write(value.keyAlgorithm)
+        try writer["ManagedBy"].write(value.managedBy)
         try writer["Options"].write(value.options, with: ACMClientTypes.CertificateOptions.write(value:to:))
         try writer["SubjectAlternativeNames"].writeList(value.subjectAlternativeNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: ACMClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -2137,6 +2285,15 @@ extension ResendValidationEmailInput {
         try writer["CertificateArn"].write(value.certificateArn)
         try writer["Domain"].write(value.domain)
         try writer["ValidationDomain"].write(value.validationDomain)
+    }
+}
+
+extension RevokeCertificateInput {
+
+    static func write(value: RevokeCertificateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateArn"].write(value.certificateArn)
+        try writer["RevocationReason"].write(value.revocationReason)
     }
 }
 
@@ -2288,6 +2445,18 @@ extension ResendValidationEmailOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ResendValidationEmailOutput {
         return ResendValidationEmailOutput()
+    }
+}
+
+extension RevokeCertificateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RevokeCertificateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RevokeCertificateOutput()
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        return value
     }
 }
 
@@ -2494,6 +2663,7 @@ enum RenewCertificateOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidArnException": return try InvalidArnException.makeError(baseError: baseError)
+            case "RequestInProgressException": return try RequestInProgressException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -2537,6 +2707,25 @@ enum ResendValidationEmailOutputError {
     }
 }
 
+enum RevokeCertificateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InvalidArnException": return try InvalidArnException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateCertificateOptionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2554,50 +2743,24 @@ enum UpdateCertificateOptionsOutputError {
     }
 }
 
+extension InvalidArnException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArnException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidArnException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidParameterException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
         var value = InvalidParameterException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyTagsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
-        let reader = baseError.errorBodyReader
-        var value = TooManyTagsException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TagPolicyException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagPolicyException {
-        let reader = baseError.errorBodyReader
-        var value = TagPolicyException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2619,6 +2782,32 @@ extension InvalidTagException {
     }
 }
 
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TagPolicyException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagPolicyException {
+        let reader = baseError.errorBodyReader
+        var value = TagPolicyException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ThrottlingException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
@@ -2632,11 +2821,11 @@ extension ThrottlingException {
     }
 }
 
-extension InvalidArnException {
+extension TooManyTagsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArnException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
         let reader = baseError.errorBodyReader
-        var value = InvalidArnException()
+        var value = TooManyTagsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2658,11 +2847,11 @@ extension AccessDeniedException {
     }
 }
 
-extension ResourceInUseException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = ResourceInUseException()
+        var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2671,11 +2860,11 @@ extension ResourceInUseException {
     }
 }
 
-extension ConflictException {
+extension ResourceInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = ResourceInUseException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2710,11 +2899,11 @@ extension LimitExceededException {
     }
 }
 
-extension ValidationException {
+extension InvalidArgsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArgsException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = InvalidArgsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2723,11 +2912,11 @@ extension ValidationException {
     }
 }
 
-extension InvalidArgsException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArgsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = InvalidArgsException()
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2770,6 +2959,7 @@ extension ACMClientTypes.CertificateDetail {
         value.certificateArn = try reader["CertificateArn"].readIfPresent()
         value.domainName = try reader["DomainName"].readIfPresent()
         value.subjectAlternativeNames = try reader["SubjectAlternativeNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.managedBy = try reader["ManagedBy"].readIfPresent()
         value.domainValidationOptions = try reader["DomainValidationOptions"].readListIfPresent(memberReadingClosure: ACMClientTypes.DomainValidation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.serial = try reader["Serial"].readIfPresent()
         value.subject = try reader["Subject"].readIfPresent()
@@ -2802,12 +2992,14 @@ extension ACMClientTypes.CertificateOptions {
     static func write(value: ACMClientTypes.CertificateOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CertificateTransparencyLoggingPreference"].write(value.certificateTransparencyLoggingPreference)
+        try writer["Export"].write(value.export)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.CertificateOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ACMClientTypes.CertificateOptions()
         value.certificateTransparencyLoggingPreference = try reader["CertificateTransparencyLoggingPreference"].readIfPresent()
+        value.export = try reader["Export"].readIfPresent()
         return value
     }
 }
@@ -2856,7 +3048,19 @@ extension ACMClientTypes.DomainValidation {
         value.validationDomain = try reader["ValidationDomain"].readIfPresent()
         value.validationStatus = try reader["ValidationStatus"].readIfPresent()
         value.resourceRecord = try reader["ResourceRecord"].readIfPresent(with: ACMClientTypes.ResourceRecord.read(from:))
+        value.httpRedirect = try reader["HttpRedirect"].readIfPresent(with: ACMClientTypes.HttpRedirect.read(from:))
         value.validationMethod = try reader["ValidationMethod"].readIfPresent()
+        return value
+    }
+}
+
+extension ACMClientTypes.HttpRedirect {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ACMClientTypes.HttpRedirect {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ACMClientTypes.HttpRedirect()
+        value.redirectFrom = try reader["RedirectFrom"].readIfPresent()
+        value.redirectTo = try reader["RedirectTo"].readIfPresent()
         return value
     }
 }
@@ -2902,6 +3106,7 @@ extension ACMClientTypes.CertificateSummary {
         value.keyAlgorithm = try reader["KeyAlgorithm"].readIfPresent()
         value.keyUsages = try reader["KeyUsages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ACMClientTypes.KeyUsageName>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.extendedKeyUsages = try reader["ExtendedKeyUsages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ACMClientTypes.ExtendedKeyUsageName>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exportOption = try reader["ExportOption"].readIfPresent()
         value.inUse = try reader["InUse"].readIfPresent()
         value.exported = try reader["Exported"].readIfPresent()
         value.renewalEligibility = try reader["RenewalEligibility"].readIfPresent()
@@ -2911,6 +3116,7 @@ extension ACMClientTypes.CertificateSummary {
         value.issuedAt = try reader["IssuedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.importedAt = try reader["ImportedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.revokedAt = try reader["RevokedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.managedBy = try reader["ManagedBy"].readIfPresent()
         return value
     }
 }
@@ -2936,9 +3142,11 @@ extension ACMClientTypes.Filters {
 
     static func write(value: ACMClientTypes.Filters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["exportOption"].write(value.exportOption)
         try writer["extendedKeyUsage"].writeList(value.extendedKeyUsage, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ACMClientTypes.ExtendedKeyUsageName>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["keyTypes"].writeList(value.keyTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ACMClientTypes.KeyAlgorithm>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["keyUsage"].writeList(value.keyUsage, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ACMClientTypes.KeyUsageName>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["managedBy"].write(value.managedBy)
     }
 }
 

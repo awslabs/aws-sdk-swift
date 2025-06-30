@@ -492,7 +492,9 @@ extension ACMPCAClientTypes {
     public enum KeyAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ecPrime256v1
         case ecSecp384r1
+        case ecSecp521r1
         case rsa2048
+        case rsa3072
         case rsa4096
         case sm2
         case sdkUnknown(Swift.String)
@@ -501,7 +503,9 @@ extension ACMPCAClientTypes {
             return [
                 .ecPrime256v1,
                 .ecSecp384r1,
+                .ecSecp521r1,
                 .rsa2048,
+                .rsa3072,
                 .rsa4096,
                 .sm2
             ]
@@ -516,7 +520,9 @@ extension ACMPCAClientTypes {
             switch self {
             case .ecPrime256v1: return "EC_prime256v1"
             case .ecSecp384r1: return "EC_secp384r1"
+            case .ecSecp521r1: return "EC_secp521r1"
             case .rsa2048: return "RSA_2048"
+            case .rsa3072: return "RSA_3072"
             case .rsa4096: return "RSA_4096"
             case .sm2: return "SM2"
             case let .sdkUnknown(s): return s
@@ -3453,6 +3459,7 @@ enum ListTagsOutputError {
         switch baseError.code {
             case "InvalidArnException": return try InvalidArnException.makeError(baseError: baseError)
             case "InvalidStateException": return try InvalidStateException.makeError(baseError: baseError)
+            case "RequestFailedException": return try RequestFailedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -3571,11 +3578,11 @@ enum UpdateCertificateAuthorityOutputError {
     }
 }
 
-extension LimitExceededException {
+extension InvalidArgsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArgsException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = InvalidArgsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3610,11 +3617,11 @@ extension InvalidTagException {
     }
 }
 
-extension InvalidArgsException {
+extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArgsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = InvalidArgsException()
+        var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3623,11 +3630,11 @@ extension InvalidArgsException {
     }
 }
 
-extension RequestFailedException {
+extension InvalidArnException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RequestFailedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArnException {
         let reader = baseError.errorBodyReader
-        var value = RequestFailedException()
+        var value = InvalidArnException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3649,11 +3656,11 @@ extension InvalidStateException {
     }
 }
 
-extension InvalidArnException {
+extension RequestFailedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArnException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RequestFailedException {
         let reader = baseError.errorBodyReader
-        var value = InvalidArnException()
+        var value = RequestFailedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

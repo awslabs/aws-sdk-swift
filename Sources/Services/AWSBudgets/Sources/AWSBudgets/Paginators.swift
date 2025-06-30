@@ -181,7 +181,8 @@ extension DescribeBudgetsInput: ClientRuntime.PaginateToken {
         return DescribeBudgetsInput(
             accountId: self.accountId,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            showFilterExpression: self.showFilterExpression
         )}
 }
 

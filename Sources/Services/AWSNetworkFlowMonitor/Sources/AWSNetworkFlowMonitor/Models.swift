@@ -734,7 +734,7 @@ public struct GetQueryResultsMonitorTopContributorsInput: Swift.Sendable {
     public var monitorName: Swift.String?
     /// The token for the next set of results. You receive this token from a previous call.
     public var nextToken: Swift.String?
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
 
@@ -1062,7 +1062,7 @@ public struct GetQueryResultsWorkloadInsightsTopContributorsInput: Swift.Sendabl
     public var maxResults: Swift.Int?
     /// The token for the next set of results. You receive this token from a previous call.
     public var nextToken: Swift.String?
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
@@ -1149,7 +1149,7 @@ public struct GetQueryResultsWorkloadInsightsTopContributorsDataInput: Swift.Sen
     public var maxResults: Swift.Int?
     /// The token for the next set of results. You receive this token from a previous call.
     public var nextToken: Swift.String?
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
@@ -1619,7 +1619,9 @@ public struct StartQueryMonitorTopContributorsInput: Swift.Sendable {
     ///
     /// * INTER_VPC: Top contributor network flows between VPCs
     ///
-    /// * AWS_SERVICES: Top contributor network flows to or from Amazon Web Services services
+    /// * AMAZON_S3: Top contributor network flows to or from Amazon S3
+    ///
+    /// * AMAZON_DYNAMODB: Top contributor network flows to or from Amazon Dynamo DB
     ///
     /// * UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
     /// This member is required.
@@ -1629,7 +1631,7 @@ public struct StartQueryMonitorTopContributorsInput: Swift.Sendable {
     public var endTime: Foundation.Date?
     /// The maximum number of top contributors to return.
     public var limit: Swift.Int?
-    /// The metric that you want to query top contributors for. That is, you can specify this metric to return the top contributor network flows, for this type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones.
+    /// The metric that you want to query top contributors for. That is, you can specify a metric with this call and return the top contributor network flows, for that type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones.
     /// This member is required.
     public var metricName: NetworkFlowMonitorClientTypes.MonitorMetric?
     /// The name of the monitor.
@@ -1672,7 +1674,7 @@ public struct StopQueryMonitorTopContributorsInput: Swift.Sendable {
     /// The name of the monitor.
     /// This member is required.
     public var monitorName: Swift.String?
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
 
@@ -1923,7 +1925,7 @@ public struct StartQueryWorkloadInsightsTopContributorsDataOutput: Swift.Sendabl
 }
 
 public struct StopQueryWorkloadInsightsTopContributorsInput: Swift.Sendable {
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
@@ -1945,7 +1947,7 @@ public struct StopQueryWorkloadInsightsTopContributorsOutput: Swift.Sendable {
 }
 
 public struct StopQueryWorkloadInsightsTopContributorsDataInput: Swift.Sendable {
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
@@ -2876,7 +2878,9 @@ enum DeleteScopeOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -3024,6 +3028,7 @@ enum GetScopeOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -3259,7 +3264,9 @@ enum UpdateScopeOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -3268,37 +3275,24 @@ enum UpdateScopeOutputError {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ConflictException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3320,11 +3314,11 @@ extension InternalServerException {
     }
 }
 
-extension AccessDeniedException {
+extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3338,6 +3332,19 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

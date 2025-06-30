@@ -81,6 +81,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSACMPCA](../../../../../swift/api/awsacmpca/latest)
 
+[AWSAIOps](../../../../../swift/api/awsaiops/latest)
+
 [AWSAPIGateway](../../../../../swift/api/awsapigateway/latest)
 
 [AWSARCZonalShift](../../../../../swift/api/awsarczonalshift/latest)
@@ -369,6 +371,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSEvidently](../../../../../swift/api/awsevidently/latest)
 
+[AWSEvs](../../../../../swift/api/awsevs/latest)
+
 [AWSFMS](../../../../../swift/api/awsfms/latest)
 
 [AWSFSx](../../../../../swift/api/awsfsx/latest)
@@ -390,6 +394,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSFreeTier](../../../../../swift/api/awsfreetier/latest)
 
 [AWSGameLift](../../../../../swift/api/awsgamelift/latest)
+
+[AWSGameLiftStreams](../../../../../swift/api/awsgameliftstreams/latest)
 
 [AWSGeoMaps](../../../../../swift/api/awsgeomaps/latest)
 
@@ -451,6 +457,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSIoTJobsDataPlane](../../../../../swift/api/awsiotjobsdataplane/latest)
 
+[AWSIoTManagedIntegrations](../../../../../swift/api/awsiotmanagedintegrations/latest)
+
 [AWSIoTSecureTunneling](../../../../../swift/api/awsiotsecuretunneling/latest)
 
 [AWSIoTSiteWise](../../../../../swift/api/awsiotsitewise/latest)
@@ -478,6 +486,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSKendraRanking](../../../../../swift/api/awskendraranking/latest)
 
 [AWSKeyspaces](../../../../../swift/api/awskeyspaces/latest)
+
+[AWSKeyspacesStreams](../../../../../swift/api/awskeyspacesstreams/latest)
 
 [AWSKinesis](../../../../../swift/api/awskinesis/latest)
 
@@ -526,6 +536,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSLookoutVision](../../../../../swift/api/awslookoutvision/latest)
 
 [AWSM2](../../../../../swift/api/awsm2/latest)
+
+[AWSMPA](../../../../../swift/api/awsmpa/latest)
 
 [AWSMTurk](../../../../../swift/api/awsmturk/latest)
 
@@ -665,8 +677,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSPricing](../../../../../swift/api/awspricing/latest)
 
-[AWSPrivateNetworks](../../../../../swift/api/awsprivatenetworks/latest)
-
 [AWSProton](../../../../../swift/api/awsproton/latest)
 
 [AWSQApps](../../../../../swift/api/awsqapps/latest)
@@ -750,6 +760,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSSSM](../../../../../swift/api/awsssm/latest)
 
 [AWSSSMContacts](../../../../../swift/api/awsssmcontacts/latest)
+
+[AWSSSMGuiConnect](../../../../../swift/api/awsssmguiconnect/latest)
 
 [AWSSSMIncidents](../../../../../swift/api/awsssmincidents/latest)
 
@@ -876,6 +888,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSWorkSpacesThinClient](../../../../../swift/api/awsworkspacesthinclient/latest)
 
 [AWSWorkSpacesWeb](../../../../../swift/api/awsworkspacesweb/latest)
+
+[AWSWorkspacesInstances](../../../../../swift/api/awsworkspacesinstances/latest)
 
 [AWSXRay](../../../../../swift/api/awsxray/latest)
 

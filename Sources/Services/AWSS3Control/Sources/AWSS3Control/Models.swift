@@ -83,6 +83,11 @@ public struct DeleteAccessPointPolicyOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteAccessPointScopeOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteBucketLifecycleConfigurationOutput: Swift.Sendable {
 
     public init() { }
@@ -139,6 +144,11 @@ public struct PutAccessPointPolicyForObjectLambdaOutput: Swift.Sendable {
 }
 
 public struct PutAccessPointPolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct PutAccessPointScopeOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -522,6 +532,10 @@ extension S3ControlClientTypes {
         public var bucket: Swift.String?
         /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point.
         public var bucketAccountId: Swift.String?
+        /// A unique identifier for the data source of the access point.
+        public var dataSourceId: Swift.String?
+        /// The type of the data source that the access point is attached to.
+        public var dataSourceType: Swift.String?
         /// The name of this access point.
         /// This member is required.
         public var name: Swift.String?
@@ -536,6 +550,8 @@ extension S3ControlClientTypes {
             alias: Swift.String? = nil,
             bucket: Swift.String? = nil,
             bucketAccountId: Swift.String? = nil,
+            dataSourceId: Swift.String? = nil,
+            dataSourceType: Swift.String? = nil,
             name: Swift.String? = nil,
             networkOrigin: S3ControlClientTypes.NetworkOrigin? = nil,
             vpcConfiguration: S3ControlClientTypes.VpcConfiguration? = nil
@@ -544,6 +560,8 @@ extension S3ControlClientTypes {
             self.alias = alias
             self.bucket = bucket
             self.bucketAccountId = bucketAccountId
+            self.dataSourceId = dataSourceId
+            self.dataSourceType = dataSourceType
             self.name = name
             self.networkOrigin = networkOrigin
             self.vpcConfiguration = vpcConfiguration
@@ -1345,6 +1363,72 @@ public struct CreateAccessGrantsLocationOutput: Swift.Sendable {
     }
 }
 
+extension S3ControlClientTypes {
+
+    public enum ScopePermission: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case abortmultipartupload
+        case deleteobject
+        case getobject
+        case getobjectattributes
+        case listbucket
+        case listbucketmultipartuploads
+        case listmultipartuploadparts
+        case putobject
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScopePermission] {
+            return [
+                .abortmultipartupload,
+                .deleteobject,
+                .getobject,
+                .getobjectattributes,
+                .listbucket,
+                .listbucketmultipartuploads,
+                .listmultipartuploadparts,
+                .putobject
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .abortmultipartupload: return "AbortMultipartUpload"
+            case .deleteobject: return "DeleteObject"
+            case .getobject: return "GetObject"
+            case .getobjectattributes: return "GetObjectAttributes"
+            case .listbucket: return "ListBucket"
+            case .listbucketmultipartuploads: return "ListBucketMultipartUploads"
+            case .listmultipartuploadparts: return "ListMultipartUploadParts"
+            case .putobject: return "PutObject"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// You can use the access point scope to restrict access to specific prefixes, API operations, or a combination of both. For more information, see [Manage the scope of your access points for directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets-manage-scope.html).
+    public struct Scope: Swift.Sendable {
+        /// You can include one or more API operations as permissions.
+        public var permissions: [S3ControlClientTypes.ScopePermission]?
+        /// You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size.
+        public var prefixes: [Swift.String]?
+
+        public init(
+            permissions: [S3ControlClientTypes.ScopePermission]? = nil,
+            prefixes: [Swift.String]? = nil
+        ) {
+            self.permissions = permissions
+            self.prefixes = prefixes
+        }
+    }
+}
+
 public struct CreateAccessPointInput: Swift.Sendable {
     /// The Amazon Web Services account ID for the account that owns the specified access point.
     /// This member is required.
@@ -1354,11 +1438,13 @@ public struct CreateAccessPointInput: Swift.Sendable {
     public var bucket: Swift.String?
     /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point. For same account access point when your bucket and access point belong to the same account owner, the BucketAccountId is not required. For cross-account access point when your bucket and access point are not in the same account, the BucketAccountId is required.
     public var bucketAccountId: Swift.String?
-    /// The name you want to assign to this access point.
+    /// The name you want to assign to this access point. For directory buckets, the access point name must consist of a base name that you provide and suffix that includes the ZoneID (Amazon Web Services Availability Zone or Local Zone) of your bucket location, followed by --xa-s3. For more information, see [Managing access to shared datasets in directory buckets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var name: Swift.String?
     /// The PublicAccessBlock configuration that you want to apply to the access point.
     public var publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration?
+    /// For directory buckets, you can filter access control to specific prefixes, API operations, or a combination of both. For more information, see [Managing access to shared datasets in directory buckets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html) in the Amazon S3 User Guide. Scope is only supported for access points attached to directory buckets.
+    public var scope: S3ControlClientTypes.Scope?
     /// If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC). This is required for creating an access point for Amazon S3 on Outposts buckets.
     public var vpcConfiguration: S3ControlClientTypes.VpcConfiguration?
 
@@ -1368,6 +1454,7 @@ public struct CreateAccessPointInput: Swift.Sendable {
         bucketAccountId: Swift.String? = nil,
         name: Swift.String? = nil,
         publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration? = nil,
+        scope: S3ControlClientTypes.Scope? = nil,
         vpcConfiguration: S3ControlClientTypes.VpcConfiguration? = nil
     ) {
         self.accountId = accountId
@@ -1375,6 +1462,7 @@ public struct CreateAccessPointInput: Swift.Sendable {
         self.bucketAccountId = bucketAccountId
         self.name = name
         self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
+        self.scope = scope
         self.vpcConfiguration = vpcConfiguration
     }
 }
@@ -3613,6 +3701,23 @@ public struct DeleteAccessPointPolicyForObjectLambdaInput: Swift.Sendable {
     }
 }
 
+public struct DeleteAccessPointScopeInput: Swift.Sendable {
+    /// The Amazon Web Services account ID that owns the access point with the scope that you want to delete.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The name of the access point with the scope that you want to delete.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.accountId = accountId
+        self.name = name
+    }
+}
+
 public struct DeleteBucketInput: Swift.Sendable {
     /// The account ID that owns the Outposts bucket.
     /// This member is required.
@@ -4386,6 +4491,10 @@ public struct GetAccessPointOutput: Swift.Sendable {
     public var bucketAccountId: Swift.String?
     /// The date and time when the specified access point was created.
     public var creationDate: Foundation.Date?
+    /// The unique identifier for the data source of the access point.
+    public var dataSourceId: Swift.String?
+    /// The type of the data source that the access point is attached to.
+    public var dataSourceType: Swift.String?
     /// The VPC endpoint for the access point.
     public var endpoints: [Swift.String: Swift.String]?
     /// The name of the specified access point.
@@ -4403,6 +4512,8 @@ public struct GetAccessPointOutput: Swift.Sendable {
         bucket: Swift.String? = nil,
         bucketAccountId: Swift.String? = nil,
         creationDate: Foundation.Date? = nil,
+        dataSourceId: Swift.String? = nil,
+        dataSourceType: Swift.String? = nil,
         endpoints: [Swift.String: Swift.String]? = nil,
         name: Swift.String? = nil,
         networkOrigin: S3ControlClientTypes.NetworkOrigin? = nil,
@@ -4414,6 +4525,8 @@ public struct GetAccessPointOutput: Swift.Sendable {
         self.bucket = bucket
         self.bucketAccountId = bucketAccountId
         self.creationDate = creationDate
+        self.dataSourceId = dataSourceId
+        self.dataSourceType = dataSourceType
         self.endpoints = endpoints
         self.name = name
         self.networkOrigin = networkOrigin
@@ -4614,6 +4727,34 @@ public struct GetAccessPointPolicyStatusForObjectLambdaOutput: Swift.Sendable {
         policyStatus: S3ControlClientTypes.PolicyStatus? = nil
     ) {
         self.policyStatus = policyStatus
+    }
+}
+
+public struct GetAccessPointScopeInput: Swift.Sendable {
+    /// The Amazon Web Services account ID that owns the access point with the scope that you want to retrieve.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The name of the access point with the scope you want to retrieve.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.accountId = accountId
+        self.name = name
+    }
+}
+
+public struct GetAccessPointScopeOutput: Swift.Sendable {
+    /// The contents of the access point scope.
+    public var scope: S3ControlClientTypes.Scope?
+
+    public init(
+        scope: S3ControlClientTypes.Scope? = nil
+    ) {
+        self.scope = scope
     }
 }
 
@@ -5791,21 +5932,25 @@ extension S3ControlClientTypes.Credentials: Swift.CustomDebugStringConvertible {
 public struct GetDataAccessOutput: Swift.Sendable {
     /// The temporary credential token that S3 Access Grants vends.
     public var credentials: S3ControlClientTypes.Credentials?
+    /// The user, group, or role that was granted access to the S3 location scope. For directory identities, this API also returns the grants of the IAM role used for the identity-aware request. For more information on identity-aware sessions, see [Granting permissions to use identity-aware console sessions](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_sts-setcontext.html).
+    public var grantee: S3ControlClientTypes.Grantee?
     /// The S3 URI path of the data to which you are being granted temporary access credentials.
     public var matchedGrantTarget: Swift.String?
 
     public init(
         credentials: S3ControlClientTypes.Credentials? = nil,
+        grantee: S3ControlClientTypes.Grantee? = nil,
         matchedGrantTarget: Swift.String? = nil
     ) {
         self.credentials = credentials
+        self.grantee = grantee
         self.matchedGrantTarget = matchedGrantTarget
     }
 }
 
 extension GetDataAccessOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetDataAccessOutput(matchedGrantTarget: \(Swift.String(describing: matchedGrantTarget)), credentials: \"CONTENT_REDACTED\")"}
+        "GetDataAccessOutput(grantee: \(Swift.String(describing: grantee)), matchedGrantTarget: \(Swift.String(describing: matchedGrantTarget)), credentials: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetJobTaggingInput: Swift.Sendable {
@@ -6695,6 +6840,10 @@ public struct ListAccessPointsInput: Swift.Sendable {
     public var accountId: Swift.String?
     /// The name of the bucket whose associated access points you want to list. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
     public var bucket: Swift.String?
+    /// The unique identifier for the data source of the access point.
+    public var dataSourceId: Swift.String?
+    /// The type of the data source that the access point is attached to. Returns only access points attached to S3 buckets by default. To return all access points specify DataSourceType as ALL.
+    public var dataSourceType: Swift.String?
     /// The maximum number of access points that you want to include in the list. If the specified bucket has more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points.
     public var maxResults: Swift.Int?
     /// A continuation token. If a previous call to ListAccessPoints returned a continuation token in the NextToken field, then providing that value here causes Amazon S3 to retrieve the next page of results.
@@ -6703,11 +6852,15 @@ public struct ListAccessPointsInput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         bucket: Swift.String? = nil,
+        dataSourceId: Swift.String? = nil,
+        dataSourceType: Swift.String? = nil,
         maxResults: Swift.Int? = 0,
         nextToken: Swift.String? = nil
     ) {
         self.accountId = accountId
         self.bucket = bucket
+        self.dataSourceId = dataSourceId
+        self.dataSourceType = dataSourceType
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -6717,6 +6870,45 @@ public struct ListAccessPointsOutput: Swift.Sendable {
     /// Contains identification and configuration information for one or more access points associated with the specified bucket.
     public var accessPointList: [S3ControlClientTypes.AccessPoint]?
     /// If the specified bucket has more access points than can be returned in one call to this API, this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
+    public var nextToken: Swift.String?
+
+    public init(
+        accessPointList: [S3ControlClientTypes.AccessPoint]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.accessPointList = accessPointList
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAccessPointsForDirectoryBucketsInput: Swift.Sendable {
+    /// The Amazon Web Services account ID that owns the access points.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The name of the directory bucket associated with the access points you want to list.
+    public var directoryBucket: Swift.String?
+    /// The maximum number of access points that you would like returned in the ListAccessPointsForDirectoryBuckets response. If the directory bucket is associated with more than this number of access points, the results include the pagination token NextToken. Make another call using the NextToken to retrieve more results.
+    public var maxResults: Swift.Int?
+    /// If NextToken is returned, there are more access points available than requested in the maxResults value. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
+    public var nextToken: Swift.String?
+
+    public init(
+        accountId: Swift.String? = nil,
+        directoryBucket: Swift.String? = nil,
+        maxResults: Swift.Int? = 0,
+        nextToken: Swift.String? = nil
+    ) {
+        self.accountId = accountId
+        self.directoryBucket = directoryBucket
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAccessPointsForDirectoryBucketsOutput: Swift.Sendable {
+    /// Contains identification and configuration information for one or more access points associated with the directory bucket.
+    public var accessPointList: [S3ControlClientTypes.AccessPoint]?
+    /// If NextToken is returned, there are more access points available than requested in the maxResults value. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
     public var nextToken: Swift.String?
 
     public init(
@@ -7360,7 +7552,7 @@ public struct PutAccessPointPolicyInput: Swift.Sendable {
     /// The name of the access point that you want to associate with the specified policy. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
     /// This member is required.
     public var name: Swift.String?
-    /// The policy that you want to apply to the specified access point. For more information about access point policies, see [Managing data access with Amazon S3 access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html) in the Amazon S3 User Guide.
+    /// The policy that you want to apply to the specified access point. For more information about access point policies, see [Managing data access with Amazon S3 access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html) or [Managing access to shared datasets in directory buckets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var policy: Swift.String?
 
@@ -7394,6 +7586,28 @@ public struct PutAccessPointPolicyForObjectLambdaInput: Swift.Sendable {
         self.accountId = accountId
         self.name = name
         self.policy = policy
+    }
+}
+
+public struct PutAccessPointScopeInput: Swift.Sendable {
+    /// The Amazon Web Services account ID that owns the access point with scope that you want to create or replace.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The name of the access point with the scope that you want to create or replace.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Object prefixes, API operations, or a combination of both.
+    /// This member is required.
+    public var scope: S3ControlClientTypes.Scope?
+
+    public init(
+        accountId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        scope: S3ControlClientTypes.Scope? = nil
+    ) {
+        self.accountId = accountId
+        self.name = name
+        self.scope = scope
     }
 }
 
@@ -8406,6 +8620,27 @@ extension DeleteAccessPointPolicyForObjectLambdaInput {
     }
 }
 
+extension DeleteAccessPointScopeInput {
+
+    static func urlPathProvider(_ value: DeleteAccessPointScopeInput) -> Swift.String? {
+        guard let name = value.name else {
+            return nil
+        }
+        return "/v20180820/accesspoint/\(name.urlPercentEncoding())/scope"
+    }
+}
+
+extension DeleteAccessPointScopeInput {
+
+    static func headerProvider(_ value: DeleteAccessPointScopeInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let accountId = value.accountId {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-account-id", value: Swift.String(accountId)))
+        }
+        return items
+    }
+}
+
 extension DeleteBucketInput {
 
     static func urlPathProvider(_ value: DeleteBucketInput) -> Swift.String? {
@@ -8948,6 +9183,27 @@ extension GetAccessPointPolicyStatusForObjectLambdaInput {
     }
 }
 
+extension GetAccessPointScopeInput {
+
+    static func urlPathProvider(_ value: GetAccessPointScopeInput) -> Swift.String? {
+        guard let name = value.name else {
+            return nil
+        }
+        return "/v20180820/accesspoint/\(name.urlPercentEncoding())/scope"
+    }
+}
+
+extension GetAccessPointScopeInput {
+
+    static func headerProvider(_ value: GetAccessPointScopeInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let accountId = value.accountId {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-account-id", value: Swift.String(accountId)))
+        }
+        return items
+    }
+}
+
 extension GetBucketInput {
 
     static func urlPathProvider(_ value: GetBucketInput) -> Swift.String? {
@@ -9470,6 +9726,52 @@ extension ListAccessPointsInput {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
+        if let dataSourceType = value.dataSourceType {
+            let dataSourceTypeQueryItem = Smithy.URIQueryItem(name: "dataSourceType".urlPercentEncoding(), value: Swift.String(dataSourceType).urlPercentEncoding())
+            items.append(dataSourceTypeQueryItem)
+        }
+        if let dataSourceId = value.dataSourceId {
+            let dataSourceIdQueryItem = Smithy.URIQueryItem(name: "dataSourceId".urlPercentEncoding(), value: Swift.String(dataSourceId).urlPercentEncoding())
+            items.append(dataSourceIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAccessPointsForDirectoryBucketsInput {
+
+    static func urlPathProvider(_ value: ListAccessPointsForDirectoryBucketsInput) -> Swift.String? {
+        return "/v20180820/accesspointfordirectory"
+    }
+}
+
+extension ListAccessPointsForDirectoryBucketsInput {
+
+    static func headerProvider(_ value: ListAccessPointsForDirectoryBucketsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let accountId = value.accountId {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-account-id", value: Swift.String(accountId)))
+        }
+        return items
+    }
+}
+
+extension ListAccessPointsForDirectoryBucketsInput {
+
+    static func queryItemProvider(_ value: ListAccessPointsForDirectoryBucketsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let directoryBucket = value.directoryBucket {
+            let directoryBucketQueryItem = Smithy.URIQueryItem(name: "directoryBucket".urlPercentEncoding(), value: Swift.String(directoryBucket).urlPercentEncoding())
+            items.append(directoryBucketQueryItem)
+        }
         return items
     }
 }
@@ -9815,6 +10117,27 @@ extension PutAccessPointPolicyForObjectLambdaInput {
 extension PutAccessPointPolicyForObjectLambdaInput {
 
     static func headerProvider(_ value: PutAccessPointPolicyForObjectLambdaInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let accountId = value.accountId {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-account-id", value: Swift.String(accountId)))
+        }
+        return items
+    }
+}
+
+extension PutAccessPointScopeInput {
+
+    static func urlPathProvider(_ value: PutAccessPointScopeInput) -> Swift.String? {
+        guard let name = value.name else {
+            return nil
+        }
+        return "/v20180820/accesspoint/\(name.urlPercentEncoding())/scope"
+    }
+}
+
+extension PutAccessPointScopeInput {
+
+    static func headerProvider(_ value: PutAccessPointScopeInput) -> SmithyHTTPAPI.Headers {
         var items = SmithyHTTPAPI.Headers()
         if let accountId = value.accountId {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-account-id", value: Swift.String(accountId)))
@@ -10276,6 +10599,7 @@ extension CreateAccessPointInput {
         try writer["Bucket"].write(value.bucket)
         try writer["BucketAccountId"].write(value.bucketAccountId)
         try writer["PublicAccessBlockConfiguration"].write(value.publicAccessBlockConfiguration, with: S3ControlClientTypes.PublicAccessBlockConfiguration.write(value:to:))
+        try writer["Scope"].write(value.scope, with: S3ControlClientTypes.Scope.write(value:to:))
         try writer["VpcConfiguration"].write(value.vpcConfiguration, with: S3ControlClientTypes.VpcConfiguration.write(value:to:))
     }
 }
@@ -10370,6 +10694,14 @@ extension PutAccessPointPolicyForObjectLambdaInput {
     static func write(value: PutAccessPointPolicyForObjectLambdaInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["Policy"].write(value.policy)
+    }
+}
+
+extension PutAccessPointScopeInput {
+
+    static func write(value: PutAccessPointScopeInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Scope"].write(value.scope, with: S3ControlClientTypes.Scope.write(value:to:))
     }
 }
 
@@ -10675,6 +11007,13 @@ extension DeleteAccessPointPolicyForObjectLambdaOutput {
     }
 }
 
+extension DeleteAccessPointScopeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAccessPointScopeOutput {
+        return DeleteAccessPointScopeOutput()
+    }
+}
+
 extension DeleteBucketOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteBucketOutput {
@@ -10880,6 +11219,8 @@ extension GetAccessPointOutput {
         value.bucket = try reader["Bucket"].readIfPresent()
         value.bucketAccountId = try reader["BucketAccountId"].readIfPresent()
         value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dataSourceId = try reader["DataSourceId"].readIfPresent()
+        value.dataSourceType = try reader["DataSourceType"].readIfPresent()
         value.endpoints = try reader["Endpoints"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.name = try reader["Name"].readIfPresent()
         value.networkOrigin = try reader["NetworkOrigin"].readIfPresent()
@@ -10960,6 +11301,18 @@ extension GetAccessPointPolicyStatusForObjectLambdaOutput {
         let reader = responseReader
         var value = GetAccessPointPolicyStatusForObjectLambdaOutput()
         value.policyStatus = try reader["PolicyStatus"].readIfPresent(with: S3ControlClientTypes.PolicyStatus.read(from:))
+        return value
+    }
+}
+
+extension GetAccessPointScopeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAccessPointScopeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccessPointScopeOutput()
+        value.scope = try reader["Scope"].readIfPresent(with: S3ControlClientTypes.Scope.read(from:))
         return value
     }
 }
@@ -11047,6 +11400,7 @@ extension GetDataAccessOutput {
         let reader = responseReader
         var value = GetDataAccessOutput()
         value.credentials = try reader["Credentials"].readIfPresent(with: S3ControlClientTypes.Credentials.read(from:))
+        value.grantee = try reader["Grantee"].readIfPresent(with: S3ControlClientTypes.Grantee.read(from:))
         value.matchedGrantTarget = try reader["MatchedGrantTarget"].readIfPresent()
         return value
     }
@@ -11213,6 +11567,19 @@ extension ListAccessPointsOutput {
     }
 }
 
+extension ListAccessPointsForDirectoryBucketsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAccessPointsForDirectoryBucketsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAccessPointsForDirectoryBucketsOutput()
+        value.accessPointList = try reader["AccessPointList"].readListIfPresent(memberReadingClosure: S3ControlClientTypes.AccessPoint.read(from:), memberNodeInfo: "AccessPoint", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListAccessPointsForObjectLambdaOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAccessPointsForObjectLambdaOutput {
@@ -11348,6 +11715,13 @@ extension PutAccessPointPolicyForObjectLambdaOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAccessPointPolicyForObjectLambdaOutput {
         return PutAccessPointPolicyForObjectLambdaOutput()
+    }
+}
+
+extension PutAccessPointScopeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAccessPointScopeOutput {
+        return PutAccessPointScopeOutput()
     }
 }
 
@@ -11737,6 +12111,19 @@ enum DeleteAccessPointPolicyForObjectLambdaOutputError {
     }
 }
 
+enum DeleteAccessPointScopeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteBucketOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12082,6 +12469,19 @@ enum GetAccessPointPolicyStatusForObjectLambdaOutputError {
     }
 }
 
+enum GetAccessPointScopeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetBucketOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12346,6 +12746,19 @@ enum ListAccessPointsOutputError {
     }
 }
 
+enum ListAccessPointsForDirectoryBucketsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAccessPointsForObjectLambdaOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12493,6 +12906,19 @@ enum PutAccessPointPolicyOutputError {
 }
 
 enum PutAccessPointPolicyForObjectLambdaOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutAccessPointScopeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -12761,24 +13187,11 @@ extension BucketAlreadyOwnedByYou {
     }
 }
 
-extension InternalServiceException {
+extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InternalServiceException {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
-        var value = InternalServiceException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyRequestsException {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyRequestsException {
-        let reader = baseError.errorBodyReader
-        var value = TooManyRequestsException()
+        var value = BadRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12800,11 +13213,24 @@ extension IdempotencyException {
     }
 }
 
-extension BadRequestException {
+extension InternalServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BadRequestException {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InternalServiceException {
         let reader = baseError.errorBodyReader
-        var value = BadRequestException()
+        var value = InternalServiceException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyRequestsException {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyRequestsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyRequestsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12839,11 +13265,11 @@ extension NoSuchPublicAccessBlockConfiguration {
     }
 }
 
-extension InvalidRequestException {
+extension InvalidNextTokenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRequestException {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidNextTokenException {
         let reader = baseError.errorBodyReader
-        var value = InvalidRequestException()
+        var value = InvalidNextTokenException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12852,11 +13278,11 @@ extension InvalidRequestException {
     }
 }
 
-extension InvalidNextTokenException {
+extension InvalidRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidNextTokenException {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRequestException {
         let reader = baseError.errorBodyReader
-        var value = InvalidNextTokenException()
+        var value = InvalidRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -13882,6 +14308,23 @@ extension S3ControlClientTypes.PolicyStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3ControlClientTypes.PolicyStatus()
         value.isPublic = try reader["IsPublic"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension S3ControlClientTypes.Scope {
+
+    static func write(value: S3ControlClientTypes.Scope?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Permissions"].writeList(value.permissions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<S3ControlClientTypes.ScopePermission>().write(value:to:), memberNodeInfo: "Permission", isFlattened: false)
+        try writer["Prefixes"].writeList(value.prefixes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Prefix", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.Scope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.Scope()
+        value.prefixes = try reader["Prefixes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Prefix", isFlattened: false)
+        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<S3ControlClientTypes.ScopePermission>().read(from:), memberNodeInfo: "Permission", isFlattened: false)
         return value
     }
 }
@@ -14978,6 +15421,8 @@ extension S3ControlClientTypes.AccessPoint {
         value.accessPointArn = try reader["AccessPointArn"].readIfPresent()
         value.alias = try reader["Alias"].readIfPresent()
         value.bucketAccountId = try reader["BucketAccountId"].readIfPresent()
+        value.dataSourceId = try reader["DataSourceId"].readIfPresent()
+        value.dataSourceType = try reader["DataSourceType"].readIfPresent()
         return value
     }
 }

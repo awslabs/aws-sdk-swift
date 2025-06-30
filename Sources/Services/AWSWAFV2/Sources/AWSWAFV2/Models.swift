@@ -178,6 +178,80 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
+    public enum FallbackBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case match
+        case noMatch
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FallbackBehavior] {
+            return [
+                .match,
+                .noMatch
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .match: return "MATCH"
+            case .noMatch: return "NO_MATCH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// The configuration for inspecting IP addresses in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all. This configuration is used for [GeoMatchStatement], [AsnMatchStatement], and [RateBasedStatement]. For [IPSetReferenceStatement], use [IPSetForwardedIPConfig] instead. WAF only evaluates the first IP address found in the specified HTTP header.
+    public struct ForwardedIPConfig: Swift.Sendable {
+        /// The match status to assign to the web request if the request doesn't have a valid IP address in the specified position. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all. You can specify the following fallback behaviors:
+        ///
+        /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
+        ///
+        /// * NO_MATCH - Treat the web request as not matching the rule statement.
+        /// This member is required.
+        public var fallbackBehavior: WAFV2ClientTypes.FallbackBehavior?
+        /// The name of the HTTP header to use for the IP address. For example, to use the X-Forwarded-For (XFF) header, set this to X-Forwarded-For. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all.
+        /// This member is required.
+        public var headerName: Swift.String?
+
+        public init(
+            fallbackBehavior: WAFV2ClientTypes.FallbackBehavior? = nil,
+            headerName: Swift.String? = nil
+        ) {
+            self.fallbackBehavior = fallbackBehavior
+            self.headerName = headerName
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// A rule statement that inspects web traffic based on the Autonomous System Number (ASN) associated with the request's IP address. For additional details, see [ASN match rule statement](https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-asn-match.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+    public struct AsnMatchStatement: Swift.Sendable {
+        /// Contains one or more Autonomous System Numbers (ASNs). ASNs are unique identifiers assigned to large internet networks managed by organizations such as internet service providers, enterprises, universities, or government agencies.
+        /// This member is required.
+        public var asnList: [Swift.Int]?
+        /// The configuration for inspecting IP addresses to match against an ASN in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name.
+        public var forwardedIPConfig: WAFV2ClientTypes.ForwardedIPConfig?
+
+        public init(
+            asnList: [Swift.Int]? = nil,
+            forwardedIPConfig: WAFV2ClientTypes.ForwardedIPConfig? = nil
+        ) {
+            self.asnList = asnList
+            self.forwardedIPConfig = forwardedIPConfig
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
     public enum OversizeHandling: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `continue`
         case match
@@ -217,6 +291,8 @@ extension WAFV2ClientTypes {
         /// * For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
         ///
         /// * For CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access, the default limit is 16 KB (16,384 bytes), and you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.
+        ///
+        /// * For Amplify, use the CloudFront limit.
         ///
         ///
         /// The options for oversize handling are the following:
@@ -330,7 +406,7 @@ extension WAFV2ClientTypes {
 
     /// Inspect a string containing the list of the request's header names, ordered as they appear in the web request that WAF receives for inspection. WAF generates the string and then uses that as the field to match component in its inspection. WAF separates the header names in the string using colons and no added spaces, for example host:user-agent:accept:authorization:referer.
     public struct HeaderOrder: Swift.Sendable {
-        /// What WAF should do if the headers of the request are more numerous or larger than WAF can inspect. WAF does not support inspecting the entire contents of request headers when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF. The options for oversize handling are the following:
+        /// What WAF should do if the headers determined by your match scope are more numerous or larger than WAF can inspect. WAF does not support inspecting the entire contents of request headers when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF. The options for oversize handling are the following:
         ///
         /// * CONTINUE - Inspect the available headers normally, according to the rule inspection criteria.
         ///
@@ -381,7 +457,7 @@ extension WAFV2ClientTypes {
         /// The parts of the headers to match with the rule inspection criteria. If you specify ALL, WAF inspects both keys and values. All does not require a match to be found in the keys and a match to be found in the values. It requires a match to be found in the keys or the values or both. To require a match in the keys and in the values, use a logical AND statement to combine two match rules, one that inspects the keys and another that inspects the values.
         /// This member is required.
         public var matchScope: WAFV2ClientTypes.MapMatchScope?
-        /// What WAF should do if the headers of the request are more numerous or larger than WAF can inspect. WAF does not support inspecting the entire contents of request headers when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF. The options for oversize handling are the following:
+        /// What WAF should do if the headers determined by your match scope are more numerous or larger than WAF can inspect. WAF does not support inspecting the entire contents of request headers when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF. The options for oversize handling are the following:
         ///
         /// * CONTINUE - Inspect the available headers normally, according to the rule inspection criteria.
         ///
@@ -405,38 +481,29 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    public enum FallbackBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case match
-        case noMatch
-        case sdkUnknown(Swift.String)
+    /// Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to EXACTLY. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA3 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration.
+    public struct JA3Fingerprint: Swift.Sendable {
+        /// The match status to assign to the web request if the request doesn't have a JA3 fingerprint. You can specify the following fallback behaviors:
+        ///
+        /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
+        ///
+        /// * NO_MATCH - Treat the web request as not matching the rule statement.
+        /// This member is required.
+        public var fallbackBehavior: WAFV2ClientTypes.FallbackBehavior?
 
-        public static var allCases: [FallbackBehavior] {
-            return [
-                .match,
-                .noMatch
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .match: return "MATCH"
-            case .noMatch: return "NO_MATCH"
-            case let .sdkUnknown(s): return s
-            }
+        public init(
+            fallbackBehavior: WAFV2ClientTypes.FallbackBehavior? = nil
+        ) {
+            self.fallbackBehavior = fallbackBehavior
         }
     }
 }
 
 extension WAFV2ClientTypes {
 
-    /// Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to EXACTLY. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA3 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration.
-    public struct JA3Fingerprint: Swift.Sendable {
-        /// The match status to assign to the web request if the request doesn't have a JA3 fingerprint. You can specify the following fallback behaviors:
+    /// Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA4 fingerprint. The JA4 fingerprint is a 36-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to EXACTLY. You can obtain the JA4 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA4 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration.
+    public struct JA4Fingerprint: Swift.Sendable {
+        /// The match status to assign to the web request if the request doesn't have a JA4 fingerprint. You can specify the following fallback behaviors:
         ///
         /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
         ///
@@ -562,6 +629,8 @@ extension WAFV2ClientTypes {
         ///
         /// * For CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access, the default limit is 16 KB (16,384 bytes), and you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.
         ///
+        /// * For Amplify, use the CloudFront limit.
+        ///
         ///
         /// The options for oversize handling are the following:
         ///
@@ -641,6 +710,30 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
+    /// Inspect fragments of the request URI. You can specify the parts of the URI fragment to inspect and you can narrow the set of URI fragments to inspect by including or excluding specific keys. This is used to indicate the web request component to inspect, in the [FieldToMatch] specification. Example JSON: "UriFragment": { "MatchPattern": { "All": {} }, "MatchScope": "KEY", "OversizeHandling": "MATCH" }
+    public struct UriFragment: Swift.Sendable {
+        /// What WAF should do if it fails to completely parse the JSON body. The options are the following:
+        ///
+        /// * EVALUATE_AS_STRING - Inspect the body as plain text. WAF applies the text transformations and inspection criteria that you defined for the JSON inspection to the body text string.
+        ///
+        /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
+        ///
+        /// * NO_MATCH - Treat the web request as not matching the rule statement.
+        ///
+        ///
+        /// If you don't provide this setting, WAF parses and evaluates the content only up to the first parsing failure that it encounters. Example JSON: { "UriFragment": { "FallbackBehavior": "MATCH"} } WAF parsing doesn't fully validate the input JSON string, so parsing can succeed even for invalid JSON. When parsing succeeds, WAF doesn't apply the fallback behavior. For more information, see [JSON body](https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-fields-list.html#waf-rule-statement-request-component-json-body) in the WAF Developer Guide.
+        public var fallbackBehavior: WAFV2ClientTypes.FallbackBehavior?
+
+        public init(
+            fallbackBehavior: WAFV2ClientTypes.FallbackBehavior? = nil
+        ) {
+            self.fallbackBehavior = fallbackBehavior
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
     /// Inspect the path component of the URI of the web request. This is the part of the web request that identifies a resource. For example, /images/daily-ad.jpg. This is used in the [FieldToMatch] specification for some web request component types. JSON specification: "UriPath": {}
     public struct UriPath: Swift.Sendable {
 
@@ -670,6 +763,8 @@ extension WAFV2ClientTypes {
         ///
         /// * For CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access, the default limit is 16 KB (16,384 bytes), and you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.
         ///
+        /// * For Amplify, use the CloudFront limit.
+        ///
         ///
         /// For information about how to handle oversized request bodies, see the Body object configuration.
         public var body: WAFV2ClientTypes.Body?
@@ -681,11 +776,15 @@ extension WAFV2ClientTypes {
         public var headers: WAFV2ClientTypes.Headers?
         /// Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to EXACTLY. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA3 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration.
         public var ja3Fingerprint: WAFV2ClientTypes.JA3Fingerprint?
+        /// Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA4 fingerprint. The JA4 fingerprint is a 36-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to EXACTLY. You can obtain the JA4 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA4 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration.
+        public var ja4Fingerprint: WAFV2ClientTypes.JA4Fingerprint?
         /// Inspect the request body as JSON. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. WAF does not support inspecting the entire contents of the web request body if the body exceeds the limit for the resource type. When a web request body is larger than the limit, the underlying host service only forwards the contents that are within the limit to WAF for inspection.
         ///
         /// * For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
         ///
         /// * For CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access, the default limit is 16 KB (16,384 bytes), and you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.
+        ///
+        /// * For Amplify, use the CloudFront limit.
         ///
         ///
         /// For information about how to handle oversized request bodies, see the JsonBody object configuration.
@@ -698,6 +797,8 @@ extension WAFV2ClientTypes {
         public var singleHeader: WAFV2ClientTypes.SingleHeader?
         /// Inspect a single query argument. Provide the name of the query argument to inspect, such as UserName or SalesRegion. The name can be up to 30 characters long and isn't case sensitive. Example JSON: "SingleQueryArgument": { "Name": "myArgument" }
         public var singleQueryArgument: WAFV2ClientTypes.SingleQueryArgument?
+        /// Inspect fragments of the request URI. You must configure scope and pattern matching filters in the UriFragment object, to define the fragment of a URI that WAF inspects. Only the first 8 KB (8192 bytes) of a request's URI fragments and only the first 200 URI fragments are forwarded to WAF for inspection by the underlying host service. You must configure how to handle any oversize URI fragment content in the UriFragment object. WAF applies the pattern matching filters to the cookies that it receives from the underlying host service.
+        public var uriFragment: WAFV2ClientTypes.UriFragment?
         /// Inspect the request URI path. This is the part of the web request that identifies a resource, for example, /images/daily-ad.jpg.
         public var uriPath: WAFV2ClientTypes.UriPath?
 
@@ -708,11 +809,13 @@ extension WAFV2ClientTypes {
             headerOrder: WAFV2ClientTypes.HeaderOrder? = nil,
             headers: WAFV2ClientTypes.Headers? = nil,
             ja3Fingerprint: WAFV2ClientTypes.JA3Fingerprint? = nil,
+            ja4Fingerprint: WAFV2ClientTypes.JA4Fingerprint? = nil,
             jsonBody: WAFV2ClientTypes.JsonBody? = nil,
             method: WAFV2ClientTypes.Method? = nil,
             queryString: WAFV2ClientTypes.QueryString? = nil,
             singleHeader: WAFV2ClientTypes.SingleHeader? = nil,
             singleQueryArgument: WAFV2ClientTypes.SingleQueryArgument? = nil,
+            uriFragment: WAFV2ClientTypes.UriFragment? = nil,
             uriPath: WAFV2ClientTypes.UriPath? = nil
         ) {
             self.allQueryArguments = allQueryArguments
@@ -721,11 +824,13 @@ extension WAFV2ClientTypes {
             self.headerOrder = headerOrder
             self.headers = headers
             self.ja3Fingerprint = ja3Fingerprint
+            self.ja4Fingerprint = ja4Fingerprint
             self.jsonBody = jsonBody
             self.method = method
             self.queryString = queryString
             self.singleHeader = singleHeader
             self.singleQueryArgument = singleQueryArgument
+            self.uriFragment = uriFragment
             self.uriPath = uriPath
         }
     }
@@ -1700,31 +1805,6 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// The configuration for inspecting IP addresses in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all. This configuration is used for [GeoMatchStatement] and [RateBasedStatement]. For [IPSetReferenceStatement], use [IPSetForwardedIPConfig] instead. WAF only evaluates the first IP address found in the specified HTTP header.
-    public struct ForwardedIPConfig: Swift.Sendable {
-        /// The match status to assign to the web request if the request doesn't have a valid IP address in the specified position. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all. You can specify the following fallback behaviors:
-        ///
-        /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
-        ///
-        /// * NO_MATCH - Treat the web request as not matching the rule statement.
-        /// This member is required.
-        public var fallbackBehavior: WAFV2ClientTypes.FallbackBehavior?
-        /// The name of the HTTP header to use for the IP address. For example, to use the X-Forwarded-For (XFF) header, set this to X-Forwarded-For. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all.
-        /// This member is required.
-        public var headerName: Swift.String?
-
-        public init(
-            fallbackBehavior: WAFV2ClientTypes.FallbackBehavior? = nil,
-            headerName: Swift.String? = nil
-        ) {
-            self.fallbackBehavior = fallbackBehavior
-            self.headerName = headerName
-        }
-    }
-}
-
-extension WAFV2ClientTypes {
-
     /// A rule statement that labels web requests by country and region and that matches against web requests based on country code. A geo match rule labels every request that it inspects regardless of whether it finds a match.
     ///
     /// * To manage requests only by country, you can use this statement by itself and specify the countries that you want to match against in the CountryCodes array.
@@ -2198,7 +2278,7 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// Details for your use of the account creation fraud prevention managed rule group, AWSManagedRulesACFPRuleSet. This configuration is used in ManagedRuleGroupConfig.
+    /// Details for your use of the account creation fraud prevention managed rule group, AWSManagedRulesACFPRuleSet. This configuration is used in ManagedRuleGroupConfig. For additional information about this and the other intelligent threat mitigation rule groups, see [Intelligent threat mitigation in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-managed-protections) and [Amazon Web Services Managed Rules rule groups list](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list) in the WAF Developer Guide.
     public struct AWSManagedRulesACFPRuleSet: Swift.Sendable {
         /// The path of the account creation endpoint for your application. This is the page on your website that accepts the completed registration form for a new user. This page must accept POST requests. For example, for the URL https://example.com/web/newaccount, you would provide the path /web/newaccount. Account creation page paths that start with the path that you provide are considered a match. For example /web/newaccount matches the account creation paths /web/newaccount, /web/newaccount/, /web/newaccountPage, and /web/newaccount/thisPage, but doesn't match the path /home/web/newaccount or /website/newaccount.
         /// This member is required.
@@ -2226,6 +2306,183 @@ extension WAFV2ClientTypes {
             self.registrationPagePath = registrationPagePath
             self.requestInspection = requestInspection
             self.responseInspection = responseInspection
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// A single regular expression. This is used in a [RegexPatternSet] and also in the configuration for the Amazon Web Services Managed Rules rule group AWSManagedRulesAntiDDoSRuleSet.
+    public struct Regex: Swift.Sendable {
+        /// The string representing the regular expression.
+        public var regexString: Swift.String?
+
+        public init(
+            regexString: Swift.String? = nil
+        ) {
+            self.regexString = regexString
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum SensitivityToAct: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SensitivityToAct] {
+            return [
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum UsageOfAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UsageOfAction] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// This is part of the AWSManagedRulesAntiDDoSRuleSetClientSideActionConfig configuration in ManagedRuleGroupConfig.
+    public struct ClientSideAction: Swift.Sendable {
+        /// The regular expression to match against the web request URI, used to identify requests that can't handle a silent browser challenge. When the ClientSideAction setting UsageOfAction is enabled, the managed rule group uses this setting to determine which requests to label with awswaf:managed:aws:anti-ddos:challengeable-request. If UsageOfAction is disabled, this setting has no effect and the managed rule group doesn't add the label to any requests. The anti-DDoS managed rule group doesn't evaluate the rules ChallengeDDoSRequests or ChallengeAllDuringEvent for web requests whose URIs match this regex. This is true regardless of whether you override the rule action for either of the rules in your web ACL configuration. Amazon Web Services recommends using a regular expression. This setting is required if UsageOfAction is set to ENABLED. If required, you can provide between 1 and 5 regex objects in the array of settings. Amazon Web Services recommends starting with the following setting. Review and update it for your application's needs: \/api\/|\.(acc|avi|css|gif|jpe?g|js|mp[34]|ogg|otf|pdf|png|tiff?|ttf|webm|webp|woff2?)$
+        public var exemptUriRegularExpressions: [WAFV2ClientTypes.Regex]?
+        /// The sensitivity that the rule group rule ChallengeDDoSRequests uses when matching against the DDoS suspicion labeling on a request. The managed rule group adds the labeling during DDoS events, before the ChallengeDDoSRequests rule runs. The higher the sensitivity, the more levels of labeling that the rule matches:
+        ///
+        /// * Low sensitivity is less sensitive, causing the rule to match only on the most likely participants in an attack, which are the requests with the high suspicion label awswaf:managed:aws:anti-ddos:high-suspicion-ddos-request.
+        ///
+        /// * Medium sensitivity causes the rule to match on the medium and high suspicion labels.
+        ///
+        /// * High sensitivity causes the rule to match on all of the suspicion labels: low, medium, and high.
+        ///
+        ///
+        /// Default: HIGH
+        public var sensitivity: WAFV2ClientTypes.SensitivityToAct?
+        /// Determines whether to use the AWSManagedRulesAntiDDoSRuleSet rules ChallengeAllDuringEvent and ChallengeDDoSRequests in the rule group evaluation and the related label awswaf:managed:aws:anti-ddos:challengeable-request.
+        ///
+        /// * If usage is enabled:
+        ///
+        /// * The managed rule group adds the label awswaf:managed:aws:anti-ddos:challengeable-request to any web request whose URL does NOT match the regular expressions provided in the ClientSideAction setting ExemptUriRegularExpressions.
+        ///
+        /// * The two rules are evaluated against web requests for protected resources that are experiencing a DDoS attack. The two rules only apply their action to matching requests that have the label awswaf:managed:aws:anti-ddos:challengeable-request.
+        ///
+        ///
+        ///
+        ///
+        /// * If usage is disabled:
+        ///
+        /// * The managed rule group doesn't add the label awswaf:managed:aws:anti-ddos:challengeable-request to any web requests.
+        ///
+        /// * The two rules are not evaluated.
+        ///
+        /// * None of the other ClientSideAction settings have any effect.
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// This setting only enables or disables the use of the two anti-DDOS rules ChallengeAllDuringEvent and ChallengeDDoSRequests in the anti-DDoS managed rule group. This setting doesn't alter the action setting in the two rules. To override the actions used by the rules ChallengeAllDuringEvent and ChallengeDDoSRequests, enable this setting, and then override the rule actions in the usual way, in your managed rule group configuration.
+        /// This member is required.
+        public var usageOfAction: WAFV2ClientTypes.UsageOfAction?
+
+        public init(
+            exemptUriRegularExpressions: [WAFV2ClientTypes.Regex]? = nil,
+            sensitivity: WAFV2ClientTypes.SensitivityToAct? = nil,
+            usageOfAction: WAFV2ClientTypes.UsageOfAction? = nil
+        ) {
+            self.exemptUriRegularExpressions = exemptUriRegularExpressions
+            self.sensitivity = sensitivity
+            self.usageOfAction = usageOfAction
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// This is part of the configuration for the managed rules AWSManagedRulesAntiDDoSRuleSet in ManagedRuleGroupConfig.
+    public struct ClientSideActionConfig: Swift.Sendable {
+        /// Configuration for the use of the AWSManagedRulesAntiDDoSRuleSet rules ChallengeAllDuringEvent and ChallengeDDoSRequests. This setting isn't related to the configuration of the Challenge action itself. It only configures the use of the two anti-DDoS rules named here. You can enable or disable the use of these rules, and you can configure how to use them when they are enabled.
+        /// This member is required.
+        public var challenge: WAFV2ClientTypes.ClientSideAction?
+
+        public init(
+            challenge: WAFV2ClientTypes.ClientSideAction? = nil
+        ) {
+            self.challenge = challenge
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// Configures the use of the anti-DDoS managed rule group, AWSManagedRulesAntiDDoSRuleSet. This configuration is used in ManagedRuleGroupConfig. The configuration that you provide here determines whether and how the rules in the rule group are used. For additional information about this and the other intelligent threat mitigation rule groups, see [Intelligent threat mitigation in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-managed-protections) and [Amazon Web Services Managed Rules rule groups list](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list) in the WAF Developer Guide.
+    public struct AWSManagedRulesAntiDDoSRuleSet: Swift.Sendable {
+        /// Configures the request handling that's applied by the managed rule group rules ChallengeAllDuringEvent and ChallengeDDoSRequests during a distributed denial of service (DDoS) attack.
+        /// This member is required.
+        public var clientSideActionConfig: WAFV2ClientTypes.ClientSideActionConfig?
+        /// The sensitivity that the rule group rule DDoSRequests uses when matching against the DDoS suspicion labeling on a request. The managed rule group adds the labeling during DDoS events, before the DDoSRequests rule runs. The higher the sensitivity, the more levels of labeling that the rule matches:
+        ///
+        /// * Low sensitivity is less sensitive, causing the rule to match only on the most likely participants in an attack, which are the requests with the high suspicion label awswaf:managed:aws:anti-ddos:high-suspicion-ddos-request.
+        ///
+        /// * Medium sensitivity causes the rule to match on the medium and high suspicion labels.
+        ///
+        /// * High sensitivity causes the rule to match on all of the suspicion labels: low, medium, and high.
+        ///
+        ///
+        /// Default: LOW
+        public var sensitivityToBlock: WAFV2ClientTypes.SensitivityToAct?
+
+        public init(
+            clientSideActionConfig: WAFV2ClientTypes.ClientSideActionConfig? = nil,
+            sensitivityToBlock: WAFV2ClientTypes.SensitivityToAct? = nil
+        ) {
+            self.clientSideActionConfig = clientSideActionConfig
+            self.sensitivityToBlock = sensitivityToBlock
         }
     }
 }
@@ -2266,7 +2523,7 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// Details for your use of the account takeover prevention managed rule group, AWSManagedRulesATPRuleSet. This configuration is used in ManagedRuleGroupConfig.
+    /// Details for your use of the account takeover prevention managed rule group, AWSManagedRulesATPRuleSet. This configuration is used in ManagedRuleGroupConfig. For additional information about this and the other intelligent threat mitigation rule groups, see [Intelligent threat mitigation in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-managed-protections) and [Amazon Web Services Managed Rules rule groups list](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list) in the WAF Developer Guide.
     public struct AWSManagedRulesATPRuleSet: Swift.Sendable {
         /// Allow the use of regular expressions in the login page path.
         public var enableRegexInPath: Swift.Bool
@@ -2323,7 +2580,7 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// Details for your use of the Bot Control managed rule group, AWSManagedRulesBotControlRuleSet. This configuration is used in ManagedRuleGroupConfig.
+    /// Details for your use of the Bot Control managed rule group, AWSManagedRulesBotControlRuleSet. This configuration is used in ManagedRuleGroupConfig. For additional information about this and the other intelligent threat mitigation rule groups, see [Intelligent threat mitigation in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-managed-protections) and [Amazon Web Services Managed Rules rule groups list](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list) in the WAF Developer Guide.
     public struct AWSManagedRulesBotControlRuleSet: Swift.Sendable {
         /// Applies only to the targeted inspection level. Determines whether to use machine learning (ML) to analyze your web traffic for bot-related activity. Machine learning is required for the Bot Control rules TGT_ML_CoordinatedActivityLow and TGT_ML_CoordinatedActivityMedium, which inspect for anomalous behavior that might indicate distributed, coordinated bot activity. For more information about this choice, see the listing for these rules in the table at [Bot Control rules listing](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html#aws-managed-rule-groups-bot-rules) in the WAF Developer Guide. Default: TRUE
         public var enableMachineLearning: Swift.Bool?
@@ -2347,6 +2604,8 @@ extension WAFV2ClientTypes {
     ///
     /// * Use the AWSManagedRulesACFPRuleSet configuration object to configure the account creation fraud prevention managed rule group. The configuration includes the registration and sign-up pages of your application and the locations in the account creation request payload of data, such as the user email and phone number fields.
     ///
+    /// * Use the AWSManagedRulesAntiDDoSRuleSet configuration object to configure the anti-DDoS managed rule group. The configuration includes the sensitivity levels to use in the rules that typically block and challenge requests that might be participating in DDoS attacks and the specification to use to indicate whether a request can handle a silent browser challenge.
+    ///
     /// * Use the AWSManagedRulesATPRuleSet configuration object to configure the account takeover prevention managed rule group. The configuration includes the sign-in page of your application and the locations in the login request payload of data such as the username and password.
     ///
     /// * Use the AWSManagedRulesBotControlRuleSet configuration object to configure the protection level that you want the Bot Control rule group to use.
@@ -2358,6 +2617,8 @@ extension WAFV2ClientTypes {
         public var awsManagedRulesACFPRuleSet: WAFV2ClientTypes.AWSManagedRulesACFPRuleSet?
         /// Additional configuration for using the account takeover prevention (ATP) managed rule group, AWSManagedRulesATPRuleSet. Use this to provide login request information to the rule group. For web ACLs that protect CloudFront distributions, use this to also provide the information about how your distribution responds to login requests. This configuration replaces the individual configuration fields in ManagedRuleGroupConfig and provides additional feature configuration. For information about using the ATP managed rule group, see [WAF Fraud Control account takeover prevention (ATP) rule group](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-atp.html) and [WAF Fraud Control account takeover prevention (ATP)](https://docs.aws.amazon.com/waf/latest/developerguide/waf-atp.html) in the WAF Developer Guide.
         public var awsManagedRulesATPRuleSet: WAFV2ClientTypes.AWSManagedRulesATPRuleSet?
+        /// Additional configuration for using the anti-DDoS managed rule group, AWSManagedRulesAntiDDoSRuleSet. Use this to configure anti-DDoS behavior for the rule group. For information about using the anti-DDoS managed rule group, see [WAF Anti-DDoS rule group](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-anti-ddos.html) and [Distributed Denial of Service (DDoS) prevention](https://docs.aws.amazon.com/waf/latest/developerguide/waf-anti-ddos.html) in the WAF Developer Guide.
+        public var awsManagedRulesAntiDDoSRuleSet: WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet?
         /// Additional configuration for using the Bot Control managed rule group. Use this to specify the inspection level that you want to use. For information about using the Bot Control managed rule group, see [WAF Bot Control rule group](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html) and [WAF Bot Control](https://docs.aws.amazon.com/waf/latest/developerguide/waf-bot-control.html) in the WAF Developer Guide.
         public var awsManagedRulesBotControlRuleSet: WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet?
         /// Instead of this setting, provide your configuration under AWSManagedRulesATPRuleSet.
@@ -2376,6 +2637,7 @@ extension WAFV2ClientTypes {
         public init(
             awsManagedRulesACFPRuleSet: WAFV2ClientTypes.AWSManagedRulesACFPRuleSet? = nil,
             awsManagedRulesATPRuleSet: WAFV2ClientTypes.AWSManagedRulesATPRuleSet? = nil,
+            awsManagedRulesAntiDDoSRuleSet: WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet? = nil,
             awsManagedRulesBotControlRuleSet: WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet? = nil,
             loginPath: Swift.String? = nil,
             passwordField: WAFV2ClientTypes.PasswordField? = nil,
@@ -2384,6 +2646,7 @@ extension WAFV2ClientTypes {
         ) {
             self.awsManagedRulesACFPRuleSet = awsManagedRulesACFPRuleSet
             self.awsManagedRulesATPRuleSet = awsManagedRulesATPRuleSet
+            self.awsManagedRulesAntiDDoSRuleSet = awsManagedRulesAntiDDoSRuleSet
             self.awsManagedRulesBotControlRuleSet = awsManagedRulesBotControlRuleSet
             self.loginPath = loginPath
             self.passwordField = passwordField
@@ -2598,6 +2861,15 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
+    /// Specifies an Autonomous System Number (ASN) derived from the request's originating or forwarded IP address as an aggregate key for a rate-based rule. Each distinct ASN contributes to the aggregation instance. If you use a single ASN as your custom key, then each ASN fully defines an aggregation instance.
+    public struct RateLimitAsn: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension WAFV2ClientTypes {
+
     /// Specifies a cookie as an aggregate key for a rate-based rule. Each distinct value in the cookie contributes to the aggregation instance. If you use a single cookie as your custom key, then each value fully defines an aggregation instance.
     public struct RateLimitCookie: Swift.Sendable {
         /// The name of the cookie to use.
@@ -2662,6 +2934,46 @@ extension WAFV2ClientTypes {
     public struct RateLimitIP: Swift.Sendable {
 
         public init() { }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// Use the request's JA3 fingerprint derived from the TLS Client Hello of an incoming request as an aggregate key. If you use a single JA3 fingerprint as your custom key, then each value fully defines an aggregation instance.
+    public struct RateLimitJA3Fingerprint: Swift.Sendable {
+        /// The match status to assign to the web request if there is insufficient TSL Client Hello information to compute the JA3 fingerprint. You can specify the following fallback behaviors:
+        ///
+        /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
+        ///
+        /// * NO_MATCH - Treat the web request as not matching the rule statement.
+        /// This member is required.
+        public var fallbackBehavior: WAFV2ClientTypes.FallbackBehavior?
+
+        public init(
+            fallbackBehavior: WAFV2ClientTypes.FallbackBehavior? = nil
+        ) {
+            self.fallbackBehavior = fallbackBehavior
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// Use the request's JA4 fingerprint derived from the TLS Client Hello of an incoming request as an aggregate key. If you use a single JA4 fingerprint as your custom key, then each value fully defines an aggregation instance.
+    public struct RateLimitJA4Fingerprint: Swift.Sendable {
+        /// The match status to assign to the web request if there is insufficient TSL Client Hello information to compute the JA4 fingerprint. You can specify the following fallback behaviors:
+        ///
+        /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
+        ///
+        /// * NO_MATCH - Treat the web request as not matching the rule statement.
+        /// This member is required.
+        public var fallbackBehavior: WAFV2ClientTypes.FallbackBehavior?
+
+        public init(
+            fallbackBehavior: WAFV2ClientTypes.FallbackBehavior? = nil
+        ) {
+            self.fallbackBehavior = fallbackBehavior
+        }
     }
 }
 
@@ -2738,6 +3050,8 @@ extension WAFV2ClientTypes {
 
     /// Specifies a single custom aggregate key for a rate-base rule. Web requests that are missing any of the components specified in the aggregation keys are omitted from the rate-based rule evaluation and handling.
     public struct RateBasedStatementCustomKey: Swift.Sendable {
+        /// Use an Autonomous System Number (ASN) derived from the request's originating or forwarded IP address as an aggregate key. Each distinct ASN contributes to the aggregation instance.
+        public var asn: WAFV2ClientTypes.RateLimitAsn?
         /// Use the value of a cookie in the request as an aggregate key. Each distinct value in the cookie contributes to the aggregation instance. If you use a single cookie as your custom key, then each value fully defines an aggregation instance.
         public var cookie: WAFV2ClientTypes.RateLimitCookie?
         /// Use the first IP address in an HTTP header as an aggregate key. Each distinct forwarded IP address contributes to the aggregation instance. When you specify an IP or forwarded IP in the custom key settings, you must also specify at least one other key to use. You can aggregate on only the forwarded IP address by specifying FORWARDED_IP in your rate-based statement's AggregateKeyType. With this option, you must specify the header to use in the rate-based rule's ForwardedIPConfig property.
@@ -2748,6 +3062,10 @@ extension WAFV2ClientTypes {
         public var httpMethod: WAFV2ClientTypes.RateLimitHTTPMethod?
         /// Use the request's originating IP address as an aggregate key. Each distinct IP address contributes to the aggregation instance. When you specify an IP or forwarded IP in the custom key settings, you must also specify at least one other key to use. You can aggregate on only the IP address by specifying IP in your rate-based statement's AggregateKeyType.
         public var ip: WAFV2ClientTypes.RateLimitIP?
+        /// Use the request's JA3 fingerprint as an aggregate key. If you use a single JA3 fingerprint as your custom key, then each value fully defines an aggregation instance.
+        public var ja3Fingerprint: WAFV2ClientTypes.RateLimitJA3Fingerprint?
+        /// Use the request's JA4 fingerprint as an aggregate key. If you use a single JA4 fingerprint as your custom key, then each value fully defines an aggregation instance.
+        public var ja4Fingerprint: WAFV2ClientTypes.RateLimitJA4Fingerprint?
         /// Use the specified label namespace as an aggregate key. Each distinct fully qualified label name that has the specified label namespace contributes to the aggregation instance. If you use just one label namespace as your custom key, then each label name fully defines an aggregation instance. This uses only labels that have been added to the request by rules that are evaluated before this rate-based rule in the web ACL. For information about label namespaces and names, see [Label syntax and naming requirements](https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-label-requirements.html) in the WAF Developer Guide.
         public var labelNamespace: WAFV2ClientTypes.RateLimitLabelNamespace?
         /// Use the specified query argument as an aggregate key. Each distinct value for the named query argument contributes to the aggregation instance. If you use a single query argument as your custom key, then each value fully defines an aggregation instance.
@@ -2758,21 +3076,27 @@ extension WAFV2ClientTypes {
         public var uriPath: WAFV2ClientTypes.RateLimitUriPath?
 
         public init(
+            asn: WAFV2ClientTypes.RateLimitAsn? = nil,
             cookie: WAFV2ClientTypes.RateLimitCookie? = nil,
             forwardedIP: WAFV2ClientTypes.RateLimitForwardedIP? = nil,
             header: WAFV2ClientTypes.RateLimitHeader? = nil,
             httpMethod: WAFV2ClientTypes.RateLimitHTTPMethod? = nil,
             ip: WAFV2ClientTypes.RateLimitIP? = nil,
+            ja3Fingerprint: WAFV2ClientTypes.RateLimitJA3Fingerprint? = nil,
+            ja4Fingerprint: WAFV2ClientTypes.RateLimitJA4Fingerprint? = nil,
             labelNamespace: WAFV2ClientTypes.RateLimitLabelNamespace? = nil,
             queryArgument: WAFV2ClientTypes.RateLimitQueryArgument? = nil,
             queryString: WAFV2ClientTypes.RateLimitQueryString? = nil,
             uriPath: WAFV2ClientTypes.RateLimitUriPath? = nil
         ) {
+            self.asn = asn
             self.cookie = cookie
             self.forwardedIP = forwardedIP
             self.header = header
             self.httpMethod = httpMethod
             self.ip = ip
+            self.ja3Fingerprint = ja3Fingerprint
+            self.ja4Fingerprint = ja4Fingerprint
             self.labelNamespace = labelNamespace
             self.queryArgument = queryArgument
             self.queryString = queryString
@@ -2842,7 +3166,7 @@ extension WAFV2ClientTypes {
         public var arn: Swift.String?
         /// Rules in the referenced rule group whose actions are set to Count. Instead of this option, use RuleActionOverrides. It accepts any valid action setting, including Count.
         public var excludedRules: [WAFV2ClientTypes.ExcludedRule]?
-        /// Action settings to use in the place of the rule actions that are configured inside the rule group. You specify one override for each rule whose action you want to change. Take care to verify the rule names in your overrides. If you provide a rule name that doesn't match the name of any rule in the rule group, WAF doesn't return an error and doesn't apply the override setting. You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
+        /// Action settings to use in the place of the rule actions that are configured inside the rule group. You specify one override for each rule whose action you want to change. Verify the rule names in your overrides carefully. With managed rule groups, WAF silently ignores any override that uses an invalid rule name. With customer-owned rule groups, invalid rule names in your overrides will cause web ACL updates to fail. An invalid rule name is any name that doesn't exactly match the case-sensitive name of an existing rule in the rule group. You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
         public var ruleActionOverrides: [WAFV2ClientTypes.RuleActionOverride]?
 
         public init(
@@ -3033,6 +3357,40 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
+    /// Application details defined during the web ACL creation process. Application attributes help WAF give recommendations for protection packs.
+    public struct ApplicationAttribute: Swift.Sendable {
+        /// Specifies the attribute name.
+        public var name: Swift.String?
+        /// Specifies the attribute value.
+        public var values: [Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// A list of ApplicationAttributes that contains information about the application.
+    public struct ApplicationConfig: Swift.Sendable {
+        /// Contains the attribute name and a list of values for that attribute.
+        public var attributes: [WAFV2ClientTypes.ApplicationAttribute]?
+
+        public init(
+            attributes: [WAFV2ClientTypes.ApplicationAttribute]? = nil
+        ) {
+            self.attributes = attributes
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
     public enum AssociatedResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case apiGateway
         case appRunnerService
@@ -3155,6 +3513,7 @@ extension WAFV2ClientTypes {
         case labelMatchStatement
         case loggingFilter
         case logDestination
+        case lowReputationMode
         case managedRuleGroupConfig
         case managedRuleSet
         case managedRuleSetStatement
@@ -3230,6 +3589,7 @@ extension WAFV2ClientTypes {
                 .labelMatchStatement,
                 .loggingFilter,
                 .logDestination,
+                .lowReputationMode,
                 .managedRuleGroupConfig,
                 .managedRuleSet,
                 .managedRuleSetStatement,
@@ -3311,6 +3671,7 @@ extension WAFV2ClientTypes {
             case .labelMatchStatement: return "LABEL_MATCH_STATEMENT"
             case .loggingFilter: return "LOGGING_FILTER"
             case .logDestination: return "LOG_DESTINATION"
+            case .lowReputationMode: return "LOW_REPUTATION_MODE"
             case .managedRuleGroupConfig: return "MANAGED_RULE_GROUP_CONFIG"
             case .managedRuleSet: return "MANAGED_RULE_SET"
             case .managedRuleSetStatement: return "MANAGED_RULE_SET_STATEMENT"
@@ -3454,6 +3815,8 @@ public struct AssociateWebACLInput: Swift.Sendable {
     /// * For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id
     ///
     /// * For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id
+    ///
+    /// * For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
@@ -3793,7 +4156,7 @@ public struct CheckCapacityOutput: Swift.Sendable {
 }
 
 public struct CreateAPIKeyInput: Swift.Sendable {
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -3997,7 +4360,7 @@ public struct CreateIPSetInput: Swift.Sendable {
     /// The name of the IP set. You cannot change the name of an IPSet after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4066,21 +4429,6 @@ public struct CreateIPSetOutput: Swift.Sendable {
     }
 }
 
-extension WAFV2ClientTypes {
-
-    /// A single regular expression. This is used in a [RegexPatternSet].
-    public struct Regex: Swift.Sendable {
-        /// The string representing the regular expression.
-        public var regexString: Swift.String?
-
-        public init(
-            regexString: Swift.String? = nil
-        ) {
-            self.regexString = regexString
-        }
-    }
-}
-
 public struct CreateRegexPatternSetInput: Swift.Sendable {
     /// A description of the set that helps with identification.
     public var description: Swift.String?
@@ -4090,7 +4438,7 @@ public struct CreateRegexPatternSetInput: Swift.Sendable {
     /// Array of regular expression strings.
     /// This member is required.
     public var regularExpressionList: [WAFV2ClientTypes.Regex]?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4373,9 +4721,9 @@ extension WAFV2ClientTypes {
         /// * Substitution example: REDACTED
         /// This member is required.
         public var action: WAFV2ClientTypes.DataProtectionAction?
-        /// Specifies whether to also protect any rate-based rule details from the web ACL logs when applying data protection for this field type and keys. For additional information, see the log field rateBasedRuleList at [Log fields for web ACL traffic](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Default: FALSE
+        /// Specifies whether to also exclude any rate-based rule details from the data protection you have enabled for a given field. If you specify this exception, RateBasedDetails will show the value of the field. For additional information, see the log field rateBasedRuleList at [Log fields for web ACL traffic](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Default: FALSE
         public var excludeRateBasedDetails: Swift.Bool
-        /// Specifies whether to also protect any rule match details from the web ACL logs when applying data protection this field type and keys. WAF logs these details for non-terminating matching rules and for the terminating matching rule. For additional information, see [Log fields for web ACL traffic](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Default: FALSE
+        /// Specifies whether to also exclude any rule match details from the data protection you have enabled for a given field. WAF logs these details for non-terminating matching rules and for the terminating matching rule. For additional information, see [Log fields for web ACL traffic](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Default: FALSE
         public var excludeRuleMatchDetails: Swift.Bool
         /// Specifies the field type and optional keys to apply the protection behavior to.
         /// This member is required.
@@ -4397,7 +4745,7 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// Specifies data protection to apply to the web request data that WAF stores for the web ACL. This is a web ACL level data protection option. The data protection that you configure for the web ACL alters the data that's available for any other data collection activity, including WAF logging, web ACL request sampling, Amazon Web Services Managed Rules, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging. This is part of the data protection configuration for a web ACL.
+    /// Specifies data protection to apply to the web request data for the web ACL. This is a web ACL level data protection option. The data protection that you configure for the web ACL alters the data that's available for any other data collection activity, including your WAF logging destinations, web ACL request sampling, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging. This is part of the data protection configuration for a web ACL.
     public struct DataProtectionConfig: Swift.Sendable {
         /// An array of data protection configurations for specific web request field types. This is defined for each web ACL. WAF applies the specified protection to all web requests that the web ACL inspects.
         /// This member is required.
@@ -4426,6 +4774,51 @@ extension WAFV2ClientTypes {
         ) {
             self.allow = allow
             self.block = block
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum LowReputationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activeUnderDdos
+        case alwaysOn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LowReputationMode] {
+            return [
+                .activeUnderDdos,
+                .alwaysOn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .activeUnderDdos: return "ACTIVE_UNDER_DDOS"
+            case .alwaysOn: return "ALWAYS_ON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// Configures the level of DDoS protection that applies to web ACLs associated with Application Load Balancers.
+    public struct OnSourceDDoSProtectionConfig: Swift.Sendable {
+        /// The level of DDoS protection that applies to web ACLs associated with Application Load Balancers. ACTIVE_UNDER_DDOS protection is enabled by default whenever a web ACL is associated with an Application Load Balancer. In the event that an Application Load Balancer experiences high-load conditions or suspected DDoS attacks, the ACTIVE_UNDER_DDOS protection automatically rate limits traffic from known low reputation sources without disrupting Application Load Balancer availability. ALWAYS_ON protection provides constant, always-on monitoring of known low reputation sources for suspected DDoS attacks. While this provides a higher level of protection, there may be potential impacts on legitimate traffic.
+        /// This member is required.
+        public var albLowReputationMode: WAFV2ClientTypes.LowReputationMode?
+
+        public init(
+            albLowReputationMode: WAFV2ClientTypes.LowReputationMode? = nil
+        ) {
+            self.albLowReputationMode = albLowReputationMode
         }
     }
 }
@@ -4476,7 +4869,7 @@ public struct DeleteAPIKeyInput: Swift.Sendable {
     /// The encrypted API key that you want to delete.
     /// This member is required.
     public var apiKey: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4559,7 +4952,7 @@ public struct DeleteIPSetInput: Swift.Sendable {
     /// The name of the IP set. You cannot change the name of an IPSet after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4692,7 +5085,7 @@ public struct DeleteRegexPatternSetInput: Swift.Sendable {
     /// The name of the set. You cannot change the name after you create the set.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4728,7 +5121,7 @@ public struct DeleteRuleGroupInput: Swift.Sendable {
     /// The name of the rule group. You cannot change the name of a rule group after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4764,7 +5157,7 @@ public struct DeleteWebACLInput: Swift.Sendable {
     /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4791,7 +5184,7 @@ public struct DeleteWebACLOutput: Swift.Sendable {
 }
 
 public struct DescribeAllManagedProductsInput: Swift.Sendable {
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4865,7 +5258,7 @@ public struct DescribeAllManagedProductsOutput: Swift.Sendable {
 }
 
 public struct DescribeManagedProductsByVendorInput: Swift.Sendable {
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -4900,7 +5293,7 @@ public struct DescribeManagedRuleGroupInput: Swift.Sendable {
     /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5017,6 +5410,8 @@ public struct DisassociateWebACLInput: Swift.Sendable {
     /// * For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id
     ///
     /// * For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id
+    ///
+    /// * For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -5093,7 +5488,7 @@ public struct GetDecryptedAPIKeyInput: Swift.Sendable {
     /// The encrypted API key.
     /// This member is required.
     public var apiKey: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5132,7 +5527,7 @@ public struct GetIPSetInput: Swift.Sendable {
     /// The name of the IP set. You cannot change the name of an IPSet after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5451,7 +5846,7 @@ public struct GetManagedRuleSetInput: Swift.Sendable {
     /// The name of the managed rule set. You use this, along with the rule set ID, to identify the rule set. This name is assigned to the corresponding managed rule group, which your customers can access and use.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5673,7 +6068,7 @@ public struct GetRateBasedStatementManagedKeysInput: Swift.Sendable {
     /// The name of the rate-based rule to get the keys for. If you have the rule defined inside a rule group that you're using in your web ACL, also provide the name of the rule group reference statement in the request parameter RuleGroupRuleName.
     /// This member is required.
     public var ruleName: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5743,7 +6138,7 @@ public struct GetRegexPatternSetInput: Swift.Sendable {
     /// The name of the set. You cannot change the name after you create the set.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5815,7 +6210,7 @@ public struct GetRuleGroupInput: Swift.Sendable {
     public var id: Swift.String?
     /// The name of the rule group. You cannot change the name of a rule group after you create it.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -5863,7 +6258,7 @@ public struct GetSampledRequestsInput: Swift.Sendable {
     /// The metric name assigned to the Rule or RuleGroup dimension for which you want a sample of requests.
     /// This member is required.
     public var ruleMetricName: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6108,25 +6503,26 @@ public struct GetSampledRequestsOutput: Swift.Sendable {
 }
 
 public struct GetWebACLInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the web ACL that you want to retrieve.
+    public var arn: Swift.String?
     /// The unique identifier for the web ACL. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
-    /// This member is required.
     public var id: Swift.String?
     /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
-    /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
     /// * API and SDKs - For all calls, use the Region endpoint us-east-1.
-    /// This member is required.
     public var scope: WAFV2ClientTypes.Scope?
 
     public init(
+        arn: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         scope: WAFV2ClientTypes.Scope? = nil
     ) {
+        self.arn = arn
         self.id = id
         self.name = name
         self.scope = scope
@@ -6147,6 +6543,8 @@ public struct GetWebACLForResourceInput: Swift.Sendable {
     /// * For an App Runner service: arn:partition:apprunner:region:account-id:service/apprunner-service-name/apprunner-service-id
     ///
     /// * For an Amazon Web Services Verified Access instance: arn:partition:ec2:region:account-id:verified-access-instance/instance-id
+    ///
+    /// * For an Amplify application: arn:partition:amplify:region:account-id:apps/app-id
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -6162,7 +6560,7 @@ public struct ListAPIKeysInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6205,7 +6603,7 @@ public struct ListAvailableManagedRuleGroupsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6274,7 +6672,7 @@ public struct ListAvailableManagedRuleGroupVersionsInput: Swift.Sendable {
     public var name: Swift.String?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6343,7 +6741,7 @@ public struct ListIPSetsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6384,7 +6782,7 @@ public struct ListLoggingConfigurationsInput: Swift.Sendable {
     public var logScope: WAFV2ClientTypes.LogScope?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6425,7 +6823,7 @@ public struct ListManagedRuleSetsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6557,7 +6955,7 @@ public struct ListRegexPatternSetsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6594,6 +6992,7 @@ public struct ListRegexPatternSetsOutput: Swift.Sendable {
 extension WAFV2ClientTypes {
 
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case amplify
         case apiGateway
         case applicationLoadBalancer
         case appsync
@@ -6604,6 +7003,7 @@ extension WAFV2ClientTypes {
 
         public static var allCases: [ResourceType] {
             return [
+                .amplify,
                 .apiGateway,
                 .applicationLoadBalancer,
                 .appsync,
@@ -6620,6 +7020,7 @@ extension WAFV2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .amplify: return "AMPLIFY"
             case .apiGateway: return "API_GATEWAY"
             case .applicationLoadBalancer: return "APPLICATION_LOAD_BALANCER"
             case .appsync: return "APPSYNC"
@@ -6664,7 +7065,7 @@ public struct ListRuleGroupsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6757,7 +7158,7 @@ public struct ListWebACLsInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -6891,7 +7292,7 @@ public struct PutManagedRuleSetVersionsInput: Swift.Sendable {
     public var name: Swift.String?
     /// The version of the named managed rule group that you'd like your customers to choose, from among your version offerings.
     public var recommendedVersion: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7078,7 +7479,7 @@ public struct UpdateIPSetInput: Swift.Sendable {
     /// The name of the IP set. You cannot change the name of an IPSet after you create it.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7127,7 +7528,7 @@ public struct UpdateManagedRuleSetVersionExpiryDateInput: Swift.Sendable {
     /// The name of the managed rule set. You use this, along with the rule set ID, to identify the rule set. This name is assigned to the corresponding managed rule group, which your customers can access and use.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7189,7 +7590,7 @@ public struct UpdateRegexPatternSetInput: Swift.Sendable {
     ///
     /// This member is required.
     public var regularExpressionList: [WAFV2ClientTypes.Regex]?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7253,6 +7654,8 @@ extension WAFV2ClientTypes {
     public struct Statement: Swift.Sendable {
         /// A logical rule statement used to combine other rule statements with AND logic. You provide more than one [Statement] within the AndStatement.
         public var andStatement: WAFV2ClientTypes.AndStatement?
+        /// A rule statement that inspects web traffic based on the Autonomous System Number (ASN) associated with the request's IP address. For additional details, see [ASN match rule statement](https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-asn-match.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
+        public var asnMatchStatement: WAFV2ClientTypes.AsnMatchStatement?
         /// A rule statement that defines a string match search for WAF to apply to web requests. The byte match statement provides the bytes to search for, the location in requests that you want WAF to search, and other settings. The bytes to search for are typically a string that corresponds with ASCII characters. In the WAF console and the developer guide, this is called a string match statement.
         public var byteMatchStatement: WAFV2ClientTypes.ByteMatchStatement?
         /// A rule statement that labels web requests by country and region and that matches against web requests based on country code. A geo match rule labels every request that it inspects regardless of whether it finds a match.
@@ -7334,6 +7737,7 @@ extension WAFV2ClientTypes {
 
         public init(
             andStatement: WAFV2ClientTypes.AndStatement? = nil,
+            asnMatchStatement: WAFV2ClientTypes.AsnMatchStatement? = nil,
             byteMatchStatement: WAFV2ClientTypes.ByteMatchStatement? = nil,
             geoMatchStatement: WAFV2ClientTypes.GeoMatchStatement? = nil,
             ipSetReferenceStatement: WAFV2ClientTypes.IPSetReferenceStatement? = nil,
@@ -7350,6 +7754,7 @@ extension WAFV2ClientTypes {
             xssMatchStatement: WAFV2ClientTypes.XssMatchStatement? = nil
         ) {
             self.andStatement = andStatement
+            self.asnMatchStatement = asnMatchStatement
             self.byteMatchStatement = byteMatchStatement
             self.geoMatchStatement = geoMatchStatement
             self.ipSetReferenceStatement = ipSetReferenceStatement
@@ -7378,6 +7783,8 @@ extension WAFV2ClientTypes {
         ///
         /// * Use the AWSManagedRulesACFPRuleSet configuration object to configure the account creation fraud prevention managed rule group. The configuration includes the registration and sign-up pages of your application and the locations in the account creation request payload of data, such as the user email and phone number fields.
         ///
+        /// * Use the AWSManagedRulesAntiDDoSRuleSet configuration object to configure the anti-DDoS managed rule group. The configuration includes the sensitivity levels to use in the rules that typically block and challenge requests that might be participating in DDoS attacks and the specification to use to indicate whether a request can handle a silent browser challenge.
+        ///
         /// * Use the AWSManagedRulesATPRuleSet configuration object to configure the account takeover prevention managed rule group. The configuration includes the sign-in page of your application and the locations in the login request payload of data such as the username and password.
         ///
         /// * Use the AWSManagedRulesBotControlRuleSet configuration object to configure the protection level that you want the Bot Control rule group to use.
@@ -7385,7 +7792,7 @@ extension WAFV2ClientTypes {
         /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
         /// This member is required.
         public var name: Swift.String?
-        /// Action settings to use in the place of the rule actions that are configured inside the rule group. You specify one override for each rule whose action you want to change. Take care to verify the rule names in your overrides. If you provide a rule name that doesn't match the name of any rule in the rule group, WAF doesn't return an error and doesn't apply the override setting. You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
+        /// Action settings to use in the place of the rule actions that are configured inside the rule group. You specify one override for each rule whose action you want to change. Verify the rule names in your overrides carefully. With managed rule groups, WAF silently ignores any override that uses an invalid rule name. With customer-owned rule groups, invalid rule names in your overrides will cause web ACL updates to fail. An invalid rule name is any name that doesn't exactly match the case-sensitive name of an existing rule in the rule group. You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
         public var ruleActionOverrides: [WAFV2ClientTypes.RuleActionOverride]?
         /// An optional nested statement that narrows the scope of the web requests that are evaluated by the managed rule group. Requests are only evaluated by the rule group if they match the scope-down statement. You can use any nestable [Statement] in the scope-down statement, and you can nest statements at any level, the same as you can for a rule statement.
         @Indirect public var scopeDownStatement: WAFV2ClientTypes.Statement?
@@ -7744,7 +8151,7 @@ public struct CheckCapacityInput: Swift.Sendable {
     /// An array of [Rule] that you're configuring to use in a rule group or web ACL.
     /// This member is required.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7774,7 +8181,7 @@ public struct CreateRuleGroupInput: Swift.Sendable {
     public var name: Swift.String?
     /// The [Rule] statements used to identify the web requests that you want to manage. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7809,6 +8216,8 @@ public struct CreateRuleGroupInput: Swift.Sendable {
 }
 
 public struct CreateWebACLInput: Swift.Sendable {
+    /// Configures the ability for the WAF console to store and retrieve application attributes during the web ACL creation process. Application attributes help WAF give recommendations for protection packs.
+    public var applicationConfig: WAFV2ClientTypes.ApplicationConfig?
     /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
     public var associationConfig: WAFV2ClientTypes.AssociationConfig?
     /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
@@ -7817,7 +8226,7 @@ public struct CreateWebACLInput: Swift.Sendable {
     public var challengeConfig: WAFV2ClientTypes.ChallengeConfig?
     /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
     public var customResponseBodies: [Swift.String: WAFV2ClientTypes.CustomResponseBody]?
-    /// Specifies data protection to apply to the web request data that WAF stores for the web ACL. This is a web ACL level data protection option. The data protection that you configure for the web ACL alters the data that's available for any other data collection activity, including WAF logging, web ACL request sampling, Amazon Web Services Managed Rules, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging.
+    /// Specifies data protection to apply to the web request data for the web ACL. This is a web ACL level data protection option. The data protection that you configure for the web ACL alters the data that's available for any other data collection activity, including your WAF logging destinations, web ACL request sampling, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging.
     public var dataProtectionConfig: WAFV2ClientTypes.DataProtectionConfig?
     /// The action to perform if none of the Rules contained in the WebACL match.
     /// This member is required.
@@ -7827,9 +8236,11 @@ public struct CreateWebACLInput: Swift.Sendable {
     /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
     /// This member is required.
     public var name: Swift.String?
+    /// Specifies the type of DDoS protection to apply to web request data for a web ACL. For most scenarios, it is recommended to use the default protection level, ACTIVE_UNDER_DDOS. If a web ACL is associated with multiple Application Load Balancers, the changes you make to DDoS protection in that web ACL will apply to all associated Application Load Balancers.
+    public var onSourceDDoSProtectionConfig: WAFV2ClientTypes.OnSourceDDoSProtectionConfig?
     /// The [Rule] statements used to identify the web requests that you want to manage. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7845,6 +8256,7 @@ public struct CreateWebACLInput: Swift.Sendable {
     public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
     public init(
+        applicationConfig: WAFV2ClientTypes.ApplicationConfig? = nil,
         associationConfig: WAFV2ClientTypes.AssociationConfig? = nil,
         captchaConfig: WAFV2ClientTypes.CaptchaConfig? = nil,
         challengeConfig: WAFV2ClientTypes.ChallengeConfig? = nil,
@@ -7853,12 +8265,14 @@ public struct CreateWebACLInput: Swift.Sendable {
         defaultAction: WAFV2ClientTypes.DefaultAction? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
+        onSourceDDoSProtectionConfig: WAFV2ClientTypes.OnSourceDDoSProtectionConfig? = nil,
         rules: [WAFV2ClientTypes.Rule]? = nil,
         scope: WAFV2ClientTypes.Scope? = nil,
         tags: [WAFV2ClientTypes.Tag]? = nil,
         tokenDomains: [Swift.String]? = nil,
         visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
     ) {
+        self.applicationConfig = applicationConfig
         self.associationConfig = associationConfig
         self.captchaConfig = captchaConfig
         self.challengeConfig = challengeConfig
@@ -7867,6 +8281,7 @@ public struct CreateWebACLInput: Swift.Sendable {
         self.defaultAction = defaultAction
         self.description = description
         self.name = name
+        self.onSourceDDoSProtectionConfig = onSourceDDoSProtectionConfig
         self.rules = rules
         self.scope = scope
         self.tags = tags
@@ -7891,7 +8306,7 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
     public var name: Swift.String?
     /// The [Rule] statements used to identify the web requests that you want to manage. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7932,7 +8347,7 @@ public struct UpdateWebACLInput: Swift.Sendable {
     public var challengeConfig: WAFV2ClientTypes.ChallengeConfig?
     /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
     public var customResponseBodies: [Swift.String: WAFV2ClientTypes.CustomResponseBody]?
-    /// Specifies data protection to apply to the web request data that WAF stores for the web ACL. This is a web ACL level data protection option. The data protection that you configure for the web ACL alters the data that's available for any other data collection activity, including WAF logging, web ACL request sampling, Amazon Web Services Managed Rules, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging.
+    /// Specifies data protection to apply to the web request data for the web ACL. This is a web ACL level data protection option. The data protection that you configure for the web ACL alters the data that's available for any other data collection activity, including your WAF logging destinations, web ACL request sampling, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging.
     public var dataProtectionConfig: WAFV2ClientTypes.DataProtectionConfig?
     /// The action to perform if none of the Rules contained in the WebACL match.
     /// This member is required.
@@ -7948,9 +8363,11 @@ public struct UpdateWebACLInput: Swift.Sendable {
     /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
     /// This member is required.
     public var name: Swift.String?
+    /// Specifies the type of DDoS protection to apply to web request data for a web ACL. For most scenarios, it is recommended to use the default protection level, ACTIVE_UNDER_DDOS. If a web ACL is associated with multiple Application Load Balancers, the changes you make to DDoS protection in that web ACL will apply to all associated Application Load Balancers.
+    public var onSourceDDoSProtectionConfig: WAFV2ClientTypes.OnSourceDDoSProtectionConfig?
     /// The [Rule] statements used to identify the web requests that you want to manage. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
-    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
+    /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
     ///
@@ -7974,6 +8391,7 @@ public struct UpdateWebACLInput: Swift.Sendable {
         id: Swift.String? = nil,
         lockToken: Swift.String? = nil,
         name: Swift.String? = nil,
+        onSourceDDoSProtectionConfig: WAFV2ClientTypes.OnSourceDDoSProtectionConfig? = nil,
         rules: [WAFV2ClientTypes.Rule]? = nil,
         scope: WAFV2ClientTypes.Scope? = nil,
         tokenDomains: [Swift.String]? = nil,
@@ -7989,6 +8407,7 @@ public struct UpdateWebACLInput: Swift.Sendable {
         self.id = id
         self.lockToken = lockToken
         self.name = name
+        self.onSourceDDoSProtectionConfig = onSourceDDoSProtectionConfig
         self.rules = rules
         self.scope = scope
         self.tokenDomains = tokenDomains
@@ -8013,8 +8432,10 @@ public struct GetRuleGroupOutput: Swift.Sendable {
 
 extension WAFV2ClientTypes {
 
-    /// A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, and Amazon Web Services Verified Access instance.
+    /// A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, and Amazon Web Services Verified Access instance.
     public struct WebACL: Swift.Sendable {
+        /// Returns a list of ApplicationAttributes.
+        public var applicationConfig: WAFV2ClientTypes.ApplicationConfig?
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
         /// This member is required.
         public var arn: Swift.String?
@@ -8028,7 +8449,7 @@ extension WAFV2ClientTypes {
         public var challengeConfig: WAFV2ClientTypes.ChallengeConfig?
         /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
         public var customResponseBodies: [Swift.String: WAFV2ClientTypes.CustomResponseBody]?
-        /// Specifies data protection to apply to the web request data that WAF stores for the web ACL. This is a web ACL level data protection option. The data protection that you configure for the web ACL alters the data that's available for any other data collection activity, including WAF logging, web ACL request sampling, Amazon Web Services Managed Rules, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging.
+        /// Specifies data protection to apply to the web request data for the web ACL. This is a web ACL level data protection option. The data protection that you configure for the web ACL alters the data that's available for any other data collection activity, including your WAF logging destinations, web ACL request sampling, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging.
         public var dataProtectionConfig: WAFV2ClientTypes.DataProtectionConfig?
         /// The action to perform if none of the Rules contained in the WebACL match.
         /// This member is required.
@@ -8049,6 +8470,8 @@ extension WAFV2ClientTypes {
         /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
         /// This member is required.
         public var name: Swift.String?
+        /// Configures the level of DDoS protection that applies to web ACLs associated with Application Load Balancers.
+        public var onSourceDDoSProtectionConfig: WAFV2ClientTypes.OnSourceDDoSProtectionConfig?
         /// The last set of rules for WAF to process in the web ACL. This is defined in an Firewall Manager WAF policy and contains only rule group references. You can't alter these. Any rules and rule groups that you define for the web ACL are prioritized before these. In the Firewall Manager WAF policy, the Firewall Manager administrator can define a set of rule groups to run first in the web ACL and a set of rule groups to run last. Within each set, the administrator prioritizes the rule groups, to determine their relative processing order.
         public var postProcessFirewallManagerRuleGroups: [WAFV2ClientTypes.FirewallManagerRuleGroup]?
         /// The first set of rules for WAF to process in the web ACL. This is defined in an Firewall Manager WAF policy and contains only rule group references. You can't alter these. Any rules and rule groups that you define for the web ACL are prioritized after these. In the Firewall Manager WAF policy, the Firewall Manager administrator can define a set of rule groups to run first in the web ACL and a set of rule groups to run last. Within each set, the administrator prioritizes the rule groups, to determine their relative processing order.
@@ -8064,6 +8487,7 @@ extension WAFV2ClientTypes {
         public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
         public init(
+            applicationConfig: WAFV2ClientTypes.ApplicationConfig? = nil,
             arn: Swift.String? = nil,
             associationConfig: WAFV2ClientTypes.AssociationConfig? = nil,
             capacity: Swift.Int = 0,
@@ -8077,6 +8501,7 @@ extension WAFV2ClientTypes {
             labelNamespace: Swift.String? = nil,
             managedByFirewallManager: Swift.Bool = false,
             name: Swift.String? = nil,
+            onSourceDDoSProtectionConfig: WAFV2ClientTypes.OnSourceDDoSProtectionConfig? = nil,
             postProcessFirewallManagerRuleGroups: [WAFV2ClientTypes.FirewallManagerRuleGroup]? = nil,
             preProcessFirewallManagerRuleGroups: [WAFV2ClientTypes.FirewallManagerRuleGroup]? = nil,
             retrofittedByFirewallManager: Swift.Bool = false,
@@ -8084,6 +8509,7 @@ extension WAFV2ClientTypes {
             tokenDomains: [Swift.String]? = nil,
             visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
         ) {
+            self.applicationConfig = applicationConfig
             self.arn = arn
             self.associationConfig = associationConfig
             self.capacity = capacity
@@ -8097,6 +8523,7 @@ extension WAFV2ClientTypes {
             self.labelNamespace = labelNamespace
             self.managedByFirewallManager = managedByFirewallManager
             self.name = name
+            self.onSourceDDoSProtectionConfig = onSourceDDoSProtectionConfig
             self.postProcessFirewallManagerRuleGroups = postProcessFirewallManagerRuleGroups
             self.preProcessFirewallManagerRuleGroups = preProcessFirewallManagerRuleGroups
             self.retrofittedByFirewallManager = retrofittedByFirewallManager
@@ -8586,6 +9013,7 @@ extension CreateWebACLInput {
 
     static func write(value: CreateWebACLInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ApplicationConfig"].write(value.applicationConfig, with: WAFV2ClientTypes.ApplicationConfig.write(value:to:))
         try writer["AssociationConfig"].write(value.associationConfig, with: WAFV2ClientTypes.AssociationConfig.write(value:to:))
         try writer["CaptchaConfig"].write(value.captchaConfig, with: WAFV2ClientTypes.CaptchaConfig.write(value:to:))
         try writer["ChallengeConfig"].write(value.challengeConfig, with: WAFV2ClientTypes.ChallengeConfig.write(value:to:))
@@ -8594,6 +9022,7 @@ extension CreateWebACLInput {
         try writer["DefaultAction"].write(value.defaultAction, with: WAFV2ClientTypes.DefaultAction.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
+        try writer["OnSourceDDoSProtectionConfig"].write(value.onSourceDDoSProtectionConfig, with: WAFV2ClientTypes.OnSourceDDoSProtectionConfig.write(value:to:))
         try writer["Rules"].writeList(value.rules, memberWritingClosure: WAFV2ClientTypes.Rule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Scope"].write(value.scope)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: WAFV2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -8832,6 +9261,7 @@ extension GetWebACLInput {
 
     static func write(value: GetWebACLInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ARN"].write(value.arn)
         try writer["Id"].write(value.id)
         try writer["Name"].write(value.name)
         try writer["Scope"].write(value.scope)
@@ -9084,6 +9514,7 @@ extension UpdateWebACLInput {
         try writer["Id"].write(value.id)
         try writer["LockToken"].write(value.lockToken)
         try writer["Name"].write(value.name)
+        try writer["OnSourceDDoSProtectionConfig"].write(value.onSourceDDoSProtectionConfig, with: WAFV2ClientTypes.OnSourceDDoSProtectionConfig.write(value:to:))
         try writer["Rules"].writeList(value.rules, memberWritingClosure: WAFV2ClientTypes.Rule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Scope"].write(value.scope)
         try writer["TokenDomains"].writeList(value.tokenDomains, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -10703,6 +11134,32 @@ enum UpdateWebACLOutputError {
     }
 }
 
+extension WAFInternalErrorException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFInternalErrorException {
+        let reader = baseError.errorBodyReader
+        var value = WAFInternalErrorException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension WAFInvalidOperationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFInvalidOperationException {
+        let reader = baseError.errorBodyReader
+        var value = WAFInvalidOperationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension WAFInvalidParameterException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFInvalidParameterException {
@@ -10732,37 +11189,11 @@ extension WAFNonexistentItemException {
     }
 }
 
-extension WAFInternalErrorException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFInternalErrorException {
-        let reader = baseError.errorBodyReader
-        var value = WAFInternalErrorException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension WAFUnavailableEntityException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFUnavailableEntityException {
         let reader = baseError.errorBodyReader
         var value = WAFUnavailableEntityException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension WAFInvalidOperationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFInvalidOperationException {
-        let reader = baseError.errorBodyReader
-        var value = WAFInvalidOperationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10797,19 +11228,6 @@ extension WAFInvalidResourceException {
     }
 }
 
-extension WAFSubscriptionNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFSubscriptionNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = WAFSubscriptionNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension WAFLimitsExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFLimitsExceededException {
@@ -10824,11 +11242,11 @@ extension WAFLimitsExceededException {
     }
 }
 
-extension WAFOptimisticLockException {
+extension WAFSubscriptionNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFOptimisticLockException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFSubscriptionNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = WAFOptimisticLockException()
+        var value = WAFSubscriptionNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10842,6 +11260,19 @@ extension WAFDuplicateItemException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFDuplicateItemException {
         let reader = baseError.errorBodyReader
         var value = WAFDuplicateItemException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension WAFOptimisticLockException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFOptimisticLockException {
+        let reader = baseError.errorBodyReader
+        var value = WAFOptimisticLockException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11333,11 +11764,13 @@ extension WAFV2ClientTypes.FieldToMatch {
         try writer["HeaderOrder"].write(value.headerOrder, with: WAFV2ClientTypes.HeaderOrder.write(value:to:))
         try writer["Headers"].write(value.headers, with: WAFV2ClientTypes.Headers.write(value:to:))
         try writer["JA3Fingerprint"].write(value.ja3Fingerprint, with: WAFV2ClientTypes.JA3Fingerprint.write(value:to:))
+        try writer["JA4Fingerprint"].write(value.ja4Fingerprint, with: WAFV2ClientTypes.JA4Fingerprint.write(value:to:))
         try writer["JsonBody"].write(value.jsonBody, with: WAFV2ClientTypes.JsonBody.write(value:to:))
         try writer["Method"].write(value.method, with: WAFV2ClientTypes.Method.write(value:to:))
         try writer["QueryString"].write(value.queryString, with: WAFV2ClientTypes.QueryString.write(value:to:))
         try writer["SingleHeader"].write(value.singleHeader, with: WAFV2ClientTypes.SingleHeader.write(value:to:))
         try writer["SingleQueryArgument"].write(value.singleQueryArgument, with: WAFV2ClientTypes.SingleQueryArgument.write(value:to:))
+        try writer["UriFragment"].write(value.uriFragment, with: WAFV2ClientTypes.UriFragment.write(value:to:))
         try writer["UriPath"].write(value.uriPath, with: WAFV2ClientTypes.UriPath.write(value:to:))
     }
 
@@ -11356,6 +11789,38 @@ extension WAFV2ClientTypes.FieldToMatch {
         value.cookies = try reader["Cookies"].readIfPresent(with: WAFV2ClientTypes.Cookies.read(from:))
         value.headerOrder = try reader["HeaderOrder"].readIfPresent(with: WAFV2ClientTypes.HeaderOrder.read(from:))
         value.ja3Fingerprint = try reader["JA3Fingerprint"].readIfPresent(with: WAFV2ClientTypes.JA3Fingerprint.read(from:))
+        value.ja4Fingerprint = try reader["JA4Fingerprint"].readIfPresent(with: WAFV2ClientTypes.JA4Fingerprint.read(from:))
+        value.uriFragment = try reader["UriFragment"].readIfPresent(with: WAFV2ClientTypes.UriFragment.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.UriFragment {
+
+    static func write(value: WAFV2ClientTypes.UriFragment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FallbackBehavior"].write(value.fallbackBehavior)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.UriFragment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.UriFragment()
+        value.fallbackBehavior = try reader["FallbackBehavior"].readIfPresent()
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.JA4Fingerprint {
+
+    static func write(value: WAFV2ClientTypes.JA4Fingerprint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FallbackBehavior"].write(value.fallbackBehavior)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.JA4Fingerprint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.JA4Fingerprint()
+        value.fallbackBehavior = try reader["FallbackBehavior"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -11897,6 +12362,7 @@ extension WAFV2ClientTypes.Statement {
     static func write(value: WAFV2ClientTypes.Statement?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AndStatement"].write(value.andStatement, with: WAFV2ClientTypes.AndStatement.write(value:to:))
+        try writer["AsnMatchStatement"].write(value.asnMatchStatement, with: WAFV2ClientTypes.AsnMatchStatement.write(value:to:))
         try writer["ByteMatchStatement"].write(value.byteMatchStatement, with: WAFV2ClientTypes.ByteMatchStatement.write(value:to:))
         try writer["GeoMatchStatement"].write(value.geoMatchStatement, with: WAFV2ClientTypes.GeoMatchStatement.write(value:to:))
         try writer["IPSetReferenceStatement"].write(value.ipSetReferenceStatement, with: WAFV2ClientTypes.IPSetReferenceStatement.write(value:to:))
@@ -11931,6 +12397,41 @@ extension WAFV2ClientTypes.Statement {
         value.managedRuleGroupStatement = try reader["ManagedRuleGroupStatement"].readIfPresent(with: WAFV2ClientTypes.ManagedRuleGroupStatement.read(from:))
         value.labelMatchStatement = try reader["LabelMatchStatement"].readIfPresent(with: WAFV2ClientTypes.LabelMatchStatement.read(from:))
         value.regexMatchStatement = try reader["RegexMatchStatement"].readIfPresent(with: WAFV2ClientTypes.RegexMatchStatement.read(from:))
+        value.asnMatchStatement = try reader["AsnMatchStatement"].readIfPresent(with: WAFV2ClientTypes.AsnMatchStatement.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.AsnMatchStatement {
+
+    static func write(value: WAFV2ClientTypes.AsnMatchStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AsnList"].writeList(value.asnList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ForwardedIPConfig"].write(value.forwardedIPConfig, with: WAFV2ClientTypes.ForwardedIPConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AsnMatchStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.AsnMatchStatement()
+        value.asnList = try reader["AsnList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.forwardedIPConfig = try reader["ForwardedIPConfig"].readIfPresent(with: WAFV2ClientTypes.ForwardedIPConfig.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ForwardedIPConfig {
+
+    static func write(value: WAFV2ClientTypes.ForwardedIPConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FallbackBehavior"].write(value.fallbackBehavior)
+        try writer["HeaderName"].write(value.headerName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ForwardedIPConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ForwardedIPConfig()
+        value.headerName = try reader["HeaderName"].readIfPresent() ?? ""
+        value.fallbackBehavior = try reader["FallbackBehavior"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -12038,6 +12539,7 @@ extension WAFV2ClientTypes.ManagedRuleGroupConfig {
         guard let value else { return }
         try writer["AWSManagedRulesACFPRuleSet"].write(value.awsManagedRulesACFPRuleSet, with: WAFV2ClientTypes.AWSManagedRulesACFPRuleSet.write(value:to:))
         try writer["AWSManagedRulesATPRuleSet"].write(value.awsManagedRulesATPRuleSet, with: WAFV2ClientTypes.AWSManagedRulesATPRuleSet.write(value:to:))
+        try writer["AWSManagedRulesAntiDDoSRuleSet"].write(value.awsManagedRulesAntiDDoSRuleSet, with: WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet.write(value:to:))
         try writer["AWSManagedRulesBotControlRuleSet"].write(value.awsManagedRulesBotControlRuleSet, with: WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet.write(value:to:))
         try writer["LoginPath"].write(value.loginPath)
         try writer["PasswordField"].write(value.passwordField, with: WAFV2ClientTypes.PasswordField.write(value:to:))
@@ -12055,6 +12557,58 @@ extension WAFV2ClientTypes.ManagedRuleGroupConfig {
         value.awsManagedRulesBotControlRuleSet = try reader["AWSManagedRulesBotControlRuleSet"].readIfPresent(with: WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet.read(from:))
         value.awsManagedRulesATPRuleSet = try reader["AWSManagedRulesATPRuleSet"].readIfPresent(with: WAFV2ClientTypes.AWSManagedRulesATPRuleSet.read(from:))
         value.awsManagedRulesACFPRuleSet = try reader["AWSManagedRulesACFPRuleSet"].readIfPresent(with: WAFV2ClientTypes.AWSManagedRulesACFPRuleSet.read(from:))
+        value.awsManagedRulesAntiDDoSRuleSet = try reader["AWSManagedRulesAntiDDoSRuleSet"].readIfPresent(with: WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet {
+
+    static func write(value: WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientSideActionConfig"].write(value.clientSideActionConfig, with: WAFV2ClientTypes.ClientSideActionConfig.write(value:to:))
+        try writer["SensitivityToBlock"].write(value.sensitivityToBlock)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet()
+        value.clientSideActionConfig = try reader["ClientSideActionConfig"].readIfPresent(with: WAFV2ClientTypes.ClientSideActionConfig.read(from:))
+        value.sensitivityToBlock = try reader["SensitivityToBlock"].readIfPresent()
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ClientSideActionConfig {
+
+    static func write(value: WAFV2ClientTypes.ClientSideActionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Challenge"].write(value.challenge, with: WAFV2ClientTypes.ClientSideAction.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ClientSideActionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ClientSideActionConfig()
+        value.challenge = try reader["Challenge"].readIfPresent(with: WAFV2ClientTypes.ClientSideAction.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ClientSideAction {
+
+    static func write(value: WAFV2ClientTypes.ClientSideAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExemptUriRegularExpressions"].writeList(value.exemptUriRegularExpressions, memberWritingClosure: WAFV2ClientTypes.Regex.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Sensitivity"].write(value.sensitivity)
+        try writer["UsageOfAction"].write(value.usageOfAction)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ClientSideAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ClientSideAction()
+        value.usageOfAction = try reader["UsageOfAction"].readIfPresent() ?? .sdkUnknown("")
+        value.sensitivity = try reader["Sensitivity"].readIfPresent()
+        value.exemptUriRegularExpressions = try reader["ExemptUriRegularExpressions"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Regex.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -12421,11 +12975,14 @@ extension WAFV2ClientTypes.RateBasedStatementCustomKey {
 
     static func write(value: WAFV2ClientTypes.RateBasedStatementCustomKey?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ASN"].write(value.asn, with: WAFV2ClientTypes.RateLimitAsn.write(value:to:))
         try writer["Cookie"].write(value.cookie, with: WAFV2ClientTypes.RateLimitCookie.write(value:to:))
         try writer["ForwardedIP"].write(value.forwardedIP, with: WAFV2ClientTypes.RateLimitForwardedIP.write(value:to:))
         try writer["HTTPMethod"].write(value.httpMethod, with: WAFV2ClientTypes.RateLimitHTTPMethod.write(value:to:))
         try writer["Header"].write(value.header, with: WAFV2ClientTypes.RateLimitHeader.write(value:to:))
         try writer["IP"].write(value.ip, with: WAFV2ClientTypes.RateLimitIP.write(value:to:))
+        try writer["JA3Fingerprint"].write(value.ja3Fingerprint, with: WAFV2ClientTypes.RateLimitJA3Fingerprint.write(value:to:))
+        try writer["JA4Fingerprint"].write(value.ja4Fingerprint, with: WAFV2ClientTypes.RateLimitJA4Fingerprint.write(value:to:))
         try writer["LabelNamespace"].write(value.labelNamespace, with: WAFV2ClientTypes.RateLimitLabelNamespace.write(value:to:))
         try writer["QueryArgument"].write(value.queryArgument, with: WAFV2ClientTypes.RateLimitQueryArgument.write(value:to:))
         try writer["QueryString"].write(value.queryString, with: WAFV2ClientTypes.RateLimitQueryString.write(value:to:))
@@ -12444,6 +13001,52 @@ extension WAFV2ClientTypes.RateBasedStatementCustomKey {
         value.ip = try reader["IP"].readIfPresent(with: WAFV2ClientTypes.RateLimitIP.read(from:))
         value.labelNamespace = try reader["LabelNamespace"].readIfPresent(with: WAFV2ClientTypes.RateLimitLabelNamespace.read(from:))
         value.uriPath = try reader["UriPath"].readIfPresent(with: WAFV2ClientTypes.RateLimitUriPath.read(from:))
+        value.ja3Fingerprint = try reader["JA3Fingerprint"].readIfPresent(with: WAFV2ClientTypes.RateLimitJA3Fingerprint.read(from:))
+        value.ja4Fingerprint = try reader["JA4Fingerprint"].readIfPresent(with: WAFV2ClientTypes.RateLimitJA4Fingerprint.read(from:))
+        value.asn = try reader["ASN"].readIfPresent(with: WAFV2ClientTypes.RateLimitAsn.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.RateLimitAsn {
+
+    static func write(value: WAFV2ClientTypes.RateLimitAsn?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateLimitAsn {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return WAFV2ClientTypes.RateLimitAsn()
+    }
+}
+
+extension WAFV2ClientTypes.RateLimitJA4Fingerprint {
+
+    static func write(value: WAFV2ClientTypes.RateLimitJA4Fingerprint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FallbackBehavior"].write(value.fallbackBehavior)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateLimitJA4Fingerprint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.RateLimitJA4Fingerprint()
+        value.fallbackBehavior = try reader["FallbackBehavior"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.RateLimitJA3Fingerprint {
+
+    static func write(value: WAFV2ClientTypes.RateLimitJA3Fingerprint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FallbackBehavior"].write(value.fallbackBehavior)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateLimitJA3Fingerprint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.RateLimitJA3Fingerprint()
+        value.fallbackBehavior = try reader["FallbackBehavior"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -12579,23 +13182,6 @@ extension WAFV2ClientTypes.RateLimitHeader {
         var value = WAFV2ClientTypes.RateLimitHeader()
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.textTransformations = try reader["TextTransformations"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.TextTransformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.ForwardedIPConfig {
-
-    static func write(value: WAFV2ClientTypes.ForwardedIPConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FallbackBehavior"].write(value.fallbackBehavior)
-        try writer["HeaderName"].write(value.headerName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ForwardedIPConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ForwardedIPConfig()
-        value.headerName = try reader["HeaderName"].readIfPresent() ?? ""
-        value.fallbackBehavior = try reader["FallbackBehavior"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -12880,6 +13466,55 @@ extension WAFV2ClientTypes.WebACL {
         value.tokenDomains = try reader["TokenDomains"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.associationConfig = try reader["AssociationConfig"].readIfPresent(with: WAFV2ClientTypes.AssociationConfig.read(from:))
         value.retrofittedByFirewallManager = try reader["RetrofittedByFirewallManager"].readIfPresent() ?? false
+        value.onSourceDDoSProtectionConfig = try reader["OnSourceDDoSProtectionConfig"].readIfPresent(with: WAFV2ClientTypes.OnSourceDDoSProtectionConfig.read(from:))
+        value.applicationConfig = try reader["ApplicationConfig"].readIfPresent(with: WAFV2ClientTypes.ApplicationConfig.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ApplicationConfig {
+
+    static func write(value: WAFV2ClientTypes.ApplicationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: WAFV2ClientTypes.ApplicationAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ApplicationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ApplicationConfig()
+        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.ApplicationAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ApplicationAttribute {
+
+    static func write(value: WAFV2ClientTypes.ApplicationAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ApplicationAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ApplicationAttribute()
+        value.name = try reader["Name"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.OnSourceDDoSProtectionConfig {
+
+    static func write(value: WAFV2ClientTypes.OnSourceDDoSProtectionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ALBLowReputationMode"].write(value.albLowReputationMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.OnSourceDDoSProtectionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.OnSourceDDoSProtectionConfig()
+        value.albLowReputationMode = try reader["ALBLowReputationMode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

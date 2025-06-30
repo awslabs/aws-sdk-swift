@@ -1008,7 +1008,7 @@ extension CostExplorerClientTypes {
 
     /// The metadata that you can use to filter and group your results. You can use GetDimensionValues to find specific values.
     public struct DimensionValues: Swift.Sendable {
-        /// The names of the metadata types that you can use to filter and group your results. For example, AZ returns a list of Availability Zones. Not all dimensions are supported in each API. Refer to the documentation for each specific API to see what is supported. LINK_ACCOUNT_NAME and SERVICE_CODE can only be used in [CostCategoryRule](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategoryRule.html). ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE can only be used in [AnomalySubscriptions](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalySubscription.html).
+        /// The names of the metadata types that you can use to filter and group your results. For example, AZ returns a list of Availability Zones. Not all dimensions are supported in each API. Refer to the documentation for each specific API to see what is supported. LINKED_ACCOUNT_NAME and SERVICE_CODE can only be used in [CostCategoryRule](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_CostCategoryRule.html). ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE can only be used in [AnomalySubscriptions](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_AnomalySubscription.html).
         public var key: CostExplorerClientTypes.Dimension?
         /// The match options that you can use to filter your results. MatchOptions is only applicable for actions related to Cost Category and Anomaly Subscriptions. Refer to the documentation for each specific API to see what is supported. The default values for MatchOptions are EQUALS and CASE_SENSITIVE.
         public var matchOptions: [CostExplorerClientTypes.MatchOption]?
@@ -2297,6 +2297,33 @@ public struct GetCostAndUsageOutput: Swift.Sendable {
     }
 }
 
+extension CostExplorerClientTypes {
+
+    /// Contains cost or usage metric values for comparing two time periods. Each value includes amounts for the baseline and comparison time periods, their difference, and the unit of measurement.
+    public struct ComparisonMetricValue: Swift.Sendable {
+        /// The numeric value for the baseline time period measurement.
+        public var baselineTimePeriodAmount: Swift.String?
+        /// The numeric value for the comparison time period measurement.
+        public var comparisonTimePeriodAmount: Swift.String?
+        /// The calculated difference between ComparisonTimePeriodAmount and BaselineTimePeriodAmount.
+        public var difference: Swift.String?
+        /// The unit of measurement applicable to all numeric values in this comparison.
+        public var unit: Swift.String?
+
+        public init(
+            baselineTimePeriodAmount: Swift.String? = nil,
+            comparisonTimePeriodAmount: Swift.String? = nil,
+            difference: Swift.String? = nil,
+            unit: Swift.String? = nil
+        ) {
+            self.baselineTimePeriodAmount = baselineTimePeriodAmount
+            self.comparisonTimePeriodAmount = comparisonTimePeriodAmount
+            self.difference = difference
+            self.unit = unit
+        }
+    }
+}
+
 public struct GetCostAndUsageWithResourcesOutput: Swift.Sendable {
     /// The attributes that apply to a specific dimension value. For example, if the value is a linked account, the attribute is that account name.
     public var dimensionValueAttributes: [CostExplorerClientTypes.DimensionValuesWithAttributes]?
@@ -2395,6 +2422,29 @@ public struct GetCostCategoriesOutput: Swift.Sendable {
         self.nextPageToken = nextPageToken
         self.returnSize = returnSize
         self.totalSize = totalSize
+    }
+}
+
+extension CostExplorerClientTypes {
+
+    /// Represents factors that contribute to cost variations between the baseline and comparison time periods, including the type of driver, an identifier of the driver, and associated metrics.
+    public struct CostDriver: Swift.Sendable {
+        /// A mapping of metric names to their comparison values, measuring the impact of this cost driver.
+        public var metrics: [Swift.String: CostExplorerClientTypes.ComparisonMetricValue]?
+        /// The specific identifier of the cost driver.
+        public var name: Swift.String?
+        /// The category or classification of the cost driver. Values include: BUNDLED_DISCOUNT, CREDIT, OUT_OF_CYCLE_CHARGE, REFUND, RECURRING_RESERVATION_FEE, RESERVATION_USAGE, RI_VOLUME_DISCOUNT, SAVINGS_PLAN_USAGE, SAVINGS_PLAN_NEGATION, SAVINGS_PLAN_RECURRING_FEE, SUPPORT_FEE, TAX, UPFRONT_RESERVATION_FEE, USAGE_CHANGE, COMMITMENT
+        public var type: Swift.String?
+
+        public init(
+            metrics: [Swift.String: CostExplorerClientTypes.ComparisonMetricValue]? = nil,
+            name: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.metrics = metrics
+            self.name = name
+            self.type = type
+        }
     }
 }
 
@@ -5946,6 +5996,75 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes {
 
+    /// Represents a comparison of cost and usage metrics between two time periods.
+    public struct CostAndUsageComparison: Swift.Sendable {
+        /// Use Expression to filter in various Cost Explorer APIs. Not all Expression types are supported in each API. Refer to the documentation for each specific API to see what is supported. There are two patterns:
+        ///
+        /// * Simple dimension values.
+        ///
+        /// * There are three types of simple dimension values: CostCategories, Tags, and Dimensions.
+        ///
+        /// * Specify the CostCategories field to define a filter that acts on Cost Categories.
+        ///
+        /// * Specify the Tags field to define a filter that acts on Cost Allocation Tags.
+        ///
+        /// * Specify the Dimensions field to define a filter that acts on the [DimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html).
+        ///
+        ///
+        ///
+        ///
+        /// * For each filter type, you can set the dimension name and values for the filters that you plan to use.
+        ///
+        /// * For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia).
+        ///
+        /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] } }
+        ///
+        /// * As shown in the previous example, lists of dimension values are combined with OR when applying the filter.
+        ///
+        ///
+        ///
+        ///
+        /// * You can also set different match options to further control how the filter behaves. Not all APIs support match options. Refer to the documentation for each specific API to see what is supported.
+        ///
+        /// * For example, you can filter for linked account names that start with "a".
+        ///
+        /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// * Compound Expression types with logical operations.
+        ///
+        /// * You can use multiple Expression types and the logical operators AND/OR/NOT to create a list of one or more Expression objects. By doing this, you can filter by more advanced options.
+        ///
+        /// * For example, you can filter by ((REGION == us-east-1 OR REGION == us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer).
+        ///
+        /// * The corresponding Expression for this example is as follows: { "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] }
+        ///
+        ///
+        /// Because each Expression can have only one operator, the service returns an error if more than one is specified. The following example shows an Expression object that creates an error:  { "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [ "DataTransfer" ] } }  The following is an example of the corresponding error message: "Expression has more than one roots. Only one root operator is allowed for each expression: And, Or, Not, Dimensions, Tags, CostCategories"
+        ///
+        ///
+        /// For the GetRightsizingRecommendation action, a combination of OR and NOT isn't supported. OR isn't supported between different dimensions, or dimensions and tags. NOT operators aren't supported. Dimensions are also limited to LINKED_ACCOUNT, REGION, or RIGHTSIZING_TYPE. For the GetReservationPurchaseRecommendation action, only NOT is supported. AND and OR aren't supported. Dimensions are limited to LINKED_ACCOUNT.
+        public var costAndUsageSelector: CostExplorerClientTypes.Expression?
+        /// A mapping of metric names to their comparison values.
+        public var metrics: [Swift.String: CostExplorerClientTypes.ComparisonMetricValue]?
+
+        public init(
+            costAndUsageSelector: CostExplorerClientTypes.Expression? = nil,
+            metrics: [Swift.String: CostExplorerClientTypes.ComparisonMetricValue]? = nil
+        ) {
+            self.costAndUsageSelector = costAndUsageSelector
+            self.metrics = metrics
+        }
+    }
+}
+
+extension CostExplorerClientTypes {
+
     /// Rules are processed in order. If there are multiple rules that match the line item, then the first rule to match is used to determine that Cost Category value.
     public struct CostCategoryRule: Swift.Sendable {
         /// The value the line item is categorized as if the line item contains the matched dimension.
@@ -5968,6 +6087,171 @@ extension CostExplorerClientTypes {
             self.type = type
             self.value = value
         }
+    }
+}
+
+extension CostExplorerClientTypes {
+
+    /// Represents a collection of cost drivers and their associated metrics for cost comparison analysis.
+    public struct CostComparisonDriver: Swift.Sendable {
+        /// An array of cost drivers, each representing a cost difference between the baseline and comparison time periods. Each entry also includes a metric delta (for example, usage change) that contributed to the cost variance, along with the identifier and type of change.
+        public var costDrivers: [CostExplorerClientTypes.CostDriver]?
+        /// Use Expression to filter in various Cost Explorer APIs. Not all Expression types are supported in each API. Refer to the documentation for each specific API to see what is supported. There are two patterns:
+        ///
+        /// * Simple dimension values.
+        ///
+        /// * There are three types of simple dimension values: CostCategories, Tags, and Dimensions.
+        ///
+        /// * Specify the CostCategories field to define a filter that acts on Cost Categories.
+        ///
+        /// * Specify the Tags field to define a filter that acts on Cost Allocation Tags.
+        ///
+        /// * Specify the Dimensions field to define a filter that acts on the [DimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html).
+        ///
+        ///
+        ///
+        ///
+        /// * For each filter type, you can set the dimension name and values for the filters that you plan to use.
+        ///
+        /// * For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia).
+        ///
+        /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] } }
+        ///
+        /// * As shown in the previous example, lists of dimension values are combined with OR when applying the filter.
+        ///
+        ///
+        ///
+        ///
+        /// * You can also set different match options to further control how the filter behaves. Not all APIs support match options. Refer to the documentation for each specific API to see what is supported.
+        ///
+        /// * For example, you can filter for linked account names that start with "a".
+        ///
+        /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// * Compound Expression types with logical operations.
+        ///
+        /// * You can use multiple Expression types and the logical operators AND/OR/NOT to create a list of one or more Expression objects. By doing this, you can filter by more advanced options.
+        ///
+        /// * For example, you can filter by ((REGION == us-east-1 OR REGION == us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer).
+        ///
+        /// * The corresponding Expression for this example is as follows: { "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] }
+        ///
+        ///
+        /// Because each Expression can have only one operator, the service returns an error if more than one is specified. The following example shows an Expression object that creates an error:  { "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [ "DataTransfer" ] } }  The following is an example of the corresponding error message: "Expression has more than one roots. Only one root operator is allowed for each expression: And, Or, Not, Dimensions, Tags, CostCategories"
+        ///
+        ///
+        /// For the GetRightsizingRecommendation action, a combination of OR and NOT isn't supported. OR isn't supported between different dimensions, or dimensions and tags. NOT operators aren't supported. Dimensions are also limited to LINKED_ACCOUNT, REGION, or RIGHTSIZING_TYPE. For the GetReservationPurchaseRecommendation action, only NOT is supported. AND and OR aren't supported. Dimensions are limited to LINKED_ACCOUNT.
+        public var costSelector: CostExplorerClientTypes.Expression?
+        /// A mapping of metric names to their comparison values.
+        public var metrics: [Swift.String: CostExplorerClientTypes.ComparisonMetricValue]?
+
+        public init(
+            costDrivers: [CostExplorerClientTypes.CostDriver]? = nil,
+            costSelector: CostExplorerClientTypes.Expression? = nil,
+            metrics: [Swift.String: CostExplorerClientTypes.ComparisonMetricValue]? = nil
+        ) {
+            self.costDrivers = costDrivers
+            self.costSelector = costSelector
+            self.metrics = metrics
+        }
+    }
+}
+
+public struct GetCostAndUsageComparisonsInput: Swift.Sendable {
+    /// The reference time period for comparison. This time period serves as the baseline against which other cost and usage data will be compared. The interval must start and end on the first day of a month, with a duration of exactly one month.
+    /// This member is required.
+    public var baselineTimePeriod: CostExplorerClientTypes.DateInterval?
+    /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+    public var billingViewArn: Swift.String?
+    /// The comparison time period for analysis. This time period's cost and usage data will be compared against the baseline time period. The interval must start and end on the first day of a month, with a duration of exactly one month.
+    /// This member is required.
+    public var comparisonTimePeriod: CostExplorerClientTypes.DateInterval?
+    /// Use Expression to filter in various Cost Explorer APIs. Not all Expression types are supported in each API. Refer to the documentation for each specific API to see what is supported. There are two patterns:
+    ///
+    /// * Simple dimension values.
+    ///
+    /// * There are three types of simple dimension values: CostCategories, Tags, and Dimensions.
+    ///
+    /// * Specify the CostCategories field to define a filter that acts on Cost Categories.
+    ///
+    /// * Specify the Tags field to define a filter that acts on Cost Allocation Tags.
+    ///
+    /// * Specify the Dimensions field to define a filter that acts on the [DimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html).
+    ///
+    ///
+    ///
+    ///
+    /// * For each filter type, you can set the dimension name and values for the filters that you plan to use.
+    ///
+    /// * For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia).
+    ///
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] } }
+    ///
+    /// * As shown in the previous example, lists of dimension values are combined with OR when applying the filter.
+    ///
+    ///
+    ///
+    ///
+    /// * You can also set different match options to further control how the filter behaves. Not all APIs support match options. Refer to the documentation for each specific API to see what is supported.
+    ///
+    /// * For example, you can filter for linked account names that start with "a".
+    ///
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// * Compound Expression types with logical operations.
+    ///
+    /// * You can use multiple Expression types and the logical operators AND/OR/NOT to create a list of one or more Expression objects. By doing this, you can filter by more advanced options.
+    ///
+    /// * For example, you can filter by ((REGION == us-east-1 OR REGION == us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer).
+    ///
+    /// * The corresponding Expression for this example is as follows: { "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] }
+    ///
+    ///
+    /// Because each Expression can have only one operator, the service returns an error if more than one is specified. The following example shows an Expression object that creates an error:  { "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [ "DataTransfer" ] } }  The following is an example of the corresponding error message: "Expression has more than one roots. Only one root operator is allowed for each expression: And, Or, Not, Dimensions, Tags, CostCategories"
+    ///
+    ///
+    /// For the GetRightsizingRecommendation action, a combination of OR and NOT isn't supported. OR isn't supported between different dimensions, or dimensions and tags. NOT operators aren't supported. Dimensions are also limited to LINKED_ACCOUNT, REGION, or RIGHTSIZING_TYPE. For the GetReservationPurchaseRecommendation action, only NOT is supported. AND and OR aren't supported. Dimensions are limited to LINKED_ACCOUNT.
+    public var filter: CostExplorerClientTypes.Expression?
+    /// You can group results using the attributes DIMENSION, TAG, and COST_CATEGORY.
+    public var groupBy: [CostExplorerClientTypes.GroupDefinition]?
+    /// The maximum number of results that are returned for the request.
+    public var maxResults: Swift.Int?
+    /// The cost and usage metric to compare. Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.
+    /// This member is required.
+    public var metricForComparison: Swift.String?
+    /// The token to retrieve the next set of paginated results.
+    public var nextPageToken: Swift.String?
+
+    public init(
+        baselineTimePeriod: CostExplorerClientTypes.DateInterval? = nil,
+        billingViewArn: Swift.String? = nil,
+        comparisonTimePeriod: CostExplorerClientTypes.DateInterval? = nil,
+        filter: CostExplorerClientTypes.Expression? = nil,
+        groupBy: [CostExplorerClientTypes.GroupDefinition]? = nil,
+        maxResults: Swift.Int? = nil,
+        metricForComparison: Swift.String? = nil,
+        nextPageToken: Swift.String? = nil
+    ) {
+        self.baselineTimePeriod = baselineTimePeriod
+        self.billingViewArn = billingViewArn
+        self.comparisonTimePeriod = comparisonTimePeriod
+        self.filter = filter
+        self.groupBy = groupBy
+        self.maxResults = maxResults
+        self.metricForComparison = metricForComparison
+        self.nextPageToken = nextPageToken
     }
 }
 
@@ -6012,7 +6296,7 @@ public struct GetCostAndUsageInput: Swift.Sendable {
 public struct GetCostAndUsageWithResourcesInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
     public var billingViewArn: Swift.String?
-    /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html). The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId. It requires the [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html)"SERVICE = Amazon Elastic Compute Cloud - Compute" in the filter. Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
+    /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html). Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
     /// This member is required.
     public var filter: CostExplorerClientTypes.Expression?
     /// Sets the Amazon Web Services cost granularity to MONTHLY, DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, MONTHLY, DAILY, or HOURLY.
@@ -6154,6 +6438,98 @@ public struct GetCostCategoriesInput: Swift.Sendable {
     }
 }
 
+public struct GetCostComparisonDriversInput: Swift.Sendable {
+    /// The reference time period for comparison. This time period serves as the baseline against which other cost and usage data will be compared. The interval must start and end on the first day of a month, with a duration of exactly one month.
+    /// This member is required.
+    public var baselineTimePeriod: CostExplorerClientTypes.DateInterval?
+    /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+    public var billingViewArn: Swift.String?
+    /// The comparison time period for analysis. This time period's cost and usage data will be compared against the baseline time period. The interval must start and end on the first day of a month, with a duration of exactly one month.
+    /// This member is required.
+    public var comparisonTimePeriod: CostExplorerClientTypes.DateInterval?
+    /// Use Expression to filter in various Cost Explorer APIs. Not all Expression types are supported in each API. Refer to the documentation for each specific API to see what is supported. There are two patterns:
+    ///
+    /// * Simple dimension values.
+    ///
+    /// * There are three types of simple dimension values: CostCategories, Tags, and Dimensions.
+    ///
+    /// * Specify the CostCategories field to define a filter that acts on Cost Categories.
+    ///
+    /// * Specify the Tags field to define a filter that acts on Cost Allocation Tags.
+    ///
+    /// * Specify the Dimensions field to define a filter that acts on the [DimensionValues](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_DimensionValues.html).
+    ///
+    ///
+    ///
+    ///
+    /// * For each filter type, you can set the dimension name and values for the filters that you plan to use.
+    ///
+    /// * For example, you can filter for REGION==us-east-1 OR REGION==us-west-1. For GetRightsizingRecommendation, the Region is a full name (for example, REGION==US East (N. Virginia).
+    ///
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] } }
+    ///
+    /// * As shown in the previous example, lists of dimension values are combined with OR when applying the filter.
+    ///
+    ///
+    ///
+    ///
+    /// * You can also set different match options to further control how the filter behaves. Not all APIs support match options. Refer to the documentation for each specific API to see what is supported.
+    ///
+    /// * For example, you can filter for linked account names that start with "a".
+    ///
+    /// * The corresponding Expression for this example is as follows: { "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] } }
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// * Compound Expression types with logical operations.
+    ///
+    /// * You can use multiple Expression types and the logical operators AND/OR/NOT to create a list of one or more Expression objects. By doing this, you can filter by more advanced options.
+    ///
+    /// * For example, you can filter by ((REGION == us-east-1 OR REGION == us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE != DataTransfer).
+    ///
+    /// * The corresponding Expression for this example is as follows: { "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [ "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName", "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key": "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] }
+    ///
+    ///
+    /// Because each Expression can have only one operator, the service returns an error if more than one is specified. The following example shows an Expression object that creates an error:  { "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [ "DataTransfer" ] } }  The following is an example of the corresponding error message: "Expression has more than one roots. Only one root operator is allowed for each expression: And, Or, Not, Dimensions, Tags, CostCategories"
+    ///
+    ///
+    /// For the GetRightsizingRecommendation action, a combination of OR and NOT isn't supported. OR isn't supported between different dimensions, or dimensions and tags. NOT operators aren't supported. Dimensions are also limited to LINKED_ACCOUNT, REGION, or RIGHTSIZING_TYPE. For the GetReservationPurchaseRecommendation action, only NOT is supported. AND and OR aren't supported. Dimensions are limited to LINKED_ACCOUNT.
+    public var filter: CostExplorerClientTypes.Expression?
+    /// You can group results using the attributes DIMENSION, TAG, and COST_CATEGORY. Note that SERVICE and USAGE_TYPE dimensions are automatically included in the cost comparison drivers analysis.
+    public var groupBy: [CostExplorerClientTypes.GroupDefinition]?
+    /// The maximum number of results that are returned for the request.
+    public var maxResults: Swift.Int?
+    /// The cost and usage metric to compare. Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.
+    /// This member is required.
+    public var metricForComparison: Swift.String?
+    /// The token to retrieve the next set of paginated results.
+    public var nextPageToken: Swift.String?
+
+    public init(
+        baselineTimePeriod: CostExplorerClientTypes.DateInterval? = nil,
+        billingViewArn: Swift.String? = nil,
+        comparisonTimePeriod: CostExplorerClientTypes.DateInterval? = nil,
+        filter: CostExplorerClientTypes.Expression? = nil,
+        groupBy: [CostExplorerClientTypes.GroupDefinition]? = nil,
+        maxResults: Swift.Int? = nil,
+        metricForComparison: Swift.String? = nil,
+        nextPageToken: Swift.String? = nil
+    ) {
+        self.baselineTimePeriod = baselineTimePeriod
+        self.billingViewArn = billingViewArn
+        self.comparisonTimePeriod = comparisonTimePeriod
+        self.filter = filter
+        self.groupBy = groupBy
+        self.maxResults = maxResults
+        self.metricForComparison = metricForComparison
+        self.nextPageToken = nextPageToken
+    }
+}
+
 public struct GetCostForecastInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
     public var billingViewArn: Swift.String?
@@ -6164,8 +6540,6 @@ public struct GetCostForecastInput: Swift.Sendable {
     /// * INSTANCE_TYPE
     ///
     /// * LINKED_ACCOUNT
-    ///
-    /// * LINKED_ACCOUNT_NAME
     ///
     /// * OPERATION
     ///
@@ -7486,6 +7860,40 @@ public struct GetAnomalySubscriptionsOutput: Swift.Sendable {
     }
 }
 
+public struct GetCostAndUsageComparisonsOutput: Swift.Sendable {
+    /// An array of comparison results showing cost and usage metrics between BaselineTimePeriod and ComparisonTimePeriod.
+    public var costAndUsageComparisons: [CostExplorerClientTypes.CostAndUsageComparison]?
+    /// The token to retrieve the next set of paginated results.
+    public var nextPageToken: Swift.String?
+    /// A summary of the total cost and usage, comparing amounts between BaselineTimePeriod and ComparisonTimePeriod and their differences. This total represents the aggregate total across all paginated results, if the response spans multiple pages.
+    public var totalCostAndUsage: [Swift.String: CostExplorerClientTypes.ComparisonMetricValue]?
+
+    public init(
+        costAndUsageComparisons: [CostExplorerClientTypes.CostAndUsageComparison]? = nil,
+        nextPageToken: Swift.String? = nil,
+        totalCostAndUsage: [Swift.String: CostExplorerClientTypes.ComparisonMetricValue]? = nil
+    ) {
+        self.costAndUsageComparisons = costAndUsageComparisons
+        self.nextPageToken = nextPageToken
+        self.totalCostAndUsage = totalCostAndUsage
+    }
+}
+
+public struct GetCostComparisonDriversOutput: Swift.Sendable {
+    /// An array of comparison results showing factors that drive significant cost differences between BaselineTimePeriod and ComparisonTimePeriod.
+    public var costComparisonDrivers: [CostExplorerClientTypes.CostComparisonDriver]?
+    /// The token to retrieve the next set of paginated results.
+    public var nextPageToken: Swift.String?
+
+    public init(
+        costComparisonDrivers: [CostExplorerClientTypes.CostComparisonDriver]? = nil,
+        nextPageToken: Swift.String? = nil
+    ) {
+        self.costComparisonDrivers = costComparisonDrivers
+        self.nextPageToken = nextPageToken
+    }
+}
+
 public struct UpdateCostCategoryDefinitionInput: Swift.Sendable {
     /// The unique identifier for your Cost Category.
     /// This member is required.
@@ -7622,6 +8030,13 @@ extension GetCostAndUsageInput {
     }
 }
 
+extension GetCostAndUsageComparisonsInput {
+
+    static func urlPathProvider(_ value: GetCostAndUsageComparisonsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetCostAndUsageWithResourcesInput {
 
     static func urlPathProvider(_ value: GetCostAndUsageWithResourcesInput) -> Swift.String? {
@@ -7632,6 +8047,13 @@ extension GetCostAndUsageWithResourcesInput {
 extension GetCostCategoriesInput {
 
     static func urlPathProvider(_ value: GetCostCategoriesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetCostComparisonDriversInput {
+
+    static func urlPathProvider(_ value: GetCostComparisonDriversInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7970,6 +8392,21 @@ extension GetCostAndUsageInput {
     }
 }
 
+extension GetCostAndUsageComparisonsInput {
+
+    static func write(value: GetCostAndUsageComparisonsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BaselineTimePeriod"].write(value.baselineTimePeriod, with: CostExplorerClientTypes.DateInterval.write(value:to:))
+        try writer["BillingViewArn"].write(value.billingViewArn)
+        try writer["ComparisonTimePeriod"].write(value.comparisonTimePeriod, with: CostExplorerClientTypes.DateInterval.write(value:to:))
+        try writer["Filter"].write(value.filter, with: CostExplorerClientTypes.Expression.write(value:to:))
+        try writer["GroupBy"].writeList(value.groupBy, memberWritingClosure: CostExplorerClientTypes.GroupDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["MetricForComparison"].write(value.metricForComparison)
+        try writer["NextPageToken"].write(value.nextPageToken)
+    }
+}
+
 extension GetCostAndUsageWithResourcesInput {
 
     static func write(value: GetCostAndUsageWithResourcesInput?, to writer: SmithyJSON.Writer) throws {
@@ -7996,6 +8433,21 @@ extension GetCostCategoriesInput {
         try writer["SearchString"].write(value.searchString)
         try writer["SortBy"].writeList(value.sortBy, memberWritingClosure: CostExplorerClientTypes.SortDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TimePeriod"].write(value.timePeriod, with: CostExplorerClientTypes.DateInterval.write(value:to:))
+    }
+}
+
+extension GetCostComparisonDriversInput {
+
+    static func write(value: GetCostComparisonDriversInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BaselineTimePeriod"].write(value.baselineTimePeriod, with: CostExplorerClientTypes.DateInterval.write(value:to:))
+        try writer["BillingViewArn"].write(value.billingViewArn)
+        try writer["ComparisonTimePeriod"].write(value.comparisonTimePeriod, with: CostExplorerClientTypes.DateInterval.write(value:to:))
+        try writer["Filter"].write(value.filter, with: CostExplorerClientTypes.Expression.write(value:to:))
+        try writer["GroupBy"].writeList(value.groupBy, memberWritingClosure: CostExplorerClientTypes.GroupDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["MetricForComparison"].write(value.metricForComparison)
+        try writer["NextPageToken"].write(value.nextPageToken)
     }
 }
 
@@ -8495,6 +8947,20 @@ extension GetCostAndUsageOutput {
     }
 }
 
+extension GetCostAndUsageComparisonsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCostAndUsageComparisonsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCostAndUsageComparisonsOutput()
+        value.costAndUsageComparisons = try reader["CostAndUsageComparisons"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.CostAndUsageComparison.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextPageToken = try reader["NextPageToken"].readIfPresent()
+        value.totalCostAndUsage = try reader["TotalCostAndUsage"].readMapIfPresent(valueReadingClosure: CostExplorerClientTypes.ComparisonMetricValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension GetCostAndUsageWithResourcesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCostAndUsageWithResourcesOutput {
@@ -8522,6 +8988,19 @@ extension GetCostCategoriesOutput {
         value.nextPageToken = try reader["NextPageToken"].readIfPresent()
         value.returnSize = try reader["ReturnSize"].readIfPresent() ?? 0
         value.totalSize = try reader["TotalSize"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GetCostComparisonDriversOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCostComparisonDriversOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCostComparisonDriversOutput()
+        value.costComparisonDrivers = try reader["CostComparisonDrivers"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.CostComparisonDriver.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextPageToken = try reader["NextPageToken"].readIfPresent()
         return value
     }
 }
@@ -9101,6 +9580,23 @@ enum GetCostAndUsageOutputError {
     }
 }
 
+enum GetCostAndUsageComparisonsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
+            case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetCostAndUsageWithResourcesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9133,6 +9629,23 @@ enum GetCostCategoriesOutputError {
             case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "RequestChangedException": return try RequestChangedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetCostComparisonDriversOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DataUnavailableException": return try DataUnavailableException.makeError(baseError: baseError)
+            case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -10312,6 +10825,54 @@ extension CostExplorerClientTypes.DimensionValuesWithAttributes {
         var value = CostExplorerClientTypes.DimensionValuesWithAttributes()
         value.value = try reader["Value"].readIfPresent()
         value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.CostAndUsageComparison {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostAndUsageComparison {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.CostAndUsageComparison()
+        value.costAndUsageSelector = try reader["CostAndUsageSelector"].readIfPresent(with: CostExplorerClientTypes.Expression.read(from:))
+        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: CostExplorerClientTypes.ComparisonMetricValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.ComparisonMetricValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.ComparisonMetricValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.ComparisonMetricValue()
+        value.baselineTimePeriodAmount = try reader["BaselineTimePeriodAmount"].readIfPresent()
+        value.comparisonTimePeriodAmount = try reader["ComparisonTimePeriodAmount"].readIfPresent()
+        value.difference = try reader["Difference"].readIfPresent()
+        value.unit = try reader["Unit"].readIfPresent()
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.CostComparisonDriver {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostComparisonDriver {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.CostComparisonDriver()
+        value.costSelector = try reader["CostSelector"].readIfPresent(with: CostExplorerClientTypes.Expression.read(from:))
+        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: CostExplorerClientTypes.ComparisonMetricValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.costDrivers = try reader["CostDrivers"].readListIfPresent(memberReadingClosure: CostExplorerClientTypes.CostDriver.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CostExplorerClientTypes.CostDriver {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CostExplorerClientTypes.CostDriver {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CostExplorerClientTypes.CostDriver()
+        value.type = try reader["Type"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.metrics = try reader["Metrics"].readMapIfPresent(valueReadingClosure: CostExplorerClientTypes.ComparisonMetricValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

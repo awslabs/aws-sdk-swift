@@ -735,8 +735,10 @@ extension ConfigClientTypes {
         case appconfigconfigurationprofile
         case appconfigdeploymentstrategy
         case appconfigenvironment
+        case appconfigextensionassociation
         case appconfighostedconfigurationversion
         case appflowflow
+        case appintegrationsapplication
         case appintegrationseventintegration
         case appmeshgatewayroute
         case appmeshmesh
@@ -751,6 +753,7 @@ extension ConfigClientTypes {
         case appstreamdirectoryconfig
         case appstreamfleet
         case appstreamstack
+        case appsyncapicache
         case appsyncgraphqlapi
         case application
         case applicationversion
@@ -769,6 +772,8 @@ extension ConfigClientTypes {
         case batchcomputeenvironment
         case batchjobqueue
         case batchschedulingpolicy
+        case bedrockguardrail
+        case bedrockknowledgebase
         case bucket
         case budgetsbudgetsaction
         case cassandrakeyspace
@@ -789,6 +794,7 @@ extension ConfigClientTypes {
         case codedeploydeploymentgroup
         case codeguruprofilerprofilinggroup
         case codegurureviewerrepositoryassociation
+        case cognitoidentitypool
         case cognitouserpool
         case cognitouserpoolclient
         case cognitouserpoolgroup
@@ -796,6 +802,8 @@ extension ConfigClientTypes {
         case connectinstance
         case connectphonenumber
         case connectquickconnect
+        case connectrule
+        case connectuser
         case customergateway
         case customerprofilesdomain
         case customerprofilesobjecttype
@@ -827,15 +835,21 @@ extension ConfigClientTypes {
         case ec2capacityreservation
         case ec2carriergateway
         case ec2clientvpnendpoint
+        case ec2clientvpntargetnetworkassociation
         case ec2dhcpoptions
         case ec2ec2fleet
+        case ec2eipassociation
         case ec2ipam
         case ec2ipampool
+        case ec2ipamresourcediscovery
+        case ec2ipamresourcediscoveryassociation
         case ec2ipamscope
+        case ec2instanceconnectendpoint
         case ec2networkinsightsaccessscope
         case ec2networkinsightsanalysis
         case ec2networkinsightspath
         case ec2prefixlist
+        case ec2snapshotblockpublicaccess
         case ec2spotfleet
         case ec2subnetroutetableassociation
         case ec2trafficmirrorfilter
@@ -843,6 +857,10 @@ extension ConfigClientTypes {
         case ec2trafficmirrortarget
         case ec2transitgatewayconnect
         case ec2transitgatewaymulticastdomain
+        case ec2vpcblockpublicaccessexclusion
+        case ec2vpcblockpublicaccessoptions
+        case ec2vpcendpointconnectionnotification
+        case ec2vpnconnectionroute
         case ecrpublicrepository
         case ecrpullthroughcacherule
         case ecrregistrypolicy
@@ -876,6 +894,7 @@ extension ConfigClientTypes {
         case eventsrule
         case evidentlylaunch
         case evidentlyproject
+        case evidentlysegment
         case fisexperimenttemplate
         case filedata
         case flowlog
@@ -905,6 +924,7 @@ extension ConfigClientTypes {
         case healthlakefhirdatastore
         case host
         case iaminstanceprofile
+        case iamoidcprovider
         case iamsamlprovider
         case iamservercertificate
         case ipsetv2
@@ -916,6 +936,7 @@ extension ConfigClientTypes {
         case imagebuilderimagepipeline
         case imagebuilderimagerecipe
         case imagebuilderinfrastructureconfiguration
+        case inspectorv2activation
         case inspectorv2filter
         case instance
         case internetgateway
@@ -980,15 +1001,19 @@ extension ConfigClientTypes {
         case m2environment
         case mskbatchscramsecret
         case mskcluster
+        case mskclusterpolicy
         case mskconfiguration
+        case mskvpcconnection
         case managedinstanceinventory
         case managedrulesetv2
         case mediaconnectflowentitlement
         case mediaconnectflowsource
         case mediaconnectflowvpcinterface
+        case mediaconnectgateway
         case mediapackagepackagingconfiguration
         case mediapackagepackaginggroup
         case mediatailorplaybackconfiguration
+        case memorydbsubnetgroup
         case natgateway
         case networkacl
         case networkfirewallfirewall
@@ -1005,6 +1030,8 @@ extension ConfigClientTypes {
         case networkmanagersite
         case networkmanagertransitgatewayregistration
         case opensearchdomain
+        case opensearchserverlesscollection
+        case opensearchserverlessvpcendpoint
         case panoramapackage
         case patchcompliance
         case personalizedataset
@@ -1034,6 +1061,7 @@ extension ConfigClientTypes {
         case rumappmonitor
         case ratebasedrule
         case redshiftendpointaccess
+        case redshiftendpointauthorization
         case redshifteventsubscription
         case redshiftscheduledaction
         case regexpatternsetv2
@@ -1053,6 +1081,7 @@ extension ConfigClientTypes {
         case robomakersimulationapplication
         case role
         case route53hostedzone
+        case route53profilesprofile
         case route53recoverycontrolcluster
         case route53recoverycontrolcontrolpanel
         case route53recoverycontrolroutingcontrol
@@ -1074,8 +1103,11 @@ extension ConfigClientTypes {
         case rulegroup
         case rulegroupv2
         case s3accesspoint
+        case s3expressbucketpolicy
+        case s3expressdirectorybucket
         case s3multiregionaccesspoint
         case s3storagelens
+        case s3storagelensgroup
         case sesconfigurationset
         case sescontactlist
         case sesreceiptfilter
@@ -1087,6 +1119,7 @@ extension ConfigClientTypes {
         case sagemakerdomain
         case sagemakerfeaturegroup
         case sagemakerimage
+        case sagemakerinferenceexperiment
         case sagemakermodel
         case sagemakernotebookinstancelifecycleconfig
         case sagemakerworkteam
@@ -1094,6 +1127,7 @@ extension ConfigClientTypes {
         case scheduledaction
         case secret
         case securitygroup
+        case securityhubstandard
         case servicediscoveryhttpnamespace
         case servicediscoveryinstance
         case servicediscoverypublicdnsnamespace
@@ -1112,6 +1146,7 @@ extension ConfigClientTypes {
         case transferagreement
         case transfercertificate
         case transferconnector
+        case transferprofile
         case transferworkflow
         case transitgateway
         case transitgatewayattachment
@@ -1146,8 +1181,10 @@ extension ConfigClientTypes {
                 .appconfigconfigurationprofile,
                 .appconfigdeploymentstrategy,
                 .appconfigenvironment,
+                .appconfigextensionassociation,
                 .appconfighostedconfigurationversion,
                 .appflowflow,
+                .appintegrationsapplication,
                 .appintegrationseventintegration,
                 .appmeshgatewayroute,
                 .appmeshmesh,
@@ -1162,6 +1199,7 @@ extension ConfigClientTypes {
                 .appstreamdirectoryconfig,
                 .appstreamfleet,
                 .appstreamstack,
+                .appsyncapicache,
                 .appsyncgraphqlapi,
                 .application,
                 .applicationversion,
@@ -1180,6 +1218,8 @@ extension ConfigClientTypes {
                 .batchcomputeenvironment,
                 .batchjobqueue,
                 .batchschedulingpolicy,
+                .bedrockguardrail,
+                .bedrockknowledgebase,
                 .bucket,
                 .budgetsbudgetsaction,
                 .cassandrakeyspace,
@@ -1200,6 +1240,7 @@ extension ConfigClientTypes {
                 .codedeploydeploymentgroup,
                 .codeguruprofilerprofilinggroup,
                 .codegurureviewerrepositoryassociation,
+                .cognitoidentitypool,
                 .cognitouserpool,
                 .cognitouserpoolclient,
                 .cognitouserpoolgroup,
@@ -1207,6 +1248,8 @@ extension ConfigClientTypes {
                 .connectinstance,
                 .connectphonenumber,
                 .connectquickconnect,
+                .connectrule,
+                .connectuser,
                 .customergateway,
                 .customerprofilesdomain,
                 .customerprofilesobjecttype,
@@ -1238,15 +1281,21 @@ extension ConfigClientTypes {
                 .ec2capacityreservation,
                 .ec2carriergateway,
                 .ec2clientvpnendpoint,
+                .ec2clientvpntargetnetworkassociation,
                 .ec2dhcpoptions,
                 .ec2ec2fleet,
+                .ec2eipassociation,
                 .ec2ipam,
                 .ec2ipampool,
+                .ec2ipamresourcediscovery,
+                .ec2ipamresourcediscoveryassociation,
                 .ec2ipamscope,
+                .ec2instanceconnectendpoint,
                 .ec2networkinsightsaccessscope,
                 .ec2networkinsightsanalysis,
                 .ec2networkinsightspath,
                 .ec2prefixlist,
+                .ec2snapshotblockpublicaccess,
                 .ec2spotfleet,
                 .ec2subnetroutetableassociation,
                 .ec2trafficmirrorfilter,
@@ -1254,6 +1303,10 @@ extension ConfigClientTypes {
                 .ec2trafficmirrortarget,
                 .ec2transitgatewayconnect,
                 .ec2transitgatewaymulticastdomain,
+                .ec2vpcblockpublicaccessexclusion,
+                .ec2vpcblockpublicaccessoptions,
+                .ec2vpcendpointconnectionnotification,
+                .ec2vpnconnectionroute,
                 .ecrpublicrepository,
                 .ecrpullthroughcacherule,
                 .ecrregistrypolicy,
@@ -1287,6 +1340,7 @@ extension ConfigClientTypes {
                 .eventsrule,
                 .evidentlylaunch,
                 .evidentlyproject,
+                .evidentlysegment,
                 .fisexperimenttemplate,
                 .filedata,
                 .flowlog,
@@ -1316,6 +1370,7 @@ extension ConfigClientTypes {
                 .healthlakefhirdatastore,
                 .host,
                 .iaminstanceprofile,
+                .iamoidcprovider,
                 .iamsamlprovider,
                 .iamservercertificate,
                 .ipsetv2,
@@ -1327,6 +1382,7 @@ extension ConfigClientTypes {
                 .imagebuilderimagepipeline,
                 .imagebuilderimagerecipe,
                 .imagebuilderinfrastructureconfiguration,
+                .inspectorv2activation,
                 .inspectorv2filter,
                 .instance,
                 .internetgateway,
@@ -1391,15 +1447,19 @@ extension ConfigClientTypes {
                 .m2environment,
                 .mskbatchscramsecret,
                 .mskcluster,
+                .mskclusterpolicy,
                 .mskconfiguration,
+                .mskvpcconnection,
                 .managedinstanceinventory,
                 .managedrulesetv2,
                 .mediaconnectflowentitlement,
                 .mediaconnectflowsource,
                 .mediaconnectflowvpcinterface,
+                .mediaconnectgateway,
                 .mediapackagepackagingconfiguration,
                 .mediapackagepackaginggroup,
                 .mediatailorplaybackconfiguration,
+                .memorydbsubnetgroup,
                 .natgateway,
                 .networkacl,
                 .networkfirewallfirewall,
@@ -1416,6 +1476,8 @@ extension ConfigClientTypes {
                 .networkmanagersite,
                 .networkmanagertransitgatewayregistration,
                 .opensearchdomain,
+                .opensearchserverlesscollection,
+                .opensearchserverlessvpcendpoint,
                 .panoramapackage,
                 .patchcompliance,
                 .personalizedataset,
@@ -1445,6 +1507,7 @@ extension ConfigClientTypes {
                 .rumappmonitor,
                 .ratebasedrule,
                 .redshiftendpointaccess,
+                .redshiftendpointauthorization,
                 .redshifteventsubscription,
                 .redshiftscheduledaction,
                 .regexpatternsetv2,
@@ -1464,6 +1527,7 @@ extension ConfigClientTypes {
                 .robomakersimulationapplication,
                 .role,
                 .route53hostedzone,
+                .route53profilesprofile,
                 .route53recoverycontrolcluster,
                 .route53recoverycontrolcontrolpanel,
                 .route53recoverycontrolroutingcontrol,
@@ -1485,8 +1549,11 @@ extension ConfigClientTypes {
                 .rulegroup,
                 .rulegroupv2,
                 .s3accesspoint,
+                .s3expressbucketpolicy,
+                .s3expressdirectorybucket,
                 .s3multiregionaccesspoint,
                 .s3storagelens,
+                .s3storagelensgroup,
                 .sesconfigurationset,
                 .sescontactlist,
                 .sesreceiptfilter,
@@ -1498,6 +1565,7 @@ extension ConfigClientTypes {
                 .sagemakerdomain,
                 .sagemakerfeaturegroup,
                 .sagemakerimage,
+                .sagemakerinferenceexperiment,
                 .sagemakermodel,
                 .sagemakernotebookinstancelifecycleconfig,
                 .sagemakerworkteam,
@@ -1505,6 +1573,7 @@ extension ConfigClientTypes {
                 .scheduledaction,
                 .secret,
                 .securitygroup,
+                .securityhubstandard,
                 .servicediscoveryhttpnamespace,
                 .servicediscoveryinstance,
                 .servicediscoverypublicdnsnamespace,
@@ -1523,6 +1592,7 @@ extension ConfigClientTypes {
                 .transferagreement,
                 .transfercertificate,
                 .transferconnector,
+                .transferprofile,
                 .transferworkflow,
                 .transitgateway,
                 .transitgatewayattachment,
@@ -1563,8 +1633,10 @@ extension ConfigClientTypes {
             case .appconfigconfigurationprofile: return "AWS::AppConfig::ConfigurationProfile"
             case .appconfigdeploymentstrategy: return "AWS::AppConfig::DeploymentStrategy"
             case .appconfigenvironment: return "AWS::AppConfig::Environment"
+            case .appconfigextensionassociation: return "AWS::AppConfig::ExtensionAssociation"
             case .appconfighostedconfigurationversion: return "AWS::AppConfig::HostedConfigurationVersion"
             case .appflowflow: return "AWS::AppFlow::Flow"
+            case .appintegrationsapplication: return "AWS::AppIntegrations::Application"
             case .appintegrationseventintegration: return "AWS::AppIntegrations::EventIntegration"
             case .appmeshgatewayroute: return "AWS::AppMesh::GatewayRoute"
             case .appmeshmesh: return "AWS::AppMesh::Mesh"
@@ -1579,6 +1651,7 @@ extension ConfigClientTypes {
             case .appstreamdirectoryconfig: return "AWS::AppStream::DirectoryConfig"
             case .appstreamfleet: return "AWS::AppStream::Fleet"
             case .appstreamstack: return "AWS::AppStream::Stack"
+            case .appsyncapicache: return "AWS::AppSync::ApiCache"
             case .appsyncgraphqlapi: return "AWS::AppSync::GraphQLApi"
             case .application: return "AWS::ElasticBeanstalk::Application"
             case .applicationversion: return "AWS::ElasticBeanstalk::ApplicationVersion"
@@ -1597,6 +1670,8 @@ extension ConfigClientTypes {
             case .batchcomputeenvironment: return "AWS::Batch::ComputeEnvironment"
             case .batchjobqueue: return "AWS::Batch::JobQueue"
             case .batchschedulingpolicy: return "AWS::Batch::SchedulingPolicy"
+            case .bedrockguardrail: return "AWS::Bedrock::Guardrail"
+            case .bedrockknowledgebase: return "AWS::Bedrock::KnowledgeBase"
             case .bucket: return "AWS::S3::Bucket"
             case .budgetsbudgetsaction: return "AWS::Budgets::BudgetsAction"
             case .cassandrakeyspace: return "AWS::Cassandra::Keyspace"
@@ -1617,6 +1692,7 @@ extension ConfigClientTypes {
             case .codedeploydeploymentgroup: return "AWS::CodeDeploy::DeploymentGroup"
             case .codeguruprofilerprofilinggroup: return "AWS::CodeGuruProfiler::ProfilingGroup"
             case .codegurureviewerrepositoryassociation: return "AWS::CodeGuruReviewer::RepositoryAssociation"
+            case .cognitoidentitypool: return "AWS::Cognito::IdentityPool"
             case .cognitouserpool: return "AWS::Cognito::UserPool"
             case .cognitouserpoolclient: return "AWS::Cognito::UserPoolClient"
             case .cognitouserpoolgroup: return "AWS::Cognito::UserPoolGroup"
@@ -1624,6 +1700,8 @@ extension ConfigClientTypes {
             case .connectinstance: return "AWS::Connect::Instance"
             case .connectphonenumber: return "AWS::Connect::PhoneNumber"
             case .connectquickconnect: return "AWS::Connect::QuickConnect"
+            case .connectrule: return "AWS::Connect::Rule"
+            case .connectuser: return "AWS::Connect::User"
             case .customergateway: return "AWS::EC2::CustomerGateway"
             case .customerprofilesdomain: return "AWS::CustomerProfiles::Domain"
             case .customerprofilesobjecttype: return "AWS::CustomerProfiles::ObjectType"
@@ -1655,15 +1733,21 @@ extension ConfigClientTypes {
             case .ec2capacityreservation: return "AWS::EC2::CapacityReservation"
             case .ec2carriergateway: return "AWS::EC2::CarrierGateway"
             case .ec2clientvpnendpoint: return "AWS::EC2::ClientVpnEndpoint"
+            case .ec2clientvpntargetnetworkassociation: return "AWS::EC2::ClientVpnTargetNetworkAssociation"
             case .ec2dhcpoptions: return "AWS::EC2::DHCPOptions"
             case .ec2ec2fleet: return "AWS::EC2::EC2Fleet"
+            case .ec2eipassociation: return "AWS::EC2::EIPAssociation"
             case .ec2ipam: return "AWS::EC2::IPAM"
             case .ec2ipampool: return "AWS::EC2::IPAMPool"
+            case .ec2ipamresourcediscovery: return "AWS::EC2::IPAMResourceDiscovery"
+            case .ec2ipamresourcediscoveryassociation: return "AWS::EC2::IPAMResourceDiscoveryAssociation"
             case .ec2ipamscope: return "AWS::EC2::IPAMScope"
+            case .ec2instanceconnectendpoint: return "AWS::EC2::InstanceConnectEndpoint"
             case .ec2networkinsightsaccessscope: return "AWS::EC2::NetworkInsightsAccessScope"
             case .ec2networkinsightsanalysis: return "AWS::EC2::NetworkInsightsAnalysis"
             case .ec2networkinsightspath: return "AWS::EC2::NetworkInsightsPath"
             case .ec2prefixlist: return "AWS::EC2::PrefixList"
+            case .ec2snapshotblockpublicaccess: return "AWS::EC2::SnapshotBlockPublicAccess"
             case .ec2spotfleet: return "AWS::EC2::SpotFleet"
             case .ec2subnetroutetableassociation: return "AWS::EC2::SubnetRouteTableAssociation"
             case .ec2trafficmirrorfilter: return "AWS::EC2::TrafficMirrorFilter"
@@ -1671,6 +1755,10 @@ extension ConfigClientTypes {
             case .ec2trafficmirrortarget: return "AWS::EC2::TrafficMirrorTarget"
             case .ec2transitgatewayconnect: return "AWS::EC2::TransitGatewayConnect"
             case .ec2transitgatewaymulticastdomain: return "AWS::EC2::TransitGatewayMulticastDomain"
+            case .ec2vpcblockpublicaccessexclusion: return "AWS::EC2::VPCBlockPublicAccessExclusion"
+            case .ec2vpcblockpublicaccessoptions: return "AWS::EC2::VPCBlockPublicAccessOptions"
+            case .ec2vpcendpointconnectionnotification: return "AWS::EC2::VPCEndpointConnectionNotification"
+            case .ec2vpnconnectionroute: return "AWS::EC2::VPNConnectionRoute"
             case .ecrpublicrepository: return "AWS::ECR::PublicRepository"
             case .ecrpullthroughcacherule: return "AWS::ECR::PullThroughCacheRule"
             case .ecrregistrypolicy: return "AWS::ECR::RegistryPolicy"
@@ -1704,6 +1792,7 @@ extension ConfigClientTypes {
             case .eventsrule: return "AWS::Events::Rule"
             case .evidentlylaunch: return "AWS::Evidently::Launch"
             case .evidentlyproject: return "AWS::Evidently::Project"
+            case .evidentlysegment: return "AWS::Evidently::Segment"
             case .fisexperimenttemplate: return "AWS::FIS::ExperimentTemplate"
             case .filedata: return "AWS::SSM::FileData"
             case .flowlog: return "AWS::EC2::FlowLog"
@@ -1733,6 +1822,7 @@ extension ConfigClientTypes {
             case .healthlakefhirdatastore: return "AWS::HealthLake::FHIRDatastore"
             case .host: return "AWS::EC2::Host"
             case .iaminstanceprofile: return "AWS::IAM::InstanceProfile"
+            case .iamoidcprovider: return "AWS::IAM::OIDCProvider"
             case .iamsamlprovider: return "AWS::IAM::SAMLProvider"
             case .iamservercertificate: return "AWS::IAM::ServerCertificate"
             case .ipsetv2: return "AWS::WAFv2::IPSet"
@@ -1744,6 +1834,7 @@ extension ConfigClientTypes {
             case .imagebuilderimagepipeline: return "AWS::ImageBuilder::ImagePipeline"
             case .imagebuilderimagerecipe: return "AWS::ImageBuilder::ImageRecipe"
             case .imagebuilderinfrastructureconfiguration: return "AWS::ImageBuilder::InfrastructureConfiguration"
+            case .inspectorv2activation: return "AWS::InspectorV2::Activation"
             case .inspectorv2filter: return "AWS::InspectorV2::Filter"
             case .instance: return "AWS::EC2::Instance"
             case .internetgateway: return "AWS::EC2::InternetGateway"
@@ -1808,15 +1899,19 @@ extension ConfigClientTypes {
             case .m2environment: return "AWS::M2::Environment"
             case .mskbatchscramsecret: return "AWS::MSK::BatchScramSecret"
             case .mskcluster: return "AWS::MSK::Cluster"
+            case .mskclusterpolicy: return "AWS::MSK::ClusterPolicy"
             case .mskconfiguration: return "AWS::MSK::Configuration"
+            case .mskvpcconnection: return "AWS::MSK::VpcConnection"
             case .managedinstanceinventory: return "AWS::SSM::ManagedInstanceInventory"
             case .managedrulesetv2: return "AWS::WAFv2::ManagedRuleSet"
             case .mediaconnectflowentitlement: return "AWS::MediaConnect::FlowEntitlement"
             case .mediaconnectflowsource: return "AWS::MediaConnect::FlowSource"
             case .mediaconnectflowvpcinterface: return "AWS::MediaConnect::FlowVpcInterface"
+            case .mediaconnectgateway: return "AWS::MediaConnect::Gateway"
             case .mediapackagepackagingconfiguration: return "AWS::MediaPackage::PackagingConfiguration"
             case .mediapackagepackaginggroup: return "AWS::MediaPackage::PackagingGroup"
             case .mediatailorplaybackconfiguration: return "AWS::MediaTailor::PlaybackConfiguration"
+            case .memorydbsubnetgroup: return "AWS::MemoryDB::SubnetGroup"
             case .natgateway: return "AWS::EC2::NatGateway"
             case .networkacl: return "AWS::EC2::NetworkAcl"
             case .networkfirewallfirewall: return "AWS::NetworkFirewall::Firewall"
@@ -1833,6 +1928,8 @@ extension ConfigClientTypes {
             case .networkmanagersite: return "AWS::NetworkManager::Site"
             case .networkmanagertransitgatewayregistration: return "AWS::NetworkManager::TransitGatewayRegistration"
             case .opensearchdomain: return "AWS::OpenSearch::Domain"
+            case .opensearchserverlesscollection: return "AWS::OpenSearchServerless::Collection"
+            case .opensearchserverlessvpcendpoint: return "AWS::OpenSearchServerless::VpcEndpoint"
             case .panoramapackage: return "AWS::Panorama::Package"
             case .patchcompliance: return "AWS::SSM::PatchCompliance"
             case .personalizedataset: return "AWS::Personalize::Dataset"
@@ -1862,6 +1959,7 @@ extension ConfigClientTypes {
             case .rumappmonitor: return "AWS::RUM::AppMonitor"
             case .ratebasedrule: return "AWS::WAF::RateBasedRule"
             case .redshiftendpointaccess: return "AWS::Redshift::EndpointAccess"
+            case .redshiftendpointauthorization: return "AWS::Redshift::EndpointAuthorization"
             case .redshifteventsubscription: return "AWS::Redshift::EventSubscription"
             case .redshiftscheduledaction: return "AWS::Redshift::ScheduledAction"
             case .regexpatternsetv2: return "AWS::WAFv2::RegexPatternSet"
@@ -1881,6 +1979,7 @@ extension ConfigClientTypes {
             case .robomakersimulationapplication: return "AWS::RoboMaker::SimulationApplication"
             case .role: return "AWS::IAM::Role"
             case .route53hostedzone: return "AWS::Route53::HostedZone"
+            case .route53profilesprofile: return "AWS::Route53Profiles::Profile"
             case .route53recoverycontrolcluster: return "AWS::Route53RecoveryControl::Cluster"
             case .route53recoverycontrolcontrolpanel: return "AWS::Route53RecoveryControl::ControlPanel"
             case .route53recoverycontrolroutingcontrol: return "AWS::Route53RecoveryControl::RoutingControl"
@@ -1902,8 +2001,11 @@ extension ConfigClientTypes {
             case .rulegroup: return "AWS::WAF::RuleGroup"
             case .rulegroupv2: return "AWS::WAFv2::RuleGroup"
             case .s3accesspoint: return "AWS::S3::AccessPoint"
+            case .s3expressbucketpolicy: return "AWS::S3Express::BucketPolicy"
+            case .s3expressdirectorybucket: return "AWS::S3Express::DirectoryBucket"
             case .s3multiregionaccesspoint: return "AWS::S3::MultiRegionAccessPoint"
             case .s3storagelens: return "AWS::S3::StorageLens"
+            case .s3storagelensgroup: return "AWS::S3::StorageLensGroup"
             case .sesconfigurationset: return "AWS::SES::ConfigurationSet"
             case .sescontactlist: return "AWS::SES::ContactList"
             case .sesreceiptfilter: return "AWS::SES::ReceiptFilter"
@@ -1915,6 +2017,7 @@ extension ConfigClientTypes {
             case .sagemakerdomain: return "AWS::SageMaker::Domain"
             case .sagemakerfeaturegroup: return "AWS::SageMaker::FeatureGroup"
             case .sagemakerimage: return "AWS::SageMaker::Image"
+            case .sagemakerinferenceexperiment: return "AWS::SageMaker::InferenceExperiment"
             case .sagemakermodel: return "AWS::SageMaker::Model"
             case .sagemakernotebookinstancelifecycleconfig: return "AWS::SageMaker::NotebookInstanceLifecycleConfig"
             case .sagemakerworkteam: return "AWS::SageMaker::Workteam"
@@ -1922,6 +2025,7 @@ extension ConfigClientTypes {
             case .scheduledaction: return "AWS::AutoScaling::ScheduledAction"
             case .secret: return "AWS::SecretsManager::Secret"
             case .securitygroup: return "AWS::EC2::SecurityGroup"
+            case .securityhubstandard: return "AWS::SecurityHub::Standard"
             case .servicediscoveryhttpnamespace: return "AWS::ServiceDiscovery::HttpNamespace"
             case .servicediscoveryinstance: return "AWS::ServiceDiscovery::Instance"
             case .servicediscoverypublicdnsnamespace: return "AWS::ServiceDiscovery::PublicDnsNamespace"
@@ -1940,6 +2044,7 @@ extension ConfigClientTypes {
             case .transferagreement: return "AWS::Transfer::Agreement"
             case .transfercertificate: return "AWS::Transfer::Certificate"
             case .transferconnector: return "AWS::Transfer::Connector"
+            case .transferprofile: return "AWS::Transfer::Profile"
             case .transferworkflow: return "AWS::Transfer::Workflow"
             case .transitgateway: return "AWS::EC2::TransitGateway"
             case .transitgatewayattachment: return "AWS::EC2::TransitGatewayAttachment"
@@ -14743,11 +14848,11 @@ enum UntagResourceOutputError {
     }
 }
 
-extension ValidationException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14769,11 +14874,11 @@ extension NoSuchConfigurationRecorderException {
     }
 }
 
-extension ConflictException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14821,11 +14926,11 @@ extension InvalidParameterValueException {
     }
 }
 
-extension ResourceInUseException {
+extension NoSuchConfigRuleException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchConfigRuleException {
         let reader = baseError.errorBodyReader
-        var value = ResourceInUseException()
+        var value = NoSuchConfigRuleException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14834,11 +14939,11 @@ extension ResourceInUseException {
     }
 }
 
-extension NoSuchConfigRuleException {
+extension ResourceInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchConfigRuleException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
         let reader = baseError.errorBodyReader
-        var value = NoSuchConfigRuleException()
+        var value = ResourceInUseException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14873,19 +14978,6 @@ extension NoSuchConformancePackException {
     }
 }
 
-extension NoSuchDeliveryChannelException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchDeliveryChannelException {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchDeliveryChannelException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension LastDeliveryChannelDeleteFailedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LastDeliveryChannelDeleteFailedException {
@@ -14899,11 +14991,11 @@ extension LastDeliveryChannelDeleteFailedException {
     }
 }
 
-extension OrganizationAccessDeniedException {
+extension NoSuchDeliveryChannelException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationAccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchDeliveryChannelException {
         let reader = baseError.errorBodyReader
-        var value = OrganizationAccessDeniedException()
+        var value = NoSuchDeliveryChannelException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14917,6 +15009,19 @@ extension NoSuchOrganizationConfigRuleException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchOrganizationConfigRuleException {
         let reader = baseError.errorBodyReader
         var value = NoSuchOrganizationConfigRuleException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension OrganizationAccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationAccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = OrganizationAccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14951,11 +15056,11 @@ extension InsufficientPermissionsException {
     }
 }
 
-extension RemediationInProgressException {
+extension NoSuchRemediationConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RemediationInProgressException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchRemediationConfigurationException {
         let reader = baseError.errorBodyReader
-        var value = RemediationInProgressException()
+        var value = NoSuchRemediationConfigurationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14964,11 +15069,11 @@ extension RemediationInProgressException {
     }
 }
 
-extension NoSuchRemediationConfigurationException {
+extension RemediationInProgressException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchRemediationConfigurationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RemediationInProgressException {
         let reader = baseError.errorBodyReader
-        var value = NoSuchRemediationConfigurationException()
+        var value = RemediationInProgressException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15172,11 +15277,11 @@ extension OrganizationAllFeaturesNotEnabledException {
     }
 }
 
-extension InvalidRecordingGroupException {
+extension InvalidConfigurationRecorderNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRecordingGroupException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidConfigurationRecorderNameException {
         let reader = baseError.errorBodyReader
-        var value = InvalidRecordingGroupException()
+        var value = InvalidConfigurationRecorderNameException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15185,11 +15290,11 @@ extension InvalidRecordingGroupException {
     }
 }
 
-extension InvalidConfigurationRecorderNameException {
+extension InvalidRecordingGroupException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidConfigurationRecorderNameException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRecordingGroupException {
         let reader = baseError.errorBodyReader
-        var value = InvalidConfigurationRecorderNameException()
+        var value = InvalidRecordingGroupException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15211,19 +15316,6 @@ extension MaxNumberOfConfigurationRecordersExceededException {
     }
 }
 
-extension MaxNumberOfConformancePacksExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaxNumberOfConformancePacksExceededException {
-        let reader = baseError.errorBodyReader
-        var value = MaxNumberOfConformancePacksExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ConformancePackTemplateValidationException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConformancePackTemplateValidationException {
@@ -15237,24 +15329,11 @@ extension ConformancePackTemplateValidationException {
     }
 }
 
-extension InvalidS3KmsKeyArnException {
+extension MaxNumberOfConformancePacksExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidS3KmsKeyArnException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaxNumberOfConformancePacksExceededException {
         let reader = baseError.errorBodyReader
-        var value = InvalidS3KmsKeyArnException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidSNSTopicARNException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSNSTopicARNException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidSNSTopicARNException()
+        var value = MaxNumberOfConformancePacksExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15289,11 +15368,37 @@ extension InvalidDeliveryChannelNameException {
     }
 }
 
-extension NoSuchBucketException {
+extension InvalidS3KeyPrefixException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchBucketException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidS3KeyPrefixException {
         let reader = baseError.errorBodyReader
-        var value = NoSuchBucketException()
+        var value = InvalidS3KeyPrefixException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidS3KmsKeyArnException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidS3KmsKeyArnException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidS3KmsKeyArnException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidSNSTopicARNException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSNSTopicARNException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidSNSTopicARNException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15315,11 +15420,11 @@ extension MaxNumberOfDeliveryChannelsExceededException {
     }
 }
 
-extension InvalidS3KeyPrefixException {
+extension NoSuchBucketException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidS3KeyPrefixException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchBucketException {
         let reader = baseError.errorBodyReader
-        var value = InvalidS3KeyPrefixException()
+        var value = NoSuchBucketException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15354,11 +15459,11 @@ extension MaxNumberOfOrganizationConfigRulesExceededException {
     }
 }
 
-extension OrganizationConformancePackTemplateValidationException {
+extension MaxNumberOfOrganizationConformancePacksExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationConformancePackTemplateValidationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaxNumberOfOrganizationConformancePacksExceededException {
         let reader = baseError.errorBodyReader
-        var value = OrganizationConformancePackTemplateValidationException()
+        var value = MaxNumberOfOrganizationConformancePacksExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15367,11 +15472,11 @@ extension OrganizationConformancePackTemplateValidationException {
     }
 }
 
-extension MaxNumberOfOrganizationConformancePacksExceededException {
+extension OrganizationConformancePackTemplateValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaxNumberOfOrganizationConformancePacksExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationConformancePackTemplateValidationException {
         let reader = baseError.errorBodyReader
-        var value = MaxNumberOfOrganizationConformancePacksExceededException()
+        var value = OrganizationConformancePackTemplateValidationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15406,11 +15511,11 @@ extension MaxNumberOfRetentionConfigurationsExceededException {
     }
 }
 
-extension TooManyTagsException {
+extension ResourceConcurrentModificationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceConcurrentModificationException {
         let reader = baseError.errorBodyReader
-        var value = TooManyTagsException()
+        var value = ResourceConcurrentModificationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15419,11 +15524,11 @@ extension TooManyTagsException {
     }
 }
 
-extension ResourceConcurrentModificationException {
+extension TooManyTagsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceConcurrentModificationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
         let reader = baseError.errorBodyReader
-        var value = ResourceConcurrentModificationException()
+        var value = TooManyTagsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

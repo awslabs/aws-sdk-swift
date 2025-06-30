@@ -7459,19 +7459,6 @@ enum UpdateUserOutputError {
     }
 }
 
-extension FailedDependencyException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FailedDependencyException {
-        let reader = baseError.errorBodyReader
-        var value = FailedDependencyException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ConcurrentModificationException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConcurrentModificationException {
@@ -7485,11 +7472,51 @@ extension ConcurrentModificationException {
     }
 }
 
+extension EntityNotExistsException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> EntityNotExistsException {
+        let reader = baseError.errorBodyReader
+        var value = EntityNotExistsException()
+        value.properties.entityIds = try reader["EntityIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension FailedDependencyException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> FailedDependencyException {
+        let reader = baseError.errorBodyReader
+        var value = FailedDependencyException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ProhibitedStateException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ProhibitedStateException {
         let reader = baseError.errorBodyReader
         var value = ProhibitedStateException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceUnavailableException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7525,25 +7552,11 @@ extension UnauthorizedResourceAccessException {
     }
 }
 
-extension EntityNotExistsException {
+extension DocumentLockedForCommentsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> EntityNotExistsException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DocumentLockedForCommentsException {
         let reader = baseError.errorBodyReader
-        var value = EntityNotExistsException()
-        value.properties.entityIds = try reader["EntityIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceUnavailableException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceUnavailableException()
+        var value = DocumentLockedForCommentsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7557,19 +7570,6 @@ extension InvalidCommentOperationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidCommentOperationException {
         let reader = baseError.errorBodyReader
         var value = InvalidCommentOperationException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DocumentLockedForCommentsException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DocumentLockedForCommentsException {
-        let reader = baseError.errorBodyReader
-        var value = DocumentLockedForCommentsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7760,11 +7760,12 @@ extension StorageLimitWillExceedException {
     }
 }
 
-extension IllegalUserStateException {
+extension DeactivatingLastSystemUserException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> IllegalUserStateException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DeactivatingLastSystemUserException {
         let reader = baseError.errorBodyReader
-        var value = IllegalUserStateException()
+        var value = DeactivatingLastSystemUserException()
+        value.properties.code = try reader["Code"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7773,12 +7774,11 @@ extension IllegalUserStateException {
     }
 }
 
-extension DeactivatingLastSystemUserException {
+extension IllegalUserStateException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DeactivatingLastSystemUserException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> IllegalUserStateException {
         let reader = baseError.errorBodyReader
-        var value = DeactivatingLastSystemUserException()
-        value.properties.code = try reader["Code"].readIfPresent()
+        var value = IllegalUserStateException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

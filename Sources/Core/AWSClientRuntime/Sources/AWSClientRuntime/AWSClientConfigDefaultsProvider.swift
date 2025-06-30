@@ -5,17 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-@_spi(FileBasedConfig) import AWSSDKCommon
-@_spi(DefaultAWSCredentialIdentityResolverChain) import AWSSDKIdentity
-import SmithyIdentity
-import SmithyIdentityAPI
-import struct ClientRuntime.DefaultSDKRuntimeConfiguration
-import enum ClientRuntime.DefaultRetryErrorInfoProvider
-import protocol SmithyHTTPAPI.HTTPClient
-import class ClientRuntime.HttpClientConfiguration
-import protocol ClientRuntime.IdempotencyTokenGenerator
-import enum ClientRuntime.ClientLogMode
-import struct SmithyRetries.DefaultRetryStrategy
+@_spi(FileBasedConfig) import class AWSSDKCommon.CRTFileBasedConfiguration
+import struct AWSSDKCommon.FieldResolver
 import struct SmithyRetries.ExponentialBackoffStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -23,22 +14,6 @@ import class ClientRuntime.ClientConfigDefaultsProvider
 
 /// Provides default configuration properties for AWS services.
 public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
-
-    public static func awsCredentialIdentityResolver(
-        _ awsCredentialIdentityResolver: (any AWSCredentialIdentityResolver)? = nil
-    ) throws -> any AWSCredentialIdentityResolver {
-        let resolvedAWSCredentialIdentityResolver: any AWSCredentialIdentityResolver
-        let fileBasedConfig = try CRTFileBasedConfiguration.make()
-        if let awsCredentialIdentityResolver {
-            resolvedAWSCredentialIdentityResolver = awsCredentialIdentityResolver
-        } else {
-            resolvedAWSCredentialIdentityResolver = try DefaultAWSCredentialIdentityResolverChain(
-                fileBasedConfig: fileBasedConfig
-            )
-        }
-        return resolvedAWSCredentialIdentityResolver
-    }
-
     public static func region(_ region: String? = nil) async throws -> String? {
         let resolvedRegion: String?
         let fileBasedConfig = try await CRTFileBasedConfiguration.makeAsync()
@@ -65,6 +40,21 @@ public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
             )
         }
         return resolvedAppID
+    }
+
+    public static func authSchemePreference(_ preference: String? = nil) throws -> [String]? {
+        let fileBasedConfig = try CRTFileBasedConfiguration.make()
+        let resolvedPreference: [String]?
+        if let authSchemePreference = preference {
+            resolvedPreference = AuthSchemeConfig.normalizeSchemes(authSchemePreference)
+        } else {
+            resolvedPreference = AuthSchemeConfig.authSchemePreference(
+                configValue: nil,
+                profileName: nil,
+                fileBasedConfig: fileBasedConfig
+            )
+        }
+        return resolvedPreference
     }
 
     public static func requestChecksumCalculation(
@@ -178,5 +168,23 @@ public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
                 fileBasedConfig: fileBasedConfig
             )
         }
+    }
+
+    public static func disableS3ExpressSessionAuth(
+        _ disableS3ExpressSessionAuth: Bool? = nil
+    ) throws -> Bool {
+        let fileBasedConfig = try CRTFileBasedConfiguration.make()
+        return FieldResolver(
+            configValue: disableS3ExpressSessionAuth,
+            envVarName: "AWS_S3_DISABLE_EXPRESS_SESSION_AUTH",
+            configFieldName: "s3_disable_express_session_auth",
+            fileBasedConfig: fileBasedConfig,
+            profileName: nil, converter: { value in
+                switch value {
+                case "true": return true
+                case "false": return false
+                default: return nil
+                }
+            }).value ?? false
     }
 }

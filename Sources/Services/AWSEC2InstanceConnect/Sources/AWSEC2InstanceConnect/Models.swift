@@ -479,50 +479,11 @@ enum SendSSHPublicKeyOutputError {
     }
 }
 
-extension EC2InstanceStateInvalidException {
+extension AuthException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EC2InstanceStateInvalidException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AuthException {
         let reader = baseError.errorBodyReader
-        var value = EC2InstanceStateInvalidException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension SerialConsoleSessionUnavailableException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SerialConsoleSessionUnavailableException {
-        let reader = baseError.errorBodyReader
-        var value = SerialConsoleSessionUnavailableException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidArgsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArgsException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidArgsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension EC2InstanceUnavailableException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EC2InstanceUnavailableException {
-        let reader = baseError.errorBodyReader
-        var value = EC2InstanceUnavailableException()
+        var value = AuthException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -544,24 +505,11 @@ extension EC2InstanceNotFoundException {
     }
 }
 
-extension ServiceException {
+extension EC2InstanceStateInvalidException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EC2InstanceStateInvalidException {
         let reader = baseError.errorBodyReader
-        var value = ServiceException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AuthException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AuthException {
-        let reader = baseError.errorBodyReader
-        var value = AuthException()
+        var value = EC2InstanceStateInvalidException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -583,11 +531,24 @@ extension EC2InstanceTypeInvalidException {
     }
 }
 
-extension SerialConsoleSessionUnsupportedException {
+extension EC2InstanceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SerialConsoleSessionUnsupportedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EC2InstanceUnavailableException {
         let reader = baseError.errorBodyReader
-        var value = SerialConsoleSessionUnsupportedException()
+        var value = EC2InstanceUnavailableException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidArgsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArgsException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidArgsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -609,11 +570,11 @@ extension SerialConsoleAccessDisabledException {
     }
 }
 
-extension ThrottlingException {
+extension SerialConsoleSessionLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SerialConsoleSessionLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
+        var value = SerialConsoleSessionLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -622,11 +583,50 @@ extension ThrottlingException {
     }
 }
 
-extension SerialConsoleSessionLimitExceededException {
+extension SerialConsoleSessionUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SerialConsoleSessionLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SerialConsoleSessionUnavailableException {
         let reader = baseError.errorBodyReader
-        var value = SerialConsoleSessionLimitExceededException()
+        var value = SerialConsoleSessionUnavailableException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SerialConsoleSessionUnsupportedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SerialConsoleSessionUnsupportedException {
+        let reader = baseError.errorBodyReader
+        var value = SerialConsoleSessionUnsupportedException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
