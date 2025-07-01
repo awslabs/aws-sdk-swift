@@ -298,6 +298,7 @@ let serviceTargets: [String] = [
     "AWSOAM",
     "AWSOSIS",
     "AWSObservabilityAdmin",
+    "AWSOdb",
     "AWSOmics",
     "AWSOpenSearch",
     "AWSOpenSearchServerless",

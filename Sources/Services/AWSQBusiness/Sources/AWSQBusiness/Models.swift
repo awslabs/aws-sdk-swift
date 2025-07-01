@@ -3194,7 +3194,6 @@ extension QBusinessClientTypes {
     /// Configuration information required to create a custom plugin.
     public struct CustomPluginConfiguration: Swift.Sendable {
         /// Contains either details about the S3 object containing the OpenAPI schema for the action group or the JSON or YAML-formatted payload defining the schema.
-        /// This member is required.
         public var apiSchema: QBusinessClientTypes.APISchema?
         /// The type of OpenAPI schema to use.
         /// This member is required.
@@ -3587,6 +3586,8 @@ extension QBusinessClientTypes {
         case low
         case medium
         case `none`
+        case one
+        case two
         case veryHigh
         case sdkUnknown(Swift.String)
 
@@ -3596,6 +3597,8 @@ extension QBusinessClientTypes {
                 .low,
                 .medium,
                 .none,
+                .one,
+                .two,
                 .veryHigh
             ]
         }
@@ -3611,6 +3614,8 @@ extension QBusinessClientTypes {
             case .low: return "LOW"
             case .medium: return "MEDIUM"
             case .none: return "NONE"
+            case .one: return "ONE"
+            case .two: return "TWO"
             case .veryHigh: return "VERY_HIGH"
             case let .sdkUnknown(s): return s
             }
@@ -3624,7 +3629,7 @@ extension QBusinessClientTypes {
     public struct DateAttributeBoostingConfiguration: Swift.Sendable {
         /// Specifies the duration, in seconds, of a boost applies to a DATE type document attribute.
         public var boostingDurationInSeconds: Swift.Int?
-        /// Specifies how much a document attribute is boosted.
+        /// Specifies the priority tier ranking of boosting applied to document attributes. For version 2, this parameter indicates the relative ranking between boosted fields (ONE being highest priority, TWO being second highest, etc.) and determines the order in which attributes influence document ranking in search results. For version 1, this parameter specifies the boosting intensity. For version 2, boosting intensity (VERY HIGH, HIGH, MEDIUM, LOW, NONE) are not supported. Note that in version 2, you are not allowed to boost on only one field and make this value TWO.
         /// This member is required.
         public var boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel?
 
@@ -3669,12 +3674,12 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
-    /// Provides information on boosting NUMBER type document attributes. For more information on how boosting document attributes work in Amazon Q Business, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
+    /// Provides information on boosting NUMBER type document attributes. In the current boosting implementation, boosting focuses primarily on DATE attributes for recency and STRING attributes for source prioritization. NUMBER attributes can serve as additional boosting factors when needed, but are not supported when using NativeIndexConfiguration version 2. For more information on how boosting document attributes work in Amazon Q Business, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
     public struct NumberAttributeBoostingConfiguration: Swift.Sendable {
-        /// Specifies the duration, in seconds, of a boost applies to a NUMBER type document attribute.
+        /// Specifies the priority of boosted document attributes in relation to other boosted attributes. This parameter determines how strongly the attribute influences document ranking in search results. NUMBER attributes can serve as additional boosting factors when needed, but are not supported when using NativeIndexConfiguration version 2.
         /// This member is required.
         public var boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel?
-        /// Specifies how much a document attribute is boosted.
+        /// Specifies whether higher or lower numeric values should be prioritized when boosting. Valid values are ASCENDING (higher numbers are more important) and DESCENDING (lower numbers are more important).
         public var boostingType: QBusinessClientTypes.NumberAttributeBoostingType?
 
         public init(
@@ -3690,17 +3695,27 @@ extension QBusinessClientTypes {
 extension QBusinessClientTypes {
 
     public enum StringAttributeValueBoostingLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case five
+        case four
         case high
         case low
         case medium
+        case one
+        case three
+        case two
         case veryHigh
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StringAttributeValueBoostingLevel] {
             return [
+                .five,
+                .four,
                 .high,
                 .low,
                 .medium,
+                .one,
+                .three,
+                .two,
                 .veryHigh
             ]
         }
@@ -3712,9 +3727,14 @@ extension QBusinessClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .five: return "FIVE"
+            case .four: return "FOUR"
             case .high: return "HIGH"
             case .low: return "LOW"
             case .medium: return "MEDIUM"
+            case .one: return "ONE"
+            case .three: return "THREE"
+            case .two: return "TWO"
             case .veryHigh: return "VERY_HIGH"
             case let .sdkUnknown(s): return s
             }
@@ -3726,9 +3746,9 @@ extension QBusinessClientTypes {
 
     /// Provides information on boosting STRING type document attributes. For STRING and STRING_LIST type document attributes to be used for boosting on the console and the API, they must be enabled for search using the [DocumentAttributeConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeConfiguration.html) object of the [UpdateIndex](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_UpdateIndex.html) API. If you haven't enabled searching on these attributes, you can't boost attributes of these data types on either the console or the API. For more information on how boosting document attributes work in Amazon Q Business, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
     public struct StringAttributeBoostingConfiguration: Swift.Sendable {
-        /// Specifies specific values of a STRING type document attribute being boosted.
+        /// Specifies specific values of a STRING type document attribute being boosted. When using NativeIndexConfiguration version 2, you can specify up to five values in order of priority.
         public var attributeValueBoosting: [Swift.String: QBusinessClientTypes.StringAttributeValueBoostingLevel]?
-        /// Specifies how much a document attribute is boosted.
+        /// Specifies the priority tier ranking of boosting applied to document attributes. For version 2, this parameter indicates the relative ranking between boosted fields (ONE being highest priority, TWO being second highest, etc.) and determines the order in which attributes influence document ranking in search results. For version 1, this parameter specifies the boosting intensity. For version 2, boosting intensity (VERY HIGH, HIGH, MEDIUM, LOW, NONE) are not supported. Note that in version 2, you are not allowed to boost on only one field and make this value TWO.
         /// This member is required.
         public var boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel?
 
@@ -3744,9 +3764,9 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
-    /// Provides information on boosting STRING_LIST type document attributes. For STRING and STRING_LIST type document attributes to be used for boosting on the console and the API, they must be enabled for search using the [DocumentAttributeConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeConfiguration.html) object of the [UpdateIndex](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_UpdateIndex.html) API. If you haven't enabled searching on these attributes, you can't boost attributes of these data types on either the console or the API. For more information on how boosting document attributes work in Amazon Q Business, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
+    /// Provides information on boosting STRING_LIST type document attributes. In the current boosting implementation, boosting focuses primarily on DATE attributes for recency and STRING attributes for source prioritization. STRING_LIST attributes can serve as additional boosting factors when needed, but are not supported when using NativeIndexConfiguration version 2. For STRING and STRING_LIST type document attributes to be used for boosting on the console and the API, they must be enabled for search using the [DocumentAttributeConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeConfiguration.html) object of the [UpdateIndex](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_UpdateIndex.html) API. If you haven't enabled searching on these attributes, you can't boost attributes of these data types on either the console or the API. For more information on how boosting document attributes work in Amazon Q Business, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
     public struct StringListAttributeBoostingConfiguration: Swift.Sendable {
-        /// Specifies how much a document attribute is boosted.
+        /// Specifies the priority of boosted document attributes in relation to other boosted attributes. This parameter determines how strongly the attribute influences document ranking in search results. STRING_LIST attributes can serve as additional boosting factors when needed, but are not supported when using NativeIndexConfiguration version 2.
         /// This member is required.
         public var boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel?
 
@@ -3760,15 +3780,15 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes {
 
-    /// Provides information on boosting supported Amazon Q Business document attribute types. When an end user chat query matches document attributes that have been boosted, Amazon Q Business prioritizes generating responses from content that matches the boosted document attributes. For STRING and STRING_LIST type document attributes to be used for boosting on the console and the API, they must be enabled for search using the [DocumentAttributeConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeConfiguration.html) object of the [UpdateIndex](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_UpdateIndex.html) API. If you haven't enabled searching on these attributes, you can't boost attributes of these data types on either the console or the API. For more information on how boosting document attributes work in Amazon Q Business, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
+    /// Provides information on boosting supported Amazon Q Business document attribute types. When an end user chat query matches document attributes that have been boosted, Amazon Q Business prioritizes generating responses from content that matches the boosted document attributes. In version 2, boosting uses numeric values (ONE, TWO) to indicate priority tiers that establish clear hierarchical relationships between boosted attributes. This allows for more precise control over how different attributes influence search results. For STRING and STRING_LIST type document attributes to be used for boosting on the console and the API, they must be enabled for search using the [DocumentAttributeConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeConfiguration.html) object of the [UpdateIndex](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_UpdateIndex.html) API. If you haven't enabled searching on these attributes, you can't boost attributes of these data types on either the console or the API. For more information on how boosting document attributes work in Amazon Q Business, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
     public enum DocumentAttributeBoostingConfiguration: Swift.Sendable {
-        /// Provides information on boosting NUMBER type document attributes.
+        /// Provides information on boosting NUMBER type document attributes. NUMBER attributes are not supported when using NativeIndexConfiguration version 2, which focuses on DATE attributes for recency and STRING attributes for source prioritization.
         case numberconfiguration(QBusinessClientTypes.NumberAttributeBoostingConfiguration)
-        /// Provides information on boosting STRING type document attributes.
+        /// Provides information on boosting STRING type document attributes. Version 2 assigns priority tiers to STRING attributes, establishing clear hierarchical relationships with other boosted attributes.
         case stringconfiguration(QBusinessClientTypes.StringAttributeBoostingConfiguration)
-        /// Provides information on boosting DATE type document attributes.
+        /// Provides information on boosting DATE type document attributes. Version 2 assigns priority tiers to DATE attributes, establishing clear hierarchical relationships with other boosted attributes.
         case dateconfiguration(QBusinessClientTypes.DateAttributeBoostingConfiguration)
-        /// Provides information on boosting STRING_LIST type document attributes.
+        /// Provides information on boosting STRING_LIST type document attributes. STRING_LIST attributes are not supported when using NativeIndexConfiguration version 2, which focuses on DATE attributes for recency and STRING attributes for source prioritization.
         case stringlistconfiguration(QBusinessClientTypes.StringListAttributeBoostingConfiguration)
         case sdkUnknown(Swift.String)
     }
@@ -3783,13 +3803,27 @@ extension QBusinessClientTypes {
         /// The identifier for the Amazon Q Business index.
         /// This member is required.
         public var indexId: Swift.String?
+        /// A read-only field that specifies the version of the NativeIndexConfiguration. Amazon Q Business introduces enhanced document retrieval capabilities in version 2 of NativeIndexConfiguration, focusing on streamlined metadata boosting that prioritizes recency and source relevance to deliver more accurate responses to your queries. Version 2 has the following differences from version 1:
+        ///
+        /// * Version 2 supports a single Date field (created_at OR last_updated_at) for recency boosting
+        ///
+        /// * Version 2 supports a single String field with an ordered list of up to 5 values
+        ///
+        /// * Version 2 introduces number-based boost levels (ONE, TWO) alongside the text-based levels
+        ///
+        /// * Version 2 allows specifying prioritization between Date and String fields
+        ///
+        /// * Version 2 maintains backward compatibility with existing configurations
+        public var version: Swift.Int?
 
         public init(
             boostingOverride: [Swift.String: QBusinessClientTypes.DocumentAttributeBoostingConfiguration]? = nil,
-            indexId: Swift.String? = nil
+            indexId: Swift.String? = nil,
+            version: Swift.Int? = nil
         ) {
             self.boostingOverride = boostingOverride
             self.indexId = indexId
+            self.version = version
         }
     }
 }
@@ -6026,6 +6060,199 @@ public struct ChatOutput: Swift.Sendable {
     }
 }
 
+extension QBusinessClientTypes {
+
+    public enum ChatResponseConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case failed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChatResponseConfigurationStatus] {
+            return [
+                .active,
+                .creating,
+                .failed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .failed: return "FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Configuration details that define how Amazon Q Business generates and formats responses to user queries in chat interactions. This configuration allows administrators to customize response characteristics to meet specific organizational needs and communication standards.
+    public struct ChatResponseConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the chat response configuration, which uniquely identifies the resource across all Amazon Web Services services and accounts.
+        /// This member is required.
+        public var chatResponseConfigurationArn: Swift.String?
+        /// A unique identifier for your chat response configuration settings, used to reference and manage the configuration within the Amazon Q Business service.
+        /// This member is required.
+        public var chatResponseConfigurationId: Swift.String?
+        /// The timestamp indicating when the chat response configuration was initially created, useful for tracking the lifecycle of configuration resources.
+        public var createdAt: Foundation.Date?
+        /// A human-readable name for the chat response configuration, making it easier to identify and manage multiple configurations within an organization.
+        /// This member is required.
+        public var displayName: Swift.String?
+        /// A summary of the response configuration settings, providing a concise overview of the key parameters that define how responses are generated and formatted.
+        public var responseConfigurationSummary: Swift.String?
+        /// The current status of the chat response configuration, indicating whether it is active, pending, or in another state that affects its availability for use in chat interactions.
+        /// This member is required.
+        public var status: QBusinessClientTypes.ChatResponseConfigurationStatus?
+        /// The timestamp indicating when the chat response configuration was last modified, helping administrators track changes and maintain version awareness.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            chatResponseConfigurationArn: Swift.String? = nil,
+            chatResponseConfigurationId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            displayName: Swift.String? = nil,
+            responseConfigurationSummary: Swift.String? = nil,
+            status: QBusinessClientTypes.ChatResponseConfigurationStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.chatResponseConfigurationArn = chatResponseConfigurationArn
+            self.chatResponseConfigurationId = chatResponseConfigurationId
+            self.createdAt = createdAt
+            self.displayName = displayName
+            self.responseConfigurationSummary = responseConfigurationSummary
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    public enum ResponseConfigurationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResponseConfigurationType] {
+            return [
+                .all
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// A set of instructions that define how Amazon Q Business should generate and format responses to user queries. This collection includes parameters for controlling response characteristics such as length, audience targeting, perspective, style, identity, tone, and custom instructions.
+    public struct InstructionCollection: Swift.Sendable {
+        /// Allows administrators to provide specific, custom instructions that guide how Amazon Q Business should respond in particular scenarios or to certain types of queries, enabling fine-grained control over response generation.
+        public var customInstructions: Swift.String?
+        /// Provides sample responses or templates that Amazon Q Business can reference when generating responses, helping to establish consistent patterns and formats for different types of user queries.
+        public var examples: Swift.String?
+        /// Defines the persona or identity that Amazon Q Business should adopt when responding to users, allowing for customization of the assistant's character, role, or representation within an organization.
+        public var identity: Swift.String?
+        /// Specifies the formatting and structural style of responses, such as bullet points, paragraphs, step-by-step instructions, or other organizational formats that enhance readability and comprehension.
+        public var outputStyle: Swift.String?
+        /// Determines the point of view or perspective from which Amazon Q Business generates responses, such as first-person, second-person, or third-person perspective, affecting how information is presented to users.
+        public var perspective: Swift.String?
+        /// Specifies the desired length of responses generated by Amazon Q Business. This parameter allows administrators to control whether responses are concise and brief or more detailed and comprehensive.
+        public var responseLength: Swift.String?
+        /// Defines the intended audience for the responses, allowing Amazon Q Business to tailor its language, terminology, and explanations appropriately. This could range from technical experts to general users with varying levels of domain knowledge.
+        public var targetAudience: Swift.String?
+        /// Controls the emotional tone and communication style of responses, such as formal, casual, technical, friendly, or professional, to align with organizational communication standards and user expectations.
+        public var tone: Swift.String?
+
+        public init(
+            customInstructions: Swift.String? = nil,
+            examples: Swift.String? = nil,
+            identity: Swift.String? = nil,
+            outputStyle: Swift.String? = nil,
+            perspective: Swift.String? = nil,
+            responseLength: Swift.String? = nil,
+            targetAudience: Swift.String? = nil,
+            tone: Swift.String? = nil
+        ) {
+            self.customInstructions = customInstructions
+            self.examples = examples
+            self.identity = identity
+            self.outputStyle = outputStyle
+            self.perspective = perspective
+            self.responseLength = responseLength
+            self.targetAudience = targetAudience
+            self.tone = tone
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Configuration settings to define how Amazon Q Business generates and formats responses to user queries. This includes customization options for response style, tone, length, and other characteristics.
+    public struct ResponseConfiguration: Swift.Sendable {
+        /// A collection of instructions that guide how Amazon Q Business generates responses, including parameters for response length, target audience, perspective, output style, identity, tone, and custom instructions.
+        public var instructionCollection: QBusinessClientTypes.InstructionCollection?
+
+        public init(
+            instructionCollection: QBusinessClientTypes.InstructionCollection? = nil
+        ) {
+            self.instructionCollection = instructionCollection
+        }
+    }
+}
+
+extension QBusinessClientTypes {
+
+    /// Detailed information about a chat response configuration, including comprehensive settings and parameters that define how Amazon Q Business generates and formats responses.
+    public struct ChatResponseConfigurationDetail: Swift.Sendable {
+        /// Provides information about a Amazon Q Business request error.
+        public var error: QBusinessClientTypes.ErrorDetail?
+        /// A summary of the response configuration details, providing a concise overview of the key parameters and settings that define the response generation behavior.
+        public var responseConfigurationSummary: Swift.String?
+        /// A collection of specific response configuration settings that collectively define how responses are generated, formatted, and presented to users in chat interactions.
+        public var responseConfigurations: [Swift.String: QBusinessClientTypes.ResponseConfiguration]?
+        /// The current status of the chat response configuration, indicating whether it is active, pending, or in another state that affects its availability for use.
+        public var status: QBusinessClientTypes.ChatResponseConfigurationStatus?
+        /// The timestamp indicating when the detailed chat response configuration was last modified, helping administrators track changes and maintain version awareness.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            error: QBusinessClientTypes.ErrorDetail? = nil,
+            responseConfigurationSummary: Swift.String? = nil,
+            responseConfigurations: [Swift.String: QBusinessClientTypes.ResponseConfiguration]? = nil,
+            status: QBusinessClientTypes.ChatResponseConfigurationStatus? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.error = error
+            self.responseConfigurationSummary = responseConfigurationSummary
+            self.responseConfigurations = responseConfigurations
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
 public struct ChatSyncOutput: Swift.Sendable {
     /// A request from Amazon Q Business to the end user for information Amazon Q Business needs to successfully complete a requested plugin action.
     public var actionReview: QBusinessClientTypes.ActionReview?
@@ -6348,6 +6575,53 @@ public struct CreateAnonymousWebExperienceUrlOutput: Swift.Sendable {
     }
 }
 
+public struct CreateChatResponseConfigurationInput: Swift.Sendable {
+    /// The unique identifier of the Amazon Q Business application for which to create the new chat response configuration.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This helps prevent the same configuration from being created multiple times if retries occur.
+    public var clientToken: Swift.String?
+    /// A human-readable name for the new chat response configuration, making it easier to identify and manage among multiple configurations.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// A collection of response configuration settings that define how Amazon Q Business will generate and format responses to user queries in chat interactions.
+    /// This member is required.
+    public var responseConfigurations: [Swift.String: QBusinessClientTypes.ResponseConfiguration]?
+    /// A list of key-value pairs to apply as tags to the new chat response configuration, enabling categorization and management of resources across Amazon Web Services services.
+    public var tags: [QBusinessClientTypes.Tag]?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        responseConfigurations: [Swift.String: QBusinessClientTypes.ResponseConfiguration]? = nil,
+        tags: [QBusinessClientTypes.Tag]? = nil
+    ) {
+        self.applicationId = applicationId
+        self.clientToken = clientToken
+        self.displayName = displayName
+        self.responseConfigurations = responseConfigurations
+        self.tags = tags
+    }
+}
+
+public struct CreateChatResponseConfigurationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the newly created chat response configuration, which uniquely identifies the resource across all Amazon Web Services services.
+    /// This member is required.
+    public var chatResponseConfigurationArn: Swift.String?
+    /// The unique identifier assigned to a newly created chat response configuration, used for subsequent operations on this resource.
+    /// This member is required.
+    public var chatResponseConfigurationId: Swift.String?
+
+    public init(
+        chatResponseConfigurationArn: Swift.String? = nil,
+        chatResponseConfigurationId: Swift.String? = nil
+    ) {
+        self.chatResponseConfigurationArn = chatResponseConfigurationArn
+        self.chatResponseConfigurationId = chatResponseConfigurationId
+    }
+}
+
 extension QBusinessClientTypes {
 
     /// A user or group in the IAM Identity Center instance connected to the Amazon Q Business application.
@@ -6637,6 +6911,28 @@ public struct DeleteChatControlsConfigurationInput: Swift.Sendable {
 }
 
 public struct DeleteChatControlsConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteChatResponseConfigurationInput: Swift.Sendable {
+    /// The unique identifier of theAmazon Q Business application from which to delete the chat response configuration.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The unique identifier of the chat response configuration to delete from the specified application.
+    /// This member is required.
+    public var chatResponseConfigurationId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        chatResponseConfigurationId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.chatResponseConfigurationId = chatResponseConfigurationId
+    }
+}
+
+public struct DeleteChatResponseConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -7065,6 +7361,54 @@ public struct GetChatControlsConfigurationOutput: Swift.Sendable {
     }
 }
 
+public struct GetChatResponseConfigurationInput: Swift.Sendable {
+    /// The unique identifier of the Amazon Q Business application containing the chat response configuration to retrieve.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The unique identifier of the chat response configuration to retrieve from the specified application.
+    /// This member is required.
+    public var chatResponseConfigurationId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        chatResponseConfigurationId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.chatResponseConfigurationId = chatResponseConfigurationId
+    }
+}
+
+public struct GetChatResponseConfigurationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the retrieved chat response configuration, which uniquely identifies the resource across all Amazon Web Services services.
+    public var chatResponseConfigurationArn: Swift.String?
+    /// The unique identifier of the retrieved chat response configuration.
+    public var chatResponseConfigurationId: Swift.String?
+    /// The timestamp indicating when the chat response configuration was initially created.
+    public var createdAt: Foundation.Date?
+    /// The human-readable name of the retrieved chat response configuration, making it easier to identify among multiple configurations.
+    public var displayName: Swift.String?
+    /// The currently active configuration settings that are being used to generate responses in the Amazon Q Business application.
+    public var inUseConfiguration: QBusinessClientTypes.ChatResponseConfigurationDetail?
+    /// Information about the most recent update to the configuration, including timestamp and modification details.
+    public var lastUpdateConfiguration: QBusinessClientTypes.ChatResponseConfigurationDetail?
+
+    public init(
+        chatResponseConfigurationArn: Swift.String? = nil,
+        chatResponseConfigurationId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        displayName: Swift.String? = nil,
+        inUseConfiguration: QBusinessClientTypes.ChatResponseConfigurationDetail? = nil,
+        lastUpdateConfiguration: QBusinessClientTypes.ChatResponseConfigurationDetail? = nil
+    ) {
+        self.chatResponseConfigurationArn = chatResponseConfigurationArn
+        self.chatResponseConfigurationId = chatResponseConfigurationId
+        self.createdAt = createdAt
+        self.displayName = displayName
+        self.inUseConfiguration = inUseConfiguration
+        self.lastUpdateConfiguration = lastUpdateConfiguration
+    }
+}
+
 public struct GetGroupInput: Swift.Sendable {
     /// The identifier of the application id the group is attached to.
     /// This member is required.
@@ -7323,6 +7667,41 @@ public struct ListAttachmentsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.attachments = attachments
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListChatResponseConfigurationsInput: Swift.Sendable {
+    /// The unique identifier of the Amazon Q Business application for which to list available chat response configurations.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The maximum number of chat response configurations to return in a single response. This parameter helps control pagination of results when many configurations exist.
+    public var maxResults: Swift.Int?
+    /// A pagination token used to retrieve the next set of results when the number of configurations exceeds the specified maxResults value.
+    public var nextToken: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListChatResponseConfigurationsOutput: Swift.Sendable {
+    /// A list of chat response configuration summaries, each containing key information about an available configuration in the specified application.
+    public var chatResponseConfigurations: [QBusinessClientTypes.ChatResponseConfiguration]?
+    /// A pagination token that can be used in a subsequent request to retrieve additional chat response configurations if the results were truncated due to the maxResults parameter.
+    public var nextToken: Swift.String?
+
+    public init(
+        chatResponseConfigurations: [QBusinessClientTypes.ChatResponseConfiguration]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.chatResponseConfigurations = chatResponseConfigurations
         self.nextToken = nextToken
     }
 }
@@ -8433,6 +8812,41 @@ public struct UpdateChatControlsConfigurationOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateChatResponseConfigurationInput: Swift.Sendable {
+    /// The unique identifier of the Amazon Q Business application containing the chat response configuration to update.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The unique identifier of the chat response configuration to update within the specified application.
+    /// This member is required.
+    public var chatResponseConfigurationId: Swift.String?
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This helps prevent the same update from being processed multiple times if retries occur.
+    public var clientToken: Swift.String?
+    /// The new human-readable name to assign to the chat response configuration, making it easier to identify among multiple configurations.
+    public var displayName: Swift.String?
+    /// The updated collection of response configuration settings that define how Amazon Q Business generates and formats responses to user queries.
+    /// This member is required.
+    public var responseConfigurations: [Swift.String: QBusinessClientTypes.ResponseConfiguration]?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        chatResponseConfigurationId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        responseConfigurations: [Swift.String: QBusinessClientTypes.ResponseConfiguration]? = nil
+    ) {
+        self.applicationId = applicationId
+        self.chatResponseConfigurationId = chatResponseConfigurationId
+        self.clientToken = clientToken
+        self.displayName = displayName
+        self.responseConfigurations = responseConfigurations
+    }
+}
+
+public struct UpdateChatResponseConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateSubscriptionInput: Swift.Sendable {
     /// The identifier of the Amazon Q Business application where the subscription update should take effect.
     /// This member is required.
@@ -9096,6 +9510,16 @@ extension CreateApplicationInput {
     }
 }
 
+extension CreateChatResponseConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateChatResponseConfigurationInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/chatresponseconfigurations"
+    }
+}
+
 extension CreateDataAccessorInput {
 
     static func urlPathProvider(_ value: CreateDataAccessorInput) -> Swift.String? {
@@ -9224,6 +9648,19 @@ extension DeleteChatControlsConfigurationInput {
             return nil
         }
         return "/applications/\(applicationId.urlPercentEncoding())/chatcontrols"
+    }
+}
+
+extension DeleteChatResponseConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteChatResponseConfigurationInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let chatResponseConfigurationId = value.chatResponseConfigurationId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/chatresponseconfigurations/\(chatResponseConfigurationId.urlPercentEncoding())"
     }
 }
 
@@ -9420,6 +9857,19 @@ extension GetChatControlsConfigurationInput {
             items.append(nextTokenQueryItem)
         }
         return items
+    }
+}
+
+extension GetChatResponseConfigurationInput {
+
+    static func urlPathProvider(_ value: GetChatResponseConfigurationInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let chatResponseConfigurationId = value.chatResponseConfigurationId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/chatresponseconfigurations/\(chatResponseConfigurationId.urlPercentEncoding())"
     }
 }
 
@@ -9626,6 +10076,32 @@ extension ListAttachmentsInput {
         if let userId = value.userId {
             let userIdQueryItem = Smithy.URIQueryItem(name: "userId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
             items.append(userIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListChatResponseConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListChatResponseConfigurationsInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/chatresponseconfigurations"
+    }
+}
+
+extension ListChatResponseConfigurationsInput {
+
+    static func queryItemProvider(_ value: ListChatResponseConfigurationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
         }
         return items
     }
@@ -10224,6 +10700,19 @@ extension UpdateChatControlsConfigurationInput {
     }
 }
 
+extension UpdateChatResponseConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateChatResponseConfigurationInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let chatResponseConfigurationId = value.chatResponseConfigurationId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/chatresponseconfigurations/\(chatResponseConfigurationId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateDataAccessorInput {
 
     static func urlPathProvider(_ value: UpdateDataAccessorInput) -> Swift.String? {
@@ -10407,6 +10896,17 @@ extension CreateApplicationInput {
     }
 }
 
+extension CreateChatResponseConfigurationInput {
+
+    static func write(value: CreateChatResponseConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["displayName"].write(value.displayName)
+        try writer["responseConfigurations"].writeMap(value.responseConfigurations, valueWritingClosure: QBusinessClientTypes.ResponseConfiguration.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: QBusinessClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateDataAccessorInput {
 
     static func write(value: CreateDataAccessorInput?, to writer: SmithyJSON.Writer) throws {
@@ -10583,6 +11083,16 @@ extension UpdateChatControlsConfigurationInput {
         try writer["responseScope"].write(value.responseScope)
         try writer["topicConfigurationsToCreateOrUpdate"].writeList(value.topicConfigurationsToCreateOrUpdate, memberWritingClosure: QBusinessClientTypes.TopicConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["topicConfigurationsToDelete"].writeList(value.topicConfigurationsToDelete, memberWritingClosure: QBusinessClientTypes.TopicConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateChatResponseConfigurationInput {
+
+    static func write(value: UpdateChatResponseConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["displayName"].write(value.displayName)
+        try writer["responseConfigurations"].writeMap(value.responseConfigurations, valueWritingClosure: QBusinessClientTypes.ResponseConfiguration.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -10800,6 +11310,19 @@ extension CreateApplicationOutput {
     }
 }
 
+extension CreateChatResponseConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateChatResponseConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateChatResponseConfigurationOutput()
+        value.chatResponseConfigurationArn = try reader["chatResponseConfigurationArn"].readIfPresent() ?? ""
+        value.chatResponseConfigurationId = try reader["chatResponseConfigurationId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateDataAccessorOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDataAccessorOutput {
@@ -10923,6 +11446,13 @@ extension DeleteChatControlsConfigurationOutput {
     }
 }
 
+extension DeleteChatResponseConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteChatResponseConfigurationOutput {
+        return DeleteChatResponseConfigurationOutput()
+    }
+}
+
 extension DeleteConversationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConversationOutput {
@@ -11037,6 +11567,23 @@ extension GetChatControlsConfigurationOutput {
         value.orchestrationConfiguration = try reader["orchestrationConfiguration"].readIfPresent(with: QBusinessClientTypes.AppliedOrchestrationConfiguration.read(from:))
         value.responseScope = try reader["responseScope"].readIfPresent()
         value.topicConfigurations = try reader["topicConfigurations"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.TopicConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GetChatResponseConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetChatResponseConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetChatResponseConfigurationOutput()
+        value.chatResponseConfigurationArn = try reader["chatResponseConfigurationArn"].readIfPresent()
+        value.chatResponseConfigurationId = try reader["chatResponseConfigurationId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.inUseConfiguration = try reader["inUseConfiguration"].readIfPresent(with: QBusinessClientTypes.ChatResponseConfigurationDetail.read(from:))
+        value.lastUpdateConfiguration = try reader["lastUpdateConfiguration"].readIfPresent(with: QBusinessClientTypes.ChatResponseConfigurationDetail.read(from:))
         return value
     }
 }
@@ -11258,6 +11805,19 @@ extension ListAttachmentsOutput {
         let reader = responseReader
         var value = ListAttachmentsOutput()
         value.attachments = try reader["attachments"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.Attachment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListChatResponseConfigurationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListChatResponseConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListChatResponseConfigurationsOutput()
+        value.chatResponseConfigurations = try reader["chatResponseConfigurations"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.ChatResponseConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -11544,6 +12104,13 @@ extension UpdateChatControlsConfigurationOutput {
     }
 }
 
+extension UpdateChatResponseConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateChatResponseConfigurationOutput {
+        return UpdateChatResponseConfigurationOutput()
+    }
+}
+
 extension UpdateDataAccessorOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDataAccessorOutput {
@@ -11790,6 +12357,26 @@ enum CreateApplicationOutputError {
     }
 }
 
+enum CreateChatResponseConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateDataAccessorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11996,6 +12583,25 @@ enum DeleteChatControlsConfigurationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteChatResponseConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -12231,6 +12837,24 @@ enum GetChatControlsConfigurationOutputError {
     }
 }
 
+enum GetChatResponseConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetDataAccessorOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12443,6 +13067,24 @@ enum ListAttachmentsOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "LicenseNotFoundException": return try LicenseNotFoundException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListChatResponseConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -12907,6 +13549,25 @@ enum UpdateChatControlsConfigurationOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateChatResponseConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -13910,6 +14571,64 @@ extension QBusinessClientTypes.HallucinationReductionConfiguration {
     }
 }
 
+extension QBusinessClientTypes.ChatResponseConfigurationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.ChatResponseConfigurationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.ChatResponseConfigurationDetail()
+        value.responseConfigurations = try reader["responseConfigurations"].readMapIfPresent(valueReadingClosure: QBusinessClientTypes.ResponseConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.responseConfigurationSummary = try reader["responseConfigurationSummary"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.error = try reader["error"].readIfPresent(with: QBusinessClientTypes.ErrorDetail.read(from:))
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension QBusinessClientTypes.ResponseConfiguration {
+
+    static func write(value: QBusinessClientTypes.ResponseConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["instructionCollection"].write(value.instructionCollection, with: QBusinessClientTypes.InstructionCollection.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.ResponseConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.ResponseConfiguration()
+        value.instructionCollection = try reader["instructionCollection"].readIfPresent(with: QBusinessClientTypes.InstructionCollection.read(from:))
+        return value
+    }
+}
+
+extension QBusinessClientTypes.InstructionCollection {
+
+    static func write(value: QBusinessClientTypes.InstructionCollection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customInstructions"].write(value.customInstructions)
+        try writer["examples"].write(value.examples)
+        try writer["identity"].write(value.identity)
+        try writer["outputStyle"].write(value.outputStyle)
+        try writer["perspective"].write(value.perspective)
+        try writer["responseLength"].write(value.responseLength)
+        try writer["targetAudience"].write(value.targetAudience)
+        try writer["tone"].write(value.tone)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.InstructionCollection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.InstructionCollection()
+        value.responseLength = try reader["responseLength"].readIfPresent()
+        value.targetAudience = try reader["targetAudience"].readIfPresent()
+        value.perspective = try reader["perspective"].readIfPresent()
+        value.outputStyle = try reader["outputStyle"].readIfPresent()
+        value.identity = try reader["identity"].readIfPresent()
+        value.tone = try reader["tone"].readIfPresent()
+        value.customInstructions = try reader["customInstructions"].readIfPresent()
+        value.examples = try reader["examples"].readIfPresent()
+        return value
+    }
+}
+
 extension QBusinessClientTypes.ActionConfiguration {
 
     static func write(value: QBusinessClientTypes.ActionConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -14548,12 +15267,14 @@ extension QBusinessClientTypes.NativeIndexConfiguration {
         guard let value else { return }
         try writer["boostingOverride"].writeMap(value.boostingOverride, valueWritingClosure: QBusinessClientTypes.DocumentAttributeBoostingConfiguration.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["indexId"].write(value.indexId)
+        try writer["version"].write(value.version)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.NativeIndexConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = QBusinessClientTypes.NativeIndexConfiguration()
         value.indexId = try reader["indexId"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent()
         value.boostingOverride = try reader["boostingOverride"].readMapIfPresent(valueReadingClosure: QBusinessClientTypes.DocumentAttributeBoostingConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -14893,6 +15614,22 @@ extension QBusinessClientTypes.ConversationSource {
         var value = QBusinessClientTypes.ConversationSource()
         value.conversationId = try reader["conversationId"].readIfPresent() ?? ""
         value.attachmentId = try reader["attachmentId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension QBusinessClientTypes.ChatResponseConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QBusinessClientTypes.ChatResponseConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QBusinessClientTypes.ChatResponseConfiguration()
+        value.chatResponseConfigurationId = try reader["chatResponseConfigurationId"].readIfPresent() ?? ""
+        value.chatResponseConfigurationArn = try reader["chatResponseConfigurationArn"].readIfPresent() ?? ""
+        value.displayName = try reader["displayName"].readIfPresent() ?? ""
+        value.responseConfigurationSummary = try reader["responseConfigurationSummary"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }

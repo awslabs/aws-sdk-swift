@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTTwinMakerClient: ClientRuntime.Client {
     public static let clientName = "IoTTwinMakerClient"
-    public static let version = "1.3.47"
+    public static let version = "1.3.48"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTTwinMakerClient.IoTTwinMakerClientConfiguration
     let serviceName = "IoTTwinMaker"

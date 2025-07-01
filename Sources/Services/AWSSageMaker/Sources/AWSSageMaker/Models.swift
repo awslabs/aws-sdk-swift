@@ -13436,7 +13436,6 @@ public struct CreateClusterInput: Swift.Sendable {
     /// This member is required.
     public var clusterName: Swift.String?
     /// The instance groups to be created in the SageMaker HyperPod cluster.
-    /// This member is required.
     public var instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]?
     /// The node recovery mode for the SageMaker HyperPod cluster. When set to Automatic, SageMaker HyperPod will automatically reboot or replace faulty nodes when issues are detected. When set to None, cluster administrators will need to manually manage any faulty cluster instances.
     public var nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery?
@@ -40955,7 +40954,7 @@ public struct ListClustersInput: Swift.Sendable {
     public var creationTimeAfter: Foundation.Date?
     /// Set an end time for the time range during which you want to list SageMaker HyperPod clusters. A filter that returns nodes in a SageMaker HyperPod cluster created before the specified time. The acceptable formats are the same as the timestamp formats for CreationTimeAfter. For more information about the timestamp format, see [Timestamp](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp) in the Amazon Web Services Command Line Interface User Guide.
     public var creationTimeBefore: Foundation.Date?
-    /// Set the maximum number of SageMaker HyperPod clusters to list.
+    /// Specifies the maximum number of clusters to evaluate for the operation (not necessarily the number of matching items). After SageMaker processes the number of clusters up to MaxResults, it stops the operation and returns the matching clusters up to that point. If all the matching clusters are desired, SageMaker will go through all the clusters until NextToken is empty.
     public var maxResults: Swift.Int?
     /// Set the maximum number of instances to print in the list.
     public var nameContains: Swift.String?
@@ -50888,7 +50887,6 @@ public struct UpdateClusterInput: Swift.Sendable {
     /// This member is required.
     public var clusterName: Swift.String?
     /// Specify the instance groups to update.
-    /// This member is required.
     public var instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]?
     /// Specify the names of the instance groups to delete. Use a single , as the separator between multiple names.
     public var instanceGroupsToDelete: [Swift.String]?
