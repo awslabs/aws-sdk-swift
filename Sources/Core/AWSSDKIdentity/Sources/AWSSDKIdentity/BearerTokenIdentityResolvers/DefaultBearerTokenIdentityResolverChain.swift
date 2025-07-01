@@ -20,7 +20,7 @@ public struct DefaultBearerTokenIdentityResolverChain: BearerTokenIdentityResolv
     public var chain: [any BearerTokenIdentityResolver]
 
     public init(chain: [any BearerTokenIdentityResolver]? = nil) throws {
-        self.chain = try chain ?? [SSOBearerTokenIdentityResolver()]
+        self.chain = chain ?? [SSOBearerTokenIdentityResolver()]
     }
 
     public func getIdentity(

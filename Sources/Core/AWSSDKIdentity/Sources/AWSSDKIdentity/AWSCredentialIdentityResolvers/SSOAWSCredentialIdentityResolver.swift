@@ -25,6 +25,7 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
     private let configFilePath: String?
     private let credentialsFilePath: String?
     private let profileName: String?
+    private let credentialFeatureIDs: [String]
 
     /// - Parameters:
     ///   - profileName: The profile name to use. If not provided it will be resolved internally via the `AWS_PROFILE` environment variable or defaulted to `default` if not configured.
@@ -35,10 +36,27 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
         configFilePath: String? = nil,
         credentialsFilePath: String? = nil
     ) throws {
+        try self.init(
+            profileName: profileName,
+            configFilePath: configFilePath,
+            credentialsFilePath: credentialsFilePath,
+            credentialFeatureIDs: []
+        )
+    }
+
+    // Initializer used by profile chain reoslver.
+    internal init(
+        profileName: String? = nil,
+        configFilePath: String? = nil,
+        credentialsFilePath: String? = nil,
+        credentialFeatureIDs: [String]
+    ) throws {
         self.profileName = profileName
         self.configFilePath = configFilePath
         self.credentialsFilePath = credentialsFilePath
+        self.credentialFeatureIDs = credentialFeatureIDs
     }
+
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
         guard let identityProperties, let internalSSOClient = identityProperties.get(
@@ -62,14 +80,18 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
 
         var ssoToken: BearerTokenIdentity!
         var region: String!
+        var tokenFeatureIDs: [String]!
         if let ssoSessionName {
             region = try getProperty(ssoSessionName, .ssoSession, "sso_region", fileBasedConfig)
+            tokenFeatureIDs = [CredentialFeatureID.CREDENTIALS_PROFILE_SSO.rawValue]
             ssoToken = try await SSOBearerTokenIdentityResolver(
                 profileName: resolvedProfileName,
-                configFilePath: configFilePath
+                configFilePath: configFilePath,
+                credentialFeatureIDs: credentialFeatureIDs + tokenFeatureIDs
             ).getIdentity(identityProperties: identityProperties)
         } else { // Handle Legacy token flow.
             region = try getProperty(resolvedProfileName, .profile, "sso_region", fileBasedConfig)
+            tokenFeatureIDs = [CredentialFeatureID.CREDENTIALS_PROFILE_SSO_LEGACY.rawValue]
             ssoToken = try await SSOBearerTokenLegacyResolver().getSSOTokenWithLegacyFlow(
                 profileName: resolvedProfileName,
                 fileBasedConfig: fileBasedConfig
@@ -80,7 +102,8 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
             region: region,
             accessToken: ssoToken.token,
             accountID: accountID,
-            roleName: roleName
+            roleName: roleName,
+            credentialFeatureIDs: credentialFeatureIDs + tokenFeatureIDs
         )
     }
 

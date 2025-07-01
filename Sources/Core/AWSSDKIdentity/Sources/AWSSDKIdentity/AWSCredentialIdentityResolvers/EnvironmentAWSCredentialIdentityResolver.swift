@@ -33,11 +33,14 @@ public struct EnvironmentAWSCredentialIdentityResolver: AWSCredentialIdentityRes
             )
         }
 
+        var properties = Attributes()
+        properties.set(key: AWSIdentityPropertyKeys.credentialFeatureIDs, value: [CredentialFeatureID.CREDENTIALS_ENV_VARS.rawValue])
         return AWSCredentialIdentity(
             accessKey: accessKey,
             secret: secretKey,
             accountID: env["AWS_ACCOUNT_ID"],
-            sessionToken: env["AWS_SESSION_TOKEN"]
+            sessionToken: env["AWS_SESSION_TOKEN"],
+            properties: properties
         )
     }
 }

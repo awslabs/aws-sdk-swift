@@ -166,12 +166,15 @@ public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
                 JSONCredentialResponse.self,
                 from: data
             )
+            var properties = Attributes()
+            properties.set(key: AWSIdentityPropertyKeys.credentialFeatureIDs, value: [CredentialFeatureID.CREDENTIALS_HTTP.rawValue])
             return AWSCredentialIdentity(
                 accessKey: jsonCredentialResponse.accessKeyID,
                 secret: jsonCredentialResponse.secretAccessKey,
                 accountID: jsonCredentialResponse.accountID,
                 expiration: jsonCredentialResponse.expiration,
-                sessionToken: jsonCredentialResponse.sessionToken
+                sessionToken: jsonCredentialResponse.sessionToken,
+                properties: properties
             )
         } catch {
             // Handle network errors (not HTTP status errors).

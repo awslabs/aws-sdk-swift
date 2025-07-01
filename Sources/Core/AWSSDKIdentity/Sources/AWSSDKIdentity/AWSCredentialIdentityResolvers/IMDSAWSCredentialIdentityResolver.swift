@@ -81,7 +81,7 @@ public actor IMDSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
         // Fetch JSON credential response from IMDS.
         do {
             let path = credentialURLBase + resolvedProfile
-            var jsonCredentialString = try await imdsClient.get(path: path)
+            let jsonCredentialString = try await imdsClient.get(path: path)
             return try parseJSONCredentials(jsonCredentialString: jsonCredentialString)
         } catch IMDSError.metadata(.nonRetryable(let message)) where message.contains("404") {
             throw IMDSError.invalidProfileName
@@ -118,12 +118,15 @@ public actor IMDSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
             JSONCredentialResponse.self,
             from: jsonCredentialData
         )
+        var properties = Attributes()
+        properties.set(key: AWSIdentityPropertyKeys.credentialFeatureIDs, value: [CredentialFeatureID.CREDENTIALS_IMDS.rawValue])
         return AWSCredentialIdentity(
             accessKey: jsonCredentials.accessKeyID,
             secret: jsonCredentials.secretAccessKey,
             accountID: jsonCredentials.accountID,
             expiration: jsonCredentials.expiration,
-            sessionToken: jsonCredentials.token
+            sessionToken: jsonCredentials.token,
+            properties: properties
         )
     }
 }

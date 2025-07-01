@@ -15,14 +15,16 @@ public protocol IdentityProvidingSTSClient: Sendable {
         region: String,
         roleARN: String,
         roleSessionName: String,
-        webIdentityToken: String
+        webIdentityToken: String,
+        credentialFeatureIDs: [String]
     ) async throws -> AWSCredentialIdentity
 
     func assumeRoleWithCreds(
         creds: AWSCredentialIdentity,
         roleARN: String,
         roleSessionName: String,
-        durationSeconds: TimeInterval
+        durationSeconds: TimeInterval,
+        credentialFeatureIDs: [String]
     ) async throws -> AWSCredentialIdentity
 }
 

@@ -8,6 +8,7 @@ import software.amazon.smithy.swift.codegen.core.SwiftCodegenContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.swiftmodules.FoundationTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
 
 class IdentityProvidingSSOClientIntegration : SwiftIntegration {
     override fun enabledForService(
@@ -30,11 +31,16 @@ class IdentityProvidingSSOClientIntegration : SwiftIntegration {
                 writer.write("package init() {}")
                 writer.write("")
                 writer.openBlock(
-                    "package func getCredentialsWithSSOToken(region: String, accessToken: String, accountID: String, roleName: String) async throws -> \$N {",
+                    "package func getCredentialsWithSSOToken(region: String, accessToken: String, accountID: String, roleName: String, credentialFeatureIDs: [String]) async throws -> \$N {",
                     "}",
                     AWSSDKIdentityTypes.AWSCredentialIdentity,
                 ) {
-                    writer.write("let sso = try SSOClient(region: region)")
+                    writer.write("let ssoConfig = try await SSOClient.SSOClientConfiguration(region: region)")
+                    writer.write(
+                        "ssoConfig.addInterceptorProvider(\$N(featureIDsToAdd: credentialFeatureIDs))",
+                        AWSSDKIdentityTypes.CredentialFeatureIDInterceptorProvider,
+                    )
+                    writer.write("let sso = SSOClient(config: ssoConfig)")
                     writer.write("let input = GetRoleCredentialsInput(accessToken: accessToken, accountId: accountID, roleName: roleName)")
                     writer.write("let out = try await sso.getRoleCredentials(input: input)")
                     writer.openBlock(
@@ -60,8 +66,43 @@ class IdentityProvidingSSOClientIntegration : SwiftIntegration {
                             FoundationTypes.TimeInterval,
                         )
                     }
+                    writer.write("var properties = \$N()", SmithyTypes.Attributes)
                     writer.write(
-                        "return \$N(accessKey: accessKey, secret: secretKey, accountID: accountID, expiration: expiration, sessionToken: out.roleCredentials?.sessionToken)",
+                        "if credentialFeatureIDs.last == \$N.CREDENTIALS_PROFILE_SSO_LEGACY.rawValue {",
+                        AWSSDKIdentityTypes.CredentialFeatureID
+                    )
+                    writer.indent()
+                    writer.write(
+                        "properties.set(key: \$N.credentialFeatureIDs, value: credentialFeatureIDs + [\$N.CREDENTIALS_PROFILE_SSO.rawValue])",
+                        AWSSDKIdentityTypes.AWSIdentityPropertyKeys,
+                        AWSSDKIdentityTypes.CredentialFeatureID,
+                    )
+                    writer.dedent()
+                    writer.write(
+                        "} else if credentialFeatureIDs.last == \$N.CREDENTIALS_PROFILE_SSO.rawValue {",
+                        AWSSDKIdentityTypes.CredentialFeatureID,
+                    )
+                    writer.indent()
+                    writer.write(
+                        "properties.set(key: \$N.credentialFeatureIDs, value: credentialFeatureIDs + [\$N.CREDENTIALS_SSO.rawValue])",
+                        AWSSDKIdentityTypes.AWSIdentityPropertyKeys,
+                        AWSSDKIdentityTypes.CredentialFeatureID,
+                    )
+                    writer.dedent()
+                    writer.write("} else {")
+                    writer.indent()
+                    writer.write(
+                        "throw \$N.failedToResolveAWSCredentials(\"SSOAWSCredentialIdentityResolver: Invalid last feature ID found. This should never happen.\")",
+                        AWSSDKIdentityTypes.AWSCredentialIdentityResolverError,
+                    )
+                    writer.dedent()
+                    writer.write("}")
+                    writer.write(
+                        "properties.set(key: \$N.credentialFeatureIDs, value: credentialFeatureIDs)",
+                        AWSSDKIdentityTypes.AWSIdentityPropertyKeys,
+                    )
+                    writer.write(
+                        "return \$N(accessKey: accessKey, secret: secretKey, accountID: accountID, expiration: expiration, sessionToken: out.roleCredentials?.sessionToken, properties: properties)",
                         AWSSDKIdentityTypes.AWSCredentialIdentity,
                     )
                 }
