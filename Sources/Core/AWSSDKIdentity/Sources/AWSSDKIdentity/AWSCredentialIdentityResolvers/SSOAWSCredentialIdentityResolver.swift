@@ -57,7 +57,6 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
         self.credentialFeatureIDs = credentialFeatureIDs
     }
 
-
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
         guard let identityProperties, let internalSSOClient = identityProperties.get(
             key: InternalClientKeys.internalSSOClientKey

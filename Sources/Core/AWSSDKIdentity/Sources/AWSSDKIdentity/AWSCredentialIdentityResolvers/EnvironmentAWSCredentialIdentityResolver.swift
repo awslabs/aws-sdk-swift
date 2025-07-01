@@ -34,7 +34,10 @@ public struct EnvironmentAWSCredentialIdentityResolver: AWSCredentialIdentityRes
         }
 
         var properties = Attributes()
-        properties.set(key: AWSIdentityPropertyKeys.credentialFeatureIDs, value: [CredentialFeatureID.CREDENTIALS_ENV_VARS.rawValue])
+        properties.set(
+            key: AWSIdentityPropertyKeys.credentialFeatureIDs,
+            value: [CredentialFeatureID.CREDENTIALS_ENV_VARS.rawValue]
+        )
         return AWSCredentialIdentity(
             accessKey: accessKey,
             secret: secretKey,

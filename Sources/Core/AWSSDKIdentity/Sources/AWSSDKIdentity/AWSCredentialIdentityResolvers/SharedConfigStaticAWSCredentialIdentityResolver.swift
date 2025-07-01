@@ -71,7 +71,10 @@ public struct SharedConfigStaticAWSCredentialIdentityResolver: AWSCredentialIden
         let accountID = profileSection.string(for: "aws_account_id")
 
         var properties = Attributes()
-        properties.set(key: AWSIdentityPropertyKeys.credentialFeatureIDs, value: [CredentialFeatureID.CREDENTIALS_PROFILE.rawValue])
+        properties.set(
+            key: AWSIdentityPropertyKeys.credentialFeatureIDs,
+            value: [CredentialFeatureID.CREDENTIALS_PROFILE.rawValue]
+        )
         return AWSCredentialIdentity(
             accessKey: accessKey,
             secret: secretKey,

@@ -167,7 +167,10 @@ public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
                 from: data
             )
             var properties = Attributes()
-            properties.set(key: AWSIdentityPropertyKeys.credentialFeatureIDs, value: [CredentialFeatureID.CREDENTIALS_HTTP.rawValue])
+            properties.set(
+                key: AWSIdentityPropertyKeys.credentialFeatureIDs,
+                value: [CredentialFeatureID.CREDENTIALS_HTTP.rawValue]
+            )
             return AWSCredentialIdentity(
                 accessKey: jsonCredentialResponse.accessKeyID,
                 secret: jsonCredentialResponse.secretAccessKey,

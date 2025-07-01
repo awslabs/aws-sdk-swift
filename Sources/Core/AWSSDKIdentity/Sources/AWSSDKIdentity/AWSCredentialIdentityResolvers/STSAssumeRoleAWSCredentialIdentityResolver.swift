@@ -65,7 +65,9 @@ public struct STSAssumeRoleAWSCredentialIdentityResolver: AWSCredentialIdentityR
             roleARN: roleARN,
             roleSessionName: roleSessionName,
             durationSeconds: durationSeconds,
-            credentialFeatureIDs: underlyingCreds.properties.get(key: AWSIdentityPropertyKeys.credentialFeatureIDs) ?? []
+            credentialFeatureIDs: underlyingCreds.properties.get(
+                key: AWSIdentityPropertyKeys.credentialFeatureIDs
+            ) ?? []
         )
     }
 

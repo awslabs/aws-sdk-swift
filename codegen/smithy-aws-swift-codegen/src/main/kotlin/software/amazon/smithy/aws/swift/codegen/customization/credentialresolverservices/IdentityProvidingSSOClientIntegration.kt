@@ -69,7 +69,7 @@ class IdentityProvidingSSOClientIntegration : SwiftIntegration {
                     writer.write("var properties = \$N()", SmithyTypes.Attributes)
                     writer.write(
                         "if credentialFeatureIDs.last == \$N.CREDENTIALS_PROFILE_SSO_LEGACY.rawValue {",
-                        AWSSDKIdentityTypes.CredentialFeatureID
+                        AWSSDKIdentityTypes.CredentialFeatureID,
                     )
                     writer.indent()
                     writer.write(

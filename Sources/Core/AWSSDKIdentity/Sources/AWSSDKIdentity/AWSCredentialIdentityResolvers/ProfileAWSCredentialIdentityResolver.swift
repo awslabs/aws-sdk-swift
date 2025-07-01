@@ -129,6 +129,7 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
         )
     }
 
+    // swiftlint:disable function_body_length
     private func credentialResolvers(
         profile: CRTFileBasedConfigurationSection,
         fileBasedConfig: CRTFileBasedConfiguration,
@@ -149,11 +150,15 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
                     credentialsFilePath: credentialsFilePath
                 ).getIdentity(identityProperties: identityProperties)
                 let sourceCredsWithUpdatedFeatureIDs = prependFeatureIDs(
-                    featureIDsToPrepend: credentialFeatureIDs + [CredentialFeatureID.CREDENTIALS_PROFILE_SOURCE_PROFILE.rawValue],
+                    featureIDsToPrepend: credentialFeatureIDs + [
+                        CredentialFeatureID.CREDENTIALS_PROFILE_SOURCE_PROFILE.rawValue
+                    ],
                     creds: sourceCreds
                 )
                 return try await STSAssumeRoleAWSCredentialIdentityResolver(
-                    awsCredentialIdentityResolver: StaticAWSCredentialIdentityResolver(sourceCredsWithUpdatedFeatureIDs),
+                    awsCredentialIdentityResolver: StaticAWSCredentialIdentityResolver(
+                        sourceCredsWithUpdatedFeatureIDs
+                    ),
                     roleArn: profile.string(for: .init(stringLiteral: "role_arn"))!,
                     sessionName: profile.string(for: .init(stringLiteral: "role_session_name"))
                 ).getIdentity(identityProperties: identityProperties)
@@ -204,11 +209,15 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
                     identityProperties: identityProperties
                 )
                 let sourceCredsWithUpdatedFeatureIDs = prependFeatureIDs(
-                    featureIDsToPrepend: credentialFeatureIDs + [CredentialFeatureID.CREDENTIALS_PROFILE_NAMED_PROVIDER.rawValue],
+                    featureIDsToPrepend: credentialFeatureIDs + [
+                        CredentialFeatureID.CREDENTIALS_PROFILE_NAMED_PROVIDER.rawValue
+                    ],
                     creds: sourceCreds
                 )
                 return try await STSAssumeRoleAWSCredentialIdentityResolver(
-                    awsCredentialIdentityResolver: StaticAWSCredentialIdentityResolver(sourceCredsWithUpdatedFeatureIDs),
+                    awsCredentialIdentityResolver: StaticAWSCredentialIdentityResolver(
+                        sourceCredsWithUpdatedFeatureIDs
+                    ),
                     roleArn: profile.string(for: .init(stringLiteral: "role_arn"))!,
                     sessionName: profile.string(for: .init(stringLiteral: "role_session_name"))
                 ).getIdentity(identityProperties: identityProperties)
@@ -253,6 +262,7 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
 
         return resolvers
     }
+    // swiftlint:enable function_body_length
 
     private func resolveFromCredentialSource(
         profileName: String,

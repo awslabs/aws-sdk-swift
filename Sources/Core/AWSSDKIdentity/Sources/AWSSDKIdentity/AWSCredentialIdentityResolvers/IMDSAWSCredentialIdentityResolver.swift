@@ -119,7 +119,10 @@ public actor IMDSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
             from: jsonCredentialData
         )
         var properties = Attributes()
-        properties.set(key: AWSIdentityPropertyKeys.credentialFeatureIDs, value: [CredentialFeatureID.CREDENTIALS_IMDS.rawValue])
+        properties.set(
+            key: AWSIdentityPropertyKeys.credentialFeatureIDs,
+            value: [CredentialFeatureID.CREDENTIALS_IMDS.rawValue]
+        )
         return AWSCredentialIdentity(
             accessKey: jsonCredentials.accessKeyID,
             secret: jsonCredentials.secretAccessKey,
