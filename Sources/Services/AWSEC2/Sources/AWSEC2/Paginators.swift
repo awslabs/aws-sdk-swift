@@ -4214,6 +4214,7 @@ extension GetInstanceTypesFromInstanceRequirementsInput: ClientRuntime.PaginateT
     public func usingPaginationToken(_ token: Swift.String) -> GetInstanceTypesFromInstanceRequirementsInput {
         return GetInstanceTypesFromInstanceRequirementsInput(
             architectureTypes: self.architectureTypes,
+            context: self.context,
             dryRun: self.dryRun,
             instanceRequirements: self.instanceRequirements,
             maxResults: self.maxResults,

@@ -734,7 +734,7 @@ public struct GetQueryResultsMonitorTopContributorsInput: Swift.Sendable {
     public var monitorName: Swift.String?
     /// The token for the next set of results. You receive this token from a previous call.
     public var nextToken: Swift.String?
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
 
@@ -1062,7 +1062,7 @@ public struct GetQueryResultsWorkloadInsightsTopContributorsInput: Swift.Sendabl
     public var maxResults: Swift.Int?
     /// The token for the next set of results. You receive this token from a previous call.
     public var nextToken: Swift.String?
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
@@ -1149,7 +1149,7 @@ public struct GetQueryResultsWorkloadInsightsTopContributorsDataInput: Swift.Sen
     public var maxResults: Swift.Int?
     /// The token for the next set of results. You receive this token from a previous call.
     public var nextToken: Swift.String?
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
@@ -1631,7 +1631,7 @@ public struct StartQueryMonitorTopContributorsInput: Swift.Sendable {
     public var endTime: Foundation.Date?
     /// The maximum number of top contributors to return.
     public var limit: Swift.Int?
-    /// The metric that you want to query top contributors for. That is, you can specify this metric to return the top contributor network flows, for this type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones.
+    /// The metric that you want to query top contributors for. That is, you can specify a metric with this call and return the top contributor network flows, for that type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones.
     /// This member is required.
     public var metricName: NetworkFlowMonitorClientTypes.MonitorMetric?
     /// The name of the monitor.
@@ -1674,7 +1674,7 @@ public struct StopQueryMonitorTopContributorsInput: Swift.Sendable {
     /// The name of the monitor.
     /// This member is required.
     public var monitorName: Swift.String?
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
 
@@ -1925,7 +1925,7 @@ public struct StartQueryWorkloadInsightsTopContributorsDataOutput: Swift.Sendabl
 }
 
 public struct StopQueryWorkloadInsightsTopContributorsInput: Swift.Sendable {
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
@@ -1947,7 +1947,7 @@ public struct StopQueryWorkloadInsightsTopContributorsOutput: Swift.Sendable {
 }
 
 public struct StopQueryWorkloadInsightsTopContributorsDataInput: Swift.Sendable {
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
@@ -2878,6 +2878,7 @@ enum DeleteScopeOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
@@ -3263,6 +3264,7 @@ enum UpdateScopeOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)

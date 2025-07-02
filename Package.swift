@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.144.0"
+let clientRuntimeVersion: Version = "0.145.0"
 let crtVersion: Version = "0.52.1"
 
 let excludeRuntimeUnitTests = false
@@ -298,6 +298,7 @@ let serviceTargets: [String] = [
     "AWSOAM",
     "AWSOSIS",
     "AWSObservabilityAdmin",
+    "AWSOdb",
     "AWSOmics",
     "AWSOpenSearch",
     "AWSOpenSearchServerless",

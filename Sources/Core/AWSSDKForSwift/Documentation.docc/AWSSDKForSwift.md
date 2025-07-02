@@ -627,6 +627,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSObservabilityAdmin](../../../../../swift/api/awsobservabilityadmin/latest)
 
+[AWSOdb](../../../../../swift/api/awsodb/latest)
+
 [AWSOmics](../../../../../swift/api/awsomics/latest)
 
 [AWSOpenSearch](../../../../../swift/api/awsopensearch/latest)

@@ -48,6 +48,7 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
+import struct AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
@@ -60,15 +61,14 @@ import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
-import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+import struct SmithyHTTPAuth.BearerTokenAuthScheme
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockClient: ClientRuntime.Client {
     public static let clientName = "BedrockClient"
-    public static let version = "1.3.46"
+    public static let version = "1.3.49"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockClient.BedrockClientConfiguration
     let serviceName = "Bedrock"
@@ -221,10 +221,10 @@ extension BedrockClient {
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
                 httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemes ?? [SmithyHTTPAuth.BearerTokenAuthScheme(), AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultBedrockAuthSchemeResolver(),
-                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                try bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
             )
@@ -277,10 +277,10 @@ extension BedrockClient {
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
                 httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemes ?? [SmithyHTTPAuth.BearerTokenAuthScheme(), AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultBedrockAuthSchemeResolver(),
-                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                try bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
             )
@@ -337,10 +337,10 @@ extension BedrockClient {
                 AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
                 AWSClientConfigDefaultsProvider.httpClientEngine(),
                 AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                [SmithyHTTPAuth.BearerTokenAuthScheme(), AWSSDKHTTPAuth.SigV4AuthScheme()],
                 nil,
                 DefaultBedrockAuthSchemeResolver(),
-                SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                try AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 [],
                 []
             )

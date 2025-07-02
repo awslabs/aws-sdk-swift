@@ -67,8 +67,10 @@ extension OutpostsClientTypes {
         /// This member is required.
         public var city: Swift.String?
         /// The name of the contact.
+        /// This member is required.
         public var contactName: Swift.String?
         /// The phone number of the contact.
+        /// This member is required.
         public var contactPhoneNumber: Swift.String?
         /// The ISO-3166 two-letter country code for the address.
         /// This member is required.
@@ -5329,8 +5331,8 @@ extension OutpostsClientTypes.Address {
     static func read(from reader: SmithyJSON.Reader) throws -> OutpostsClientTypes.Address {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OutpostsClientTypes.Address()
-        value.contactName = try reader["ContactName"].readIfPresent()
-        value.contactPhoneNumber = try reader["ContactPhoneNumber"].readIfPresent()
+        value.contactName = try reader["ContactName"].readIfPresent() ?? ""
+        value.contactPhoneNumber = try reader["ContactPhoneNumber"].readIfPresent() ?? ""
         value.addressLine1 = try reader["AddressLine1"].readIfPresent() ?? ""
         value.addressLine2 = try reader["AddressLine2"].readIfPresent()
         value.addressLine3 = try reader["AddressLine3"].readIfPresent()

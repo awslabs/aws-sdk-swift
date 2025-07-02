@@ -3214,8 +3214,247 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// Access Point APIs on express bucket routed to s3express-control
+    /// Tagging on express bucket routed to s3express-control
     func testResolve113() throws {
+        let endpointParams = EndpointParams(
+            accountId: "871317572157",
+            region: "us-east-1",
+            requiresAccountId: true,
+            resourceArn: "arn:aws:s3express:us-east-1:871317572157:bucket/crachlintest--use1-az4--x-s3",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-east-1",
+                        "disableDoubleEncoding": true
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3express-control.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Tagging on express ap routed to s3express-control
+    func testResolve114() throws {
+        let endpointParams = EndpointParams(
+            accountId: "871317572157",
+            region: "us-east-1",
+            requiresAccountId: true,
+            resourceArn: "arn:aws:s3express:us-east-1:871317572157:accesspoint/crachlintest--use1-az4--xa-s3",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-east-1",
+                        "disableDoubleEncoding": true
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3express-control.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Tagging on express bucket routed to s3express-control FIPS when FIPS enabled
+    func testResolve115() throws {
+        let endpointParams = EndpointParams(
+            accountId: "871317572157",
+            region: "us-east-1",
+            requiresAccountId: true,
+            resourceArn: "arn:aws:s3express:us-east-1:871317572157:bucket/crachlintest--use1-az4--x-s3",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-east-1",
+                        "disableDoubleEncoding": true
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3express-control-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Tagging on express bucket cn routed to s3express-control china endpoint
+    func testResolve116() throws {
+        let endpointParams = EndpointParams(
+            accountId: "871317572157",
+            region: "cn-north-1",
+            requiresAccountId: true,
+            resourceArn: "arn:aws-cn:s3express:cn-north-1:871317572157:bucket/crachlintest--use1-az4--x-s3",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "cn-north-1",
+                        "disableDoubleEncoding": true
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://s3express-control.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Tagging on express bucket cn routed to s3express-control china endpoint with FIPS
+    func testResolve117() throws {
+        let endpointParams = EndpointParams(
+            accountId: "871317572157",
+            region: "cn-north-1",
+            requiresAccountId: true,
+            resourceArn: "arn:aws-cn:s3express:cn-north-1:871317572157:bucket/crachlintest--use1-az4--x-s3",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Partition does not support FIPS", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// Tagging on express bucket with custom endpoint routed to custom endpoint
+    func testResolve118() throws {
+        let endpointParams = EndpointParams(
+            accountId: "871317572157",
+            endpoint: "https://my-endpoint.express-control.s3.aws.dev",
+            region: "us-east-1",
+            requiresAccountId: true,
+            resourceArn: "arn:aws:s3express:us-east-1:871317572157:bucket/crachlintest--use1-az4--x-s3",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-east-1",
+                        "disableDoubleEncoding": true
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://my-endpoint.express-control.s3.aws.dev", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Tagging on express access point with custom endpoint routed to custom endpoint
+    func testResolve119() throws {
+        let endpointParams = EndpointParams(
+            accountId: "871317572157",
+            endpoint: "https://my-endpoint.express-control.s3.aws.dev",
+            region: "us-east-1",
+            requiresAccountId: true,
+            resourceArn: "arn:aws:s3express:us-east-1:871317572157:accesspoint/crachlintest--use1-az4--xa-s3",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingName": "s3express",
+                        "signingRegion": "us-east-1",
+                        "disableDoubleEncoding": true
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://my-endpoint.express-control.s3.aws.dev", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// Tagging on express bucket with dualstack and custom endpoint fails
+    func testResolve120() throws {
+        let endpointParams = EndpointParams(
+            accountId: "871317572157",
+            endpoint: "https://my-endpoint.express-control.s3.aws.dev",
+            region: "us-east-1",
+            requiresAccountId: true,
+            resourceArn: "arn:aws:s3express:us-east-1:871317572157:bucket/crachlintest--use1-az4--x-s3",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: DualStack and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// Access Point APIs on express bucket routed to s3express-control
+    func testResolve121() throws {
         let endpointParams = EndpointParams(
             accessPointName: "myaccesspoint--abcd-ab1--xa-s3",
             accountId: "871317572157",
@@ -3247,7 +3486,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Access Point APIs on express bucket routed to s3express-control for List
-    func testResolve114() throws {
+    func testResolve122() throws {
         let endpointParams = EndpointParams(
             accountId: "871317572157",
             region: "us-east-1",
@@ -3279,7 +3518,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Access Point APIs on express bucket routed to s3express-control for FIPS
-    func testResolve115() throws {
+    func testResolve123() throws {
         let endpointParams = EndpointParams(
             accessPointName: "myaccesspoint--abcd-ab1--xa-s3",
             accountId: "871317572157",
@@ -3311,7 +3550,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Access Point APIs on express bucket routed to s3express-control for FIPS for List
-    func testResolve116() throws {
+    func testResolve124() throws {
         let endpointParams = EndpointParams(
             accountId: "871317572157",
             region: "us-east-1",
@@ -3343,7 +3582,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Access Point APIs on express bucket routed to s3express-control for china region
-    func testResolve117() throws {
+    func testResolve125() throws {
         let endpointParams = EndpointParams(
             accessPointName: "myaccesspoint--abcd-ab1--xa-s3",
             accountId: "871317572157",
@@ -3375,7 +3614,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Access Point APIs on express bucket routed to s3express-control for china region for List
-    func testResolve118() throws {
+    func testResolve126() throws {
         let endpointParams = EndpointParams(
             accountId: "871317572157",
             region: "cn-north-1",
@@ -3407,7 +3646,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Error when Access Point APIs on express bucket routed to s3express-control for china and FIPS
-    func testResolve119() throws {
+    func testResolve127() throws {
         let endpointParams = EndpointParams(
             accountId: "871317572157",
             region: "cn-north-1",
@@ -3428,7 +3667,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Error Access Point APIs on express bucket routed to s3express-control invalid zone
-    func testResolve120() throws {
+    func testResolve128() throws {
         let endpointParams = EndpointParams(
             accessPointName: "myaccesspoint-garbage-zone--xa-s3",
             accountId: "871317572157",
@@ -3450,7 +3689,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Access Point APIs on express bucket routed to custom endpoint if provided
-    func testResolve121() throws {
+    func testResolve129() throws {
         let endpointParams = EndpointParams(
             accessPointName: "myaccesspoint--abcd-ab1--xa-s3",
             accountId: "871317572157",
@@ -3483,7 +3722,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Access Point APIs on express bucket routed to custom endpoint if provided for List
-    func testResolve122() throws {
+    func testResolve130() throws {
         let endpointParams = EndpointParams(
             accountId: "871317572157",
             endpoint: "https://my-endpoint.express-control.s3.aws.dev",
@@ -3516,7 +3755,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Error on Access Point APIs on express bucket for dual stack
-    func testResolve123() throws {
+    func testResolve131() throws {
         let endpointParams = EndpointParams(
             accessPointName: "myaccesspoint--abcd-ab1--xa-s3",
             accountId: "871317572157",
@@ -3538,7 +3777,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Error Access Point APIs on express bucket for dual stack for List
-    func testResolve124() throws {
+    func testResolve132() throws {
         let endpointParams = EndpointParams(
             accountId: "871317572157",
             region: "us-east-1",
@@ -3560,7 +3799,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Error on Access Point APIs on express bucket for custom endpoint and dual stack
-    func testResolve125() throws {
+    func testResolve133() throws {
         let endpointParams = EndpointParams(
             accessPointName: "myaccesspoint--abcd-ab1--xa-s3",
             accountId: "871317572157",
@@ -3583,7 +3822,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Error Access Point APIs on express bucket for custom endpoint and dual stack for List
-    func testResolve126() throws {
+    func testResolve134() throws {
         let endpointParams = EndpointParams(
             accountId: "871317572157",
             endpoint: "https://my-endpoint.express-control.s3.aws.dev",

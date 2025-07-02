@@ -96,6 +96,35 @@ extension SSMClientTypes {
 
 extension SSMClientTypes {
 
+    public enum AccessType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case justintime
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessType] {
+            return [
+                .justintime,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .justintime: return "JustInTime"
+            case .standard: return "Standard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SSMClientTypes {
+
     /// Information includes the Amazon Web Services account ID where the current document is shared and the version shared with that account.
     public struct AccountSharingInfo: Swift.Sendable {
         /// The Amazon Web Services account ID where the current document is shared.
@@ -6236,7 +6265,7 @@ public struct DescribeAvailablePatchesOutput: Swift.Sendable {
 public struct DescribeDocumentInput: Swift.Sendable {
     /// The document version for which you want information. Can be a specific version or the default version.
     public var documentVersion: Swift.String?
-    /// The name of the SSM document.
+    /// The name of the SSM document. If you're calling a shared SSM document from a different Amazon Web Services account, Name is the full Amazon Resource Name (ARN) of the document.
     /// This member is required.
     public var name: Swift.String?
     /// An optional field specifying the version of the artifact associated with the document. For example, 12.6. This value is unique across all versions of a document, and can't be changed.
@@ -6339,7 +6368,7 @@ public struct DescribeDocumentPermissionInput: Swift.Sendable {
 }
 
 public struct DescribeDocumentPermissionOutput: Swift.Sendable {
-    /// The account IDs that have permission to use this document. The ID can be either an Amazon Web Services account or All.
+    /// The account IDs that have permission to use this document. The ID can be either an Amazon Web Services account number or all.
     public var accountIds: [Swift.String]?
     /// A list of Amazon Web Services accounts where the current document is shared and the version shared with each account.
     public var accountSharingInfoList: [SSMClientTypes.AccountSharingInfo]?
@@ -6705,7 +6734,7 @@ extension SSMClientTypes {
 
     /// The filters to describe or get information about your managed nodes.
     public struct InstanceInformationStringFilter: Swift.Sendable {
-        /// The filter key name to describe your managed nodes. Valid filter key values: ActivationIds | AgentVersion | AssociationStatus | IamRole | InstanceIds | PingStatus | PlatformTypes | ResourceType | SourceIds | SourceTypes | "tag-key" | "tag:{keyname}
+        /// The filter key name to describe your managed nodes. Valid filter key values: ActivationIds | AgentVersion | AssociationStatus | IamRole | InstanceIds | PingStatus | PlatformType | ResourceType | SourceIds | SourceTypes | "tag-key" | "tag:{keyname}
         ///
         /// * Valid values for the AssociationStatus filter key: Success | Pending | Failed
         ///
@@ -9942,6 +9971,7 @@ public struct DescribePatchPropertiesOutput: Swift.Sendable {
 extension SSMClientTypes {
 
     public enum SessionFilterKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessType
         case invokedAfter
         case invokedBefore
         case owner
@@ -9952,6 +9982,7 @@ extension SSMClientTypes {
 
         public static var allCases: [SessionFilterKey] {
             return [
+                .accessType,
                 .invokedAfter,
                 .invokedBefore,
                 .owner,
@@ -9968,6 +9999,7 @@ extension SSMClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .accessType: return "AccessType"
             case .invokedAfter: return "InvokedAfter"
             case .invokedBefore: return "InvokedBefore"
             case .owner: return "Owner"
@@ -10145,6 +10177,8 @@ extension SSMClientTypes {
 
     /// Information about a Session Manager connection to a managed node.
     public struct Session: Swift.Sendable {
+        /// Standard access type is the default for Session Manager sessions. JustInTime is the access type for [Just-in-time node access](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-just-in-time-node-access.html).
+        public var accessType: SSMClientTypes.AccessType?
         /// Reserved for future use.
         public var details: Swift.String?
         /// The name of the Session Manager SSM document used to define the parameters and plugin settings for the session. For example, SSM-SessionManagerRunShell.
@@ -10169,6 +10203,7 @@ extension SSMClientTypes {
         public var target: Swift.String?
 
         public init(
+            accessType: SSMClientTypes.AccessType? = nil,
             details: Swift.String? = nil,
             documentName: Swift.String? = nil,
             endDate: Foundation.Date? = nil,
@@ -10181,6 +10216,7 @@ extension SSMClientTypes {
             status: SSMClientTypes.SessionStatus? = nil,
             target: Swift.String? = nil
         ) {
+            self.accessType = accessType
             self.details = details
             self.documentName = documentName
             self.endDate = endDate
@@ -24638,6 +24674,7 @@ enum CreateDocumentOutputError {
             case "InvalidDocumentContent": return try InvalidDocumentContent.makeError(baseError: baseError)
             case "InvalidDocumentSchemaVersion": return try InvalidDocumentSchemaVersion.makeError(baseError: baseError)
             case "MaxDocumentSizeExceeded": return try MaxDocumentSizeExceeded.makeError(baseError: baseError)
+            case "TooManyUpdates": return try TooManyUpdates.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -24775,6 +24812,7 @@ enum DeleteDocumentOutputError {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
             case "InvalidDocument": return try InvalidDocument.makeError(baseError: baseError)
             case "InvalidDocumentOperation": return try InvalidDocumentOperation.makeError(baseError: baseError)
+            case "TooManyUpdates": return try TooManyUpdates.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -26794,6 +26832,7 @@ enum UpdateDocumentMetadataOutputError {
             case "InvalidDocument": return try InvalidDocument.makeError(baseError: baseError)
             case "InvalidDocumentOperation": return try InvalidDocumentOperation.makeError(baseError: baseError)
             case "InvalidDocumentVersion": return try InvalidDocumentVersion.makeError(baseError: baseError)
+            case "TooManyUpdates": return try TooManyUpdates.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -29893,6 +29932,7 @@ extension SSMClientTypes.Session {
         value.details = try reader["Details"].readIfPresent()
         value.outputUrl = try reader["OutputUrl"].readIfPresent(with: SSMClientTypes.SessionManagerOutputUrl.read(from:))
         value.maxSessionDuration = try reader["MaxSessionDuration"].readIfPresent()
+        value.accessType = try reader["AccessType"].readIfPresent()
         return value
     }
 }

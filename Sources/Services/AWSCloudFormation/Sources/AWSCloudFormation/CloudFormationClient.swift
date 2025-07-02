@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudFormationClient: ClientRuntime.Client {
     public static let clientName = "CloudFormationClient"
-    public static let version = "1.3.46"
+    public static let version = "1.3.49"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudFormationClient.CloudFormationClientConfiguration
     let serviceName = "CloudFormation"
@@ -917,7 +917,11 @@ extension CloudFormationClient {
 
     /// Performs the `CreateStackInstances` operation on the `CloudFormation` service.
     ///
-    /// Creates stack instances for the specified accounts, within the specified Amazon Web Services Regions. A stack instance refers to a stack in a specific account and Region. You must specify at least one value for either Accounts or DeploymentTargets, and you must specify at least one value for Regions.
+    /// Creates stack instances for the specified accounts, within the specified Amazon Web Services Regions. A stack instance refers to a stack in a specific account and Region. You must specify at least one value for either Accounts or DeploymentTargets, and you must specify at least one value for Regions. The maximum number of organizational unit (OUs) supported by a CreateStackInstances operation is 50. If you need more than 50, consider the following options:
+    ///
+    /// * Batch processing: If you don't want to expose your OU hierarchy, split up the operations into multiple calls with less than 50 OUs each.
+    ///
+    /// * Parent OU strategy: If you don't mind exposing the OU hierarchy, target a parent OU that contains all desired child OUs.
     ///
     /// - Parameter CreateStackInstancesInput : [no documentation found]
     ///
@@ -1460,7 +1464,11 @@ extension CloudFormationClient {
 
     /// Performs the `DeleteStackInstances` operation on the `CloudFormation` service.
     ///
-    /// Deletes stack instances for the specified accounts, in the specified Amazon Web Services Regions.
+    /// Deletes stack instances for the specified accounts, in the specified Amazon Web Services Regions. The maximum number of organizational unit (OUs) supported by a DeleteStackInstances operation is 50. If you need more than 50, consider the following options:
+    ///
+    /// * Batch processing: If you don't want to expose your OU hierarchy, split up the operations into multiple calls with less than 50 OUs each.
+    ///
+    /// * Parent OU strategy: If you don't mind exposing the OU hierarchy, target a parent OU that contains all desired child OUs.
     ///
     /// - Parameter DeleteStackInstancesInput : [no documentation found]
     ///
@@ -2582,7 +2590,7 @@ extension CloudFormationClient {
 
     /// Performs the `DescribeStackSet` operation on the `CloudFormation` service.
     ///
-    /// Returns the description of the specified StackSet.
+    /// Returns the description of the specified StackSet. This API provides strongly consistent reads meaning it will always return the most up-to-date data.
     ///
     /// - Parameter DescribeStackSetInput : [no documentation found]
     ///
@@ -2649,7 +2657,7 @@ extension CloudFormationClient {
 
     /// Performs the `DescribeStackSetOperation` operation on the `CloudFormation` service.
     ///
-    /// Returns the description of the specified StackSet operation.
+    /// Returns the description of the specified StackSet operation. This API provides strongly consistent reads meaning it will always return the most up-to-date data.
     ///
     /// - Parameter DescribeStackSetOperationInput : [no documentation found]
     ///
@@ -4550,7 +4558,7 @@ extension CloudFormationClient {
 
     /// Performs the `ListStackSetOperationResults` operation on the `CloudFormation` service.
     ///
-    /// Returns summary information about the results of a stack set operation.
+    /// Returns summary information about the results of a stack set operation. This API provides eventually consistent reads meaning it may take some time but will eventually return the most up-to-date data.
     ///
     /// - Parameter ListStackSetOperationResultsInput : [no documentation found]
     ///
@@ -4618,7 +4626,7 @@ extension CloudFormationClient {
 
     /// Performs the `ListStackSetOperations` operation on the `CloudFormation` service.
     ///
-    /// Returns summary information about operations performed on a stack set.
+    /// Returns summary information about operations performed on a stack set. This API provides eventually consistent reads meaning it may take some time but will eventually return the most up-to-date data.
     ///
     /// - Parameter ListStackSetOperationsInput : [no documentation found]
     ///
@@ -4685,7 +4693,7 @@ extension CloudFormationClient {
 
     /// Performs the `ListStackSets` operation on the `CloudFormation` service.
     ///
-    /// Returns summary information about stack sets that are associated with the user.
+    /// Returns summary information about stack sets that are associated with the user. This API provides strongly consistent reads meaning it will always return the most up-to-date data.
     ///
     /// * [Self-managed permissions] If you set the CallAs parameter to SELF while signed in to your Amazon Web Services account, ListStackSets returns all self-managed stack sets in your Amazon Web Services account.
     ///
@@ -5987,7 +5995,11 @@ extension CloudFormationClient {
 
     /// Performs the `UpdateStackInstances` operation on the `CloudFormation` service.
     ///
-    /// Updates the parameter values for stack instances for the specified accounts, within the specified Amazon Web Services Regions. A stack instance refers to a stack in a specific account and Region. You can only update stack instances in Amazon Web Services Regions and accounts where they already exist; to create additional stack instances, use [CreateStackInstances](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateStackInstances.html). During stack set updates, any parameters overridden for a stack instance aren't updated, but retain their overridden value. You can only update the parameter values that are specified in the stack set; to add or delete a parameter itself, use [UpdateStackSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStackSet.html) to update the stack set template. If you add a parameter to a template, before you can override the parameter value specified in the stack set you must first use [UpdateStackSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStackSet.html) to update all stack instances with the updated template and parameter value specified in the stack set. Once a stack instance has been updated with the new parameter, you can then override the parameter value using UpdateStackInstances.
+    /// Updates the parameter values for stack instances for the specified accounts, within the specified Amazon Web Services Regions. A stack instance refers to a stack in a specific account and Region. You can only update stack instances in Amazon Web Services Regions and accounts where they already exist; to create additional stack instances, use [CreateStackInstances](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CreateStackInstances.html). During stack set updates, any parameters overridden for a stack instance aren't updated, but retain their overridden value. You can only update the parameter values that are specified in the stack set; to add or delete a parameter itself, use [UpdateStackSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStackSet.html) to update the stack set template. If you add a parameter to a template, before you can override the parameter value specified in the stack set you must first use [UpdateStackSet](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_UpdateStackSet.html) to update all stack instances with the updated template and parameter value specified in the stack set. Once a stack instance has been updated with the new parameter, you can then override the parameter value using UpdateStackInstances. The maximum number of organizational unit (OUs) supported by a UpdateStackInstances operation is 50. If you need more than 50, consider the following options:
+    ///
+    /// * Batch processing: If you don't want to expose your OU hierarchy, split up the operations into multiple calls with less than 50 OUs each.
+    ///
+    /// * Parent OU strategy: If you don't mind exposing the OU hierarchy, target a parent OU that contains all desired child OUs.
     ///
     /// - Parameter UpdateStackInstancesInput : [no documentation found]
     ///
@@ -6060,7 +6072,11 @@ extension CloudFormationClient {
 
     /// Performs the `UpdateStackSet` operation on the `CloudFormation` service.
     ///
-    /// Updates the stack set and associated stack instances in the specified accounts and Amazon Web Services Regions. Even if the stack set operation created by updating the stack set fails (completely or partially, below or above a specified failure tolerance), the stack set is updated with your changes. Subsequent [CreateStackInstances] calls on the specified stack set use the updated stack set.
+    /// Updates the stack set and associated stack instances in the specified accounts and Amazon Web Services Regions. Even if the stack set operation created by updating the stack set fails (completely or partially, below or above a specified failure tolerance), the stack set is updated with your changes. Subsequent [CreateStackInstances] calls on the specified stack set use the updated stack set. The maximum number of organizational unit (OUs) supported by a UpdateStackSet operation is 50. If you need more than 50, consider the following options:
+    ///
+    /// * Batch processing: If you don't want to expose your OU hierarchy, split up the operations into multiple calls with less than 50 OUs each.
+    ///
+    /// * Parent OU strategy: If you don't mind exposing the OU hierarchy, target a parent OU that contains all desired child OUs.
     ///
     /// - Parameter UpdateStackSetInput : [no documentation found]
     ///

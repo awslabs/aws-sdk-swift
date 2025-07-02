@@ -76,6 +76,37 @@ extension PaginatorSequence where OperationStackInput == ListAttachmentsInput, O
     }
 }
 extension QBusinessClient {
+    /// Paginate over `[ListChatResponseConfigurationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListChatResponseConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListChatResponseConfigurationsOutput`
+    public func listChatResponseConfigurationsPaginated(input: ListChatResponseConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListChatResponseConfigurationsInput, ListChatResponseConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListChatResponseConfigurationsInput, ListChatResponseConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listChatResponseConfigurations(input:))
+    }
+}
+
+extension ListChatResponseConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListChatResponseConfigurationsInput {
+        return ListChatResponseConfigurationsInput(
+            applicationId: self.applicationId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListChatResponseConfigurationsInput, OperationStackOutput == ListChatResponseConfigurationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listChatResponseConfigurationsPaginated`
+    /// to access the nested member `[QBusinessClientTypes.ChatResponseConfiguration]`
+    /// - Returns: `[QBusinessClientTypes.ChatResponseConfiguration]`
+    public func chatResponseConfigurations() async throws -> [QBusinessClientTypes.ChatResponseConfiguration] {
+        return try await self.asyncCompactMap { item in item.chatResponseConfigurations }
+    }
+}
+extension QBusinessClient {
     /// Paginate over `[ListConversationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

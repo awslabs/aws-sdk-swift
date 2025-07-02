@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockAgentClient: ClientRuntime.Client {
     public static let clientName = "BedrockAgentClient"
-    public static let version = "1.3.46"
+    public static let version = "1.3.49"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockAgentClient.BedrockAgentClientConfiguration
     let serviceName = "Bedrock Agent"

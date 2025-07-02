@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DynamoDBClient: ClientRuntime.Client {
     public static let clientName = "DynamoDBClient"
-    public static let version = "1.3.46"
+    public static let version = "1.3.49"
     let client: ClientRuntime.SdkHttpClient
     let config: DynamoDBClient.DynamoDBClientConfiguration
     let serviceName = "DynamoDB"
@@ -557,6 +557,7 @@ extension DynamoDBClient {
     /// - `InvalidEndpointException` : [no documentation found]
     /// - `ItemCollectionSizeLimitExceededException` : An item collection is too large. This exception is only returned for tables that have one or more local secondary indexes.
     /// - `ProvisionedThroughputExceededException` : Your request rate is too high. The Amazon Web Services SDKs for DynamoDB automatically retry requests that receive this exception. Your request is eventually successful, unless your retry queue is too large to finish. Reduce the frequency of requests and use exponential backoff. For more information, go to [Error Retries and Exponential Backoff](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff) in the Amazon DynamoDB Developer Guide.
+    /// - `ReplicatedWriteConflictException` : The request was rejected because one or more items in the request are being modified by a request in another Region.
     /// - `RequestLimitExceeded` : Throughput exceeds the current throughput quota for your account. Please contact [Amazon Web ServicesSupport](https://aws.amazon.com/support) to request a quota increase.
     /// - `ResourceNotFoundException` : The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
     public func batchWriteItem(input: BatchWriteItemInput) async throws -> BatchWriteItemOutput {
@@ -1116,7 +1117,7 @@ extension DynamoDBClient {
 
     /// Performs the `DeleteTable` operation on the `DynamoDB` service.
     ///
-    /// The DeleteTable operation deletes a table and all of its items. After a DeleteTable request, the specified table is in the DELETING state until DynamoDB completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is in CREATING or UPDATING states, then DynamoDB returns a ResourceInUseException. If the specified table does not exist, DynamoDB returns a ResourceNotFoundException. If table is already in the DELETING state, no error is returned. For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version). DynamoDB might continue to accept data read and write operations, such as GetItem and PutItem, on a table in the DELETING state until the table deletion is complete. For the full list of table states, see [TableStatus](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TableDescription.html#DDB-Type-TableDescription-TableStatus). When you delete a table, any indexes on that table are also deleted. If you have DynamoDB Streams enabled on the table, then the corresponding stream on that table goes into the DISABLED state, and the stream is automatically deleted after 24 hours. Use the DescribeTable action to check the status of the table.
+    /// The DeleteTable operation deletes a table and all of its items. After a DeleteTable request, the specified table is in the DELETING state until DynamoDB completes the deletion. If the table is in the ACTIVE state, you can delete it. If a table is in CREATING or UPDATING states, then DynamoDB returns a ResourceInUseException. If the specified table does not exist, DynamoDB returns a ResourceNotFoundException. If table is already in the DELETING state, no error is returned. DynamoDB might continue to accept data read and write operations, such as GetItem and PutItem, on a table in the DELETING state until the table deletion is complete. For the full list of table states, see [TableStatus](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_TableDescription.html#DDB-Type-TableDescription-TableStatus). When you delete a table, any indexes on that table are also deleted. If you have DynamoDB Streams enabled on the table, then the corresponding stream on that table goes into the DISABLED state, and the stream is automatically deleted after 24 hours. Use the DescribeTable action to check the status of the table.
     ///
     /// - Parameter DeleteTableInput : Represents the input of a DeleteTable operation.
     ///
@@ -1919,7 +1920,7 @@ extension DynamoDBClient {
 
     /// Performs the `DescribeTable` operation on the `DynamoDB` service.
     ///
-    /// Returns information about the table, including the current status of the table, when it was created, the primary key schema, and any indexes on the table. For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version). If you issue a DescribeTable request immediately after a CreateTable request, DynamoDB might return a ResourceNotFoundException. This is because DescribeTable uses an eventually consistent query, and the metadata for your table might not be available at that moment. Wait for a few seconds, and then try the DescribeTable request again.
+    /// Returns information about the table, including the current status of the table, when it was created, the primary key schema, and any indexes on the table. If you issue a DescribeTable request immediately after a CreateTable request, DynamoDB might return a ResourceNotFoundException. This is because DescribeTable uses an eventually consistent query, and the metadata for your table might not be available at that moment. Wait for a few seconds, and then try the DescribeTable request again.
     ///
     /// - Parameter DescribeTableInput : Represents the input of a DescribeTable operation.
     ///
@@ -1990,7 +1991,7 @@ extension DynamoDBClient {
 
     /// Performs the `DescribeTableReplicaAutoScaling` operation on the `DynamoDB` service.
     ///
-    /// Describes auto scaling settings across replicas of the global table at once. For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version).
+    /// Describes auto scaling settings across replicas of the global table at once.
     ///
     /// - Parameter DescribeTableReplicaAutoScalingInput : [no documentation found]
     ///
@@ -2508,10 +2509,7 @@ extension DynamoDBClient {
     /// * The document path provided in the update expression is invalid for update.
     ///
     /// * The provided expression refers to an attribute that does not exist in the item.
-    /// - `TransactionInProgressException` : The transaction with the given request token is already in progress. Recommended Settings
-    ///
-    ///
-    /// This is a general recommendation for handling the TransactionInProgressException. These settings help ensure that the client retries will trigger completion of the ongoing TransactWriteItems request.
+    /// - `TransactionInProgressException` : The transaction with the given request token is already in progress. Recommended Settings This is a general recommendation for handling the TransactionInProgressException. These settings help ensure that the client retries will trigger completion of the ongoing TransactWriteItems request.
     ///
     /// * Set clientExecutionTimeout to a value that allows at least one retry to be processed after 5 seconds have elapsed since the first attempt for the TransactWriteItems operation.
     ///
@@ -2522,10 +2520,7 @@ extension DynamoDBClient {
     /// * Use exponential backoff when retrying and tune backoff if needed.
     ///
     ///
-    /// Assuming [default retry policy](https://github.com/aws/aws-sdk-java/blob/fd409dee8ae23fb8953e0bb4dbde65536a7e0514/aws-java-sdk-core/src/main/java/com/amazonaws/retry/PredefinedRetryPolicies.java#L97), example timeout settings based on the guidelines above are as follows:
-    ///
-    ///
-    /// Example timeline:
+    /// Assuming [default retry policy](https://github.com/aws/aws-sdk-java/blob/fd409dee8ae23fb8953e0bb4dbde65536a7e0514/aws-java-sdk-core/src/main/java/com/amazonaws/retry/PredefinedRetryPolicies.java#L97), example timeout settings based on the guidelines above are as follows: Example timeline:
     ///
     /// * 0-1000 first attempt
     ///
@@ -4358,10 +4353,7 @@ extension DynamoDBClient {
     /// * The document path provided in the update expression is invalid for update.
     ///
     /// * The provided expression refers to an attribute that does not exist in the item.
-    /// - `TransactionInProgressException` : The transaction with the given request token is already in progress. Recommended Settings
-    ///
-    ///
-    /// This is a general recommendation for handling the TransactionInProgressException. These settings help ensure that the client retries will trigger completion of the ongoing TransactWriteItems request.
+    /// - `TransactionInProgressException` : The transaction with the given request token is already in progress. Recommended Settings This is a general recommendation for handling the TransactionInProgressException. These settings help ensure that the client retries will trigger completion of the ongoing TransactWriteItems request.
     ///
     /// * Set clientExecutionTimeout to a value that allows at least one retry to be processed after 5 seconds have elapsed since the first attempt for the TransactWriteItems operation.
     ///
@@ -4372,10 +4364,7 @@ extension DynamoDBClient {
     /// * Use exponential backoff when retrying and tune backoff if needed.
     ///
     ///
-    /// Assuming [default retry policy](https://github.com/aws/aws-sdk-java/blob/fd409dee8ae23fb8953e0bb4dbde65536a7e0514/aws-java-sdk-core/src/main/java/com/amazonaws/retry/PredefinedRetryPolicies.java#L97), example timeout settings based on the guidelines above are as follows:
-    ///
-    ///
-    /// Example timeline:
+    /// Assuming [default retry policy](https://github.com/aws/aws-sdk-java/blob/fd409dee8ae23fb8953e0bb4dbde65536a7e0514/aws-java-sdk-core/src/main/java/com/amazonaws/retry/PredefinedRetryPolicies.java#L97), example timeout settings based on the guidelines above are as follows: Example timeline:
     ///
     /// * 0-1000 first attempt
     ///
@@ -4688,7 +4677,7 @@ extension DynamoDBClient {
 
     /// Performs the `UpdateGlobalTable` operation on the `DynamoDB` service.
     ///
-    /// Adds or removes replicas in the specified global table. The global table must already exist to be able to use this operation. Any replica to be added must be empty, have the same name as the global table, have the same key schema, have DynamoDB Streams enabled, and have the same provisioned and maximum write capacity units. This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html). To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html). For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version). If you are using global tables [Version 2019.11.21](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html) you can use [UpdateTable](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateTable.html) instead. Although you can use UpdateGlobalTable to add replicas and remove replicas in a single request, for simplicity we recommend that you issue separate requests for adding or removing replicas. If global secondary indexes are specified, then the following conditions must also be met:
+    /// Adds or removes replicas in the specified global table. The global table must already exist to be able to use this operation. Any replica to be added must be empty, have the same name as the global table, have the same key schema, have DynamoDB Streams enabled, and have the same provisioned and maximum write capacity units. This documentation is for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global tables. Customers should use [Global Tables version 2019.11.21 (Current)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html) when possible, because it provides greater flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which version you're using, see [Determining the global table version you are using](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.DetermineVersion.html). To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see [Upgrading global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/V2globaltables_upgrade.html). If you are using global tables [Version 2019.11.21](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html) (Current) you can use [UpdateTable](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateTable.html) instead. Although you can use UpdateGlobalTable to add replicas and remove replicas in a single request, for simplicity we recommend that you issue separate requests for adding or removing replicas. If global secondary indexes are specified, then the following conditions must also be met:
     ///
     /// * The global secondary indexes must have the same name.
     ///
@@ -5011,7 +5000,7 @@ extension DynamoDBClient {
 
     /// Performs the `UpdateTable` operation on the `DynamoDB` service.
     ///
-    /// Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams settings for a given table. For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version). You can only perform one of the following operations at once:
+    /// Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams settings for a given table. You can only perform one of the following operations at once:
     ///
     /// * Modify the provisioned throughput settings of the table.
     ///
@@ -5102,7 +5091,7 @@ extension DynamoDBClient {
 
     /// Performs the `UpdateTableReplicaAutoScaling` operation on the `DynamoDB` service.
     ///
-    /// Updates auto scaling settings on your global tables at once. For global tables, this operation only applies to global tables using Version 2019.11.21 (Current version).
+    /// Updates auto scaling settings on your global tables at once.
     ///
     /// - Parameter UpdateTableReplicaAutoScalingInput : [no documentation found]
     ///

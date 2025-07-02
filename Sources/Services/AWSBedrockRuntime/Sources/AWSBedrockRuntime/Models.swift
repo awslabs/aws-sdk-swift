@@ -2010,6 +2010,167 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    /// Specifies a character-level location within a document, providing precise positioning information for cited content using start and end character indices.
+    public struct DocumentCharLocation: Swift.Sendable {
+        /// The index of the document within the array of documents provided in the request.
+        public var documentIndex: Swift.Int?
+        /// The ending character position of the cited content within the document.
+        public var end: Swift.Int?
+        /// The starting character position of the cited content within the document.
+        public var start: Swift.Int?
+
+        public init(
+            documentIndex: Swift.Int? = nil,
+            end: Swift.Int? = nil,
+            start: Swift.Int? = nil
+        ) {
+            self.documentIndex = documentIndex
+            self.end = end
+            self.start = start
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Specifies a chunk-level location within a document, providing positioning information for cited content using logical document segments or chunks.
+    public struct DocumentChunkLocation: Swift.Sendable {
+        /// The index of the document within the array of documents provided in the request.
+        public var documentIndex: Swift.Int?
+        /// The ending chunk identifier or index of the cited content within the document.
+        public var end: Swift.Int?
+        /// The starting chunk identifier or index of the cited content within the document.
+        public var start: Swift.Int?
+
+        public init(
+            documentIndex: Swift.Int? = nil,
+            end: Swift.Int? = nil,
+            start: Swift.Int? = nil
+        ) {
+            self.documentIndex = documentIndex
+            self.end = end
+            self.start = start
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Specifies a page-level location within a document, providing positioning information for cited content using page numbers.
+    public struct DocumentPageLocation: Swift.Sendable {
+        /// The index of the document within the array of documents provided in the request.
+        public var documentIndex: Swift.Int?
+        /// The ending page number of the cited content within the document.
+        public var end: Swift.Int?
+        /// The starting page number of the cited content within the document.
+        public var start: Swift.Int?
+
+        public init(
+            documentIndex: Swift.Int? = nil,
+            end: Swift.Int? = nil,
+            start: Swift.Int? = nil
+        ) {
+            self.documentIndex = documentIndex
+            self.end = end
+            self.start = start
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Specifies the precise location within a source document where cited content can be found. This can include character-level positions, page numbers, or document chunks depending on the document type and indexing method.
+    public enum CitationLocation: Swift.Sendable {
+        /// The character-level location within the document where the cited content is found.
+        case documentchar(BedrockRuntimeClientTypes.DocumentCharLocation)
+        /// The page-level location within the document where the cited content is found.
+        case documentpage(BedrockRuntimeClientTypes.DocumentPageLocation)
+        /// The chunk-level location within the document where the cited content is found, typically used for documents that have been segmented into logical chunks.
+        case documentchunk(BedrockRuntimeClientTypes.DocumentChunkLocation)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Contains the actual text content from a source document that is being cited or referenced in the model's response.
+    public enum CitationSourceContent: Swift.Sendable {
+        /// The text content from the source document that is being cited.
+        case text(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Contains information about a citation that references a specific source document. Citations provide traceability between the model's generated response and the source documents that informed that response.
+    public struct Citation: Swift.Sendable {
+        /// The precise location within the source document where the cited content can be found, including character positions, page numbers, or chunk identifiers.
+        public var location: BedrockRuntimeClientTypes.CitationLocation?
+        /// The specific content from the source document that was referenced or cited in the generated response.
+        public var sourceContent: [BedrockRuntimeClientTypes.CitationSourceContent]?
+        /// The title or identifier of the source document being cited.
+        public var title: Swift.String?
+
+        public init(
+            location: BedrockRuntimeClientTypes.CitationLocation? = nil,
+            sourceContent: [BedrockRuntimeClientTypes.CitationSourceContent]? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.location = location
+            self.sourceContent = sourceContent
+            self.title = title
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Contains the generated text content that corresponds to or is supported by a citation from a source document.
+    public enum CitationGeneratedContent: Swift.Sendable {
+        /// The text content that was generated by the model and is supported by the associated citation.
+        case text(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// A content block that contains both generated text and associated citation information. This block type is returned when document citations are enabled, providing traceability between the generated content and the source documents that informed the response.
+    public struct CitationsContentBlock: Swift.Sendable {
+        /// An array of citations that reference the source documents used to generate the associated content.
+        public var citations: [BedrockRuntimeClientTypes.Citation]?
+        /// The generated content that is supported by the associated citations.
+        public var content: [BedrockRuntimeClientTypes.CitationGeneratedContent]?
+
+        public init(
+            citations: [BedrockRuntimeClientTypes.Citation]? = nil,
+            content: [BedrockRuntimeClientTypes.CitationGeneratedContent]? = nil
+        ) {
+            self.citations = citations
+            self.content = content
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Configuration settings for enabling and controlling document citations in Converse API responses. When enabled, the model can include citation information that links generated content back to specific source documents.
+    public struct CitationsConfig: Swift.Sendable {
+        /// Specifies whether document citations should be included in the model's response. When set to true, the model can generate citations that reference the source documents used to inform the response.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        ) {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     public enum DocumentFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case csv
         case doc
@@ -2060,6 +2221,16 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    /// Contains the actual content of a document that can be processed by the model and potentially cited in the response.
+    public enum DocumentContentBlock: Swift.Sendable {
+        /// The text content of the document.
+        case text(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     /// A storage location in an Amazon S3 bucket.
     public struct S3Location: Swift.Sendable {
         /// If the bucket belongs to another AWS account, specify that account's ID.
@@ -2086,6 +2257,10 @@ extension BedrockRuntimeClientTypes {
         case bytes(Foundation.Data)
         /// The location of a document object in an Amazon S3 bucket. To see which models support S3 uploads, see [Supported models and features for Converse](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference-supported-models-features.html).
         case s3location(BedrockRuntimeClientTypes.S3Location)
+        /// The text content of the document source.
+        case text(Swift.String)
+        /// The structured content of the document source, which may include various content blocks such as text, images, or other document elements.
+        case content([BedrockRuntimeClientTypes.DocumentContentBlock])
         case sdkUnknown(Swift.String)
     }
 }
@@ -2094,8 +2269,11 @@ extension BedrockRuntimeClientTypes {
 
     /// A document to include in a message.
     public struct DocumentBlock: Swift.Sendable {
+        /// Configuration settings that control how citations should be generated for this specific document.
+        public var citations: BedrockRuntimeClientTypes.CitationsConfig?
+        /// Contextual information about how the document should be processed or interpreted by the model when generating citations.
+        public var context: Swift.String?
         /// The format of a document, or its extension.
-        /// This member is required.
         public var format: BedrockRuntimeClientTypes.DocumentFormat?
         /// A name for the document. The name can only contain the following characters:
         ///
@@ -2118,10 +2296,14 @@ extension BedrockRuntimeClientTypes {
         public var source: BedrockRuntimeClientTypes.DocumentSource?
 
         public init(
-            format: BedrockRuntimeClientTypes.DocumentFormat? = nil,
+            citations: BedrockRuntimeClientTypes.CitationsConfig? = nil,
+            context: Swift.String? = nil,
+            format: BedrockRuntimeClientTypes.DocumentFormat? = .txt,
             name: Swift.String? = nil,
             source: BedrockRuntimeClientTypes.DocumentSource? = nil
         ) {
+            self.citations = citations
+            self.context = context
             self.format = format
             self.name = name
             self.source = source
@@ -2568,6 +2750,8 @@ extension BedrockRuntimeClientTypes {
         case cachepoint(BedrockRuntimeClientTypes.CachePointBlock)
         /// Contains content regarding the reasoning that is carried out by the model. Reasoning refers to a Chain of Thought (CoT) that the model generates to enhance the accuracy of its final response.
         case reasoningcontent(BedrockRuntimeClientTypes.ReasoningContentBlock)
+        /// A content block that contains both generated text and associated citation information, providing traceability between the response and source documents.
+        case citationscontent(BedrockRuntimeClientTypes.CitationsContentBlock)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3214,6 +3398,44 @@ extension ConverseStreamInput: Swift.CustomDebugStringConvertible {
 
 extension BedrockRuntimeClientTypes {
 
+    /// Contains incremental updates to the source content text during streaming responses, allowing clients to build up the cited content progressively.
+    public struct CitationSourceContentDelta: Swift.Sendable {
+        /// An incremental update to the text content from the source document that is being cited.
+        public var text: Swift.String?
+
+        public init(
+            text: Swift.String? = nil
+        ) {
+            self.text = text
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Contains incremental updates to citation information during streaming responses. This allows clients to build up citation data progressively as the response is generated.
+    public struct CitationsDelta: Swift.Sendable {
+        /// Specifies the precise location within a source document where cited content can be found. This can include character-level positions, page numbers, or document chunks depending on the document type and indexing method.
+        public var location: BedrockRuntimeClientTypes.CitationLocation?
+        /// The specific content from the source document that was referenced or cited in the generated response.
+        public var sourceContent: [BedrockRuntimeClientTypes.CitationSourceContentDelta]?
+        /// The title or identifier of the source document being cited.
+        public var title: Swift.String?
+
+        public init(
+            location: BedrockRuntimeClientTypes.CitationLocation? = nil,
+            sourceContent: [BedrockRuntimeClientTypes.CitationSourceContentDelta]? = nil,
+            title: Swift.String? = nil
+        ) {
+            self.location = location
+            self.sourceContent = sourceContent
+            self.title = title
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     /// Contains content regarding the reasoning that is carried out by the model with respect to the content in the content block. Reasoning refers to a Chain of Thought (CoT) that the model generates to enhance the accuracy of its final response.
     public enum ReasoningContentBlockDelta: Swift.Sendable {
         /// The reasoning that the model used to return the output.
@@ -3252,6 +3474,8 @@ extension BedrockRuntimeClientTypes {
         case tooluse(BedrockRuntimeClientTypes.ToolUseBlockDelta)
         /// Contains content regarding the reasoning that is carried out by the model. Reasoning refers to a Chain of Thought (CoT) that the model generates to enhance the accuracy of its final response.
         case reasoningcontent(BedrockRuntimeClientTypes.ReasoningContentBlockDelta)
+        /// Incremental citation information that is streamed as part of the response generation process.
+        case citation(BedrockRuntimeClientTypes.CitationsDelta)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3564,7 +3788,7 @@ public struct InvokeModelInput: Swift.Sendable {
     ///
     /// * If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see [Run inference using a Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-thru-use.html) in the Amazon Bedrock User Guide.
     ///
-    /// * If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see [Use a custom model in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html) in the Amazon Bedrock User Guide.
+    /// * If you use a custom model, specify the ARN of the custom model deployment (for on-demand inference) or the ARN of your provisioned model (for Provisioned Throughput). For more information, see [Use a custom model in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html) in the Amazon Bedrock User Guide.
     ///
     /// * If you use an [imported model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html), specify the ARN of the imported model. You can get the model ARN from a successful call to [CreateModelImportJob](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateModelImportJob.html) or from the Imported models page in the Amazon Bedrock console.
     /// This member is required.
@@ -3742,7 +3966,7 @@ public struct InvokeModelWithResponseStreamInput: Swift.Sendable {
     ///
     /// * If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see [Run inference using a Provisioned Throughput](https://docs.aws.amazon.com/bedrock/latest/userguide/prov-thru-use.html) in the Amazon Bedrock User Guide.
     ///
-    /// * If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see [Use a custom model in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html) in the Amazon Bedrock User Guide.
+    /// * If you use a custom model, specify the ARN of the custom model deployment (for on-demand inference) or the ARN of your provisioned model (for Provisioned Throughput). For more information, see [Use a custom model in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-use.html) in the Amazon Bedrock User Guide.
     ///
     /// * If you use an [imported model](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html), specify the ARN of the imported model. You can get the model ARN from a successful call to [CreateModelImportJob](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_CreateModelImportJob.html) or from the Imported models page in the Amazon Bedrock console.
     /// This member is required.
@@ -5024,6 +5248,8 @@ extension BedrockRuntimeClientTypes.ContentBlock {
         switch value {
             case let .cachepoint(cachepoint):
                 try writer["cachePoint"].write(cachepoint, with: BedrockRuntimeClientTypes.CachePointBlock.write(value:to:))
+            case let .citationscontent(citationscontent):
+                try writer["citationsContent"].write(citationscontent, with: BedrockRuntimeClientTypes.CitationsContentBlock.write(value:to:))
             case let .document(document):
                 try writer["document"].write(document, with: BedrockRuntimeClientTypes.DocumentBlock.write(value:to:))
             case let .guardcontent(guardcontent):
@@ -5067,6 +5293,181 @@ extension BedrockRuntimeClientTypes.ContentBlock {
                 return .cachepoint(try reader["cachePoint"].read(with: BedrockRuntimeClientTypes.CachePointBlock.read(from:)))
             case "reasoningContent":
                 return .reasoningcontent(try reader["reasoningContent"].read(with: BedrockRuntimeClientTypes.ReasoningContentBlock.read(from:)))
+            case "citationsContent":
+                return .citationscontent(try reader["citationsContent"].read(with: BedrockRuntimeClientTypes.CitationsContentBlock.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.CitationsContentBlock {
+
+    static func write(value: BedrockRuntimeClientTypes.CitationsContentBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["citations"].writeList(value.citations, memberWritingClosure: BedrockRuntimeClientTypes.Citation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["content"].writeList(value.content, memberWritingClosure: BedrockRuntimeClientTypes.CitationGeneratedContent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.CitationsContentBlock {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.CitationsContentBlock()
+        value.content = try reader["content"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.CitationGeneratedContent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.citations = try reader["citations"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.Citation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.Citation {
+
+    static func write(value: BedrockRuntimeClientTypes.Citation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["location"].write(value.location, with: BedrockRuntimeClientTypes.CitationLocation.write(value:to:))
+        try writer["sourceContent"].writeList(value.sourceContent, memberWritingClosure: BedrockRuntimeClientTypes.CitationSourceContent.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["title"].write(value.title)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.Citation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.Citation()
+        value.title = try reader["title"].readIfPresent()
+        value.sourceContent = try reader["sourceContent"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.CitationSourceContent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.location = try reader["location"].readIfPresent(with: BedrockRuntimeClientTypes.CitationLocation.read(from:))
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.CitationLocation {
+
+    static func write(value: BedrockRuntimeClientTypes.CitationLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .documentchar(documentchar):
+                try writer["documentChar"].write(documentchar, with: BedrockRuntimeClientTypes.DocumentCharLocation.write(value:to:))
+            case let .documentchunk(documentchunk):
+                try writer["documentChunk"].write(documentchunk, with: BedrockRuntimeClientTypes.DocumentChunkLocation.write(value:to:))
+            case let .documentpage(documentpage):
+                try writer["documentPage"].write(documentpage, with: BedrockRuntimeClientTypes.DocumentPageLocation.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.CitationLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "documentChar":
+                return .documentchar(try reader["documentChar"].read(with: BedrockRuntimeClientTypes.DocumentCharLocation.read(from:)))
+            case "documentPage":
+                return .documentpage(try reader["documentPage"].read(with: BedrockRuntimeClientTypes.DocumentPageLocation.read(from:)))
+            case "documentChunk":
+                return .documentchunk(try reader["documentChunk"].read(with: BedrockRuntimeClientTypes.DocumentChunkLocation.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.DocumentChunkLocation {
+
+    static func write(value: BedrockRuntimeClientTypes.DocumentChunkLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["documentIndex"].write(value.documentIndex)
+        try writer["end"].write(value.end)
+        try writer["start"].write(value.start)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.DocumentChunkLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.DocumentChunkLocation()
+        value.documentIndex = try reader["documentIndex"].readIfPresent()
+        value.start = try reader["start"].readIfPresent()
+        value.end = try reader["end"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.DocumentPageLocation {
+
+    static func write(value: BedrockRuntimeClientTypes.DocumentPageLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["documentIndex"].write(value.documentIndex)
+        try writer["end"].write(value.end)
+        try writer["start"].write(value.start)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.DocumentPageLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.DocumentPageLocation()
+        value.documentIndex = try reader["documentIndex"].readIfPresent()
+        value.start = try reader["start"].readIfPresent()
+        value.end = try reader["end"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.DocumentCharLocation {
+
+    static func write(value: BedrockRuntimeClientTypes.DocumentCharLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["documentIndex"].write(value.documentIndex)
+        try writer["end"].write(value.end)
+        try writer["start"].write(value.start)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.DocumentCharLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.DocumentCharLocation()
+        value.documentIndex = try reader["documentIndex"].readIfPresent()
+        value.start = try reader["start"].readIfPresent()
+        value.end = try reader["end"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.CitationSourceContent {
+
+    static func write(value: BedrockRuntimeClientTypes.CitationSourceContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .text(text):
+                try writer["text"].write(text)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.CitationSourceContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "text":
+                return .text(try reader["text"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.CitationGeneratedContent {
+
+    static func write(value: BedrockRuntimeClientTypes.CitationGeneratedContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .text(text):
+                try writer["text"].write(text)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.CitationGeneratedContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "text":
+                return .text(try reader["text"].read())
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -5344,6 +5745,8 @@ extension BedrockRuntimeClientTypes.DocumentBlock {
 
     static func write(value: BedrockRuntimeClientTypes.DocumentBlock?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["citations"].write(value.citations, with: BedrockRuntimeClientTypes.CitationsConfig.write(value:to:))
+        try writer["context"].write(value.context)
         try writer["format"].write(value.format)
         try writer["name"].write(value.name)
         try writer["source"].write(value.source, with: BedrockRuntimeClientTypes.DocumentSource.write(value:to:))
@@ -5352,9 +5755,26 @@ extension BedrockRuntimeClientTypes.DocumentBlock {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.DocumentBlock {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.DocumentBlock()
-        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
+        value.format = try reader["format"].readIfPresent() ?? BedrockRuntimeClientTypes.DocumentFormat.txt
         value.name = try reader["name"].readIfPresent() ?? ""
         value.source = try reader["source"].readIfPresent(with: BedrockRuntimeClientTypes.DocumentSource.read(from:))
+        value.context = try reader["context"].readIfPresent()
+        value.citations = try reader["citations"].readIfPresent(with: BedrockRuntimeClientTypes.CitationsConfig.read(from:))
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.CitationsConfig {
+
+    static func write(value: BedrockRuntimeClientTypes.CitationsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.CitationsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.CitationsConfig()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
         return value
     }
 }
@@ -5366,8 +5786,12 @@ extension BedrockRuntimeClientTypes.DocumentSource {
         switch value {
             case let .bytes(bytes):
                 try writer["bytes"].write(bytes)
+            case let .content(content):
+                try writer["content"].writeList(content, memberWritingClosure: BedrockRuntimeClientTypes.DocumentContentBlock.write(value:to:), memberNodeInfo: "member", isFlattened: false)
             case let .s3location(s3location):
                 try writer["s3Location"].write(s3location, with: BedrockRuntimeClientTypes.S3Location.write(value:to:))
+            case let .text(text):
+                try writer["text"].write(text)
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -5381,6 +5805,34 @@ extension BedrockRuntimeClientTypes.DocumentSource {
                 return .bytes(try reader["bytes"].read())
             case "s3Location":
                 return .s3location(try reader["s3Location"].read(with: BedrockRuntimeClientTypes.S3Location.read(from:)))
+            case "text":
+                return .text(try reader["text"].read())
+            case "content":
+                return .content(try reader["content"].readList(memberReadingClosure: BedrockRuntimeClientTypes.DocumentContentBlock.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.DocumentContentBlock {
+
+    static func write(value: BedrockRuntimeClientTypes.DocumentContentBlock?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .text(text):
+                try writer["text"].write(text)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.DocumentContentBlock {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "text":
+                return .text(try reader["text"].read())
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -5654,9 +6106,33 @@ extension BedrockRuntimeClientTypes.ContentBlockDelta {
                 return .tooluse(try reader["toolUse"].read(with: BedrockRuntimeClientTypes.ToolUseBlockDelta.read(from:)))
             case "reasoningContent":
                 return .reasoningcontent(try reader["reasoningContent"].read(with: BedrockRuntimeClientTypes.ReasoningContentBlockDelta.read(from:)))
+            case "citation":
+                return .citation(try reader["citation"].read(with: BedrockRuntimeClientTypes.CitationsDelta.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockRuntimeClientTypes.CitationsDelta {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.CitationsDelta {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.CitationsDelta()
+        value.title = try reader["title"].readIfPresent()
+        value.sourceContent = try reader["sourceContent"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.CitationSourceContentDelta.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.location = try reader["location"].readIfPresent(with: BedrockRuntimeClientTypes.CitationLocation.read(from:))
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.CitationSourceContentDelta {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.CitationSourceContentDelta {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.CitationSourceContentDelta()
+        value.text = try reader["text"].readIfPresent()
+        return value
     }
 }
 

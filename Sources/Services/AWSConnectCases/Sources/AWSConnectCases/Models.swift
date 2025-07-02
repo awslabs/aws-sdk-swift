@@ -306,6 +306,28 @@ public struct CreateCaseOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteCaseInput: Swift.Sendable {
+    /// A unique identifier of the case.
+    /// This member is required.
+    public var caseId: Swift.String?
+    /// A unique identifier of the Cases domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+
+    public init(
+        caseId: Swift.String? = nil,
+        domainId: Swift.String? = nil
+    ) {
+        self.caseId = caseId
+        self.domainId = domainId
+    }
+}
+
+public struct DeleteCaseOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 extension ConnectCasesClientTypes {
 
     /// Object for unique identifier of a field.
@@ -885,6 +907,33 @@ public struct CreateRelatedItemOutput: Swift.Sendable {
         self.relatedItemArn = relatedItemArn
         self.relatedItemId = relatedItemId
     }
+}
+
+public struct DeleteRelatedItemInput: Swift.Sendable {
+    /// A unique identifier of the case.
+    /// This member is required.
+    public var caseId: Swift.String?
+    /// A unique identifier of the Cases domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// A unique identifier of a related item.
+    /// This member is required.
+    public var relatedItemId: Swift.String?
+
+    public init(
+        caseId: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        relatedItemId: Swift.String? = nil
+    ) {
+        self.caseId = caseId
+        self.domainId = domainId
+        self.relatedItemId = relatedItemId
+    }
+}
+
+public struct DeleteRelatedItemOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 extension ConnectCasesClientTypes {
@@ -3423,6 +3472,19 @@ extension CreateTemplateInput {
     }
 }
 
+extension DeleteCaseInput {
+
+    static func urlPathProvider(_ value: DeleteCaseInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        guard let caseId = value.caseId else {
+            return nil
+        }
+        return "/domains/\(domainId.urlPercentEncoding())/cases/\(caseId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteCaseRuleInput {
 
     static func urlPathProvider(_ value: DeleteCaseRuleInput) -> Swift.String? {
@@ -3469,6 +3531,22 @@ extension DeleteLayoutInput {
             return nil
         }
         return "/domains/\(domainId.urlPercentEncoding())/layouts/\(layoutId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteRelatedItemInput {
+
+    static func urlPathProvider(_ value: DeleteRelatedItemInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        guard let caseId = value.caseId else {
+            return nil
+        }
+        guard let relatedItemId = value.relatedItemId else {
+            return nil
+        }
+        return "/domains/\(domainId.urlPercentEncoding())/cases/\(caseId.urlPercentEncoding())/related-items/\(relatedItemId.urlPercentEncoding())"
     }
 }
 
@@ -4221,6 +4299,13 @@ extension CreateTemplateOutput {
     }
 }
 
+extension DeleteCaseOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCaseOutput {
+        return DeleteCaseOutput()
+    }
+}
+
 extension DeleteCaseRuleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCaseRuleOutput {
@@ -4246,6 +4331,13 @@ extension DeleteLayoutOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteLayoutOutput {
         return DeleteLayoutOutput()
+    }
+}
+
+extension DeleteRelatedItemOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRelatedItemOutput {
+        return DeleteRelatedItemOutput()
     }
 }
 
@@ -4732,6 +4824,24 @@ enum CreateTemplateOutputError {
     }
 }
 
+enum DeleteCaseOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteCaseRuleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4799,6 +4909,24 @@ enum DeleteLayoutOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteRelatedItemOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)

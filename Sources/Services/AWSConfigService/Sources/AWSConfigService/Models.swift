@@ -735,8 +735,10 @@ extension ConfigClientTypes {
         case appconfigconfigurationprofile
         case appconfigdeploymentstrategy
         case appconfigenvironment
+        case appconfigextensionassociation
         case appconfighostedconfigurationversion
         case appflowflow
+        case appintegrationsapplication
         case appintegrationseventintegration
         case appmeshgatewayroute
         case appmeshmesh
@@ -751,6 +753,7 @@ extension ConfigClientTypes {
         case appstreamdirectoryconfig
         case appstreamfleet
         case appstreamstack
+        case appsyncapicache
         case appsyncgraphqlapi
         case application
         case applicationversion
@@ -769,6 +772,8 @@ extension ConfigClientTypes {
         case batchcomputeenvironment
         case batchjobqueue
         case batchschedulingpolicy
+        case bedrockguardrail
+        case bedrockknowledgebase
         case bucket
         case budgetsbudgetsaction
         case cassandrakeyspace
@@ -789,6 +794,7 @@ extension ConfigClientTypes {
         case codedeploydeploymentgroup
         case codeguruprofilerprofilinggroup
         case codegurureviewerrepositoryassociation
+        case cognitoidentitypool
         case cognitouserpool
         case cognitouserpoolclient
         case cognitouserpoolgroup
@@ -796,6 +802,8 @@ extension ConfigClientTypes {
         case connectinstance
         case connectphonenumber
         case connectquickconnect
+        case connectrule
+        case connectuser
         case customergateway
         case customerprofilesdomain
         case customerprofilesobjecttype
@@ -827,15 +835,21 @@ extension ConfigClientTypes {
         case ec2capacityreservation
         case ec2carriergateway
         case ec2clientvpnendpoint
+        case ec2clientvpntargetnetworkassociation
         case ec2dhcpoptions
         case ec2ec2fleet
+        case ec2eipassociation
         case ec2ipam
         case ec2ipampool
+        case ec2ipamresourcediscovery
+        case ec2ipamresourcediscoveryassociation
         case ec2ipamscope
+        case ec2instanceconnectendpoint
         case ec2networkinsightsaccessscope
         case ec2networkinsightsanalysis
         case ec2networkinsightspath
         case ec2prefixlist
+        case ec2snapshotblockpublicaccess
         case ec2spotfleet
         case ec2subnetroutetableassociation
         case ec2trafficmirrorfilter
@@ -843,6 +857,10 @@ extension ConfigClientTypes {
         case ec2trafficmirrortarget
         case ec2transitgatewayconnect
         case ec2transitgatewaymulticastdomain
+        case ec2vpcblockpublicaccessexclusion
+        case ec2vpcblockpublicaccessoptions
+        case ec2vpcendpointconnectionnotification
+        case ec2vpnconnectionroute
         case ecrpublicrepository
         case ecrpullthroughcacherule
         case ecrregistrypolicy
@@ -876,6 +894,7 @@ extension ConfigClientTypes {
         case eventsrule
         case evidentlylaunch
         case evidentlyproject
+        case evidentlysegment
         case fisexperimenttemplate
         case filedata
         case flowlog
@@ -905,6 +924,7 @@ extension ConfigClientTypes {
         case healthlakefhirdatastore
         case host
         case iaminstanceprofile
+        case iamoidcprovider
         case iamsamlprovider
         case iamservercertificate
         case ipsetv2
@@ -916,6 +936,7 @@ extension ConfigClientTypes {
         case imagebuilderimagepipeline
         case imagebuilderimagerecipe
         case imagebuilderinfrastructureconfiguration
+        case inspectorv2activation
         case inspectorv2filter
         case instance
         case internetgateway
@@ -980,15 +1001,19 @@ extension ConfigClientTypes {
         case m2environment
         case mskbatchscramsecret
         case mskcluster
+        case mskclusterpolicy
         case mskconfiguration
+        case mskvpcconnection
         case managedinstanceinventory
         case managedrulesetv2
         case mediaconnectflowentitlement
         case mediaconnectflowsource
         case mediaconnectflowvpcinterface
+        case mediaconnectgateway
         case mediapackagepackagingconfiguration
         case mediapackagepackaginggroup
         case mediatailorplaybackconfiguration
+        case memorydbsubnetgroup
         case natgateway
         case networkacl
         case networkfirewallfirewall
@@ -1005,6 +1030,8 @@ extension ConfigClientTypes {
         case networkmanagersite
         case networkmanagertransitgatewayregistration
         case opensearchdomain
+        case opensearchserverlesscollection
+        case opensearchserverlessvpcendpoint
         case panoramapackage
         case patchcompliance
         case personalizedataset
@@ -1034,6 +1061,7 @@ extension ConfigClientTypes {
         case rumappmonitor
         case ratebasedrule
         case redshiftendpointaccess
+        case redshiftendpointauthorization
         case redshifteventsubscription
         case redshiftscheduledaction
         case regexpatternsetv2
@@ -1053,6 +1081,7 @@ extension ConfigClientTypes {
         case robomakersimulationapplication
         case role
         case route53hostedzone
+        case route53profilesprofile
         case route53recoverycontrolcluster
         case route53recoverycontrolcontrolpanel
         case route53recoverycontrolroutingcontrol
@@ -1074,8 +1103,11 @@ extension ConfigClientTypes {
         case rulegroup
         case rulegroupv2
         case s3accesspoint
+        case s3expressbucketpolicy
+        case s3expressdirectorybucket
         case s3multiregionaccesspoint
         case s3storagelens
+        case s3storagelensgroup
         case sesconfigurationset
         case sescontactlist
         case sesreceiptfilter
@@ -1087,6 +1119,7 @@ extension ConfigClientTypes {
         case sagemakerdomain
         case sagemakerfeaturegroup
         case sagemakerimage
+        case sagemakerinferenceexperiment
         case sagemakermodel
         case sagemakernotebookinstancelifecycleconfig
         case sagemakerworkteam
@@ -1094,6 +1127,7 @@ extension ConfigClientTypes {
         case scheduledaction
         case secret
         case securitygroup
+        case securityhubstandard
         case servicediscoveryhttpnamespace
         case servicediscoveryinstance
         case servicediscoverypublicdnsnamespace
@@ -1112,6 +1146,7 @@ extension ConfigClientTypes {
         case transferagreement
         case transfercertificate
         case transferconnector
+        case transferprofile
         case transferworkflow
         case transitgateway
         case transitgatewayattachment
@@ -1146,8 +1181,10 @@ extension ConfigClientTypes {
                 .appconfigconfigurationprofile,
                 .appconfigdeploymentstrategy,
                 .appconfigenvironment,
+                .appconfigextensionassociation,
                 .appconfighostedconfigurationversion,
                 .appflowflow,
+                .appintegrationsapplication,
                 .appintegrationseventintegration,
                 .appmeshgatewayroute,
                 .appmeshmesh,
@@ -1162,6 +1199,7 @@ extension ConfigClientTypes {
                 .appstreamdirectoryconfig,
                 .appstreamfleet,
                 .appstreamstack,
+                .appsyncapicache,
                 .appsyncgraphqlapi,
                 .application,
                 .applicationversion,
@@ -1180,6 +1218,8 @@ extension ConfigClientTypes {
                 .batchcomputeenvironment,
                 .batchjobqueue,
                 .batchschedulingpolicy,
+                .bedrockguardrail,
+                .bedrockknowledgebase,
                 .bucket,
                 .budgetsbudgetsaction,
                 .cassandrakeyspace,
@@ -1200,6 +1240,7 @@ extension ConfigClientTypes {
                 .codedeploydeploymentgroup,
                 .codeguruprofilerprofilinggroup,
                 .codegurureviewerrepositoryassociation,
+                .cognitoidentitypool,
                 .cognitouserpool,
                 .cognitouserpoolclient,
                 .cognitouserpoolgroup,
@@ -1207,6 +1248,8 @@ extension ConfigClientTypes {
                 .connectinstance,
                 .connectphonenumber,
                 .connectquickconnect,
+                .connectrule,
+                .connectuser,
                 .customergateway,
                 .customerprofilesdomain,
                 .customerprofilesobjecttype,
@@ -1238,15 +1281,21 @@ extension ConfigClientTypes {
                 .ec2capacityreservation,
                 .ec2carriergateway,
                 .ec2clientvpnendpoint,
+                .ec2clientvpntargetnetworkassociation,
                 .ec2dhcpoptions,
                 .ec2ec2fleet,
+                .ec2eipassociation,
                 .ec2ipam,
                 .ec2ipampool,
+                .ec2ipamresourcediscovery,
+                .ec2ipamresourcediscoveryassociation,
                 .ec2ipamscope,
+                .ec2instanceconnectendpoint,
                 .ec2networkinsightsaccessscope,
                 .ec2networkinsightsanalysis,
                 .ec2networkinsightspath,
                 .ec2prefixlist,
+                .ec2snapshotblockpublicaccess,
                 .ec2spotfleet,
                 .ec2subnetroutetableassociation,
                 .ec2trafficmirrorfilter,
@@ -1254,6 +1303,10 @@ extension ConfigClientTypes {
                 .ec2trafficmirrortarget,
                 .ec2transitgatewayconnect,
                 .ec2transitgatewaymulticastdomain,
+                .ec2vpcblockpublicaccessexclusion,
+                .ec2vpcblockpublicaccessoptions,
+                .ec2vpcendpointconnectionnotification,
+                .ec2vpnconnectionroute,
                 .ecrpublicrepository,
                 .ecrpullthroughcacherule,
                 .ecrregistrypolicy,
@@ -1287,6 +1340,7 @@ extension ConfigClientTypes {
                 .eventsrule,
                 .evidentlylaunch,
                 .evidentlyproject,
+                .evidentlysegment,
                 .fisexperimenttemplate,
                 .filedata,
                 .flowlog,
@@ -1316,6 +1370,7 @@ extension ConfigClientTypes {
                 .healthlakefhirdatastore,
                 .host,
                 .iaminstanceprofile,
+                .iamoidcprovider,
                 .iamsamlprovider,
                 .iamservercertificate,
                 .ipsetv2,
@@ -1327,6 +1382,7 @@ extension ConfigClientTypes {
                 .imagebuilderimagepipeline,
                 .imagebuilderimagerecipe,
                 .imagebuilderinfrastructureconfiguration,
+                .inspectorv2activation,
                 .inspectorv2filter,
                 .instance,
                 .internetgateway,
@@ -1391,15 +1447,19 @@ extension ConfigClientTypes {
                 .m2environment,
                 .mskbatchscramsecret,
                 .mskcluster,
+                .mskclusterpolicy,
                 .mskconfiguration,
+                .mskvpcconnection,
                 .managedinstanceinventory,
                 .managedrulesetv2,
                 .mediaconnectflowentitlement,
                 .mediaconnectflowsource,
                 .mediaconnectflowvpcinterface,
+                .mediaconnectgateway,
                 .mediapackagepackagingconfiguration,
                 .mediapackagepackaginggroup,
                 .mediatailorplaybackconfiguration,
+                .memorydbsubnetgroup,
                 .natgateway,
                 .networkacl,
                 .networkfirewallfirewall,
@@ -1416,6 +1476,8 @@ extension ConfigClientTypes {
                 .networkmanagersite,
                 .networkmanagertransitgatewayregistration,
                 .opensearchdomain,
+                .opensearchserverlesscollection,
+                .opensearchserverlessvpcendpoint,
                 .panoramapackage,
                 .patchcompliance,
                 .personalizedataset,
@@ -1445,6 +1507,7 @@ extension ConfigClientTypes {
                 .rumappmonitor,
                 .ratebasedrule,
                 .redshiftendpointaccess,
+                .redshiftendpointauthorization,
                 .redshifteventsubscription,
                 .redshiftscheduledaction,
                 .regexpatternsetv2,
@@ -1464,6 +1527,7 @@ extension ConfigClientTypes {
                 .robomakersimulationapplication,
                 .role,
                 .route53hostedzone,
+                .route53profilesprofile,
                 .route53recoverycontrolcluster,
                 .route53recoverycontrolcontrolpanel,
                 .route53recoverycontrolroutingcontrol,
@@ -1485,8 +1549,11 @@ extension ConfigClientTypes {
                 .rulegroup,
                 .rulegroupv2,
                 .s3accesspoint,
+                .s3expressbucketpolicy,
+                .s3expressdirectorybucket,
                 .s3multiregionaccesspoint,
                 .s3storagelens,
+                .s3storagelensgroup,
                 .sesconfigurationset,
                 .sescontactlist,
                 .sesreceiptfilter,
@@ -1498,6 +1565,7 @@ extension ConfigClientTypes {
                 .sagemakerdomain,
                 .sagemakerfeaturegroup,
                 .sagemakerimage,
+                .sagemakerinferenceexperiment,
                 .sagemakermodel,
                 .sagemakernotebookinstancelifecycleconfig,
                 .sagemakerworkteam,
@@ -1505,6 +1573,7 @@ extension ConfigClientTypes {
                 .scheduledaction,
                 .secret,
                 .securitygroup,
+                .securityhubstandard,
                 .servicediscoveryhttpnamespace,
                 .servicediscoveryinstance,
                 .servicediscoverypublicdnsnamespace,
@@ -1523,6 +1592,7 @@ extension ConfigClientTypes {
                 .transferagreement,
                 .transfercertificate,
                 .transferconnector,
+                .transferprofile,
                 .transferworkflow,
                 .transitgateway,
                 .transitgatewayattachment,
@@ -1563,8 +1633,10 @@ extension ConfigClientTypes {
             case .appconfigconfigurationprofile: return "AWS::AppConfig::ConfigurationProfile"
             case .appconfigdeploymentstrategy: return "AWS::AppConfig::DeploymentStrategy"
             case .appconfigenvironment: return "AWS::AppConfig::Environment"
+            case .appconfigextensionassociation: return "AWS::AppConfig::ExtensionAssociation"
             case .appconfighostedconfigurationversion: return "AWS::AppConfig::HostedConfigurationVersion"
             case .appflowflow: return "AWS::AppFlow::Flow"
+            case .appintegrationsapplication: return "AWS::AppIntegrations::Application"
             case .appintegrationseventintegration: return "AWS::AppIntegrations::EventIntegration"
             case .appmeshgatewayroute: return "AWS::AppMesh::GatewayRoute"
             case .appmeshmesh: return "AWS::AppMesh::Mesh"
@@ -1579,6 +1651,7 @@ extension ConfigClientTypes {
             case .appstreamdirectoryconfig: return "AWS::AppStream::DirectoryConfig"
             case .appstreamfleet: return "AWS::AppStream::Fleet"
             case .appstreamstack: return "AWS::AppStream::Stack"
+            case .appsyncapicache: return "AWS::AppSync::ApiCache"
             case .appsyncgraphqlapi: return "AWS::AppSync::GraphQLApi"
             case .application: return "AWS::ElasticBeanstalk::Application"
             case .applicationversion: return "AWS::ElasticBeanstalk::ApplicationVersion"
@@ -1597,6 +1670,8 @@ extension ConfigClientTypes {
             case .batchcomputeenvironment: return "AWS::Batch::ComputeEnvironment"
             case .batchjobqueue: return "AWS::Batch::JobQueue"
             case .batchschedulingpolicy: return "AWS::Batch::SchedulingPolicy"
+            case .bedrockguardrail: return "AWS::Bedrock::Guardrail"
+            case .bedrockknowledgebase: return "AWS::Bedrock::KnowledgeBase"
             case .bucket: return "AWS::S3::Bucket"
             case .budgetsbudgetsaction: return "AWS::Budgets::BudgetsAction"
             case .cassandrakeyspace: return "AWS::Cassandra::Keyspace"
@@ -1617,6 +1692,7 @@ extension ConfigClientTypes {
             case .codedeploydeploymentgroup: return "AWS::CodeDeploy::DeploymentGroup"
             case .codeguruprofilerprofilinggroup: return "AWS::CodeGuruProfiler::ProfilingGroup"
             case .codegurureviewerrepositoryassociation: return "AWS::CodeGuruReviewer::RepositoryAssociation"
+            case .cognitoidentitypool: return "AWS::Cognito::IdentityPool"
             case .cognitouserpool: return "AWS::Cognito::UserPool"
             case .cognitouserpoolclient: return "AWS::Cognito::UserPoolClient"
             case .cognitouserpoolgroup: return "AWS::Cognito::UserPoolGroup"
@@ -1624,6 +1700,8 @@ extension ConfigClientTypes {
             case .connectinstance: return "AWS::Connect::Instance"
             case .connectphonenumber: return "AWS::Connect::PhoneNumber"
             case .connectquickconnect: return "AWS::Connect::QuickConnect"
+            case .connectrule: return "AWS::Connect::Rule"
+            case .connectuser: return "AWS::Connect::User"
             case .customergateway: return "AWS::EC2::CustomerGateway"
             case .customerprofilesdomain: return "AWS::CustomerProfiles::Domain"
             case .customerprofilesobjecttype: return "AWS::CustomerProfiles::ObjectType"
@@ -1655,15 +1733,21 @@ extension ConfigClientTypes {
             case .ec2capacityreservation: return "AWS::EC2::CapacityReservation"
             case .ec2carriergateway: return "AWS::EC2::CarrierGateway"
             case .ec2clientvpnendpoint: return "AWS::EC2::ClientVpnEndpoint"
+            case .ec2clientvpntargetnetworkassociation: return "AWS::EC2::ClientVpnTargetNetworkAssociation"
             case .ec2dhcpoptions: return "AWS::EC2::DHCPOptions"
             case .ec2ec2fleet: return "AWS::EC2::EC2Fleet"
+            case .ec2eipassociation: return "AWS::EC2::EIPAssociation"
             case .ec2ipam: return "AWS::EC2::IPAM"
             case .ec2ipampool: return "AWS::EC2::IPAMPool"
+            case .ec2ipamresourcediscovery: return "AWS::EC2::IPAMResourceDiscovery"
+            case .ec2ipamresourcediscoveryassociation: return "AWS::EC2::IPAMResourceDiscoveryAssociation"
             case .ec2ipamscope: return "AWS::EC2::IPAMScope"
+            case .ec2instanceconnectendpoint: return "AWS::EC2::InstanceConnectEndpoint"
             case .ec2networkinsightsaccessscope: return "AWS::EC2::NetworkInsightsAccessScope"
             case .ec2networkinsightsanalysis: return "AWS::EC2::NetworkInsightsAnalysis"
             case .ec2networkinsightspath: return "AWS::EC2::NetworkInsightsPath"
             case .ec2prefixlist: return "AWS::EC2::PrefixList"
+            case .ec2snapshotblockpublicaccess: return "AWS::EC2::SnapshotBlockPublicAccess"
             case .ec2spotfleet: return "AWS::EC2::SpotFleet"
             case .ec2subnetroutetableassociation: return "AWS::EC2::SubnetRouteTableAssociation"
             case .ec2trafficmirrorfilter: return "AWS::EC2::TrafficMirrorFilter"
@@ -1671,6 +1755,10 @@ extension ConfigClientTypes {
             case .ec2trafficmirrortarget: return "AWS::EC2::TrafficMirrorTarget"
             case .ec2transitgatewayconnect: return "AWS::EC2::TransitGatewayConnect"
             case .ec2transitgatewaymulticastdomain: return "AWS::EC2::TransitGatewayMulticastDomain"
+            case .ec2vpcblockpublicaccessexclusion: return "AWS::EC2::VPCBlockPublicAccessExclusion"
+            case .ec2vpcblockpublicaccessoptions: return "AWS::EC2::VPCBlockPublicAccessOptions"
+            case .ec2vpcendpointconnectionnotification: return "AWS::EC2::VPCEndpointConnectionNotification"
+            case .ec2vpnconnectionroute: return "AWS::EC2::VPNConnectionRoute"
             case .ecrpublicrepository: return "AWS::ECR::PublicRepository"
             case .ecrpullthroughcacherule: return "AWS::ECR::PullThroughCacheRule"
             case .ecrregistrypolicy: return "AWS::ECR::RegistryPolicy"
@@ -1704,6 +1792,7 @@ extension ConfigClientTypes {
             case .eventsrule: return "AWS::Events::Rule"
             case .evidentlylaunch: return "AWS::Evidently::Launch"
             case .evidentlyproject: return "AWS::Evidently::Project"
+            case .evidentlysegment: return "AWS::Evidently::Segment"
             case .fisexperimenttemplate: return "AWS::FIS::ExperimentTemplate"
             case .filedata: return "AWS::SSM::FileData"
             case .flowlog: return "AWS::EC2::FlowLog"
@@ -1733,6 +1822,7 @@ extension ConfigClientTypes {
             case .healthlakefhirdatastore: return "AWS::HealthLake::FHIRDatastore"
             case .host: return "AWS::EC2::Host"
             case .iaminstanceprofile: return "AWS::IAM::InstanceProfile"
+            case .iamoidcprovider: return "AWS::IAM::OIDCProvider"
             case .iamsamlprovider: return "AWS::IAM::SAMLProvider"
             case .iamservercertificate: return "AWS::IAM::ServerCertificate"
             case .ipsetv2: return "AWS::WAFv2::IPSet"
@@ -1744,6 +1834,7 @@ extension ConfigClientTypes {
             case .imagebuilderimagepipeline: return "AWS::ImageBuilder::ImagePipeline"
             case .imagebuilderimagerecipe: return "AWS::ImageBuilder::ImageRecipe"
             case .imagebuilderinfrastructureconfiguration: return "AWS::ImageBuilder::InfrastructureConfiguration"
+            case .inspectorv2activation: return "AWS::InspectorV2::Activation"
             case .inspectorv2filter: return "AWS::InspectorV2::Filter"
             case .instance: return "AWS::EC2::Instance"
             case .internetgateway: return "AWS::EC2::InternetGateway"
@@ -1808,15 +1899,19 @@ extension ConfigClientTypes {
             case .m2environment: return "AWS::M2::Environment"
             case .mskbatchscramsecret: return "AWS::MSK::BatchScramSecret"
             case .mskcluster: return "AWS::MSK::Cluster"
+            case .mskclusterpolicy: return "AWS::MSK::ClusterPolicy"
             case .mskconfiguration: return "AWS::MSK::Configuration"
+            case .mskvpcconnection: return "AWS::MSK::VpcConnection"
             case .managedinstanceinventory: return "AWS::SSM::ManagedInstanceInventory"
             case .managedrulesetv2: return "AWS::WAFv2::ManagedRuleSet"
             case .mediaconnectflowentitlement: return "AWS::MediaConnect::FlowEntitlement"
             case .mediaconnectflowsource: return "AWS::MediaConnect::FlowSource"
             case .mediaconnectflowvpcinterface: return "AWS::MediaConnect::FlowVpcInterface"
+            case .mediaconnectgateway: return "AWS::MediaConnect::Gateway"
             case .mediapackagepackagingconfiguration: return "AWS::MediaPackage::PackagingConfiguration"
             case .mediapackagepackaginggroup: return "AWS::MediaPackage::PackagingGroup"
             case .mediatailorplaybackconfiguration: return "AWS::MediaTailor::PlaybackConfiguration"
+            case .memorydbsubnetgroup: return "AWS::MemoryDB::SubnetGroup"
             case .natgateway: return "AWS::EC2::NatGateway"
             case .networkacl: return "AWS::EC2::NetworkAcl"
             case .networkfirewallfirewall: return "AWS::NetworkFirewall::Firewall"
@@ -1833,6 +1928,8 @@ extension ConfigClientTypes {
             case .networkmanagersite: return "AWS::NetworkManager::Site"
             case .networkmanagertransitgatewayregistration: return "AWS::NetworkManager::TransitGatewayRegistration"
             case .opensearchdomain: return "AWS::OpenSearch::Domain"
+            case .opensearchserverlesscollection: return "AWS::OpenSearchServerless::Collection"
+            case .opensearchserverlessvpcendpoint: return "AWS::OpenSearchServerless::VpcEndpoint"
             case .panoramapackage: return "AWS::Panorama::Package"
             case .patchcompliance: return "AWS::SSM::PatchCompliance"
             case .personalizedataset: return "AWS::Personalize::Dataset"
@@ -1862,6 +1959,7 @@ extension ConfigClientTypes {
             case .rumappmonitor: return "AWS::RUM::AppMonitor"
             case .ratebasedrule: return "AWS::WAF::RateBasedRule"
             case .redshiftendpointaccess: return "AWS::Redshift::EndpointAccess"
+            case .redshiftendpointauthorization: return "AWS::Redshift::EndpointAuthorization"
             case .redshifteventsubscription: return "AWS::Redshift::EventSubscription"
             case .redshiftscheduledaction: return "AWS::Redshift::ScheduledAction"
             case .regexpatternsetv2: return "AWS::WAFv2::RegexPatternSet"
@@ -1881,6 +1979,7 @@ extension ConfigClientTypes {
             case .robomakersimulationapplication: return "AWS::RoboMaker::SimulationApplication"
             case .role: return "AWS::IAM::Role"
             case .route53hostedzone: return "AWS::Route53::HostedZone"
+            case .route53profilesprofile: return "AWS::Route53Profiles::Profile"
             case .route53recoverycontrolcluster: return "AWS::Route53RecoveryControl::Cluster"
             case .route53recoverycontrolcontrolpanel: return "AWS::Route53RecoveryControl::ControlPanel"
             case .route53recoverycontrolroutingcontrol: return "AWS::Route53RecoveryControl::RoutingControl"
@@ -1902,8 +2001,11 @@ extension ConfigClientTypes {
             case .rulegroup: return "AWS::WAF::RuleGroup"
             case .rulegroupv2: return "AWS::WAFv2::RuleGroup"
             case .s3accesspoint: return "AWS::S3::AccessPoint"
+            case .s3expressbucketpolicy: return "AWS::S3Express::BucketPolicy"
+            case .s3expressdirectorybucket: return "AWS::S3Express::DirectoryBucket"
             case .s3multiregionaccesspoint: return "AWS::S3::MultiRegionAccessPoint"
             case .s3storagelens: return "AWS::S3::StorageLens"
+            case .s3storagelensgroup: return "AWS::S3::StorageLensGroup"
             case .sesconfigurationset: return "AWS::SES::ConfigurationSet"
             case .sescontactlist: return "AWS::SES::ContactList"
             case .sesreceiptfilter: return "AWS::SES::ReceiptFilter"
@@ -1915,6 +2017,7 @@ extension ConfigClientTypes {
             case .sagemakerdomain: return "AWS::SageMaker::Domain"
             case .sagemakerfeaturegroup: return "AWS::SageMaker::FeatureGroup"
             case .sagemakerimage: return "AWS::SageMaker::Image"
+            case .sagemakerinferenceexperiment: return "AWS::SageMaker::InferenceExperiment"
             case .sagemakermodel: return "AWS::SageMaker::Model"
             case .sagemakernotebookinstancelifecycleconfig: return "AWS::SageMaker::NotebookInstanceLifecycleConfig"
             case .sagemakerworkteam: return "AWS::SageMaker::Workteam"
@@ -1922,6 +2025,7 @@ extension ConfigClientTypes {
             case .scheduledaction: return "AWS::AutoScaling::ScheduledAction"
             case .secret: return "AWS::SecretsManager::Secret"
             case .securitygroup: return "AWS::EC2::SecurityGroup"
+            case .securityhubstandard: return "AWS::SecurityHub::Standard"
             case .servicediscoveryhttpnamespace: return "AWS::ServiceDiscovery::HttpNamespace"
             case .servicediscoveryinstance: return "AWS::ServiceDiscovery::Instance"
             case .servicediscoverypublicdnsnamespace: return "AWS::ServiceDiscovery::PublicDnsNamespace"
@@ -1940,6 +2044,7 @@ extension ConfigClientTypes {
             case .transferagreement: return "AWS::Transfer::Agreement"
             case .transfercertificate: return "AWS::Transfer::Certificate"
             case .transferconnector: return "AWS::Transfer::Connector"
+            case .transferprofile: return "AWS::Transfer::Profile"
             case .transferworkflow: return "AWS::Transfer::Workflow"
             case .transitgateway: return "AWS::EC2::TransitGateway"
             case .transitgatewayattachment: return "AWS::EC2::TransitGatewayAttachment"
@@ -2499,7 +2604,7 @@ extension ConfigClientTypes {
     public struct ConfigurationRecorder: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the specified configuration recorder.
         public var arn: Swift.String?
-        /// The name of the configuration recorder. For customer managed configuration recorders, Config automatically assigns the name of "default" when creating a configuration recorder if you do not specify a name at creation time. For service-linked configuration recorders, Config automatically assigns a name that has the prefix "AWSConfigurationRecorderFor" to a new service-linked configuration recorder. Changing the name of a configuration recorder To change the name of the customer managed configuration recorder, you must delete it and create a new customer managed configuration recorder with a new name. You cannot change the name of a service-linked configuration recorder.
+        /// The name of the configuration recorder. For customer managed configuration recorders, Config automatically assigns the name of "default" when creating a configuration recorder if you do not specify a name at creation time. For service-linked configuration recorders, Config automatically assigns a name that has the prefix "AWS" to a new service-linked configuration recorder. Changing the name of a configuration recorder To change the name of the customer managed configuration recorder, you must delete it and create a new customer managed configuration recorder with a new name. You cannot change the name of a service-linked configuration recorder.
         public var name: Swift.String?
         /// Specifies which resource types are in scope for the configuration recorder to record. High Number of Config Evaluations You might notice increased activity in your account during your initial month recording with Config when compared to subsequent months. During the initial bootstrapping process, Config runs evaluations on all the resources in your account that you have selected for Config to record. If you are running ephemeral workloads, you may see increased activity from Config as it records configuration changes associated with creating and deleting these temporary resources. An ephemeral workload is a temporary use of computing resources that are loaded and run when needed. Examples include Amazon Elastic Compute Cloud (Amazon EC2) Spot Instances, Amazon EMR jobs, and Auto Scaling. If you want to avoid the increased activity from running ephemeral workloads, you can set up the configuration recorder to exclude these resource types from being recorded, or run these types of workloads in a separate account with Config turned off to avoid increased configuration recording and rule evaluations.
         public var recordingGroup: ConfigClientTypes.RecordingGroup?
@@ -2601,7 +2706,7 @@ extension ConfigClientTypes {
         public var availabilityZone: Swift.String?
         /// The region where the resource resides.
         public var awsRegion: Swift.String?
-        /// A JSON-encoded string that contains the contents for the resource configuration. This string needs to be deserialized using json.loads() before you can access the contents.
+        /// The description of the resource configuration.
         public var configuration: Swift.String?
         /// The time when the recording of configuration changes was initiated for the resource.
         public var configurationItemCaptureTime: Foundation.Date?
@@ -2621,7 +2726,7 @@ extension ConfigClientTypes {
         public var configurationItemStatus: ConfigClientTypes.ConfigurationItemStatus?
         /// An identifier that indicates the ordering of the configuration items of a resource.
         public var configurationStateId: Swift.String?
-        /// The recording frequency that Config uses to record configuration changes for the resource. This field only appears in the API response when DAILY recording is enabled for a resource type. If this field is not present, CONTINUOUS recording is enabled for that resource type. For more information on daily recording and continuous recording, see [Recording Frequency](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-recording-frequency) in the Config Developer Guide.
+        /// The recording frequency that Config uses to record configuration changes for the resource.
         public var recordingFrequency: ConfigClientTypes.RecordingFrequency?
         /// The time stamp when the resource was created.
         public var resourceCreationTime: Foundation.Date?
@@ -2631,7 +2736,7 @@ extension ConfigClientTypes {
         public var resourceName: Swift.String?
         /// The type of Amazon Web Services resource.
         public var resourceType: ConfigClientTypes.ResourceType?
-        /// A string to string map that contains additional contents for the resource configuration.Config returns this field for certain resource types to supplement the information returned for the configuration field. This string needs to be deserialized using json.loads() before you can access the contents.
+        /// Configuration attributes that Config returns for certain resource types to supplement the information returned for the configuration parameter.
         public var supplementaryConfiguration: [Swift.String: Swift.String]?
         /// The version number of the resource configuration.
         public var version: Swift.String?
@@ -3283,7 +3388,7 @@ extension ConfigClientTypes {
         ///
         /// By default, rules with a periodic trigger are evaluated every 24 hours. To change the frequency, specify a valid value for the MaximumExecutionFrequency parameter.
         public var maximumExecutionFrequency: ConfigClientTypes.MaximumExecutionFrequency?
-        /// Defines which resources can trigger an evaluation for the rule. The scope can include one or more resource types, a combination of one resource type and one resource ID, or a combination of a tag key and value. Specify a scope to constrain the resources that can trigger an evaluation for the rule. If you do not specify a scope, evaluations are triggered when any resource in the recording group changes.
+        /// Defines which resources can trigger an evaluation for the rule. The scope can include one or more resource types, a combination of one resource type and one resource ID, or a combination of a tag key and value. Specify a scope to constrain the resources that can trigger an evaluation for the rule. If you do not specify a scope, evaluations are triggered when any resource in the recording group changes. The scope can be empty.
         public var scope: ConfigClientTypes.Scope?
         /// Provides the rule owner (Amazon Web Services for managed rules, CUSTOM_POLICY for Custom Policy rules, and CUSTOM_LAMBDA for Custom Lambda rules), the rule identifier, and the notifications that cause the function to evaluate your Amazon Web Services resources.
         /// This member is required.
@@ -3633,7 +3738,7 @@ extension ConfigClientTypes {
         public var availabilityZone: Swift.String?
         /// The region where the resource resides.
         public var awsRegion: Swift.String?
-        /// A JSON-encoded string that contains the contents for the resource configuration. This string needs to be deserialized using json.loads() before you can access the contents.
+        /// The description of the resource configuration.
         public var configuration: Swift.String?
         /// The time when the recording of configuration changes was initiated for the resource.
         public var configurationItemCaptureTime: Foundation.Date?
@@ -3655,7 +3760,7 @@ extension ConfigClientTypes {
         public var configurationItemStatus: ConfigClientTypes.ConfigurationItemStatus?
         /// An identifier that indicates the ordering of the configuration items of a resource.
         public var configurationStateId: Swift.String?
-        /// The recording frequency that Config uses to record configuration changes for the resource. This field only appears in the API response when DAILY recording is enabled for a resource type. If this field is not present, CONTINUOUS recording is enabled for that resource type. For more information on daily recording and continuous recording, see [Recording Frequency](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-recording-frequency) in the Config Developer Guide.
+        /// The recording frequency that Config uses to record configuration changes for the resource.
         public var recordingFrequency: ConfigClientTypes.RecordingFrequency?
         /// A list of CloudTrail event IDs. A populated field indicates that the current configuration was initiated by the events recorded in the CloudTrail log. For more information about CloudTrail, see [What Is CloudTrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/what_is_cloud_trail_top_level.html). An empty field indicates that the current configuration was not initiated by any event. As of Version 1.3, the relatedEvents field is empty. You can access the [LookupEvents API](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_LookupEvents.html) in the CloudTrail API Reference to retrieve the events for the resource.
         public var relatedEvents: [Swift.String]?
@@ -3669,7 +3774,7 @@ extension ConfigClientTypes {
         public var resourceName: Swift.String?
         /// The type of Amazon Web Services resource.
         public var resourceType: ConfigClientTypes.ResourceType?
-        /// A string to string map that contains additional contents for the resource configuration.Config returns this field for certain resource types to supplement the information returned for the configuration field. This string to string map needs to be deserialized using json.loads() before you can accessing the contents.
+        /// Configuration attributes that Config returns for certain resource types to supplement the information returned for the configuration parameter.
         public var supplementaryConfiguration: [Swift.String: Swift.String]?
         /// A mapping of key value tags associated with the resource.
         public var tags: [Swift.String: Swift.String]?
@@ -8290,7 +8395,7 @@ public struct GetResourceConfigHistoryInput: Swift.Sendable {
 
 /// The output for the [GetResourceConfigHistory] action.
 public struct GetResourceConfigHistoryOutput: Swift.Sendable {
-    /// An array of ConfigurationItems Objects. Contatins the configuration history for one or more resources.
+    /// A list that contains the configuration history of one or more resources.
     public var configurationItems: [ConfigClientTypes.ConfigurationItem]?
     /// The string that you use in a subsequent request to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
@@ -8509,7 +8614,7 @@ public struct InsufficientDeliveryPolicyException: ClientRuntime.ModeledError, A
     }
 }
 
-/// The configuration recorder name is not valid. The prefix "AWSConfigurationRecorderFor" is reserved for service-linked configuration recorders.
+/// You have provided a name for the customer managed configuration recorder that is not valid.
 public struct InvalidConfigurationRecorderNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -9760,7 +9865,7 @@ public struct PutConformancePackInput: Swift.Sendable {
     public var deliveryS3Bucket: Swift.String?
     /// The prefix for the Amazon S3 bucket. This field is optional.
     public var deliveryS3KeyPrefix: Swift.String?
-    /// A string that contains the full conformance pack template body. The structure containing the template body has a minimum length of 1 byte and a maximum length of 51,200 bytes. You can use a YAML template with two resource types: Config rule (AWS::Config::ConfigRule) and remediation action (AWS::Config::RemediationConfiguration).
+    /// A string containing the full conformance pack template body. The structure containing the template body has a minimum length of 1 byte and a maximum length of 51,200 bytes. You can use a YAML template with two resource types: Config rule (AWS::Config::ConfigRule) and remediation action (AWS::Config::RemediationConfiguration).
     public var templateBody: Swift.String?
     /// The location of the file containing the template body (s3://bucketname/prefix). The uri must point to a conformance pack template (max size: 300 KB) that is located in an Amazon S3 bucket in the same Region as the conformance pack. You must have access to read Amazon S3 bucket. In addition, in order to ensure a successful deployment, the template object must not be in an [archived storage class](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html) if this parameter is passed.
     public var templateS3Uri: Swift.String?
@@ -9916,7 +10021,7 @@ public struct PutOrganizationConformancePackInput: Swift.Sendable {
     /// Name of the organization conformance pack you want to create.
     /// This member is required.
     public var organizationConformancePackName: Swift.String?
-    /// A string that contains the full conformance pack template body. Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes.
+    /// A string containing full conformance pack template body. Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes.
     public var templateBody: Swift.String?
     /// Location of file containing the template body. The uri must point to the conformance pack template (max size: 300 KB). You must have access to read Amazon S3 bucket. In addition, in order to ensure a successful deployment, the template object must not be in an [archived storage class](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html) if this parameter is passed.
     public var templateS3Uri: Swift.String?
@@ -10087,7 +10192,7 @@ public struct PutServiceLinkedConfigurationRecorderInput: Swift.Sendable {
 public struct PutServiceLinkedConfigurationRecorderOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the specified configuration recorder.
     public var arn: Swift.String?
-    /// The name of the specified configuration recorder. For service-linked configuration recorders, Config automatically assigns a name that has the prefix "AWSConfigurationRecorderFor" to the new service-linked configuration recorder.
+    /// The name of the specified configuration recorder. For service-linked configuration recorders, Config automatically assigns a name that has the prefix "AWS" to the new service-linked configuration recorder.
     public var name: Swift.String?
 
     public init(

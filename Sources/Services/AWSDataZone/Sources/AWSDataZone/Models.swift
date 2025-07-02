@@ -20028,6 +20028,8 @@ public struct UpdateProjectInput: Swift.Sendable {
     /// The ID of the Amazon DataZone domain where a project is being updated.
     /// This member is required.
     public var domainIdentifier: Swift.String?
+    /// The ID of the domain unit.
+    public var domainUnitId: Swift.String?
     /// The environment deployment details of the project.
     public var environmentDeploymentDetails: DataZoneClientTypes.EnvironmentDeploymentDetails?
     /// The glossary terms to be updated as part of the UpdateProject action.
@@ -20045,6 +20047,7 @@ public struct UpdateProjectInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
+        domainUnitId: Swift.String? = nil,
         environmentDeploymentDetails: DataZoneClientTypes.EnvironmentDeploymentDetails? = nil,
         glossaryTerms: [Swift.String]? = nil,
         identifier: Swift.String? = nil,
@@ -20054,6 +20057,7 @@ public struct UpdateProjectInput: Swift.Sendable {
     ) {
         self.description = description
         self.domainIdentifier = domainIdentifier
+        self.domainUnitId = domainUnitId
         self.environmentDeploymentDetails = environmentDeploymentDetails
         self.glossaryTerms = glossaryTerms
         self.identifier = identifier
@@ -20065,7 +20069,7 @@ public struct UpdateProjectInput: Swift.Sendable {
 
 extension UpdateProjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateProjectInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), identifier: \(Swift.String(describing: identifier)), projectProfileVersion: \(Swift.String(describing: projectProfileVersion)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateProjectInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), identifier: \(Swift.String(describing: identifier)), projectProfileVersion: \(Swift.String(describing: projectProfileVersion)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateProjectOutput: Swift.Sendable {
@@ -24837,6 +24841,7 @@ extension UpdateProjectInput {
     static func write(value: UpdateProjectInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["description"].write(value.description)
+        try writer["domainUnitId"].write(value.domainUnitId)
         try writer["environmentDeploymentDetails"].write(value.environmentDeploymentDetails, with: DataZoneClientTypes.EnvironmentDeploymentDetails.write(value:to:))
         try writer["glossaryTerms"].writeList(value.glossaryTerms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
