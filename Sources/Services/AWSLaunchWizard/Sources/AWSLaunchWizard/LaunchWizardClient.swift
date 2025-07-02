@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LaunchWizardClient: ClientRuntime.Client {
     public static let clientName = "LaunchWizardClient"
-    public static let version = "1.3.48"
+    public static let version = "1.3.49"
     let client: ClientRuntime.SdkHttpClient
     let config: LaunchWizardClient.LaunchWizardClientConfiguration
     let serviceName = "Launch Wizard"

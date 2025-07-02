@@ -1141,7 +1141,7 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes {
 
-    /// An Amazon Web Services resource tag that's associated with your S3 resource. You can add tags to new objects when you upload them, or you can add object tags to existing objects. This operation is only supported for [S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html) and for [S3 Access Grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html). The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
+    /// A key-value pair that you use to label your resources. You can add tags to new resources when you create them, or you can add tags to existing resources. Tags can help you organize, track costs for, and control access to resources.
     public struct Tag: Swift.Sendable {
         /// The key of the key-value pair of a tag added to your Amazon Web Services resource. A tag key can be up to 128 Unicode characters in length and is case-sensitive. System created tags that begin with aws: aren’t supported.
         /// This member is required.
@@ -7459,7 +7459,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Web Services account ID of the resource owner.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the S3 resource that you want to list the tags for. The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
+    /// The Amazon Resource Name (ARN) of the S3 resource that you want to list tags for. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -7991,7 +7991,7 @@ public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Web Services account ID that created the S3 resource that you're trying to add tags to or the requester's account ID.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the S3 resource that you're trying to add tags to. The tagged resource can be an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
+    /// The Amazon Resource Name (ARN) of the S3 resource that you're applying tags to. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The Amazon Web Services resource tags that you want to add to the specified S3 resource.
@@ -8018,7 +8018,7 @@ public struct UntagResourceInput: Swift.Sendable {
     /// The Amazon Web Services account ID that owns the resource that you're trying to remove the tags from.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the S3 resource that you're trying to remove the tags from.
+    /// The Amazon Resource Name (ARN) of the S3 resource that you're removing tags from. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// The array of tag key-value pairs that you're trying to remove from of the S3 resource.
