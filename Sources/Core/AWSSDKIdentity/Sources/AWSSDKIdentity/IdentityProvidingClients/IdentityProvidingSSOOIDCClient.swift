@@ -12,6 +12,7 @@ public protocol IdentityProvidingSSOOIDCClient: Sendable {
         region: String,
         clientID: String,
         clientSecret: String,
-        refreshToken: String
+        refreshToken: String,
+        credentialFeatureIDs: [String]
     ) async throws -> (refreshToken: String?, BearerTokenIdentity)
 }
