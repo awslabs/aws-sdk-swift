@@ -12007,11 +12007,15 @@ extension GlueClientTypes {
     public struct IntegrationConfig: Swift.Sendable {
         /// Specifies the frequency at which CDC (Change Data Capture) pulls or incremental loads should occur. This parameter provides flexibility to align the refresh rate with your specific data update patterns, system load considerations, and performance optimization goals. Time increment can be set from 15 minutes to 8640 minutes (six days). Currently supports creation of RefreshInterval only.
         public var refreshInterval: Swift.String?
+        /// A collection of key-value pairs that specify additional properties for the integration source. These properties provide configuration options that can be used to customize the behavior of the ODB source during data integration operations.
+        public var sourceProperties: [Swift.String: Swift.String]?
 
         public init(
-            refreshInterval: Swift.String? = nil
+            refreshInterval: Swift.String? = nil,
+            sourceProperties: [Swift.String: Swift.String]? = nil
         ) {
             self.refreshInterval = refreshInterval
+            self.sourceProperties = sourceProperties
         }
     }
 }
@@ -45649,12 +45653,14 @@ extension GlueClientTypes.IntegrationConfig {
     static func write(value: GlueClientTypes.IntegrationConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["RefreshInterval"].write(value.refreshInterval)
+        try writer["SourceProperties"].writeMap(value.sourceProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IntegrationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.IntegrationConfig()
         value.refreshInterval = try reader["RefreshInterval"].readIfPresent()
+        value.sourceProperties = try reader["SourceProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

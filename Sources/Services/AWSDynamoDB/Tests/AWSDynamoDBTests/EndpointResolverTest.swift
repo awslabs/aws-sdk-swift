@@ -2930,9 +2930,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -2963,9 +2963,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -2997,9 +2997,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3031,9 +3031,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3065,9 +3065,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3099,9 +3099,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3133,9 +3133,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3163,9 +3163,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3256,9 +3256,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3286,9 +3286,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3316,9 +3316,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3346,9 +3346,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3447,9 +3447,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3480,9 +3480,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3509,9 +3509,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3602,9 +3602,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3635,9 +3635,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3669,9 +3669,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3703,9 +3703,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3737,9 +3737,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3771,9 +3771,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3805,9 +3805,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3835,9 +3835,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3928,9 +3928,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3958,9 +3958,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -3988,9 +3988,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -4018,9 +4018,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -4119,9 +4119,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -4152,9 +4152,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -4181,9 +4181,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -4274,9 +4274,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -4307,9 +4307,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -4341,9 +4341,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -4375,9 +4375,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -4409,9 +4409,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -4443,9 +4443,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -4477,9 +4477,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -4507,9 +4507,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -4600,9 +4600,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -4630,9 +4630,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -4660,9 +4660,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -4690,9 +4690,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -4791,9 +4791,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -4824,9 +4824,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]
@@ -4853,9 +4853,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingName": "dynamodb",
                         "name": "sigv4",
-                        "signingRegion": "us-east-1"
+                        "signingRegion": "us-east-1",
+                        "signingName": "dynamodb"
                     ]
                 ]
             ]

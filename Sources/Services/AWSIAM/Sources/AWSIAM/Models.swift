@@ -450,7 +450,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// An object that contains details about when a principal in the reported Organizations entity last attempted to access an Amazon Web Services service. A principal can be an IAM user, an IAM role, or the Amazon Web Services account root user within the reported Organizations entity. This data type is a response element in the [GetOrganizationsAccessReport] operation.
+    /// An object that contains details about when a principal in the reported Organizations entity last attempted to access an Amazon Web Services service. A principal can be an IAM user, an IAM role, or the Amazon Web Services account root user within the reported Organizations entity. This data type is a response element in the [GetOrganizationsAccessReport](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOrganizationsAccessReport.html) operation.
     public struct AccessDetail: Swift.Sendable {
         /// The path of the Organizations entity (root, organizational unit, or account) from which an authenticated principal last attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no principals (IAM users, IAM roles, or root user) in the reported Organizations entity attempted to access the service within the [tracking period](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
         public var entityPath: Swift.String?
@@ -489,12 +489,14 @@ extension IAMClientTypes {
 
     public enum StatusType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
+        case expired
         case inactive
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StatusType] {
             return [
                 .active,
+                .expired,
                 .inactive
             ]
         }
@@ -507,6 +509,7 @@ extension IAMClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .active: return "Active"
+            case .expired: return "Expired"
             case .inactive: return "Inactive"
             case let .sdkUnknown(s): return s
             }
@@ -516,7 +519,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// Contains information about an Amazon Web Services access key. This data type is used as a response element in the [CreateAccessKey] and [ListAccessKeys] operations. The SecretAccessKey value is returned only in response to [CreateAccessKey]. You can get a secret access key only when you first create an access key; you cannot recover the secret access key later. If you lose a secret access key, you must create a new access key.
+    /// Contains information about an Amazon Web Services access key. This data type is used as a response element in the [CreateAccessKey](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateAccessKey.html) and [ListAccessKeys](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAccessKeys.html) operations. The SecretAccessKey value is returned only in response to [CreateAccessKey](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateAccessKey.html). You can get a secret access key only when you first create an access key; you cannot recover the secret access key later. If you lose a secret access key, you must create a new access key.
     public struct AccessKey: Swift.Sendable {
         /// The ID for this access key.
         /// This member is required.
@@ -556,7 +559,7 @@ extension IAMClientTypes.AccessKey: Swift.CustomDebugStringConvertible {
 
 extension IAMClientTypes {
 
-    /// Contains information about the last time an Amazon Web Services access key was used since IAM began tracking this information on April 22, 2015. This data type is used as a response element in the [GetAccessKeyLastUsed] operation.
+    /// Contains information about the last time an Amazon Web Services access key was used since IAM began tracking this information on April 22, 2015. This data type is used as a response element in the [GetAccessKeyLastUsed](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccessKeyLastUsed.html) operation.
     public struct AccessKeyLastUsed: Swift.Sendable {
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the access key was most recently used. This field is null in the following situations:
         ///
@@ -602,7 +605,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// Contains information about an Amazon Web Services access key, without its secret key. This data type is used as a response element in the [ListAccessKeys] operation.
+    /// Contains information about an Amazon Web Services access key, without its secret key. This data type is used as a response element in the [ListAccessKeys](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAccessKeys.html) operation.
     public struct AccessKeyMetadata: Swift.Sendable {
         /// The ID for this access key.
         public var accessKeyId: Swift.String?
@@ -746,7 +749,7 @@ public struct AddClientIDToOpenIDConnectProviderInput: Swift.Sendable {
     /// The client ID (also known as audience) to add to the IAM OpenID Connect provider resource.
     /// This member is required.
     public var clientID: Swift.String?
-    /// The Amazon Resource Name (ARN) of the IAM OpenID Connect (OIDC) provider resource to add the client ID to. You can get a list of OIDC provider ARNs by using the [ListOpenIDConnectProviders] operation.
+    /// The Amazon Resource Name (ARN) of the IAM OpenID Connect (OIDC) provider resource to add the client ID to. You can get a list of OIDC provider ARNs by using the [ListOpenIDConnectProviders](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html) operation.
     /// This member is required.
     public var openIDConnectProviderArn: Swift.String?
 
@@ -947,7 +950,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// Contains information about an attached policy. An attached policy is a managed policy that has been attached to a user, group, or role. This data type is used as a response element in the [ListAttachedGroupPolicies], [ListAttachedRolePolicies], [ListAttachedUserPolicies], and [GetAccountAuthorizationDetails] operations. For more information about managed policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
+    /// Contains information about an attached policy. An attached policy is a managed policy that has been attached to a user, group, or role. This data type is used as a response element in the [ListAttachedGroupPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedGroupPolicies.html), [ListAttachedRolePolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedRolePolicies.html), [ListAttachedUserPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedUserPolicies.html), and [GetAccountAuthorizationDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html) operations. For more information about managed policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     public struct AttachedPolicy: Swift.Sendable {
         /// The Amazon Resource Name (ARN). ARNs are unique identifiers for Amazon Web Services resources. For more information about ARNs, go to [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var policyArn: Swift.String?
@@ -1140,7 +1143,7 @@ public struct CreateAccessKeyInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [CreateAccessKey] request.
+/// Contains the response to a successful [CreateAccessKey](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateAccessKey.html) request.
 public struct CreateAccessKeyOutput: Swift.Sendable {
     /// A structure with details about the access key.
     /// This member is required.
@@ -1208,11 +1211,11 @@ extension IAMClientTypes {
 
     /// Contains information about an IAM group entity. This data type is used as a response element in the following operations:
     ///
-    /// * [CreateGroup]
+    /// * [CreateGroup](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateGroup.html)
     ///
-    /// * [GetGroup]
+    /// * [GetGroup](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetGroup.html)
     ///
-    /// * [ListGroups]
+    /// * [ListGroups](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListGroups.html)
     public struct Group: Swift.Sendable {
         /// The Amazon Resource Name (ARN) specifying the group. For more information about ARNs and how to use them in policies, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide.
         /// This member is required.
@@ -1246,7 +1249,7 @@ extension IAMClientTypes {
     }
 }
 
-/// Contains the response to a successful [CreateGroup] request.
+/// Contains the response to a successful [CreateGroup](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateGroup.html) request.
 public struct CreateGroupOutput: Swift.Sendable {
     /// A structure containing details about the new group.
     /// This member is required.
@@ -1266,7 +1269,7 @@ extension IAMClientTypes {
         /// The key name that can be used to look up or retrieve the associated value. For example, Department or Cost Center are common choices.
         /// This member is required.
         public var key: Swift.String?
-        /// The value associated with this tag. For example, tags with a key name of Department could have values such as Human Resources, Accounting, and Support. Tags with a key name of Cost Center might have values that consist of the number associated with the different cost centers in your company. Typically, many resources have tags with the same key name but with different values. Amazon Web Services always interprets the tag Value as a single string. If you need to store an array, you can store comma-separated values in the string. However, you must interpret the value in your code.
+        /// The value associated with this tag. For example, tags with a key name of Department could have values such as Human Resources, Accounting, and Support. Tags with a key name of Cost Center might have values that consist of the number associated with the different cost centers in your company. Typically, many resources have tags with the same key name but with different values.
         /// This member is required.
         public var value: Swift.String?
 
@@ -1302,7 +1305,7 @@ public struct CreateInstanceProfileInput: Swift.Sendable {
 
 extension IAMClientTypes {
 
-    /// Contains information about the last time that an IAM role was used. This includes the date and time and the Region in which the role was last used. Activity is only reported for the trailing 400 days. This period can be shorter if your Region began supporting these features within the last year. The role might have been used more than 400 days ago. For more information, see [Regions where data is tracked](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period) in the IAM user Guide. This data type is returned as a response element in the [GetRole] and [GetAccountAuthorizationDetails] operations.
+    /// Contains information about the last time that an IAM role was used. This includes the date and time and the Region in which the role was last used. Activity is only reported for the trailing 400 days. This period can be shorter if your Region began supporting these features within the last year. The role might have been used more than 400 days ago. For more information, see [Regions where data is tracked](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period) in the IAM user Guide. This data type is returned as a response element in the [GetRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRole.html) and [GetAccountAuthorizationDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html) operations.
     public struct RoleLastUsed: Swift.Sendable {
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601) that the role was last used. This field is null if the role has not been used within the IAM tracking period. For more information about the tracking period, see [Regions where data is tracked](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period) in the IAM User Guide.
         public var lastUsedDate: Foundation.Date?
@@ -1383,13 +1386,13 @@ extension IAMClientTypes {
 
     /// Contains information about an instance profile. This data type is used as a response element in the following operations:
     ///
-    /// * [CreateInstanceProfile]
+    /// * [CreateInstanceProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateInstanceProfile.html)
     ///
-    /// * [GetInstanceProfile]
+    /// * [GetInstanceProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetInstanceProfile.html)
     ///
-    /// * [ListInstanceProfiles]
+    /// * [ListInstanceProfiles](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListInstanceProfiles.html)
     ///
-    /// * [ListInstanceProfilesForRole]
+    /// * [ListInstanceProfilesForRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListInstanceProfilesForRole.html)
     public struct InstanceProfile: Swift.Sendable {
         /// The Amazon Resource Name (ARN) specifying the instance profile. For more information about ARNs and how to use them in policies, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide.
         /// This member is required.
@@ -1432,7 +1435,7 @@ extension IAMClientTypes {
     }
 }
 
-/// Contains the response to a successful [CreateInstanceProfile] request.
+/// Contains the response to a successful [CreateInstanceProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateInstanceProfile.html) request.
 public struct CreateInstanceProfileOutput: Swift.Sendable {
     /// A structure containing details about the new instance profile.
     /// This member is required.
@@ -1471,7 +1474,7 @@ extension CreateLoginProfileInput: Swift.CustomDebugStringConvertible {
 
 extension IAMClientTypes {
 
-    /// Contains the user name and password create date for a user. This data type is used as a response element in the [CreateLoginProfile] and [GetLoginProfile] operations.
+    /// Contains the user name and password create date for a user. This data type is used as a response element in the [CreateLoginProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateLoginProfile.html) and [GetLoginProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetLoginProfile.html) operations.
     public struct LoginProfile: Swift.Sendable {
         /// The date when the password for the user was created.
         /// This member is required.
@@ -1494,7 +1497,7 @@ extension IAMClientTypes {
     }
 }
 
-/// Contains the response to a successful [CreateLoginProfile] request.
+/// Contains the response to a successful [CreateLoginProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateLoginProfile.html) request.
 public struct CreateLoginProfileOutput: Swift.Sendable {
     /// A structure containing the user name and password create date.
     /// This member is required.
@@ -1554,9 +1557,9 @@ public struct CreateOpenIDConnectProviderInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [CreateOpenIDConnectProvider] request.
+/// Contains the response to a successful [CreateOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html) request.
 public struct CreateOpenIDConnectProviderOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the new IAM OpenID Connect provider that is created. For more information, see [OpenIDConnectProviderListEntry].
+    /// The Amazon Resource Name (ARN) of the new IAM OpenID Connect provider that is created. For more information, see [OpenIDConnectProviderListEntry](https://docs.aws.amazon.com/IAM/latest/APIReference/API_OpenIDConnectProviderListEntry.html).
     public var openIDConnectProviderArn: Swift.String?
     /// A list of tags that are attached to the new IAM OIDC provider. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     public var tags: [IAMClientTypes.Tag]?
@@ -1630,7 +1633,7 @@ public struct CreatePolicyInput: Swift.Sendable {
 
 extension IAMClientTypes {
 
-    /// Contains information about a managed policy. This data type is used as a response element in the [CreatePolicy], [GetPolicy], and [ListPolicies] operations. For more information about managed policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
+    /// Contains information about a managed policy. This data type is used as a response element in the [CreatePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html), [GetPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html), and [ListPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicies.html) operations. For more information about managed policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     public struct Policy: Swift.Sendable {
         /// The Amazon Resource Name (ARN). ARNs are unique identifiers for Amazon Web Services resources. For more information about ARNs, go to [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
@@ -1640,7 +1643,7 @@ extension IAMClientTypes {
         public var createDate: Foundation.Date?
         /// The identifier for the version of the policy that is set as the default version.
         public var defaultVersionId: Swift.String?
-        /// A friendly description of the policy. This element is included in the response to the [GetPolicy] operation. It is not included in the response to the [ListPolicies] operation.
+        /// A friendly description of the policy. This element is included in the response to the [GetPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html) operation. It is not included in the response to the [ListPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicies.html) operation.
         public var description: Swift.String?
         /// Specifies whether the policy can be attached to an IAM user, group, or role.
         public var isAttachable: Swift.Bool
@@ -1687,7 +1690,7 @@ extension IAMClientTypes {
     }
 }
 
-/// Contains the response to a successful [CreatePolicy] request.
+/// Contains the response to a successful [CreatePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html) request.
 public struct CreatePolicyOutput: Swift.Sendable {
     /// A structure containing details about the new policy.
     public var policy: IAMClientTypes.Policy?
@@ -1728,11 +1731,11 @@ public struct CreatePolicyVersionInput: Swift.Sendable {
 
 extension IAMClientTypes {
 
-    /// Contains information about a version of a managed policy. This data type is used as a response element in the [CreatePolicyVersion], [GetPolicyVersion], [ListPolicyVersions], and [GetAccountAuthorizationDetails] operations. For more information about managed policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
+    /// Contains information about a version of a managed policy. This data type is used as a response element in the [CreatePolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicyVersion.html), [GetPolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html), [ListPolicyVersions](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicyVersions.html), and [GetAccountAuthorizationDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html) operations. For more information about managed policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     public struct PolicyVersion: Swift.Sendable {
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the policy version was created.
         public var createDate: Foundation.Date?
-        /// The policy document. The policy document is returned in the response to the [GetPolicyVersion] and [GetAccountAuthorizationDetails] operations. It is not returned in the response to the [CreatePolicyVersion] or [ListPolicyVersions] operations. The policy document returned in this structure is URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986). You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality.
+        /// The policy document. The policy document is returned in the response to the [GetPolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html) and [GetAccountAuthorizationDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html) operations. It is not returned in the response to the [CreatePolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicyVersion.html) or [ListPolicyVersions](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicyVersions.html) operations. The policy document returned in this structure is URL-encoded compliant with [RFC 3986](https://tools.ietf.org/html/rfc3986). You can use a URL decoding method to convert the policy back to plain JSON text. For example, if you use Java, you can use the decode method of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar functionality.
         public var document: Swift.String?
         /// Specifies whether the policy version is set as the policy's default version.
         public var isDefaultVersion: Swift.Bool
@@ -1753,7 +1756,7 @@ extension IAMClientTypes {
     }
 }
 
-/// Contains the response to a successful [CreatePolicyVersion] request.
+/// Contains the response to a successful [CreatePolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicyVersion.html) request.
 public struct CreatePolicyVersionOutput: Swift.Sendable {
     /// A structure containing details about the new policy version.
     public var policyVersion: IAMClientTypes.PolicyVersion?
@@ -1811,7 +1814,7 @@ public struct CreateRoleInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [CreateRole] request.
+/// Contains the response to a successful [CreateRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html) request.
 public struct CreateRoleOutput: Swift.Sendable {
     /// A structure containing details about the new role.
     /// This member is required.
@@ -1858,7 +1861,7 @@ extension CreateSAMLProviderInput: Swift.CustomDebugStringConvertible {
         "CreateSAMLProviderInput(assertionEncryptionMode: \(Swift.String(describing: assertionEncryptionMode)), name: \(Swift.String(describing: name)), samlMetadataDocument: \(Swift.String(describing: samlMetadataDocument)), tags: \(Swift.String(describing: tags)), addPrivateKey: \"CONTENT_REDACTED\")"}
 }
 
-/// Contains the response to a successful [CreateSAMLProvider] request.
+/// Contains the response to a successful [CreateSAMLProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateSAMLProvider.html) request.
 public struct CreateSAMLProviderOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the new SAML provider resource in IAM.
     public var samlProviderArn: Swift.String?
@@ -1895,7 +1898,7 @@ public struct CreateServiceLinkedRoleInput: Swift.Sendable {
 }
 
 public struct CreateServiceLinkedRoleOutput: Swift.Sendable {
-    /// A [Role] object that contains details about the newly created role.
+    /// A [Role](https://docs.aws.amazon.com/IAM/latest/APIReference/API_Role.html) object that contains details about the newly created role.
     public var role: IAMClientTypes.Role?
 
     public init(
@@ -1929,6 +1932,8 @@ public struct ServiceNotSupportedException: ClientRuntime.ModeledError, AWSClien
 }
 
 public struct CreateServiceSpecificCredentialInput: Swift.Sendable {
+    /// The number of days until the service specific credential expires. This field is only valid for Bedrock API keys and must be a positive integer. When not specified, the credential will not expire.
+    public var credentialAgeDays: Swift.Int?
     /// The name of the Amazon Web Services service that is to be associated with the credentials. The service you specify here is the only service that can be accessed using these credentials.
     /// This member is required.
     public var serviceName: Swift.String?
@@ -1937,9 +1942,11 @@ public struct CreateServiceSpecificCredentialInput: Swift.Sendable {
     public var userName: Swift.String?
 
     public init(
+        credentialAgeDays: Swift.Int? = nil,
         serviceName: Swift.String? = nil,
         userName: Swift.String? = nil
     ) {
+        self.credentialAgeDays = credentialAgeDays
         self.serviceName = serviceName
         self.userName = userName
     }
@@ -1952,17 +1959,21 @@ extension IAMClientTypes {
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the service-specific credential were created.
         /// This member is required.
         public var createDate: Foundation.Date?
+        /// The date and time when the service specific credential expires. This field is only present for Bedrock API keys that were created with an expiration period.
+        public var expirationDate: Foundation.Date?
+        /// For Bedrock API keys, this is the public portion of the credential that includes the IAM user name and a suffix containing version and creation information.
+        public var serviceCredentialAlias: Swift.String?
+        /// For Bedrock API keys, this is the secret portion of the credential that should be used to authenticate API calls. This value is returned only when the credential is created.
+        public var serviceCredentialSecret: Swift.String?
         /// The name of the service associated with the service-specific credential.
         /// This member is required.
         public var serviceName: Swift.String?
         /// The generated password for the service-specific credential.
-        /// This member is required.
         public var servicePassword: Swift.String?
         /// The unique identifier for the service-specific credential.
         /// This member is required.
         public var serviceSpecificCredentialId: Swift.String?
         /// The generated user name for the service-specific credential. This value is generated by combining the IAM user's name combined with the ID number of the Amazon Web Services account, as in jane-at-123456789012, for example. This value cannot be configured by the user.
-        /// This member is required.
         public var serviceUserName: Swift.String?
         /// The status of the service-specific credential. Active means that the key is valid for API calls, while Inactive means it is not.
         /// This member is required.
@@ -1973,14 +1984,20 @@ extension IAMClientTypes {
 
         public init(
             createDate: Foundation.Date? = nil,
+            expirationDate: Foundation.Date? = nil,
+            serviceCredentialAlias: Swift.String? = nil,
+            serviceCredentialSecret: Swift.String? = nil,
             serviceName: Swift.String? = nil,
-            servicePassword: Swift.String? = nil,
+            servicePassword: Swift.String? = "",
             serviceSpecificCredentialId: Swift.String? = nil,
-            serviceUserName: Swift.String? = nil,
+            serviceUserName: Swift.String? = "",
             status: IAMClientTypes.StatusType? = nil,
             userName: Swift.String? = nil
         ) {
             self.createDate = createDate
+            self.expirationDate = expirationDate
+            self.serviceCredentialAlias = serviceCredentialAlias
+            self.serviceCredentialSecret = serviceCredentialSecret
             self.serviceName = serviceName
             self.servicePassword = servicePassword
             self.serviceSpecificCredentialId = serviceSpecificCredentialId
@@ -1993,11 +2010,11 @@ extension IAMClientTypes {
 
 extension IAMClientTypes.ServiceSpecificCredential: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ServiceSpecificCredential(createDate: \(Swift.String(describing: createDate)), serviceName: \(Swift.String(describing: serviceName)), serviceSpecificCredentialId: \(Swift.String(describing: serviceSpecificCredentialId)), serviceUserName: \(Swift.String(describing: serviceUserName)), status: \(Swift.String(describing: status)), userName: \(Swift.String(describing: userName)), servicePassword: \"CONTENT_REDACTED\")"}
+        "ServiceSpecificCredential(createDate: \(Swift.String(describing: createDate)), expirationDate: \(Swift.String(describing: expirationDate)), serviceCredentialAlias: \(Swift.String(describing: serviceCredentialAlias)), serviceName: \(Swift.String(describing: serviceName)), serviceSpecificCredentialId: \(Swift.String(describing: serviceSpecificCredentialId)), serviceUserName: \(Swift.String(describing: serviceUserName)), status: \(Swift.String(describing: status)), userName: \(Swift.String(describing: userName)), serviceCredentialSecret: \"CONTENT_REDACTED\", servicePassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateServiceSpecificCredentialOutput: Swift.Sendable {
-    /// A structure that contains information about the newly created service-specific credential. This is the only time that the password for this credential set is available. It cannot be recovered later. Instead, you must reset the password with [ResetServiceSpecificCredential].
+    /// A structure that contains information about the newly created service-specific credential. This is the only time that the password for this credential set is available. It cannot be recovered later. Instead, you must reset the password with [ResetServiceSpecificCredential](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ResetServiceSpecificCredential.html).
     public var serviceSpecificCredential: IAMClientTypes.ServiceSpecificCredential?
 
     public init(
@@ -2035,11 +2052,11 @@ extension IAMClientTypes {
 
     /// Contains information about an IAM user entity. This data type is used as a response element in the following operations:
     ///
-    /// * [CreateUser]
+    /// * [CreateUser](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateUser.html)
     ///
-    /// * [GetUser]
+    /// * [GetUser](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUser.html)
     ///
-    /// * [ListUsers]
+    /// * [ListUsers](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListUsers.html)
     public struct User: Swift.Sendable {
         /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide.
         /// This member is required.
@@ -2054,7 +2071,7 @@ extension IAMClientTypes {
         /// * A password exists but has not been used since IAM started tracking this information on October 20, 2014.
         ///
         ///
-        /// A null value does not mean that the user never had a password. Also, if the user does not currently have a password but had one in the past, then this field contains the date and time the most recent password was used. This value is returned only in the [GetUser] and [ListUsers] operations.
+        /// A null value does not mean that the user never had a password. Also, if the user does not currently have a password but had one in the past, then this field contains the date and time the most recent password was used. This value is returned only in the [GetUser](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUser.html) and [ListUsers](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListUsers.html) operations.
         public var passwordLastUsed: Foundation.Date?
         /// The path to the user. For more information about paths, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide. The ARN of the policy used to set the permissions boundary for the user.
         /// This member is required.
@@ -2092,7 +2109,7 @@ extension IAMClientTypes {
     }
 }
 
-/// Contains the response to a successful [CreateUser] request.
+/// Contains the response to a successful [CreateUser](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateUser.html) request.
 public struct CreateUserOutput: Swift.Sendable {
     /// A structure with details about the new IAM user.
     public var user: IAMClientTypes.User?
@@ -2165,7 +2182,7 @@ extension IAMClientTypes.VirtualMFADevice: Swift.CustomDebugStringConvertible {
         "VirtualMFADevice(enableDate: \(Swift.String(describing: enableDate)), serialNumber: \(Swift.String(describing: serialNumber)), tags: \(Swift.String(describing: tags)), user: \(Swift.String(describing: user)), base32StringSeed: \"CONTENT_REDACTED\", qrCodePNG: \"CONTENT_REDACTED\")"}
 }
 
-/// Contains the response to a successful [CreateVirtualMFADevice] request.
+/// Contains the response to a successful [CreateVirtualMFADevice](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateVirtualMFADevice.html) request.
 public struct CreateVirtualMFADeviceOutput: Swift.Sendable {
     /// A structure containing details about the new virtual MFA device.
     /// This member is required.
@@ -2298,7 +2315,7 @@ public struct DeleteLoginProfileInput: Swift.Sendable {
 }
 
 public struct DeleteOpenIDConnectProviderInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the IAM OpenID Connect provider resource object to delete. You can get a list of OpenID Connect provider resource ARNs by using the [ListOpenIDConnectProviders] operation.
+    /// The Amazon Resource Name (ARN) of the IAM OpenID Connect provider resource object to delete. You can get a list of OpenID Connect provider resource ARNs by using the [ListOpenIDConnectProviders](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html) operation.
     /// This member is required.
     public var openIDConnectProviderArn: Swift.String?
 
@@ -2428,7 +2445,7 @@ public struct DeleteServiceLinkedRoleOutput: Swift.Sendable {
 }
 
 public struct DeleteServiceSpecificCredentialInput: Swift.Sendable {
-    /// The unique identifier of the service-specific credential. You can get this value by calling [ListServiceSpecificCredentials]. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters that can consist of any upper or lowercased letter or digit.
+    /// The unique identifier of the service-specific credential. You can get this value by calling [ListServiceSpecificCredentials](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListServiceSpecificCredentials.html). This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters that can consist of any upper or lowercased letter or digit.
     /// This member is required.
     public var serviceSpecificCredentialId: Swift.String?
     /// The name of the IAM user associated with the service-specific credential. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
@@ -2863,7 +2880,7 @@ extension IAMClientTypes {
     }
 }
 
-/// Contains the response to a successful [GenerateCredentialReport] request.
+/// Contains the response to a successful [GenerateCredentialReport](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateCredentialReport.html) request.
 public struct GenerateCredentialReportOutput: Swift.Sendable {
     /// Information about the credential report.
     public var description: Swift.String?
@@ -2919,7 +2936,7 @@ public struct GenerateOrganizationsAccessReportInput: Swift.Sendable {
 }
 
 public struct GenerateOrganizationsAccessReportOutput: Swift.Sendable {
-    /// The job identifier that you can use in the [GetOrganizationsAccessReport] operation.
+    /// The job identifier that you can use in the [GetOrganizationsAccessReport](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOrganizationsAccessReport.html) operation.
     public var jobId: Swift.String?
 
     public init(
@@ -2946,7 +2963,7 @@ public struct GenerateServiceLastAccessedDetailsInput: Swift.Sendable {
 }
 
 public struct GenerateServiceLastAccessedDetailsOutput: Swift.Sendable {
-    /// The JobId that you can use in the [GetServiceLastAccessedDetails] or [GetServiceLastAccessedDetailsWithEntities] operations. The JobId returned by GenerateServiceLastAccessedDetail must be used by the same role within a session, or by the same user when used to call GetServiceLastAccessedDetail.
+    /// The JobId that you can use in the [GetServiceLastAccessedDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetails.html) or [GetServiceLastAccessedDetailsWithEntities](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetailsWithEntities.html) operations. The JobId returned by GenerateServiceLastAccessedDetail must be used by the same role within a session, or by the same user when used to call GetServiceLastAccessedDetail.
     public var jobId: Swift.String?
 
     public init(
@@ -2968,7 +2985,7 @@ public struct GetAccessKeyLastUsedInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [GetAccessKeyLastUsed] request. It is also returned as a member of the [AccessKeyMetaData] structure returned by the [ListAccessKeys] action.
+/// Contains the response to a successful [GetAccessKeyLastUsed](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccessKeyLastUsed.html) request. It is also returned as a member of the [AccessKeyMetaData](https://docs.aws.amazon.com/IAM/latest/APIReference/API_AccessKeyMetaData.html) structure returned by the [ListAccessKeys](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAccessKeys.html) action.
 public struct GetAccessKeyLastUsedOutput: Swift.Sendable {
     /// Contains information about the last time the access key was used.
     public var accessKeyLastUsed: IAMClientTypes.AccessKeyLastUsed?
@@ -3043,7 +3060,7 @@ public struct GetAccountAuthorizationDetailsInput: Swift.Sendable {
 
 extension IAMClientTypes {
 
-    /// Contains information about an IAM policy, including the policy document. This data type is used as a response element in the [GetAccountAuthorizationDetails] operation.
+    /// Contains information about an IAM policy, including the policy document. This data type is used as a response element in the [GetAccountAuthorizationDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html) operation.
     public struct PolicyDetail: Swift.Sendable {
         /// The policy document.
         public var policyDocument: Swift.String?
@@ -3062,7 +3079,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// Contains information about an IAM group, including all of the group's policies. This data type is used as a response element in the [GetAccountAuthorizationDetails] operation.
+    /// Contains information about an IAM group, including all of the group's policies. This data type is used as a response element in the [GetAccountAuthorizationDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html) operation.
     public struct GroupDetail: Swift.Sendable {
         /// The Amazon Resource Name (ARN). ARNs are unique identifiers for Amazon Web Services resources. For more information about ARNs, go to [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
@@ -3101,7 +3118,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// Contains information about a managed policy, including the policy's ARN, versions, and the number of principal entities (users, groups, and roles) that the policy is attached to. This data type is used as a response element in the [GetAccountAuthorizationDetails] operation. For more information about managed policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
+    /// Contains information about a managed policy, including the policy's ARN, versions, and the number of principal entities (users, groups, and roles) that the policy is attached to. This data type is used as a response element in the [GetAccountAuthorizationDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html) operation. For more information about managed policies, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     public struct ManagedPolicyDetail: Swift.Sendable {
         /// The Amazon Resource Name (ARN). ARNs are unique identifiers for Amazon Web Services resources. For more information about ARNs, go to [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
@@ -3160,7 +3177,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// Contains information about an IAM role, including all of the role's policies. This data type is used as a response element in the [GetAccountAuthorizationDetails] operation.
+    /// Contains information about an IAM role, including all of the role's policies. This data type is used as a response element in the [GetAccountAuthorizationDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html) operation.
     public struct RoleDetail: Swift.Sendable {
         /// The Amazon Resource Name (ARN). ARNs are unique identifiers for Amazon Web Services resources. For more information about ARNs, go to [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
@@ -3219,7 +3236,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// Contains information about an IAM user, including all the user's policies and all the IAM groups the user is in. This data type is used as a response element in the [GetAccountAuthorizationDetails] operation.
+    /// Contains information about an IAM user, including all the user's policies and all the IAM groups the user is in. This data type is used as a response element in the [GetAccountAuthorizationDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html) operation.
     public struct UserDetail: Swift.Sendable {
         /// The Amazon Resource Name (ARN). ARNs are unique identifiers for Amazon Web Services resources. For more information about ARNs, go to [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
@@ -3268,7 +3285,7 @@ extension IAMClientTypes {
     }
 }
 
-/// Contains the response to a successful [GetAccountAuthorizationDetails] request.
+/// Contains the response to a successful [GetAccountAuthorizationDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountAuthorizationDetails.html) request.
 public struct GetAccountAuthorizationDetailsOutput: Swift.Sendable {
     /// A list containing information about IAM groups.
     public var groupDetailList: [IAMClientTypes.GroupDetail]?
@@ -3302,7 +3319,7 @@ public struct GetAccountAuthorizationDetailsOutput: Swift.Sendable {
 
 extension IAMClientTypes {
 
-    /// Contains information about the account password policy. This data type is used as a response element in the [GetAccountPasswordPolicy] operation.
+    /// Contains information about the account password policy. This data type is used as a response element in the [GetAccountPasswordPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountPasswordPolicy.html) operation.
     public struct PasswordPolicy: Swift.Sendable {
         /// Specifies whether IAM users are allowed to change their own password. Gives IAM users permissions to iam:ChangePassword for only their user and to the iam:GetAccountPasswordPolicy action. This option does not attach a permissions policy to each user, rather the permissions are applied at the account-level for all users by IAM.
         public var allowUsersToChangePassword: Swift.Bool
@@ -3351,7 +3368,7 @@ extension IAMClientTypes {
     }
 }
 
-/// Contains the response to a successful [GetAccountPasswordPolicy] request.
+/// Contains the response to a successful [GetAccountPasswordPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountPasswordPolicy.html) request.
 public struct GetAccountPasswordPolicyOutput: Swift.Sendable {
     /// A structure that contains details about the account's password policy.
     /// This member is required.
@@ -3468,7 +3485,7 @@ extension IAMClientTypes {
     }
 }
 
-/// Contains the response to a successful [GetAccountSummary] request.
+/// Contains the response to a successful [GetAccountSummary](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetAccountSummary.html) request.
 public struct GetAccountSummaryOutput: Swift.Sendable {
     /// A set of key–value pairs containing information about IAM entity usage and IAM quotas.
     public var summaryMap: [Swift.String: Swift.Int]?
@@ -3498,7 +3515,7 @@ public struct GetContextKeysForCustomPolicyInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [GetContextKeysForPrincipalPolicy] or [GetContextKeysForCustomPolicy] request.
+/// Contains the response to a successful [GetContextKeysForPrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html) or [GetContextKeysForCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html) request.
 public struct GetContextKeysForCustomPolicyOutput: Swift.Sendable {
     /// The list of context keys that are referenced in the input policies.
     public var contextKeyNames: [Swift.String]?
@@ -3532,7 +3549,7 @@ public struct GetContextKeysForPrincipalPolicyInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [GetContextKeysForPrincipalPolicy] or [GetContextKeysForCustomPolicy] request.
+/// Contains the response to a successful [GetContextKeysForPrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html) or [GetContextKeysForCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html) request.
 public struct GetContextKeysForPrincipalPolicyOutput: Swift.Sendable {
     /// The list of context keys that are referenced in the input policies.
     public var contextKeyNames: [Swift.String]?
@@ -3544,7 +3561,7 @@ public struct GetContextKeysForPrincipalPolicyOutput: Swift.Sendable {
     }
 }
 
-/// The request was rejected because the most recent credential report has expired. To generate a new credential report, use [GenerateCredentialReport]. For more information about credential report expiration, see [Getting credential reports](https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html) in the IAM User Guide.
+/// The request was rejected because the most recent credential report has expired. To generate a new credential report, use [GenerateCredentialReport](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateCredentialReport.html). For more information about credential report expiration, see [Getting credential reports](https://docs.aws.amazon.com/IAM/latest/UserGuide/credential-reports.html) in the IAM User Guide.
 public struct CredentialReportExpiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -3567,7 +3584,7 @@ public struct CredentialReportExpiredException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-/// The request was rejected because the credential report does not exist. To generate a credential report, use [GenerateCredentialReport].
+/// The request was rejected because the credential report does not exist. To generate a credential report, use [GenerateCredentialReport](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateCredentialReport.html).
 public struct CredentialReportNotPresentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -3639,7 +3656,7 @@ extension IAMClientTypes {
     }
 }
 
-/// Contains the response to a successful [GetCredentialReport] request.
+/// Contains the response to a successful [GetCredentialReport](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetCredentialReport.html) request.
 public struct GetCredentialReportOutput: Swift.Sendable {
     /// Contains the credential report. The report is Base64-encoded.
     public var content: Foundation.Data?
@@ -3679,7 +3696,7 @@ public struct GetGroupInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [GetGroup] request.
+/// Contains the response to a successful [GetGroup](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetGroup.html) request.
 public struct GetGroupOutput: Swift.Sendable {
     /// A structure that contains details about the group.
     /// This member is required.
@@ -3722,7 +3739,7 @@ public struct GetGroupPolicyInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [GetGroupPolicy] request.
+/// Contains the response to a successful [GetGroupPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetGroupPolicy.html) request.
 public struct GetGroupPolicyOutput: Swift.Sendable {
     /// The group the policy is associated with.
     /// This member is required.
@@ -3757,7 +3774,7 @@ public struct GetInstanceProfileInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [GetInstanceProfile] request.
+/// Contains the response to a successful [GetInstanceProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetInstanceProfile.html) request.
 public struct GetInstanceProfileOutput: Swift.Sendable {
     /// A structure containing details about the instance profile.
     /// This member is required.
@@ -3781,7 +3798,7 @@ public struct GetLoginProfileInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [GetLoginProfile] request.
+/// Contains the response to a successful [GetLoginProfile](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetLoginProfile.html) request.
 public struct GetLoginProfileOutput: Swift.Sendable {
     /// A structure containing the user name and the profile creation date for the user.
     /// This member is required.
@@ -3835,7 +3852,7 @@ public struct GetMFADeviceOutput: Swift.Sendable {
 }
 
 public struct GetOpenIDConnectProviderInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the OIDC provider resource object in IAM to get information for. You can get a list of OIDC provider resource ARNs by using the [ListOpenIDConnectProviders] operation. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+    /// The Amazon Resource Name (ARN) of the OIDC provider resource object in IAM to get information for. You can get a list of OIDC provider resource ARNs by using the [ListOpenIDConnectProviders](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html) operation. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var openIDConnectProviderArn: Swift.String?
 
@@ -3846,17 +3863,17 @@ public struct GetOpenIDConnectProviderInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [GetOpenIDConnectProvider] request.
+/// Contains the response to a successful [GetOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOpenIDConnectProvider.html) request.
 public struct GetOpenIDConnectProviderOutput: Swift.Sendable {
-    /// A list of client IDs (also known as audiences) that are associated with the specified IAM OIDC provider resource object. For more information, see [CreateOpenIDConnectProvider].
+    /// A list of client IDs (also known as audiences) that are associated with the specified IAM OIDC provider resource object. For more information, see [CreateOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html).
     public var clientIDList: [Swift.String]?
     /// The date and time when the IAM OIDC provider resource object was created in the Amazon Web Services account.
     public var createDate: Foundation.Date?
     /// A list of tags that are attached to the specified IAM OIDC provider. The returned list of tags is sorted by tag key. For more information about tagging, see [Tagging IAM resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html) in the IAM User Guide.
     public var tags: [IAMClientTypes.Tag]?
-    /// A list of certificate thumbprints that are associated with the specified IAM OIDC provider resource object. For more information, see [CreateOpenIDConnectProvider].
+    /// A list of certificate thumbprints that are associated with the specified IAM OIDC provider resource object. For more information, see [CreateOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html).
     public var thumbprintList: [Swift.String]?
-    /// The URL that the IAM OIDC provider resource object is associated with. For more information, see [CreateOpenIDConnectProvider].
+    /// The URL that the IAM OIDC provider resource object is associated with. For more information, see [CreateOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html).
     public var url: Swift.String?
 
     public init(
@@ -3910,7 +3927,7 @@ extension IAMClientTypes {
 }
 
 public struct GetOrganizationsAccessReportInput: Swift.Sendable {
-    /// The identifier of the request generated by the [GenerateOrganizationsAccessReport] operation.
+    /// The identifier of the request generated by the [GenerateOrganizationsAccessReport](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateOrganizationsAccessReport.html) operation.
     /// This member is required.
     public var jobId: Swift.String?
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
@@ -3935,7 +3952,7 @@ public struct GetOrganizationsAccessReportInput: Swift.Sendable {
 
 extension IAMClientTypes {
 
-    /// Contains information about the reason that the operation failed. This data type is used as a response element in the [GetOrganizationsAccessReport], [GetServiceLastAccessedDetails], and [GetServiceLastAccessedDetailsWithEntities] operations.
+    /// Contains information about the reason that the operation failed. This data type is used as a response element in the [GetOrganizationsAccessReport](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOrganizationsAccessReport.html), [GetServiceLastAccessedDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetails.html), and [GetServiceLastAccessedDetailsWithEntities](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetailsWithEntities.html) operations.
     public struct ErrorDetails: Swift.Sendable {
         /// The error code associated with the operation failure.
         /// This member is required.
@@ -3989,7 +4006,7 @@ extension IAMClientTypes {
 public struct GetOrganizationsAccessReportOutput: Swift.Sendable {
     /// An object that contains details about the most recent attempt to access the service.
     public var accessDetails: [IAMClientTypes.AccessDetail]?
-    /// Contains information about the reason that the operation failed. This data type is used as a response element in the [GetOrganizationsAccessReport], [GetServiceLastAccessedDetails], and [GetServiceLastAccessedDetailsWithEntities] operations.
+    /// Contains information about the reason that the operation failed. This data type is used as a response element in the [GetOrganizationsAccessReport](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetOrganizationsAccessReport.html), [GetServiceLastAccessedDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetails.html), and [GetServiceLastAccessedDetailsWithEntities](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetailsWithEntities.html) operations.
     public var errorDetails: IAMClientTypes.ErrorDetails?
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
@@ -4043,7 +4060,7 @@ public struct GetPolicyInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [GetPolicy] request.
+/// Contains the response to a successful [GetPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicy.html) request.
 public struct GetPolicyOutput: Swift.Sendable {
     /// A structure containing details about the policy.
     public var policy: IAMClientTypes.Policy?
@@ -4072,7 +4089,7 @@ public struct GetPolicyVersionInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [GetPolicyVersion] request.
+/// Contains the response to a successful [GetPolicyVersion](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetPolicyVersion.html) request.
 public struct GetPolicyVersionOutput: Swift.Sendable {
     /// A structure containing details about the policy version.
     public var policyVersion: IAMClientTypes.PolicyVersion?
@@ -4096,7 +4113,7 @@ public struct GetRoleInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [GetRole] request.
+/// Contains the response to a successful [GetRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRole.html) request.
 public struct GetRoleOutput: Swift.Sendable {
     /// A structure containing details about the IAM role.
     /// This member is required.
@@ -4126,7 +4143,7 @@ public struct GetRolePolicyInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [GetRolePolicy] request.
+/// Contains the response to a successful [GetRolePolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetRolePolicy.html) request.
 public struct GetRolePolicyOutput: Swift.Sendable {
     /// The policy document. IAM stores policies in JSON format. However, resources that were created using CloudFormation templates can be formatted in YAML. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM.
     /// This member is required.
@@ -4163,7 +4180,7 @@ public struct GetSAMLProviderInput: Swift.Sendable {
 
 extension IAMClientTypes {
 
-    /// Contains the private keys for the SAML provider. This data type is used as a response element in the [GetSAMLProvider] operation.
+    /// Contains the private keys for the SAML provider. This data type is used as a response element in the [GetSAMLProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetSAMLProvider.html) operation.
     public struct SAMLPrivateKey: Swift.Sendable {
         /// The unique identifier for the SAML private key.
         public var keyId: Swift.String?
@@ -4180,7 +4197,7 @@ extension IAMClientTypes {
     }
 }
 
-/// Contains the response to a successful [GetSAMLProvider] request.
+/// Contains the response to a successful [GetSAMLProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetSAMLProvider.html) request.
 public struct GetSAMLProviderOutput: Swift.Sendable {
     /// Specifies the encryption setting for the SAML provider.
     public var assertionEncryptionMode: IAMClientTypes.AssertionEncryptionModeType?
@@ -4230,7 +4247,7 @@ public struct GetServerCertificateInput: Swift.Sendable {
 
 extension IAMClientTypes {
 
-    /// Contains information about a server certificate without its certificate body, certificate chain, and private key. This data type is used as a response element in the [UploadServerCertificate] and [ListServerCertificates] operations.
+    /// Contains information about a server certificate without its certificate body, certificate chain, and private key. This data type is used as a response element in the [UploadServerCertificate](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadServerCertificate.html) and [ListServerCertificates](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListServerCertificates.html) operations.
     public struct ServerCertificateMetadata: Swift.Sendable {
         /// The Amazon Resource Name (ARN) specifying the server certificate. For more information about ARNs and how to use them in policies, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html) in the IAM User Guide.
         /// This member is required.
@@ -4269,7 +4286,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// Contains information about a server certificate. This data type is used as a response element in the [GetServerCertificate] operation.
+    /// Contains information about a server certificate. This data type is used as a response element in the [GetServerCertificate](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServerCertificate.html) operation.
     public struct ServerCertificate: Swift.Sendable {
         /// The contents of the public key certificate.
         /// This member is required.
@@ -4296,7 +4313,7 @@ extension IAMClientTypes {
     }
 }
 
-/// Contains the response to a successful [GetServerCertificate] request.
+/// Contains the response to a successful [GetServerCertificate](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServerCertificate.html) request.
 public struct GetServerCertificateOutput: Swift.Sendable {
     /// A structure containing details about the server certificate.
     /// This member is required.
@@ -4310,7 +4327,7 @@ public struct GetServerCertificateOutput: Swift.Sendable {
 }
 
 public struct GetServiceLastAccessedDetailsInput: Swift.Sendable {
-    /// The ID of the request generated by the [GenerateServiceLastAccessedDetails] operation. The JobId returned by GenerateServiceLastAccessedDetail must be used by the same role within a session, or by the same user when used to call GetServiceLastAccessedDetail.
+    /// The ID of the request generated by the [GenerateServiceLastAccessedDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateServiceLastAccessedDetails.html) operation. The JobId returned by GenerateServiceLastAccessedDetail must be used by the same role within a session, or by the same user when used to call GetServiceLastAccessedDetail.
     /// This member is required.
     public var jobId: Swift.String?
     /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
@@ -4331,7 +4348,7 @@ public struct GetServiceLastAccessedDetailsInput: Swift.Sendable {
 
 extension IAMClientTypes {
 
-    /// Contains details about the most recent attempt to access an action within the service. This data type is used as a response element in the [GetServiceLastAccessedDetails] operation.
+    /// Contains details about the most recent attempt to access an action within the service. This data type is used as a response element in the [GetServiceLastAccessedDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetails.html) operation.
     public struct TrackedActionLastAccessed: Swift.Sendable {
         /// The name of the tracked action to which access was attempted. Tracked actions are actions that report activity to IAM.
         public var actionName: Swift.String?
@@ -4358,7 +4375,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// Contains details about the most recent attempt to access the service. This data type is used as a response element in the [GetServiceLastAccessedDetails] operation.
+    /// Contains details about the most recent attempt to access the service. This data type is used as a response element in the [GetServiceLastAccessedDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetails.html) operation.
     public struct ServiceLastAccessed: Swift.Sendable {
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when an authenticated entity most recently attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no IAM entities attempted to access the service within the [tracking period](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
         public var lastAuthenticated: Foundation.Date?
@@ -4374,7 +4391,7 @@ extension IAMClientTypes {
         public var serviceNamespace: Swift.String?
         /// The total number of authenticated principals (root user, IAM users, or IAM roles) that have attempted to access the service. This field is null if no principals attempted to access the service within the [tracking period](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period).
         public var totalAuthenticatedEntities: Swift.Int?
-        /// An object that contains details about the most recent attempt to access a tracked action within the service. This field is null if there no tracked actions or if the principal did not use the tracked actions within the [tracking period](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period). This field is also null if the report was generated at the service level and not the action level. For more information, see the Granularity field in [GenerateServiceLastAccessedDetails].
+        /// An object that contains details about the most recent attempt to access a tracked action within the service. This field is null if there no tracked actions or if the principal did not use the tracked actions within the [tracking period](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#service-last-accessed-reporting-period). This field is also null if the report was generated at the service level and not the action level. For more information, see the Granularity field in [GenerateServiceLastAccessedDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GenerateServiceLastAccessedDetails.html).
         public var trackedActionsLastAccessed: [IAMClientTypes.TrackedActionLastAccessed]?
 
         public init(
@@ -4499,7 +4516,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// Contains details about the specified entity (user or role). This data type is an element of the [EntityDetails] object.
+    /// Contains details about the specified entity (user or role). This data type is an element of the [EntityDetails](https://docs.aws.amazon.com/IAM/latest/APIReference/API_EntityDetails.html) object.
     public struct EntityInfo: Swift.Sendable {
         /// The Amazon Resource Name (ARN). ARNs are unique identifiers for Amazon Web Services resources. For more information about ARNs, go to [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         /// This member is required.
@@ -4534,7 +4551,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// An object that contains details about when the IAM entities (users or roles) were last used in an attempt to access the specified Amazon Web Services service. This data type is a response element in the [GetServiceLastAccessedDetailsWithEntities] operation.
+    /// An object that contains details about when the IAM entities (users or roles) were last used in an attempt to access the specified Amazon Web Services service. This data type is a response element in the [GetServiceLastAccessedDetailsWithEntities](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLastAccessedDetailsWithEntities.html) operation.
     public struct EntityDetails: Swift.Sendable {
         /// The EntityInfo object that contains details about the entity (user or role).
         /// This member is required.
@@ -4592,7 +4609,7 @@ public struct GetServiceLastAccessedDetailsWithEntitiesOutput: Swift.Sendable {
 }
 
 public struct GetServiceLinkedRoleDeletionStatusInput: Swift.Sendable {
-    /// The deletion task identifier. This identifier is returned by the [DeleteServiceLinkedRole] operation in the format task/aws-service-role///.
+    /// The deletion task identifier. This identifier is returned by the [DeleteServiceLinkedRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteServiceLinkedRole.html) operation in the format task/aws-service-role///.
     /// This member is required.
     public var deletionTaskId: Swift.String?
 
@@ -4605,7 +4622,7 @@ public struct GetServiceLinkedRoleDeletionStatusInput: Swift.Sendable {
 
 extension IAMClientTypes {
 
-    /// An object that contains details about how a service-linked role is used, if that information is returned by the service. This data type is used as a response element in the [GetServiceLinkedRoleDeletionStatus] operation.
+    /// An object that contains details about how a service-linked role is used, if that information is returned by the service. This data type is used as a response element in the [GetServiceLinkedRoleDeletionStatus](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLinkedRoleDeletionStatus.html) operation.
     public struct RoleUsageType: Swift.Sendable {
         /// The name of the Region where the service-linked role is being used.
         public var region: Swift.String?
@@ -4624,7 +4641,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// The reason that the service-linked role deletion failed. This data type is used as a response element in the [GetServiceLinkedRoleDeletionStatus] operation.
+    /// The reason that the service-linked role deletion failed. This data type is used as a response element in the [GetServiceLinkedRoleDeletionStatus](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetServiceLinkedRoleDeletionStatus.html) operation.
     public struct DeletionTaskFailureReasonType: Swift.Sendable {
         /// A short description of the reason that the service-linked role deletion failed.
         public var reason: Swift.String?
@@ -4768,7 +4785,7 @@ public struct GetSSHPublicKeyInput: Swift.Sendable {
 
 extension IAMClientTypes {
 
-    /// Contains information about an SSH public key. This data type is used as a response element in the [GetSSHPublicKey] and [UploadSSHPublicKey] operations.
+    /// Contains information about an SSH public key. This data type is used as a response element in the [GetSSHPublicKey](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetSSHPublicKey.html) and [UploadSSHPublicKey](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadSSHPublicKey.html) operations.
     public struct SSHPublicKey: Swift.Sendable {
         /// The MD5 message digest of the SSH public key.
         /// This member is required.
@@ -4806,7 +4823,7 @@ extension IAMClientTypes {
     }
 }
 
-/// Contains the response to a successful [GetSSHPublicKey] request.
+/// Contains the response to a successful [GetSSHPublicKey](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetSSHPublicKey.html) request.
 public struct GetSSHPublicKeyOutput: Swift.Sendable {
     /// A structure containing details about the SSH public key.
     public var sshPublicKey: IAMClientTypes.SSHPublicKey?
@@ -4829,7 +4846,7 @@ public struct GetUserInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [GetUser] request.
+/// Contains the response to a successful [GetUser](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUser.html) request.
 public struct GetUserOutput: Swift.Sendable {
     /// A structure containing details about the IAM user. Due to a service issue, password last used data does not include password use from May 3, 2018 22:50 PDT to May 23, 2018 14:08 PDT. This affects [last sign-in](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_finding-unused.html) dates shown in the IAM console and password last used dates in the [IAM credential report](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_getting-report.html), and returned by this operation. If users signed in during the affected time, the password last used date that is returned is the date the user last signed in before May 3, 2018. For users that signed in after May 23, 2018 14:08 PDT, the returned password last used date is accurate. You can use password last used information to identify unused credentials for deletion. For example, you might delete users who did not sign in to Amazon Web Services in the last 90 days. In cases like this, we recommend that you adjust your evaluation window to include dates after May 23, 2018. Alternatively, if your users use access keys to access Amazon Web Services programmatically you can refer to access key last used information because it is accurate for all dates.
     /// This member is required.
@@ -4859,7 +4876,7 @@ public struct GetUserPolicyInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [GetUserPolicy] request.
+/// Contains the response to a successful [GetUserPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetUserPolicy.html) request.
 public struct GetUserPolicyOutput: Swift.Sendable {
     /// The policy document. IAM stores policies in JSON format. However, resources that were created using CloudFormation templates can be formatted in YAML. CloudFormation always converts a YAML policy to JSON format before submitting it to IAM.
     /// This member is required.
@@ -4901,7 +4918,7 @@ public struct ListAccessKeysInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [ListAccessKeys] request.
+/// Contains the response to a successful [ListAccessKeys](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAccessKeys.html) request.
 public struct ListAccessKeysOutput: Swift.Sendable {
     /// A list of objects containing metadata about the access keys.
     /// This member is required.
@@ -4937,7 +4954,7 @@ public struct ListAccountAliasesInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [ListAccountAliases] request.
+/// Contains the response to a successful [ListAccountAliases](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAccountAliases.html) request.
 public struct ListAccountAliasesOutput: Swift.Sendable {
     /// A list of aliases associated with the account. Amazon Web Services supports only one alias per account.
     /// This member is required.
@@ -4982,7 +4999,7 @@ public struct ListAttachedGroupPoliciesInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [ListAttachedGroupPolicies] request.
+/// Contains the response to a successful [ListAttachedGroupPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedGroupPolicies.html) request.
 public struct ListAttachedGroupPoliciesOutput: Swift.Sendable {
     /// A list of the attached policies.
     public var attachedPolicies: [IAMClientTypes.AttachedPolicy]?
@@ -5026,7 +5043,7 @@ public struct ListAttachedRolePoliciesInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [ListAttachedRolePolicies] request.
+/// Contains the response to a successful [ListAttachedRolePolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedRolePolicies.html) request.
 public struct ListAttachedRolePoliciesOutput: Swift.Sendable {
     /// A list of the attached policies.
     public var attachedPolicies: [IAMClientTypes.AttachedPolicy]?
@@ -5070,7 +5087,7 @@ public struct ListAttachedUserPoliciesInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [ListAttachedUserPolicies] request.
+/// Contains the response to a successful [ListAttachedUserPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListAttachedUserPolicies.html) request.
 public struct ListAttachedUserPoliciesOutput: Swift.Sendable {
     /// A list of the attached policies.
     public var attachedPolicies: [IAMClientTypes.AttachedPolicy]?
@@ -5154,7 +5171,7 @@ public struct ListEntitiesForPolicyInput: Swift.Sendable {
 
 extension IAMClientTypes {
 
-    /// Contains information about a group that a managed policy is attached to. This data type is used as a response element in the [ListEntitiesForPolicy] operation. For more information about managed policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
+    /// Contains information about a group that a managed policy is attached to. This data type is used as a response element in the [ListEntitiesForPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListEntitiesForPolicy.html) operation. For more information about managed policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     public struct PolicyGroup: Swift.Sendable {
         /// The stable and unique string identifying the group. For more information about IDs, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the IAM User Guide.
         public var groupId: Swift.String?
@@ -5173,7 +5190,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// Contains information about a role that a managed policy is attached to. This data type is used as a response element in the [ListEntitiesForPolicy] operation. For more information about managed policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
+    /// Contains information about a role that a managed policy is attached to. This data type is used as a response element in the [ListEntitiesForPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListEntitiesForPolicy.html) operation. For more information about managed policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     public struct PolicyRole: Swift.Sendable {
         /// The stable and unique string identifying the role. For more information about IDs, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the IAM User Guide.
         public var roleId: Swift.String?
@@ -5192,7 +5209,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// Contains information about a user that a managed policy is attached to. This data type is used as a response element in the [ListEntitiesForPolicy] operation. For more information about managed policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
+    /// Contains information about a user that a managed policy is attached to. This data type is used as a response element in the [ListEntitiesForPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListEntitiesForPolicy.html) operation. For more information about managed policies, refer to [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html) in the IAM User Guide.
     public struct PolicyUser: Swift.Sendable {
         /// The stable and unique string identifying the user. For more information about IDs, see [IAM identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the IAM User Guide.
         public var userId: Swift.String?
@@ -5209,7 +5226,7 @@ extension IAMClientTypes {
     }
 }
 
-/// Contains the response to a successful [ListEntitiesForPolicy] request.
+/// Contains the response to a successful [ListEntitiesForPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListEntitiesForPolicy.html) request.
 public struct ListEntitiesForPolicyOutput: Swift.Sendable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
@@ -5257,7 +5274,7 @@ public struct ListGroupPoliciesInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [ListGroupPolicies] request.
+/// Contains the response to a successful [ListGroupPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListGroupPolicies.html) request.
 public struct ListGroupPoliciesOutput: Swift.Sendable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
@@ -5297,7 +5314,7 @@ public struct ListGroupsInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [ListGroups] request.
+/// Contains the response to a successful [ListGroups](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListGroups.html) request.
 public struct ListGroupsOutput: Swift.Sendable {
     /// A list of groups.
     /// This member is required.
@@ -5338,7 +5355,7 @@ public struct ListGroupsForUserInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [ListGroupsForUser] request.
+/// Contains the response to a successful [ListGroupsForUser](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListGroupsForUser.html) request.
 public struct ListGroupsForUserOutput: Swift.Sendable {
     /// A list of groups.
     /// This member is required.
@@ -5378,7 +5395,7 @@ public struct ListInstanceProfilesInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [ListInstanceProfiles] request.
+/// Contains the response to a successful [ListInstanceProfiles](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListInstanceProfiles.html) request.
 public struct ListInstanceProfilesOutput: Swift.Sendable {
     /// A list of instance profiles.
     /// This member is required.
@@ -5419,7 +5436,7 @@ public struct ListInstanceProfilesForRoleInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [ListInstanceProfilesForRole] request.
+/// Contains the response to a successful [ListInstanceProfilesForRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListInstanceProfilesForRole.html) request.
 public struct ListInstanceProfilesForRoleOutput: Swift.Sendable {
     /// A list of instance profiles.
     /// This member is required.
@@ -5501,7 +5518,7 @@ public struct ListMFADevicesInput: Swift.Sendable {
 
 extension IAMClientTypes {
 
-    /// Contains information about an MFA device. This data type is used as a response element in the [ListMFADevices] operation.
+    /// Contains information about an MFA device. This data type is used as a response element in the [ListMFADevices](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListMFADevices.html) operation.
     public struct MFADevice: Swift.Sendable {
         /// The date when the MFA device was enabled for the user.
         /// This member is required.
@@ -5525,7 +5542,7 @@ extension IAMClientTypes {
     }
 }
 
-/// Contains the response to a successful [ListMFADevices] request.
+/// Contains the response to a successful [ListMFADevices](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListMFADevices.html) request.
 public struct ListMFADevicesOutput: Swift.Sendable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
@@ -5606,7 +5623,7 @@ extension IAMClientTypes {
     }
 }
 
-/// Contains the response to a successful [ListOpenIDConnectProviders] request.
+/// Contains the response to a successful [ListOpenIDConnectProviders](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html) request.
 public struct ListOpenIDConnectProvidersOutput: Swift.Sendable {
     /// The list of IAM OIDC provider resource objects defined in the Amazon Web Services account.
     public var openIDConnectProviderList: [IAMClientTypes.OpenIDConnectProviderListEntry]?
@@ -5741,7 +5758,7 @@ public struct ListPoliciesInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [ListPolicies] request.
+/// Contains the response to a successful [ListPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicies.html) request.
 public struct ListPoliciesOutput: Swift.Sendable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
@@ -5813,7 +5830,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// Contains details about the permissions policies that are attached to the specified identity (user, group, or role). This data type is an element of the [ListPoliciesGrantingServiceAccessEntry] object.
+    /// Contains details about the permissions policies that are attached to the specified identity (user, group, or role). This data type is an element of the [ListPoliciesGrantingServiceAccessEntry](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPoliciesGrantingServiceAccessEntry.html) object.
     public struct PolicyGrantingServiceAccess: Swift.Sendable {
         /// The name of the entity (user or role) to which the inline policy is attached. This field is null for managed policies. For more information about these policy types, see [Managed policies and inline policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html) in the IAM User Guide.
         public var entityName: Swift.String?
@@ -5846,7 +5863,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// Contains details about the permissions policies that are attached to the specified identity (user, group, or role). This data type is used as a response element in the [ListPoliciesGrantingServiceAccess] operation.
+    /// Contains details about the permissions policies that are attached to the specified identity (user, group, or role). This data type is used as a response element in the [ListPoliciesGrantingServiceAccess](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPoliciesGrantingServiceAccess.html) operation.
     public struct ListPoliciesGrantingServiceAccessEntry: Swift.Sendable {
         /// The PoliciesGrantingServiceAccess object that contains details about the policy.
         public var policies: [IAMClientTypes.PolicyGrantingServiceAccess]?
@@ -5943,7 +5960,7 @@ public struct ListPolicyVersionsInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [ListPolicyVersions] request.
+/// Contains the response to a successful [ListPolicyVersions](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListPolicyVersions.html) request.
 public struct ListPolicyVersionsOutput: Swift.Sendable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
@@ -5983,7 +6000,7 @@ public struct ListRolePoliciesInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [ListRolePolicies] request.
+/// Contains the response to a successful [ListRolePolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListRolePolicies.html) request.
 public struct ListRolePoliciesOutput: Swift.Sendable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
@@ -6023,7 +6040,7 @@ public struct ListRolesInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [ListRoles] request.
+/// Contains the response to a successful [ListRoles](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListRoles.html) request.
 public struct ListRolesOutput: Swift.Sendable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
@@ -6112,7 +6129,7 @@ extension IAMClientTypes {
     }
 }
 
-/// Contains the response to a successful [ListSAMLProviders] request.
+/// Contains the response to a successful [ListSAMLProviders](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListSAMLProviders.html) request.
 public struct ListSAMLProvidersOutput: Swift.Sendable {
     /// The list of SAML provider resource objects defined in IAM for this Amazon Web Services account.
     public var samlProviderList: [IAMClientTypes.SAMLProviderListEntry]?
@@ -6183,7 +6200,7 @@ public struct ListServerCertificatesInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [ListServerCertificates] request.
+/// Contains the response to a successful [ListServerCertificates](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListServerCertificates.html) request.
 public struct ListServerCertificatesOutput: Swift.Sendable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
@@ -6245,15 +6262,27 @@ public struct ListServerCertificateTagsOutput: Swift.Sendable {
 }
 
 public struct ListServiceSpecificCredentialsInput: Swift.Sendable {
+    /// A flag indicating whether to list service specific credentials for all users. This parameter cannot be specified together with UserName. When true, returns all credentials associated with the specified service.
+    public var allUsers: Swift.Bool?
+    /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker from the response that you received to indicate where the next call should start.
+    public var marker: Swift.String?
+    /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true.
+    public var maxItems: Swift.Int?
     /// Filters the returned results to only those for the specified Amazon Web Services service. If not specified, then Amazon Web Services returns service-specific credentials for all services.
     public var serviceName: Swift.String?
     /// The name of the user whose service-specific credentials you want information about. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its [regex pattern](http://wikipedia.org/wiki/regex)) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
     public var userName: Swift.String?
 
     public init(
+        allUsers: Swift.Bool? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil,
         serviceName: Swift.String? = nil,
         userName: Swift.String? = nil
     ) {
+        self.allUsers = allUsers
+        self.marker = marker
+        self.maxItems = maxItems
         self.serviceName = serviceName
         self.userName = userName
     }
@@ -6266,6 +6295,10 @@ extension IAMClientTypes {
         /// The date and time, in [ISO 8601 date-time format](http://www.iso.org/iso/iso8601), when the service-specific credential were created.
         /// This member is required.
         public var createDate: Foundation.Date?
+        /// The date and time when the service specific credential expires. This field is only present for Bedrock API keys that were created with an expiration period.
+        public var expirationDate: Foundation.Date?
+        /// For Bedrock API keys, this is the public portion of the credential that includes the IAM user name and a suffix containing version and creation information.
+        public var serviceCredentialAlias: Swift.String?
         /// The name of the service associated with the service-specific credential.
         /// This member is required.
         public var serviceName: Swift.String?
@@ -6273,7 +6306,6 @@ extension IAMClientTypes {
         /// This member is required.
         public var serviceSpecificCredentialId: Swift.String?
         /// The generated user name for the service-specific credential.
-        /// This member is required.
         public var serviceUserName: Swift.String?
         /// The status of the service-specific credential. Active means that the key is valid for API calls, while Inactive means it is not.
         /// This member is required.
@@ -6284,13 +6316,17 @@ extension IAMClientTypes {
 
         public init(
             createDate: Foundation.Date? = nil,
+            expirationDate: Foundation.Date? = nil,
+            serviceCredentialAlias: Swift.String? = nil,
             serviceName: Swift.String? = nil,
             serviceSpecificCredentialId: Swift.String? = nil,
-            serviceUserName: Swift.String? = nil,
+            serviceUserName: Swift.String? = "",
             status: IAMClientTypes.StatusType? = nil,
             userName: Swift.String? = nil
         ) {
             self.createDate = createDate
+            self.expirationDate = expirationDate
+            self.serviceCredentialAlias = serviceCredentialAlias
             self.serviceName = serviceName
             self.serviceSpecificCredentialId = serviceSpecificCredentialId
             self.serviceUserName = serviceUserName
@@ -6301,12 +6337,20 @@ extension IAMClientTypes {
 }
 
 public struct ListServiceSpecificCredentialsOutput: Swift.Sendable {
+    /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items.
+    public var isTruncated: Swift.Bool
+    /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
+    public var marker: Swift.String?
     /// A list of structures that each contain details about a service-specific credential.
     public var serviceSpecificCredentials: [IAMClientTypes.ServiceSpecificCredentialMetadata]?
 
     public init(
+        isTruncated: Swift.Bool = false,
+        marker: Swift.String? = nil,
         serviceSpecificCredentials: [IAMClientTypes.ServiceSpecificCredentialMetadata]? = nil
     ) {
+        self.isTruncated = isTruncated
+        self.marker = marker
         self.serviceSpecificCredentials = serviceSpecificCredentials
     }
 }
@@ -6332,7 +6376,7 @@ public struct ListSigningCertificatesInput: Swift.Sendable {
 
 extension IAMClientTypes {
 
-    /// Contains information about an X.509 signing certificate. This data type is used as a response element in the [UploadSigningCertificate] and [ListSigningCertificates] operations.
+    /// Contains information about an X.509 signing certificate. This data type is used as a response element in the [UploadSigningCertificate](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadSigningCertificate.html) and [ListSigningCertificates](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListSigningCertificates.html) operations.
     public struct SigningCertificate: Swift.Sendable {
         /// The contents of the signing certificate.
         /// This member is required.
@@ -6365,7 +6409,7 @@ extension IAMClientTypes {
     }
 }
 
-/// Contains the response to a successful [ListSigningCertificates] request.
+/// Contains the response to a successful [ListSigningCertificates](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListSigningCertificates.html) request.
 public struct ListSigningCertificatesOutput: Swift.Sendable {
     /// A list of the user's signing certificate information.
     /// This member is required.
@@ -6407,7 +6451,7 @@ public struct ListSSHPublicKeysInput: Swift.Sendable {
 
 extension IAMClientTypes {
 
-    /// Contains information about an SSH public key, without the key's body or fingerprint. This data type is used as a response element in the [ListSSHPublicKeys] operation.
+    /// Contains information about an SSH public key, without the key's body or fingerprint. This data type is used as a response element in the [ListSSHPublicKeys](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListSSHPublicKeys.html) operation.
     public struct SSHPublicKeyMetadata: Swift.Sendable {
         /// The unique identifier for the SSH public key.
         /// This member is required.
@@ -6436,7 +6480,7 @@ extension IAMClientTypes {
     }
 }
 
-/// Contains the response to a successful [ListSSHPublicKeys] request.
+/// Contains the response to a successful [ListSSHPublicKeys](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListSSHPublicKeys.html) request.
 public struct ListSSHPublicKeysOutput: Swift.Sendable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
@@ -6476,7 +6520,7 @@ public struct ListUserPoliciesInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [ListUserPolicies] request.
+/// Contains the response to a successful [ListUserPolicies](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListUserPolicies.html) request.
 public struct ListUserPoliciesOutput: Swift.Sendable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
@@ -6516,7 +6560,7 @@ public struct ListUsersInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [ListUsers] request.
+/// Contains the response to a successful [ListUsers](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListUsers.html) request.
 public struct ListUsersOutput: Swift.Sendable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
@@ -6596,7 +6640,7 @@ public struct ListVirtualMFADevicesInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [ListVirtualMFADevices] request.
+/// Contains the response to a successful [ListVirtualMFADevices](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListVirtualMFADevices.html) request.
 public struct ListVirtualMFADevicesOutput: Swift.Sendable {
     /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the MaxItems number of results even when there are more results available. We recommend that you check IsTruncated after every call to ensure that you receive all your results.
     public var isTruncated: Swift.Bool
@@ -6736,10 +6780,10 @@ public struct PutUserPolicyInput: Swift.Sendable {
 }
 
 public struct RemoveClientIDFromOpenIDConnectProviderInput: Swift.Sendable {
-    /// The client ID (also known as audience) to remove from the IAM OIDC provider resource. For more information about client IDs, see [CreateOpenIDConnectProvider].
+    /// The client ID (also known as audience) to remove from the IAM OIDC provider resource. For more information about client IDs, see [CreateOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html).
     /// This member is required.
     public var clientID: Swift.String?
-    /// The Amazon Resource Name (ARN) of the IAM OIDC provider resource to remove the client ID from. You can get a list of OIDC provider ARNs by using the [ListOpenIDConnectProviders] operation. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+    /// The Amazon Resource Name (ARN) of the IAM OIDC provider resource to remove the client ID from. You can get a list of OIDC provider ARNs by using the [ListOpenIDConnectProviders](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html) operation. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var openIDConnectProviderArn: Swift.String?
 
@@ -6982,7 +7026,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// Contains information about a condition context key. It includes the name of the key and specifies the value (or values, if the context key supports multiple values) to use in the simulation. This information is used when evaluating the Condition elements of the input policies. This data type is used as an input parameter to [SimulateCustomPolicy] and [SimulatePrincipalPolicy].
+    /// Contains information about a condition context key. It includes the name of the key and specifies the value (or values, if the context key supports multiple values) to use in the simulation. This information is used when evaluating the Condition elements of the input policies. This data type is used as an input parameter to [SimulateCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html) and [SimulatePrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html).
     public struct ContextEntry: Swift.Sendable {
         /// The full name of a condition context key, including the service prefix. For example, aws:SourceIp or s3:VersionId.
         public var contextKeyName: Swift.String?
@@ -7119,7 +7163,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// Contains the row and column of a location of a Statement element in a policy document. This data type is used as a member of the [Statement] type.
+    /// Contains the row and column of a location of a Statement element in a policy document. This data type is used as a member of the [Statement](https://docs.aws.amazon.com/IAM/latest/APIReference/API_Statement.html) type.
     public struct Position: Swift.Sendable {
         /// The column in the line containing the specified position in the document.
         public var column: Swift.Int
@@ -7182,7 +7226,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// Contains a reference to a Statement element in a policy document that determines the result of the simulation. This data type is used by the MatchedStatements member of the [EvaluationResult] type.
+    /// Contains a reference to a Statement element in a policy document that determines the result of the simulation. This data type is used by the MatchedStatements member of the [EvaluationResult](https://docs.aws.amazon.com/IAM/latest/APIReference/API_EvaluationResult.html) type.
     public struct Statement: Swift.Sendable {
         /// The row and column of the end of a Statement in an IAM policy.
         public var endPosition: IAMClientTypes.Position?
@@ -7239,7 +7283,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// Contains the result of the simulation of a single API operation call on a single resource. This data type is used by a member of the [EvaluationResult] data type.
+    /// Contains the result of the simulation of a single API operation call on a single resource. This data type is used by a member of the [EvaluationResult](https://docs.aws.amazon.com/IAM/latest/APIReference/API_EvaluationResult.html) data type.
     public struct ResourceSpecificResult: Swift.Sendable {
         /// Additional details about the results of the evaluation decision on a single resource. This parameter is returned only for cross-account simulations. This parameter explains how each policy type contributes to the resource-specific evaluation decision.
         public var evalDecisionDetails: [Swift.String: IAMClientTypes.PolicyEvaluationDecisionType]?
@@ -7251,7 +7295,7 @@ extension IAMClientTypes {
         public var evalResourceName: Swift.String?
         /// A list of the statements in the input policies that determine the result for this part of the simulation. Remember that even if multiple statements allow the operation on the resource, if any statement denies that operation, then the explicit deny overrides any allow. In addition, the deny statement is the only entry included in the result.
         public var matchedStatements: [IAMClientTypes.Statement]?
-        /// A list of context keys that are required by the included input policies but that were not provided by one of the input parameters. This list is used when a list of ARNs is included in the ResourceArns parameter instead of "*". If you do not specify individual resources, by setting ResourceArns to "*" or by not including the ResourceArns parameter, then any missing context values are instead included under the EvaluationResults section. To discover the context keys used by a set of policies, you can call [GetContextKeysForCustomPolicy] or [GetContextKeysForPrincipalPolicy].
+        /// A list of context keys that are required by the included input policies but that were not provided by one of the input parameters. This list is used when a list of ARNs is included in the ResourceArns parameter instead of "*". If you do not specify individual resources, by setting ResourceArns to "*" or by not including the ResourceArns parameter, then any missing context values are instead included under the EvaluationResults section. To discover the context keys used by a set of policies, you can call [GetContextKeysForCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html) or [GetContextKeysForPrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html).
         public var missingContextValues: [Swift.String]?
         /// Contains information about the effect that a permissions boundary has on a policy simulation when that boundary is applied to an IAM entity.
         public var permissionsBoundaryDecisionDetail: IAMClientTypes.PermissionsBoundaryDecisionDetail?
@@ -7276,7 +7320,7 @@ extension IAMClientTypes {
 
 extension IAMClientTypes {
 
-    /// Contains the results of a simulation. This data type is used by the return parameter of [SimulateCustomPolicy] and [SimulatePrincipalPolicy].
+    /// Contains the results of a simulation. This data type is used by the return parameter of [SimulateCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html) and [SimulatePrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html).
     public struct EvaluationResult: Swift.Sendable {
         /// The name of the API operation tested on the indicated resource.
         /// This member is required.
@@ -7290,7 +7334,7 @@ extension IAMClientTypes {
         public var evalResourceName: Swift.String?
         /// A list of the statements in the input policies that determine the result for this scenario. Remember that even if multiple statements allow the operation on the resource, if only one statement denies that operation, then the explicit deny overrides any allow. In addition, the deny statement is the only entry included in the result.
         public var matchedStatements: [IAMClientTypes.Statement]?
-        /// A list of context keys that are required by the included input policies but that were not provided by one of the input parameters. This list is used when the resource in a simulation is "*", either explicitly, or when the ResourceArns parameter blank. If you include a list of resources, then any missing context values are instead included under the ResourceSpecificResults section. To discover the context keys used by a set of policies, you can call [GetContextKeysForCustomPolicy] or [GetContextKeysForPrincipalPolicy].
+        /// A list of context keys that are required by the included input policies but that were not provided by one of the input parameters. This list is used when the resource in a simulation is "*", either explicitly, or when the ResourceArns parameter blank. If you include a list of resources, then any missing context values are instead included under the ResourceSpecificResults section. To discover the context keys used by a set of policies, you can call [GetContextKeysForCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForCustomPolicy.html) or [GetContextKeysForPrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_GetContextKeysForPrincipalPolicy.html).
         public var missingContextValues: [Swift.String]?
         /// A structure that details how Organizations and its service control policies affect the results of the simulation. Only applies if the simulated user's account is part of an organization.
         public var organizationsDecisionDetail: IAMClientTypes.OrganizationsDecisionDetail?
@@ -7323,7 +7367,7 @@ extension IAMClientTypes {
     }
 }
 
-/// Contains the response to a successful [SimulatePrincipalPolicy] or [SimulateCustomPolicy] request.
+/// Contains the response to a successful [SimulatePrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html) or [SimulateCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html) request.
 public struct SimulateCustomPolicyOutput: Swift.Sendable {
     /// The results of the simulation.
     public var evaluationResults: [IAMClientTypes.EvaluationResult]?
@@ -7429,7 +7473,7 @@ public struct SimulatePrincipalPolicyInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [SimulatePrincipalPolicy] or [SimulateCustomPolicy] request.
+/// Contains the response to a successful [SimulatePrincipalPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulatePrincipalPolicy.html) or [SimulateCustomPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_SimulateCustomPolicy.html) request.
 public struct SimulatePrincipalPolicyOutput: Swift.Sendable {
     /// The results of the simulation.
     public var evaluationResults: [IAMClientTypes.EvaluationResult]?
@@ -7838,7 +7882,7 @@ public struct UpdateLoginProfileInput: Swift.Sendable {
     /// * The special characters tab (\u0009), line feed (\u000A), and carriage return (\u000D)
     ///
     ///
-    /// However, the format can be further restricted by the account administrator by setting a password policy on the Amazon Web Services account. For more information, see [UpdateAccountPasswordPolicy].
+    /// However, the format can be further restricted by the account administrator by setting a password policy on the Amazon Web Services account. For more information, see [UpdateAccountPasswordPolicy](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAccountPasswordPolicy.html).
     public var password: Swift.String?
     /// Allows this new password to be used only once by requiring the specified IAM user to set a new password on next sign-in.
     public var passwordResetRequired: Swift.Bool?
@@ -7863,10 +7907,10 @@ extension UpdateLoginProfileInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct UpdateOpenIDConnectProviderThumbprintInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the IAM OIDC provider resource object for which you want to update the thumbprint. You can get a list of OIDC provider ARNs by using the [ListOpenIDConnectProviders] operation. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+    /// The Amazon Resource Name (ARN) of the IAM OIDC provider resource object for which you want to update the thumbprint. You can get a list of OIDC provider ARNs by using the [ListOpenIDConnectProviders](https://docs.aws.amazon.com/IAM/latest/APIReference/API_ListOpenIDConnectProviders.html) operation. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var openIDConnectProviderArn: Swift.String?
-    /// A list of certificate thumbprints that are associated with the specified IAM OpenID Connect provider. For more information, see [CreateOpenIDConnectProvider].
+    /// A list of certificate thumbprints that are associated with the specified IAM OpenID Connect provider. For more information, see [CreateOpenIDConnectProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateOpenIDConnectProvider.html).
     /// This member is required.
     public var thumbprintList: [Swift.String]?
 
@@ -7965,7 +8009,7 @@ extension UpdateSAMLProviderInput: Swift.CustomDebugStringConvertible {
         "UpdateSAMLProviderInput(assertionEncryptionMode: \(Swift.String(describing: assertionEncryptionMode)), removePrivateKey: \(Swift.String(describing: removePrivateKey)), samlMetadataDocument: \(Swift.String(describing: samlMetadataDocument)), samlProviderArn: \(Swift.String(describing: samlProviderArn)), addPrivateKey: \"CONTENT_REDACTED\")"}
 }
 
-/// Contains the response to a successful [UpdateSAMLProvider] request.
+/// Contains the response to a successful [UpdateSAMLProvider](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateSAMLProvider.html) request.
 public struct UpdateSAMLProviderOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the SAML provider that was updated.
     public var samlProviderArn: Swift.String?
@@ -8184,7 +8228,7 @@ extension UploadServerCertificateInput: Swift.CustomDebugStringConvertible {
         "UploadServerCertificateInput(certificateBody: \(Swift.String(describing: certificateBody)), certificateChain: \(Swift.String(describing: certificateChain)), path: \(Swift.String(describing: path)), serverCertificateName: \(Swift.String(describing: serverCertificateName)), tags: \(Swift.String(describing: tags)), privateKey: \"CONTENT_REDACTED\")"}
 }
 
-/// Contains the response to a successful [UploadServerCertificate] request.
+/// Contains the response to a successful [UploadServerCertificate](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadServerCertificate.html) request.
 public struct UploadServerCertificateOutput: Swift.Sendable {
     /// The meta information of the uploaded server certificate without its certificate body, certificate chain, and private key.
     public var serverCertificateMetadata: IAMClientTypes.ServerCertificateMetadata?
@@ -8268,7 +8312,7 @@ public struct UploadSigningCertificateInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [UploadSigningCertificate] request.
+/// Contains the response to a successful [UploadSigningCertificate](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadSigningCertificate.html) request.
 public struct UploadSigningCertificateOutput: Swift.Sendable {
     /// Information about the certificate.
     /// This member is required.
@@ -8350,7 +8394,7 @@ public struct UploadSSHPublicKeyInput: Swift.Sendable {
     }
 }
 
-/// Contains the response to a successful [UploadSSHPublicKey] request.
+/// Contains the response to a successful [UploadSSHPublicKey](https://docs.aws.amazon.com/IAM/latest/APIReference/API_UploadSSHPublicKey.html) request.
 public struct UploadSSHPublicKeyOutput: Swift.Sendable {
     /// Contains information about the SSH public key.
     public var sshPublicKey: IAMClientTypes.SSHPublicKey?
@@ -9727,6 +9771,7 @@ extension CreateServiceSpecificCredentialInput {
 
     static func write(value: CreateServiceSpecificCredentialInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["CredentialAgeDays"].write(value.credentialAgeDays)
         try writer["ServiceName"].write(value.serviceName)
         try writer["UserName"].write(value.userName)
         try writer["Action"].write("CreateServiceSpecificCredential")
@@ -10748,6 +10793,9 @@ extension ListServiceSpecificCredentialsInput {
 
     static func write(value: ListServiceSpecificCredentialsInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
+        try writer["AllUsers"].write(value.allUsers)
+        try writer["Marker"].write(value.marker)
+        try writer["MaxItems"].write(value.maxItems)
         try writer["ServiceName"].write(value.serviceName)
         try writer["UserName"].write(value.userName)
         try writer["Action"].write("ListServiceSpecificCredentials")
@@ -12654,6 +12702,8 @@ extension ListServiceSpecificCredentialsOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader["ListServiceSpecificCredentialsResult"]
         var value = ListServiceSpecificCredentialsOutput()
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.marker = try reader["Marker"].readIfPresent()
         value.serviceSpecificCredentials = try reader["ServiceSpecificCredentials"].readListIfPresent(memberReadingClosure: IAMClientTypes.ServiceSpecificCredentialMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -15508,6 +15558,7 @@ enum UpdateAccessKeyOutputError {
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
@@ -15690,6 +15741,7 @@ enum UpdateSigningCertificateOutputError {
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
@@ -15706,6 +15758,7 @@ enum UpdateSSHPublicKeyOutputError {
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -16374,9 +16427,12 @@ extension IAMClientTypes.ServiceSpecificCredential {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IAMClientTypes.ServiceSpecificCredential()
         value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.expirationDate = try reader["ExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.serviceName = try reader["ServiceName"].readIfPresent() ?? ""
         value.serviceUserName = try reader["ServiceUserName"].readIfPresent() ?? ""
         value.servicePassword = try reader["ServicePassword"].readIfPresent() ?? ""
+        value.serviceCredentialAlias = try reader["ServiceCredentialAlias"].readIfPresent()
+        value.serviceCredentialSecret = try reader["ServiceCredentialSecret"].readIfPresent()
         value.serviceSpecificCredentialId = try reader["ServiceSpecificCredentialId"].readIfPresent() ?? ""
         value.userName = try reader["UserName"].readIfPresent() ?? ""
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
@@ -16815,7 +16871,9 @@ extension IAMClientTypes.ServiceSpecificCredentialMetadata {
         value.userName = try reader["UserName"].readIfPresent() ?? ""
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.serviceUserName = try reader["ServiceUserName"].readIfPresent() ?? ""
+        value.serviceCredentialAlias = try reader["ServiceCredentialAlias"].readIfPresent()
         value.createDate = try reader["CreateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.expirationDate = try reader["ExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.serviceSpecificCredentialId = try reader["ServiceSpecificCredentialId"].readIfPresent() ?? ""
         value.serviceName = try reader["ServiceName"].readIfPresent() ?? ""
         return value

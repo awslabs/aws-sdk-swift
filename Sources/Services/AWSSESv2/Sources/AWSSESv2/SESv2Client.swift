@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SESv2Client: ClientRuntime.Client {
     public static let clientName = "SESv2Client"
-    public static let version = "1.3.46"
+    public static let version = "1.3.49"
     let client: ClientRuntime.SdkHttpClient
     let config: SESv2Client.SESv2ClientConfiguration
     let serviceName = "SESv2"

@@ -50,6 +50,7 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
+import struct AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain
 import struct ClientRuntime.AuthSchemeMiddleware
 import struct ClientRuntime.BlobBodyMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -66,15 +67,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct Smithy.Document
-import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+import struct SmithyHTTPAuth.BearerTokenAuthScheme
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockRuntimeClient: ClientRuntime.Client {
     public static let clientName = "BedrockRuntimeClient"
-    public static let version = "1.3.46"
+    public static let version = "1.3.49"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockRuntimeClient.BedrockRuntimeClientConfiguration
     let serviceName = "Bedrock Runtime"
@@ -227,10 +227,10 @@ extension BedrockRuntimeClient {
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
                 httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemes ?? [SmithyHTTPAuth.BearerTokenAuthScheme(), AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultBedrockRuntimeAuthSchemeResolver(),
-                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                try bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
             )
@@ -283,10 +283,10 @@ extension BedrockRuntimeClient {
                 idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
                 httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine(httpClientConfiguration),
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                authSchemes ?? [SmithyHTTPAuth.BearerTokenAuthScheme(), AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultBedrockRuntimeAuthSchemeResolver(),
-                bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                try bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
             )
@@ -343,10 +343,10 @@ extension BedrockRuntimeClient {
                 AWSClientConfigDefaultsProvider.idempotencyTokenGenerator(),
                 AWSClientConfigDefaultsProvider.httpClientEngine(),
                 AWSClientConfigDefaultsProvider.httpClientConfiguration(),
-                [AWSSDKHTTPAuth.SigV4AuthScheme()],
+                [SmithyHTTPAuth.BearerTokenAuthScheme(), AWSSDKHTTPAuth.SigV4AuthScheme()],
                 nil,
                 DefaultBedrockRuntimeAuthSchemeResolver(),
-                SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
+                try AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 [],
                 []
             )

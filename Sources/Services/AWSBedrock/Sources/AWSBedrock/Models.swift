@@ -2365,6 +2365,99 @@ extension BedrockClientTypes {
 
 extension BedrockClientTypes {
 
+    public enum AttributeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case boolean
+        case number
+        case string
+        case stringList
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttributeType] {
+            return [
+                .boolean,
+                .number,
+                .string,
+                .stringList
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .boolean: return "BOOLEAN"
+            case .number: return "NUMBER"
+            case .string: return "STRING"
+            case .stringList: return "STRING_LIST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Defines the schema for a metadata attribute used in Knowledge Base vector searches. Metadata attributes provide additional context for documents and can be used for filtering and reranking search results.
+    public struct MetadataAttributeSchema: Swift.Sendable {
+        /// An optional description of the metadata attribute that provides additional context about its purpose and usage.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The unique identifier for the metadata attribute. This key is used to reference the attribute in filter expressions and reranking configurations.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The data type of the metadata attribute. The type determines how the attribute can be used in filter expressions and reranking.
+        /// This member is required.
+        public var type: BedrockClientTypes.AttributeType?
+
+        public init(
+            description: Swift.String? = nil,
+            key: Swift.String? = nil,
+            type: BedrockClientTypes.AttributeType? = nil
+        ) {
+            self.description = description
+            self.key = key
+            self.type = type
+        }
+    }
+}
+
+extension BedrockClientTypes.MetadataAttributeSchema: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Configuration for implicit filtering in Knowledge Base vector searches. Implicit filtering allows you to automatically filter search results based on metadata attributes without requiring explicit filter expressions in each query.
+    public struct ImplicitFilterConfiguration: Swift.Sendable {
+        /// A list of metadata attribute schemas that define the structure and properties of metadata fields used for implicit filtering. Each attribute defines a key, type, and optional description.
+        /// This member is required.
+        public var metadataAttributes: [BedrockClientTypes.MetadataAttributeSchema]?
+        /// The Amazon Resource Name (ARN) of the foundation model used for implicit filtering. This model processes the query to extract relevant filtering criteria.
+        /// This member is required.
+        public var modelArn: Swift.String?
+
+        public init(
+            metadataAttributes: [BedrockClientTypes.MetadataAttributeSchema]? = nil,
+            modelArn: Swift.String? = nil
+        ) {
+            self.metadataAttributes = metadataAttributes
+            self.modelArn = modelArn
+        }
+    }
+}
+
+extension BedrockClientTypes.ImplicitFilterConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ImplicitFilterConfiguration(modelArn: \(Swift.String(describing: modelArn)), metadataAttributes: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockClientTypes {
+
     public enum SearchType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case hybrid
         case semantic
@@ -2388,6 +2481,173 @@ extension BedrockClientTypes {
             case .semantic: return "SEMANTIC"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum RerankingMetadataSelectionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case selective
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RerankingMetadataSelectionMode] {
+            return [
+                .all,
+                .selective
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .selective: return "SELECTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Specifies a field to be used during the reranking process in a Knowledge Base vector search. This structure identifies metadata fields that should be considered when reordering search results to improve relevance.
+    public struct FieldForReranking: Swift.Sendable {
+        /// The name of the metadata field to be used during the reranking process.
+        /// This member is required.
+        public var fieldName: Swift.String?
+
+        public init(
+            fieldName: Swift.String? = nil
+        ) {
+            self.fieldName = fieldName
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Configuration for selectively including or excluding metadata fields during the reranking process. This allows you to control which metadata attributes are considered when reordering search results.
+    public enum RerankingMetadataSelectiveModeConfiguration: Swift.Sendable {
+        /// A list of metadata field names to explicitly include in the reranking process. Only these fields will be considered when reordering search results. This parameter cannot be used together with fieldsToExclude.
+        case fieldstoinclude([BedrockClientTypes.FieldForReranking])
+        /// A list of metadata field names to explicitly exclude from the reranking process. All metadata fields except these will be considered when reordering search results. This parameter cannot be used together with fieldsToInclude.
+        case fieldstoexclude([BedrockClientTypes.FieldForReranking])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Configuration for how metadata should be used during the reranking process in Knowledge Base vector searches. This determines which metadata fields are included or excluded when reordering search results.
+    public struct MetadataConfigurationForReranking: Swift.Sendable {
+        /// The mode for selecting which metadata fields to include in the reranking process. Valid values are ALL (use all available metadata fields) or SELECTIVE (use only specified fields).
+        /// This member is required.
+        public var selectionMode: BedrockClientTypes.RerankingMetadataSelectionMode?
+        /// Configuration for selective mode, which allows you to explicitly include or exclude specific metadata fields during reranking. This is only used when selectionMode is set to SELECTIVE.
+        public var selectiveModeConfiguration: BedrockClientTypes.RerankingMetadataSelectiveModeConfiguration?
+
+        public init(
+            selectionMode: BedrockClientTypes.RerankingMetadataSelectionMode? = nil,
+            selectiveModeConfiguration: BedrockClientTypes.RerankingMetadataSelectiveModeConfiguration? = nil
+        ) {
+            self.selectionMode = selectionMode
+            self.selectiveModeConfiguration = selectiveModeConfiguration
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Configuration for the Amazon Bedrock foundation model used for reranking vector search results. This specifies which model to use and any additional parameters required by the model.
+    public struct VectorSearchBedrockRerankingModelConfiguration: Swift.Sendable {
+        /// A list of additional fields to include in the model request during reranking. These fields provide extra context or configuration options specific to the selected foundation model.
+        public var additionalModelRequestFields: [Swift.String: Smithy.Document]?
+        /// The Amazon Resource Name (ARN) of the foundation model to use for reranking. This model processes the query and search results to determine a more relevant ordering.
+        /// This member is required.
+        public var modelArn: Swift.String?
+
+        public init(
+            additionalModelRequestFields: [Swift.String: Smithy.Document]? = nil,
+            modelArn: Swift.String? = nil
+        ) {
+            self.additionalModelRequestFields = additionalModelRequestFields
+            self.modelArn = modelArn
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Configuration for using Amazon Bedrock foundation models to rerank Knowledge Base vector search results. This enables more sophisticated relevance ranking using large language models.
+    public struct VectorSearchBedrockRerankingConfiguration: Swift.Sendable {
+        /// Configuration for how document metadata should be used during the reranking process. This determines which metadata fields are included when reordering search results.
+        public var metadataConfiguration: BedrockClientTypes.MetadataConfigurationForReranking?
+        /// Configuration for the Amazon Bedrock foundation model used for reranking. This includes the model ARN and any additional request fields required by the model.
+        /// This member is required.
+        public var modelConfiguration: BedrockClientTypes.VectorSearchBedrockRerankingModelConfiguration?
+        /// The maximum number of results to rerank. This limits how many of the initial vector search results will be processed by the reranking model. A smaller number improves performance but may exclude potentially relevant results.
+        public var numberOfRerankedResults: Swift.Int?
+
+        public init(
+            metadataConfiguration: BedrockClientTypes.MetadataConfigurationForReranking? = nil,
+            modelConfiguration: BedrockClientTypes.VectorSearchBedrockRerankingModelConfiguration? = nil,
+            numberOfRerankedResults: Swift.Int? = nil
+        ) {
+            self.metadataConfiguration = metadataConfiguration
+            self.modelConfiguration = modelConfiguration
+            self.numberOfRerankedResults = numberOfRerankedResults
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum VectorSearchRerankingConfigurationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bedrockRerankingModel
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VectorSearchRerankingConfigurationType] {
+            return [
+                .bedrockRerankingModel
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bedrockRerankingModel: return "BEDROCK_RERANKING_MODEL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Configuration for reranking vector search results to improve relevance. Reranking applies additional relevance models to reorder the initial vector search results based on more sophisticated criteria.
+    public struct VectorSearchRerankingConfiguration: Swift.Sendable {
+        /// Configuration for using Amazon Bedrock foundation models to rerank search results. This is required when the reranking type is set to BEDROCK.
+        public var bedrockRerankingConfiguration: BedrockClientTypes.VectorSearchBedrockRerankingConfiguration?
+        /// The type of reranking to apply to vector search results. Currently, the only supported value is BEDROCK, which uses Amazon Bedrock foundation models for reranking.
+        /// This member is required.
+        public var type: BedrockClientTypes.VectorSearchRerankingConfigurationType?
+
+        public init(
+            bedrockRerankingConfiguration: BedrockClientTypes.VectorSearchBedrockRerankingConfiguration? = nil,
+            type: BedrockClientTypes.VectorSearchRerankingConfigurationType? = nil
+        ) {
+            self.bedrockRerankingConfiguration = bedrockRerankingConfiguration
+            self.type = type
         }
     }
 }
@@ -8681,26 +8941,34 @@ extension BedrockClientTypes {
     public struct KnowledgeBaseVectorSearchConfiguration: Swift.Sendable {
         /// Specifies the filters to use on the metadata fields in the knowledge base data sources before returning results.
         public var filter: BedrockClientTypes.RetrievalFilter?
+        /// Configuration for implicit filtering in Knowledge Base vector searches. This allows the system to automatically apply filters based on the query context without requiring explicit filter expressions.
+        public var implicitFilterConfiguration: BedrockClientTypes.ImplicitFilterConfiguration?
         /// The number of text chunks to retrieve; the number of results to return.
         public var numberOfResults: Swift.Int?
         /// By default, Amazon Bedrock decides a search strategy for you. If you're using an Amazon OpenSearch Serverless vector store that contains a filterable text field, you can specify whether to query the knowledge base with a HYBRID search using both vector embeddings and raw text, or SEMANTIC search using only vector embeddings. For other vector store configurations, only SEMANTIC search is available.
         public var overrideSearchType: BedrockClientTypes.SearchType?
+        /// Configuration for reranking search results in Knowledge Base vector searches. Reranking improves search relevance by reordering initial vector search results using more sophisticated relevance models.
+        public var rerankingConfiguration: BedrockClientTypes.VectorSearchRerankingConfiguration?
 
         public init(
             filter: BedrockClientTypes.RetrievalFilter? = nil,
+            implicitFilterConfiguration: BedrockClientTypes.ImplicitFilterConfiguration? = nil,
             numberOfResults: Swift.Int? = nil,
-            overrideSearchType: BedrockClientTypes.SearchType? = nil
+            overrideSearchType: BedrockClientTypes.SearchType? = nil,
+            rerankingConfiguration: BedrockClientTypes.VectorSearchRerankingConfiguration? = nil
         ) {
             self.filter = filter
+            self.implicitFilterConfiguration = implicitFilterConfiguration
             self.numberOfResults = numberOfResults
             self.overrideSearchType = overrideSearchType
+            self.rerankingConfiguration = rerankingConfiguration
         }
     }
 }
 
 extension BedrockClientTypes.KnowledgeBaseVectorSearchConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "KnowledgeBaseVectorSearchConfiguration(numberOfResults: \(Swift.String(describing: numberOfResults)), overrideSearchType: \(Swift.String(describing: overrideSearchType)), filter: \"CONTENT_REDACTED\")"}
+        "KnowledgeBaseVectorSearchConfiguration(implicitFilterConfiguration: \(Swift.String(describing: implicitFilterConfiguration)), numberOfResults: \(Swift.String(describing: numberOfResults)), overrideSearchType: \(Swift.String(describing: overrideSearchType)), rerankingConfiguration: \(Swift.String(describing: rerankingConfiguration)), filter: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockClientTypes {
@@ -13590,8 +13858,10 @@ extension BedrockClientTypes.KnowledgeBaseVectorSearchConfiguration {
     static func write(value: BedrockClientTypes.KnowledgeBaseVectorSearchConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["filter"].write(value.filter, with: BedrockClientTypes.RetrievalFilter.write(value:to:))
+        try writer["implicitFilterConfiguration"].write(value.implicitFilterConfiguration, with: BedrockClientTypes.ImplicitFilterConfiguration.write(value:to:))
         try writer["numberOfResults"].write(value.numberOfResults)
         try writer["overrideSearchType"].write(value.overrideSearchType)
+        try writer["rerankingConfiguration"].write(value.rerankingConfiguration, with: BedrockClientTypes.VectorSearchRerankingConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.KnowledgeBaseVectorSearchConfiguration {
@@ -13600,6 +13870,157 @@ extension BedrockClientTypes.KnowledgeBaseVectorSearchConfiguration {
         value.numberOfResults = try reader["numberOfResults"].readIfPresent()
         value.overrideSearchType = try reader["overrideSearchType"].readIfPresent()
         value.filter = try reader["filter"].readIfPresent(with: BedrockClientTypes.RetrievalFilter.read(from:))
+        value.implicitFilterConfiguration = try reader["implicitFilterConfiguration"].readIfPresent(with: BedrockClientTypes.ImplicitFilterConfiguration.read(from:))
+        value.rerankingConfiguration = try reader["rerankingConfiguration"].readIfPresent(with: BedrockClientTypes.VectorSearchRerankingConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.VectorSearchRerankingConfiguration {
+
+    static func write(value: BedrockClientTypes.VectorSearchRerankingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bedrockRerankingConfiguration"].write(value.bedrockRerankingConfiguration, with: BedrockClientTypes.VectorSearchBedrockRerankingConfiguration.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.VectorSearchRerankingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.VectorSearchRerankingConfiguration()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.bedrockRerankingConfiguration = try reader["bedrockRerankingConfiguration"].readIfPresent(with: BedrockClientTypes.VectorSearchBedrockRerankingConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.VectorSearchBedrockRerankingConfiguration {
+
+    static func write(value: BedrockClientTypes.VectorSearchBedrockRerankingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["metadataConfiguration"].write(value.metadataConfiguration, with: BedrockClientTypes.MetadataConfigurationForReranking.write(value:to:))
+        try writer["modelConfiguration"].write(value.modelConfiguration, with: BedrockClientTypes.VectorSearchBedrockRerankingModelConfiguration.write(value:to:))
+        try writer["numberOfRerankedResults"].write(value.numberOfRerankedResults)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.VectorSearchBedrockRerankingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.VectorSearchBedrockRerankingConfiguration()
+        value.modelConfiguration = try reader["modelConfiguration"].readIfPresent(with: BedrockClientTypes.VectorSearchBedrockRerankingModelConfiguration.read(from:))
+        value.numberOfRerankedResults = try reader["numberOfRerankedResults"].readIfPresent()
+        value.metadataConfiguration = try reader["metadataConfiguration"].readIfPresent(with: BedrockClientTypes.MetadataConfigurationForReranking.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.MetadataConfigurationForReranking {
+
+    static func write(value: BedrockClientTypes.MetadataConfigurationForReranking?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["selectionMode"].write(value.selectionMode)
+        try writer["selectiveModeConfiguration"].write(value.selectiveModeConfiguration, with: BedrockClientTypes.RerankingMetadataSelectiveModeConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.MetadataConfigurationForReranking {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.MetadataConfigurationForReranking()
+        value.selectionMode = try reader["selectionMode"].readIfPresent() ?? .sdkUnknown("")
+        value.selectiveModeConfiguration = try reader["selectiveModeConfiguration"].readIfPresent(with: BedrockClientTypes.RerankingMetadataSelectiveModeConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockClientTypes.RerankingMetadataSelectiveModeConfiguration {
+
+    static func write(value: BedrockClientTypes.RerankingMetadataSelectiveModeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .fieldstoexclude(fieldstoexclude):
+                try writer["fieldsToExclude"].writeList(fieldstoexclude, memberWritingClosure: BedrockClientTypes.FieldForReranking.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .fieldstoinclude(fieldstoinclude):
+                try writer["fieldsToInclude"].writeList(fieldstoinclude, memberWritingClosure: BedrockClientTypes.FieldForReranking.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.RerankingMetadataSelectiveModeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "fieldsToInclude":
+                return .fieldstoinclude(try reader["fieldsToInclude"].readList(memberReadingClosure: BedrockClientTypes.FieldForReranking.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "fieldsToExclude":
+                return .fieldstoexclude(try reader["fieldsToExclude"].readList(memberReadingClosure: BedrockClientTypes.FieldForReranking.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockClientTypes.FieldForReranking {
+
+    static func write(value: BedrockClientTypes.FieldForReranking?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fieldName"].write(value.fieldName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.FieldForReranking {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.FieldForReranking()
+        value.fieldName = try reader["fieldName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockClientTypes.VectorSearchBedrockRerankingModelConfiguration {
+
+    static func write(value: BedrockClientTypes.VectorSearchBedrockRerankingModelConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalModelRequestFields"].writeMap(value.additionalModelRequestFields, valueWritingClosure: SmithyReadWrite.WritingClosures.writeDocument(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["modelArn"].write(value.modelArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.VectorSearchBedrockRerankingModelConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.VectorSearchBedrockRerankingModelConfiguration()
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
+        value.additionalModelRequestFields = try reader["additionalModelRequestFields"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDocument(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockClientTypes.ImplicitFilterConfiguration {
+
+    static func write(value: BedrockClientTypes.ImplicitFilterConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["metadataAttributes"].writeList(value.metadataAttributes, memberWritingClosure: BedrockClientTypes.MetadataAttributeSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["modelArn"].write(value.modelArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.ImplicitFilterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.ImplicitFilterConfiguration()
+        value.metadataAttributes = try reader["metadataAttributes"].readListIfPresent(memberReadingClosure: BedrockClientTypes.MetadataAttributeSchema.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockClientTypes.MetadataAttributeSchema {
+
+    static func write(value: BedrockClientTypes.MetadataAttributeSchema?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["key"].write(value.key)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.MetadataAttributeSchema {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.MetadataAttributeSchema()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["description"].readIfPresent() ?? ""
         return value
     }
 }

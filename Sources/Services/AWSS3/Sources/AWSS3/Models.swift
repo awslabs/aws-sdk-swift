@@ -1913,6 +1913,27 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
+    /// A container of a key value name pair.
+    public struct Tag: Swift.Sendable {
+        /// Name of the object key.
+        /// This member is required.
+        public var key: Swift.String?
+        /// Value of the tag.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension S3ClientTypes {
+
     /// The configuration information for the bucket.
     public struct CreateBucketConfiguration: Swift.Sendable {
         /// Specifies the information about the bucket that will be created. This functionality is only supported by directory buckets.
@@ -1921,15 +1942,19 @@ extension S3ClientTypes {
         public var location: S3ClientTypes.LocationInfo?
         /// Specifies the Region where the bucket will be created. You might choose a Region to optimize latency, minimize costs, or address regulatory requirements. For example, if you reside in Europe, you will probably find it advantageous to create buckets in the Europe (Ireland) Region. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1) by default. Configurations using the value EU will create a bucket in eu-west-1. For a list of the valid values for all of the Amazon Web Services Regions, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region). This functionality is not supported for directory buckets.
         public var locationConstraint: S3ClientTypes.BucketLocationConstraint?
+        /// An array of tags that you can apply to the bucket that you're creating. Tags are key-value pairs of metadata used to categorize and organize your buckets, track costs, and control access. This parameter is only supported for S3 directory buckets. For more information, see [Using tags with directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html).
+        public var tags: [S3ClientTypes.Tag]?
 
         public init(
             bucket: S3ClientTypes.BucketInfo? = nil,
             location: S3ClientTypes.LocationInfo? = nil,
-            locationConstraint: S3ClientTypes.BucketLocationConstraint? = nil
+            locationConstraint: S3ClientTypes.BucketLocationConstraint? = nil,
+            tags: [S3ClientTypes.Tag]? = nil
         ) {
             self.bucket = bucket
             self.location = location
             self.locationConstraint = locationConstraint
+            self.tags = tags
         }
     }
 }
@@ -2016,12 +2041,16 @@ public struct CreateBucketInput: Swift.Sendable {
 }
 
 public struct CreateBucketOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the S3 bucket. ARNs uniquely identify Amazon Web Services resources across all of Amazon Web Services. This parameter is only supported for S3 directory buckets. For more information, see [Using tags with directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html).
+    public var bucketArn: Swift.String?
     /// A forward slash followed by the name of the bucket.
     public var location: Swift.String?
 
     public init(
+        bucketArn: Swift.String? = nil,
         location: Swift.String? = nil
     ) {
+        self.bucketArn = bucketArn
         self.location = location
     }
 }
@@ -4263,27 +4292,6 @@ public struct GetBucketAnalyticsConfigurationInput: Swift.Sendable {
         self.bucket = bucket
         self.expectedBucketOwner = expectedBucketOwner
         self.id = id
-    }
-}
-
-extension S3ClientTypes {
-
-    /// A container of a key value name pair.
-    public struct Tag: Swift.Sendable {
-        /// Name of the object key.
-        /// This member is required.
-        public var key: Swift.String?
-        /// Value of the tag.
-        /// This member is required.
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.key = key
-            self.value = value
-        }
     }
 }
 
@@ -6654,7 +6662,7 @@ extension S3ClientTypes {
         public var metrics: S3ClientTypes.Metrics?
         /// A container specifying S3 Replication Time Control (S3 RTC), including whether S3 RTC is enabled and the time when all objects and operations on objects must be replicated. Must be specified together with a Metrics block.
         public var replicationTime: S3ClientTypes.ReplicationTime?
-        /// The storage class to use when replicating objects, such as S3 Standard or reduced redundancy. By default, Amazon S3 uses the storage class of the source object to create the object replica. For valid values, see the StorageClass element of the [PUT Bucket replication](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTreplication.html) action in the Amazon S3 API Reference.
+        /// The storage class to use when replicating objects, such as S3 Standard or reduced redundancy. By default, Amazon S3 uses the storage class of the source object to create the object replica. For valid values, see the StorageClass element of the [PUT Bucket replication](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTreplication.html) action in the Amazon S3 API Reference. FSX_OPENZFS is not an accepted value when replicating objects.
         public var storageClass: S3ClientTypes.StorageClass?
 
         public init(
@@ -8501,6 +8509,8 @@ public struct HeadBucketInput: Swift.Sendable {
 public struct HeadBucketOutput: Swift.Sendable {
     /// Indicates whether the bucket name used in the request is an access point alias. For directory buckets, the value of this field is false.
     public var accessPointAlias: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the S3 bucket. ARNs uniquely identify Amazon Web Services resources across all of Amazon Web Services. This parameter is only supported for S3 directory buckets. For more information, see [Using tags with directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html).
+    public var bucketArn: Swift.String?
     /// The name of the location where the bucket will be created. For directory buckets, the Zone ID of the Availability Zone or the Local Zone where the bucket is created. An example Zone ID value for an Availability Zone is usw2-az1. This functionality is only supported by directory buckets.
     public var bucketLocationName: Swift.String?
     /// The type of location where the bucket is created. This functionality is only supported by directory buckets.
@@ -8510,11 +8520,13 @@ public struct HeadBucketOutput: Swift.Sendable {
 
     public init(
         accessPointAlias: Swift.Bool? = nil,
+        bucketArn: Swift.String? = nil,
         bucketLocationName: Swift.String? = nil,
         bucketLocationType: S3ClientTypes.LocationType? = nil,
         bucketRegion: Swift.String? = nil
     ) {
         self.accessPointAlias = accessPointAlias
+        self.bucketArn = bucketArn
         self.bucketLocationName = bucketLocationName
         self.bucketLocationType = bucketLocationType
         self.bucketRegion = bucketRegion
@@ -9048,6 +9060,8 @@ extension S3ClientTypes {
 
     /// In terms of implementation, a Bucket is a resource.
     public struct Bucket: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the S3 bucket. ARNs uniquely identify Amazon Web Services resources across all of Amazon Web Services. This parameter is only supported for S3 directory buckets. For more information, see [Using tags with directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html).
+        public var bucketArn: Swift.String?
         /// BucketRegion indicates the Amazon Web Services region where the bucket is located. If the request contains at least one valid parameter, it is included in the response.
         public var bucketRegion: Swift.String?
         /// Date the bucket was created. This date can change when making changes to your bucket, such as editing its bucket policy.
@@ -9056,10 +9070,12 @@ extension S3ClientTypes {
         public var name: Swift.String?
 
         public init(
+            bucketArn: Swift.String? = nil,
             bucketRegion: Swift.String? = nil,
             creationDate: Foundation.Date? = nil,
             name: Swift.String? = nil
         ) {
+            self.bucketArn = bucketArn
             self.bucketRegion = bucketRegion
             self.creationDate = creationDate
             self.name = name
@@ -9151,7 +9167,7 @@ public struct ListMultipartUploadsInput: Swift.Sendable {
     /// The name of the bucket to which the multipart upload was initiated. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide. Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
-    /// Character you use to group keys. All keys that contain the same string between the prefix, if specified, and the first occurrence of the delimiter after the prefix are grouped under a single result element, CommonPrefixes. If you don't specify the prefix parameter, then the substring starts at the beginning of the key. The keys that are grouped under CommonPrefixes result element are not returned elsewhere in the response. Directory buckets - For directory buckets, / is the only supported delimiter.
+    /// Character you use to group keys. All keys that contain the same string between the prefix, if specified, and the first occurrence of the delimiter after the prefix are grouped under a single result element, CommonPrefixes. If you don't specify the prefix parameter, then the substring starts at the beginning of the key. The keys that are grouped under CommonPrefixes result element are not returned elsewhere in the response. CommonPrefixes is filtered out from results if it is not lexicographically greater than the key-marker. Directory buckets - For directory buckets, / is the only supported delimiter.
     public var delimiter: Swift.String?
     /// Encoding type used by Amazon S3 to encode the [object keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html) in the response. Responses are encoded only in UTF-8. An object key can contain any Unicode character. However, the XML 1.0 parser can't parse certain characters, such as characters with an ASCII value from 0 to 10. For characters that aren't supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response. For more information about characters to avoid in object key names, see [Object key naming guidelines](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-guidelines). When using the URL encoding type, non-ASCII characters that are used in an object's key name will be percent-encoded according to UTF-8 code values. For example, the object test_file(3).png will appear as test_file%283%29.png.
     public var encodingType: S3ClientTypes.EncodingType?
@@ -9361,7 +9377,7 @@ public struct ListObjectsInput: Swift.Sendable {
     /// The name of the bucket containing the objects. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide. Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
-    /// A delimiter is a character that you use to group keys.
+    /// A delimiter is a character that you use to group keys. CommonPrefixes is filtered out from results if it is not lexicographically greater than the key-marker.
     public var delimiter: Swift.String?
     /// Encoding type used by Amazon S3 to encode the [object keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html) in the response. Responses are encoded only in UTF-8. An object key can contain any Unicode character. However, the XML 1.0 parser can't parse certain characters, such as characters with an ASCII value from 0 to 10. For characters that aren't supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response. For more information about characters to avoid in object key names, see [Object key naming guidelines](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-guidelines). When using the URL encoding type, non-ASCII characters that are used in an object's key name will be percent-encoded according to UTF-8 code values. For example, the object test_file(3).png will appear as test_file%283%29.png.
     public var encodingType: S3ClientTypes.EncodingType?
@@ -9592,7 +9608,7 @@ public struct ListObjectsV2Input: Swift.Sendable {
     public var bucket: Swift.String?
     /// ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key. You can use this ContinuationToken for pagination of the list results.
     public var continuationToken: Swift.String?
-    /// A delimiter is a character that you use to group keys.
+    /// A delimiter is a character that you use to group keys. CommonPrefixes is filtered out from results if it is not lexicographically greater than the StartAfter value.
     ///
     /// * Directory buckets - For directory buckets, / is the only supported delimiter.
     ///
@@ -9709,7 +9725,7 @@ public struct ListObjectVersionsInput: Swift.Sendable {
     /// The bucket name that contains the objects.
     /// This member is required.
     public var bucket: Swift.String?
-    /// A delimiter is a character that you specify to group keys. All keys that contain the same string between the prefix and the first occurrence of the delimiter are grouped under a single result element in CommonPrefixes. These groups are counted as one result against the max-keys limitation. These keys are not returned elsewhere in the response.
+    /// A delimiter is a character that you specify to group keys. All keys that contain the same string between the prefix and the first occurrence of the delimiter are grouped under a single result element in CommonPrefixes. These groups are counted as one result against the max-keys limitation. These keys are not returned elsewhere in the response. CommonPrefixes is filtered out from results if it is not lexicographically greater than the key-marker.
     public var delimiter: Swift.String?
     /// Encoding type used by Amazon S3 to encode the [object keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html) in the response. Responses are encoded only in UTF-8. An object key can contain any Unicode character. However, the XML 1.0 parser can't parse certain characters, such as characters with an ASCII value from 0 to 10. For characters that aren't supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response. For more information about characters to avoid in object key names, see [Object key naming guidelines](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-guidelines). When using the URL encoding type, non-ASCII characters that are used in an object's key name will be percent-encoded according to UTF-8 code values. For example, the object test_file(3).png will appear as test_file%283%29.png.
     public var encodingType: S3ClientTypes.EncodingType?
@@ -17464,6 +17480,9 @@ extension CreateBucketOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateBucketOutput {
         var value = CreateBucketOutput()
+        if let bucketArnHeaderValue = httpResponse.headers.value(for: "x-amz-bucket-arn") {
+            value.bucketArn = bucketArnHeaderValue
+        }
         if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
             value.location = locationHeaderValue
         }
@@ -18231,6 +18250,9 @@ extension HeadBucketOutput {
         var value = HeadBucketOutput()
         if let accessPointAliasHeaderValue = httpResponse.headers.value(for: "x-amz-access-point-alias") {
             value.accessPointAlias = Swift.Bool(accessPointAliasHeaderValue) ?? false
+        }
+        if let bucketArnHeaderValue = httpResponse.headers.value(for: "x-amz-bucket-arn") {
+            value.bucketArn = bucketArnHeaderValue
         }
         if let bucketLocationNameHeaderValue = httpResponse.headers.value(for: "x-amz-bucket-location-name") {
             value.bucketLocationName = bucketLocationNameHeaderValue
@@ -22213,6 +22235,7 @@ extension S3ClientTypes.Bucket {
         value.name = try reader["Name"].readIfPresent()
         value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.bucketRegion = try reader["BucketRegion"].readIfPresent()
+        value.bucketArn = try reader["BucketArn"].readIfPresent()
         return value
     }
 }
@@ -22451,6 +22474,7 @@ extension S3ClientTypes.CreateBucketConfiguration {
         try writer["Bucket"].write(value.bucket, with: S3ClientTypes.BucketInfo.write(value:to:))
         try writer["Location"].write(value.location, with: S3ClientTypes.LocationInfo.write(value:to:))
         try writer["LocationConstraint"].write(value.locationConstraint)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
     }
 }
 

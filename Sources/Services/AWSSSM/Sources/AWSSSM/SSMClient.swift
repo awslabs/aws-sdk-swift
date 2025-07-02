@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSMClient: ClientRuntime.Client {
     public static let clientName = "SSMClient"
-    public static let version = "1.3.46"
+    public static let version = "1.3.49"
     let client: ClientRuntime.SdkHttpClient
     let config: SSMClient.SSMClientConfiguration
     let serviceName = "SSM"
@@ -939,6 +939,7 @@ extension SSMClient {
     /// - `InvalidDocumentContent` : The content for the document isn't valid.
     /// - `InvalidDocumentSchemaVersion` : The version of the document schema isn't supported.
     /// - `MaxDocumentSizeExceeded` : The size limit of a document is 64 KB.
+    /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
     public func createDocument(input: CreateDocumentInput) async throws -> CreateDocumentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1518,6 +1519,7 @@ extension SSMClient {
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidDocument` : The specified SSM document doesn't exist.
     /// - `InvalidDocumentOperation` : You attempted to delete a document while it is still shared. You must stop sharing the document before you can delete it.
+    /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
     public func deleteDocument(input: DeleteDocumentInput) async throws -> DeleteDocumentOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10248,6 +10250,7 @@ extension SSMClient {
     /// - `InvalidDocument` : The specified SSM document doesn't exist.
     /// - `InvalidDocumentOperation` : You attempted to delete a document while it is still shared. You must stop sharing the document before you can delete it.
     /// - `InvalidDocumentVersion` : The document version isn't valid or doesn't exist.
+    /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
     public func updateDocumentMetadata(input: UpdateDocumentMetadataInput) async throws -> UpdateDocumentMetadataOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)

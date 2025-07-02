@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CleanRoomsMLClient: ClientRuntime.Client {
     public static let clientName = "CleanRoomsMLClient"
-    public static let version = "1.3.46"
+    public static let version = "1.3.49"
     let client: ClientRuntime.SdkHttpClient
     let config: CleanRoomsMLClient.CleanRoomsMLClientConfiguration
     let serviceName = "CleanRoomsML"
@@ -383,6 +383,7 @@ extension CleanRoomsMLClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : You can't complete this action because another resource depends on this resource.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func cancelTrainedModel(input: CancelTrainedModelInput) async throws -> CancelTrainedModelOutput {
         let context = Smithy.ContextBuilder()
@@ -407,6 +408,7 @@ extension CleanRoomsMLClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelTrainedModelInput, CancelTrainedModelOutput>(CancelTrainedModelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelTrainedModelInput, CancelTrainedModelOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<CancelTrainedModelInput, CancelTrainedModelOutput>(CancelTrainedModelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelTrainedModelOutput>(CancelTrainedModelOutput.httpOutput(from:), CancelTrainedModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelTrainedModelInput, CancelTrainedModelOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -450,6 +452,7 @@ extension CleanRoomsMLClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : You can't complete this action because another resource depends on this resource.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func cancelTrainedModelInferenceJob(input: CancelTrainedModelInferenceJobInput) async throws -> CancelTrainedModelInferenceJobOutput {
         let context = Smithy.ContextBuilder()
@@ -730,6 +733,7 @@ extension CleanRoomsMLClient {
     /// - `ConflictException` : You can't complete this action because another resource depends on this resource.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func createConfiguredModelAlgorithmAssociation(input: CreateConfiguredModelAlgorithmAssociationInput) async throws -> CreateConfiguredModelAlgorithmAssociationOutput {
         let context = Smithy.ContextBuilder()
@@ -801,6 +805,7 @@ extension CleanRoomsMLClient {
     /// - `ConflictException` : You can't complete this action because another resource depends on this resource.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func createMLInputChannel(input: CreateMLInputChannelInput) async throws -> CreateMLInputChannelOutput {
         let context = Smithy.ContextBuilder()
@@ -870,8 +875,10 @@ extension CleanRoomsMLClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : You can't complete this action because another resource depends on this resource.
+    /// - `InternalServiceException` : An internal service error occurred. Retry your request. If the problem persists, contact AWS Support.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func createTrainedModel(input: CreateTrainedModelInput) async throws -> CreateTrainedModelOutput {
         let context = Smithy.ContextBuilder()
@@ -1345,6 +1352,7 @@ extension CleanRoomsMLClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : You can't complete this action because another resource depends on this resource.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func deleteConfiguredModelAlgorithmAssociation(input: DeleteConfiguredModelAlgorithmAssociationInput) async throws -> DeleteConfiguredModelAlgorithmAssociationOutput {
         let context = Smithy.ContextBuilder()
@@ -1411,6 +1419,7 @@ extension CleanRoomsMLClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func deleteMLConfiguration(input: DeleteMLConfigurationInput) async throws -> DeleteMLConfigurationOutput {
         let context = Smithy.ContextBuilder()
@@ -1478,6 +1487,7 @@ extension CleanRoomsMLClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : You can't complete this action because another resource depends on this resource.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func deleteMLInputChannelData(input: DeleteMLInputChannelDataInput) async throws -> DeleteMLInputChannelDataOutput {
         let context = Smithy.ContextBuilder()
@@ -1533,7 +1543,7 @@ extension CleanRoomsMLClient {
 
     /// Performs the `DeleteTrainedModelOutput` operation on the `CleanRoomsML` service.
     ///
-    /// Deletes the output of a trained model.
+    /// Deletes the model artifacts stored by the service.
     ///
     /// - Parameter DeleteTrainedModelOutputInput : [no documentation found]
     ///
@@ -1545,6 +1555,7 @@ extension CleanRoomsMLClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : You can't complete this action because another resource depends on this resource.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func deleteTrainedModelOutput(input: DeleteTrainedModelOutputInput) async throws -> DeleteTrainedModelOutputOutput {
         let context = Smithy.ContextBuilder()
@@ -1569,6 +1580,7 @@ extension CleanRoomsMLClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTrainedModelOutputInput, DeleteTrainedModelOutputOutput>(DeleteTrainedModelOutputInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTrainedModelOutputInput, DeleteTrainedModelOutputOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteTrainedModelOutputInput, DeleteTrainedModelOutputOutput>(DeleteTrainedModelOutputInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrainedModelOutputOutput>(DeleteTrainedModelOutputOutput.httpOutput(from:), DeleteTrainedModelOutputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrainedModelOutputInput, DeleteTrainedModelOutputOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -1810,6 +1822,7 @@ extension CleanRoomsMLClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func getCollaborationConfiguredModelAlgorithmAssociation(input: GetCollaborationConfiguredModelAlgorithmAssociationInput) async throws -> GetCollaborationConfiguredModelAlgorithmAssociationOutput {
         let context = Smithy.ContextBuilder()
@@ -1876,6 +1889,7 @@ extension CleanRoomsMLClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func getCollaborationMLInputChannel(input: GetCollaborationMLInputChannelInput) async throws -> GetCollaborationMLInputChannelOutput {
         let context = Smithy.ContextBuilder()
@@ -1942,6 +1956,7 @@ extension CleanRoomsMLClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func getCollaborationTrainedModel(input: GetCollaborationTrainedModelInput) async throws -> GetCollaborationTrainedModelOutput {
         let context = Smithy.ContextBuilder()
@@ -1966,6 +1981,7 @@ extension CleanRoomsMLClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCollaborationTrainedModelInput, GetCollaborationTrainedModelOutput>(GetCollaborationTrainedModelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCollaborationTrainedModelInput, GetCollaborationTrainedModelOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetCollaborationTrainedModelInput, GetCollaborationTrainedModelOutput>(GetCollaborationTrainedModelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCollaborationTrainedModelOutput>(GetCollaborationTrainedModelOutput.httpOutput(from:), GetCollaborationTrainedModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCollaborationTrainedModelInput, GetCollaborationTrainedModelOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2206,6 +2222,7 @@ extension CleanRoomsMLClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func getConfiguredModelAlgorithmAssociation(input: GetConfiguredModelAlgorithmAssociationInput) async throws -> GetConfiguredModelAlgorithmAssociationOutput {
         let context = Smithy.ContextBuilder()
@@ -2272,6 +2289,7 @@ extension CleanRoomsMLClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func getMLConfiguration(input: GetMLConfigurationInput) async throws -> GetMLConfigurationOutput {
         let context = Smithy.ContextBuilder()
@@ -2338,6 +2356,7 @@ extension CleanRoomsMLClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func getMLInputChannel(input: GetMLInputChannelInput) async throws -> GetMLInputChannelOutput {
         let context = Smithy.ContextBuilder()
@@ -2404,6 +2423,7 @@ extension CleanRoomsMLClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func getTrainedModel(input: GetTrainedModelInput) async throws -> GetTrainedModelOutput {
         let context = Smithy.ContextBuilder()
@@ -2428,6 +2448,7 @@ extension CleanRoomsMLClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTrainedModelInput, GetTrainedModelOutput>(GetTrainedModelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTrainedModelInput, GetTrainedModelOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetTrainedModelInput, GetTrainedModelOutput>(GetTrainedModelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrainedModelOutput>(GetTrainedModelOutput.httpOutput(from:), GetTrainedModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrainedModelInput, GetTrainedModelOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
@@ -2470,6 +2491,7 @@ extension CleanRoomsMLClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func getTrainedModelInferenceJob(input: GetTrainedModelInferenceJobInput) async throws -> GetTrainedModelInferenceJobOutput {
         let context = Smithy.ContextBuilder()
@@ -2799,6 +2821,7 @@ extension CleanRoomsMLClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func listCollaborationConfiguredModelAlgorithmAssociations(input: ListCollaborationConfiguredModelAlgorithmAssociationsInput) async throws -> ListCollaborationConfiguredModelAlgorithmAssociationsOutput {
         let context = Smithy.ContextBuilder()
@@ -2865,6 +2888,7 @@ extension CleanRoomsMLClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func listCollaborationMLInputChannels(input: ListCollaborationMLInputChannelsInput) async throws -> ListCollaborationMLInputChannelsOutput {
         let context = Smithy.ContextBuilder()
@@ -2931,6 +2955,7 @@ extension CleanRoomsMLClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func listCollaborationTrainedModelExportJobs(input: ListCollaborationTrainedModelExportJobsInput) async throws -> ListCollaborationTrainedModelExportJobsOutput {
         let context = Smithy.ContextBuilder()
@@ -2997,6 +3022,7 @@ extension CleanRoomsMLClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func listCollaborationTrainedModelInferenceJobs(input: ListCollaborationTrainedModelInferenceJobsInput) async throws -> ListCollaborationTrainedModelInferenceJobsOutput {
         let context = Smithy.ContextBuilder()
@@ -3063,6 +3089,7 @@ extension CleanRoomsMLClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func listCollaborationTrainedModels(input: ListCollaborationTrainedModelsInput) async throws -> ListCollaborationTrainedModelsOutput {
         let context = Smithy.ContextBuilder()
@@ -3195,6 +3222,7 @@ extension CleanRoomsMLClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func listConfiguredModelAlgorithmAssociations(input: ListConfiguredModelAlgorithmAssociationsInput) async throws -> ListConfiguredModelAlgorithmAssociationsOutput {
         let context = Smithy.ContextBuilder()
@@ -3327,6 +3355,7 @@ extension CleanRoomsMLClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func listMLInputChannels(input: ListMLInputChannelsInput) async throws -> ListMLInputChannelsOutput {
         let context = Smithy.ContextBuilder()
@@ -3459,6 +3488,7 @@ extension CleanRoomsMLClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func listTrainedModelInferenceJobs(input: ListTrainedModelInferenceJobsInput) async throws -> ListTrainedModelInferenceJobsOutput {
         let context = Smithy.ContextBuilder()
@@ -3513,6 +3543,74 @@ extension CleanRoomsMLClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListTrainedModelVersions` operation on the `CleanRoomsML` service.
+    ///
+    /// Returns a list of trained model versions for a specified trained model. This operation allows you to view all versions of a trained model, including information about their status and creation details. You can use this to track the evolution of your trained models and select specific versions for inference or further training.
+    ///
+    /// - Parameter ListTrainedModelVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTrainedModelVersionsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request parameters for this request are incorrect.
+    public func listTrainedModelVersions(input: ListTrainedModelVersionsInput) async throws -> ListTrainedModelVersionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listTrainedModelVersions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cleanrooms-ml")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListTrainedModelVersionsInput, ListTrainedModelVersionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListTrainedModelVersionsInput, ListTrainedModelVersionsOutput>(ListTrainedModelVersionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTrainedModelVersionsInput, ListTrainedModelVersionsOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListTrainedModelVersionsInput, ListTrainedModelVersionsOutput>(ListTrainedModelVersionsInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrainedModelVersionsOutput>(ListTrainedModelVersionsOutput.httpOutput(from:), ListTrainedModelVersionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrainedModelVersionsInput, ListTrainedModelVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListTrainedModelVersionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("CleanRoomsML", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListTrainedModelVersionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListTrainedModelVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListTrainedModelVersionsInput, ListTrainedModelVersionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListTrainedModelVersionsInput, ListTrainedModelVersionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListTrainedModelVersionsInput, ListTrainedModelVersionsOutput>(serviceID: serviceName, version: CleanRoomsMLClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "CleanRoomsML")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTrainedModelVersions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListTrainedModels` operation on the `CleanRoomsML` service.
     ///
     /// Returns a list of trained models.
@@ -3525,6 +3623,7 @@ extension CleanRoomsMLClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func listTrainedModels(input: ListTrainedModelsInput) async throws -> ListTrainedModelsOutput {
         let context = Smithy.ContextBuilder()
@@ -3726,6 +3825,7 @@ extension CleanRoomsMLClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func putMLConfiguration(input: PutMLConfigurationInput) async throws -> PutMLConfigurationOutput {
         let context = Smithy.ContextBuilder()
@@ -3868,6 +3968,7 @@ extension CleanRoomsMLClient {
     /// - `ConflictException` : You can't complete this action because another resource depends on this resource.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func startAudienceGenerationJob(input: StartAudienceGenerationJobInput) async throws -> StartAudienceGenerationJobOutput {
         let context = Smithy.ContextBuilder()
@@ -3938,6 +4039,7 @@ extension CleanRoomsMLClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : You can't complete this action because another resource depends on this resource.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func startTrainedModelExportJob(input: StartTrainedModelExportJobInput) async throws -> StartTrainedModelExportJobOutput {
         let context = Smithy.ContextBuilder()
@@ -4009,6 +4111,7 @@ extension CleanRoomsMLClient {
     /// - `ConflictException` : You can't complete this action because another resource depends on this resource.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func startTrainedModelInferenceJob(input: StartTrainedModelInferenceJobInput) async throws -> StartTrainedModelInferenceJobOutput {
         let context = Smithy.ContextBuilder()

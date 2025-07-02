@@ -55,6 +55,11 @@ public struct DefaultBedrockAuthSchemeResolver: BedrockAuthSchemeResolver {
                 sigv4Option.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSSOClientKey, value: InternalAWSSSO.IdentityProvidingSSOClient())
                 sigv4Option.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSSOOIDCClientKey, value: InternalAWSSSOOIDC.IdentityProvidingSSOOIDCClient())
                 validAuthOptions.append(sigv4Option)
+                var httpBearerAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth")
+                httpBearerAuthOption.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSTSClientKey, value: InternalAWSSTS.IdentityProvidingSTSClient())
+                httpBearerAuthOption.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSSOClientKey, value: InternalAWSSSO.IdentityProvidingSSOClient())
+                httpBearerAuthOption.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSSOOIDCClientKey, value: InternalAWSSSOOIDC.IdentityProvidingSSOOIDCClient())
+                validAuthOptions.append(httpBearerAuthOption)
         }
         return self.reprioritizeAuthOptions(authSchemePreference: authSchemePreference, authOptions: validAuthOptions)
     }

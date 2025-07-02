@@ -8591,6 +8591,157 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    public enum ParticipantType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agent
+        case all
+        case customer
+        case manager
+        case thirdparty
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ParticipantType] {
+            return [
+                .agent,
+                .all,
+                .customer,
+                .manager,
+                .thirdparty
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .agent: return "AGENT"
+            case .all: return "ALL"
+            case .customer: return "CUSTOMER"
+            case .manager: return "MANAGER"
+            case .thirdparty: return "THIRDPARTY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about a participant's interactions in a contact.
+    public struct ParticipantMetrics: Swift.Sendable {
+        /// A boolean flag indicating whether the chat conversation was abandoned by a Participant.
+        public var conversationAbandon: Swift.Bool?
+        /// Timestamp of last chat message by Participant.
+        public var lastMessageTimestamp: Foundation.Date?
+        /// Maximum chat response time by Participant.
+        public var maxResponseTimeInMillis: Swift.Int?
+        /// Number of chat characters sent by Participant.
+        public var messageLengthInChars: Swift.Int?
+        /// Number of chat messages sent by Participant.
+        public var messagesSent: Swift.Int?
+        /// Number of chat messages sent by Participant.
+        public var numResponses: Swift.Int?
+        /// The Participant's ID.
+        public var participantId: Swift.String?
+        /// Information about the conversation participant. Following are the participant types: [Agent, Customer, Supervisor].
+        public var participantType: ConnectClientTypes.ParticipantType?
+        /// Total chat response time by Participant.
+        public var totalResponseTimeInMillis: Swift.Int?
+
+        public init(
+            conversationAbandon: Swift.Bool? = nil,
+            lastMessageTimestamp: Foundation.Date? = nil,
+            maxResponseTimeInMillis: Swift.Int? = nil,
+            messageLengthInChars: Swift.Int? = nil,
+            messagesSent: Swift.Int? = nil,
+            numResponses: Swift.Int? = nil,
+            participantId: Swift.String? = nil,
+            participantType: ConnectClientTypes.ParticipantType? = nil,
+            totalResponseTimeInMillis: Swift.Int? = nil
+        ) {
+            self.conversationAbandon = conversationAbandon
+            self.lastMessageTimestamp = lastMessageTimestamp
+            self.maxResponseTimeInMillis = maxResponseTimeInMillis
+            self.messageLengthInChars = messageLengthInChars
+            self.messagesSent = messagesSent
+            self.numResponses = numResponses
+            self.participantId = participantId
+            self.participantType = participantType
+            self.totalResponseTimeInMillis = totalResponseTimeInMillis
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about the overall participant interactions at the contact level.
+    public struct ChatContactMetrics: Swift.Sendable {
+        /// The time for an agent to respond after obtaining a chat contact.
+        public var agentFirstResponseTimeInMillis: Swift.Int?
+        /// The agent first response timestamp for a chat contact.
+        public var agentFirstResponseTimestamp: Foundation.Date?
+        /// The time it took for a contact to end after the last customer message.
+        public var conversationCloseTimeInMillis: Swift.Int?
+        /// The number of conversation turns in a chat contact, which represents the back-and-forth exchanges between customer and other participants.
+        public var conversationTurnCount: Swift.Int?
+        /// A boolean flag indicating whether multiparty chat or supervisor barge were enabled on this contact.
+        public var multiParty: Swift.Bool?
+        /// The total number of characters from bot and automated messages on a chat contact.
+        public var totalBotMessageLengthInChars: Swift.Int?
+        /// The total number of bot and automated messages on a chat contact.
+        public var totalBotMessages: Swift.Int?
+        /// The number of chat messages on the contact.
+        public var totalMessages: Swift.Int?
+
+        public init(
+            agentFirstResponseTimeInMillis: Swift.Int? = nil,
+            agentFirstResponseTimestamp: Foundation.Date? = nil,
+            conversationCloseTimeInMillis: Swift.Int? = nil,
+            conversationTurnCount: Swift.Int? = nil,
+            multiParty: Swift.Bool? = nil,
+            totalBotMessageLengthInChars: Swift.Int? = nil,
+            totalBotMessages: Swift.Int? = nil,
+            totalMessages: Swift.Int? = nil
+        ) {
+            self.agentFirstResponseTimeInMillis = agentFirstResponseTimeInMillis
+            self.agentFirstResponseTimestamp = agentFirstResponseTimestamp
+            self.conversationCloseTimeInMillis = conversationCloseTimeInMillis
+            self.conversationTurnCount = conversationTurnCount
+            self.multiParty = multiParty
+            self.totalBotMessageLengthInChars = totalBotMessageLengthInChars
+            self.totalBotMessages = totalBotMessages
+            self.totalMessages = totalMessages
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about how agent, bot, and customer interact in a chat contact.
+    public struct ChatMetrics: Swift.Sendable {
+        /// Information about agent interactions in a contact.
+        public var agentMetrics: ConnectClientTypes.ParticipantMetrics?
+        /// Information about the overall participant interactions at the contact level.
+        public var chatContactMetrics: ConnectClientTypes.ChatContactMetrics?
+        /// Information about customer interactions in a contact.
+        public var customerMetrics: ConnectClientTypes.ParticipantMetrics?
+
+        public init(
+            agentMetrics: ConnectClientTypes.ParticipantMetrics? = nil,
+            chatContactMetrics: ConnectClientTypes.ChatContactMetrics? = nil,
+            customerMetrics: ConnectClientTypes.ParticipantMetrics? = nil
+        ) {
+            self.agentMetrics = agentMetrics
+            self.chatContactMetrics = chatContactMetrics
+            self.customerMetrics = customerMetrics
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// A map of string key/value pairs that contain user-defined attributes which are lightly typed within the contact. This object is used only for task contacts.
     public struct ContactDetails: Swift.Sendable {
         /// Teh description of the contact details.
@@ -8831,44 +8982,6 @@ extension ConnectClientTypes {
             switch self {
             case .audio: return "AUDIO"
             case .video: return "VIDEO"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
-    public enum ParticipantType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case agent
-        case all
-        case customer
-        case manager
-        case thirdparty
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ParticipantType] {
-            return [
-                .agent,
-                .all,
-                .customer,
-                .manager,
-                .thirdparty
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .agent: return "AGENT"
-            case .all: return "ALL"
-            case .customer: return "CUSTOMER"
-            case .manager: return "MANAGER"
-            case .thirdparty: return "THIRDPARTY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -24638,7 +24751,7 @@ extension ConnectClientTypes {
 public struct CreateContactInput: Swift.Sendable {
     /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     public var attributes: [Swift.String: Swift.String]?
-    /// The channel for the contact CreateContact only supports the EMAIL and VOICE channels. The following information that states other channels are supported is incorrect. We are working to update this topic.
+    /// The channel for the contact. The CHAT channel is not supported. The following information is incorrect. We're working to correct it.
     /// This member is required.
     public var channel: ConnectClientTypes.Channel?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
@@ -24647,16 +24760,18 @@ public struct CreateContactInput: Swift.Sendable {
     public var description: Swift.String?
     /// Number of minutes the contact will be active for before expiring
     public var expiryDurationInMinutes: Swift.Int?
-    /// Initial state of the contact when it's created
+    /// Initial state of the contact when it's created. Only TASK channel contacts can be initiated with COMPLETED state.
     public var initiateAs: ConnectClientTypes.InitiateAs?
-    /// Indicates how the contact was initiated. CreateContact only supports the following initiation methods:
+    /// Indicates how the contact was initiated. CreateContact only supports the following initiation methods. Valid values by channel are:
     ///
-    /// * For EMAIL: OUTBOUND, AGENT_REPLY, and FLOW.
+    /// * For VOICE: TRANSFER and the subtype connect:ExternalAudio
     ///
-    /// * For VOICE: TRANSFER and the subtype connect:ExternalAudio.
+    /// * For EMAIL: OUTBOUND | AGENT_REPLY | FLOW
+    ///
+    /// * For TASK: API
     ///
     ///
-    /// The following information that states other initiation methods are supported is incorrect. We are working to update this topic.
+    /// The other channels listed below are incorrect. We're working to correct this information.
     /// This member is required.
     public var initiationMethod: ConnectClientTypes.ContactInitiationMethod?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
@@ -25677,6 +25792,8 @@ extension ConnectClientTypes {
         public var campaign: ConnectClientTypes.Campaign?
         /// How the contact reached your contact center.
         public var channel: ConnectClientTypes.Channel?
+        /// Information about how agent, bot, and customer interact in a chat contact.
+        public var chatMetrics: ConnectClientTypes.ChatMetrics?
         /// The timestamp when customer endpoint connected to Amazon Connect.
         public var connectedToSystemTimestamp: Foundation.Date?
         /// This is the root contactId which is used as a unique identifier for all subsequent contacts in a contact tree.
@@ -25756,6 +25873,7 @@ extension ConnectClientTypes {
             attributes: [Swift.String: Swift.String]? = nil,
             campaign: ConnectClientTypes.Campaign? = nil,
             channel: ConnectClientTypes.Channel? = nil,
+            chatMetrics: ConnectClientTypes.ChatMetrics? = nil,
             connectedToSystemTimestamp: Foundation.Date? = nil,
             contactAssociationId: Swift.String? = nil,
             contactDetails: ConnectClientTypes.ContactDetails? = nil,
@@ -25799,6 +25917,7 @@ extension ConnectClientTypes {
             self.attributes = attributes
             self.campaign = campaign
             self.channel = channel
+            self.chatMetrics = chatMetrics
             self.connectedToSystemTimestamp = connectedToSystemTimestamp
             self.contactAssociationId = contactAssociationId
             self.contactDetails = contactDetails
@@ -25840,7 +25959,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes.Contact: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), attributes: \(Swift.String(describing: attributes)), campaign: \(Swift.String(describing: campaign)), channel: \(Swift.String(describing: channel)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), contactDetails: \(Swift.String(describing: contactDetails)), contactEvaluations: \(Swift.String(describing: contactEvaluations)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerId: \(Swift.String(describing: customerId)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectReason: \(Swift.String(describing: disconnectReason)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), recordings: \(Swift.String(describing: recordings)), relatedContactId: \(Swift.String(describing: relatedContactId)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), attributes: \(Swift.String(describing: attributes)), campaign: \(Swift.String(describing: campaign)), channel: \(Swift.String(describing: channel)), chatMetrics: \(Swift.String(describing: chatMetrics)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), contactDetails: \(Swift.String(describing: contactDetails)), contactEvaluations: \(Swift.String(describing: contactEvaluations)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerId: \(Swift.String(describing: customerId)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectReason: \(Swift.String(describing: disconnectReason)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), recordings: \(Swift.String(describing: recordings)), relatedContactId: \(Swift.String(describing: relatedContactId)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeContactOutput: Swift.Sendable {
@@ -40733,6 +40852,7 @@ extension ConnectClientTypes.Contact {
         value.answeringMachineDetectionStatus = try reader["AnsweringMachineDetectionStatus"].readIfPresent()
         value.customerVoiceActivity = try reader["CustomerVoiceActivity"].readIfPresent(with: ConnectClientTypes.CustomerVoiceActivity.read(from:))
         value.qualityMetrics = try reader["QualityMetrics"].readIfPresent(with: ConnectClientTypes.QualityMetrics.read(from:))
+        value.chatMetrics = try reader["ChatMetrics"].readIfPresent(with: ConnectClientTypes.ChatMetrics.read(from:))
         value.disconnectDetails = try reader["DisconnectDetails"].readIfPresent(with: ConnectClientTypes.DisconnectDetails.read(from:))
         value.additionalEmailRecipients = try reader["AdditionalEmailRecipients"].readIfPresent(with: ConnectClientTypes.AdditionalEmailRecipients.read(from:))
         value.segmentAttributes = try reader["SegmentAttributes"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.SegmentAttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -40838,6 +40958,53 @@ extension ConnectClientTypes.DisconnectDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.DisconnectDetails()
         value.potentialDisconnectIssue = try reader["PotentialDisconnectIssue"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.ChatMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ChatMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ChatMetrics()
+        value.chatContactMetrics = try reader["ChatContactMetrics"].readIfPresent(with: ConnectClientTypes.ChatContactMetrics.read(from:))
+        value.agentMetrics = try reader["AgentMetrics"].readIfPresent(with: ConnectClientTypes.ParticipantMetrics.read(from:))
+        value.customerMetrics = try reader["CustomerMetrics"].readIfPresent(with: ConnectClientTypes.ParticipantMetrics.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.ParticipantMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ParticipantMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ParticipantMetrics()
+        value.participantId = try reader["ParticipantId"].readIfPresent()
+        value.participantType = try reader["ParticipantType"].readIfPresent()
+        value.conversationAbandon = try reader["ConversationAbandon"].readIfPresent()
+        value.messagesSent = try reader["MessagesSent"].readIfPresent()
+        value.numResponses = try reader["NumResponses"].readIfPresent()
+        value.messageLengthInChars = try reader["MessageLengthInChars"].readIfPresent()
+        value.totalResponseTimeInMillis = try reader["TotalResponseTimeInMillis"].readIfPresent()
+        value.maxResponseTimeInMillis = try reader["MaxResponseTimeInMillis"].readIfPresent()
+        value.lastMessageTimestamp = try reader["LastMessageTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConnectClientTypes.ChatContactMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ChatContactMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ChatContactMetrics()
+        value.multiParty = try reader["MultiParty"].readIfPresent()
+        value.totalMessages = try reader["TotalMessages"].readIfPresent()
+        value.totalBotMessages = try reader["TotalBotMessages"].readIfPresent()
+        value.totalBotMessageLengthInChars = try reader["TotalBotMessageLengthInChars"].readIfPresent()
+        value.conversationCloseTimeInMillis = try reader["ConversationCloseTimeInMillis"].readIfPresent()
+        value.conversationTurnCount = try reader["ConversationTurnCount"].readIfPresent()
+        value.agentFirstResponseTimestamp = try reader["AgentFirstResponseTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.agentFirstResponseTimeInMillis = try reader["AgentFirstResponseTimeInMillis"].readIfPresent()
         return value
     }
 }
