@@ -34,13 +34,12 @@ package struct IdentityProvidingSSOClient: AWSSDKIdentity.IdentityProvidingSSOCl
         }
         var properties = Smithy.Attributes()
         if credentialFeatureIDs.last == AWSSDKIdentity.CredentialFeatureID.CREDENTIALS_PROFILE_SSO_LEGACY.rawValue {
-            properties.set(key: AWSSDKIdentity.AWSIdentityPropertyKeys.credentialFeatureIDs, value: credentialFeatureIDs + [AWSSDKIdentity.CredentialFeatureID.CREDENTIALS_PROFILE_SSO.rawValue])
+            properties.set(key: AWSSDKIdentity.AWSIdentityPropertyKeys.credentialFeatureIDs, value: credentialFeatureIDs + [AWSSDKIdentity.CredentialFeatureID.CREDENTIALS_SSO_LEGACY.rawValue])
         } else if credentialFeatureIDs.last == AWSSDKIdentity.CredentialFeatureID.CREDENTIALS_PROFILE_SSO.rawValue {
             properties.set(key: AWSSDKIdentity.AWSIdentityPropertyKeys.credentialFeatureIDs, value: credentialFeatureIDs + [AWSSDKIdentity.CredentialFeatureID.CREDENTIALS_SSO.rawValue])
         } else {
             throw AWSSDKIdentity.AWSCredentialIdentityResolverError.failedToResolveAWSCredentials("SSOAWSCredentialIdentityResolver: Invalid last feature ID found. This should never happen.")
         }
-        properties.set(key: AWSSDKIdentity.AWSIdentityPropertyKeys.credentialFeatureIDs, value: credentialFeatureIDs)
         return AWSSDKIdentity.AWSCredentialIdentity(accessKey: accessKey, secret: secretKey, accountID: accountID, expiration: expiration, sessionToken: out.roleCredentials?.sessionToken, properties: properties)
     }
 }

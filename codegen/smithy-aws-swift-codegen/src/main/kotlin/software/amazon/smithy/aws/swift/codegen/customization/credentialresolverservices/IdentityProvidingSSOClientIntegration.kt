@@ -73,7 +73,7 @@ class IdentityProvidingSSOClientIntegration : SwiftIntegration {
                     )
                     writer.indent()
                     writer.write(
-                        "properties.set(key: \$N.credentialFeatureIDs, value: credentialFeatureIDs + [\$N.CREDENTIALS_PROFILE_SSO.rawValue])",
+                        "properties.set(key: \$N.credentialFeatureIDs, value: credentialFeatureIDs + [\$N.CREDENTIALS_SSO_LEGACY.rawValue])",
                         AWSSDKIdentityTypes.AWSIdentityPropertyKeys,
                         AWSSDKIdentityTypes.CredentialFeatureID,
                     )
@@ -97,10 +97,6 @@ class IdentityProvidingSSOClientIntegration : SwiftIntegration {
                     )
                     writer.dedent()
                     writer.write("}")
-                    writer.write(
-                        "properties.set(key: \$N.credentialFeatureIDs, value: credentialFeatureIDs)",
-                        AWSSDKIdentityTypes.AWSIdentityPropertyKeys,
-                    )
                     writer.write(
                         "return \$N(accessKey: accessKey, secret: secretKey, accountID: accountID, expiration: expiration, sessionToken: out.roleCredentials?.sessionToken, properties: properties)",
                         AWSSDKIdentityTypes.AWSCredentialIdentity,
