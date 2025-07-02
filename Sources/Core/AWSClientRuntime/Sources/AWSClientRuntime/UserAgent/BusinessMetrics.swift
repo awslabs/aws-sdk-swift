@@ -39,7 +39,7 @@ struct BusinessMetrics {
 extension BusinessMetrics: CustomStringConvertible {
     var description: String {
         var commaSeparatedMetricValues = (
-            features.values + credentialFeatureIDs + manuallyConfiguredCredentialFeatureIDs
+            features.values.sorted() + credentialFeatureIDs + manuallyConfiguredCredentialFeatureIDs
         ).joined(separator: ",")
         // Cut last metric value from string until the
         //  comma-separated list of metric values are at or below 1024 bytes in size
