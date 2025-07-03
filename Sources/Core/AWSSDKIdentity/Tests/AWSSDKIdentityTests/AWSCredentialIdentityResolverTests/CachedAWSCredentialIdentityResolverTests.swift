@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import struct AWSSDKIdentity.CachedAWSCredentialIdentityResolver
+import class AWSSDKIdentity.CachedAWSCredentialIdentityResolver
 
 class CachedAWSCredentialIdentityResolverTests: XCTestCase {
 
