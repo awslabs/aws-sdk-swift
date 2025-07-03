@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EC2Client: ClientRuntime.Client {
     public static let clientName = "EC2Client"
-    public static let version = "1.3.49"
+    public static let version = "1.3.50"
     let client: ClientRuntime.SdkHttpClient
     let config: EC2Client.EC2ClientConfiguration
     let serviceName = "EC2"
@@ -2116,7 +2116,7 @@ extension EC2Client {
     ///
     /// * You can associate the security group with another VPC if your account owns the VPC or if the VPC was shared with you.
     ///
-    /// * You must own the security group and the VPC that it was created in.
+    /// * You must own the security group.
     ///
     /// * You cannot use this feature with default security groups.
     ///

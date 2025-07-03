@@ -72,7 +72,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LambdaClient: ClientRuntime.Client {
     public static let clientName = "LambdaClient"
-    public static let version = "1.3.49"
+    public static let version = "1.3.50"
     let client: ClientRuntime.SdkHttpClient
     let config: LambdaClient.LambdaClientConfiguration
     let serviceName = "Lambda"

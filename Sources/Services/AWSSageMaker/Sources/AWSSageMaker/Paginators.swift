@@ -12,6 +12,41 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension SageMakerClient {
+    /// Paginate over `[CreateHubContentPresignedUrlsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[CreateHubContentPresignedUrlsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `CreateHubContentPresignedUrlsOutput`
+    public func createHubContentPresignedUrlsPaginated(input: CreateHubContentPresignedUrlsInput) -> ClientRuntime.PaginatorSequence<CreateHubContentPresignedUrlsInput, CreateHubContentPresignedUrlsOutput> {
+        return ClientRuntime.PaginatorSequence<CreateHubContentPresignedUrlsInput, CreateHubContentPresignedUrlsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.createHubContentPresignedUrls(input:))
+    }
+}
+
+extension CreateHubContentPresignedUrlsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> CreateHubContentPresignedUrlsInput {
+        return CreateHubContentPresignedUrlsInput(
+            accessConfig: self.accessConfig,
+            hubContentName: self.hubContentName,
+            hubContentType: self.hubContentType,
+            hubContentVersion: self.hubContentVersion,
+            hubName: self.hubName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == CreateHubContentPresignedUrlsInput, OperationStackOutput == CreateHubContentPresignedUrlsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `createHubContentPresignedUrlsPaginated`
+    /// to access the nested member `[SageMakerClientTypes.AuthorizedUrl]`
+    /// - Returns: `[SageMakerClientTypes.AuthorizedUrl]`
+    public func authorizedUrlConfigs() async throws -> [SageMakerClientTypes.AuthorizedUrl] {
+        return try await self.asyncCompactMap { item in item.authorizedUrlConfigs }
+    }
+}
+extension SageMakerClient {
     /// Paginate over `[ListActionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

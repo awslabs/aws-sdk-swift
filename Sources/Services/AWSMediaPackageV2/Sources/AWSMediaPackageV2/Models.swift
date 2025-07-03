@@ -296,6 +296,8 @@ extension MediaPackageV2ClientTypes {
     public enum ValidationExceptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cencIvIncompatible
         case clipStartTimeWithStartOrEnd
+        case cmafContainerTypeWithMssManifest
+        case cmafExcludeSegmentDrmMetadataIncompatibleContainerType
         case containerTypeImmutable
         case dashDvbAttributesWithoutDvbDashProfile
         case directModeWithTimingSource
@@ -304,6 +306,7 @@ extension MediaPackageV2ClientTypes {
         case encryptionContractShared
         case encryptionContractUnencrypted
         case encryptionContractWithoutAudioRenditionIncompatible
+        case encryptionContractWithIsmContainerIncompatible
         case encryptionMethodContainerTypeMismatch
         case endTimeEarlierThanStartTime
         case harvestedManifestHasStartEndFilterConfiguration
@@ -322,6 +325,11 @@ extension MediaPackageV2ClientTypes {
         case invalidPolicy
         case invalidRoleArn
         case invalidTimeDelaySeconds
+        case ismContainerTypeWithDashManifest
+        case ismContainerTypeWithHlsManifest
+        case ismContainerTypeWithLlHlsManifest
+        case ismContainerTypeWithScte
+        case ismContainerWithKeyRotation
         case manifestDrmSystemsIncompatible
         case manifestNameCollision
         case memberDoesNotMatchPattern
@@ -347,6 +355,7 @@ extension MediaPackageV2ClientTypes {
         case timingSourceMissing
         case tooManyInProgressHarvestJobs
         case tsContainerTypeWithDashManifest
+        case tsContainerTypeWithMssManifest
         case updatePeriodSmallerThanSegmentDuration
         case urlInvalid
         case urlLinkLocalAddress
@@ -363,6 +372,8 @@ extension MediaPackageV2ClientTypes {
             return [
                 .cencIvIncompatible,
                 .clipStartTimeWithStartOrEnd,
+                .cmafContainerTypeWithMssManifest,
+                .cmafExcludeSegmentDrmMetadataIncompatibleContainerType,
                 .containerTypeImmutable,
                 .dashDvbAttributesWithoutDvbDashProfile,
                 .directModeWithTimingSource,
@@ -371,6 +382,7 @@ extension MediaPackageV2ClientTypes {
                 .encryptionContractShared,
                 .encryptionContractUnencrypted,
                 .encryptionContractWithoutAudioRenditionIncompatible,
+                .encryptionContractWithIsmContainerIncompatible,
                 .encryptionMethodContainerTypeMismatch,
                 .endTimeEarlierThanStartTime,
                 .harvestedManifestHasStartEndFilterConfiguration,
@@ -389,6 +401,11 @@ extension MediaPackageV2ClientTypes {
                 .invalidPolicy,
                 .invalidRoleArn,
                 .invalidTimeDelaySeconds,
+                .ismContainerTypeWithDashManifest,
+                .ismContainerTypeWithHlsManifest,
+                .ismContainerTypeWithLlHlsManifest,
+                .ismContainerTypeWithScte,
+                .ismContainerWithKeyRotation,
                 .manifestDrmSystemsIncompatible,
                 .manifestNameCollision,
                 .memberDoesNotMatchPattern,
@@ -414,6 +431,7 @@ extension MediaPackageV2ClientTypes {
                 .timingSourceMissing,
                 .tooManyInProgressHarvestJobs,
                 .tsContainerTypeWithDashManifest,
+                .tsContainerTypeWithMssManifest,
                 .updatePeriodSmallerThanSegmentDuration,
                 .urlInvalid,
                 .urlLinkLocalAddress,
@@ -436,6 +454,8 @@ extension MediaPackageV2ClientTypes {
             switch self {
             case .cencIvIncompatible: return "CENC_IV_INCOMPATIBLE"
             case .clipStartTimeWithStartOrEnd: return "CLIP_START_TIME_WITH_START_OR_END"
+            case .cmafContainerTypeWithMssManifest: return "CMAF_CONTAINER_TYPE_WITH_MSS_MANIFEST"
+            case .cmafExcludeSegmentDrmMetadataIncompatibleContainerType: return "CMAF_EXCLUDE_SEGMENT_DRM_METADATA_INCOMPATIBLE_CONTAINER_TYPE"
             case .containerTypeImmutable: return "CONTAINER_TYPE_IMMUTABLE"
             case .dashDvbAttributesWithoutDvbDashProfile: return "DASH_DVB_ATTRIBUTES_WITHOUT_DVB_DASH_PROFILE"
             case .directModeWithTimingSource: return "DIRECT_MODE_WITH_TIMING_SOURCE"
@@ -444,6 +464,7 @@ extension MediaPackageV2ClientTypes {
             case .encryptionContractShared: return "ENCRYPTION_CONTRACT_SHARED"
             case .encryptionContractUnencrypted: return "ENCRYPTION_CONTRACT_UNENCRYPTED"
             case .encryptionContractWithoutAudioRenditionIncompatible: return "ENCRYPTION_CONTRACT_WITHOUT_AUDIO_RENDITION_INCOMPATIBLE"
+            case .encryptionContractWithIsmContainerIncompatible: return "ENCRYPTION_CONTRACT_WITH_ISM_CONTAINER_INCOMPATIBLE"
             case .encryptionMethodContainerTypeMismatch: return "ENCRYPTION_METHOD_CONTAINER_TYPE_MISMATCH"
             case .endTimeEarlierThanStartTime: return "END_TIME_EARLIER_THAN_START_TIME"
             case .harvestedManifestHasStartEndFilterConfiguration: return "HARVESTED_MANIFEST_HAS_START_END_FILTER_CONFIGURATION"
@@ -462,6 +483,11 @@ extension MediaPackageV2ClientTypes {
             case .invalidPolicy: return "INVALID_POLICY"
             case .invalidRoleArn: return "INVALID_ROLE_ARN"
             case .invalidTimeDelaySeconds: return "INVALID_TIME_DELAY_SECONDS"
+            case .ismContainerTypeWithDashManifest: return "ISM_CONTAINER_TYPE_WITH_DASH_MANIFEST"
+            case .ismContainerTypeWithHlsManifest: return "ISM_CONTAINER_TYPE_WITH_HLS_MANIFEST"
+            case .ismContainerTypeWithLlHlsManifest: return "ISM_CONTAINER_TYPE_WITH_LL_HLS_MANIFEST"
+            case .ismContainerTypeWithScte: return "ISM_CONTAINER_TYPE_WITH_SCTE"
+            case .ismContainerWithKeyRotation: return "ISM_CONTAINER_WITH_KEY_ROTATION"
             case .manifestDrmSystemsIncompatible: return "MANIFEST_DRM_SYSTEMS_INCOMPATIBLE"
             case .manifestNameCollision: return "MANIFEST_NAME_COLLISION"
             case .memberDoesNotMatchPattern: return "MEMBER_DOES_NOT_MATCH_PATTERN"
@@ -487,6 +513,7 @@ extension MediaPackageV2ClientTypes {
             case .timingSourceMissing: return "TIMING_SOURCE_MISSING"
             case .tooManyInProgressHarvestJobs: return "TOO_MANY_IN_PROGRESS_HARVEST_JOBS"
             case .tsContainerTypeWithDashManifest: return "TS_CONTAINER_TYPE_WITH_DASH_MANIFEST"
+            case .tsContainerTypeWithMssManifest: return "TS_CONTAINER_TYPE_WITH_MSS_MANIFEST"
             case .updatePeriodSmallerThanSegmentDuration: return "UPDATE_PERIOD_SMALLER_THAN_SEGMENT_DURATION"
             case .urlInvalid: return "URL_INVALID"
             case .urlLinkLocalAddress: return "URL_LINK_LOCAL_ADDRESS"
@@ -1094,12 +1121,14 @@ extension MediaPackageV2ClientTypes {
 
     public enum ContainerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cmaf
+        case ism
         case ts
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ContainerType] {
             return [
                 .cmaf,
+                .ism,
                 .ts
             ]
         }
@@ -1112,6 +1141,7 @@ extension MediaPackageV2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cmaf: return "CMAF"
+            case .ism: return "ISM"
             case .ts: return "TS"
             case let .sdkUnknown(s): return s
             }
@@ -1819,6 +1849,63 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
+    public enum MssManifestLayout: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case compact
+        case full
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MssManifestLayout] {
+            return [
+                .compact,
+                .full
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .compact: return "COMPACT"
+            case .full: return "FULL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    /// Configuration parameters for creating a Microsoft Smooth Streaming (MSS) manifest. MSS is a streaming media format developed by Microsoft that delivers adaptive bitrate streaming content to compatible players and devices.
+    public struct CreateMssManifestConfiguration: Swift.Sendable {
+        /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
+        public var filterConfiguration: MediaPackageV2ClientTypes.FilterConfiguration?
+        /// Determines the layout format of the MSS manifest. This controls how the manifest is structured and presented to client players, affecting compatibility with different MSS-compatible devices and applications.
+        public var manifestLayout: MediaPackageV2ClientTypes.MssManifestLayout?
+        /// A short string that's appended to the endpoint URL to create a unique path to this MSS manifest. The manifest name must be unique within the origin endpoint and can contain letters, numbers, hyphens, and underscores.
+        /// This member is required.
+        public var manifestName: Swift.String?
+        /// The total duration (in seconds) of the manifest window. This determines how much content is available in the manifest at any given time. The manifest window slides forward as new segments become available, maintaining a consistent duration of content. The minimum value is 30 seconds.
+        public var manifestWindowSeconds: Swift.Int?
+
+        public init(
+            filterConfiguration: MediaPackageV2ClientTypes.FilterConfiguration? = nil,
+            manifestLayout: MediaPackageV2ClientTypes.MssManifestLayout? = nil,
+            manifestName: Swift.String? = nil,
+            manifestWindowSeconds: Swift.Int? = nil
+        ) {
+            self.filterConfiguration = filterConfiguration
+            self.manifestLayout = manifestLayout
+            self.manifestName = manifestName
+            self.manifestWindowSeconds = manifestWindowSeconds
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     public enum CmafEncryptionMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cbcs
         case cenc
@@ -1839,6 +1926,32 @@ extension MediaPackageV2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cbcs: return "CBCS"
+            case .cenc: return "CENC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    public enum IsmEncryptionMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cenc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IsmEncryptionMethod] {
+            return [
+                .cenc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
             case .cenc: return "CENC"
             case let .sdkUnknown(s): return s
             }
@@ -1881,14 +1994,18 @@ extension MediaPackageV2ClientTypes {
     public struct EncryptionMethod: Swift.Sendable {
         /// The encryption method to use.
         public var cmafEncryptionMethod: MediaPackageV2ClientTypes.CmafEncryptionMethod?
+        /// The encryption method used for Microsoft Smooth Streaming (MSS) content. This specifies how the MSS segments are encrypted to protect the content during delivery to client players.
+        public var ismEncryptionMethod: MediaPackageV2ClientTypes.IsmEncryptionMethod?
         /// The encryption method to use.
         public var tsEncryptionMethod: MediaPackageV2ClientTypes.TsEncryptionMethod?
 
         public init(
             cmafEncryptionMethod: MediaPackageV2ClientTypes.CmafEncryptionMethod? = nil,
+            ismEncryptionMethod: MediaPackageV2ClientTypes.IsmEncryptionMethod? = nil,
             tsEncryptionMethod: MediaPackageV2ClientTypes.TsEncryptionMethod? = nil
         ) {
             self.cmafEncryptionMethod = cmafEncryptionMethod
+            self.ismEncryptionMethod = ismEncryptionMethod
             self.tsEncryptionMethod = tsEncryptionMethod
         }
     }
@@ -2114,6 +2231,19 @@ extension MediaPackageV2ClientTypes {
 
     /// The parameters for encrypting content.
     public struct Encryption: Swift.Sendable {
+        /// Excludes SEIG and SGPD boxes from segment metadata in CMAF containers. When set to true, MediaPackage omits these DRM metadata boxes from CMAF segments, which can improve compatibility with certain devices and players that don't support these boxes. Important considerations:
+        ///
+        /// * This setting only affects CMAF container formats
+        ///
+        /// * Key rotation can still be handled through media playlist signaling
+        ///
+        /// * PSSH and TENC boxes remain unaffected
+        ///
+        /// * Default behavior is preserved when this setting is disabled
+        ///
+        ///
+        /// Valid values: true | false Default: false
+        public var cmafExcludeSegmentDrmMetadata: Swift.Bool?
         /// A 128-bit, 16-byte hex value represented by a 32-character string, used in conjunction with the key for encrypting content. If you don't specify a value, then MediaPackage creates the constant initialization vector (IV).
         public var constantInitializationVector: Swift.String?
         /// The encryption method to use.
@@ -2126,11 +2256,13 @@ extension MediaPackageV2ClientTypes {
         public var spekeKeyProvider: MediaPackageV2ClientTypes.SpekeKeyProvider?
 
         public init(
+            cmafExcludeSegmentDrmMetadata: Swift.Bool? = nil,
             constantInitializationVector: Swift.String? = nil,
             encryptionMethod: MediaPackageV2ClientTypes.EncryptionMethod? = nil,
             keyRotationIntervalSeconds: Swift.Int? = nil,
             spekeKeyProvider: MediaPackageV2ClientTypes.SpekeKeyProvider? = nil
         ) {
+            self.cmafExcludeSegmentDrmMetadata = cmafExcludeSegmentDrmMetadata
             self.constantInitializationVector = constantInitializationVector
             self.encryptionMethod = encryptionMethod
             self.keyRotationIntervalSeconds = keyRotationIntervalSeconds
@@ -2265,6 +2397,8 @@ public struct CreateOriginEndpointInput: Swift.Sendable {
     public var hlsManifests: [MediaPackageV2ClientTypes.CreateHlsManifestConfiguration]?
     /// A low-latency HLS manifest configuration.
     public var lowLatencyHlsManifests: [MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration]?
+    /// A list of Microsoft Smooth Streaming (MSS) manifest configurations for the origin endpoint. You can configure multiple MSS manifests to provide different streaming experiences or to support different client requirements.
+    public var mssManifests: [MediaPackageV2ClientTypes.CreateMssManifestConfiguration]?
     /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and must be unique for your account in the AWS Region and channel. You can't use spaces in the name. You can't change the name after you create the endpoint.
     /// This member is required.
     public var originEndpointName: Swift.String?
@@ -2286,6 +2420,7 @@ public struct CreateOriginEndpointInput: Swift.Sendable {
         forceEndpointErrorConfiguration: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration? = nil,
         hlsManifests: [MediaPackageV2ClientTypes.CreateHlsManifestConfiguration]? = nil,
         lowLatencyHlsManifests: [MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration]? = nil,
+        mssManifests: [MediaPackageV2ClientTypes.CreateMssManifestConfiguration]? = nil,
         originEndpointName: Swift.String? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
@@ -2300,6 +2435,7 @@ public struct CreateOriginEndpointInput: Swift.Sendable {
         self.forceEndpointErrorConfiguration = forceEndpointErrorConfiguration
         self.hlsManifests = hlsManifests
         self.lowLatencyHlsManifests = lowLatencyHlsManifests
+        self.mssManifests = mssManifests
         self.originEndpointName = originEndpointName
         self.segment = segment
         self.startoverWindowSeconds = startoverWindowSeconds
@@ -2492,6 +2628,39 @@ extension MediaPackageV2ClientTypes {
     }
 }
 
+extension MediaPackageV2ClientTypes {
+
+    /// Configuration details for a Microsoft Smooth Streaming (MSS) manifest associated with an origin endpoint. This includes all the settings and properties that define how the MSS content is packaged and delivered.
+    public struct GetMssManifestConfiguration: Swift.Sendable {
+        /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
+        public var filterConfiguration: MediaPackageV2ClientTypes.FilterConfiguration?
+        /// The layout format of the MSS manifest, which determines how the manifest is structured for client compatibility.
+        public var manifestLayout: MediaPackageV2ClientTypes.MssManifestLayout?
+        /// The name of the MSS manifest. This name is appended to the origin endpoint URL to create the unique path for accessing this specific MSS manifest.
+        /// This member is required.
+        public var manifestName: Swift.String?
+        /// The duration (in seconds) of the manifest window. This represents the total amount of content available in the manifest at any given time.
+        public var manifestWindowSeconds: Swift.Int?
+        /// The complete URL for accessing the MSS manifest. Client players use this URL to retrieve the manifest and begin streaming the Microsoft Smooth Streaming content.
+        /// This member is required.
+        public var url: Swift.String?
+
+        public init(
+            filterConfiguration: MediaPackageV2ClientTypes.FilterConfiguration? = nil,
+            manifestLayout: MediaPackageV2ClientTypes.MssManifestLayout? = nil,
+            manifestName: Swift.String? = nil,
+            manifestWindowSeconds: Swift.Int? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.filterConfiguration = filterConfiguration
+            self.manifestLayout = manifestLayout
+            self.manifestName = manifestName
+            self.manifestWindowSeconds = manifestWindowSeconds
+            self.url = url
+        }
+    }
+}
+
 public struct CreateOriginEndpointOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) associated with the resource.
     /// This member is required.
@@ -2523,6 +2692,8 @@ public struct CreateOriginEndpointOutput: Swift.Sendable {
     /// The date and time the origin endpoint was modified.
     /// This member is required.
     public var modifiedAt: Foundation.Date?
+    /// The Microsoft Smooth Streaming (MSS) manifest configurations that were created for this origin endpoint.
+    public var mssManifests: [MediaPackageV2ClientTypes.GetMssManifestConfiguration]?
     /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
     /// This member is required.
     public var originEndpointName: Swift.String?
@@ -2547,6 +2718,7 @@ public struct CreateOriginEndpointOutput: Swift.Sendable {
         hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]? = nil,
         lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]? = nil,
         modifiedAt: Foundation.Date? = nil,
+        mssManifests: [MediaPackageV2ClientTypes.GetMssManifestConfiguration]? = nil,
         originEndpointName: Swift.String? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
@@ -2564,6 +2736,7 @@ public struct CreateOriginEndpointOutput: Swift.Sendable {
         self.hlsManifests = hlsManifests
         self.lowLatencyHlsManifests = lowLatencyHlsManifests
         self.modifiedAt = modifiedAt
+        self.mssManifests = mssManifests
         self.originEndpointName = originEndpointName
         self.segment = segment
         self.startoverWindowSeconds = startoverWindowSeconds
@@ -2651,6 +2824,8 @@ public struct GetOriginEndpointOutput: Swift.Sendable {
     /// The date and time the origin endpoint was modified.
     /// This member is required.
     public var modifiedAt: Foundation.Date?
+    /// The Microsoft Smooth Streaming (MSS) manifest configurations associated with this origin endpoint.
+    public var mssManifests: [MediaPackageV2ClientTypes.GetMssManifestConfiguration]?
     /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
     /// This member is required.
     public var originEndpointName: Swift.String?
@@ -2677,6 +2852,7 @@ public struct GetOriginEndpointOutput: Swift.Sendable {
         hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]? = nil,
         lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]? = nil,
         modifiedAt: Foundation.Date? = nil,
+        mssManifests: [MediaPackageV2ClientTypes.GetMssManifestConfiguration]? = nil,
         originEndpointName: Swift.String? = nil,
         resetAt: Foundation.Date? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
@@ -2695,6 +2871,7 @@ public struct GetOriginEndpointOutput: Swift.Sendable {
         self.hlsManifests = hlsManifests
         self.lowLatencyHlsManifests = lowLatencyHlsManifests
         self.modifiedAt = modifiedAt
+        self.mssManifests = mssManifests
         self.originEndpointName = originEndpointName
         self.resetAt = resetAt
         self.segment = segment
@@ -2798,6 +2975,26 @@ extension MediaPackageV2ClientTypes {
 
 extension MediaPackageV2ClientTypes {
 
+    /// Summary information about a Microsoft Smooth Streaming (MSS) manifest configuration. This provides key details about the MSS manifest without including all configuration parameters.
+    public struct ListMssManifestConfiguration: Swift.Sendable {
+        /// The name of the MSS manifest configuration.
+        /// This member is required.
+        public var manifestName: Swift.String?
+        /// The URL for accessing the MSS manifest.
+        public var url: Swift.String?
+
+        public init(
+            manifestName: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.manifestName = manifestName
+            self.url = url
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+
     /// The configuration of the origin endpoint.
     public struct OriginEndpointListConfiguration: Swift.Sendable {
         /// The Amazon Resource Name (ARN) associated with the resource.
@@ -2826,6 +3023,8 @@ extension MediaPackageV2ClientTypes {
         public var lowLatencyHlsManifests: [MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration]?
         /// The date and time the origin endpoint was modified.
         public var modifiedAt: Foundation.Date?
+        /// A list of Microsoft Smooth Streaming (MSS) manifest configurations associated with the origin endpoint. Each configuration represents a different MSS streaming option available from this endpoint.
+        public var mssManifests: [MediaPackageV2ClientTypes.ListMssManifestConfiguration]?
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
         /// This member is required.
         public var originEndpointName: Swift.String?
@@ -2842,6 +3041,7 @@ extension MediaPackageV2ClientTypes {
             hlsManifests: [MediaPackageV2ClientTypes.ListHlsManifestConfiguration]? = nil,
             lowLatencyHlsManifests: [MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration]? = nil,
             modifiedAt: Foundation.Date? = nil,
+            mssManifests: [MediaPackageV2ClientTypes.ListMssManifestConfiguration]? = nil,
             originEndpointName: Swift.String? = nil
         ) {
             self.arn = arn
@@ -2855,6 +3055,7 @@ extension MediaPackageV2ClientTypes {
             self.hlsManifests = hlsManifests
             self.lowLatencyHlsManifests = lowLatencyHlsManifests
             self.modifiedAt = modifiedAt
+            self.mssManifests = mssManifests
             self.originEndpointName = originEndpointName
         }
     }
@@ -3059,6 +3260,8 @@ public struct UpdateOriginEndpointInput: Swift.Sendable {
     public var hlsManifests: [MediaPackageV2ClientTypes.CreateHlsManifestConfiguration]?
     /// A low-latency HLS manifest configuration.
     public var lowLatencyHlsManifests: [MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration]?
+    /// A list of Microsoft Smooth Streaming (MSS) manifest configurations to update for the origin endpoint. This replaces the existing MSS manifest configurations.
+    public var mssManifests: [MediaPackageV2ClientTypes.CreateMssManifestConfiguration]?
     /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
     /// This member is required.
     public var originEndpointName: Swift.String?
@@ -3077,6 +3280,7 @@ public struct UpdateOriginEndpointInput: Swift.Sendable {
         forceEndpointErrorConfiguration: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration? = nil,
         hlsManifests: [MediaPackageV2ClientTypes.CreateHlsManifestConfiguration]? = nil,
         lowLatencyHlsManifests: [MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration]? = nil,
+        mssManifests: [MediaPackageV2ClientTypes.CreateMssManifestConfiguration]? = nil,
         originEndpointName: Swift.String? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil
@@ -3090,6 +3294,7 @@ public struct UpdateOriginEndpointInput: Swift.Sendable {
         self.forceEndpointErrorConfiguration = forceEndpointErrorConfiguration
         self.hlsManifests = hlsManifests
         self.lowLatencyHlsManifests = lowLatencyHlsManifests
+        self.mssManifests = mssManifests
         self.originEndpointName = originEndpointName
         self.segment = segment
         self.startoverWindowSeconds = startoverWindowSeconds
@@ -3127,6 +3332,8 @@ public struct UpdateOriginEndpointOutput: Swift.Sendable {
     /// The date and time the origin endpoint was modified.
     /// This member is required.
     public var modifiedAt: Foundation.Date?
+    /// The updated Microsoft Smooth Streaming (MSS) manifest configurations for this origin endpoint.
+    public var mssManifests: [MediaPackageV2ClientTypes.GetMssManifestConfiguration]?
     /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
     /// This member is required.
     public var originEndpointName: Swift.String?
@@ -3151,6 +3358,7 @@ public struct UpdateOriginEndpointOutput: Swift.Sendable {
         hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]? = nil,
         lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]? = nil,
         modifiedAt: Foundation.Date? = nil,
+        mssManifests: [MediaPackageV2ClientTypes.GetMssManifestConfiguration]? = nil,
         originEndpointName: Swift.String? = nil,
         segment: MediaPackageV2ClientTypes.Segment? = nil,
         startoverWindowSeconds: Swift.Int? = nil,
@@ -3168,6 +3376,7 @@ public struct UpdateOriginEndpointOutput: Swift.Sendable {
         self.hlsManifests = hlsManifests
         self.lowLatencyHlsManifests = lowLatencyHlsManifests
         self.modifiedAt = modifiedAt
+        self.mssManifests = mssManifests
         self.originEndpointName = originEndpointName
         self.segment = segment
         self.startoverWindowSeconds = startoverWindowSeconds
@@ -4756,6 +4965,7 @@ extension CreateOriginEndpointInput {
         try writer["ForceEndpointErrorConfiguration"].write(value.forceEndpointErrorConfiguration, with: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration.write(value:to:))
         try writer["HlsManifests"].writeList(value.hlsManifests, memberWritingClosure: MediaPackageV2ClientTypes.CreateHlsManifestConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LowLatencyHlsManifests"].writeList(value.lowLatencyHlsManifests, memberWritingClosure: MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MssManifests"].writeList(value.mssManifests, memberWritingClosure: MediaPackageV2ClientTypes.CreateMssManifestConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["OriginEndpointName"].write(value.originEndpointName)
         try writer["Segment"].write(value.segment, with: MediaPackageV2ClientTypes.Segment.write(value:to:))
         try writer["StartoverWindowSeconds"].write(value.startoverWindowSeconds)
@@ -4815,6 +5025,7 @@ extension UpdateOriginEndpointInput {
         try writer["ForceEndpointErrorConfiguration"].write(value.forceEndpointErrorConfiguration, with: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration.write(value:to:))
         try writer["HlsManifests"].writeList(value.hlsManifests, memberWritingClosure: MediaPackageV2ClientTypes.CreateHlsManifestConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LowLatencyHlsManifests"].writeList(value.lowLatencyHlsManifests, memberWritingClosure: MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MssManifests"].writeList(value.mssManifests, memberWritingClosure: MediaPackageV2ClientTypes.CreateMssManifestConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Segment"].write(value.segment, with: MediaPackageV2ClientTypes.Segment.write(value:to:))
         try writer["StartoverWindowSeconds"].write(value.startoverWindowSeconds)
     }
@@ -4914,6 +5125,7 @@ extension CreateOriginEndpointOutput {
         value.hlsManifests = try reader["HlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lowLatencyHlsManifests = try reader["LowLatencyHlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.mssManifests = try reader["MssManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetMssManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.originEndpointName = try reader["OriginEndpointName"].readIfPresent() ?? ""
         value.segment = try reader["Segment"].readIfPresent(with: MediaPackageV2ClientTypes.Segment.read(from:))
         value.startoverWindowSeconds = try reader["StartoverWindowSeconds"].readIfPresent()
@@ -5059,6 +5271,7 @@ extension GetOriginEndpointOutput {
         value.hlsManifests = try reader["HlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lowLatencyHlsManifests = try reader["LowLatencyHlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.mssManifests = try reader["MssManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetMssManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.originEndpointName = try reader["OriginEndpointName"].readIfPresent() ?? ""
         value.resetAt = try reader["ResetAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.segment = try reader["Segment"].readIfPresent(with: MediaPackageV2ClientTypes.Segment.read(from:))
@@ -5267,6 +5480,7 @@ extension UpdateOriginEndpointOutput {
         value.hlsManifests = try reader["HlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lowLatencyHlsManifests = try reader["LowLatencyHlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.mssManifests = try reader["MssManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.GetMssManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.originEndpointName = try reader["OriginEndpointName"].readIfPresent() ?? ""
         value.segment = try reader["Segment"].readIfPresent(with: MediaPackageV2ClientTypes.Segment.read(from:))
         value.startoverWindowSeconds = try reader["StartoverWindowSeconds"].readIfPresent()
@@ -6097,6 +6311,7 @@ extension MediaPackageV2ClientTypes.Encryption {
 
     static func write(value: MediaPackageV2ClientTypes.Encryption?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CmafExcludeSegmentDrmMetadata"].write(value.cmafExcludeSegmentDrmMetadata)
         try writer["ConstantInitializationVector"].write(value.constantInitializationVector)
         try writer["EncryptionMethod"].write(value.encryptionMethod, with: MediaPackageV2ClientTypes.EncryptionMethod.write(value:to:))
         try writer["KeyRotationIntervalSeconds"].write(value.keyRotationIntervalSeconds)
@@ -6109,6 +6324,7 @@ extension MediaPackageV2ClientTypes.Encryption {
         value.constantInitializationVector = try reader["ConstantInitializationVector"].readIfPresent()
         value.encryptionMethod = try reader["EncryptionMethod"].readIfPresent(with: MediaPackageV2ClientTypes.EncryptionMethod.read(from:))
         value.keyRotationIntervalSeconds = try reader["KeyRotationIntervalSeconds"].readIfPresent()
+        value.cmafExcludeSegmentDrmMetadata = try reader["CmafExcludeSegmentDrmMetadata"].readIfPresent()
         value.spekeKeyProvider = try reader["SpekeKeyProvider"].readIfPresent(with: MediaPackageV2ClientTypes.SpekeKeyProvider.read(from:))
         return value
     }
@@ -6159,6 +6375,7 @@ extension MediaPackageV2ClientTypes.EncryptionMethod {
     static func write(value: MediaPackageV2ClientTypes.EncryptionMethod?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CmafEncryptionMethod"].write(value.cmafEncryptionMethod)
+        try writer["IsmEncryptionMethod"].write(value.ismEncryptionMethod)
         try writer["TsEncryptionMethod"].write(value.tsEncryptionMethod)
     }
 
@@ -6167,6 +6384,7 @@ extension MediaPackageV2ClientTypes.EncryptionMethod {
         var value = MediaPackageV2ClientTypes.EncryptionMethod()
         value.tsEncryptionMethod = try reader["TsEncryptionMethod"].readIfPresent()
         value.cmafEncryptionMethod = try reader["CmafEncryptionMethod"].readIfPresent()
+        value.ismEncryptionMethod = try reader["IsmEncryptionMethod"].readIfPresent()
         return value
     }
 }
@@ -6463,6 +6681,20 @@ extension MediaPackageV2ClientTypes.ScteDash {
     }
 }
 
+extension MediaPackageV2ClientTypes.GetMssManifestConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.GetMssManifestConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.GetMssManifestConfiguration()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
+        value.url = try reader["Url"].readIfPresent() ?? ""
+        value.filterConfiguration = try reader["FilterConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.FilterConfiguration.read(from:))
+        value.manifestWindowSeconds = try reader["ManifestWindowSeconds"].readIfPresent()
+        value.manifestLayout = try reader["ManifestLayout"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration {
 
     static func write(value: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -6547,7 +6779,19 @@ extension MediaPackageV2ClientTypes.OriginEndpointListConfiguration {
         value.hlsManifests = try reader["HlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.ListHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lowLatencyHlsManifests = try reader["LowLatencyHlsManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dashManifests = try reader["DashManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.ListDashManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mssManifests = try reader["MssManifests"].readListIfPresent(memberReadingClosure: MediaPackageV2ClientTypes.ListMssManifestConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.forceEndpointErrorConfiguration = try reader["ForceEndpointErrorConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.ListMssManifestConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.ListMssManifestConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.ListMssManifestConfiguration()
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
+        value.url = try reader["Url"].readIfPresent()
         return value
     }
 }
@@ -6638,6 +6882,17 @@ extension MediaPackageV2ClientTypes.CreateDashManifestConfiguration {
         try writer["SubtitleConfiguration"].write(value.subtitleConfiguration, with: MediaPackageV2ClientTypes.DashSubtitleConfiguration.write(value:to:))
         try writer["SuggestedPresentationDelaySeconds"].write(value.suggestedPresentationDelaySeconds)
         try writer["UtcTiming"].write(value.utcTiming, with: MediaPackageV2ClientTypes.DashUtcTiming.write(value:to:))
+    }
+}
+
+extension MediaPackageV2ClientTypes.CreateMssManifestConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.CreateMssManifestConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FilterConfiguration"].write(value.filterConfiguration, with: MediaPackageV2ClientTypes.FilterConfiguration.write(value:to:))
+        try writer["ManifestLayout"].write(value.manifestLayout)
+        try writer["ManifestName"].write(value.manifestName)
+        try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
     }
 }
 

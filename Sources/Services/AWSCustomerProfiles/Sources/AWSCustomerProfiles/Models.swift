@@ -4646,6 +4646,115 @@ public struct CreateSegmentSnapshotOutput: Swift.Sendable {
     }
 }
 
+extension CustomerProfilesClientTypes {
+
+    public enum FieldContentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case emailAddress
+        case name
+        case number
+        case phoneNumber
+        case string
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FieldContentType] {
+            return [
+                .emailAddress,
+                .name,
+                .number,
+                .phoneNumber,
+                .string
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .emailAddress: return "EMAIL_ADDRESS"
+            case .name: return "NAME"
+            case .number: return "NUMBER"
+            case .phoneNumber: return "PHONE_NUMBER"
+            case .string: return "STRING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Represents a field in a ProfileObjectType.
+    public struct ObjectTypeField: Swift.Sendable {
+        /// The content type of the field. Used for determining equality when searching.
+        public var contentType: CustomerProfilesClientTypes.FieldContentType?
+        /// A field of a ProfileObject. For example: _source.FirstName, where “_source” is a ProfileObjectType of a Zendesk user and “FirstName” is a field in that ObjectType.
+        public var source: Swift.String?
+        /// The location of the data in the standard ProfileObject model. For example: _profile.Address.PostalCode.
+        public var target: Swift.String?
+
+        public init(
+            contentType: CustomerProfilesClientTypes.FieldContentType? = nil,
+            source: Swift.String? = nil,
+            target: Swift.String? = nil
+        ) {
+            self.contentType = contentType
+            self.source = source
+            self.target = target
+        }
+    }
+}
+
+public struct CreateUploadJobInput: Swift.Sendable {
+    /// The expiry duration for the profiles ingested with the job. If not provided, the system default of 2 weeks is used.
+    public var dataExpiry: Swift.Int?
+    /// The unique name of the upload job. Could be a file name to identify the upload job.
+    /// This member is required.
+    public var displayName: Swift.String?
+    /// The unique name of the domain. Domain should be exists for the upload job to be created.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The mapping between CSV Columns and Profile Object attributes. A map of the name and ObjectType field.
+    /// This member is required.
+    public var fields: [Swift.String: CustomerProfilesClientTypes.ObjectTypeField]?
+    /// The unique key columns for de-duping the profiles used to map data to the profile.
+    /// This member is required.
+    public var uniqueKey: Swift.String?
+
+    public init(
+        dataExpiry: Swift.Int? = nil,
+        displayName: Swift.String? = nil,
+        domainName: Swift.String? = nil,
+        fields: [Swift.String: CustomerProfilesClientTypes.ObjectTypeField]? = nil,
+        uniqueKey: Swift.String? = nil
+    ) {
+        self.dataExpiry = dataExpiry
+        self.displayName = displayName
+        self.domainName = domainName
+        self.fields = fields
+        self.uniqueKey = uniqueKey
+    }
+}
+
+extension CreateUploadJobInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateUploadJobInput(dataExpiry: \(Swift.String(describing: dataExpiry)), displayName: \(Swift.String(describing: displayName)), domainName: \(Swift.String(describing: domainName)), uniqueKey: \(Swift.String(describing: uniqueKey)), fields: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateUploadJobOutput: Swift.Sendable {
+    /// The unique identifier for the created upload job.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil
+    ) {
+        self.jobId = jobId
+    }
+}
+
 public struct DeleteCalculatedAttributeDefinitionInput: Swift.Sendable {
     /// The unique name of the calculated attribute.
     /// This member is required.
@@ -5004,67 +5113,6 @@ public struct DetectProfileObjectTypeInput: Swift.Sendable {
 extension DetectProfileObjectTypeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "DetectProfileObjectTypeInput(domainName: \(Swift.String(describing: domainName)), objects: \"CONTENT_REDACTED\")"}
-}
-
-extension CustomerProfilesClientTypes {
-
-    public enum FieldContentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case emailAddress
-        case name
-        case number
-        case phoneNumber
-        case string
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [FieldContentType] {
-            return [
-                .emailAddress,
-                .name,
-                .number,
-                .phoneNumber,
-                .string
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .emailAddress: return "EMAIL_ADDRESS"
-            case .name: return "NAME"
-            case .number: return "NUMBER"
-            case .phoneNumber: return "PHONE_NUMBER"
-            case .string: return "STRING"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension CustomerProfilesClientTypes {
-
-    /// Represents a field in a ProfileObjectType.
-    public struct ObjectTypeField: Swift.Sendable {
-        /// The content type of the field. Used for determining equality when searching.
-        public var contentType: CustomerProfilesClientTypes.FieldContentType?
-        /// A field of a ProfileObject. For example: _source.FirstName, where “_source” is a ProfileObjectType of a Zendesk user and “FirstName” is a field in that ObjectType.
-        public var source: Swift.String?
-        /// The location of the data in the standard ProfileObject model. For example: _profile.Address.PostalCode.
-        public var target: Swift.String?
-
-        public init(
-            contentType: CustomerProfilesClientTypes.FieldContentType? = nil,
-            source: Swift.String? = nil,
-            target: Swift.String? = nil
-        ) {
-            self.contentType = contentType
-            self.source = source
-            self.target = target
-        }
-    }
 }
 
 extension CustomerProfilesClientTypes {
@@ -6662,6 +6710,227 @@ public struct GetSimilarProfilesOutput: Swift.Sendable {
     }
 }
 
+public struct GetUploadJobInput: Swift.Sendable {
+    /// The unique name of the domain containing the upload job.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The unique identifier of the upload job to retrieve.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        jobId: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.jobId = jobId
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// The summary of results for an upload job, including the number of updated, created, and failed records.
+    public struct ResultsSummary: Swift.Sendable {
+        /// The number of records that were newly created during the upload job.
+        public var createdRecords: Swift.Int?
+        /// The number of records that failed to be processed during the upload job.
+        public var failedRecords: Swift.Int?
+        /// The number of records that were updated during the upload job.
+        public var updatedRecords: Swift.Int?
+
+        public init(
+            createdRecords: Swift.Int? = nil,
+            failedRecords: Swift.Int? = nil,
+            updatedRecords: Swift.Int? = nil
+        ) {
+            self.createdRecords = createdRecords
+            self.failedRecords = failedRecords
+            self.updatedRecords = updatedRecords
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum UploadJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case created
+        case failed
+        case inProgress
+        case partiallySucceeded
+        case stopped
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UploadJobStatus] {
+            return [
+                .created,
+                .failed,
+                .inProgress,
+                .partiallySucceeded,
+                .stopped,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .created: return "CREATED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .partiallySucceeded: return "PARTIALLY_SUCCEEDED"
+            case .stopped: return "STOPPED"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    public enum StatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case internalFailure
+        case validationFailure
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StatusReason] {
+            return [
+                .internalFailure,
+                .validationFailure
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .internalFailure: return "INTERNAL_FAILURE"
+            case .validationFailure: return "VALIDATION_FAILURE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetUploadJobOutput: Swift.Sendable {
+    /// The timestamp when the upload job was completed.
+    public var completedAt: Foundation.Date?
+    /// The timestamp when the upload job was created.
+    public var createdAt: Foundation.Date?
+    /// The expiry duration for the profiles ingested with the upload job.
+    public var dataExpiry: Swift.Int?
+    /// The unique name of the upload job. Could be a file name to identify the upload job.
+    public var displayName: Swift.String?
+    /// The mapping between CSV Columns and Profile Object attributes for the upload job.
+    public var fields: [Swift.String: CustomerProfilesClientTypes.ObjectTypeField]?
+    /// The unique identifier of the upload job.
+    public var jobId: Swift.String?
+    /// The summary of results for the upload job, including the number of updated, created, and failed records.
+    public var resultsSummary: CustomerProfilesClientTypes.ResultsSummary?
+    /// The status describing the status for the upload job. The following are Valid Values:
+    ///
+    /// * CREATED: The upload job has been created, but has not started processing yet.
+    ///
+    /// * IN_PROGRESS: The upload job is currently in progress, ingesting and processing the profile data.
+    ///
+    /// * PARTIALLY_SUCCEEDED: The upload job has successfully completed the ingestion and processing of all profile data.
+    ///
+    /// * SUCCEEDED: The upload job has successfully completed the ingestion and processing of all profile data.
+    ///
+    /// * FAILED: The upload job has failed to complete.
+    ///
+    /// * STOPPED: The upload job has been manually stopped or terminated before completion.
+    public var status: CustomerProfilesClientTypes.UploadJobStatus?
+    /// The reason for the current status of the upload job. Possible reasons:
+    ///
+    /// * VALIDATION_FAILURE: The upload job has encountered an error or issue and was unable to complete the profile data ingestion.
+    ///
+    /// * INTERNAL_FAILURE: Failure caused from service side
+    public var statusReason: CustomerProfilesClientTypes.StatusReason?
+    /// The unique key columns used for de-duping the keys in the upload job.
+    public var uniqueKey: Swift.String?
+
+    public init(
+        completedAt: Foundation.Date? = nil,
+        createdAt: Foundation.Date? = nil,
+        dataExpiry: Swift.Int? = nil,
+        displayName: Swift.String? = nil,
+        fields: [Swift.String: CustomerProfilesClientTypes.ObjectTypeField]? = nil,
+        jobId: Swift.String? = nil,
+        resultsSummary: CustomerProfilesClientTypes.ResultsSummary? = nil,
+        status: CustomerProfilesClientTypes.UploadJobStatus? = nil,
+        statusReason: CustomerProfilesClientTypes.StatusReason? = nil,
+        uniqueKey: Swift.String? = nil
+    ) {
+        self.completedAt = completedAt
+        self.createdAt = createdAt
+        self.dataExpiry = dataExpiry
+        self.displayName = displayName
+        self.fields = fields
+        self.jobId = jobId
+        self.resultsSummary = resultsSummary
+        self.status = status
+        self.statusReason = statusReason
+        self.uniqueKey = uniqueKey
+    }
+}
+
+extension GetUploadJobOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetUploadJobOutput(completedAt: \(Swift.String(describing: completedAt)), createdAt: \(Swift.String(describing: createdAt)), dataExpiry: \(Swift.String(describing: dataExpiry)), displayName: \(Swift.String(describing: displayName)), jobId: \(Swift.String(describing: jobId)), resultsSummary: \(Swift.String(describing: resultsSummary)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), uniqueKey: \(Swift.String(describing: uniqueKey)), fields: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetUploadJobPathInput: Swift.Sendable {
+    /// The unique name of the domain containing the upload job.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The unique identifier of the upload job to retrieve the upload path for. This is generated from the CreateUploadJob API.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        jobId: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.jobId = jobId
+    }
+}
+
+public struct GetUploadJobPathOutput: Swift.Sendable {
+    /// The plaintext data key used to encrypt the upload file. To persist to the pre-signed url, use the client token and MD5 client token as header. The required headers are as follows:
+    ///
+    /// * x-amz-server-side-encryption-customer-key: Client Token
+    ///
+    /// * x-amz-server-side-encryption-customer-key-MD5: MD5 Client Token
+    ///
+    /// * x-amz-server-side-encryption-customer-algorithm: AES256
+    public var clientToken: Swift.String?
+    /// The pre-signed S3 URL for uploading the CSV file associated with the upload job.
+    /// This member is required.
+    public var url: Swift.String?
+    /// The expiry timestamp for the pre-signed URL, after which the URL will no longer be valid.
+    public var validUntil: Foundation.Date?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        url: Swift.String? = nil,
+        validUntil: Foundation.Date? = nil
+    ) {
+        self.clientToken = clientToken
+        self.url = url
+        self.validUntil = validUntil
+    }
+}
+
 public struct GetWorkflowInput: Swift.Sendable {
     /// The unique name of the domain.
     /// This member is required.
@@ -7913,6 +8182,80 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+public struct ListUploadJobsInput: Swift.Sendable {
+    /// The unique name of the domain to list upload jobs for.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The maximum number of upload jobs to return per page.
+    public var maxResults: Swift.Int?
+    /// The pagination token from the previous call to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// The summary information for an individual upload job.
+    public struct UploadJobItem: Swift.Sendable {
+        /// The timestamp when the upload job was completed.
+        public var completedAt: Foundation.Date?
+        /// The timestamp when the upload job was created.
+        public var createdAt: Foundation.Date?
+        /// The expiry duration for the profiles ingested with the upload job.
+        public var dataExpiry: Swift.Int?
+        /// The name of the upload job.
+        public var displayName: Swift.String?
+        /// The unique identifier of the upload job.
+        public var jobId: Swift.String?
+        /// The current status of the upload job.
+        public var status: CustomerProfilesClientTypes.UploadJobStatus?
+        /// The reason for the current status of the upload job.
+        public var statusReason: CustomerProfilesClientTypes.StatusReason?
+
+        public init(
+            completedAt: Foundation.Date? = nil,
+            createdAt: Foundation.Date? = nil,
+            dataExpiry: Swift.Int? = nil,
+            displayName: Swift.String? = nil,
+            jobId: Swift.String? = nil,
+            status: CustomerProfilesClientTypes.UploadJobStatus? = nil,
+            statusReason: CustomerProfilesClientTypes.StatusReason? = nil
+        ) {
+            self.completedAt = completedAt
+            self.createdAt = createdAt
+            self.dataExpiry = dataExpiry
+            self.displayName = displayName
+            self.jobId = jobId
+            self.status = status
+            self.statusReason = statusReason
+        }
+    }
+}
+
+public struct ListUploadJobsOutput: Swift.Sendable {
+    /// The list of upload jobs for the specified domain.
+    public var items: [CustomerProfilesClientTypes.UploadJobItem]?
+    /// The pagination token to use to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [CustomerProfilesClientTypes.UploadJobItem]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListWorkflowsInput: Swift.Sendable {
     /// The unique name of the domain.
     /// This member is required.
@@ -8495,6 +8838,50 @@ public struct SearchProfilesOutput: Swift.Sendable {
         self.items = items
         self.nextToken = nextToken
     }
+}
+
+public struct StartUploadJobInput: Swift.Sendable {
+    /// The unique name of the domain containing the upload job to start.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The unique identifier of the upload job to start.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        jobId: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.jobId = jobId
+    }
+}
+
+public struct StartUploadJobOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct StopUploadJobInput: Swift.Sendable {
+    /// The unique name of the domain containing the upload job to stop.
+    /// This member is required.
+    public var domainName: Swift.String?
+    /// The unique identifier of the upload job to stop.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        domainName: Swift.String? = nil,
+        jobId: Swift.String? = nil
+    ) {
+        self.domainName = domainName
+        self.jobId = jobId
+    }
+}
+
+public struct StopUploadJobOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct TagResourceInput: Swift.Sendable {
@@ -9237,6 +9624,16 @@ extension CreateSegmentSnapshotInput {
     }
 }
 
+extension CreateUploadJobInput {
+
+    static func urlPathProvider(_ value: CreateUploadJobInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/upload-jobs"
+    }
+}
+
 extension DeleteCalculatedAttributeDefinitionInput {
 
     static func urlPathProvider(_ value: DeleteCalculatedAttributeDefinitionInput) -> Swift.String? {
@@ -9626,6 +10023,32 @@ extension GetSimilarProfilesInput {
             items.append(maxResultsQueryItem)
         }
         return items
+    }
+}
+
+extension GetUploadJobInput {
+
+    static func urlPathProvider(_ value: GetUploadJobInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let jobId = value.jobId else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/upload-jobs/\(jobId.urlPercentEncoding())"
+    }
+}
+
+extension GetUploadJobPathInput {
+
+    static func urlPathProvider(_ value: GetUploadJobPathInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let jobId = value.jobId else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/upload-jobs/\(jobId.urlPercentEncoding())/path"
     }
 }
 
@@ -10089,6 +10512,32 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension ListUploadJobsInput {
+
+    static func urlPathProvider(_ value: ListUploadJobsInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/upload-jobs"
+    }
+}
+
+extension ListUploadJobsInput {
+
+    static func queryItemProvider(_ value: ListUploadJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListWorkflowsInput {
 
     static func urlPathProvider(_ value: ListWorkflowsInput) -> Swift.String? {
@@ -10181,6 +10630,32 @@ extension SearchProfilesInput {
             items.append(maxResultsQueryItem)
         }
         return items
+    }
+}
+
+extension StartUploadJobInput {
+
+    static func urlPathProvider(_ value: StartUploadJobInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let jobId = value.jobId else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/upload-jobs/\(jobId.urlPercentEncoding())"
+    }
+}
+
+extension StopUploadJobInput {
+
+    static func urlPathProvider(_ value: StopUploadJobInput) -> Swift.String? {
+        guard let domainName = value.domainName else {
+            return nil
+        }
+        guard let jobId = value.jobId else {
+            return nil
+        }
+        return "/domains/\(domainName.urlPercentEncoding())/upload-jobs/\(jobId.urlPercentEncoding())/stop"
     }
 }
 
@@ -10438,6 +10913,17 @@ extension CreateSegmentSnapshotInput {
         try writer["DestinationUri"].write(value.destinationUri)
         try writer["EncryptionKey"].write(value.encryptionKey)
         try writer["RoleArn"].write(value.roleArn)
+    }
+}
+
+extension CreateUploadJobInput {
+
+    static func write(value: CreateUploadJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataExpiry"].write(value.dataExpiry)
+        try writer["DisplayName"].write(value.displayName)
+        try writer["Fields"].writeMap(value.fields, valueWritingClosure: CustomerProfilesClientTypes.ObjectTypeField.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["UniqueKey"].write(value.uniqueKey)
     }
 }
 
@@ -10899,6 +11385,18 @@ extension CreateSegmentSnapshotOutput {
         let reader = responseReader
         var value = CreateSegmentSnapshotOutput()
         value.snapshotId = try reader["SnapshotId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateUploadJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateUploadJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateUploadJobOutput()
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11365,6 +11863,41 @@ extension GetSimilarProfilesOutput {
     }
 }
 
+extension GetUploadJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetUploadJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetUploadJobOutput()
+        value.completedAt = try reader["CompletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.dataExpiry = try reader["DataExpiry"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.fields = try reader["Fields"].readMapIfPresent(valueReadingClosure: CustomerProfilesClientTypes.ObjectTypeField.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.jobId = try reader["JobId"].readIfPresent()
+        value.resultsSummary = try reader["ResultsSummary"].readIfPresent(with: CustomerProfilesClientTypes.ResultsSummary.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.uniqueKey = try reader["UniqueKey"].readIfPresent()
+        return value
+    }
+}
+
+extension GetUploadJobPathOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetUploadJobPathOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetUploadJobPathOutput()
+        value.clientToken = try reader["ClientToken"].readIfPresent()
+        value.url = try reader["Url"].readIfPresent() ?? ""
+        value.validUntil = try reader["ValidUntil"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension GetWorkflowOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetWorkflowOutput {
@@ -11621,6 +12154,19 @@ extension ListTagsForResourceOutput {
     }
 }
 
+extension ListUploadJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListUploadJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListUploadJobsOutput()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.UploadJobItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListWorkflowsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListWorkflowsOutput {
@@ -11715,6 +12261,20 @@ extension SearchProfilesOutput {
         value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.Profile.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
+    }
+}
+
+extension StartUploadJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartUploadJobOutput {
+        return StartUploadJobOutput()
+    }
+}
+
+extension StopUploadJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopUploadJobOutput {
+        return StopUploadJobOutput()
     }
 }
 
@@ -12045,6 +12605,24 @@ enum CreateSegmentEstimateOutputError {
 }
 
 enum CreateSegmentSnapshotOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateUploadJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -12602,6 +13180,42 @@ enum GetSimilarProfilesOutputError {
     }
 }
 
+enum GetUploadJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetUploadJobPathOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetWorkflowOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12942,6 +13556,24 @@ enum ListTagsForResourceOutputError {
     }
 }
 
+enum ListUploadJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListWorkflowsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13032,6 +13664,42 @@ enum PutProfileObjectTypeOutputError {
 }
 
 enum SearchProfilesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartUploadJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopUploadJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -14222,6 +14890,18 @@ extension CustomerProfilesClientTypes.ProfileQueryFailures {
     }
 }
 
+extension CustomerProfilesClientTypes.ResultsSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ResultsSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.ResultsSummary()
+        value.updatedRecords = try reader["UpdatedRecords"].readIfPresent()
+        value.createdRecords = try reader["CreatedRecords"].readIfPresent()
+        value.failedRecords = try reader["FailedRecords"].readIfPresent()
+        return value
+    }
+}
+
 extension CustomerProfilesClientTypes.WorkflowAttributes {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.WorkflowAttributes {
@@ -14506,6 +15186,22 @@ extension CustomerProfilesClientTypes.SegmentDefinitionItem {
         value.segmentDefinitionArn = try reader["SegmentDefinitionArn"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.UploadJobItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.UploadJobItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.UploadJobItem()
+        value.jobId = try reader["JobId"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completedAt = try reader["CompletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.dataExpiry = try reader["DataExpiry"].readIfPresent()
         return value
     }
 }

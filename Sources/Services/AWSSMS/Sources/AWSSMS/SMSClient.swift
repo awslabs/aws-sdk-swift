@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SMSClient: ClientRuntime.Client {
     public static let clientName = "SMSClient"
-    public static let version = "1.3.49"
+    public static let version = "1.3.50"
     let client: ClientRuntime.SdkHttpClient
     let config: SMSClient.SMSClientConfiguration
     let serviceName = "SMS"
