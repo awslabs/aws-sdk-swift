@@ -37,6 +37,8 @@ extension Target.Dependency {
     static var smithyWaitersAPI: Self { .product(name: "SmithyWaitersAPI", package: "smithy-swift") }
     static var smithyTestUtils: Self { .product(name: "SmithyTestUtil", package: "smithy-swift") }
     static var smithyStreams: Self { .product(name: "SmithyStreams", package: "smithy-swift") }
+    static var smithyReadWrite: Self { .product(name: "SmithyReadWrite", package: "smithy-swift") }
+    static var smithyJSON: Self { .product(name: "SmithyJSON", package: "smithy-swift") }
 }
 
 // MARK: - Base Package
@@ -98,6 +100,7 @@ private var protocolTestTargets: [Target] {
         .init(name: "RPCV2CBORTestQueryCompatSDK", sourcePath: "\(baseDir)/smithy-rpcv2-cbor-query-compat"),
         .init(name: "RPCV2CBORTestNonQueryCompatSDK", sourcePath: "\(baseDir)/smithy-rpcv2-cbor-non-query-compat"),
         .init(name: "AWSJson1_0TestQueryCompatSDK", sourcePath: "\(baseDir)/aws-json-10-query-compat"),
+        .init(name: "Performance", sourcePath: "\(baseDirLocal)/Performance", testPath: "../codegen/protocol-test-codegen-local/Tests"),
     ]
     return protocolTests.flatMap { protocolTest in
         let target = Target.target(
@@ -118,11 +121,14 @@ private var protocolTestTargets: [Target] {
                 .smithyChecksumsAPI,
                 .smithyChecksums,
                 .smithyWaitersAPI,
+                .smithyReadWrite,
+                .smithyJSON,
                 .awsSDKCommon,
                 .awsSDKIdentity,
                 .awsSDKHTTPAuth,
                 .awsSDKEventStreamsAuth,
                 .awsSDKChecksums,
+
             ],
             path: "\(protocolTest.sourcePath)/swift-codegen/Sources/\(protocolTest.name)"
         )
