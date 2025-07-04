@@ -1614,6 +1614,8 @@ extension OpenSearchServerlessClientTypes {
         /// The XML IdP metadata file generated from your identity provider.
         /// This member is required.
         public var metadata: Swift.String?
+        /// Custom entity id attribute to override default entity id for this saml integration.
+        public var openSearchServerlessEntityId: Swift.String?
         /// The session timeout, in minutes. Default is 60 minutes (12 hours).
         public var sessionTimeout: Swift.Int?
         /// A user attribute for this SAML integration.
@@ -1622,11 +1624,13 @@ extension OpenSearchServerlessClientTypes {
         public init(
             groupAttribute: Swift.String? = nil,
             metadata: Swift.String? = nil,
+            openSearchServerlessEntityId: Swift.String? = nil,
             sessionTimeout: Swift.Int? = nil,
             userAttribute: Swift.String? = nil
         ) {
             self.groupAttribute = groupAttribute
             self.metadata = metadata
+            self.openSearchServerlessEntityId = openSearchServerlessEntityId
             self.sessionTimeout = sessionTimeout
             self.userAttribute = userAttribute
         }
@@ -4507,11 +4511,11 @@ enum UpdateVpcEndpointOutputError {
     }
 }
 
-extension ValidationException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4520,11 +4524,11 @@ extension ValidationException {
     }
 }
 
-extension InternalServerException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerException()
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4785,6 +4789,7 @@ extension OpenSearchServerlessClientTypes.SamlConfigOptions {
         guard let value else { return }
         try writer["groupAttribute"].write(value.groupAttribute)
         try writer["metadata"].write(value.metadata)
+        try writer["openSearchServerlessEntityId"].write(value.openSearchServerlessEntityId)
         try writer["sessionTimeout"].write(value.sessionTimeout)
         try writer["userAttribute"].write(value.userAttribute)
     }
@@ -4795,6 +4800,7 @@ extension OpenSearchServerlessClientTypes.SamlConfigOptions {
         value.metadata = try reader["metadata"].readIfPresent() ?? ""
         value.userAttribute = try reader["userAttribute"].readIfPresent()
         value.groupAttribute = try reader["groupAttribute"].readIfPresent()
+        value.openSearchServerlessEntityId = try reader["openSearchServerlessEntityId"].readIfPresent()
         value.sessionTimeout = try reader["sessionTimeout"].readIfPresent()
         return value
     }

@@ -5,6 +5,7 @@ import software.amazon.smithy.aws.swift.codegen.protocols.restjson.AWSRestJson1P
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
 import software.amazon.smithy.swift.codegen.core.GenerationContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+
 class PresignerGeneratorTests {
     @Test
     fun `001 presignable on getFooInput`() {
@@ -23,17 +24,10 @@ extension GetFooInput {
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getFoo")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withSmithyDefaultConfig(config)
                       .withFlowType(value: .PRESIGN_REQUEST)
                       .withExpiration(value: expiration)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -79,6 +73,7 @@ extension GetFooInput {
 """
         contents.shouldContainOnlyOnce(expectedContents)
     }
+
     @Test
     fun `002 presignable on postFooInput`() {
         val context = setupTests("awsrestjson1/presignable.smithy", "smithy.swift.traits#Example")
@@ -96,17 +91,10 @@ extension PostFooInput {
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "postFoo")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withSmithyDefaultConfig(config)
                       .withFlowType(value: .PRESIGN_REQUEST)
                       .withExpiration(value: expiration)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -155,6 +143,7 @@ extension PostFooInput {
 """
         contents.shouldContainOnlyOnce(expectedContents)
     }
+
     @Test
     fun `003 presignable on putFooInput`() {
         val context = setupTests("awsrestjson1/presignable.smithy", "smithy.swift.traits#Example")
@@ -172,17 +161,10 @@ extension PutFooInput {
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putFoo")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withSmithyDefaultConfig(config)
                       .withFlowType(value: .PRESIGN_REQUEST)
                       .withExpiration(value: expiration)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
@@ -231,6 +213,7 @@ extension PutFooInput {
 """
         contents.shouldContainOnlyOnce(expectedContents)
     }
+
     @Test
     fun `004 presignable on S3`() {
         val context = setupTests("presign-urls-s3.smithy", "com.amazonaws.s3#AmazonS3")
@@ -248,23 +231,18 @@ extension PutObjectInput {
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObject")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withSmithyDefaultConfig(config)
                       .withFlowType(value: .PRESIGN_REQUEST)
                       .withExpiration(value: expiration)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutObjectInput, PutObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -308,12 +286,26 @@ extension PutObjectInput {
 """
         contents.shouldContainOnlyOnce(expectedContents)
     }
-    private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
+
+    private fun setupTests(
+        smithyFile: String,
+        serviceShapeId: String,
+    ): TestContext {
         val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, RestJson1Trait.ID)
         val presigner = PresignerGenerator()
         val generator = AWSRestJson1ProtocolGenerator()
-        val codegenContext = GenerationContext(context.ctx.model, context.ctx.symbolProvider, context.ctx.settings, context.manifest, generator)
-        val protocolGenerationContext = ProtocolGenerator.GenerationContext(context.ctx.settings, context.ctx.model, context.ctx.service, context.ctx.symbolProvider, listOf(), RestJson1Trait.ID, context.ctx.delegator)
+        val codegenContext =
+            GenerationContext(context.ctx.model, context.ctx.symbolProvider, context.ctx.settings, context.manifest, generator)
+        val protocolGenerationContext =
+            ProtocolGenerator.GenerationContext(
+                context.ctx.settings,
+                context.ctx.model,
+                context.ctx.service,
+                context.ctx.symbolProvider,
+                listOf(),
+                RestJson1Trait.ID,
+                context.ctx.delegator,
+            )
         codegenContext.protocolGenerator?.initializeMiddleware(context.ctx)
         presigner.writeAdditionalFiles(codegenContext, protocolGenerationContext, context.ctx.delegator)
         context.ctx.delegator.flushWriters()

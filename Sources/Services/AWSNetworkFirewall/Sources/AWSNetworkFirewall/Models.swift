@@ -27,6 +27,201 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
+/// Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
+public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerError" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The operation failed because of a problem with your request. Examples include:
+///
+/// * You specified an unsupported parameter name or value.
+///
+/// * You tried to update a property with a value that isn't among the available types.
+///
+/// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidRequestException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// Unable to locate a resource using the parameters that you provided.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// Unable to process the request due to throttling limitations.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct AcceptNetworkFirewallTransitGatewayAttachmentInput: Swift.Sendable {
+    /// Required. The unique identifier of the transit gateway attachment to accept. This ID is returned in the response when creating a transit gateway-attached firewall.
+    /// This member is required.
+    public var transitGatewayAttachmentId: Swift.String?
+
+    public init(
+        transitGatewayAttachmentId: Swift.String? = nil
+    ) {
+        self.transitGatewayAttachmentId = transitGatewayAttachmentId
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum TransitGatewayAttachmentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creating
+        case deleted
+        case deleting
+        case error
+        case failed
+        case pendingAcceptance
+        case ready
+        case rejected
+        case rejecting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TransitGatewayAttachmentStatus] {
+            return [
+                .creating,
+                .deleted,
+                .deleting,
+                .error,
+                .failed,
+                .pendingAcceptance,
+                .ready,
+                .rejected,
+                .rejecting
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creating: return "CREATING"
+            case .deleted: return "DELETED"
+            case .deleting: return "DELETING"
+            case .error: return "ERROR"
+            case .failed: return "FAILED"
+            case .pendingAcceptance: return "PENDING_ACCEPTANCE"
+            case .ready: return "READY"
+            case .rejected: return "REJECTED"
+            case .rejecting: return "REJECTING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AcceptNetworkFirewallTransitGatewayAttachmentOutput: Swift.Sendable {
+    /// The unique identifier of the transit gateway attachment that was accepted.
+    /// This member is required.
+    public var transitGatewayAttachmentId: Swift.String?
+    /// The current status of the transit gateway attachment. Valid values are:
+    ///
+    /// * CREATING - The attachment is being created
+    ///
+    /// * DELETING - The attachment is being deleted
+    ///
+    /// * DELETED - The attachment has been deleted
+    ///
+    /// * FAILED - The attachment creation has failed and cannot be recovered
+    ///
+    /// * ERROR - The attachment is in an error state that might be recoverable
+    ///
+    /// * READY - The attachment is active and processing traffic
+    ///
+    /// * PENDING_ACCEPTANCE - The attachment is waiting to be accepted
+    ///
+    /// * REJECTING - The attachment is in the process of being rejected
+    ///
+    /// * REJECTED - The attachment has been rejected
+    /// This member is required.
+    public var transitGatewayAttachmentStatus: NetworkFirewallClientTypes.TransitGatewayAttachmentStatus?
+
+    public init(
+        transitGatewayAttachmentId: Swift.String? = nil,
+        transitGatewayAttachmentStatus: NetworkFirewallClientTypes.TransitGatewayAttachmentStatus? = nil
+    ) {
+        self.transitGatewayAttachmentId = transitGatewayAttachmentId
+        self.transitGatewayAttachmentStatus = transitGatewayAttachmentStatus
+    }
+}
+
 extension NetworkFirewallClientTypes {
 
     /// The value to use in an Amazon CloudWatch custom metric dimension. This is used in the PublishMetrics[CustomAction]. A CloudWatch custom metric dimension is a name/value pair that's part of the identity of a metric. Network Firewall sets the dimension name to CustomAction and you provide the dimension value. For more information about CloudWatch custom metric dimensions, see [Publishing Custom Metrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html#usingDimensions) in the [Amazon CloudWatch User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html).
@@ -103,6 +298,127 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
+    public enum EnabledAnalysisType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case httpHost
+        case tlsSni
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnabledAnalysisType] {
+            return [
+                .httpHost,
+                .tlsSni
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .httpHost: return "HTTP_HOST"
+            case .tlsSni: return "TLS_SNI"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A report that captures key activity from the last 30 days of network traffic monitored by your firewall. You can generate up to one report per traffic type, per 30 day period. For example, when you successfully create an HTTP traffic report, you cannot create another HTTP traffic report until 30 days pass. Alternatively, if you generate a report that combines metrics on both HTTP and HTTPS traffic, you cannot create another report for either traffic type until 30 days pass.
+    public struct AnalysisReport: Swift.Sendable {
+        /// The unique ID of the query that ran when you requested an analysis report.
+        public var analysisReportId: Swift.String?
+        /// The type of traffic that will be used to generate a report.
+        public var analysisType: NetworkFirewallClientTypes.EnabledAnalysisType?
+        /// The date and time the analysis report was ran.
+        public var reportTime: Foundation.Date?
+        /// The status of the analysis report you specify. Statuses include RUNNING, COMPLETED, or FAILED.
+        public var status: Swift.String?
+
+        public init(
+            analysisReportId: Swift.String? = nil,
+            analysisType: NetworkFirewallClientTypes.EnabledAnalysisType? = nil,
+            reportTime: Foundation.Date? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.analysisReportId = analysisReportId
+            self.analysisType = analysisType
+            self.reportTime = reportTime
+            self.status = status
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Attempts made to a access domain.
+    public struct Hits: Swift.Sendable {
+        /// The number of attempts made to access a domain.
+        public var count: Swift.Int
+
+        public init(
+            count: Swift.Int = 0
+        ) {
+            self.count = count
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A unique source IP address that connected to a domain.
+    public struct UniqueSources: Swift.Sendable {
+        /// The number of unique source IP addresses that connected to a domain.
+        public var count: Swift.Int
+
+        public init(
+            count: Swift.Int = 0
+        ) {
+            self.count = count
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// The results of a COMPLETED analysis report generated with [StartAnalysisReport]. For an example of traffic analysis report results, see the response syntax of [GetAnalysisReportResults].
+    public struct AnalysisTypeReportResult: Swift.Sendable {
+        /// The most frequently accessed domains.
+        public var domain: Swift.String?
+        /// The date and time any domain was first accessed (within the last 30 day period).
+        public var firstAccessed: Foundation.Date?
+        /// The number of attempts made to access a observed domain.
+        public var hits: NetworkFirewallClientTypes.Hits?
+        /// The date and time any domain was last accessed (within the last 30 day period).
+        public var lastAccessed: Foundation.Date?
+        /// The type of traffic captured by the analysis report.
+        public var `protocol`: Swift.String?
+        /// The number of unique source IP addresses that connected to a domain.
+        public var uniqueSources: NetworkFirewallClientTypes.UniqueSources?
+
+        public init(
+            domain: Swift.String? = nil,
+            firstAccessed: Foundation.Date? = nil,
+            hits: NetworkFirewallClientTypes.Hits? = nil,
+            lastAccessed: Foundation.Date? = nil,
+            `protocol`: Swift.String? = nil,
+            uniqueSources: NetworkFirewallClientTypes.UniqueSources? = nil
+        ) {
+            self.domain = domain
+            self.firstAccessed = firstAccessed
+            self.hits = hits
+            self.lastAccessed = lastAccessed
+            self.`protocol` = `protocol`
+            self.uniqueSources = uniqueSources
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
     public enum IdentifiedType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case statelessRuleContainsTcpFlags
         case statelessRuleForwardingAsymmetrically
@@ -132,7 +448,7 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// The analysis result for Network Firewall's stateless rule group analyzer. Every time you call [CreateRuleGroup], [UpdateRuleGroup], or [DescribeRuleGroup] on a stateless rule group, Network Firewall analyzes the stateless rule groups in your account and identifies the rules that might adversely effect your firewall's functionality. For example, if Network Firewall detects a rule that's routing traffic asymmetrically, which impacts the service's ability to properly process traffic, the service includes the rule in a list of analysis results.
+    /// The analysis result for Network Firewall's stateless rule group analyzer. Every time you call [CreateRuleGroup], [UpdateRuleGroup], or [DescribeRuleGroup] on a stateless rule group, Network Firewall analyzes the stateless rule groups in your account and identifies the rules that might adversely effect your firewall's functionality. For example, if Network Firewall detects a rule that's routing traffic asymmetrically, which impacts the service's ability to properly process traffic, the service includes the rule in a list of analysis results. The AnalysisResult data type is not related to traffic analysis reports you generate using [StartAnalysisReport]. For information on traffic analysis report results, see [AnalysisTypeReportResult].
     public struct AnalysisResult: Swift.Sendable {
         /// Provides analysis details for the identified rule.
         public var analysisDetail: Swift.String?
@@ -161,15 +477,15 @@ extension NetworkFirewallClientTypes {
     }
 }
 
-/// Your request is valid, but Network Firewall couldn't perform the operation because of a system problem. Retry your request.
-public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+/// Amazon Web Services doesn't currently have enough available capacity to fulfill your request. Try your request later.
+public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InternalServerError" }
+    public static var typeName: Swift.String { "InsufficientCapacityException" }
     public static var fault: ClientRuntime.ErrorFault { .server }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -207,35 +523,6 @@ public struct InvalidOperationException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// The operation failed because of a problem with your request. Examples include:
-///
-/// * You specified an unsupported parameter name or value.
-///
-/// * You tried to update a property with a value that isn't among the available types.
-///
-/// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
-public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidRequestException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// The token you provided is stale or isn't valid for the operation.
 public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -259,49 +546,66 @@ public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-/// Unable to locate a resource using the parameters that you provided.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+extension NetworkFirewallClientTypes {
 
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
+    /// Defines the mapping between an Availability Zone and a firewall endpoint for a transit gateway-attached firewall. Each mapping represents where the firewall can process traffic. You use these mappings when calling [CreateFirewall], [AssociateAvailabilityZones], and [DisassociateAvailabilityZones]. To retrieve the current Availability Zone mappings for a firewall, use [DescribeFirewall].
+    public struct AvailabilityZoneMapping: Swift.Sendable {
+        /// The ID of the Availability Zone where the firewall endpoint is located. For example, us-east-2a. The Availability Zone must be in the same Region as the transit gateway.
+        /// This member is required.
+        public var availabilityZone: Swift.String?
 
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
+        public init(
+            availabilityZone: Swift.String? = nil
+        ) {
+            self.availabilityZone = availabilityZone
+        }
     }
 }
 
-/// Unable to process the request due to throttling limitations.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ThrottlingException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+public struct AssociateAvailabilityZonesInput: Swift.Sendable {
+    /// Required. The Availability Zones where you want to create firewall endpoints. You must specify at least one Availability Zone.
+    /// This member is required.
+    public var availabilityZoneMappings: [NetworkFirewallClientTypes.AvailabilityZoneMapping]?
+    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    public var firewallArn: Swift.String?
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    public var firewallName: Swift.String?
+    /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        availabilityZoneMappings: [NetworkFirewallClientTypes.AvailabilityZoneMapping]? = nil,
+        firewallArn: Swift.String? = nil,
+        firewallName: Swift.String? = nil,
+        updateToken: Swift.String? = nil
     ) {
-        self.properties.message = message
+        self.availabilityZoneMappings = availabilityZoneMappings
+        self.firewallArn = firewallArn
+        self.firewallName = firewallName
+        self.updateToken = updateToken
+    }
+}
+
+public struct AssociateAvailabilityZonesOutput: Swift.Sendable {
+    /// The Availability Zones where Network Firewall created firewall endpoints. Each mapping specifies an Availability Zone where the firewall processes traffic.
+    public var availabilityZoneMappings: [NetworkFirewallClientTypes.AvailabilityZoneMapping]?
+    /// The Amazon Resource Name (ARN) of the firewall.
+    public var firewallArn: Swift.String?
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
+    public var firewallName: Swift.String?
+    /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        availabilityZoneMappings: [NetworkFirewallClientTypes.AvailabilityZoneMapping]? = nil,
+        firewallArn: Swift.String? = nil,
+        firewallName: Swift.String? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.availabilityZoneMappings = availabilityZoneMappings
+        self.firewallArn = firewallArn
+        self.firewallName = firewallName
+        self.updateToken = updateToken
     }
 }
 
@@ -352,29 +656,6 @@ public struct AssociateFirewallPolicyOutput: Swift.Sendable {
     }
 }
 
-/// Amazon Web Services doesn't currently have enough available capacity to fulfill your request. Try your request later.
-public struct InsufficientCapacityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InsufficientCapacityException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 extension NetworkFirewallClientTypes {
 
     public enum IPAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -409,7 +690,7 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// The ID for a subnet that you want to associate with the firewall. This is used with [CreateFirewall] and [AssociateSubnets]. Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Availability Zone.
+    /// The ID for a subnet that's used in an association with a firewall. This is used in [CreateFirewall], [AssociateSubnets], and [CreateVpcEndpointAssociation]. Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Availability Zone.
     public struct SubnetMapping: Swift.Sendable {
         /// The subnet's IP address type. You can't change the IP address type after you create the subnet.
         public var ipAddressType: NetworkFirewallClientTypes.IPAddressType?
@@ -517,11 +798,15 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// The configuration and status for a single subnet that you've specified for use by the Network Firewall firewall. This is part of the [FirewallStatus].
+    /// The definition and status of the firewall endpoint for a single subnet. In each configured subnet, Network Firewall instantiates a firewall endpoint to handle network traffic. This data type is used for any firewall endpoint type:
+    ///
+    /// * For Firewall.SubnetMappings, this Attachment is part of the FirewallStatus sync states information. You define firewall subnets using CreateFirewall and AssociateSubnets.
+    ///
+    /// * For VpcEndpointAssociation, this Attachment is part of the VpcEndpointAssociationStatus sync states information. You define these subnets using CreateVpcEndpointAssociation.
     public struct Attachment: Swift.Sendable {
         /// The identifier of the firewall endpoint that Network Firewall has instantiated in the subnet. You use this to identify the firewall endpoint in the VPC route tables, when you redirect the VPC traffic through the endpoint.
         public var endpointId: Swift.String?
-        /// The current status of the firewall endpoint in the subnet. This value reflects both the instantiation of the endpoint in the VPC subnet and the sync states that are reported in the Config settings. When this value is READY, the endpoint is available and configured properly to handle network traffic. When the endpoint isn't available for traffic, this value will reflect its state, for example CREATING or DELETING.
+        /// The current status of the firewall endpoint instantiation in the subnet. When this value is READY, the endpoint is available to handle network traffic. Otherwise, this value reflects its state, for example CREATING or DELETING.
         public var status: NetworkFirewallClientTypes.AttachmentStatus?
         /// If Network Firewall fails to create or delete the firewall endpoint in the subnet, it populates this with the reason for the error or failure and how to resolve it. A FAILED status indicates a non-recoverable state, and a ERROR status indicates an issue that you can fix. Depending on the error, it can take as many as 15 minutes to populate this field. For more information about the causes for failiure or errors and solutions available for this field, see [Troubleshooting firewall endpoint failures](https://docs.aws.amazon.com/network-firewall/latest/developerguide/firewall-troubleshooting-endpoint-failures.html) in the Network Firewall Developer Guide.
         public var statusMessage: Swift.String?
@@ -538,6 +823,40 @@ extension NetworkFirewallClientTypes {
             self.status = status
             self.statusMessage = statusMessage
             self.subnetId = subnetId
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// The status of the firewall endpoint defined by a VpcEndpointAssociation.
+    public struct AZSyncState: Swift.Sendable {
+        /// The definition and status of the firewall endpoint for a single subnet. In each configured subnet, Network Firewall instantiates a firewall endpoint to handle network traffic. This data type is used for any firewall endpoint type:
+        ///
+        /// * For Firewall.SubnetMappings, this Attachment is part of the FirewallStatus sync states information. You define firewall subnets using CreateFirewall and AssociateSubnets.
+        ///
+        /// * For VpcEndpointAssociation, this Attachment is part of the VpcEndpointAssociationStatus sync states information. You define these subnets using CreateVpcEndpointAssociation.
+        public var attachment: NetworkFirewallClientTypes.Attachment?
+
+        public init(
+            attachment: NetworkFirewallClientTypes.Attachment? = nil
+        ) {
+            self.attachment = attachment
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// High-level information about an Availability Zone where the firewall has an endpoint defined.
+    public struct AvailabilityZoneMetadata: Swift.Sendable {
+        /// The IP address type of the Firewall subnet in the Availability Zone. You can't change the IP address type after you create the subnet.
+        public var ipAddressType: NetworkFirewallClientTypes.IPAddressType?
+
+        public init(
+            ipAddressType: NetworkFirewallClientTypes.IPAddressType? = nil
+        ) {
+            self.ipAddressType = ipAddressType
         }
     }
 }
@@ -811,10 +1130,16 @@ extension NetworkFirewallClientTypes {
 }
 
 public struct CreateFirewallInput: Swift.Sendable {
+    /// Optional. A setting indicating whether the firewall is protected against changes to its Availability Zone configuration. When set to TRUE, you cannot add or remove Availability Zones without first disabling this protection using [UpdateAvailabilityZoneChangeProtection]. Default value: FALSE
+    public var availabilityZoneChangeProtection: Swift.Bool?
+    /// Required. The Availability Zones where you want to create firewall endpoints for a transit gateway-attached firewall. You must specify at least one Availability Zone. Consider enabling the firewall in every Availability Zone where you have workloads to maintain Availability Zone independence. You can modify Availability Zones later using [AssociateAvailabilityZones] or [DisassociateAvailabilityZones], but this may briefly disrupt traffic. The AvailabilityZoneChangeProtection setting controls whether you can make these modifications.
+    public var availabilityZoneMappings: [NetworkFirewallClientTypes.AvailabilityZoneMapping]?
     /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
     public var deleteProtection: Swift.Bool?
     /// A description of the firewall.
     public var description: Swift.String?
+    /// An optional setting indicating the specific traffic analysis types to enable on the firewall.
+    public var enabledAnalysisTypes: [NetworkFirewallClientTypes.EnabledAnalysisType]?
     /// A complex type that contains settings for encryption of your firewall resources.
     public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
@@ -828,17 +1153,20 @@ public struct CreateFirewallInput: Swift.Sendable {
     /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
     public var subnetChangeProtection: Swift.Bool?
     /// The public subnets to use for your Network Firewall firewalls. Each subnet must belong to a different Availability Zone in the VPC. Network Firewall creates a firewall endpoint in each subnet.
-    /// This member is required.
     public var subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]?
     /// The key:value pairs to associate with the resource.
     public var tags: [NetworkFirewallClientTypes.Tag]?
+    /// Required when creating a transit gateway-attached firewall. The unique identifier of the transit gateway to attach to this firewall. You can provide either a transit gateway from your account or one that has been shared with you through Resource Access Manager. After creating the firewall, you cannot change the transit gateway association. To use a different transit gateway, you must create a new firewall. For information about creating firewalls, see [CreateFirewall]. For specific guidance about transit gateway-attached firewalls, see [Considerations for transit gateway-attached firewalls](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tgw-firewall-considerations.html) in the Network Firewall Developer Guide.
+    public var transitGatewayId: Swift.String?
     /// The unique identifier of the VPC where Network Firewall should create the firewall. You can't change this setting after you create the firewall.
-    /// This member is required.
     public var vpcId: Swift.String?
 
     public init(
+        availabilityZoneChangeProtection: Swift.Bool? = false,
+        availabilityZoneMappings: [NetworkFirewallClientTypes.AvailabilityZoneMapping]? = nil,
         deleteProtection: Swift.Bool? = false,
         description: Swift.String? = nil,
+        enabledAnalysisTypes: [NetworkFirewallClientTypes.EnabledAnalysisType]? = nil,
         encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
         firewallName: Swift.String? = nil,
         firewallPolicyArn: Swift.String? = nil,
@@ -846,10 +1174,14 @@ public struct CreateFirewallInput: Swift.Sendable {
         subnetChangeProtection: Swift.Bool? = false,
         subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]? = nil,
         tags: [NetworkFirewallClientTypes.Tag]? = nil,
+        transitGatewayId: Swift.String? = nil,
         vpcId: Swift.String? = nil
     ) {
+        self.availabilityZoneChangeProtection = availabilityZoneChangeProtection
+        self.availabilityZoneMappings = availabilityZoneMappings
         self.deleteProtection = deleteProtection
         self.description = description
+        self.enabledAnalysisTypes = enabledAnalysisTypes
         self.encryptionConfiguration = encryptionConfiguration
         self.firewallName = firewallName
         self.firewallPolicyArn = firewallPolicyArn
@@ -857,18 +1189,25 @@ public struct CreateFirewallInput: Swift.Sendable {
         self.subnetChangeProtection = subnetChangeProtection
         self.subnetMappings = subnetMappings
         self.tags = tags
+        self.transitGatewayId = transitGatewayId
         self.vpcId = vpcId
     }
 }
 
 extension NetworkFirewallClientTypes {
 
-    /// The firewall defines the configuration settings for an Network Firewall firewall. These settings include the firewall policy, the subnets in your VPC to use for the firewall endpoints, and any tags that are attached to the firewall Amazon Web Services resource. The status of the firewall, for example whether it's ready to filter network traffic, is provided in the corresponding [FirewallStatus]. You can retrieve both objects by calling [DescribeFirewall].
+    /// A firewall defines the behavior of a firewall, the main VPC where the firewall is used, the Availability Zones where the firewall can be used, and one subnet to use for a firewall endpoint within each of the Availability Zones. The Availability Zones are defined implicitly in the subnet specifications. In addition to the firewall endpoints that you define in this Firewall specification, you can create firewall endpoints in VpcEndpointAssociation resources for any VPC, in any Availability Zone where the firewall is already in use. The status of the firewall, for example whether it's ready to filter network traffic, is provided in the corresponding [FirewallStatus]. You can retrieve both the firewall and firewall status by calling [DescribeFirewall].
     public struct Firewall: Swift.Sendable {
+        /// A setting indicating whether the firewall is protected against changes to its Availability Zone configuration. When set to TRUE, you must first disable this protection before adding or removing Availability Zones.
+        public var availabilityZoneChangeProtection: Swift.Bool
+        /// The Availability Zones where the firewall endpoints are created for a transit gateway-attached firewall. Each mapping specifies an Availability Zone where the firewall processes traffic.
+        public var availabilityZoneMappings: [NetworkFirewallClientTypes.AvailabilityZoneMapping]?
         /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
         public var deleteProtection: Swift.Bool
         /// A description of the firewall.
         public var description: Swift.String?
+        /// An optional setting indicating the specific traffic analysis types to enable on the firewall.
+        public var enabledAnalysisTypes: [NetworkFirewallClientTypes.EnabledAnalysisType]?
         /// A complex type that contains the Amazon Web Services KMS encryption configuration settings for your firewall.
         public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
         /// The Amazon Resource Name (ARN) of the firewall.
@@ -883,42 +1222,60 @@ extension NetworkFirewallClientTypes {
         public var firewallPolicyArn: Swift.String?
         /// A setting indicating whether the firewall is protected against a change to the firewall policy association. Use this setting to protect against accidentally modifying the firewall policy for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public var firewallPolicyChangeProtection: Swift.Bool
+        /// The number of VpcEndpointAssociation resources that use this firewall.
+        public var numberOfAssociations: Swift.Int?
         /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public var subnetChangeProtection: Swift.Bool
-        /// The public subnets that Network Firewall is using for the firewall. Each subnet must belong to a different Availability Zone.
+        /// The primary public subnets that Network Firewall is using for the firewall. Network Firewall creates a firewall endpoint in each subnet. Create a subnet mapping for each Availability Zone where you want to use the firewall. These subnets are all defined for a single, primary VPC, and each must belong to a different Availability Zone. Each of these subnets establishes the availability of the firewall in its Availability Zone. In addition to these subnets, you can define other endpoints for the firewall in VpcEndpointAssociation resources. You can define these additional endpoints for any VPC, and for any of the Availability Zones where the firewall resource already has a subnet mapping. VPC endpoint associations give you the ability to protect multiple VPCs using a single firewall, and to define multiple firewall endpoints for a VPC in a single Availability Zone.
         /// This member is required.
         public var subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]?
         ///
         public var tags: [NetworkFirewallClientTypes.Tag]?
+        /// The unique identifier of the transit gateway associated with this firewall. This field is only present for transit gateway-attached firewalls.
+        public var transitGatewayId: Swift.String?
+        /// The Amazon Web Services account ID that owns the transit gateway. This may be different from the firewall owner's account ID when using a shared transit gateway.
+        public var transitGatewayOwnerAccountId: Swift.String?
         /// The unique identifier of the VPC where the firewall is in use.
         /// This member is required.
         public var vpcId: Swift.String?
 
         public init(
+            availabilityZoneChangeProtection: Swift.Bool = false,
+            availabilityZoneMappings: [NetworkFirewallClientTypes.AvailabilityZoneMapping]? = nil,
             deleteProtection: Swift.Bool = false,
             description: Swift.String? = nil,
+            enabledAnalysisTypes: [NetworkFirewallClientTypes.EnabledAnalysisType]? = nil,
             encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration? = nil,
             firewallArn: Swift.String? = nil,
             firewallId: Swift.String? = nil,
             firewallName: Swift.String? = nil,
             firewallPolicyArn: Swift.String? = nil,
             firewallPolicyChangeProtection: Swift.Bool = false,
+            numberOfAssociations: Swift.Int? = nil,
             subnetChangeProtection: Swift.Bool = false,
             subnetMappings: [NetworkFirewallClientTypes.SubnetMapping]? = nil,
             tags: [NetworkFirewallClientTypes.Tag]? = nil,
+            transitGatewayId: Swift.String? = nil,
+            transitGatewayOwnerAccountId: Swift.String? = nil,
             vpcId: Swift.String? = nil
         ) {
+            self.availabilityZoneChangeProtection = availabilityZoneChangeProtection
+            self.availabilityZoneMappings = availabilityZoneMappings
             self.deleteProtection = deleteProtection
             self.description = description
+            self.enabledAnalysisTypes = enabledAnalysisTypes
             self.encryptionConfiguration = encryptionConfiguration
             self.firewallArn = firewallArn
             self.firewallId = firewallId
             self.firewallName = firewallName
             self.firewallPolicyArn = firewallPolicyArn
             self.firewallPolicyChangeProtection = firewallPolicyChangeProtection
+            self.numberOfAssociations = numberOfAssociations
             self.subnetChangeProtection = subnetChangeProtection
             self.subnetMappings = subnetMappings
             self.tags = tags
+            self.transitGatewayId = transitGatewayId
+            self.transitGatewayOwnerAccountId = transitGatewayOwnerAccountId
             self.vpcId = vpcId
         }
     }
@@ -1009,7 +1366,7 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// The status of the firewall endpoint and firewall policy configuration for a single VPC subnet. For each VPC subnet that you associate with a firewall, Network Firewall does the following:
+    /// The status of the firewall endpoint and firewall policy configuration for a single VPC subnet. This is part of the [FirewallStatus]. For each VPC subnet that you associate with a firewall, Network Firewall does the following:
     ///
     /// * Instantiates a firewall endpoint in the subnet, ready to take traffic.
     ///
@@ -1018,9 +1375,9 @@ extension NetworkFirewallClientTypes {
     ///
     /// When you update a firewall, for example to add a subnet association or change a rule group in the firewall policy, the affected sync states reflect out-of-sync or not ready status until the changes are complete.
     public struct SyncState: Swift.Sendable {
-        /// The attachment status of the firewall's association with a single VPC subnet. For each configured subnet, Network Firewall creates the attachment by instantiating the firewall endpoint in the subnet so that it's ready to take traffic. This is part of the [FirewallStatus].
+        /// The configuration and status for a single firewall subnet. For each configured subnet, Network Firewall creates the attachment by instantiating the firewall endpoint in the subnet so that it's ready to take traffic.
         public var attachment: NetworkFirewallClientTypes.Attachment?
-        /// The configuration status of the firewall endpoint in a single VPC subnet. Network Firewall provides each endpoint with the rules that are configured in the firewall policy. Each time you add a subnet or modify the associated firewall policy, Network Firewall synchronizes the rules in the endpoint, so it can properly filter network traffic. This is part of the [FirewallStatus].
+        /// The configuration status of the firewall endpoint in a single VPC subnet. Network Firewall provides each endpoint with the rules that are configured in the firewall policy. Each time you add a subnet or modify the associated firewall policy, Network Firewall synchronizes the rules in the endpoint, so it can properly filter network traffic.
         public var config: [Swift.String: NetworkFirewallClientTypes.PerObjectStatus]?
 
         public init(
@@ -1035,29 +1392,95 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// Detailed information about the current status of a [Firewall]. You can retrieve this for a firewall by calling [DescribeFirewall] and providing the firewall name and ARN.
+    /// Contains information about the synchronization state of a transit gateway attachment, including its current status and any error messages. Network Firewall uses this to track the state of your transit gateway configuration changes.
+    public struct TransitGatewayAttachmentSyncState: Swift.Sendable {
+        /// The unique identifier of the transit gateway attachment.
+        public var attachmentId: Swift.String?
+        /// A message providing additional information about the current status, particularly useful when the transit gateway attachment is in a non-READY state. Valid values are:
+        ///
+        /// * CREATING - The attachment is being created
+        ///
+        /// * DELETING - The attachment is being deleted
+        ///
+        /// * DELETED - The attachment has been deleted
+        ///
+        /// * FAILED - The attachment creation has failed and cannot be recovered
+        ///
+        /// * ERROR - The attachment is in an error state that might be recoverable
+        ///
+        /// * READY - The attachment is active and processing traffic
+        ///
+        /// * PENDING_ACCEPTANCE - The attachment is waiting to be accepted
+        ///
+        /// * REJECTING - The attachment is in the process of being rejected
+        ///
+        /// * REJECTED - The attachment has been rejected
+        ///
+        ///
+        /// For information about troubleshooting endpoint failures, see [Troubleshooting firewall endpoint failures](https://docs.aws.amazon.com/network-firewall/latest/developerguide/firewall-troubleshooting-endpoint-failures.html) in the Network Firewall Developer Guide.
+        public var statusMessage: Swift.String?
+        /// The current status of the transit gateway attachment. Valid values are:
+        ///
+        /// * CREATING - The attachment is being created
+        ///
+        /// * DELETING - The attachment is being deleted
+        ///
+        /// * DELETED - The attachment has been deleted
+        ///
+        /// * FAILED - The attachment creation has failed and cannot be recovered
+        ///
+        /// * ERROR - The attachment is in an error state that might be recoverable
+        ///
+        /// * READY - The attachment is active and processing traffic
+        ///
+        /// * PENDING_ACCEPTANCE - The attachment is waiting to be accepted
+        ///
+        /// * REJECTING - The attachment is in the process of being rejected
+        ///
+        /// * REJECTED - The attachment has been rejected
+        public var transitGatewayAttachmentStatus: NetworkFirewallClientTypes.TransitGatewayAttachmentStatus?
+
+        public init(
+            attachmentId: Swift.String? = nil,
+            statusMessage: Swift.String? = nil,
+            transitGatewayAttachmentStatus: NetworkFirewallClientTypes.TransitGatewayAttachmentStatus? = nil
+        ) {
+            self.attachmentId = attachmentId
+            self.statusMessage = statusMessage
+            self.transitGatewayAttachmentStatus = transitGatewayAttachmentStatus
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Detailed information about the current status of a [Firewall]. You can retrieve this for a firewall by calling [DescribeFirewall] and providing the firewall name and ARN. The firewall status indicates a combined status. It indicates whether all subnets are up-to-date with the latest firewall configurations, which is based on the sync states config values, and also whether all subnets have their endpoints fully enabled, based on their sync states attachment values.
     public struct FirewallStatus: Swift.Sendable {
-        /// Describes the capacity usage of the resources contained in a firewall's reference sets. Network Firewall calclulates the capacity usage by taking an aggregated count of all of the resources used by all of the reference sets in a firewall.
+        /// Describes the capacity usage of the resources contained in a firewall's reference sets. Network Firewall calculates the capacity usage by taking an aggregated count of all of the resources used by all of the reference sets in a firewall.
         public var capacityUsageSummary: NetworkFirewallClientTypes.CapacityUsageSummary?
-        /// The configuration sync state for the firewall. This summarizes the sync states reported in the Config settings for all of the Availability Zones where you have configured the firewall. When you create a firewall or update its configuration, for example by adding a rule group to its firewall policy, Network Firewall distributes the configuration changes to all zones where the firewall is in use. This summary indicates whether the configuration changes have been applied everywhere. This status must be IN_SYNC for the firewall to be ready for use, but it doesn't indicate that the firewall is ready. The Status setting indicates firewall readiness.
+        /// The configuration sync state for the firewall. This summarizes the Config settings in the SyncStates for this firewall status object. When you create a firewall or update its configuration, for example by adding a rule group to its firewall policy, Network Firewall distributes the configuration changes to all Availability Zones that have subnets defined for the firewall. This summary indicates whether the configuration changes have been applied everywhere. This status must be IN_SYNC for the firewall to be ready for use, but it doesn't indicate that the firewall is ready. The Status setting indicates firewall readiness. It's based on this setting and the readiness of the firewall endpoints to take traffic.
         /// This member is required.
         public var configurationSyncStateSummary: NetworkFirewallClientTypes.ConfigurationSyncState?
-        /// The readiness of the configured firewall to handle network traffic across all of the Availability Zones where you've configured it. This setting is READY only when the ConfigurationSyncStateSummary value is IN_SYNC and the AttachmentStatus values for all of the configured subnets are READY.
+        /// The readiness of the configured firewall to handle network traffic across all of the Availability Zones where you have it configured. This setting is READY only when the ConfigurationSyncStateSummary value is IN_SYNC and the AttachmentStatus values for all of the configured subnets are READY.
         /// This member is required.
         public var status: NetworkFirewallClientTypes.FirewallStatusValue?
-        /// The subnets that you've configured for use by the Network Firewall firewall. This contains one array element per Availability Zone where you've configured a subnet. These objects provide details of the information that is summarized in the ConfigurationSyncStateSummary and Status, broken down by zone and configuration object.
+        /// Status for the subnets that you've configured in the firewall. This contains one array element per Availability Zone where you've configured a subnet in the firewall. These objects provide detailed information for the settings ConfigurationSyncStateSummary and Status.
         public var syncStates: [Swift.String: NetworkFirewallClientTypes.SyncState]?
+        /// The synchronization state of the transit gateway attachment. This indicates whether the firewall's transit gateway configuration is properly synchronized and operational. Use this to verify that your transit gateway configuration changes have been applied.
+        public var transitGatewayAttachmentSyncState: NetworkFirewallClientTypes.TransitGatewayAttachmentSyncState?
 
         public init(
             capacityUsageSummary: NetworkFirewallClientTypes.CapacityUsageSummary? = nil,
             configurationSyncStateSummary: NetworkFirewallClientTypes.ConfigurationSyncState? = nil,
             status: NetworkFirewallClientTypes.FirewallStatusValue? = nil,
-            syncStates: [Swift.String: NetworkFirewallClientTypes.SyncState]? = nil
+            syncStates: [Swift.String: NetworkFirewallClientTypes.SyncState]? = nil,
+            transitGatewayAttachmentSyncState: NetworkFirewallClientTypes.TransitGatewayAttachmentSyncState? = nil
         ) {
             self.capacityUsageSummary = capacityUsageSummary
             self.configurationSyncStateSummary = configurationSyncStateSummary
             self.status = status
             self.syncStates = syncStates
+            self.transitGatewayAttachmentSyncState = transitGatewayAttachmentSyncState
         }
     }
 }
@@ -1065,7 +1488,7 @@ extension NetworkFirewallClientTypes {
 public struct CreateFirewallOutput: Swift.Sendable {
     /// The configuration settings for the firewall. These settings include the firewall policy and the subnets in your VPC to use for the firewall endpoints.
     public var firewall: NetworkFirewallClientTypes.Firewall?
-    /// Detailed information about the current status of a [Firewall]. You can retrieve this for a firewall by calling [DescribeFirewall] and providing the firewall name and ARN.
+    /// Detailed information about the current status of a [Firewall]. You can retrieve this for a firewall by calling [DescribeFirewall] and providing the firewall name and ARN. The firewall status indicates a combined status. It indicates whether all subnets are up-to-date with the latest firewall configurations, which is based on the sync states config values, and also whether all subnets have their endpoints fully enabled, based on their sync states attachment values.
     public var firewallStatus: NetworkFirewallClientTypes.FirewallStatus?
 
     public init(
@@ -1190,7 +1613,7 @@ extension NetworkFirewallClientTypes {
     public struct StatefulEngineOptions: Swift.Sendable {
         /// Configures the amount of time that can pass without any traffic sent through the firewall before the firewall determines that the connection is idle.
         public var flowTimeouts: NetworkFirewallClientTypes.FlowTimeouts?
-        /// Indicates how to manage the order of stateful rule evaluation for the policy. STRICT_ORDER is the default and recommended option. With STRICT_ORDER, provide your rules in the order that you want them to be evaluated. You can then choose one or more default actions for packets that don't match any rules. Choose STRICT_ORDER to have the stateful rules engine determine the evaluation order of your rules. The default action for this rule order is PASS, followed by DROP, REJECT, and ALERT actions. Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on your settings. For more information, see [Evaluation order for stateful rules](https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-rule-evaluation-order.html) in the Network Firewall Developer Guide.
+        /// Indicates how to manage the order of stateful rule evaluation for the policy. STRICT_ORDER is the recommended option, but DEFAULT_ACTION_ORDER is the default option. With STRICT_ORDER, provide your rules in the order that you want them to be evaluated. You can then choose one or more default actions for packets that don't match any rules. Choose STRICT_ORDER to have the stateful rules engine determine the evaluation order of your rules. The default action for this rule order is PASS, followed by DROP, REJECT, and ALERT actions. Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on your settings. For more information, see [Evaluation order for stateful rules](https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-rule-evaluation-order.html) in the Network Firewall Developer Guide.
         public var ruleOrder: NetworkFirewallClientTypes.RuleOrder?
         /// Configures how Network Firewall processes traffic when a network connection breaks midstream. Network connections can break due to disruptions in external networks or within the firewall itself.
         ///
@@ -1258,6 +1681,8 @@ extension NetworkFirewallClientTypes {
 
     /// Identifier for a single stateful rule group, used in a firewall policy to refer to a rule group.
     public struct StatefulRuleGroupReference: Swift.Sendable {
+        /// Network Firewall plans to augment the active threat defense managed rule group with an additional deep threat inspection capability. When this capability is released, Amazon Web Services will analyze service logs of network traffic processed by these rule groups to identify threat indicators across customers. Amazon Web Services will use these threat indicators to improve the active threat defense managed rule groups and protect the security of Amazon Web Services customers and services. Customers can opt-out of deep threat inspection at any time through the Network Firewall console or API. When customers opt out, Network Firewall will not use the network traffic processed by those customers' active threat defense rule groups for rule group improvement.
+        public var deepThreatInspection: Swift.Bool?
         /// The action that allows the policy owner to override the behavior of the rule group within a policy.
         public var `override`: NetworkFirewallClientTypes.StatefulRuleGroupOverride?
         /// An integer setting that indicates the order in which to run the stateful rule groups in a single [FirewallPolicy]. This setting only applies to firewall policies that specify the STRICT_ORDER rule order in the stateful engine options settings. Network Firewall evalutes each stateful rule group against a packet starting with the group that has the lowest priority setting. You must ensure that the priority settings are unique within each policy. You can change the priority settings of your rule groups at any time. To make it easier to insert rule groups later, number them so there's a wide range in between, for example use 100, 200, and so on.
@@ -1267,10 +1692,12 @@ extension NetworkFirewallClientTypes {
         public var resourceArn: Swift.String?
 
         public init(
+            deepThreatInspection: Swift.Bool? = nil,
             `override`: NetworkFirewallClientTypes.StatefulRuleGroupOverride? = nil,
             priority: Swift.Int? = nil,
             resourceArn: Swift.String? = nil
         ) {
+            self.deepThreatInspection = deepThreatInspection
             self.`override` = `override`
             self.priority = priority
             self.resourceArn = resourceArn
@@ -1715,12 +2142,14 @@ extension NetworkFirewallClientTypes {
         case dns
         case ftp
         case http
+        case http2
         case icmp
         case ikev2
         case imap
         case krb5
         case msn
         case ntp
+        case quic
         case smb
         case smtp
         case ssh
@@ -1738,12 +2167,14 @@ extension NetworkFirewallClientTypes {
                 .dns,
                 .ftp,
                 .http,
+                .http2,
                 .icmp,
                 .ikev2,
                 .imap,
                 .krb5,
                 .msn,
                 .ntp,
+                .quic,
                 .smb,
                 .smtp,
                 .ssh,
@@ -1767,12 +2198,14 @@ extension NetworkFirewallClientTypes {
             case .dns: return "DNS"
             case .ftp: return "FTP"
             case .http: return "HTTP"
+            case .http2: return "HTTP2"
             case .icmp: return "ICMP"
             case .ikev2: return "IKEV2"
             case .imap: return "IMAP"
             case .krb5: return "KRB5"
             case .msn: return "MSN"
             case .ntp: return "NTP"
+            case .quic: return "QUIC"
             case .smb: return "SMB"
             case .smtp: return "SMTP"
             case .ssh: return "SSH"
@@ -1853,10 +2286,10 @@ extension NetworkFirewallClientTypes {
 
     /// Additional settings for a stateful rule. This is part of the [StatefulRule] configuration.
     public struct RuleOption: Swift.Sendable {
-        /// The keyword for the Suricata compatible rule option. You must include a sid (signature ID), and can optionally include other keywords. For information about Suricata compatible keywords, see [Rule options](https://suricata.readthedocs.io/en/suricata-6.0.9/rules/intro.html#rule-options) in the Suricata documentation.
+        /// The keyword for the Suricata compatible rule option. You must include a sid (signature ID), and can optionally include other keywords. For information about Suricata compatible keywords, see [Rule options](https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html#rule-options) in the Suricata documentation.
         /// This member is required.
         public var keyword: Swift.String?
-        /// The settings of the Suricata compatible rule option. Rule options have zero or more setting values, and the number of possible and required settings depends on the Keyword. For more information about the settings for specific options, see [Rule options](https://suricata.readthedocs.io/en/suricata-6.0.9/rules/intro.html#rule-options).
+        /// The settings of the Suricata compatible rule option. Rule options have zero or more setting values, and the number of possible and required settings depends on the Keyword. For more information about the settings for specific options, see [Rule options](https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html#rule-options).
         public var settings: [Swift.String]?
 
         public init(
@@ -1871,7 +2304,7 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// A single Suricata rules specification, for use in a stateful rule group. Use this option to specify a simple Suricata rule with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.io/en/suricata-6.0.9/rules/intro.html).
+    /// A single Suricata rules specification, for use in a stateful rule group. Use this option to specify a simple Suricata rule with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html).
     public struct StatefulRule: Swift.Sendable {
         /// Defines what Network Firewall should do with the packets in a traffic flow when the flow matches the stateful rule criteria. For all actions, Network Firewall performs the specified action and discontinues stateful inspection of the traffic flow. The actions for a stateful rule are defined as follows:
         ///
@@ -1999,13 +2432,13 @@ extension NetworkFirewallClientTypes {
 
     /// Criteria for Network Firewall to use to inspect an individual packet in stateless rule inspection. Each match attributes set can include one or more items such as IP address, CIDR range, port number, protocol, and TCP flags.
     public struct MatchAttributes: Swift.Sendable {
-        /// The destination ports to inspect for. If not specified, this matches with any destination port. This setting is only used for protocols 6 (TCP) and 17 (UDP). You can specify individual ports, for example 1994 and you can specify port ranges, for example 1990:1994.
+        /// The destination port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990:1994. To match with any port, specify ANY. This setting is only used for protocols 6 (TCP) and 17 (UDP).
         public var destinationPorts: [NetworkFirewallClientTypes.PortRange]?
         /// The destination IP addresses and address ranges to inspect for, in CIDR notation. If not specified, this matches with any destination address.
         public var destinations: [NetworkFirewallClientTypes.Address]?
-        /// The protocols to inspect for, specified using each protocol's assigned internet protocol number (IANA). If not specified, this matches with any protocol.
+        /// The protocols to inspect for, specified using the assigned internet protocol number (IANA) for each protocol. If not specified, this matches with any protocol.
         public var protocols: [Swift.Int]?
-        /// The source ports to inspect for. If not specified, this matches with any source port. This setting is only used for protocols 6 (TCP) and 17 (UDP). You can specify individual ports, for example 1994 and you can specify port ranges, for example 1990:1994.
+        /// The source port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990:1994. To match with any port, specify ANY. If not specified, this matches with any source port. This setting is only used for protocols 6 (TCP) and 17 (UDP).
         public var sourcePorts: [NetworkFirewallClientTypes.PortRange]?
         /// The source IP addresses and address ranges to inspect for, in CIDR notation. If not specified, this matches with any source address.
         public var sources: [NetworkFirewallClientTypes.Address]?
@@ -2109,7 +2542,7 @@ extension NetworkFirewallClientTypes {
         public var rulesSourceList: NetworkFirewallClientTypes.RulesSourceList?
         /// Stateful inspection criteria, provided in Suricata compatible rules. Suricata is an open-source threat detection framework that includes a standard rule-based language for network traffic inspection. These rules contain the inspection criteria and the action to take for traffic that matches the criteria, so this type of rule group doesn't have a separate action setting. You can't use the priority keyword if the RuleOrder option in [StatefulRuleOptions] is set to STRICT_ORDER.
         public var rulesString: Swift.String?
-        /// An array of individual stateful rules inspection criteria to be used together in a stateful rule group. Use this option to specify simple Suricata rules with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.io/en/suricata-6.0.9/rules/intro.html).
+        /// An array of individual stateful rules inspection criteria to be used together in a stateful rule group. Use this option to specify simple Suricata rules with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html).
         public var statefulRules: [NetworkFirewallClientTypes.StatefulRule]?
         /// Stateless inspection criteria to be used in a stateless rule group.
         public var statelessRulesAndCustomActions: NetworkFirewallClientTypes.StatelessRulesAndCustomActions?
@@ -2145,7 +2578,7 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
-    /// Settings that are available for use in the rules in the [RuleGroup] where this is defined.
+    /// Settings that are available for use in the rules in the [RuleGroup] where this is defined. See [CreateRuleGroup] or [UpdateRuleGroup] for usage.
     public struct RuleVariables: Swift.Sendable {
         /// A list of IP addresses and address ranges, in CIDR notation.
         public var ipSets: [Swift.String: NetworkFirewallClientTypes.IPSet]?
@@ -2226,6 +2659,58 @@ extension NetworkFirewallClientTypes {
 
 extension NetworkFirewallClientTypes {
 
+    public enum SummaryRuleOption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case metadata
+        case msg
+        case sid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SummaryRuleOption] {
+            return [
+                .metadata,
+                .msg,
+                .sid
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .metadata: return "METADATA"
+            case .msg: return "MSG"
+            case .sid: return "SID"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A complex type that specifies which Suricata rule metadata fields to use when displaying threat information. Contains:
+    ///
+    /// * RuleOptions - The Suricata rule options fields to extract and display
+    ///
+    ///
+    /// These settings affect how threat information appears in both the console and API responses. Summaries are available for rule groups you manage and for active threat defense Amazon Web Services managed rule groups.
+    public struct SummaryConfiguration: Swift.Sendable {
+        /// Specifies the selected rule options returned by [DescribeRuleGroupSummary].
+        public var ruleOptions: [NetworkFirewallClientTypes.SummaryRuleOption]?
+
+        public init(
+            ruleOptions: [NetworkFirewallClientTypes.SummaryRuleOption]? = nil
+        ) {
+            self.ruleOptions = ruleOptions
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
     public enum RuleGroupType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case stateful
         case stateless
@@ -2283,6 +2768,14 @@ public struct CreateRuleGroupInput: Swift.Sendable {
     public var rules: Swift.String?
     /// A complex type that contains metadata about the rule group that your own rule group is copied from. You can use the metadata to keep track of updates made to the originating rule group.
     public var sourceMetadata: NetworkFirewallClientTypes.SourceMetadata?
+    /// An object that contains a RuleOptions array of strings. You use RuleOptions to determine which of the following [RuleSummary] values are returned in response to DescribeRuleGroupSummary.
+    ///
+    /// * Metadata - returns
+    ///
+    /// * Msg
+    ///
+    /// * SID
+    public var summaryConfiguration: NetworkFirewallClientTypes.SummaryConfiguration?
     /// The key:value pairs to associate with the resource.
     public var tags: [NetworkFirewallClientTypes.Tag]?
     /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
@@ -2299,6 +2792,7 @@ public struct CreateRuleGroupInput: Swift.Sendable {
         ruleGroupName: Swift.String? = nil,
         rules: Swift.String? = nil,
         sourceMetadata: NetworkFirewallClientTypes.SourceMetadata? = nil,
+        summaryConfiguration: NetworkFirewallClientTypes.SummaryConfiguration? = nil,
         tags: [NetworkFirewallClientTypes.Tag]? = nil,
         type: NetworkFirewallClientTypes.RuleGroupType? = nil
     ) {
@@ -2311,6 +2805,7 @@ public struct CreateRuleGroupInput: Swift.Sendable {
         self.ruleGroupName = ruleGroupName
         self.rules = rules
         self.sourceMetadata = sourceMetadata
+        self.summaryConfiguration = summaryConfiguration
         self.tags = tags
         self.type = type
     }
@@ -2345,10 +2840,16 @@ extension NetworkFirewallClientTypes {
         public var ruleGroupName: Swift.String?
         /// Detailed information about the current status of a rule group.
         public var ruleGroupStatus: NetworkFirewallClientTypes.ResourceStatus?
-        /// The Amazon resource name (ARN) of the Amazon Simple Notification Service SNS topic that's used to record changes to the managed rule group. You can subscribe to the SNS topic to receive notifications when the managed rule group is modified, such as for new versions and for version expiration. For more information, see the [Amazon Simple Notification Service Developer Guide.](https://docs.aws.amazon.com/sns/latest/dg/welcome.html).
+        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service SNS topic that's used to record changes to the managed rule group. You can subscribe to the SNS topic to receive notifications when the managed rule group is modified, such as for new versions and for version expiration. For more information, see the [Amazon Simple Notification Service Developer Guide.](https://docs.aws.amazon.com/sns/latest/dg/welcome.html).
         public var snsTopic: Swift.String?
         /// A complex type that contains metadata about the rule group that your own rule group is copied from. You can use the metadata to track the version updates made to the originating rule group.
         public var sourceMetadata: NetworkFirewallClientTypes.SourceMetadata?
+        /// A complex type containing the currently selected rule option fields that will be displayed for rule summarization returned by [DescribeRuleGroupSummary].
+        ///
+        /// * The RuleOptions specified in [SummaryConfiguration]
+        ///
+        /// * Rule metadata organization preferences
+        public var summaryConfiguration: NetworkFirewallClientTypes.SummaryConfiguration?
         /// The key:value pairs to associate with the resource.
         public var tags: [NetworkFirewallClientTypes.Tag]?
         /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
@@ -2368,6 +2869,7 @@ extension NetworkFirewallClientTypes {
             ruleGroupStatus: NetworkFirewallClientTypes.ResourceStatus? = nil,
             snsTopic: Swift.String? = nil,
             sourceMetadata: NetworkFirewallClientTypes.SourceMetadata? = nil,
+            summaryConfiguration: NetworkFirewallClientTypes.SummaryConfiguration? = nil,
             tags: [NetworkFirewallClientTypes.Tag]? = nil,
             type: NetworkFirewallClientTypes.RuleGroupType? = nil
         ) {
@@ -2384,6 +2886,7 @@ extension NetworkFirewallClientTypes {
             self.ruleGroupStatus = ruleGroupStatus
             self.snsTopic = snsTopic
             self.sourceMetadata = sourceMetadata
+            self.summaryConfiguration = summaryConfiguration
             self.tags = tags
             self.type = type
         }
@@ -2415,7 +2918,7 @@ extension NetworkFirewallClientTypes {
         public var destinationPorts: [NetworkFirewallClientTypes.PortRange]?
         /// The destination IP addresses and address ranges to decrypt for inspection, in CIDR notation. If not specified, this matches with any destination address.
         public var destinations: [NetworkFirewallClientTypes.Address]?
-        /// The protocols to decrypt for inspection, specified using each protocol's assigned internet protocol number (IANA). Network Firewall currently supports only TCP.
+        /// The protocols to inspect for, specified using the assigned internet protocol number (IANA) for each protocol. If not specified, this matches with any protocol. Network Firewall currently supports only TCP.
         public var protocols: [Swift.Int]?
         /// The source ports to decrypt for inspection, in Transmission Control Protocol (TCP) format. If not specified, this matches with any source port. You can specify individual ports, for example 1994, and you can specify port ranges, such as 1990:1994.
         public var sourcePorts: [NetworkFirewallClientTypes.PortRange]?
@@ -2464,7 +2967,7 @@ extension NetworkFirewallClientTypes {
         /// * You can't use certificates issued by Private Certificate Authority.
         ///
         ///
-        /// For more information about configuring certificates for outbound inspection, see [Using SSL/TLS certificates with certificates with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection-certificate-requirements.html) in the Network Firewall Developer Guide. For information about working with certificates in ACM, see [Importing certificates](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the Certificate Manager User Guide.
+        /// For more information about configuring certificates for outbound inspection, see [Using SSL/TLS certificates with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection-certificate-requirements.html) in the Network Firewall Developer Guide. For information about working with certificates in ACM, see [Importing certificates](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the Certificate Manager User Guide.
         public var certificateAuthorityArn: Swift.String?
         /// When enabled, Network Firewall checks if the server certificate presented by the server in the SSL/TLS connection has a revoked or unkown status. If the certificate has an unknown or revoked status, you must specify the actions that Network Firewall takes on outbound traffic. To check the certificate revocation status, you must also specify a CertificateAuthorityArn in [ServerCertificateConfiguration].
         public var checkCertificateRevocationStatus: NetworkFirewallClientTypes.CheckCertificateRevocationStatusActions?
@@ -2606,6 +3109,121 @@ public struct CreateTLSInspectionConfigurationOutput: Swift.Sendable {
     }
 }
 
+public struct CreateVpcEndpointAssociationInput: Swift.Sendable {
+    /// A description of the VPC endpoint association.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall.
+    /// This member is required.
+    public var firewallArn: Swift.String?
+    /// The ID for a subnet that's used in an association with a firewall. This is used in [CreateFirewall], [AssociateSubnets], and [CreateVpcEndpointAssociation]. Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Availability Zone.
+    /// This member is required.
+    public var subnetMapping: NetworkFirewallClientTypes.SubnetMapping?
+    /// The key:value pairs to associate with the resource.
+    public var tags: [NetworkFirewallClientTypes.Tag]?
+    /// The unique identifier of the VPC where you want to create a firewall endpoint.
+    /// This member is required.
+    public var vpcId: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        firewallArn: Swift.String? = nil,
+        subnetMapping: NetworkFirewallClientTypes.SubnetMapping? = nil,
+        tags: [NetworkFirewallClientTypes.Tag]? = nil,
+        vpcId: Swift.String? = nil
+    ) {
+        self.description = description
+        self.firewallArn = firewallArn
+        self.subnetMapping = subnetMapping
+        self.tags = tags
+        self.vpcId = vpcId
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A VPC endpoint association defines a single subnet to use for a firewall endpoint for a Firewall. You can define VPC endpoint associations only in the Availability Zones that already have a subnet mapping defined in the Firewall resource. You can retrieve the list of Availability Zones that are available for use by calling DescribeFirewallMetadata. To manage firewall endpoints, first, in the Firewall specification, you specify a single VPC and one subnet for each of the Availability Zones where you want to use the firewall. Then you can define additional endpoints as VPC endpoint associations. You can use VPC endpoint associations to expand the protections of the firewall as follows:
+    ///
+    /// * Protect multiple VPCs with a single firewall - You can use the firewall to protect other VPCs, either in your account or in accounts where the firewall is shared. You can only specify Availability Zones that already have a firewall endpoint defined in the Firewall subnet mappings.
+    ///
+    /// * Define multiple firewall endpoints for a VPC in an Availability Zone - You can create additional firewall endpoints for the VPC that you have defined in the firewall, in any Availability Zone that already has an endpoint defined in the Firewall subnet mappings. You can create multiple VPC endpoint associations for any other VPC where you use the firewall.
+    ///
+    ///
+    /// You can use Resource Access Manager to share a Firewall that you own with other accounts, which gives them the ability to use the firewall to create VPC endpoint associations. For information about sharing a firewall, see PutResourcePolicy in this guide and see [Sharing Network Firewall resources](https://docs.aws.amazon.com/network-firewall/latest/developerguide/sharing.html) in the Network Firewall Developer Guide. The status of the VPC endpoint association, which indicates whether it's ready to filter network traffic, is provided in the corresponding [VpcEndpointAssociationStatus]. You can retrieve both the association and its status by calling [DescribeVpcEndpointAssociation].
+    public struct VpcEndpointAssociation: Swift.Sendable {
+        /// A description of the VPC endpoint association.
+        public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) of the firewall.
+        /// This member is required.
+        public var firewallArn: Swift.String?
+        /// The ID for a subnet that's used in an association with a firewall. This is used in [CreateFirewall], [AssociateSubnets], and [CreateVpcEndpointAssociation]. Network Firewall creates an instance of the associated firewall in each subnet that you specify, to filter traffic in the subnet's Availability Zone.
+        /// This member is required.
+        public var subnetMapping: NetworkFirewallClientTypes.SubnetMapping?
+        /// The key:value pairs to associate with the resource.
+        public var tags: [NetworkFirewallClientTypes.Tag]?
+        /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+        /// This member is required.
+        public var vpcEndpointAssociationArn: Swift.String?
+        /// The unique identifier of the VPC endpoint association.
+        public var vpcEndpointAssociationId: Swift.String?
+        /// The unique identifier of the VPC for the endpoint association.
+        /// This member is required.
+        public var vpcId: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            firewallArn: Swift.String? = nil,
+            subnetMapping: NetworkFirewallClientTypes.SubnetMapping? = nil,
+            tags: [NetworkFirewallClientTypes.Tag]? = nil,
+            vpcEndpointAssociationArn: Swift.String? = nil,
+            vpcEndpointAssociationId: Swift.String? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.description = description
+            self.firewallArn = firewallArn
+            self.subnetMapping = subnetMapping
+            self.tags = tags
+            self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+            self.vpcEndpointAssociationId = vpcEndpointAssociationId
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Detailed information about the current status of a [VpcEndpointAssociation]. You can retrieve this by calling [DescribeVpcEndpointAssociation] and providing the VPC endpoint association ARN.
+    public struct VpcEndpointAssociationStatus: Swift.Sendable {
+        /// The list of the Availability Zone sync states for all subnets that are defined by the firewall.
+        public var associationSyncState: [Swift.String: NetworkFirewallClientTypes.AZSyncState]?
+        /// The readiness of the configured firewall endpoint to handle network traffic.
+        /// This member is required.
+        public var status: NetworkFirewallClientTypes.FirewallStatusValue?
+
+        public init(
+            associationSyncState: [Swift.String: NetworkFirewallClientTypes.AZSyncState]? = nil,
+            status: NetworkFirewallClientTypes.FirewallStatusValue? = nil
+        ) {
+            self.associationSyncState = associationSyncState
+            self.status = status
+        }
+    }
+}
+
+public struct CreateVpcEndpointAssociationOutput: Swift.Sendable {
+    /// The configuration settings for the VPC endpoint association. These settings include the firewall and the VPC and subnet to use for the firewall endpoint.
+    public var vpcEndpointAssociation: NetworkFirewallClientTypes.VpcEndpointAssociation?
+    /// Detailed information about the current status of a [VpcEndpointAssociation]. You can retrieve this by calling [DescribeVpcEndpointAssociation] and providing the VPC endpoint association ARN.
+    public var vpcEndpointAssociationStatus: NetworkFirewallClientTypes.VpcEndpointAssociationStatus?
+
+    public init(
+        vpcEndpointAssociation: NetworkFirewallClientTypes.VpcEndpointAssociation? = nil,
+        vpcEndpointAssociationStatus: NetworkFirewallClientTypes.VpcEndpointAssociationStatus? = nil
+    ) {
+        self.vpcEndpointAssociation = vpcEndpointAssociation
+        self.vpcEndpointAssociationStatus = vpcEndpointAssociationStatus
+    }
+}
+
 /// The operation you requested isn't supported by Network Firewall.
 public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2645,9 +3263,9 @@ public struct DeleteFirewallInput: Swift.Sendable {
 }
 
 public struct DeleteFirewallOutput: Swift.Sendable {
-    /// The firewall defines the configuration settings for an Network Firewall firewall. These settings include the firewall policy, the subnets in your VPC to use for the firewall endpoints, and any tags that are attached to the firewall Amazon Web Services resource. The status of the firewall, for example whether it's ready to filter network traffic, is provided in the corresponding [FirewallStatus]. You can retrieve both objects by calling [DescribeFirewall].
+    /// A firewall defines the behavior of a firewall, the main VPC where the firewall is used, the Availability Zones where the firewall can be used, and one subnet to use for a firewall endpoint within each of the Availability Zones. The Availability Zones are defined implicitly in the subnet specifications. In addition to the firewall endpoints that you define in this Firewall specification, you can create firewall endpoints in VpcEndpointAssociation resources for any VPC, in any Availability Zone where the firewall is already in use. The status of the firewall, for example whether it's ready to filter network traffic, is provided in the corresponding [FirewallStatus]. You can retrieve both the firewall and firewall status by calling [DescribeFirewall].
     public var firewall: NetworkFirewallClientTypes.Firewall?
-    /// Detailed information about the current status of a [Firewall]. You can retrieve this for a firewall by calling [DescribeFirewall] and providing the firewall name and ARN.
+    /// Detailed information about the current status of a [Firewall]. You can retrieve this for a firewall by calling [DescribeFirewall] and providing the firewall name and ARN. The firewall status indicates a combined status. It indicates whether all subnets are up-to-date with the latest firewall configurations, which is based on the sync states config values, and also whether all subnets have their endpoints fully enabled, based on their sync states attachment values.
     public var firewallStatus: NetworkFirewallClientTypes.FirewallStatus?
 
     public init(
@@ -2683,6 +3301,53 @@ public struct DeleteFirewallPolicyOutput: Swift.Sendable {
         firewallPolicyResponse: NetworkFirewallClientTypes.FirewallPolicyResponse? = nil
     ) {
         self.firewallPolicyResponse = firewallPolicyResponse
+    }
+}
+
+public struct DeleteNetworkFirewallTransitGatewayAttachmentInput: Swift.Sendable {
+    /// Required. The unique identifier of the transit gateway attachment to delete.
+    /// This member is required.
+    public var transitGatewayAttachmentId: Swift.String?
+
+    public init(
+        transitGatewayAttachmentId: Swift.String? = nil
+    ) {
+        self.transitGatewayAttachmentId = transitGatewayAttachmentId
+    }
+}
+
+public struct DeleteNetworkFirewallTransitGatewayAttachmentOutput: Swift.Sendable {
+    /// The ID of the transit gateway attachment that was deleted.
+    /// This member is required.
+    public var transitGatewayAttachmentId: Swift.String?
+    /// The current status of the transit gateway attachment deletion process. Valid values are:
+    ///
+    /// * CREATING - The attachment is being created
+    ///
+    /// * DELETING - The attachment is being deleted
+    ///
+    /// * DELETED - The attachment has been deleted
+    ///
+    /// * FAILED - The attachment creation has failed and cannot be recovered
+    ///
+    /// * ERROR - The attachment is in an error state that might be recoverable
+    ///
+    /// * READY - The attachment is active and processing traffic
+    ///
+    /// * PENDING_ACCEPTANCE - The attachment is waiting to be accepted
+    ///
+    /// * REJECTING - The attachment is in the process of being rejected
+    ///
+    /// * REJECTED - The attachment has been rejected
+    /// This member is required.
+    public var transitGatewayAttachmentStatus: NetworkFirewallClientTypes.TransitGatewayAttachmentStatus?
+
+    public init(
+        transitGatewayAttachmentId: Swift.String? = nil,
+        transitGatewayAttachmentStatus: NetworkFirewallClientTypes.TransitGatewayAttachmentStatus? = nil
+    ) {
+        self.transitGatewayAttachmentId = transitGatewayAttachmentId
+        self.transitGatewayAttachmentStatus = transitGatewayAttachmentStatus
     }
 }
 
@@ -2784,6 +3449,33 @@ public struct DeleteTLSInspectionConfigurationOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteVpcEndpointAssociationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+    /// This member is required.
+    public var vpcEndpointAssociationArn: Swift.String?
+
+    public init(
+        vpcEndpointAssociationArn: Swift.String? = nil
+    ) {
+        self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+    }
+}
+
+public struct DeleteVpcEndpointAssociationOutput: Swift.Sendable {
+    /// The configuration settings for the VPC endpoint association. These settings include the firewall and the VPC and subnet to use for the firewall endpoint.
+    public var vpcEndpointAssociation: NetworkFirewallClientTypes.VpcEndpointAssociation?
+    /// Detailed information about the current status of a [VpcEndpointAssociation]. You can retrieve this by calling [DescribeVpcEndpointAssociation] and providing the VPC endpoint association ARN.
+    public var vpcEndpointAssociationStatus: NetworkFirewallClientTypes.VpcEndpointAssociationStatus?
+
+    public init(
+        vpcEndpointAssociation: NetworkFirewallClientTypes.VpcEndpointAssociation? = nil,
+        vpcEndpointAssociationStatus: NetworkFirewallClientTypes.VpcEndpointAssociationStatus? = nil
+    ) {
+        self.vpcEndpointAssociation = vpcEndpointAssociation
+        self.vpcEndpointAssociationStatus = vpcEndpointAssociationStatus
+    }
+}
+
 public struct DescribeFirewallInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
     public var firewallArn: Swift.String?
@@ -2802,7 +3494,7 @@ public struct DescribeFirewallInput: Swift.Sendable {
 public struct DescribeFirewallOutput: Swift.Sendable {
     /// The configuration settings for the firewall. These settings include the firewall policy and the subnets in your VPC to use for the firewall endpoints.
     public var firewall: NetworkFirewallClientTypes.Firewall?
-    /// Detailed information about the current status of a [Firewall]. You can retrieve this for a firewall by calling [DescribeFirewall] and providing the firewall name and ARN.
+    /// Detailed information about the current status of a [Firewall]. You can retrieve this for a firewall by calling [DescribeFirewall] and providing the firewall name and ARN. The firewall status indicates a combined status. It indicates whether all subnets are up-to-date with the latest firewall configurations, which is based on the sync states config values, and also whether all subnets have their endpoints fully enabled, based on their sync states attachment values.
     public var firewallStatus: NetworkFirewallClientTypes.FirewallStatus?
     /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
     public var updateToken: Swift.String?
@@ -2815,6 +3507,48 @@ public struct DescribeFirewallOutput: Swift.Sendable {
         self.firewall = firewall
         self.firewallStatus = firewallStatus
         self.updateToken = updateToken
+    }
+}
+
+public struct DescribeFirewallMetadataInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the firewall.
+    public var firewallArn: Swift.String?
+
+    public init(
+        firewallArn: Swift.String? = nil
+    ) {
+        self.firewallArn = firewallArn
+    }
+}
+
+public struct DescribeFirewallMetadataOutput: Swift.Sendable {
+    /// A description of the firewall.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall.
+    public var firewallArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall policy.
+    public var firewallPolicyArn: Swift.String?
+    /// The readiness of the configured firewall to handle network traffic across all of the Availability Zones where you have it configured. This setting is READY only when the ConfigurationSyncStateSummary value is IN_SYNC and the AttachmentStatus values for all of the configured subnets are READY.
+    public var status: NetworkFirewallClientTypes.FirewallStatusValue?
+    /// The Availability Zones that the firewall currently supports. This includes all Availability Zones for which the firewall has a subnet defined.
+    public var supportedAvailabilityZones: [Swift.String: NetworkFirewallClientTypes.AvailabilityZoneMetadata]?
+    /// The unique identifier of the transit gateway attachment associated with this firewall. This field is only present for transit gateway-attached firewalls.
+    public var transitGatewayAttachmentId: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        firewallArn: Swift.String? = nil,
+        firewallPolicyArn: Swift.String? = nil,
+        status: NetworkFirewallClientTypes.FirewallStatusValue? = nil,
+        supportedAvailabilityZones: [Swift.String: NetworkFirewallClientTypes.AvailabilityZoneMetadata]? = nil,
+        transitGatewayAttachmentId: Swift.String? = nil
+    ) {
+        self.description = description
+        self.firewallArn = firewallArn
+        self.firewallPolicyArn = firewallPolicyArn
+        self.status = status
+        self.supportedAvailabilityZones = supportedAvailabilityZones
+        self.transitGatewayAttachmentId = transitGatewayAttachmentId
     }
 }
 
@@ -2851,6 +3585,196 @@ public struct DescribeFirewallPolicyOutput: Swift.Sendable {
         self.firewallPolicy = firewallPolicy
         self.firewallPolicyResponse = firewallPolicyResponse
         self.updateToken = updateToken
+    }
+}
+
+public struct DescribeFlowOperationInput: Swift.Sendable {
+    /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    public var availabilityZone: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall.
+    /// This member is required.
+    public var firewallArn: Swift.String?
+    /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+    /// This member is required.
+    public var flowOperationId: Swift.String?
+    /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+    public var vpcEndpointAssociationArn: Swift.String?
+    /// A unique identifier for the primary endpoint associated with a firewall.
+    public var vpcEndpointId: Swift.String?
+
+    public init(
+        availabilityZone: Swift.String? = nil,
+        firewallArn: Swift.String? = nil,
+        flowOperationId: Swift.String? = nil,
+        vpcEndpointAssociationArn: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
+    ) {
+        self.availabilityZone = availabilityZone
+        self.firewallArn = firewallArn
+        self.flowOperationId = flowOperationId
+        self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+        self.vpcEndpointId = vpcEndpointId
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    public struct FlowFilter: Swift.Sendable {
+        /// A single IP address specification. This is used in the [MatchAttributes] source and destination specifications.
+        public var destinationAddress: NetworkFirewallClientTypes.Address?
+        /// The destination port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990:1994. To match with any port, specify ANY.
+        public var destinationPort: Swift.String?
+        /// The protocols to inspect for, specified using the assigned internet protocol number (IANA) for each protocol. If not specified, this matches with any protocol.
+        public var protocols: [Swift.String]?
+        /// A single IP address specification. This is used in the [MatchAttributes] source and destination specifications.
+        public var sourceAddress: NetworkFirewallClientTypes.Address?
+        /// The source port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990:1994. To match with any port, specify ANY.
+        public var sourcePort: Swift.String?
+
+        public init(
+            destinationAddress: NetworkFirewallClientTypes.Address? = nil,
+            destinationPort: Swift.String? = nil,
+            protocols: [Swift.String]? = nil,
+            sourceAddress: NetworkFirewallClientTypes.Address? = nil,
+            sourcePort: Swift.String? = nil
+        ) {
+            self.destinationAddress = destinationAddress
+            self.destinationPort = destinationPort
+            self.protocols = protocols
+            self.sourceAddress = sourceAddress
+            self.sourcePort = sourcePort
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Contains information about a flow operation, such as related statuses, unique identifiers, and all filters defined in the operation. Flow operations let you manage the flows tracked in the flow table, also known as the firewall table. A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules. For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
+    public struct FlowOperation: Swift.Sendable {
+        /// Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        public var flowFilters: [NetworkFirewallClientTypes.FlowFilter]?
+        /// The reqested FlowOperation ignores flows with an age (in seconds) lower than MinimumFlowAgeInSeconds. You provide this for start commands.
+        public var minimumFlowAgeInSeconds: Swift.Int?
+
+        public init(
+            flowFilters: [NetworkFirewallClientTypes.FlowFilter]? = nil,
+            minimumFlowAgeInSeconds: Swift.Int? = nil
+        ) {
+            self.flowFilters = flowFilters
+            self.minimumFlowAgeInSeconds = minimumFlowAgeInSeconds
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum FlowOperationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case completedWithErrors
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlowOperationStatus] {
+            return [
+                .completed,
+                .completedWithErrors,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .completedWithErrors: return "COMPLETED_WITH_ERRORS"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    public enum FlowOperationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case flowCapture
+        case flowFlush
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FlowOperationType] {
+            return [
+                .flowCapture,
+                .flowFlush
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .flowCapture: return "FLOW_CAPTURE"
+            case .flowFlush: return "FLOW_FLUSH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeFlowOperationOutput: Swift.Sendable {
+    /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    public var availabilityZone: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall.
+    public var firewallArn: Swift.String?
+    /// Returns key information about a flow operation, such as related statuses, unique identifiers, and all filters defined in the operation.
+    public var flowOperation: NetworkFirewallClientTypes.FlowOperation?
+    /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+    public var flowOperationId: Swift.String?
+    /// Returns the status of the flow operation. This string is returned in the responses to start, list, and describe commands. If the status is COMPLETED_WITH_ERRORS, results may be returned with any number of Flows missing from the response. If the status is FAILED, Flows returned will be empty.
+    public var flowOperationStatus: NetworkFirewallClientTypes.FlowOperationStatus?
+    /// Defines the type of FlowOperation.
+    public var flowOperationType: NetworkFirewallClientTypes.FlowOperationType?
+    /// A timestamp indicating when the Suricata engine identified flows impacted by an operation.
+    public var flowRequestTimestamp: Foundation.Date?
+    /// If the asynchronous operation fails, Network Firewall populates this with the reason for the error or failure. Options include Flow operation error and Flow timeout.
+    public var statusMessage: Swift.String?
+    /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+    public var vpcEndpointAssociationArn: Swift.String?
+    /// A unique identifier for the primary endpoint associated with a firewall.
+    public var vpcEndpointId: Swift.String?
+
+    public init(
+        availabilityZone: Swift.String? = nil,
+        firewallArn: Swift.String? = nil,
+        flowOperation: NetworkFirewallClientTypes.FlowOperation? = nil,
+        flowOperationId: Swift.String? = nil,
+        flowOperationStatus: NetworkFirewallClientTypes.FlowOperationStatus? = nil,
+        flowOperationType: NetworkFirewallClientTypes.FlowOperationType? = nil,
+        flowRequestTimestamp: Foundation.Date? = nil,
+        statusMessage: Swift.String? = nil,
+        vpcEndpointAssociationArn: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
+    ) {
+        self.availabilityZone = availabilityZone
+        self.firewallArn = firewallArn
+        self.flowOperation = flowOperation
+        self.flowOperationId = flowOperationId
+        self.flowOperationStatus = flowOperationStatus
+        self.flowOperationType = flowOperationType
+        self.flowRequestTimestamp = flowRequestTimestamp
+        self.statusMessage = statusMessage
+        self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+        self.vpcEndpointId = vpcEndpointId
     }
 }
 
@@ -2988,15 +3912,19 @@ extension NetworkFirewallClientTypes {
 }
 
 public struct DescribeLoggingConfigurationOutput: Swift.Sendable {
+    /// A boolean that reflects whether or not the firewall monitoring dashboard is enabled on a firewall. Returns TRUE when the firewall monitoring dashboard is enabled on the firewall. Returns FALSE when the firewall monitoring dashboard is not enabled on the firewall.
+    public var enableMonitoringDashboard: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the firewall.
     public var firewallArn: Swift.String?
     /// Defines how Network Firewall performs logging for a [Firewall].
     public var loggingConfiguration: NetworkFirewallClientTypes.LoggingConfiguration?
 
     public init(
+        enableMonitoringDashboard: Swift.Bool? = nil,
         firewallArn: Swift.String? = nil,
         loggingConfiguration: NetworkFirewallClientTypes.LoggingConfiguration? = nil
     ) {
+        self.enableMonitoringDashboard = enableMonitoringDashboard
         self.firewallArn = firewallArn
         self.loggingConfiguration = loggingConfiguration
     }
@@ -3093,7 +4021,7 @@ public struct DescribeRuleGroupMetadataOutput: Swift.Sendable {
     public var capacity: Swift.Int?
     /// Returns the metadata objects for the specified rule group.
     public var description: Swift.String?
-    /// The last time that the rule group was changed.
+    /// A timestamp indicating when the rule group was last modified.
     public var lastModifiedTime: Foundation.Date?
     /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
     /// This member is required.
@@ -3122,6 +4050,98 @@ public struct DescribeRuleGroupMetadataOutput: Swift.Sendable {
         self.ruleGroupName = ruleGroupName
         self.statefulRuleOptions = statefulRuleOptions
         self.type = type
+    }
+}
+
+public struct DescribeRuleGroupSummaryInput: Swift.Sendable {
+    /// Required. The Amazon Resource Name (ARN) of the rule group. You must specify the ARN or the name, and you can specify both.
+    public var ruleGroupArn: Swift.String?
+    /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
+    public var ruleGroupName: Swift.String?
+    /// The type of rule group you want a summary for. This is a required field. Valid value: STATEFUL Note that STATELESS exists but is not currently supported. If you provide STATELESS, an exception is returned.
+    public var type: NetworkFirewallClientTypes.RuleGroupType?
+
+    public init(
+        ruleGroupArn: Swift.String? = nil,
+        ruleGroupName: Swift.String? = nil,
+        type: NetworkFirewallClientTypes.RuleGroupType? = nil
+    ) {
+        self.ruleGroupArn = ruleGroupArn
+        self.ruleGroupName = ruleGroupName
+        self.type = type
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A complex type containing details about a Suricata rule. Contains:
+    ///
+    /// * SID
+    ///
+    /// * Msg
+    ///
+    /// * Metadata
+    ///
+    ///
+    /// Summaries are available for rule groups you manage and for active threat defense Amazon Web Services managed rule groups.
+    public struct RuleSummary: Swift.Sendable {
+        /// The contents of the rule's metadata.
+        public var metadata: Swift.String?
+        /// The contents taken from the rule's msg field.
+        public var msg: Swift.String?
+        /// The unique identifier (Signature ID) of the Suricata rule.
+        public var sid: Swift.String?
+
+        public init(
+            metadata: Swift.String? = nil,
+            msg: Swift.String? = nil,
+            sid: Swift.String? = nil
+        ) {
+            self.metadata = metadata
+            self.msg = msg
+            self.sid = sid
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// A complex type containing summaries of security protections provided by a rule group. Network Firewall extracts this information from selected fields in the rule group's Suricata rules, based on your [SummaryConfiguration] settings.
+    public struct Summary: Swift.Sendable {
+        /// An array of [RuleSummary] objects containing individual rule details that had been configured by the rulegroup's SummaryConfiguration.
+        public var ruleSummaries: [NetworkFirewallClientTypes.RuleSummary]?
+
+        public init(
+            ruleSummaries: [NetworkFirewallClientTypes.RuleSummary]? = nil
+        ) {
+            self.ruleSummaries = ruleSummaries
+        }
+    }
+}
+
+public struct DescribeRuleGroupSummaryOutput: Swift.Sendable {
+    /// A description of the rule group.
+    public var description: Swift.String?
+    /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.
+    /// This member is required.
+    public var ruleGroupName: Swift.String?
+    /// A complex type that contains rule information based on the rule group's configured summary settings. The content varies depending on the fields that you specified to extract in your SummaryConfiguration. When you haven't configured any summary settings, this returns an empty array. The response might include:
+    ///
+    /// * Rule identifiers
+    ///
+    /// * Rule descriptions
+    ///
+    /// * Any metadata fields that you specified in your SummaryConfiguration
+    public var summary: NetworkFirewallClientTypes.Summary?
+
+    public init(
+        description: Swift.String? = nil,
+        ruleGroupName: Swift.String? = nil,
+        summary: NetworkFirewallClientTypes.Summary? = nil
+    ) {
+        self.description = description
+        self.ruleGroupName = ruleGroupName
+        self.summary = summary
     }
 }
 
@@ -3157,6 +4177,80 @@ public struct DescribeTLSInspectionConfigurationOutput: Swift.Sendable {
     ) {
         self.tlsInspectionConfiguration = tlsInspectionConfiguration
         self.tlsInspectionConfigurationResponse = tlsInspectionConfigurationResponse
+        self.updateToken = updateToken
+    }
+}
+
+public struct DescribeVpcEndpointAssociationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+    /// This member is required.
+    public var vpcEndpointAssociationArn: Swift.String?
+
+    public init(
+        vpcEndpointAssociationArn: Swift.String? = nil
+    ) {
+        self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+    }
+}
+
+public struct DescribeVpcEndpointAssociationOutput: Swift.Sendable {
+    /// The configuration settings for the VPC endpoint association. These settings include the firewall and the VPC and subnet to use for the firewall endpoint.
+    public var vpcEndpointAssociation: NetworkFirewallClientTypes.VpcEndpointAssociation?
+    /// Detailed information about the current status of a [VpcEndpointAssociation]. You can retrieve this by calling [DescribeVpcEndpointAssociation] and providing the VPC endpoint association ARN.
+    public var vpcEndpointAssociationStatus: NetworkFirewallClientTypes.VpcEndpointAssociationStatus?
+
+    public init(
+        vpcEndpointAssociation: NetworkFirewallClientTypes.VpcEndpointAssociation? = nil,
+        vpcEndpointAssociationStatus: NetworkFirewallClientTypes.VpcEndpointAssociationStatus? = nil
+    ) {
+        self.vpcEndpointAssociation = vpcEndpointAssociation
+        self.vpcEndpointAssociationStatus = vpcEndpointAssociationStatus
+    }
+}
+
+public struct DisassociateAvailabilityZonesInput: Swift.Sendable {
+    /// Required. The Availability Zones to remove from the firewall's configuration.
+    /// This member is required.
+    public var availabilityZoneMappings: [NetworkFirewallClientTypes.AvailabilityZoneMapping]?
+    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    public var firewallArn: Swift.String?
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    public var firewallName: Swift.String?
+    /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        availabilityZoneMappings: [NetworkFirewallClientTypes.AvailabilityZoneMapping]? = nil,
+        firewallArn: Swift.String? = nil,
+        firewallName: Swift.String? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.availabilityZoneMappings = availabilityZoneMappings
+        self.firewallArn = firewallArn
+        self.firewallName = firewallName
+        self.updateToken = updateToken
+    }
+}
+
+public struct DisassociateAvailabilityZonesOutput: Swift.Sendable {
+    /// The remaining Availability Zones where the firewall has endpoints after the disassociation.
+    public var availabilityZoneMappings: [NetworkFirewallClientTypes.AvailabilityZoneMapping]?
+    /// The Amazon Resource Name (ARN) of the firewall.
+    public var firewallArn: Swift.String?
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
+    public var firewallName: Swift.String?
+    /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        availabilityZoneMappings: [NetworkFirewallClientTypes.AvailabilityZoneMapping]? = nil,
+        firewallArn: Swift.String? = nil,
+        firewallName: Swift.String? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.availabilityZoneMappings = availabilityZoneMappings
+        self.firewallArn = firewallArn
+        self.firewallName = firewallName
         self.updateToken = updateToken
     }
 }
@@ -3216,13 +4310,17 @@ extension NetworkFirewallClientTypes {
         public var firewallArn: Swift.String?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
         public var firewallName: Swift.String?
+        /// The unique identifier of the transit gateway attachment associated with this firewall. This field is only present for transit gateway-attached firewalls.
+        public var transitGatewayAttachmentId: Swift.String?
 
         public init(
             firewallArn: Swift.String? = nil,
-            firewallName: Swift.String? = nil
+            firewallName: Swift.String? = nil,
+            transitGatewayAttachmentId: Swift.String? = nil
         ) {
             self.firewallArn = firewallArn
             self.firewallName = firewallName
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
         }
     }
 }
@@ -3243,6 +4341,177 @@ extension NetworkFirewallClientTypes {
             self.arn = arn
             self.name = name
         }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// Any number of arrays, where each array is a single flow identified in the scope of the operation. If multiple flows were in the scope of the operation, multiple Flows arrays are returned.
+    public struct Flow: Swift.Sendable {
+        /// Returned as info about age of the flows identified by the flow operation.
+        public var age: Swift.Int?
+        /// Returns the number of bytes received or transmitted in a specific flow.
+        public var byteCount: Swift.Int
+        /// A single IP address specification. This is used in the [MatchAttributes] source and destination specifications.
+        public var destinationAddress: NetworkFirewallClientTypes.Address?
+        /// The destination port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990:1994. To match with any port, specify ANY.
+        public var destinationPort: Swift.String?
+        /// Returns the total number of data packets received or transmitted in a flow.
+        public var packetCount: Swift.Int?
+        /// The protocols to inspect for, specified using the assigned internet protocol number (IANA) for each protocol. If not specified, this matches with any protocol.
+        public var `protocol`: Swift.String?
+        /// A single IP address specification. This is used in the [MatchAttributes] source and destination specifications.
+        public var sourceAddress: NetworkFirewallClientTypes.Address?
+        /// The source port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990:1994. To match with any port, specify ANY.
+        public var sourcePort: Swift.String?
+
+        public init(
+            age: Swift.Int? = nil,
+            byteCount: Swift.Int = 0,
+            destinationAddress: NetworkFirewallClientTypes.Address? = nil,
+            destinationPort: Swift.String? = nil,
+            packetCount: Swift.Int? = nil,
+            `protocol`: Swift.String? = nil,
+            sourceAddress: NetworkFirewallClientTypes.Address? = nil,
+            sourcePort: Swift.String? = nil
+        ) {
+            self.age = age
+            self.byteCount = byteCount
+            self.destinationAddress = destinationAddress
+            self.destinationPort = destinationPort
+            self.packetCount = packetCount
+            self.`protocol` = `protocol`
+            self.sourceAddress = sourceAddress
+            self.sourcePort = sourcePort
+        }
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// An array of objects with metadata about the requested FlowOperation.
+    public struct FlowOperationMetadata: Swift.Sendable {
+        /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+        public var flowOperationId: Swift.String?
+        /// Returns the status of the flow operation. This string is returned in the responses to start, list, and describe commands. If the status is COMPLETED_WITH_ERRORS, results may be returned with any number of Flows missing from the response. If the status is FAILED, Flows returned will be empty.
+        public var flowOperationStatus: NetworkFirewallClientTypes.FlowOperationStatus?
+        /// Defines the type of FlowOperation.
+        public var flowOperationType: NetworkFirewallClientTypes.FlowOperationType?
+        /// A timestamp indicating when the Suricata engine identified flows impacted by an operation.
+        public var flowRequestTimestamp: Foundation.Date?
+
+        public init(
+            flowOperationId: Swift.String? = nil,
+            flowOperationStatus: NetworkFirewallClientTypes.FlowOperationStatus? = nil,
+            flowOperationType: NetworkFirewallClientTypes.FlowOperationType? = nil,
+            flowRequestTimestamp: Foundation.Date? = nil
+        ) {
+            self.flowOperationId = flowOperationId
+            self.flowOperationStatus = flowOperationStatus
+            self.flowOperationType = flowOperationType
+            self.flowRequestTimestamp = flowRequestTimestamp
+        }
+    }
+}
+
+public struct GetAnalysisReportResultsInput: Swift.Sendable {
+    /// The unique ID of the query that ran when you requested an analysis report.
+    /// This member is required.
+    public var analysisReportId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    public var firewallArn: Swift.String?
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    public var firewallName: Swift.String?
+    /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    public var maxResults: Swift.Int?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        analysisReportId: Swift.String? = nil,
+        firewallArn: Swift.String? = nil,
+        firewallName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.analysisReportId = analysisReportId
+        self.firewallArn = firewallArn
+        self.firewallName = firewallName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct GetAnalysisReportResultsOutput: Swift.Sendable {
+    /// Retrieves the results of a traffic analysis report.
+    public var analysisReportResults: [NetworkFirewallClientTypes.AnalysisTypeReportResult]?
+    /// The type of traffic that will be used to generate a report.
+    public var analysisType: NetworkFirewallClientTypes.EnabledAnalysisType?
+    /// The date and time, up to the current date, from which to stop retrieving analysis data, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
+    public var endTime: Foundation.Date?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+    /// The date and time the analysis report was ran.
+    public var reportTime: Foundation.Date?
+    /// The date and time within the last 30 days from which to start retrieving analysis data, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ.
+    public var startTime: Foundation.Date?
+    /// The status of the analysis report you specify. Statuses include RUNNING, COMPLETED, or FAILED.
+    public var status: Swift.String?
+
+    public init(
+        analysisReportResults: [NetworkFirewallClientTypes.AnalysisTypeReportResult]? = nil,
+        analysisType: NetworkFirewallClientTypes.EnabledAnalysisType? = nil,
+        endTime: Foundation.Date? = nil,
+        nextToken: Swift.String? = nil,
+        reportTime: Foundation.Date? = nil,
+        startTime: Foundation.Date? = nil,
+        status: Swift.String? = nil
+    ) {
+        self.analysisReportResults = analysisReportResults
+        self.analysisType = analysisType
+        self.endTime = endTime
+        self.nextToken = nextToken
+        self.reportTime = reportTime
+        self.startTime = startTime
+        self.status = status
+    }
+}
+
+public struct ListAnalysisReportsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    public var firewallArn: Swift.String?
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    public var firewallName: Swift.String?
+    /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    public var maxResults: Swift.Int?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        firewallArn: Swift.String? = nil,
+        firewallName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.firewallArn = firewallArn
+        self.firewallName = firewallName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAnalysisReportsOutput: Swift.Sendable {
+    /// The id and ReportTime associated with a requested analysis report. Does not provide the status of the analysis report.
+    public var analysisReports: [NetworkFirewallClientTypes.AnalysisReport]?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        analysisReports: [NetworkFirewallClientTypes.AnalysisReport]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.analysisReports = analysisReports
+        self.nextToken = nextToken
     }
 }
 
@@ -3310,15 +4579,152 @@ public struct ListFirewallsOutput: Swift.Sendable {
     }
 }
 
+public struct ListFlowOperationResultsInput: Swift.Sendable {
+    /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    public var availabilityZone: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall.
+    /// This member is required.
+    public var firewallArn: Swift.String?
+    /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+    /// This member is required.
+    public var flowOperationId: Swift.String?
+    /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    public var maxResults: Swift.Int?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+    public var vpcEndpointAssociationArn: Swift.String?
+    /// A unique identifier for the primary endpoint associated with a firewall.
+    public var vpcEndpointId: Swift.String?
+
+    public init(
+        availabilityZone: Swift.String? = nil,
+        firewallArn: Swift.String? = nil,
+        flowOperationId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        vpcEndpointAssociationArn: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
+    ) {
+        self.availabilityZone = availabilityZone
+        self.firewallArn = firewallArn
+        self.flowOperationId = flowOperationId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+        self.vpcEndpointId = vpcEndpointId
+    }
+}
+
+public struct ListFlowOperationResultsOutput: Swift.Sendable {
+    /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    public var availabilityZone: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall.
+    public var firewallArn: Swift.String?
+    /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+    public var flowOperationId: Swift.String?
+    /// Returns the status of the flow operation. This string is returned in the responses to start, list, and describe commands. If the status is COMPLETED_WITH_ERRORS, results may be returned with any number of Flows missing from the response. If the status is FAILED, Flows returned will be empty.
+    public var flowOperationStatus: NetworkFirewallClientTypes.FlowOperationStatus?
+    /// A timestamp indicating when the Suricata engine identified flows impacted by an operation.
+    public var flowRequestTimestamp: Foundation.Date?
+    /// Any number of arrays, where each array is a single flow identified in the scope of the operation. If multiple flows were in the scope of the operation, multiple Flows arrays are returned.
+    public var flows: [NetworkFirewallClientTypes.Flow]?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+    /// If the asynchronous operation fails, Network Firewall populates this with the reason for the error or failure. Options include Flow operation error and Flow timeout.
+    public var statusMessage: Swift.String?
+    ///
+    public var vpcEndpointAssociationArn: Swift.String?
+    ///
+    public var vpcEndpointId: Swift.String?
+
+    public init(
+        availabilityZone: Swift.String? = nil,
+        firewallArn: Swift.String? = nil,
+        flowOperationId: Swift.String? = nil,
+        flowOperationStatus: NetworkFirewallClientTypes.FlowOperationStatus? = nil,
+        flowRequestTimestamp: Foundation.Date? = nil,
+        flows: [NetworkFirewallClientTypes.Flow]? = nil,
+        nextToken: Swift.String? = nil,
+        statusMessage: Swift.String? = nil,
+        vpcEndpointAssociationArn: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
+    ) {
+        self.availabilityZone = availabilityZone
+        self.firewallArn = firewallArn
+        self.flowOperationId = flowOperationId
+        self.flowOperationStatus = flowOperationStatus
+        self.flowRequestTimestamp = flowRequestTimestamp
+        self.flows = flows
+        self.nextToken = nextToken
+        self.statusMessage = statusMessage
+        self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+        self.vpcEndpointId = vpcEndpointId
+    }
+}
+
+public struct ListFlowOperationsInput: Swift.Sendable {
+    /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    public var availabilityZone: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall.
+    /// This member is required.
+    public var firewallArn: Swift.String?
+    /// An optional string that defines whether any or all operation types are returned.
+    public var flowOperationType: NetworkFirewallClientTypes.FlowOperationType?
+    /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    public var maxResults: Swift.Int?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+    public var vpcEndpointAssociationArn: Swift.String?
+    /// A unique identifier for the primary endpoint associated with a firewall.
+    public var vpcEndpointId: Swift.String?
+
+    public init(
+        availabilityZone: Swift.String? = nil,
+        firewallArn: Swift.String? = nil,
+        flowOperationType: NetworkFirewallClientTypes.FlowOperationType? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        vpcEndpointAssociationArn: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
+    ) {
+        self.availabilityZone = availabilityZone
+        self.firewallArn = firewallArn
+        self.flowOperationType = flowOperationType
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+        self.vpcEndpointId = vpcEndpointId
+    }
+}
+
+public struct ListFlowOperationsOutput: Swift.Sendable {
+    /// Flow operations let you manage the flows tracked in the flow table, also known as the firewall table. A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules. For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
+    public var flowOperations: [NetworkFirewallClientTypes.FlowOperationMetadata]?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        flowOperations: [NetworkFirewallClientTypes.FlowOperationMetadata]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.flowOperations = flowOperations
+        self.nextToken = nextToken
+    }
+}
+
 extension NetworkFirewallClientTypes {
 
     public enum ResourceManagedType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activeThreatDefense
         case awsManagedDomainLists
         case awsManagedThreatSignatures
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceManagedType] {
             return [
+                .activeThreatDefense,
                 .awsManagedDomainLists,
                 .awsManagedThreatSignatures
             ]
@@ -3331,6 +4737,7 @@ extension NetworkFirewallClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .activeThreatDefense: return "ACTIVE_THREAT_DEFENSE"
             case .awsManagedDomainLists: return "AWS_MANAGED_DOMAIN_LISTS"
             case .awsManagedThreatSignatures: return "AWS_MANAGED_THREAT_SIGNATURES"
             case let .sdkUnknown(s): return s
@@ -3513,6 +4920,55 @@ public struct ListTLSInspectionConfigurationsOutput: Swift.Sendable {
     }
 }
 
+public struct ListVpcEndpointAssociationsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the firewall. If you don't specify this, Network Firewall retrieves all VPC endpoint associations that you have defined.
+    public var firewallArn: Swift.String?
+    /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    public var maxResults: Swift.Int?
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+
+    public init(
+        firewallArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.firewallArn = firewallArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension NetworkFirewallClientTypes {
+
+    /// High-level information about a VPC endpoint association, returned by ListVpcEndpointAssociations. You can use the information provided in the metadata to retrieve and manage a VPC endpoint association.
+    public struct VpcEndpointAssociationMetadata: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+        public var vpcEndpointAssociationArn: Swift.String?
+
+        public init(
+            vpcEndpointAssociationArn: Swift.String? = nil
+        ) {
+            self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+        }
+    }
+}
+
+public struct ListVpcEndpointAssociationsOutput: Swift.Sendable {
+    /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    public var nextToken: Swift.String?
+    /// The VPC endpoint assocation metadata objects for the firewall that you specified. If you didn't specify a firewall, this is all VPC endpoint associations that you have defined. Depending on your setting for max results and the number of firewalls you have, a single call might not be the full list.
+    public var vpcEndpointAssociations: [NetworkFirewallClientTypes.VpcEndpointAssociationMetadata]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        vpcEndpointAssociations: [NetworkFirewallClientTypes.VpcEndpointAssociationMetadata]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.vpcEndpointAssociations = vpcEndpointAssociations
+    }
+}
+
 /// Unable to send logs to a configured logging destination.
 public struct LogDestinationPermissionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -3537,7 +4993,7 @@ public struct LogDestinationPermissionException: ClientRuntime.ModeledError, AWS
 }
 
 public struct PutResourcePolicyInput: Swift.Sendable {
-    /// The IAM policy statement that lists the accounts that you want to share your rule group or firewall policy with and the operations that you want the accounts to be able to perform. For a rule group resource, you can specify the following operations in the Actions section of the statement:
+    /// The IAM policy statement that lists the accounts that you want to share your Network Firewall resources with and the operations that you want the accounts to be able to perform. For a rule group resource, you can specify the following operations in the Actions section of the statement:
     ///
     /// * network-firewall:CreateFirewallPolicy
     ///
@@ -3553,10 +5009,19 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     /// * network-firewall:ListFirewallPolicies
     ///
     ///
-    /// In the Resource section of the statement, you specify the ARNs for the rule groups and firewall policies that you want to share with the account that you specified in Arn.
+    /// For a firewall resource, you can specify the following operations in the Actions section of the statement:
+    ///
+    /// * network-firewall:CreateVpcEndpointAssociation
+    ///
+    /// * network-firewall:DescribeFirewallMetadata
+    ///
+    /// * network-firewall:ListFirewalls
+    ///
+    ///
+    /// In the Resource section of the statement, you specify the ARNs for the Network Firewall resources that you want to share with the account that you specified in Arn.
     /// This member is required.
     public var policy: Swift.String?
-    /// The Amazon Resource Name (ARN) of the account that you want to share rule groups and firewall policies with.
+    /// The Amazon Resource Name (ARN) of the account that you want to share your Network Firewall resources with.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -3572,6 +5037,192 @@ public struct PutResourcePolicyInput: Swift.Sendable {
 public struct PutResourcePolicyOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct RejectNetworkFirewallTransitGatewayAttachmentInput: Swift.Sendable {
+    /// Required. The unique identifier of the transit gateway attachment to reject. This ID is returned in the response when creating a transit gateway-attached firewall.
+    /// This member is required.
+    public var transitGatewayAttachmentId: Swift.String?
+
+    public init(
+        transitGatewayAttachmentId: Swift.String? = nil
+    ) {
+        self.transitGatewayAttachmentId = transitGatewayAttachmentId
+    }
+}
+
+public struct RejectNetworkFirewallTransitGatewayAttachmentOutput: Swift.Sendable {
+    /// The unique identifier of the transit gateway attachment that was rejected.
+    /// This member is required.
+    public var transitGatewayAttachmentId: Swift.String?
+    /// The current status of the transit gateway attachment. Valid values are:
+    ///
+    /// * CREATING - The attachment is being created
+    ///
+    /// * DELETING - The attachment is being deleted
+    ///
+    /// * DELETED - The attachment has been deleted
+    ///
+    /// * FAILED - The attachment creation has failed and cannot be recovered
+    ///
+    /// * ERROR - The attachment is in an error state that might be recoverable
+    ///
+    /// * READY - The attachment is active and processing traffic
+    ///
+    /// * PENDING_ACCEPTANCE - The attachment is waiting to be accepted
+    ///
+    /// * REJECTING - The attachment is in the process of being rejected
+    ///
+    /// * REJECTED - The attachment has been rejected
+    ///
+    ///
+    /// For information about troubleshooting endpoint failures, see [Troubleshooting firewall endpoint failures](https://docs.aws.amazon.com/network-firewall/latest/developerguide/firewall-troubleshooting-endpoint-failures.html) in the Network Firewall Developer Guide.
+    /// This member is required.
+    public var transitGatewayAttachmentStatus: NetworkFirewallClientTypes.TransitGatewayAttachmentStatus?
+
+    public init(
+        transitGatewayAttachmentId: Swift.String? = nil,
+        transitGatewayAttachmentStatus: NetworkFirewallClientTypes.TransitGatewayAttachmentStatus? = nil
+    ) {
+        self.transitGatewayAttachmentId = transitGatewayAttachmentId
+        self.transitGatewayAttachmentStatus = transitGatewayAttachmentStatus
+    }
+}
+
+public struct StartAnalysisReportInput: Swift.Sendable {
+    /// The type of traffic that will be used to generate a report.
+    /// This member is required.
+    public var analysisType: NetworkFirewallClientTypes.EnabledAnalysisType?
+    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    public var firewallArn: Swift.String?
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    public var firewallName: Swift.String?
+
+    public init(
+        analysisType: NetworkFirewallClientTypes.EnabledAnalysisType? = nil,
+        firewallArn: Swift.String? = nil,
+        firewallName: Swift.String? = nil
+    ) {
+        self.analysisType = analysisType
+        self.firewallArn = firewallArn
+        self.firewallName = firewallName
+    }
+}
+
+public struct StartAnalysisReportOutput: Swift.Sendable {
+    /// The unique ID of the query that ran when you requested an analysis report.
+    /// This member is required.
+    public var analysisReportId: Swift.String?
+
+    public init(
+        analysisReportId: Swift.String? = nil
+    ) {
+        self.analysisReportId = analysisReportId
+    }
+}
+
+public struct StartFlowCaptureInput: Swift.Sendable {
+    /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    public var availabilityZone: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall.
+    /// This member is required.
+    public var firewallArn: Swift.String?
+    /// Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    /// This member is required.
+    public var flowFilters: [NetworkFirewallClientTypes.FlowFilter]?
+    /// The reqested FlowOperation ignores flows with an age (in seconds) lower than MinimumFlowAgeInSeconds. You provide this for start commands. We recommend setting this value to at least 1 minute (60 seconds) to reduce chance of capturing flows that are not yet established.
+    public var minimumFlowAgeInSeconds: Swift.Int?
+    /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+    public var vpcEndpointAssociationArn: Swift.String?
+    /// A unique identifier for the primary endpoint associated with a firewall.
+    public var vpcEndpointId: Swift.String?
+
+    public init(
+        availabilityZone: Swift.String? = nil,
+        firewallArn: Swift.String? = nil,
+        flowFilters: [NetworkFirewallClientTypes.FlowFilter]? = nil,
+        minimumFlowAgeInSeconds: Swift.Int? = nil,
+        vpcEndpointAssociationArn: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
+    ) {
+        self.availabilityZone = availabilityZone
+        self.firewallArn = firewallArn
+        self.flowFilters = flowFilters
+        self.minimumFlowAgeInSeconds = minimumFlowAgeInSeconds
+        self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+        self.vpcEndpointId = vpcEndpointId
+    }
+}
+
+public struct StartFlowCaptureOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the firewall.
+    public var firewallArn: Swift.String?
+    /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+    public var flowOperationId: Swift.String?
+    /// Returns the status of the flow operation. This string is returned in the responses to start, list, and describe commands. If the status is COMPLETED_WITH_ERRORS, results may be returned with any number of Flows missing from the response. If the status is FAILED, Flows returned will be empty.
+    public var flowOperationStatus: NetworkFirewallClientTypes.FlowOperationStatus?
+
+    public init(
+        firewallArn: Swift.String? = nil,
+        flowOperationId: Swift.String? = nil,
+        flowOperationStatus: NetworkFirewallClientTypes.FlowOperationStatus? = nil
+    ) {
+        self.firewallArn = firewallArn
+        self.flowOperationId = flowOperationId
+        self.flowOperationStatus = flowOperationStatus
+    }
+}
+
+public struct StartFlowFlushInput: Swift.Sendable {
+    /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    public var availabilityZone: Swift.String?
+    /// The Amazon Resource Name (ARN) of the firewall.
+    /// This member is required.
+    public var firewallArn: Swift.String?
+    /// Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    /// This member is required.
+    public var flowFilters: [NetworkFirewallClientTypes.FlowFilter]?
+    /// The reqested FlowOperation ignores flows with an age (in seconds) lower than MinimumFlowAgeInSeconds. You provide this for start commands.
+    public var minimumFlowAgeInSeconds: Swift.Int?
+    /// The Amazon Resource Name (ARN) of a VPC endpoint association.
+    public var vpcEndpointAssociationArn: Swift.String?
+    /// A unique identifier for the primary endpoint associated with a firewall.
+    public var vpcEndpointId: Swift.String?
+
+    public init(
+        availabilityZone: Swift.String? = nil,
+        firewallArn: Swift.String? = nil,
+        flowFilters: [NetworkFirewallClientTypes.FlowFilter]? = nil,
+        minimumFlowAgeInSeconds: Swift.Int? = nil,
+        vpcEndpointAssociationArn: Swift.String? = nil,
+        vpcEndpointId: Swift.String? = nil
+    ) {
+        self.availabilityZone = availabilityZone
+        self.firewallArn = firewallArn
+        self.flowFilters = flowFilters
+        self.minimumFlowAgeInSeconds = minimumFlowAgeInSeconds
+        self.vpcEndpointAssociationArn = vpcEndpointAssociationArn
+        self.vpcEndpointId = vpcEndpointId
+    }
+}
+
+public struct StartFlowFlushOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the firewall.
+    public var firewallArn: Swift.String?
+    /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+    public var flowOperationId: Swift.String?
+    /// Returns the status of the flow operation. This string is returned in the responses to start, list, and describe commands. If the status is COMPLETED_WITH_ERRORS, results may be returned with any number of Flows missing from the response. If the status is FAILED, Flows returned will be empty.
+    public var flowOperationStatus: NetworkFirewallClientTypes.FlowOperationStatus?
+
+    public init(
+        firewallArn: Swift.String? = nil,
+        flowOperationId: Swift.String? = nil,
+        flowOperationStatus: NetworkFirewallClientTypes.FlowOperationStatus? = nil
+    ) {
+        self.firewallArn = firewallArn
+        self.flowOperationId = flowOperationId
+        self.flowOperationStatus = flowOperationStatus
+    }
 }
 
 public struct TagResourceInput: Swift.Sendable {
@@ -3638,6 +5289,99 @@ public struct ResourceOwnerCheckException: ClientRuntime.ModeledError, AWSClient
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+public struct UpdateAvailabilityZoneChangeProtectionInput: Swift.Sendable {
+    /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
+    /// This member is required.
+    public var availabilityZoneChangeProtection: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    public var firewallArn: Swift.String?
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    public var firewallName: Swift.String?
+    /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        availabilityZoneChangeProtection: Swift.Bool? = false,
+        firewallArn: Swift.String? = nil,
+        firewallName: Swift.String? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.availabilityZoneChangeProtection = availabilityZoneChangeProtection
+        self.firewallArn = firewallArn
+        self.firewallName = firewallName
+        self.updateToken = updateToken
+    }
+}
+
+public struct UpdateAvailabilityZoneChangeProtectionOutput: Swift.Sendable {
+    /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
+    public var availabilityZoneChangeProtection: Swift.Bool
+    /// The Amazon Resource Name (ARN) of the firewall.
+    public var firewallArn: Swift.String?
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
+    public var firewallName: Swift.String?
+    /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        availabilityZoneChangeProtection: Swift.Bool = false,
+        firewallArn: Swift.String? = nil,
+        firewallName: Swift.String? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.availabilityZoneChangeProtection = availabilityZoneChangeProtection
+        self.firewallArn = firewallArn
+        self.firewallName = firewallName
+        self.updateToken = updateToken
+    }
+}
+
+public struct UpdateFirewallAnalysisSettingsInput: Swift.Sendable {
+    /// An optional setting indicating the specific traffic analysis types to enable on the firewall.
+    public var enabledAnalysisTypes: [NetworkFirewallClientTypes.EnabledAnalysisType]?
+    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    public var firewallArn: Swift.String?
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    public var firewallName: Swift.String?
+    /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        enabledAnalysisTypes: [NetworkFirewallClientTypes.EnabledAnalysisType]? = nil,
+        firewallArn: Swift.String? = nil,
+        firewallName: Swift.String? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.enabledAnalysisTypes = enabledAnalysisTypes
+        self.firewallArn = firewallArn
+        self.firewallName = firewallName
+        self.updateToken = updateToken
+    }
+}
+
+public struct UpdateFirewallAnalysisSettingsOutput: Swift.Sendable {
+    /// An optional setting indicating the specific traffic analysis types to enable on the firewall.
+    public var enabledAnalysisTypes: [NetworkFirewallClientTypes.EnabledAnalysisType]?
+    /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    public var firewallArn: Swift.String?
+    /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    public var firewallName: Swift.String?
+    /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request. To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    public var updateToken: Swift.String?
+
+    public init(
+        enabledAnalysisTypes: [NetworkFirewallClientTypes.EnabledAnalysisType]? = nil,
+        firewallArn: Swift.String? = nil,
+        firewallName: Swift.String? = nil,
+        updateToken: Swift.String? = nil
+    ) {
+        self.enabledAnalysisTypes = enabledAnalysisTypes
+        self.firewallArn = firewallArn
+        self.firewallName = firewallName
+        self.updateToken = updateToken
     }
 }
 
@@ -3882,6 +5626,8 @@ public struct UpdateFirewallPolicyChangeProtectionOutput: Swift.Sendable {
 }
 
 public struct UpdateLoggingConfigurationInput: Swift.Sendable {
+    /// A boolean that lets you enable or disable the detailed firewall monitoring dashboard on the firewall. The monitoring dashboard provides comprehensive visibility into your firewall's flow logs and alert logs. After you enable detailed monitoring, you can access these dashboards directly from the Monitoring page of the Network Firewall console. Specify TRUE to enable the the detailed monitoring dashboard on the firewall. Specify FALSE to disable the the detailed monitoring dashboard on the firewall.
+    public var enableMonitoringDashboard: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
     public var firewallArn: Swift.String?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
@@ -3890,10 +5636,12 @@ public struct UpdateLoggingConfigurationInput: Swift.Sendable {
     public var loggingConfiguration: NetworkFirewallClientTypes.LoggingConfiguration?
 
     public init(
+        enableMonitoringDashboard: Swift.Bool? = nil,
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
         loggingConfiguration: NetworkFirewallClientTypes.LoggingConfiguration? = nil
     ) {
+        self.enableMonitoringDashboard = enableMonitoringDashboard
         self.firewallArn = firewallArn
         self.firewallName = firewallName
         self.loggingConfiguration = loggingConfiguration
@@ -3901,6 +5649,8 @@ public struct UpdateLoggingConfigurationInput: Swift.Sendable {
 }
 
 public struct UpdateLoggingConfigurationOutput: Swift.Sendable {
+    /// A boolean that reflects whether or not the firewall monitoring dashboard is enabled on a firewall. Returns TRUE when the firewall monitoring dashboard is enabled on the firewall. Returns FALSE when the firewall monitoring dashboard is not enabled on the firewall.
+    public var enableMonitoringDashboard: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the firewall.
     public var firewallArn: Swift.String?
     /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
@@ -3909,10 +5659,12 @@ public struct UpdateLoggingConfigurationOutput: Swift.Sendable {
     public var loggingConfiguration: NetworkFirewallClientTypes.LoggingConfiguration?
 
     public init(
+        enableMonitoringDashboard: Swift.Bool? = nil,
         firewallArn: Swift.String? = nil,
         firewallName: Swift.String? = nil,
         loggingConfiguration: NetworkFirewallClientTypes.LoggingConfiguration? = nil
     ) {
+        self.enableMonitoringDashboard = enableMonitoringDashboard
         self.firewallArn = firewallArn
         self.firewallName = firewallName
         self.loggingConfiguration = loggingConfiguration
@@ -3938,6 +5690,8 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
     public var rules: Swift.String?
     /// A complex type that contains metadata about the rule group that your own rule group is copied from. You can use the metadata to keep track of updates made to the originating rule group.
     public var sourceMetadata: NetworkFirewallClientTypes.SourceMetadata?
+    /// Updates the selected summary configuration for a rule group. Changes affect subsequent responses from [DescribeRuleGroupSummary].
+    public var summaryConfiguration: NetworkFirewallClientTypes.SummaryConfiguration?
     /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules. This setting is required for requests that do not include the RuleGroupARN.
     public var type: NetworkFirewallClientTypes.RuleGroupType?
     /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the rule group. The token marks the state of the rule group resource at the time of the request. To make changes to the rule group, you provide the token in your request. Network Firewall uses the token to ensure that the rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
@@ -3954,6 +5708,7 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
         ruleGroupName: Swift.String? = nil,
         rules: Swift.String? = nil,
         sourceMetadata: NetworkFirewallClientTypes.SourceMetadata? = nil,
+        summaryConfiguration: NetworkFirewallClientTypes.SummaryConfiguration? = nil,
         type: NetworkFirewallClientTypes.RuleGroupType? = nil,
         updateToken: Swift.String? = nil
     ) {
@@ -3966,6 +5721,7 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
         self.ruleGroupName = ruleGroupName
         self.rules = rules
         self.sourceMetadata = sourceMetadata
+        self.summaryConfiguration = summaryConfiguration
         self.type = type
         self.updateToken = updateToken
     }
@@ -4085,6 +5841,20 @@ public struct UpdateTLSInspectionConfigurationOutput: Swift.Sendable {
     }
 }
 
+extension AcceptNetworkFirewallTransitGatewayAttachmentInput {
+
+    static func urlPathProvider(_ value: AcceptNetworkFirewallTransitGatewayAttachmentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension AssociateAvailabilityZonesInput {
+
+    static func urlPathProvider(_ value: AssociateAvailabilityZonesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension AssociateFirewallPolicyInput {
 
     static func urlPathProvider(_ value: AssociateFirewallPolicyInput) -> Swift.String? {
@@ -4127,6 +5897,13 @@ extension CreateTLSInspectionConfigurationInput {
     }
 }
 
+extension CreateVpcEndpointAssociationInput {
+
+    static func urlPathProvider(_ value: CreateVpcEndpointAssociationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteFirewallInput {
 
     static func urlPathProvider(_ value: DeleteFirewallInput) -> Swift.String? {
@@ -4137,6 +5914,13 @@ extension DeleteFirewallInput {
 extension DeleteFirewallPolicyInput {
 
     static func urlPathProvider(_ value: DeleteFirewallPolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteNetworkFirewallTransitGatewayAttachmentInput {
+
+    static func urlPathProvider(_ value: DeleteNetworkFirewallTransitGatewayAttachmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4162,6 +5946,13 @@ extension DeleteTLSInspectionConfigurationInput {
     }
 }
 
+extension DeleteVpcEndpointAssociationInput {
+
+    static func urlPathProvider(_ value: DeleteVpcEndpointAssociationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeFirewallInput {
 
     static func urlPathProvider(_ value: DescribeFirewallInput) -> Swift.String? {
@@ -4169,9 +5960,23 @@ extension DescribeFirewallInput {
     }
 }
 
+extension DescribeFirewallMetadataInput {
+
+    static func urlPathProvider(_ value: DescribeFirewallMetadataInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeFirewallPolicyInput {
 
     static func urlPathProvider(_ value: DescribeFirewallPolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeFlowOperationInput {
+
+    static func urlPathProvider(_ value: DescribeFlowOperationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4204,6 +6009,13 @@ extension DescribeRuleGroupMetadataInput {
     }
 }
 
+extension DescribeRuleGroupSummaryInput {
+
+    static func urlPathProvider(_ value: DescribeRuleGroupSummaryInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeTLSInspectionConfigurationInput {
 
     static func urlPathProvider(_ value: DescribeTLSInspectionConfigurationInput) -> Swift.String? {
@@ -4211,9 +6023,37 @@ extension DescribeTLSInspectionConfigurationInput {
     }
 }
 
+extension DescribeVpcEndpointAssociationInput {
+
+    static func urlPathProvider(_ value: DescribeVpcEndpointAssociationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DisassociateAvailabilityZonesInput {
+
+    static func urlPathProvider(_ value: DisassociateAvailabilityZonesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DisassociateSubnetsInput {
 
     static func urlPathProvider(_ value: DisassociateSubnetsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetAnalysisReportResultsInput {
+
+    static func urlPathProvider(_ value: GetAnalysisReportResultsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListAnalysisReportsInput {
+
+    static func urlPathProvider(_ value: ListAnalysisReportsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4228,6 +6068,20 @@ extension ListFirewallPoliciesInput {
 extension ListFirewallsInput {
 
     static func urlPathProvider(_ value: ListFirewallsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListFlowOperationResultsInput {
+
+    static func urlPathProvider(_ value: ListFlowOperationResultsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListFlowOperationsInput {
+
+    static func urlPathProvider(_ value: ListFlowOperationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4253,9 +6107,44 @@ extension ListTLSInspectionConfigurationsInput {
     }
 }
 
+extension ListVpcEndpointAssociationsInput {
+
+    static func urlPathProvider(_ value: ListVpcEndpointAssociationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension PutResourcePolicyInput {
 
     static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension RejectNetworkFirewallTransitGatewayAttachmentInput {
+
+    static func urlPathProvider(_ value: RejectNetworkFirewallTransitGatewayAttachmentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StartAnalysisReportInput {
+
+    static func urlPathProvider(_ value: StartAnalysisReportInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StartFlowCaptureInput {
+
+    static func urlPathProvider(_ value: StartFlowCaptureInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StartFlowFlushInput {
+
+    static func urlPathProvider(_ value: StartFlowFlushInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4270,6 +6159,20 @@ extension TagResourceInput {
 extension UntagResourceInput {
 
     static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateAvailabilityZoneChangeProtectionInput {
+
+    static func urlPathProvider(_ value: UpdateAvailabilityZoneChangeProtectionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateFirewallAnalysisSettingsInput {
+
+    static func urlPathProvider(_ value: UpdateFirewallAnalysisSettingsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4337,6 +6240,25 @@ extension UpdateTLSInspectionConfigurationInput {
     }
 }
 
+extension AcceptNetworkFirewallTransitGatewayAttachmentInput {
+
+    static func write(value: AcceptNetworkFirewallTransitGatewayAttachmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TransitGatewayAttachmentId"].write(value.transitGatewayAttachmentId)
+    }
+}
+
+extension AssociateAvailabilityZonesInput {
+
+    static func write(value: AssociateAvailabilityZonesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityZoneMappings"].writeList(value.availabilityZoneMappings, memberWritingClosure: NetworkFirewallClientTypes.AvailabilityZoneMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["FirewallName"].write(value.firewallName)
+        try writer["UpdateToken"].write(value.updateToken)
+    }
+}
+
 extension AssociateFirewallPolicyInput {
 
     static func write(value: AssociateFirewallPolicyInput?, to writer: SmithyJSON.Writer) throws {
@@ -4363,8 +6285,11 @@ extension CreateFirewallInput {
 
     static func write(value: CreateFirewallInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AvailabilityZoneChangeProtection"].write(value.availabilityZoneChangeProtection)
+        try writer["AvailabilityZoneMappings"].writeList(value.availabilityZoneMappings, memberWritingClosure: NetworkFirewallClientTypes.AvailabilityZoneMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DeleteProtection"].write(value.deleteProtection)
         try writer["Description"].write(value.description)
+        try writer["EnabledAnalysisTypes"].writeList(value.enabledAnalysisTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<NetworkFirewallClientTypes.EnabledAnalysisType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: NetworkFirewallClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["FirewallName"].write(value.firewallName)
         try writer["FirewallPolicyArn"].write(value.firewallPolicyArn)
@@ -4372,6 +6297,7 @@ extension CreateFirewallInput {
         try writer["SubnetChangeProtection"].write(value.subnetChangeProtection)
         try writer["SubnetMappings"].writeList(value.subnetMappings, memberWritingClosure: NetworkFirewallClientTypes.SubnetMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkFirewallClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TransitGatewayId"].write(value.transitGatewayId)
         try writer["VpcId"].write(value.vpcId)
     }
 }
@@ -4402,6 +6328,7 @@ extension CreateRuleGroupInput {
         try writer["RuleGroupName"].write(value.ruleGroupName)
         try writer["Rules"].write(value.rules)
         try writer["SourceMetadata"].write(value.sourceMetadata, with: NetworkFirewallClientTypes.SourceMetadata.write(value:to:))
+        try writer["SummaryConfiguration"].write(value.summaryConfiguration, with: NetworkFirewallClientTypes.SummaryConfiguration.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkFirewallClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Type"].write(value.type)
     }
@@ -4416,6 +6343,18 @@ extension CreateTLSInspectionConfigurationInput {
         try writer["TLSInspectionConfiguration"].write(value.tlsInspectionConfiguration, with: NetworkFirewallClientTypes.TLSInspectionConfiguration.write(value:to:))
         try writer["TLSInspectionConfigurationName"].write(value.tlsInspectionConfigurationName)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkFirewallClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateVpcEndpointAssociationInput {
+
+    static func write(value: CreateVpcEndpointAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["SubnetMapping"].write(value.subnetMapping, with: NetworkFirewallClientTypes.SubnetMapping.write(value:to:))
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: NetworkFirewallClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VpcId"].write(value.vpcId)
     }
 }
 
@@ -4434,6 +6373,14 @@ extension DeleteFirewallPolicyInput {
         guard let value else { return }
         try writer["FirewallPolicyArn"].write(value.firewallPolicyArn)
         try writer["FirewallPolicyName"].write(value.firewallPolicyName)
+    }
+}
+
+extension DeleteNetworkFirewallTransitGatewayAttachmentInput {
+
+    static func write(value: DeleteNetworkFirewallTransitGatewayAttachmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TransitGatewayAttachmentId"].write(value.transitGatewayAttachmentId)
     }
 }
 
@@ -4464,6 +6411,14 @@ extension DeleteTLSInspectionConfigurationInput {
     }
 }
 
+extension DeleteVpcEndpointAssociationInput {
+
+    static func write(value: DeleteVpcEndpointAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["VpcEndpointAssociationArn"].write(value.vpcEndpointAssociationArn)
+    }
+}
+
 extension DescribeFirewallInput {
 
     static func write(value: DescribeFirewallInput?, to writer: SmithyJSON.Writer) throws {
@@ -4473,12 +6428,32 @@ extension DescribeFirewallInput {
     }
 }
 
+extension DescribeFirewallMetadataInput {
+
+    static func write(value: DescribeFirewallMetadataInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FirewallArn"].write(value.firewallArn)
+    }
+}
+
 extension DescribeFirewallPolicyInput {
 
     static func write(value: DescribeFirewallPolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["FirewallPolicyArn"].write(value.firewallPolicyArn)
         try writer["FirewallPolicyName"].write(value.firewallPolicyName)
+    }
+}
+
+extension DescribeFlowOperationInput {
+
+    static func write(value: DescribeFlowOperationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["FlowOperationId"].write(value.flowOperationId)
+        try writer["VpcEndpointAssociationArn"].write(value.vpcEndpointAssociationArn)
+        try writer["VpcEndpointId"].write(value.vpcEndpointId)
     }
 }
 
@@ -4520,12 +6495,41 @@ extension DescribeRuleGroupMetadataInput {
     }
 }
 
+extension DescribeRuleGroupSummaryInput {
+
+    static func write(value: DescribeRuleGroupSummaryInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RuleGroupArn"].write(value.ruleGroupArn)
+        try writer["RuleGroupName"].write(value.ruleGroupName)
+        try writer["Type"].write(value.type)
+    }
+}
+
 extension DescribeTLSInspectionConfigurationInput {
 
     static func write(value: DescribeTLSInspectionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["TLSInspectionConfigurationArn"].write(value.tlsInspectionConfigurationArn)
         try writer["TLSInspectionConfigurationName"].write(value.tlsInspectionConfigurationName)
+    }
+}
+
+extension DescribeVpcEndpointAssociationInput {
+
+    static func write(value: DescribeVpcEndpointAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["VpcEndpointAssociationArn"].write(value.vpcEndpointAssociationArn)
+    }
+}
+
+extension DisassociateAvailabilityZonesInput {
+
+    static func write(value: DisassociateAvailabilityZonesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityZoneMappings"].writeList(value.availabilityZoneMappings, memberWritingClosure: NetworkFirewallClientTypes.AvailabilityZoneMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["FirewallName"].write(value.firewallName)
+        try writer["UpdateToken"].write(value.updateToken)
     }
 }
 
@@ -4537,6 +6541,29 @@ extension DisassociateSubnetsInput {
         try writer["FirewallName"].write(value.firewallName)
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["UpdateToken"].write(value.updateToken)
+    }
+}
+
+extension GetAnalysisReportResultsInput {
+
+    static func write(value: GetAnalysisReportResultsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AnalysisReportId"].write(value.analysisReportId)
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["FirewallName"].write(value.firewallName)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListAnalysisReportsInput {
+
+    static func write(value: ListAnalysisReportsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["FirewallName"].write(value.firewallName)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
     }
 }
 
@@ -4556,6 +6583,34 @@ extension ListFirewallsInput {
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
         try writer["VpcIds"].writeList(value.vpcIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ListFlowOperationResultsInput {
+
+    static func write(value: ListFlowOperationResultsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["FlowOperationId"].write(value.flowOperationId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["VpcEndpointAssociationArn"].write(value.vpcEndpointAssociationArn)
+        try writer["VpcEndpointId"].write(value.vpcEndpointId)
+    }
+}
+
+extension ListFlowOperationsInput {
+
+    static func write(value: ListFlowOperationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["FlowOperationType"].write(value.flowOperationType)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["VpcEndpointAssociationArn"].write(value.vpcEndpointAssociationArn)
+        try writer["VpcEndpointId"].write(value.vpcEndpointId)
     }
 }
 
@@ -4590,12 +6645,66 @@ extension ListTLSInspectionConfigurationsInput {
     }
 }
 
+extension ListVpcEndpointAssociationsInput {
+
+    static func write(value: ListVpcEndpointAssociationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension PutResourcePolicyInput {
 
     static func write(value: PutResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Policy"].write(value.policy)
         try writer["ResourceArn"].write(value.resourceArn)
+    }
+}
+
+extension RejectNetworkFirewallTransitGatewayAttachmentInput {
+
+    static func write(value: RejectNetworkFirewallTransitGatewayAttachmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TransitGatewayAttachmentId"].write(value.transitGatewayAttachmentId)
+    }
+}
+
+extension StartAnalysisReportInput {
+
+    static func write(value: StartAnalysisReportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AnalysisType"].write(value.analysisType)
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["FirewallName"].write(value.firewallName)
+    }
+}
+
+extension StartFlowCaptureInput {
+
+    static func write(value: StartFlowCaptureInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["FlowFilters"].writeList(value.flowFilters, memberWritingClosure: NetworkFirewallClientTypes.FlowFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MinimumFlowAgeInSeconds"].write(value.minimumFlowAgeInSeconds)
+        try writer["VpcEndpointAssociationArn"].write(value.vpcEndpointAssociationArn)
+        try writer["VpcEndpointId"].write(value.vpcEndpointId)
+    }
+}
+
+extension StartFlowFlushInput {
+
+    static func write(value: StartFlowFlushInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["FlowFilters"].writeList(value.flowFilters, memberWritingClosure: NetworkFirewallClientTypes.FlowFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MinimumFlowAgeInSeconds"].write(value.minimumFlowAgeInSeconds)
+        try writer["VpcEndpointAssociationArn"].write(value.vpcEndpointAssociationArn)
+        try writer["VpcEndpointId"].write(value.vpcEndpointId)
     }
 }
 
@@ -4614,6 +6723,28 @@ extension UntagResourceInput {
         guard let value else { return }
         try writer["ResourceArn"].write(value.resourceArn)
         try writer["TagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateAvailabilityZoneChangeProtectionInput {
+
+    static func write(value: UpdateAvailabilityZoneChangeProtectionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityZoneChangeProtection"].write(value.availabilityZoneChangeProtection)
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["FirewallName"].write(value.firewallName)
+        try writer["UpdateToken"].write(value.updateToken)
+    }
+}
+
+extension UpdateFirewallAnalysisSettingsInput {
+
+    static func write(value: UpdateFirewallAnalysisSettingsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnabledAnalysisTypes"].writeList(value.enabledAnalysisTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<NetworkFirewallClientTypes.EnabledAnalysisType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FirewallArn"].write(value.firewallArn)
+        try writer["FirewallName"].write(value.firewallName)
+        try writer["UpdateToken"].write(value.updateToken)
     }
 }
 
@@ -4679,6 +6810,7 @@ extension UpdateLoggingConfigurationInput {
 
     static func write(value: UpdateLoggingConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["EnableMonitoringDashboard"].write(value.enableMonitoringDashboard)
         try writer["FirewallArn"].write(value.firewallArn)
         try writer["FirewallName"].write(value.firewallName)
         try writer["LoggingConfiguration"].write(value.loggingConfiguration, with: NetworkFirewallClientTypes.LoggingConfiguration.write(value:to:))
@@ -4698,6 +6830,7 @@ extension UpdateRuleGroupInput {
         try writer["RuleGroupName"].write(value.ruleGroupName)
         try writer["Rules"].write(value.rules)
         try writer["SourceMetadata"].write(value.sourceMetadata, with: NetworkFirewallClientTypes.SourceMetadata.write(value:to:))
+        try writer["SummaryConfiguration"].write(value.summaryConfiguration, with: NetworkFirewallClientTypes.SummaryConfiguration.write(value:to:))
         try writer["Type"].write(value.type)
         try writer["UpdateToken"].write(value.updateToken)
     }
@@ -4724,6 +6857,34 @@ extension UpdateTLSInspectionConfigurationInput {
         try writer["TLSInspectionConfigurationArn"].write(value.tlsInspectionConfigurationArn)
         try writer["TLSInspectionConfigurationName"].write(value.tlsInspectionConfigurationName)
         try writer["UpdateToken"].write(value.updateToken)
+    }
+}
+
+extension AcceptNetworkFirewallTransitGatewayAttachmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AcceptNetworkFirewallTransitGatewayAttachmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AcceptNetworkFirewallTransitGatewayAttachmentOutput()
+        value.transitGatewayAttachmentId = try reader["TransitGatewayAttachmentId"].readIfPresent() ?? ""
+        value.transitGatewayAttachmentStatus = try reader["TransitGatewayAttachmentStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension AssociateAvailabilityZonesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateAvailabilityZonesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociateAvailabilityZonesOutput()
+        value.availabilityZoneMappings = try reader["AvailabilityZoneMappings"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.AvailabilityZoneMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.firewallArn = try reader["FirewallArn"].readIfPresent()
+        value.firewallName = try reader["FirewallName"].readIfPresent()
+        value.updateToken = try reader["UpdateToken"].readIfPresent()
+        return value
     }
 }
 
@@ -4809,6 +6970,19 @@ extension CreateTLSInspectionConfigurationOutput {
     }
 }
 
+extension CreateVpcEndpointAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateVpcEndpointAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateVpcEndpointAssociationOutput()
+        value.vpcEndpointAssociation = try reader["VpcEndpointAssociation"].readIfPresent(with: NetworkFirewallClientTypes.VpcEndpointAssociation.read(from:))
+        value.vpcEndpointAssociationStatus = try reader["VpcEndpointAssociationStatus"].readIfPresent(with: NetworkFirewallClientTypes.VpcEndpointAssociationStatus.read(from:))
+        return value
+    }
+}
+
 extension DeleteFirewallOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteFirewallOutput {
@@ -4830,6 +7004,19 @@ extension DeleteFirewallPolicyOutput {
         let reader = responseReader
         var value = DeleteFirewallPolicyOutput()
         value.firewallPolicyResponse = try reader["FirewallPolicyResponse"].readIfPresent(with: NetworkFirewallClientTypes.FirewallPolicyResponse.read(from:))
+        return value
+    }
+}
+
+extension DeleteNetworkFirewallTransitGatewayAttachmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteNetworkFirewallTransitGatewayAttachmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteNetworkFirewallTransitGatewayAttachmentOutput()
+        value.transitGatewayAttachmentId = try reader["TransitGatewayAttachmentId"].readIfPresent() ?? ""
+        value.transitGatewayAttachmentStatus = try reader["TransitGatewayAttachmentStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -4865,6 +7052,19 @@ extension DeleteTLSInspectionConfigurationOutput {
     }
 }
 
+extension DeleteVpcEndpointAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteVpcEndpointAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteVpcEndpointAssociationOutput()
+        value.vpcEndpointAssociation = try reader["VpcEndpointAssociation"].readIfPresent(with: NetworkFirewallClientTypes.VpcEndpointAssociation.read(from:))
+        value.vpcEndpointAssociationStatus = try reader["VpcEndpointAssociationStatus"].readIfPresent(with: NetworkFirewallClientTypes.VpcEndpointAssociationStatus.read(from:))
+        return value
+    }
+}
+
 extension DescribeFirewallOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeFirewallOutput {
@@ -4875,6 +7075,23 @@ extension DescribeFirewallOutput {
         value.firewall = try reader["Firewall"].readIfPresent(with: NetworkFirewallClientTypes.Firewall.read(from:))
         value.firewallStatus = try reader["FirewallStatus"].readIfPresent(with: NetworkFirewallClientTypes.FirewallStatus.read(from:))
         value.updateToken = try reader["UpdateToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeFirewallMetadataOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeFirewallMetadataOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeFirewallMetadataOutput()
+        value.description = try reader["Description"].readIfPresent()
+        value.firewallArn = try reader["FirewallArn"].readIfPresent()
+        value.firewallPolicyArn = try reader["FirewallPolicyArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.supportedAvailabilityZones = try reader["SupportedAvailabilityZones"].readMapIfPresent(valueReadingClosure: NetworkFirewallClientTypes.AvailabilityZoneMetadata.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.transitGatewayAttachmentId = try reader["TransitGatewayAttachmentId"].readIfPresent()
         return value
     }
 }
@@ -4893,6 +7110,27 @@ extension DescribeFirewallPolicyOutput {
     }
 }
 
+extension DescribeFlowOperationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeFlowOperationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeFlowOperationOutput()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.firewallArn = try reader["FirewallArn"].readIfPresent()
+        value.flowOperation = try reader["FlowOperation"].readIfPresent(with: NetworkFirewallClientTypes.FlowOperation.read(from:))
+        value.flowOperationId = try reader["FlowOperationId"].readIfPresent()
+        value.flowOperationStatus = try reader["FlowOperationStatus"].readIfPresent()
+        value.flowOperationType = try reader["FlowOperationType"].readIfPresent()
+        value.flowRequestTimestamp = try reader["FlowRequestTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.vpcEndpointAssociationArn = try reader["VpcEndpointAssociationArn"].readIfPresent()
+        value.vpcEndpointId = try reader["VpcEndpointId"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeLoggingConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeLoggingConfigurationOutput {
@@ -4900,6 +7138,7 @@ extension DescribeLoggingConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeLoggingConfigurationOutput()
+        value.enableMonitoringDashboard = try reader["EnableMonitoringDashboard"].readIfPresent()
         value.firewallArn = try reader["FirewallArn"].readIfPresent()
         value.loggingConfiguration = try reader["LoggingConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.LoggingConfiguration.read(from:))
         return value
@@ -4950,6 +7189,20 @@ extension DescribeRuleGroupMetadataOutput {
     }
 }
 
+extension DescribeRuleGroupSummaryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeRuleGroupSummaryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeRuleGroupSummaryOutput()
+        value.description = try reader["Description"].readIfPresent()
+        value.ruleGroupName = try reader["RuleGroupName"].readIfPresent() ?? ""
+        value.summary = try reader["Summary"].readIfPresent(with: NetworkFirewallClientTypes.Summary.read(from:))
+        return value
+    }
+}
+
 extension DescribeTLSInspectionConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeTLSInspectionConfigurationOutput {
@@ -4960,6 +7213,34 @@ extension DescribeTLSInspectionConfigurationOutput {
         value.tlsInspectionConfiguration = try reader["TLSInspectionConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.TLSInspectionConfiguration.read(from:))
         value.tlsInspectionConfigurationResponse = try reader["TLSInspectionConfigurationResponse"].readIfPresent(with: NetworkFirewallClientTypes.TLSInspectionConfigurationResponse.read(from:))
         value.updateToken = try reader["UpdateToken"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DescribeVpcEndpointAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeVpcEndpointAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeVpcEndpointAssociationOutput()
+        value.vpcEndpointAssociation = try reader["VpcEndpointAssociation"].readIfPresent(with: NetworkFirewallClientTypes.VpcEndpointAssociation.read(from:))
+        value.vpcEndpointAssociationStatus = try reader["VpcEndpointAssociationStatus"].readIfPresent(with: NetworkFirewallClientTypes.VpcEndpointAssociationStatus.read(from:))
+        return value
+    }
+}
+
+extension DisassociateAvailabilityZonesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateAvailabilityZonesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DisassociateAvailabilityZonesOutput()
+        value.availabilityZoneMappings = try reader["AvailabilityZoneMappings"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.AvailabilityZoneMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.firewallArn = try reader["FirewallArn"].readIfPresent()
+        value.firewallName = try reader["FirewallName"].readIfPresent()
+        value.updateToken = try reader["UpdateToken"].readIfPresent()
         return value
     }
 }
@@ -4975,6 +7256,37 @@ extension DisassociateSubnetsOutput {
         value.firewallName = try reader["FirewallName"].readIfPresent()
         value.subnetMappings = try reader["SubnetMappings"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.SubnetMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.updateToken = try reader["UpdateToken"].readIfPresent()
+        return value
+    }
+}
+
+extension GetAnalysisReportResultsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAnalysisReportResultsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAnalysisReportResultsOutput()
+        value.analysisReportResults = try reader["AnalysisReportResults"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.AnalysisTypeReportResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.analysisType = try reader["AnalysisType"].readIfPresent()
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.reportTime = try reader["ReportTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAnalysisReportsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAnalysisReportsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAnalysisReportsOutput()
+        value.analysisReports = try reader["AnalysisReports"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.AnalysisReport.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -5000,6 +7312,40 @@ extension ListFirewallsOutput {
         let reader = responseReader
         var value = ListFirewallsOutput()
         value.firewalls = try reader["Firewalls"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.FirewallMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListFlowOperationResultsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListFlowOperationResultsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListFlowOperationResultsOutput()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.firewallArn = try reader["FirewallArn"].readIfPresent()
+        value.flowOperationId = try reader["FlowOperationId"].readIfPresent()
+        value.flowOperationStatus = try reader["FlowOperationStatus"].readIfPresent()
+        value.flowRequestTimestamp = try reader["FlowRequestTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.flows = try reader["Flows"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Flow.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.vpcEndpointAssociationArn = try reader["VpcEndpointAssociationArn"].readIfPresent()
+        value.vpcEndpointId = try reader["VpcEndpointId"].readIfPresent()
+        return value
+    }
+}
+
+extension ListFlowOperationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListFlowOperationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListFlowOperationsOutput()
+        value.flowOperations = try reader["FlowOperations"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.FlowOperationMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -5044,10 +7390,76 @@ extension ListTLSInspectionConfigurationsOutput {
     }
 }
 
+extension ListVpcEndpointAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListVpcEndpointAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListVpcEndpointAssociationsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.vpcEndpointAssociations = try reader["VpcEndpointAssociations"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.VpcEndpointAssociationMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension PutResourcePolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutResourcePolicyOutput {
         return PutResourcePolicyOutput()
+    }
+}
+
+extension RejectNetworkFirewallTransitGatewayAttachmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RejectNetworkFirewallTransitGatewayAttachmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RejectNetworkFirewallTransitGatewayAttachmentOutput()
+        value.transitGatewayAttachmentId = try reader["TransitGatewayAttachmentId"].readIfPresent() ?? ""
+        value.transitGatewayAttachmentStatus = try reader["TransitGatewayAttachmentStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension StartAnalysisReportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartAnalysisReportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartAnalysisReportOutput()
+        value.analysisReportId = try reader["AnalysisReportId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension StartFlowCaptureOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartFlowCaptureOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartFlowCaptureOutput()
+        value.firewallArn = try reader["FirewallArn"].readIfPresent()
+        value.flowOperationId = try reader["FlowOperationId"].readIfPresent()
+        value.flowOperationStatus = try reader["FlowOperationStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension StartFlowFlushOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartFlowFlushOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartFlowFlushOutput()
+        value.firewallArn = try reader["FirewallArn"].readIfPresent()
+        value.flowOperationId = try reader["FlowOperationId"].readIfPresent()
+        value.flowOperationStatus = try reader["FlowOperationStatus"].readIfPresent()
+        return value
     }
 }
 
@@ -5062,6 +7474,36 @@ extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
+    }
+}
+
+extension UpdateAvailabilityZoneChangeProtectionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAvailabilityZoneChangeProtectionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAvailabilityZoneChangeProtectionOutput()
+        value.availabilityZoneChangeProtection = try reader["AvailabilityZoneChangeProtection"].readIfPresent() ?? false
+        value.firewallArn = try reader["FirewallArn"].readIfPresent()
+        value.firewallName = try reader["FirewallName"].readIfPresent()
+        value.updateToken = try reader["UpdateToken"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateFirewallAnalysisSettingsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateFirewallAnalysisSettingsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateFirewallAnalysisSettingsOutput()
+        value.enabledAnalysisTypes = try reader["EnabledAnalysisTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<NetworkFirewallClientTypes.EnabledAnalysisType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.firewallArn = try reader["FirewallArn"].readIfPresent()
+        value.firewallName = try reader["FirewallName"].readIfPresent()
+        value.updateToken = try reader["UpdateToken"].readIfPresent()
+        return value
     }
 }
 
@@ -5145,6 +7587,7 @@ extension UpdateLoggingConfigurationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateLoggingConfigurationOutput()
+        value.enableMonitoringDashboard = try reader["EnableMonitoringDashboard"].readIfPresent()
         value.firewallArn = try reader["FirewallArn"].readIfPresent()
         value.firewallName = try reader["FirewallName"].readIfPresent()
         value.loggingConfiguration = try reader["LoggingConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.LoggingConfiguration.read(from:))
@@ -5190,6 +7633,43 @@ extension UpdateTLSInspectionConfigurationOutput {
         value.tlsInspectionConfigurationResponse = try reader["TLSInspectionConfigurationResponse"].readIfPresent(with: NetworkFirewallClientTypes.TLSInspectionConfigurationResponse.read(from:))
         value.updateToken = try reader["UpdateToken"].readIfPresent() ?? ""
         return value
+    }
+}
+
+enum AcceptNetworkFirewallTransitGatewayAttachmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AssociateAvailabilityZonesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InsufficientCapacityException": return try InsufficientCapacityException.makeError(baseError: baseError)
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidOperationException": return try InvalidOperationException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "InvalidTokenException": return try InvalidTokenException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -5305,6 +7785,26 @@ enum CreateTLSInspectionConfigurationOutputError {
     }
 }
 
+enum CreateVpcEndpointAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InsufficientCapacityException": return try InsufficientCapacityException.makeError(baseError: baseError)
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidOperationException": return try InvalidOperationException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteFirewallOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5338,6 +7838,23 @@ enum DeleteFirewallPolicyOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteNetworkFirewallTransitGatewayAttachmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -5398,6 +7915,24 @@ enum DeleteTLSInspectionConfigurationOutputError {
     }
 }
 
+enum DeleteVpcEndpointAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidOperationException": return try InvalidOperationException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeFirewallOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5415,7 +7950,41 @@ enum DescribeFirewallOutputError {
     }
 }
 
+enum DescribeFirewallMetadataOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeFirewallPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeFlowOperationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5500,6 +8069,23 @@ enum DescribeRuleGroupMetadataOutputError {
     }
 }
 
+enum DescribeRuleGroupSummaryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeTLSInspectionConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5510,6 +8096,42 @@ enum DescribeTLSInspectionConfigurationOutputError {
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeVpcEndpointAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DisassociateAvailabilityZonesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidOperationException": return try InvalidOperationException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "InvalidTokenException": return try InvalidTokenException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5529,6 +8151,40 @@ enum DisassociateSubnetsOutputError {
             case "InvalidOperationException": return try InvalidOperationException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "InvalidTokenException": return try InvalidTokenException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAnalysisReportResultsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAnalysisReportsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5562,6 +8218,40 @@ enum ListFirewallsOutputError {
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListFlowOperationResultsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListFlowOperationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -5617,6 +8307,22 @@ enum ListTLSInspectionConfigurationsOutputError {
     }
 }
 
+enum ListVpcEndpointAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutResourcePolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5628,6 +8334,74 @@ enum PutResourcePolicyOutputError {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "InvalidResourcePolicyException": return try InvalidResourcePolicyException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RejectNetworkFirewallTransitGatewayAttachmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartAnalysisReportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartFlowCaptureOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartFlowFlushOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5653,6 +8427,42 @@ enum TagResourceOutputError {
 }
 
 enum UntagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateAvailabilityZoneChangeProtectionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "InvalidTokenException": return try InvalidTokenException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ResourceOwnerCheckException": return try ResourceOwnerCheckException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateFirewallAnalysisSettingsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5836,11 +8646,11 @@ enum UpdateTLSInspectionConfigurationOutputError {
     }
 }
 
-extension ThrottlingException {
+extension InternalServerError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerError {
         let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
+        var value = InternalServerError()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5875,11 +8685,24 @@ extension ResourceNotFoundException {
     }
 }
 
-extension InternalServerError {
+extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerError {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerError()
+        var value = ThrottlingException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InsufficientCapacityException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientCapacityException {
+        let reader = baseError.errorBodyReader
+        var value = InsufficientCapacityException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5906,19 +8729,6 @@ extension InvalidTokenException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidTokenException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InsufficientCapacityException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientCapacityException {
-        let reader = baseError.errorBodyReader
-        var value = InsufficientCapacityException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5992,6 +8802,21 @@ extension LogDestinationPermissionException {
     }
 }
 
+extension NetworkFirewallClientTypes.AvailabilityZoneMapping {
+
+    static func write(value: NetworkFirewallClientTypes.AvailabilityZoneMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityZone"].write(value.availabilityZone)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.AvailabilityZoneMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.AvailabilityZoneMapping()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension NetworkFirewallClientTypes.SubnetMapping {
 
     static func write(value: NetworkFirewallClientTypes.SubnetMapping?, to writer: SmithyJSON.Writer) throws {
@@ -6026,6 +8851,12 @@ extension NetworkFirewallClientTypes.Firewall {
         value.firewallId = try reader["FirewallId"].readIfPresent() ?? ""
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.EncryptionConfiguration.read(from:))
+        value.numberOfAssociations = try reader["NumberOfAssociations"].readIfPresent()
+        value.enabledAnalysisTypes = try reader["EnabledAnalysisTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<NetworkFirewallClientTypes.EnabledAnalysisType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.transitGatewayId = try reader["TransitGatewayId"].readIfPresent()
+        value.transitGatewayOwnerAccountId = try reader["TransitGatewayOwnerAccountId"].readIfPresent()
+        value.availabilityZoneMappings = try reader["AvailabilityZoneMappings"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.AvailabilityZoneMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.availabilityZoneChangeProtection = try reader["AvailabilityZoneChangeProtection"].readIfPresent() ?? false
         return value
     }
 }
@@ -6073,6 +8904,19 @@ extension NetworkFirewallClientTypes.FirewallStatus {
         value.configurationSyncStateSummary = try reader["ConfigurationSyncStateSummary"].readIfPresent() ?? .sdkUnknown("")
         value.syncStates = try reader["SyncStates"].readMapIfPresent(valueReadingClosure: NetworkFirewallClientTypes.SyncState.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.capacityUsageSummary = try reader["CapacityUsageSummary"].readIfPresent(with: NetworkFirewallClientTypes.CapacityUsageSummary.read(from:))
+        value.transitGatewayAttachmentSyncState = try reader["TransitGatewayAttachmentSyncState"].readIfPresent(with: NetworkFirewallClientTypes.TransitGatewayAttachmentSyncState.read(from:))
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.TransitGatewayAttachmentSyncState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.TransitGatewayAttachmentSyncState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.TransitGatewayAttachmentSyncState()
+        value.attachmentId = try reader["AttachmentId"].readIfPresent()
+        value.transitGatewayAttachmentStatus = try reader["TransitGatewayAttachmentStatus"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
         return value
     }
 }
@@ -6184,6 +9028,22 @@ extension NetworkFirewallClientTypes.RuleGroupResponse {
         value.snsTopic = try reader["SnsTopic"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.analysisResults = try reader["AnalysisResults"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.AnalysisResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.summaryConfiguration = try reader["SummaryConfiguration"].readIfPresent(with: NetworkFirewallClientTypes.SummaryConfiguration.read(from:))
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.SummaryConfiguration {
+
+    static func write(value: NetworkFirewallClientTypes.SummaryConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RuleOptions"].writeList(value.ruleOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<NetworkFirewallClientTypes.SummaryRuleOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.SummaryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.SummaryConfiguration()
+        value.ruleOptions = try reader["RuleOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<NetworkFirewallClientTypes.SummaryRuleOption>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6246,6 +9106,53 @@ extension NetworkFirewallClientTypes.TlsCertificateData {
         value.certificateSerial = try reader["CertificateSerial"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.VpcEndpointAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.VpcEndpointAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.VpcEndpointAssociation()
+        value.vpcEndpointAssociationId = try reader["VpcEndpointAssociationId"].readIfPresent()
+        value.vpcEndpointAssociationArn = try reader["VpcEndpointAssociationArn"].readIfPresent() ?? ""
+        value.firewallArn = try reader["FirewallArn"].readIfPresent() ?? ""
+        value.vpcId = try reader["VpcId"].readIfPresent() ?? ""
+        value.subnetMapping = try reader["SubnetMapping"].readIfPresent(with: NetworkFirewallClientTypes.SubnetMapping.read(from:))
+        value.description = try reader["Description"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.VpcEndpointAssociationStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.VpcEndpointAssociationStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.VpcEndpointAssociationStatus()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.associationSyncState = try reader["AssociationSyncState"].readMapIfPresent(valueReadingClosure: NetworkFirewallClientTypes.AZSyncState.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.AZSyncState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.AZSyncState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.AZSyncState()
+        value.attachment = try reader["Attachment"].readIfPresent(with: NetworkFirewallClientTypes.Attachment.read(from:))
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.AvailabilityZoneMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.AvailabilityZoneMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.AvailabilityZoneMetadata()
+        value.ipAddressType = try reader["IPAddressType"].readIfPresent()
         return value
     }
 }
@@ -6349,6 +9256,7 @@ extension NetworkFirewallClientTypes.StatefulRuleGroupReference {
 
     static func write(value: NetworkFirewallClientTypes.StatefulRuleGroupReference?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DeepThreatInspection"].write(value.deepThreatInspection)
         try writer["Override"].write(value.`override`, with: NetworkFirewallClientTypes.StatefulRuleGroupOverride.write(value:to:))
         try writer["Priority"].write(value.priority)
         try writer["ResourceArn"].write(value.resourceArn)
@@ -6360,6 +9268,7 @@ extension NetworkFirewallClientTypes.StatefulRuleGroupReference {
         value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
         value.priority = try reader["Priority"].readIfPresent()
         value.`override` = try reader["Override"].readIfPresent(with: NetworkFirewallClientTypes.StatefulRuleGroupOverride.read(from:))
+        value.deepThreatInspection = try reader["DeepThreatInspection"].readIfPresent()
         return value
     }
 }
@@ -6454,6 +9363,55 @@ extension NetworkFirewallClientTypes.StatelessRuleGroupReference {
         var value = NetworkFirewallClientTypes.StatelessRuleGroupReference()
         value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
         value.priority = try reader["Priority"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.FlowOperation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FlowOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.FlowOperation()
+        value.minimumFlowAgeInSeconds = try reader["MinimumFlowAgeInSeconds"].readIfPresent()
+        value.flowFilters = try reader["FlowFilters"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.FlowFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.FlowFilter {
+
+    static func write(value: NetworkFirewallClientTypes.FlowFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationAddress"].write(value.destinationAddress, with: NetworkFirewallClientTypes.Address.write(value:to:))
+        try writer["DestinationPort"].write(value.destinationPort)
+        try writer["Protocols"].writeList(value.protocols, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SourceAddress"].write(value.sourceAddress, with: NetworkFirewallClientTypes.Address.write(value:to:))
+        try writer["SourcePort"].write(value.sourcePort)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FlowFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.FlowFilter()
+        value.sourceAddress = try reader["SourceAddress"].readIfPresent(with: NetworkFirewallClientTypes.Address.read(from:))
+        value.destinationAddress = try reader["DestinationAddress"].readIfPresent(with: NetworkFirewallClientTypes.Address.read(from:))
+        value.sourcePort = try reader["SourcePort"].readIfPresent()
+        value.destinationPort = try reader["DestinationPort"].readIfPresent()
+        value.protocols = try reader["Protocols"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.Address {
+
+    static func write(value: NetworkFirewallClientTypes.Address?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddressDefinition"].write(value.addressDefinition)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Address {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.Address()
+        value.addressDefinition = try reader["AddressDefinition"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6659,21 +9617,6 @@ extension NetworkFirewallClientTypes.PortRange {
     }
 }
 
-extension NetworkFirewallClientTypes.Address {
-
-    static func write(value: NetworkFirewallClientTypes.Address?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AddressDefinition"].write(value.addressDefinition)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Address {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFirewallClientTypes.Address()
-        value.addressDefinition = try reader["AddressDefinition"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension NetworkFirewallClientTypes.StatefulRule {
 
     static func write(value: NetworkFirewallClientTypes.StatefulRule?, to writer: SmithyJSON.Writer) throws {
@@ -6816,6 +9759,28 @@ extension NetworkFirewallClientTypes.PortSet {
     }
 }
 
+extension NetworkFirewallClientTypes.Summary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Summary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.Summary()
+        value.ruleSummaries = try reader["RuleSummaries"].readListIfPresent(memberReadingClosure: NetworkFirewallClientTypes.RuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.RuleSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.RuleSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.RuleSummary()
+        value.sid = try reader["SID"].readIfPresent()
+        value.msg = try reader["Msg"].readIfPresent()
+        value.metadata = try reader["Metadata"].readIfPresent()
+        return value
+    }
+}
+
 extension NetworkFirewallClientTypes.TLSInspectionConfiguration {
 
     static func write(value: NetworkFirewallClientTypes.TLSInspectionConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -6907,6 +9872,54 @@ extension NetworkFirewallClientTypes.ServerCertificate {
     }
 }
 
+extension NetworkFirewallClientTypes.AnalysisTypeReportResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.AnalysisTypeReportResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.AnalysisTypeReportResult()
+        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.firstAccessed = try reader["FirstAccessed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastAccessed = try reader["LastAccessed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.domain = try reader["Domain"].readIfPresent()
+        value.hits = try reader["Hits"].readIfPresent(with: NetworkFirewallClientTypes.Hits.read(from:))
+        value.uniqueSources = try reader["UniqueSources"].readIfPresent(with: NetworkFirewallClientTypes.UniqueSources.read(from:))
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.UniqueSources {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.UniqueSources {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.UniqueSources()
+        value.count = try reader["Count"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.Hits {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Hits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.Hits()
+        value.count = try reader["Count"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.AnalysisReport {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.AnalysisReport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.AnalysisReport()
+        value.analysisReportId = try reader["AnalysisReportId"].readIfPresent()
+        value.analysisType = try reader["AnalysisType"].readIfPresent()
+        value.reportTime = try reader["ReportTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension NetworkFirewallClientTypes.FirewallPolicyMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FirewallPolicyMetadata {
@@ -6925,6 +9938,37 @@ extension NetworkFirewallClientTypes.FirewallMetadata {
         var value = NetworkFirewallClientTypes.FirewallMetadata()
         value.firewallName = try reader["FirewallName"].readIfPresent()
         value.firewallArn = try reader["FirewallArn"].readIfPresent()
+        value.transitGatewayAttachmentId = try reader["TransitGatewayAttachmentId"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.Flow {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.Flow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.Flow()
+        value.sourceAddress = try reader["SourceAddress"].readIfPresent(with: NetworkFirewallClientTypes.Address.read(from:))
+        value.destinationAddress = try reader["DestinationAddress"].readIfPresent(with: NetworkFirewallClientTypes.Address.read(from:))
+        value.sourcePort = try reader["SourcePort"].readIfPresent()
+        value.destinationPort = try reader["DestinationPort"].readIfPresent()
+        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.age = try reader["Age"].readIfPresent()
+        value.packetCount = try reader["PacketCount"].readIfPresent()
+        value.byteCount = try reader["ByteCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.FlowOperationMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.FlowOperationMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.FlowOperationMetadata()
+        value.flowOperationId = try reader["FlowOperationId"].readIfPresent()
+        value.flowOperationType = try reader["FlowOperationType"].readIfPresent()
+        value.flowRequestTimestamp = try reader["FlowRequestTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.flowOperationStatus = try reader["FlowOperationStatus"].readIfPresent()
         return value
     }
 }
@@ -6947,6 +9991,16 @@ extension NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata {
         var value = NetworkFirewallClientTypes.TLSInspectionConfigurationMetadata()
         value.name = try reader["Name"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFirewallClientTypes.VpcEndpointAssociationMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFirewallClientTypes.VpcEndpointAssociationMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFirewallClientTypes.VpcEndpointAssociationMetadata()
+        value.vpcEndpointAssociationArn = try reader["VpcEndpointAssociationArn"].readIfPresent()
         return value
     }
 }

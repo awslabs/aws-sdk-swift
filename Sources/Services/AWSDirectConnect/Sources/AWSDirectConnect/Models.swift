@@ -130,11 +130,11 @@ public struct AcceptDirectConnectGatewayAssociationProposalInput: Swift.Sendable
 
 extension DirectConnectClientTypes {
 
-    /// The Amazon Web Services Cloud WAN core network that the Direct Connect attachment is associated with.
+    /// The Amazon Web Services Cloud WAN core network that the Direct Connect gateway is associated to. This is only returned when a Direct Connect gateway is associated to a Cloud WAN core network.
     public struct AssociatedCoreNetwork: Swift.Sendable {
-        /// the ID of the Direct Connect attachment
+        /// the ID of the Direct Connect gateway attachment.
         public var attachmentId: Swift.String?
-        /// The ID of the Cloud WAN core network.
+        /// The ID of the Cloud WAN core network that the Direct Connect gateway is associated to.
         public var id: Swift.String?
         /// The account owner of the Cloud WAN core network.
         public var ownerAccount: Swift.String?
@@ -251,7 +251,7 @@ extension DirectConnectClientTypes {
     public struct DirectConnectGatewayAssociation: Swift.Sendable {
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
         public var allowedPrefixesToDirectConnectGateway: [DirectConnectClientTypes.RouteFilterPrefix]?
-        /// The ID of the Cloud WAN core network associated with the Direct Connect attachment.
+        /// The ID of the Cloud WAN core network associated with the Direct Connect gateway attachment.
         public var associatedCoreNetwork: DirectConnectClientTypes.AssociatedCoreNetwork?
         /// Information about the associated gateway.
         public var associatedGateway: DirectConnectClientTypes.AssociatedGateway?
@@ -1170,6 +1170,8 @@ public struct AllocatePrivateVirtualInterfaceOutput: Swift.Sendable {
     ///
     /// * down: A virtual interface that is BGP down.
     ///
+    /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
+    ///
     /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
     ///
     /// * deleted: A virtual interface that cannot forward traffic.
@@ -1372,6 +1374,8 @@ public struct AllocatePublicVirtualInterfaceOutput: Swift.Sendable {
     ///
     /// * down: A virtual interface that is BGP down.
     ///
+    /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
+    ///
     /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
     ///
     /// * deleted: A virtual interface that cannot forward traffic.
@@ -1572,6 +1576,8 @@ extension DirectConnectClientTypes {
         /// * available: A virtual interface that is able to forward traffic.
         ///
         /// * down: A virtual interface that is BGP down.
+        ///
+        /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
         ///
         /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
         ///
@@ -2035,6 +2041,8 @@ public struct AssociateVirtualInterfaceOutput: Swift.Sendable {
     ///
     /// * down: A virtual interface that is BGP down.
     ///
+    /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
+    ///
     /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
     ///
     /// * deleted: A virtual interface that cannot forward traffic.
@@ -2201,6 +2209,8 @@ public struct ConfirmPrivateVirtualInterfaceOutput: Swift.Sendable {
     ///
     /// * down: A virtual interface that is BGP down.
     ///
+    /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
+    ///
     /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
     ///
     /// * deleted: A virtual interface that cannot forward traffic.
@@ -2241,6 +2251,8 @@ public struct ConfirmPublicVirtualInterfaceOutput: Swift.Sendable {
     /// * available: A virtual interface that is able to forward traffic.
     ///
     /// * down: A virtual interface that is BGP down.
+    ///
+    /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
     ///
     /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
     ///
@@ -2287,6 +2299,8 @@ public struct ConfirmTransitVirtualInterfaceOutput: Swift.Sendable {
     /// * available: A virtual interface that is able to forward traffic.
     ///
     /// * down: A virtual interface that is BGP down.
+    ///
+    /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
     ///
     /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
     ///
@@ -2638,13 +2652,17 @@ public struct CreateDirectConnectGatewayInput: Swift.Sendable {
     /// The name of the Direct Connect gateway.
     /// This member is required.
     public var directConnectGatewayName: Swift.String?
+    /// The key-value pair tags associated with the request.
+    public var tags: [DirectConnectClientTypes.Tag]?
 
     public init(
         amazonSideAsn: Swift.Int? = nil,
-        directConnectGatewayName: Swift.String? = nil
+        directConnectGatewayName: Swift.String? = nil,
+        tags: [DirectConnectClientTypes.Tag]? = nil
     ) {
         self.amazonSideAsn = amazonSideAsn
         self.directConnectGatewayName = directConnectGatewayName
+        self.tags = tags
     }
 }
 
@@ -2707,6 +2725,8 @@ extension DirectConnectClientTypes {
         public var ownerAccount: Swift.String?
         /// The error message if the state of an object failed to advance.
         public var stateChangeError: Swift.String?
+        /// Information about a tag.
+        public var tags: [DirectConnectClientTypes.Tag]?
 
         public init(
             amazonSideAsn: Swift.Int? = nil,
@@ -2714,7 +2734,8 @@ extension DirectConnectClientTypes {
             directConnectGatewayName: Swift.String? = nil,
             directConnectGatewayState: DirectConnectClientTypes.DirectConnectGatewayState? = nil,
             ownerAccount: Swift.String? = nil,
-            stateChangeError: Swift.String? = nil
+            stateChangeError: Swift.String? = nil,
+            tags: [DirectConnectClientTypes.Tag]? = nil
         ) {
             self.amazonSideAsn = amazonSideAsn
             self.directConnectGatewayId = directConnectGatewayId
@@ -2722,6 +2743,7 @@ extension DirectConnectClientTypes {
             self.directConnectGatewayState = directConnectGatewayState
             self.ownerAccount = ownerAccount
             self.stateChangeError = stateChangeError
+            self.tags = tags
         }
     }
 }
@@ -3388,6 +3410,8 @@ public struct CreatePrivateVirtualInterfaceOutput: Swift.Sendable {
     ///
     /// * down: A virtual interface that is BGP down.
     ///
+    /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
+    ///
     /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
     ///
     /// * deleted: A virtual interface that cannot forward traffic.
@@ -3584,6 +3608,8 @@ public struct CreatePublicVirtualInterfaceOutput: Swift.Sendable {
     /// * available: A virtual interface that is able to forward traffic.
     ///
     /// * down: A virtual interface that is BGP down.
+    ///
+    /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
     ///
     /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
     ///
@@ -4155,6 +4181,8 @@ public struct DeleteVirtualInterfaceOutput: Swift.Sendable {
     /// * available: A virtual interface that is able to forward traffic.
     ///
     /// * down: A virtual interface that is BGP down.
+    ///
+    /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
     ///
     /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
     ///
@@ -5933,6 +5961,8 @@ public struct UpdateVirtualInterfaceAttributesOutput: Swift.Sendable {
     ///
     /// * down: A virtual interface that is BGP down.
     ///
+    /// * testing: A virtual interface is in this state immediately after calling [StartBgpFailoverTest] and remains in this state during the duration of the test.
+    ///
     /// * deleting: A virtual interface is in this state immediately after calling [DeleteVirtualInterface] until it can no longer forward traffic.
     ///
     /// * deleted: A virtual interface that cannot forward traffic.
@@ -6620,6 +6650,7 @@ extension CreateDirectConnectGatewayInput {
         guard let value else { return }
         try writer["amazonSideAsn"].write(value.amazonSideAsn)
         try writer["directConnectGatewayName"].write(value.directConnectGatewayName)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: DirectConnectClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -9172,11 +9203,11 @@ enum UpdateVirtualInterfaceAttributesOutputError {
     }
 }
 
-extension DirectConnectServerException {
+extension DirectConnectClientException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectConnectServerException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectConnectClientException {
         let reader = baseError.errorBodyReader
-        var value = DirectConnectServerException()
+        var value = DirectConnectClientException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9185,11 +9216,11 @@ extension DirectConnectServerException {
     }
 }
 
-extension DirectConnectClientException {
+extension DirectConnectServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectConnectClientException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectConnectServerException {
         let reader = baseError.errorBodyReader
-        var value = DirectConnectClientException()
+        var value = DirectConnectServerException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9379,6 +9410,7 @@ extension DirectConnectClientTypes.DirectConnectGateway {
         value.ownerAccount = try reader["ownerAccount"].readIfPresent()
         value.directConnectGatewayState = try reader["directConnectGatewayState"].readIfPresent()
         value.stateChangeError = try reader["stateChangeError"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

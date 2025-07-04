@@ -482,6 +482,86 @@ public struct CreateApplicationOutput: Swift.Sendable {
 
 extension M2ClientTypes {
 
+    /// Defines an external storage location.
+    public enum ExternalLocation: Swift.Sendable {
+        /// The URI of the Amazon S3 bucket.
+        case s3location(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension M2ClientTypes {
+
+    /// Identifies a specific data set to export from an external location.
+    public struct DataSetExportItem: Swift.Sendable {
+        /// The data set.
+        /// This member is required.
+        public var datasetName: Swift.String?
+        /// The location of the data set.
+        /// This member is required.
+        public var externalLocation: M2ClientTypes.ExternalLocation?
+
+        public init(
+            datasetName: Swift.String? = nil,
+            externalLocation: M2ClientTypes.ExternalLocation? = nil
+        ) {
+            self.datasetName = datasetName
+            self.externalLocation = externalLocation
+        }
+    }
+}
+
+extension M2ClientTypes {
+
+    /// Identifies one or more data sets you want to import with the [CreateDataSetExportTask] operation.
+    public enum DataSetExportConfig: Swift.Sendable {
+        /// The Amazon S3 location of the data sets.
+        case s3location(Swift.String)
+        /// The data sets.
+        case datasets([M2ClientTypes.DataSetExportItem])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateDataSetExportTaskInput: Swift.Sendable {
+    /// The unique identifier of the application for which you want to export data sets.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request to create a data set export. The service generates the clientToken when the API call is triggered. The token expires after one hour, so if you retry the API within this timeframe with the same clientToken, you will get the same response. The service also handles deleting the clientToken after it expires.
+    public var clientToken: Swift.String?
+    /// The data set export task configuration.
+    /// This member is required.
+    public var exportConfig: M2ClientTypes.DataSetExportConfig?
+    /// The identifier of a customer managed key.
+    public var kmsKeyId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        exportConfig: M2ClientTypes.DataSetExportConfig? = nil,
+        kmsKeyId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.clientToken = clientToken
+        self.exportConfig = exportConfig
+        self.kmsKeyId = kmsKeyId
+    }
+}
+
+public struct CreateDataSetExportTaskOutput: Swift.Sendable {
+    /// The task identifier. This operation is asynchronous. Use this identifier with the [GetDataSetExportTask] operation to obtain the status of this task.
+    /// This member is required.
+    public var taskId: Swift.String?
+
+    public init(
+        taskId: Swift.String? = nil
+    ) {
+        self.taskId = taskId
+    }
+}
+
+extension M2ClientTypes {
+
     /// The required attributes for a generation data group data set. A generation data set is one of a collection of successive, historically related, catalogued data sets that together are known as a generation data group (GDG). Use this structure when you want to import a GDG. For more information on GDG, see [Generation data sets](https://www.ibm.com/docs/en/zos/2.3.0?topic=guide-generation-data-sets).
     public struct GdgAttributes: Swift.Sendable {
         /// The maximum number of generation data sets, up to 255, in a GDG.
@@ -669,16 +749,6 @@ extension M2ClientTypes {
             self.relativePath = relativePath
             self.storageType = storageType
         }
-    }
-}
-
-extension M2ClientTypes {
-
-    /// Defines an external storage location.
-    public enum ExternalLocation: Swift.Sendable {
-        /// The URI of the Amazon S3 bucket.
-        case s3location(Swift.String)
-        case sdkUnknown(Swift.String)
     }
 }
 
@@ -1233,6 +1303,10 @@ extension M2ClientTypes {
         /// The step name that a batch job was restarted from.
         /// This member is required.
         public var fromStep: Swift.String?
+        /// The step-level checkpoint timestamp (creation or last modification) for an Amazon Web Services Blu Age application batch job.
+        public var skip: Swift.Bool?
+        /// Skip selected step and issue a restart from immediate successor step for an Amazon Web Services Blu Age application batch job.
+        public var stepCheckpoint: Swift.Int?
         /// The procedure step name that a batch job was restarted to.
         public var toProcStep: Swift.String?
         /// The step name that a batch job was restarted to.
@@ -1241,11 +1315,15 @@ extension M2ClientTypes {
         public init(
             fromProcStep: Swift.String? = nil,
             fromStep: Swift.String? = nil,
+            skip: Swift.Bool? = false,
+            stepCheckpoint: Swift.Int? = 0,
             toProcStep: Swift.String? = nil,
             toStep: Swift.String? = nil
         ) {
             self.fromProcStep = fromProcStep
             self.fromStep = fromStep
+            self.skip = skip
+            self.stepCheckpoint = stepCheckpoint
             self.toProcStep = toProcStep
             self.toStep = toStep
         }
@@ -1711,11 +1789,11 @@ public struct GetDataSetDetailsOutput: Swift.Sendable {
     }
 }
 
-public struct GetDataSetImportTaskInput: Swift.Sendable {
+public struct GetDataSetExportTaskInput: Swift.Sendable {
     /// The application identifier.
     /// This member is required.
     public var applicationId: Swift.String?
-    /// The task identifier returned by the [CreateDataSetImportTask] operation.
+    /// The task identifier returned by the [CreateDataSetExportTask] operation.
     /// This member is required.
     public var taskId: Swift.String?
 
@@ -1760,6 +1838,88 @@ extension M2ClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
+    }
+}
+
+extension M2ClientTypes {
+
+    /// Represents a summary of data set exports.
+    public struct DataSetExportSummary: Swift.Sendable {
+        /// The number of data set exports that have failed.
+        /// This member is required.
+        public var failed: Swift.Int
+        /// The number of data set exports that are in progress.
+        /// This member is required.
+        public var inProgress: Swift.Int
+        /// The number of data set exports that are pending.
+        /// This member is required.
+        public var pending: Swift.Int
+        /// The number of data set exports that have succeeded.
+        /// This member is required.
+        public var succeeded: Swift.Int
+        /// The total number of data set exports.
+        /// This member is required.
+        public var total: Swift.Int
+
+        public init(
+            failed: Swift.Int = 0,
+            inProgress: Swift.Int = 0,
+            pending: Swift.Int = 0,
+            succeeded: Swift.Int = 0,
+            total: Swift.Int = 0
+        ) {
+            self.failed = failed
+            self.inProgress = inProgress
+            self.pending = pending
+            self.succeeded = succeeded
+            self.total = total
+        }
+    }
+}
+
+public struct GetDataSetExportTaskOutput: Swift.Sendable {
+    /// The identifier of a customer managed key used for exported data set encryption.
+    public var kmsKeyArn: Swift.String?
+    /// The status of the task.
+    /// This member is required.
+    public var status: M2ClientTypes.DataSetTaskLifecycle?
+    /// If dataset export failed, the failure reason will show here.
+    public var statusReason: Swift.String?
+    /// A summary of the status of the task.
+    public var summary: M2ClientTypes.DataSetExportSummary?
+    /// The task identifier.
+    /// This member is required.
+    public var taskId: Swift.String?
+
+    public init(
+        kmsKeyArn: Swift.String? = nil,
+        status: M2ClientTypes.DataSetTaskLifecycle? = nil,
+        statusReason: Swift.String? = nil,
+        summary: M2ClientTypes.DataSetExportSummary? = nil,
+        taskId: Swift.String? = nil
+    ) {
+        self.kmsKeyArn = kmsKeyArn
+        self.status = status
+        self.statusReason = statusReason
+        self.summary = summary
+        self.taskId = taskId
+    }
+}
+
+public struct GetDataSetImportTaskInput: Swift.Sendable {
+    /// The application identifier.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The task identifier returned by the [CreateDataSetImportTask] operation.
+    /// This member is required.
+    public var taskId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        taskId: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.taskId = taskId
     }
 }
 
@@ -2280,6 +2440,12 @@ extension M2ClientTypes {
         public var procStepName: Swift.String?
         /// The number of a procedure step.
         public var procStepNumber: Swift.Int
+        /// A registered step-level checkpoint identifier that can be used for restarting an Amazon Web Services Blu Age application batch job.
+        public var stepCheckpoint: Swift.Int?
+        /// The step-level checkpoint status for an Amazon Web Services Blu Age application batch job.
+        public var stepCheckpointStatus: Swift.String?
+        /// The step-level checkpoint status for an Amazon Web Services Blu Age application batch job.
+        public var stepCheckpointTime: Foundation.Date?
         /// The condition code of a step.
         public var stepCondCode: Swift.String?
         /// The name of a step.
@@ -2292,6 +2458,9 @@ extension M2ClientTypes {
         public init(
             procStepName: Swift.String? = nil,
             procStepNumber: Swift.Int = 0,
+            stepCheckpoint: Swift.Int? = 0,
+            stepCheckpointStatus: Swift.String? = nil,
+            stepCheckpointTime: Foundation.Date? = nil,
             stepCondCode: Swift.String? = nil,
             stepName: Swift.String? = nil,
             stepNumber: Swift.Int = 0,
@@ -2299,6 +2468,9 @@ extension M2ClientTypes {
         ) {
             self.procStepName = procStepName
             self.procStepNumber = procStepNumber
+            self.stepCheckpoint = stepCheckpoint
+            self.stepCheckpointStatus = stepCheckpointStatus
+            self.stepCheckpointTime = stepCheckpointTime
             self.stepCondCode = stepCondCode
             self.stepName = stepName
             self.stepNumber = stepNumber
@@ -2315,6 +2487,72 @@ public struct ListBatchJobRestartPointsOutput: Swift.Sendable {
         batchJobSteps: [M2ClientTypes.JobStep]? = nil
     ) {
         self.batchJobSteps = batchJobSteps
+    }
+}
+
+public struct ListDataSetExportHistoryInput: Swift.Sendable {
+    /// The unique identifier of the application.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The maximum number of objects to return.
+    public var maxResults: Swift.Int?
+    /// A pagination token returned from a previous call to this operation. This specifies the next item to return. To return to the beginning of the list, exclude this parameter.
+    public var nextToken: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.applicationId = applicationId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension M2ClientTypes {
+
+    /// Contains information about a data set export task.
+    public struct DataSetExportTask: Swift.Sendable {
+        /// The status of the data set export task.
+        /// This member is required.
+        public var status: M2ClientTypes.DataSetTaskLifecycle?
+        /// If dataset exports failed, the failure reason will show here.
+        public var statusReason: Swift.String?
+        /// A summary of the data set export task.
+        /// This member is required.
+        public var summary: M2ClientTypes.DataSetExportSummary?
+        /// The identifier of the data set export task.
+        /// This member is required.
+        public var taskId: Swift.String?
+
+        public init(
+            status: M2ClientTypes.DataSetTaskLifecycle? = nil,
+            statusReason: Swift.String? = nil,
+            summary: M2ClientTypes.DataSetExportSummary? = nil,
+            taskId: Swift.String? = nil
+        ) {
+            self.status = status
+            self.statusReason = statusReason
+            self.summary = summary
+            self.taskId = taskId
+        }
+    }
+}
+
+public struct ListDataSetExportHistoryOutput: Swift.Sendable {
+    /// The data set export tasks.
+    /// This member is required.
+    public var dataSetExportTasks: [M2ClientTypes.DataSetExportTask]?
+    /// If there are more items to return, this contains a token that is passed to a subsequent call to this operation to retrieve the next set of items.
+    public var nextToken: Swift.String?
+
+    public init(
+        dataSetExportTasks: [M2ClientTypes.DataSetExportTask]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dataSetExportTasks = dataSetExportTasks
+        self.nextToken = nextToken
     }
 }
 
@@ -3354,6 +3592,16 @@ extension CreateApplicationInput {
     }
 }
 
+extension CreateDataSetExportTaskInput {
+
+    static func urlPathProvider(_ value: CreateDataSetExportTaskInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/dataset-export-task"
+    }
+}
+
 extension CreateDataSetImportTaskInput {
 
     static func urlPathProvider(_ value: CreateDataSetImportTaskInput) -> Swift.String? {
@@ -3460,6 +3708,19 @@ extension GetDataSetDetailsInput {
             return nil
         }
         return "/applications/\(applicationId.urlPercentEncoding())/datasets/\(dataSetName.urlPercentEncoding())"
+    }
+}
+
+extension GetDataSetExportTaskInput {
+
+    static func urlPathProvider(_ value: GetDataSetExportTaskInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let taskId = value.taskId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/dataset-export-tasks/\(taskId.urlPercentEncoding())"
     }
 }
 
@@ -3663,6 +3924,32 @@ extension ListBatchJobRestartPointsInput {
         if let authSecretsManagerArn = value.authSecretsManagerArn {
             let authSecretsManagerArnQueryItem = Smithy.URIQueryItem(name: "authSecretsManagerArn".urlPercentEncoding(), value: Swift.String(authSecretsManagerArn).urlPercentEncoding())
             items.append(authSecretsManagerArnQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListDataSetExportHistoryInput {
+
+    static func urlPathProvider(_ value: ListDataSetExportHistoryInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/dataset-export-tasks"
+    }
+}
+
+extension ListDataSetExportHistoryInput {
+
+    static func queryItemProvider(_ value: ListDataSetExportHistoryInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
         return items
     }
@@ -3933,6 +4220,16 @@ extension CreateApplicationInput {
     }
 }
 
+extension CreateDataSetExportTaskInput {
+
+    static func write(value: CreateDataSetExportTaskInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["exportConfig"].write(value.exportConfig, with: M2ClientTypes.DataSetExportConfig.write(value:to:))
+        try writer["kmsKeyId"].write(value.kmsKeyId)
+    }
+}
+
 extension CreateDataSetImportTaskInput {
 
     static func write(value: CreateDataSetImportTaskInput?, to writer: SmithyJSON.Writer) throws {
@@ -4040,6 +4337,18 @@ extension CreateApplicationOutput {
         value.applicationArn = try reader["applicationArn"].readIfPresent() ?? ""
         value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
         value.applicationVersion = try reader["applicationVersion"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CreateDataSetExportTaskOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDataSetExportTaskOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDataSetExportTaskOutput()
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4194,6 +4503,22 @@ extension GetDataSetDetailsOutput {
     }
 }
 
+extension GetDataSetExportTaskOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDataSetExportTaskOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDataSetExportTaskOutput()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.summary = try reader["summary"].readIfPresent(with: M2ClientTypes.DataSetExportSummary.read(from:))
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension GetDataSetImportTaskOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDataSetImportTaskOutput {
@@ -4332,6 +4657,19 @@ extension ListBatchJobRestartPointsOutput {
         let reader = responseReader
         var value = ListBatchJobRestartPointsOutput()
         value.batchJobSteps = try reader["batchJobSteps"].readListIfPresent(memberReadingClosure: M2ClientTypes.JobStep.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListDataSetExportHistoryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDataSetExportHistoryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDataSetExportHistoryOutput()
+        value.dataSetExportTasks = try reader["dataSetExportTasks"].readListIfPresent(memberReadingClosure: M2ClientTypes.DataSetExportTask.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -4507,6 +4845,26 @@ enum CreateApplicationOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateDataSetExportTaskOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
@@ -4704,6 +5062,24 @@ enum GetDataSetDetailsOutputError {
     }
 }
 
+enum GetDataSetExportTaskOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetDataSetImportTaskOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4855,6 +5231,24 @@ enum ListBatchJobRestartPointsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDataSetExportHistoryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -5106,6 +5500,19 @@ enum UpdateEnvironmentOutputError {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ConflictException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
@@ -5114,40 +5521,6 @@ extension ConflictException {
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["resourceId"].readIfPresent()
         value.properties.resourceType = try reader["resourceType"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        let httpResponse = baseError.httpResponse
-        var value = ThrottlingException()
-        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
-            value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
-        }
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: M2ClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5187,12 +5560,33 @@ extension ResourceNotFoundException {
     }
 }
 
-extension AccessDeniedException {
+extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        let httpResponse = baseError.httpResponse
+        var value = ThrottlingException()
+        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
+            value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
+        }
         value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
+        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: M2ClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5338,6 +5732,8 @@ extension M2ClientTypes.JobStepRestartMarker {
         guard let value else { return }
         try writer["fromProcStep"].write(value.fromProcStep)
         try writer["fromStep"].write(value.fromStep)
+        try writer["skip"].write(value.skip)
+        try writer["stepCheckpoint"].write(value.stepCheckpoint)
         try writer["toProcStep"].write(value.toProcStep)
         try writer["toStep"].write(value.toStep)
     }
@@ -5349,6 +5745,8 @@ extension M2ClientTypes.JobStepRestartMarker {
         value.fromProcStep = try reader["fromProcStep"].readIfPresent()
         value.toStep = try reader["toStep"].readIfPresent()
         value.toProcStep = try reader["toProcStep"].readIfPresent()
+        value.stepCheckpoint = try reader["stepCheckpoint"].readIfPresent()
+        value.skip = try reader["skip"].readIfPresent()
         return value
     }
 }
@@ -5536,6 +5934,20 @@ extension M2ClientTypes.PrimaryKey {
         value.name = try reader["name"].readIfPresent()
         value.offset = try reader["offset"].readIfPresent() ?? 0
         value.length = try reader["length"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension M2ClientTypes.DataSetExportSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DataSetExportSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.DataSetExportSummary()
+        value.total = try reader["total"].readIfPresent() ?? 0
+        value.succeeded = try reader["succeeded"].readIfPresent() ?? 0
+        value.failed = try reader["failed"].readIfPresent() ?? 0
+        value.pending = try reader["pending"].readIfPresent() ?? 0
+        value.inProgress = try reader["inProgress"].readIfPresent() ?? 0
         return value
     }
 }
@@ -5742,6 +6154,22 @@ extension M2ClientTypes.JobStep {
         value.procStepName = try reader["procStepName"].readIfPresent()
         value.stepCondCode = try reader["stepCondCode"].readIfPresent()
         value.stepRestartable = try reader["stepRestartable"].readIfPresent() ?? false
+        value.stepCheckpoint = try reader["stepCheckpoint"].readIfPresent()
+        value.stepCheckpointStatus = try reader["stepCheckpointStatus"].readIfPresent()
+        value.stepCheckpointTime = try reader["stepCheckpointTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension M2ClientTypes.DataSetExportTask {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> M2ClientTypes.DataSetExportTask {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = M2ClientTypes.DataSetExportTask()
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.summary = try reader["summary"].readIfPresent(with: M2ClientTypes.DataSetExportSummary.read(from:))
+        value.statusReason = try reader["statusReason"].readIfPresent()
         return value
     }
 }
@@ -5845,6 +6273,43 @@ extension M2ClientTypes.Definition {
     }
 }
 
+extension M2ClientTypes.DataSetExportConfig {
+
+    static func write(value: M2ClientTypes.DataSetExportConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .datasets(datasets):
+                try writer["dataSets"].writeList(datasets, memberWritingClosure: M2ClientTypes.DataSetExportItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .s3location(s3location):
+                try writer["s3Location"].write(s3location)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension M2ClientTypes.DataSetExportItem {
+
+    static func write(value: M2ClientTypes.DataSetExportItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["datasetName"].write(value.datasetName)
+        try writer["externalLocation"].write(value.externalLocation, with: M2ClientTypes.ExternalLocation.write(value:to:))
+    }
+}
+
+extension M2ClientTypes.ExternalLocation {
+
+    static func write(value: M2ClientTypes.ExternalLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .s3location(s3location):
+                try writer["s3Location"].write(s3location)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
 extension M2ClientTypes.DataSetImportConfig {
 
     static func write(value: M2ClientTypes.DataSetImportConfig?, to writer: SmithyJSON.Writer) throws {
@@ -5866,19 +6331,6 @@ extension M2ClientTypes.DataSetImportItem {
         guard let value else { return }
         try writer["dataSet"].write(value.dataSet, with: M2ClientTypes.DataSet.write(value:to:))
         try writer["externalLocation"].write(value.externalLocation, with: M2ClientTypes.ExternalLocation.write(value:to:))
-    }
-}
-
-extension M2ClientTypes.ExternalLocation {
-
-    static func write(value: M2ClientTypes.ExternalLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .s3location(s3location):
-                try writer["s3Location"].write(s3location)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
     }
 }
 

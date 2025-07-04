@@ -78,6 +78,11 @@ public struct PutConnectInstanceIntegrationOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct PutInstanceCommunicationLimitsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct ResumeCampaignOutput: Swift.Sendable {
 
     public init() { }
@@ -671,15 +676,49 @@ extension ConnectCampaignsV2ClientTypes {
 
 extension ConnectCampaignsV2ClientTypes {
 
+    /// Instance limits handling
+    public enum InstanceLimitsHandling: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case optIn
+        case optOut
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceLimitsHandling] {
+            return [
+                .optIn,
+                .optOut
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .optIn: return "OPT_IN"
+            case .optOut: return "OPT_OUT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
     /// Communication limits config
     public struct CommunicationLimitsConfig: Swift.Sendable {
         /// Communication limits
         public var allChannelSubtypes: ConnectCampaignsV2ClientTypes.CommunicationLimits?
+        /// Instance limits handling
+        public var instanceLimitsHandling: ConnectCampaignsV2ClientTypes.InstanceLimitsHandling?
 
         public init(
-            allChannelSubtypes: ConnectCampaignsV2ClientTypes.CommunicationLimits? = nil
+            allChannelSubtypes: ConnectCampaignsV2ClientTypes.CommunicationLimits? = nil,
+            instanceLimitsHandling: ConnectCampaignsV2ClientTypes.InstanceLimitsHandling? = nil
         ) {
             self.allChannelSubtypes = allChannelSubtypes
+            self.instanceLimitsHandling = instanceLimitsHandling
         }
     }
 }
@@ -1713,6 +1752,46 @@ public struct GetConnectInstanceConfigOutput: Swift.Sendable {
     }
 }
 
+/// The request for GetInstanceCommunicationLimits API.
+public struct GetInstanceCommunicationLimitsInput: Swift.Sendable {
+    /// Amazon Connect Instance Id
+    /// This member is required.
+    public var connectInstanceId: Swift.String?
+
+    public init(
+        connectInstanceId: Swift.String? = nil
+    ) {
+        self.connectInstanceId = connectInstanceId
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
+    /// Instance Communication limits config
+    public struct InstanceCommunicationLimitsConfig: Swift.Sendable {
+        /// Communication limits
+        public var allChannelSubtypes: ConnectCampaignsV2ClientTypes.CommunicationLimits?
+
+        public init(
+            allChannelSubtypes: ConnectCampaignsV2ClientTypes.CommunicationLimits? = nil
+        ) {
+            self.allChannelSubtypes = allChannelSubtypes
+        }
+    }
+}
+
+/// The response for GetInstanceCommunicationLimits API.
+public struct GetInstanceCommunicationLimitsOutput: Swift.Sendable {
+    /// Instance Communication limits config
+    public var communicationLimitsConfig: ConnectCampaignsV2ClientTypes.InstanceCommunicationLimitsConfig?
+
+    public init(
+        communicationLimitsConfig: ConnectCampaignsV2ClientTypes.InstanceCommunicationLimitsConfig? = nil
+    ) {
+        self.communicationLimitsConfig = communicationLimitsConfig
+    }
+}
+
 /// The request for GetInstanceOnboardingJobStatus API.
 public struct GetInstanceOnboardingJobStatusInput: Swift.Sendable {
     /// Amazon Connect Instance Id
@@ -2206,6 +2285,24 @@ public struct PutConnectInstanceIntegrationInput: Swift.Sendable {
     ) {
         self.connectInstanceId = connectInstanceId
         self.integrationConfig = integrationConfig
+    }
+}
+
+/// The request for PutInstanceCommunicationLimits API.
+public struct PutInstanceCommunicationLimitsInput: Swift.Sendable {
+    /// Instance Communication limits config
+    /// This member is required.
+    public var communicationLimitsConfig: ConnectCampaignsV2ClientTypes.InstanceCommunicationLimitsConfig?
+    /// Amazon Connect Instance Id
+    /// This member is required.
+    public var connectInstanceId: Swift.String?
+
+    public init(
+        communicationLimitsConfig: ConnectCampaignsV2ClientTypes.InstanceCommunicationLimitsConfig? = nil,
+        connectInstanceId: Swift.String? = nil
+    ) {
+        self.communicationLimitsConfig = communicationLimitsConfig
+        self.connectInstanceId = connectInstanceId
     }
 }
 
@@ -3011,6 +3108,16 @@ extension GetConnectInstanceConfigInput {
     }
 }
 
+extension GetInstanceCommunicationLimitsInput {
+
+    static func urlPathProvider(_ value: GetInstanceCommunicationLimitsInput) -> Swift.String? {
+        guard let connectInstanceId = value.connectInstanceId else {
+            return nil
+        }
+        return "/v2/connect-instance/\(connectInstanceId.urlPercentEncoding())/communication-limits"
+    }
+}
+
 extension GetInstanceOnboardingJobStatusInput {
 
     static func urlPathProvider(_ value: GetInstanceOnboardingJobStatusInput) -> Swift.String? {
@@ -3081,6 +3188,16 @@ extension PutConnectInstanceIntegrationInput {
             return nil
         }
         return "/v2/connect-instance/\(connectInstanceId.urlPercentEncoding())/integrations"
+    }
+}
+
+extension PutInstanceCommunicationLimitsInput {
+
+    static func urlPathProvider(_ value: PutInstanceCommunicationLimitsInput) -> Swift.String? {
+        guard let connectInstanceId = value.connectInstanceId else {
+            return nil
+        }
+        return "/v2/connect-instance/\(connectInstanceId.urlPercentEncoding())/communication-limits"
     }
 }
 
@@ -3300,6 +3417,14 @@ extension PutConnectInstanceIntegrationInput {
     }
 }
 
+extension PutInstanceCommunicationLimitsInput {
+
+    static func write(value: PutInstanceCommunicationLimitsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["communicationLimitsConfig"].write(value.communicationLimitsConfig, with: ConnectCampaignsV2ClientTypes.InstanceCommunicationLimitsConfig.write(value:to:))
+    }
+}
+
 extension PutOutboundRequestBatchInput {
 
     static func write(value: PutOutboundRequestBatchInput?, to writer: SmithyJSON.Writer) throws {
@@ -3500,6 +3625,18 @@ extension GetConnectInstanceConfigOutput {
     }
 }
 
+extension GetInstanceCommunicationLimitsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetInstanceCommunicationLimitsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetInstanceCommunicationLimitsOutput()
+        value.communicationLimitsConfig = try reader["communicationLimitsConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.InstanceCommunicationLimitsConfig.read(from:))
+        return value
+    }
+}
+
 extension GetInstanceOnboardingJobStatusOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetInstanceOnboardingJobStatusOutput {
@@ -3561,6 +3698,13 @@ extension PutConnectInstanceIntegrationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutConnectInstanceIntegrationOutput {
         return PutConnectInstanceIntegrationOutput()
+    }
+}
+
+extension PutInstanceCommunicationLimitsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutInstanceCommunicationLimitsOutput {
+        return PutInstanceCommunicationLimitsOutput()
     }
 }
 
@@ -3903,6 +4047,23 @@ enum GetConnectInstanceConfigOutputError {
     }
 }
 
+enum GetInstanceCommunicationLimitsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetInstanceOnboardingJobStatusOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4005,6 +4166,24 @@ enum PutConnectInstanceIntegrationOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutInstanceCommunicationLimitsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -4314,12 +4493,12 @@ extension AccessDeniedException {
     }
 }
 
-extension ValidationException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
-        var value = ValidationException()
+        var value = ConflictException()
         if let xAmzErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
             value.properties.xAmzErrorType = xAmzErrorTypeHeaderValue
         }
@@ -4365,6 +4544,23 @@ extension ResourceNotFoundException {
     }
 }
 
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
+        var value = ServiceQuotaExceededException()
+        if let xAmzErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
+            value.properties.xAmzErrorType = xAmzErrorTypeHeaderValue
+        }
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ThrottlingException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
@@ -4382,29 +4578,12 @@ extension ThrottlingException {
     }
 }
 
-extension ConflictException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
-        var value = ConflictException()
-        if let xAmzErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
-            value.properties.xAmzErrorType = xAmzErrorTypeHeaderValue
-        }
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        let httpResponse = baseError.httpResponse
-        var value = ServiceQuotaExceededException()
+        var value = ValidationException()
         if let xAmzErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
             value.properties.xAmzErrorType = xAmzErrorTypeHeaderValue
         }
@@ -4476,12 +4655,14 @@ extension ConnectCampaignsV2ClientTypes.CommunicationLimitsConfig {
     static func write(value: ConnectCampaignsV2ClientTypes.CommunicationLimitsConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["allChannelSubtypes"].write(value.allChannelSubtypes, with: ConnectCampaignsV2ClientTypes.CommunicationLimits.write(value:to:))
+        try writer["instanceLimitsHandling"].write(value.instanceLimitsHandling)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.CommunicationLimitsConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectCampaignsV2ClientTypes.CommunicationLimitsConfig()
         value.allChannelSubtypes = try reader["allChannelSubtypes"].readIfPresent(with: ConnectCampaignsV2ClientTypes.CommunicationLimits.read(from:))
+        value.instanceLimitsHandling = try reader["instanceLimitsHandling"].readIfPresent()
         return value
     }
 }
@@ -5052,6 +5233,21 @@ extension ConnectCampaignsV2ClientTypes.EncryptionConfig {
         value.enabled = try reader["enabled"].readIfPresent() ?? false
         value.encryptionType = try reader["encryptionType"].readIfPresent()
         value.keyArn = try reader["keyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.InstanceCommunicationLimitsConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.InstanceCommunicationLimitsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allChannelSubtypes"].write(value.allChannelSubtypes, with: ConnectCampaignsV2ClientTypes.CommunicationLimits.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.InstanceCommunicationLimitsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.InstanceCommunicationLimitsConfig()
+        value.allChannelSubtypes = try reader["allChannelSubtypes"].readIfPresent(with: ConnectCampaignsV2ClientTypes.CommunicationLimits.read(from:))
         return value
     }
 }

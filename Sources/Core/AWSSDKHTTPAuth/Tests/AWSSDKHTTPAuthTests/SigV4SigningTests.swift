@@ -16,7 +16,6 @@ import AwsCommonRuntimeKit
 @_spi(SmithyTimestamps) import SmithyTimestamps
 import SmithyEventStreams
 import SmithyEventStreamsAPI
-import AWSSDKIdentity
 import AWSSDKHTTPAuth
 
 class Sigv4SigningTests: XCTestCase {
@@ -302,7 +301,7 @@ class Sigv4SigningTests: XCTestCase {
     }
 }
 
-class TestCustomAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
+class TestCustomAWSCredentialIdentityResolver: AWSCredentialIdentityResolver, @unchecked Sendable {
     let credentials: AWSCredentialIdentity
     
     init(credentials: AWSCredentialIdentity) {

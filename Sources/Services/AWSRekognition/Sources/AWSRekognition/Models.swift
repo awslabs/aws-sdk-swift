@@ -901,7 +901,7 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes {
 
-    /// The emotions that appear to be expressed on the face, and the confidence level in the determination. The API is only making a determination of the physical appearance of a person's face. It is not a determination of the person’s internal emotional state and should not be used in such a way. For example, a person pretending to have a sad face might not be sad emotionally.
+    /// The API returns a prediction of an emotion based on a person's facial expressions, along with the confidence level for the predicted emotion. It is not a determination of the person’s internal emotional state and should not be used in such a way. For example, a person pretending to have a sad face might not be sad emotionally. The API is not intended to be used, and you may not use it, in a manner that violates the EU Artificial Intelligence Act or any other applicable law.
     public struct Emotion: Swift.Sendable {
         /// Level of confidence in the determination.
         public var confidence: Swift.Float?
@@ -1596,6 +1596,95 @@ extension RekognitionClientTypes {
             case .timestamp: return "TIMESTAMP"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension RekognitionClientTypes {
+
+    public enum ChallengeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case faceMovementAndLightChallenge
+        case faceMovementChallenge
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChallengeType] {
+            return [
+                .faceMovementAndLightChallenge,
+                .faceMovementChallenge
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .faceMovementAndLightChallenge: return "FaceMovementAndLightChallenge"
+            case .faceMovementChallenge: return "FaceMovementChallenge"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RekognitionClientTypes {
+
+    /// Describes the type and version of the challenge being used for the Face Liveness session.
+    public struct Challenge: Swift.Sendable {
+        /// The type of the challenge being used for the Face Liveness session.
+        /// This member is required.
+        public var type: RekognitionClientTypes.ChallengeType?
+        /// The version of the challenge being used for the Face Liveness session.
+        /// This member is required.
+        public var version: Swift.String?
+
+        public init(
+            type: RekognitionClientTypes.ChallengeType? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.type = type
+            self.version = version
+        }
+    }
+}
+
+extension RekognitionClientTypes {
+
+    /// Object specifying the acceptable range of challenge versions.
+    public struct Versions: Swift.Sendable {
+        /// The desired maximum version for the challenge.
+        public var maximum: Swift.String?
+        /// The desired minimum version for the challenge.
+        public var minimum: Swift.String?
+
+        public init(
+            maximum: Swift.String? = nil,
+            minimum: Swift.String? = nil
+        ) {
+            self.maximum = maximum
+            self.minimum = minimum
+        }
+    }
+}
+
+extension RekognitionClientTypes {
+
+    /// An ordered list of preferred challenge type and versions.
+    public struct ChallengePreference: Swift.Sendable {
+        /// The types of challenges that have been selected for the Face Liveness session.
+        /// This member is required.
+        public var type: RekognitionClientTypes.ChallengeType?
+        /// The version of the challenges that have been selected for the Face Liveness session.
+        public var versions: RekognitionClientTypes.Versions?
+
+        public init(
+            type: RekognitionClientTypes.ChallengeType? = nil,
+            versions: RekognitionClientTypes.Versions? = nil
+        ) {
+            self.type = type
+            self.versions = versions
         }
     }
 }
@@ -2395,14 +2484,18 @@ extension RekognitionClientTypes {
     public struct CreateFaceLivenessSessionRequestSettings: Swift.Sendable {
         /// Number of audit images to be returned back. Takes an integer between 0-4. Any integer less than 0 will return 0, any integer above 4 will return 4 images in the response. By default, it is set to 0. The limit is best effort and is based on the actual duration of the selfie-video.
         public var auditImagesLimit: Swift.Int?
+        /// Indicates preferred challenge types and versions for the Face Liveness session to be created.
+        public var challengePreferences: [RekognitionClientTypes.ChallengePreference]?
         /// Can specify the location of an Amazon S3 bucket, where reference and audit images will be stored. Note that the Amazon S3 bucket must be located in the caller's AWS account and in the same region as the Face Liveness end-point. Additionally, the Amazon S3 object keys are auto-generated by the Face Liveness system. Requires that the caller has the s3:PutObject permission on the Amazon S3 bucket.
         public var outputConfig: RekognitionClientTypes.LivenessOutputConfig?
 
         public init(
             auditImagesLimit: Swift.Int? = nil,
+            challengePreferences: [RekognitionClientTypes.ChallengePreference]? = nil,
             outputConfig: RekognitionClientTypes.LivenessOutputConfig? = nil
         ) {
             self.auditImagesLimit = auditImagesLimit
+            self.challengePreferences = challengePreferences
             self.outputConfig = outputConfig
         }
     }
@@ -5692,6 +5785,8 @@ extension RekognitionClientTypes {
 public struct GetFaceLivenessSessionResultsOutput: Swift.Sendable {
     /// A set of images from the Face Liveness video that can be used for audit purposes. It includes a bounding box of the face and the Base64-encoded bytes that return an image. If the CreateFaceLivenessSession request included an OutputConfig argument, the image will be uploaded to an S3Object specified in the output configuration. If no Amazon S3 bucket is defined, raw bytes are sent instead.
     public var auditImages: [RekognitionClientTypes.AuditImage]?
+    /// Contains information regarding the challenge type used for the Face Liveness check.
+    public var challenge: RekognitionClientTypes.Challenge?
     /// Probabalistic confidence score for if the person in the given video was live, represented as a float value between 0 to 100.
     public var confidence: Swift.Float?
     /// A high-quality image from the Face Liveness video that can be used for face comparison or search. It includes a bounding box of the face and the Base64-encoded bytes that return an image. If the CreateFaceLivenessSession request included an OutputConfig argument, the image will be uploaded to an S3Object specified in the output configuration. In case the reference image is not returned, it's recommended to retry the Liveness check.
@@ -5705,12 +5800,14 @@ public struct GetFaceLivenessSessionResultsOutput: Swift.Sendable {
 
     public init(
         auditImages: [RekognitionClientTypes.AuditImage]? = nil,
+        challenge: RekognitionClientTypes.Challenge? = nil,
         confidence: Swift.Float? = nil,
         referenceImage: RekognitionClientTypes.AuditImage? = nil,
         sessionId: Swift.String? = nil,
         status: RekognitionClientTypes.LivenessSessionStatus? = nil
     ) {
         self.auditImages = auditImages
+        self.challenge = challenge
         self.confidence = confidence
         self.referenceImage = referenceImage
         self.sessionId = sessionId
@@ -10448,6 +10545,7 @@ extension GetFaceLivenessSessionResultsOutput {
         let reader = responseReader
         var value = GetFaceLivenessSessionResultsOutput()
         value.auditImages = try reader["AuditImages"].readListIfPresent(memberReadingClosure: RekognitionClientTypes.AuditImage.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.challenge = try reader["Challenge"].readIfPresent(with: RekognitionClientTypes.Challenge.read(from:))
         value.confidence = try reader["Confidence"].readIfPresent()
         value.referenceImage = try reader["ReferenceImage"].readIfPresent(with: RekognitionClientTypes.AuditImage.read(from:))
         value.sessionId = try reader["SessionId"].readIfPresent() ?? ""
@@ -12525,56 +12623,11 @@ enum UpdateStreamProcessorOutputError {
     }
 }
 
-extension InvalidParameterException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = InvalidParameterException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.logref = try reader["Logref"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ProvisionedThroughputExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ProvisionedThroughputExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ProvisionedThroughputExceededException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.logref = try reader["Logref"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.logref = try reader["Logref"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = AccessDeniedException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.logref = try reader["Logref"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12590,36 +12643,6 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.logref = try reader["Logref"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.logref = try reader["Logref"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.logref = try reader["Logref"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12660,11 +12683,71 @@ extension InternalServerError {
     }
 }
 
-extension InvalidS3ObjectException {
+extension InvalidParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidS3ObjectException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
-        var value = InvalidS3ObjectException()
+        var value = InvalidParameterException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.logref = try reader["Logref"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ProvisionedThroughputExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ProvisionedThroughputExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ProvisionedThroughputExceededException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.logref = try reader["Logref"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.logref = try reader["Logref"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.logref = try reader["Logref"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.logref = try reader["Logref"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12705,11 +12788,11 @@ extension InvalidImageFormatException {
     }
 }
 
-extension ResourceInUseException {
+extension InvalidS3ObjectException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidS3ObjectException {
         let reader = baseError.errorBodyReader
-        var value = ResourceInUseException()
+        var value = InvalidS3ObjectException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.logref = try reader["Logref"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -12725,6 +12808,21 @@ extension LimitExceededException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
         var value = LimitExceededException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.logref = try reader["Logref"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceInUseException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceInUseException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceInUseException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.logref = try reader["Logref"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
@@ -14018,6 +14116,17 @@ extension RekognitionClientTypes.AuditImage {
     }
 }
 
+extension RekognitionClientTypes.Challenge {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.Challenge {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RekognitionClientTypes.Challenge()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.version = try reader["Version"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension RekognitionClientTypes.PersonMatch {
 
     static func read(from reader: SmithyJSON.Reader) throws -> RekognitionClientTypes.PersonMatch {
@@ -14492,7 +14601,26 @@ extension RekognitionClientTypes.CreateFaceLivenessSessionRequestSettings {
     static func write(value: RekognitionClientTypes.CreateFaceLivenessSessionRequestSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AuditImagesLimit"].write(value.auditImagesLimit)
+        try writer["ChallengePreferences"].writeList(value.challengePreferences, memberWritingClosure: RekognitionClientTypes.ChallengePreference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["OutputConfig"].write(value.outputConfig, with: RekognitionClientTypes.LivenessOutputConfig.write(value:to:))
+    }
+}
+
+extension RekognitionClientTypes.ChallengePreference {
+
+    static func write(value: RekognitionClientTypes.ChallengePreference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Versions"].write(value.versions, with: RekognitionClientTypes.Versions.write(value:to:))
+    }
+}
+
+extension RekognitionClientTypes.Versions {
+
+    static func write(value: RekognitionClientTypes.Versions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Maximum"].write(value.maximum)
+        try writer["Minimum"].write(value.minimum)
     }
 }
 

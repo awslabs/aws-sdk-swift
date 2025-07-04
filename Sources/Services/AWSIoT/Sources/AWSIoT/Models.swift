@@ -2819,14 +2819,47 @@ extension IoTClientTypes {
 
 extension IoTClientTypes {
 
+    public enum ConfigName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case certAgeThresholdInDays
+        case certExpirationThresholdInDays
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfigName] {
+            return [
+                .certAgeThresholdInDays,
+                .certExpirationThresholdInDays
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .certAgeThresholdInDays: return "CERT_AGE_THRESHOLD_IN_DAYS"
+            case .certExpirationThresholdInDays: return "CERT_EXPIRATION_THRESHOLD_IN_DAYS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTClientTypes {
+
     /// Which audit checks are enabled and disabled for this account.
     public struct AuditCheckConfiguration: Swift.Sendable {
+        /// A structure containing the configName and corresponding configValue for configuring audit checks.
+        public var configuration: [Swift.String: Swift.String]?
         /// True if this audit check is enabled for this account.
         public var enabled: Swift.Bool
 
         public init(
+            configuration: [Swift.String: Swift.String]? = nil,
             enabled: Swift.Bool = false
         ) {
+            self.configuration = configuration
             self.enabled = enabled
         }
     }
@@ -33457,11 +33490,11 @@ enum ValidateSecurityProfileBehaviorsOutputError {
     }
 }
 
-extension TransferAlreadyCompletedException {
+extension InternalFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TransferAlreadyCompletedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
         let reader = baseError.errorBodyReader
-        var value = TransferAlreadyCompletedException()
+        var value = InternalFailureException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -33483,11 +33516,11 @@ extension InvalidRequestException {
     }
 }
 
-extension InternalFailureException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = InternalFailureException()
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -33509,19 +33542,6 @@ extension ServiceUnavailableException {
     }
 }
 
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ThrottlingException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
@@ -33535,11 +33555,11 @@ extension ThrottlingException {
     }
 }
 
-extension UnauthorizedException {
+extension TransferAlreadyCompletedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TransferAlreadyCompletedException {
         let reader = baseError.errorBodyReader
-        var value = UnauthorizedException()
+        var value = TransferAlreadyCompletedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -33548,11 +33568,11 @@ extension UnauthorizedException {
     }
 }
 
-extension ServiceQuotaExceededException {
+extension UnauthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
         let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
+        var value = UnauthorizedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -33580,6 +33600,19 @@ extension InternalServerException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -33996,6 +34029,7 @@ extension IoTClientTypes.AuditCheckConfiguration {
 
     static func write(value: IoTClientTypes.AuditCheckConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["configuration"].writeMap(value.configuration, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["enabled"].write(value.enabled)
     }
 
@@ -34003,6 +34037,7 @@ extension IoTClientTypes.AuditCheckConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTClientTypes.AuditCheckConfiguration()
         value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.configuration = try reader["configuration"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

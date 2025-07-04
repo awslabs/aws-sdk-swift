@@ -1625,11 +1625,11 @@ extension RequestTokenNotFoundException {
     }
 }
 
-extension HandlerFailureException {
+extension AlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> HandlerFailureException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AlreadyExistsException {
         let reader = baseError.errorBodyReader
-        var value = HandlerFailureException()
+        var value = AlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1638,50 +1638,11 @@ extension HandlerFailureException {
     }
 }
 
-extension NotStabilizedException {
+extension ClientTokenConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotStabilizedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClientTokenConflictException {
         let reader = baseError.errorBodyReader
-        var value = NotStabilizedException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceConflictException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidCredentialsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidCredentialsException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidCredentialsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceLimitExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceLimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceLimitExceededException()
+        var value = ClientTokenConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1703,102 +1664,24 @@ extension ConcurrentOperationException {
     }
 }
 
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NetworkFailureException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NetworkFailureException {
-        let reader = baseError.errorBodyReader
-        var value = NetworkFailureException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceInternalErrorException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceInternalErrorException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceInternalErrorException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TypeNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TypeNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = TypeNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidRequestException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRequestException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidRequestException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension PrivateTypeException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PrivateTypeException {
-        let reader = baseError.errorBodyReader
-        var value = PrivateTypeException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AlreadyExistsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AlreadyExistsException {
-        let reader = baseError.errorBodyReader
-        var value = AlreadyExistsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension GeneralServiceException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> GeneralServiceException {
         let reader = baseError.errorBodyReader
         var value = GeneralServiceException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension HandlerFailureException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> HandlerFailureException {
+        let reader = baseError.errorBodyReader
+        var value = HandlerFailureException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1820,11 +1703,128 @@ extension HandlerInternalFailureException {
     }
 }
 
+extension InvalidCredentialsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidCredentialsException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidCredentialsException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidRequestException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRequestException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidRequestException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NetworkFailureException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NetworkFailureException {
+        let reader = baseError.errorBodyReader
+        var value = NetworkFailureException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NotStabilizedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotStabilizedException {
+        let reader = baseError.errorBodyReader
+        var value = NotStabilizedException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension NotUpdatableException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotUpdatableException {
         let reader = baseError.errorBodyReader
         var value = NotUpdatableException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension PrivateTypeException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PrivateTypeException {
+        let reader = baseError.errorBodyReader
+        var value = PrivateTypeException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceConflictException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceInternalErrorException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceInternalErrorException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceInternalErrorException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1846,11 +1846,11 @@ extension ThrottlingException {
     }
 }
 
-extension ClientTokenConflictException {
+extension TypeNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClientTokenConflictException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TypeNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ClientTokenConflictException()
+        var value = TypeNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -28,6 +28,29 @@ import protocol ClientRuntime.ModeledError
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
+/// You don't have permission to perform this operation on this resource.
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessDeniedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 extension SyntheticsClientTypes {
 
     public enum EncryptionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -307,6 +330,25 @@ extension SyntheticsClientTypes {
 
 extension SyntheticsClientTypes {
 
+    /// Returns the dry run configurations set for a canary.
+    public struct DryRunConfigOutput: Swift.Sendable {
+        /// The DryRunId associated with an existing canary’s dry run. You can use this DryRunId to retrieve information about the dry run.
+        public var dryRunId: Swift.String?
+        /// Returns the last execution status for a canary's dry run.
+        public var lastDryRunExecutionStatus: Swift.String?
+
+        public init(
+            dryRunId: Swift.String? = nil,
+            lastDryRunExecutionStatus: Swift.String? = nil
+        ) {
+            self.dryRunId = dryRunId
+            self.lastDryRunExecutionStatus = lastDryRunExecutionStatus
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
     public enum ProvisionedResourceCleanupSetting: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case automatic
         case off
@@ -340,6 +382,8 @@ extension SyntheticsClientTypes {
     public struct CanaryRunConfigOutput: Swift.Sendable {
         /// Displays whether this canary run used active X-Ray tracing.
         public var activeTracing: Swift.Bool?
+        /// Specifies the amount of ephemeral storage (in MB) to allocate for the canary run during execution. This temporary storage is used for storing canary run artifacts (which are uploaded to an Amazon S3 bucket at the end of the run), and any canary browser operations. This temporary storage is cleared after the run is completed. Default storage value is 1024 MB.
+        public var ephemeralStorage: Swift.Int?
         /// The maximum amount of memory available to the canary while it is running, in MB. This value must be a multiple of 64.
         public var memoryInMB: Swift.Int?
         /// How long the canary is allowed to run before it must stop.
@@ -347,12 +391,29 @@ extension SyntheticsClientTypes {
 
         public init(
             activeTracing: Swift.Bool? = nil,
+            ephemeralStorage: Swift.Int? = nil,
             memoryInMB: Swift.Int? = nil,
             timeoutInSeconds: Swift.Int? = nil
         ) {
             self.activeTracing = activeTracing
+            self.ephemeralStorage = ephemeralStorage
             self.memoryInMB = memoryInMB
             self.timeoutInSeconds = timeoutInSeconds
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
+    /// This structure contains information about the canary's retry configuration.
+    public struct RetryConfigOutput: Swift.Sendable {
+        /// The maximum number of retries. The value must be less than or equal to 2.
+        public var maxRetries: Swift.Int?
+
+        public init(
+            maxRetries: Swift.Int? = nil
+        ) {
+            self.maxRetries = maxRetries
         }
     }
 }
@@ -365,13 +426,17 @@ extension SyntheticsClientTypes {
         public var durationInSeconds: Swift.Int?
         /// A rate expression or a cron expression that defines how often the canary is to run. For a rate expression, The syntax is rate(number unit). unit can be minute, minutes, or hour. For example, rate(1 minute) runs the canary once a minute, rate(10 minutes) runs it once every 10 minutes, and rate(1 hour) runs it once every hour. You can specify a frequency between rate(1 minute) and rate(1 hour). Specifying rate(0 minute) or rate(0 hour) is a special value that causes the canary to run only once when it is started. Use cron(expression) to specify a cron expression. For information about the syntax for cron expressions, see [ Scheduling canary runs using cron](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_cron.html).
         public var expression: Swift.String?
+        /// A structure that contains the retry configuration for a canary
+        public var retryConfig: SyntheticsClientTypes.RetryConfigOutput?
 
         public init(
             durationInSeconds: Swift.Int? = nil,
-            expression: Swift.String? = nil
+            expression: Swift.String? = nil,
+            retryConfig: SyntheticsClientTypes.RetryConfigOutput? = nil
         ) {
             self.durationInSeconds = durationInSeconds
             self.expression = expression
+            self.retryConfig = retryConfig
         }
     }
 }
@@ -491,9 +556,9 @@ extension SyntheticsClientTypes {
     public struct CanaryStatus: Swift.Sendable {
         /// The current state of the canary.
         public var state: SyntheticsClientTypes.CanaryState?
-        /// If the canary has insufficient permissions to run, this field provides more details.
+        /// If the canary creation or update failed, this field provides details on the failure.
         public var stateReason: Swift.String?
-        /// If the canary cannot run or has failed, this field displays the reason.
+        /// If the canary creation or update failed, this field displays the reason code.
         public var stateReasonCode: SyntheticsClientTypes.CanaryStateReasonCode?
 
         public init(
@@ -591,11 +656,13 @@ extension SyntheticsClientTypes {
         public var artifactS3Location: Swift.String?
         /// This structure contains information about the canary's Lambda handler and where its code is stored by CloudWatch Synthetics.
         public var code: SyntheticsClientTypes.CanaryCodeOutput?
+        /// Returns the dry run configurations for a canary.
+        public var dryRunConfig: SyntheticsClientTypes.DryRunConfigOutput?
         /// The ARN of the Lambda function that is used as your canary's engine. For more information about Lambda ARN format, see [Resources and Conditions for Lambda Actions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-api-permissions-ref.html).
         public var engineArn: Swift.String?
         /// The ARN of the IAM role used to run the canary. This role must include lambda.amazonaws.com as a principal in the trust policy.
         public var executionRoleArn: Swift.String?
-        /// The number of days to retain data about failed runs of this canary.
+        /// The number of days to retain data about failed runs of this canary. This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html), as well as the range of information displayed in the Synthetics console.
         public var failureRetentionPeriodInDays: Swift.Int?
         /// The unique ID of this canary.
         public var id: Swift.String?
@@ -611,7 +678,7 @@ extension SyntheticsClientTypes {
         public var schedule: SyntheticsClientTypes.CanaryScheduleOutput?
         /// A structure that contains information about the canary's status.
         public var status: SyntheticsClientTypes.CanaryStatus?
-        /// The number of days to retain data about successful runs of this canary.
+        /// The number of days to retain data about successful runs of this canary. This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html), as well as the range of information displayed in the Synthetics console.
         public var successRetentionPeriodInDays: Swift.Int?
         /// The list of key-value pairs that are associated with the canary.
         public var tags: [Swift.String: Swift.String]?
@@ -626,6 +693,7 @@ extension SyntheticsClientTypes {
             artifactConfig: SyntheticsClientTypes.ArtifactConfigOutput? = nil,
             artifactS3Location: Swift.String? = nil,
             code: SyntheticsClientTypes.CanaryCodeOutput? = nil,
+            dryRunConfig: SyntheticsClientTypes.DryRunConfigOutput? = nil,
             engineArn: Swift.String? = nil,
             executionRoleArn: Swift.String? = nil,
             failureRetentionPeriodInDays: Swift.Int? = nil,
@@ -645,6 +713,7 @@ extension SyntheticsClientTypes {
             self.artifactConfig = artifactConfig
             self.artifactS3Location = artifactS3Location
             self.code = code
+            self.dryRunConfig = dryRunConfig
             self.engineArn = engineArn
             self.executionRoleArn = executionRoleArn
             self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
@@ -660,6 +729,21 @@ extension SyntheticsClientTypes {
             self.timeline = timeline
             self.visualReference = visualReference
             self.vpcConfig = vpcConfig
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
+    /// Returns the dry run configurations set for a canary.
+    public struct CanaryDryRunConfigOutput: Swift.Sendable {
+        /// The DryRunId associated with an existing canary’s dry run. You can use this DryRunId to retrieve information about the dry run.
+        public var dryRunId: Swift.String?
+
+        public init(
+            dryRunId: Swift.String? = nil
+        ) {
+            self.dryRunId = dryRunId
         }
     }
 }
@@ -727,23 +811,59 @@ extension SyntheticsClientTypes {
 
 extension SyntheticsClientTypes {
 
+    public enum CanaryRunTestResult: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case passed
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CanaryRunTestResult] {
+            return [
+                .failed,
+                .passed,
+                .unknown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .passed: return "PASSED"
+            case .unknown: return "UNKNOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
     /// This structure contains the status information about a canary run.
     public struct CanaryRunStatus: Swift.Sendable {
         /// The current state of the run.
         public var state: SyntheticsClientTypes.CanaryRunState?
         /// If run of the canary failed, this field contains the reason for the error.
         public var stateReason: Swift.String?
-        /// If this value is CANARY_FAILURE, an exception occurred in the canary code. If this value is EXECUTION_FAILURE, an exception occurred in CloudWatch Synthetics.
+        /// If this value is CANARY_FAILURE, either the canary script failed or Synthetics ran into a fatal error when running the canary. For example, a canary timeout misconfiguration setting can cause the canary to timeout before Synthetics can evaluate its status. If this value is EXECUTION_FAILURE, a non-critical failure occurred such as failing to save generated debug artifacts (for example, screenshots or har files). If both types of failures occurred, the CANARY_FAILURE takes precedence. To understand the exact error, use the [StateReason](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_CanaryRunStatus.html) API.
         public var stateReasonCode: SyntheticsClientTypes.CanaryRunStateReasonCode?
+        /// Specifies the status of canary script for this run. When Synthetics tries to determine the status but fails, the result is marked as UNKNOWN. For the overall status of canary run, see [State](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_CanaryRunStatus.html).
+        public var testResult: SyntheticsClientTypes.CanaryRunTestResult?
 
         public init(
             state: SyntheticsClientTypes.CanaryRunState? = nil,
             stateReason: Swift.String? = nil,
-            stateReasonCode: SyntheticsClientTypes.CanaryRunStateReasonCode? = nil
+            stateReasonCode: SyntheticsClientTypes.CanaryRunStateReasonCode? = nil,
+            testResult: SyntheticsClientTypes.CanaryRunTestResult? = nil
         ) {
             self.state = state
             self.stateReason = stateReason
             self.stateReasonCode = stateReasonCode
+            self.testResult = testResult
         }
     }
 }
@@ -754,14 +874,18 @@ extension SyntheticsClientTypes {
     public struct CanaryRunTimeline: Swift.Sendable {
         /// The end time of the run.
         public var completed: Foundation.Date?
+        /// The time at which the metrics will be generated for this run or retries.
+        public var metricTimestampForRunAndRetries: Foundation.Date?
         /// The start time of the run.
         public var started: Foundation.Date?
 
         public init(
             completed: Foundation.Date? = nil,
+            metricTimestampForRunAndRetries: Foundation.Date? = nil,
             started: Foundation.Date? = nil
         ) {
             self.completed = completed
+            self.metricTimestampForRunAndRetries = metricTimestampForRunAndRetries
             self.started = started
         }
     }
@@ -773,10 +897,16 @@ extension SyntheticsClientTypes {
     public struct CanaryRun: Swift.Sendable {
         /// The location where the canary stored artifacts from the run. Artifacts include the log file, screenshots, and HAR files.
         public var artifactS3Location: Swift.String?
+        /// Returns the dry run configurations for a canary.
+        public var dryRunConfig: SyntheticsClientTypes.CanaryDryRunConfigOutput?
         /// A unique ID that identifies this canary run.
         public var id: Swift.String?
         /// The name of the canary.
         public var name: Swift.String?
+        /// The count in number of the retry attempt.
+        public var retryAttempt: Swift.Int?
+        /// The ID of the scheduled canary run.
+        public var scheduledRunId: Swift.String?
         /// The status of this run.
         public var status: SyntheticsClientTypes.CanaryRunStatus?
         /// A structure that contains the start and end times of this run.
@@ -784,14 +914,20 @@ extension SyntheticsClientTypes {
 
         public init(
             artifactS3Location: Swift.String? = nil,
+            dryRunConfig: SyntheticsClientTypes.CanaryDryRunConfigOutput? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
+            retryAttempt: Swift.Int? = nil,
+            scheduledRunId: Swift.String? = nil,
             status: SyntheticsClientTypes.CanaryRunStatus? = nil,
             timeline: SyntheticsClientTypes.CanaryRunTimeline? = nil
         ) {
             self.artifactS3Location = artifactS3Location
+            self.dryRunConfig = dryRunConfig
             self.id = id
             self.name = name
+            self.retryAttempt = retryAttempt
+            self.scheduledRunId = scheduledRunId
             self.status = status
             self.timeline = timeline
         }
@@ -819,22 +955,22 @@ extension SyntheticsClientTypes {
 
 extension SyntheticsClientTypes {
 
-    /// Use this structure to input your script code for the canary. This structure contains the Lambda handler with the location where the canary should start running the script. If the script is stored in an S3 bucket, the bucket name, key, and version are also included. If the script was passed into the canary directly, the script code is contained in the value of Zipfile. If you are uploading your canary scripts with an Amazon S3 bucket, your zip file should include your script in a certain folder structure.
+    /// Use this structure to input your script code for the canary. This structure contains the Lambda handler with the location where the canary should start running the script. If the script is stored in an Amazon S3 bucket, the bucket name, key, and version are also included. If the script was passed into the canary directly, the script code is contained in the value of Zipfile. If you are uploading your canary scripts with an Amazon S3 bucket, your zip file should include your script in a certain folder structure.
     ///
     /// * For Node.js canaries, the folder structure must be nodejs/node_modules/myCanaryFilename.js  For more information, see [Packaging your Node.js canary files](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_WritingCanary_Nodejs.html#CloudWatch_Synthetics_Canaries_package)
     ///
-    /// * For Python canaries, the folder structure must be python/myCanaryFilename.p  or python/myFolder/myCanaryFilename.py  For more information, see [Packaging your Python canary files](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_WritingCanary_Python.html#CloudWatch_Synthetics_Canaries_WritingCanary_Python_package)
+    /// * For Python canaries, the folder structure must be python/myCanaryFilename.py  or python/myFolder/myCanaryFilename.py  For more information, see [Packaging your Python canary files](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_WritingCanary_Python.html#CloudWatch_Synthetics_Canaries_WritingCanary_Python_package)
     public struct CanaryCodeInput: Swift.Sendable {
         /// The entry point to use for the source code when running the canary. For canaries that use the syn-python-selenium-1.0 runtime or a syn-nodejs.puppeteer runtime earlier than syn-nodejs.puppeteer-3.4, the handler must be specified as  fileName.handler. For syn-python-selenium-1.1, syn-nodejs.puppeteer-3.4, and later runtimes, the handler can be specified as  fileName.functionName , or you can specify a folder where canary scripts reside as  folder/fileName.functionName .
         /// This member is required.
         public var handler: Swift.String?
-        /// If your canary script is located in S3, specify the bucket name here. Do not include s3:// as the start of the bucket name.
+        /// If your canary script is located in Amazon S3, specify the bucket name here. Do not include s3:// as the start of the bucket name.
         public var s3Bucket: Swift.String?
-        /// The S3 key of your script. For more information, see [Working with Amazon S3 Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingObjects.html).
+        /// The Amazon S3 key of your script. For more information, see [Working with Amazon S3 Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingObjects.html).
         public var s3Key: Swift.String?
-        /// The S3 version ID of your script.
+        /// The Amazon S3 version ID of your script.
         public var s3Version: Swift.String?
-        /// If you input your canary script directly into the canary instead of referring to an S3 location, the value of this parameter is the base64-encoded contents of the .zip file that contains the script. It must be smaller than 225 Kb. For large canary scripts, we recommend that you use an S3 location instead of inputting it directly with this parameter.
+        /// If you input your canary script directly into the canary instead of referring to an Amazon S3 location, the value of this parameter is the base64-encoded contents of the .zip file that contains the script. It must be smaller than 225 Kb. For large canary scripts, we recommend that you use an Amazon S3 location instead of inputting it directly with this parameter.
         public var zipFile: Foundation.Data?
 
         public init(
@@ -859,8 +995,10 @@ extension SyntheticsClientTypes {
     public struct CanaryRunConfigInput: Swift.Sendable {
         /// Specifies whether this canary is to use active X-Ray tracing when it runs. Active tracing enables this canary run to be displayed in the ServiceLens and X-Ray service maps even if the canary does not hit an endpoint that has X-Ray tracing enabled. Using X-Ray tracing incurs charges. For more information, see [ Canaries and X-Ray tracing](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_tracing.html). You can enable active tracing only for canaries that use version syn-nodejs-2.0 or later for their canary runtime.
         public var activeTracing: Swift.Bool?
-        /// Specifies the keys and values to use for any environment variables used in the canary script. Use the following format: { "key1" : "value1", "key2" : "value2", ...} Keys must start with a letter and be at least two characters. The total size of your environment variables cannot exceed 4 KB. You can't specify any Lambda reserved environment variables as the keys for your environment variables. For more information about reserved keys, see [ Runtime environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-runtime). The environment variables keys and values are not encrypted. Do not store sensitive information in this field.
+        /// Specifies the keys and values to use for any environment variables used in the canary script. Use the following format: { "key1" : "value1", "key2" : "value2", ...} Keys must start with a letter and be at least two characters. The total size of your environment variables cannot exceed 4 KB. You can't specify any Lambda reserved environment variables as the keys for your environment variables. For more information about reserved keys, see [ Runtime environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-runtime). Environment variable keys and values are encrypted at rest using Amazon Web Services owned KMS keys. However, the environment variables are not encrypted on the client side. Do not store sensitive information in them.
         public var environmentVariables: [Swift.String: Swift.String]?
+        /// Specifies the amount of ephemeral storage (in MB) to allocate for the canary run during execution. This temporary storage is used for storing canary run artifacts (which are uploaded to an Amazon S3 bucket at the end of the run), and any canary browser operations. This temporary storage is cleared after the run is completed. Default storage value is 1024 MB.
+        public var ephemeralStorage: Swift.Int?
         /// The maximum amount of memory available to the canary while it is running, in MB. This value must be a multiple of 64.
         public var memoryInMB: Swift.Int?
         /// How long the canary is allowed to run before it must stop. You can't set this time to be longer than the frequency of the runs of this canary. If you omit this field, the frequency of the canary is used as this value, up to a maximum of 14 minutes.
@@ -869,13 +1007,31 @@ extension SyntheticsClientTypes {
         public init(
             activeTracing: Swift.Bool? = nil,
             environmentVariables: [Swift.String: Swift.String]? = nil,
+            ephemeralStorage: Swift.Int? = nil,
             memoryInMB: Swift.Int? = nil,
             timeoutInSeconds: Swift.Int? = nil
         ) {
             self.activeTracing = activeTracing
             self.environmentVariables = environmentVariables
+            self.ephemeralStorage = ephemeralStorage
             self.memoryInMB = memoryInMB
             self.timeoutInSeconds = timeoutInSeconds
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
+    /// This structure contains information about the canary's retry configuration. The default account level concurrent execution limit from Lambda is 1000. When you have more than 1000 canaries, it's possible there are more than 1000 Lambda invocations due to retries and the console might hang. For more information on the Lambda execution limit, see [Understanding Lambda function scaling](https://docs.aws.amazon.com/lambda/latest/dg/lambda-concurrency.html#:~:text=As%20your%20functions%20receive%20more,functions%20in%20an%20AWS%20Region). For canary with MaxRetries = 2, you need to set the CanaryRunConfigInput.TimeoutInSeconds to less than 600 seconds to avoid validation errors.
+    public struct RetryConfigInput: Swift.Sendable {
+        /// The maximum number of retries. The value must be less than or equal to 2.
+        /// This member is required.
+        public var maxRetries: Swift.Int?
+
+        public init(
+            maxRetries: Swift.Int? = nil
+        ) {
+            self.maxRetries = maxRetries
         }
     }
 }
@@ -889,13 +1045,17 @@ extension SyntheticsClientTypes {
         /// A rate expression or a cron expression that defines how often the canary is to run. For a rate expression, The syntax is rate(number unit). unit can be minute, minutes, or hour. For example, rate(1 minute) runs the canary once a minute, rate(10 minutes) runs it once every 10 minutes, and rate(1 hour) runs it once every hour. You can specify a frequency between rate(1 minute) and rate(1 hour). Specifying rate(0 minute) or rate(0 hour) is a special value that causes the canary to run only once when it is started. Use cron(expression) to specify a cron expression. You can't schedule a canary to wait for more than a year before running. For information about the syntax for cron expressions, see [ Scheduling canary runs using cron](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_cron.html).
         /// This member is required.
         public var expression: Swift.String?
+        /// A structure that contains the retry configuration for a canary
+        public var retryConfig: SyntheticsClientTypes.RetryConfigInput?
 
         public init(
             durationInSeconds: Swift.Int? = nil,
-            expression: Swift.String? = nil
+            expression: Swift.String? = nil,
+            retryConfig: SyntheticsClientTypes.RetryConfigInput? = nil
         ) {
             self.durationInSeconds = durationInSeconds
             self.expression = expression
+            self.retryConfig = retryConfig
         }
     }
 }
@@ -975,10 +1135,10 @@ extension SyntheticsClientTypes {
 public struct CreateCanaryInput: Swift.Sendable {
     /// A structure that contains the configuration for canary artifacts, including the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
     public var artifactConfig: SyntheticsClientTypes.ArtifactConfigInput?
-    /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files. The name of the S3 bucket can't include a period (.).
+    /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files. The name of the Amazon S3 bucket can't include a period (.).
     /// This member is required.
     public var artifactS3Location: Swift.String?
-    /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in an S3 bucket, the bucket name, key, and version are also included.
+    /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in an Amazon S3 bucket, the bucket name, key, and version are also included.
     /// This member is required.
     public var code: SyntheticsClientTypes.CanaryCodeInput?
     /// The ARN of the IAM role to be used to run the canary. This role must already exist, and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:
@@ -998,7 +1158,7 @@ public struct CreateCanaryInput: Swift.Sendable {
     /// * logs:PutLogEvents
     /// This member is required.
     public var executionRoleArn: Swift.String?
-    /// The number of days to retain data about failed runs of this canary. If you omit this field, the default of 31 days is used. The valid range is 1 to 455 days.
+    /// The number of days to retain data about failed runs of this canary. If you omit this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html), as well as the range of information displayed in the Synthetics console.
     public var failureRetentionPeriodInDays: Swift.Int?
     /// The name for this canary. Be sure to give it a descriptive name that distinguishes it from other canaries in your account. Do not include secrets or proprietary information in your canary names. The canary name makes up part of the canary ARN, and the ARN is included in outbound calls over the internet. For more information, see [Security Considerations for Synthetics Canaries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/servicelens_canaries_security.html).
     /// This member is required.
@@ -1007,7 +1167,7 @@ public struct CreateCanaryInput: Swift.Sendable {
     public var provisionedResourceCleanup: SyntheticsClientTypes.ProvisionedResourceCleanupSetting?
     /// To have the tags that you apply to this canary also be applied to the Lambda function that the canary uses, specify this parameter with the value lambda-function. If you specify this parameter and don't specify any tags in the Tags parameter, the canary creation fails.
     public var resourcesToReplicateTags: [SyntheticsClientTypes.ResourceToTag]?
-    /// A structure that contains the configuration for individual canary runs, such as timeout value and environment variables. The environment variables keys and values are not encrypted. Do not store sensitive information in this field.
+    /// A structure that contains the configuration for individual canary runs, such as timeout value and environment variables. Environment variable keys and values are encrypted at rest using Amazon Web Services owned KMS keys. However, the environment variables are not encrypted on the client side. Do not store sensitive information in them.
     public var runConfig: SyntheticsClientTypes.CanaryRunConfigInput?
     /// Specifies the runtime version to use for the canary. For a list of valid runtime versions and more information about runtime versions, see [ Canary Runtime Versions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Library.html).
     /// This member is required.
@@ -1015,7 +1175,7 @@ public struct CreateCanaryInput: Swift.Sendable {
     /// A structure that contains information about how often the canary is to run and when these test runs are to stop.
     /// This member is required.
     public var schedule: SyntheticsClientTypes.CanaryScheduleInput?
-    /// The number of days to retain data about successful runs of this canary. If you omit this field, the default of 31 days is used. The valid range is 1 to 455 days.
+    /// The number of days to retain data about successful runs of this canary. If you omit this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html), as well as the range of information displayed in the Synthetics console.
     public var successRetentionPeriodInDays: Swift.Int?
     /// A list of key-value pairs to associate with the canary. You can associate as many as 50 tags with a canary. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only the resources that have certain tag values. To have the tags that you apply to this canary also be applied to the Lambda function that the canary uses, specify this parameter with the value lambda-function.
     public var tags: [Swift.String: Swift.String]?
@@ -1314,13 +1474,17 @@ public struct DisassociateResourceOutput: Swift.Sendable {
 }
 
 public struct GetCanaryInput: Swift.Sendable {
+    /// The DryRunId associated with an existing canary’s dry run. You can use this DryRunId to retrieve information about the dry run.
+    public var dryRunId: Swift.String?
     /// The name of the canary that you want details for.
     /// This member is required.
     public var name: Swift.String?
 
     public init(
+        dryRunId: Swift.String? = nil,
         name: Swift.String? = nil
     ) {
+        self.dryRunId = dryRunId
         self.name = name
     }
 }
@@ -1336,23 +1500,66 @@ public struct GetCanaryOutput: Swift.Sendable {
     }
 }
 
+extension SyntheticsClientTypes {
+
+    public enum RunType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case canaryRun
+        case dryRun
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RunType] {
+            return [
+                .canaryRun,
+                .dryRun
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .canaryRun: return "CANARY_RUN"
+            case .dryRun: return "DRY_RUN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetCanaryRunsInput: Swift.Sendable {
+    /// The DryRunId associated with an existing canary’s dry run. You can use this DryRunId to retrieve information about the dry run.
+    public var dryRunId: Swift.String?
     /// Specify this parameter to limit how many runs are returned each time you use the GetCanaryRuns operation. If you omit this parameter, the default of 100 is used.
     public var maxResults: Swift.Int?
     /// The name of the canary that you want to see runs for.
     /// This member is required.
     public var name: Swift.String?
-    /// A token that indicates that there is more data available. You can use this token in a subsequent GetCanaryRuns operation to retrieve the next set of results.
+    /// A token that indicates that there is more data available. You can use this token in a subsequent GetCanaryRuns operation to retrieve the next set of results. When auto retry is enabled for the canary, the first subsequent retry is suffixed with *1 indicating its the first retry and the next subsequent try is suffixed with *2.
     public var nextToken: Swift.String?
+    /// * When you provide RunType=CANARY_RUN and dryRunId, you will get an exception
+    ///
+    /// * When a value is not provided for RunType, the default value is CANARY_RUN
+    ///
+    /// * When CANARY_RUN is provided, all canary runs excluding dry runs are returned
+    ///
+    /// * When DRY_RUN is provided, all dry runs excluding canary runs are returned
+    public var runType: SyntheticsClientTypes.RunType?
 
     public init(
+        dryRunId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         name: Swift.String? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        runType: SyntheticsClientTypes.RunType? = nil
     ) {
+        self.dryRunId = dryRunId
         self.maxResults = maxResults
         self.name = name
         self.nextToken = nextToken
+        self.runType = runType
     }
 }
 
@@ -1626,6 +1833,97 @@ public struct StartCanaryOutput: Swift.Sendable {
     public init() { }
 }
 
+extension SyntheticsClientTypes {
+
+    /// An object that specifies what screenshots to use as a baseline for visual monitoring by this canary. It can optionally also specify parts of the screenshots to ignore during the visual monitoring comparison. Visual monitoring is supported only on canaries running the syn-puppeteer-node-3.2 runtime or later. For more information, see [ Visual monitoring](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Library_SyntheticsLogger_VisualTesting.html) and [ Visual monitoring blueprint](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Blueprints_VisualTesting.html)
+    public struct VisualReferenceInput: Swift.Sendable {
+        /// Specifies which canary run to use the screenshots from as the baseline for future visual monitoring with this canary. Valid values are nextrun to use the screenshots from the next run after this update is made, lastrun to use the screenshots from the most recent run before this update was made, or the value of Id in the [ CanaryRun](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_CanaryRun.html) from a run of this a canary in the past 31 days. If you specify the Id of a canary run older than 31 days, the operation returns a 400 validation exception error..
+        /// This member is required.
+        public var baseCanaryRunId: Swift.String?
+        /// An array of screenshots that will be used as the baseline for visual monitoring in future runs of this canary. If there is a screenshot that you don't want to be used for visual monitoring, remove it from this array.
+        public var baseScreenshots: [SyntheticsClientTypes.BaseScreenshot]?
+
+        public init(
+            baseCanaryRunId: Swift.String? = nil,
+            baseScreenshots: [SyntheticsClientTypes.BaseScreenshot]? = nil
+        ) {
+            self.baseCanaryRunId = baseCanaryRunId
+            self.baseScreenshots = baseScreenshots
+        }
+    }
+}
+
+public struct StartCanaryDryRunInput: Swift.Sendable {
+    /// A structure that contains the configuration for canary artifacts, including the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
+    public var artifactConfig: SyntheticsClientTypes.ArtifactConfigInput?
+    /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files. The name of the Amazon S3 bucket can't include a period (.).
+    public var artifactS3Location: Swift.String?
+    /// Use this structure to input your script code for the canary. This structure contains the Lambda handler with the location where the canary should start running the script. If the script is stored in an Amazon S3 bucket, the bucket name, key, and version are also included. If the script was passed into the canary directly, the script code is contained in the value of Zipfile. If you are uploading your canary scripts with an Amazon S3 bucket, your zip file should include your script in a certain folder structure.
+    ///
+    /// * For Node.js canaries, the folder structure must be nodejs/node_modules/myCanaryFilename.js  For more information, see [Packaging your Node.js canary files](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_WritingCanary_Nodejs.html#CloudWatch_Synthetics_Canaries_package)
+    ///
+    /// * For Python canaries, the folder structure must be python/myCanaryFilename.py  or python/myFolder/myCanaryFilename.py  For more information, see [Packaging your Python canary files](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_WritingCanary_Python.html#CloudWatch_Synthetics_Canaries_WritingCanary_Python_package)
+    public var code: SyntheticsClientTypes.CanaryCodeInput?
+    /// The ARN of the IAM role to be used to run the canary. This role must already exist, and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:
+    public var executionRoleArn: Swift.String?
+    /// The number of days to retain data about failed runs of this canary. If you omit this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html), as well as the range of information displayed in the Synthetics console.
+    public var failureRetentionPeriodInDays: Swift.Int?
+    /// The name of the canary that you want to dry run. To find canary names, use [DescribeCanaries](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DescribeCanaries.html).
+    /// This member is required.
+    public var name: Swift.String?
+    /// Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If you omit this parameter, the default of AUTOMATIC is used, which means that the Lambda functions and layers will be deleted when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the [DeleteCanary](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DeleteCanary.html) operation determines whether the Lambda functions and layers will be deleted.
+    public var provisionedResourceCleanup: SyntheticsClientTypes.ProvisionedResourceCleanupSetting?
+    /// A structure that contains input information for a canary run.
+    public var runConfig: SyntheticsClientTypes.CanaryRunConfigInput?
+    /// Specifies the runtime version to use for the canary. For a list of valid runtime versions and for more information about runtime versions, see [ Canary Runtime Versions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Library.html).
+    public var runtimeVersion: Swift.String?
+    /// The number of days to retain data about successful runs of this canary. If you omit this field, the default of 31 days is used. The valid range is 1 to 455 days. This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html), as well as the range of information displayed in the Synthetics console.
+    public var successRetentionPeriodInDays: Swift.Int?
+    /// An object that specifies what screenshots to use as a baseline for visual monitoring by this canary. It can optionally also specify parts of the screenshots to ignore during the visual monitoring comparison. Visual monitoring is supported only on canaries running the syn-puppeteer-node-3.2 runtime or later. For more information, see [ Visual monitoring](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Library_SyntheticsLogger_VisualTesting.html) and [ Visual monitoring blueprint](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Blueprints_VisualTesting.html)
+    public var visualReference: SyntheticsClientTypes.VisualReferenceInput?
+    /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnets and security groups of the VPC endpoint. For more information, see [ Running a Canary in a VPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html).
+    public var vpcConfig: SyntheticsClientTypes.VpcConfigInput?
+
+    public init(
+        artifactConfig: SyntheticsClientTypes.ArtifactConfigInput? = nil,
+        artifactS3Location: Swift.String? = nil,
+        code: SyntheticsClientTypes.CanaryCodeInput? = nil,
+        executionRoleArn: Swift.String? = nil,
+        failureRetentionPeriodInDays: Swift.Int? = nil,
+        name: Swift.String? = nil,
+        provisionedResourceCleanup: SyntheticsClientTypes.ProvisionedResourceCleanupSetting? = nil,
+        runConfig: SyntheticsClientTypes.CanaryRunConfigInput? = nil,
+        runtimeVersion: Swift.String? = nil,
+        successRetentionPeriodInDays: Swift.Int? = nil,
+        visualReference: SyntheticsClientTypes.VisualReferenceInput? = nil,
+        vpcConfig: SyntheticsClientTypes.VpcConfigInput? = nil
+    ) {
+        self.artifactConfig = artifactConfig
+        self.artifactS3Location = artifactS3Location
+        self.code = code
+        self.executionRoleArn = executionRoleArn
+        self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
+        self.name = name
+        self.provisionedResourceCleanup = provisionedResourceCleanup
+        self.runConfig = runConfig
+        self.runtimeVersion = runtimeVersion
+        self.successRetentionPeriodInDays = successRetentionPeriodInDays
+        self.visualReference = visualReference
+        self.vpcConfig = vpcConfig
+    }
+}
+
+public struct StartCanaryDryRunOutput: Swift.Sendable {
+    /// Returns the dry run configurations for a canary.
+    public var dryRunConfig: SyntheticsClientTypes.DryRunConfigOutput?
+
+    public init(
+        dryRunConfig: SyntheticsClientTypes.DryRunConfigOutput? = nil
+    ) {
+        self.dryRunConfig = dryRunConfig
+    }
+}
+
 public struct StopCanaryInput: Swift.Sendable {
     /// The name of the canary that you want to stop. To find the names of your canaries, use [ListCanaries](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DescribeCanaries.html).
     /// This member is required.
@@ -1687,33 +1985,15 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
-extension SyntheticsClientTypes {
-
-    /// An object that specifies what screenshots to use as a baseline for visual monitoring by this canary. It can optionally also specify parts of the screenshots to ignore during the visual monitoring comparison. Visual monitoring is supported only on canaries running the syn-puppeteer-node-3.2 runtime or later. For more information, see [ Visual monitoring](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Library_SyntheticsLogger_VisualTesting.html) and [ Visual monitoring blueprint](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Blueprints_VisualTesting.html)
-    public struct VisualReferenceInput: Swift.Sendable {
-        /// Specifies which canary run to use the screenshots from as the baseline for future visual monitoring with this canary. Valid values are nextrun to use the screenshots from the next run after this update is made, lastrun to use the screenshots from the most recent run before this update was made, or the value of Id in the [ CanaryRun](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_CanaryRun.html) from a run of this a canary in the past 31 days. If you specify the Id of a canary run older than 31 days, the operation returns a 400 validation exception error..
-        /// This member is required.
-        public var baseCanaryRunId: Swift.String?
-        /// An array of screenshots that will be used as the baseline for visual monitoring in future runs of this canary. If there is a screenshot that you don't want to be used for visual monitoring, remove it from this array.
-        public var baseScreenshots: [SyntheticsClientTypes.BaseScreenshot]?
-
-        public init(
-            baseCanaryRunId: Swift.String? = nil,
-            baseScreenshots: [SyntheticsClientTypes.BaseScreenshot]? = nil
-        ) {
-            self.baseCanaryRunId = baseCanaryRunId
-            self.baseScreenshots = baseScreenshots
-        }
-    }
-}
-
 public struct UpdateCanaryInput: Swift.Sendable {
     /// A structure that contains the configuration for canary artifacts, including the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
     public var artifactConfig: SyntheticsClientTypes.ArtifactConfigInput?
-    /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files. The name of the S3 bucket can't include a period (.).
+    /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files. The name of the Amazon S3 bucket can't include a period (.).
     public var artifactS3Location: Swift.String?
-    /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in an S3 bucket, the bucket name, key, and version are also included.
+    /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in an Amazon S3 bucket, the bucket name, key, and version are also included.
     public var code: SyntheticsClientTypes.CanaryCodeInput?
+    /// Update the existing canary using the updated configurations from the DryRun associated with the DryRunId. When you use the dryRunId field when updating a canary, the only other field you can provide is the Schedule. Adding any other field will thrown an exception.
+    public var dryRunId: Swift.String?
     /// The ARN of the IAM role to be used to run the canary. This role must already exist, and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:
     ///
     /// * s3:PutObject
@@ -1730,20 +2010,20 @@ public struct UpdateCanaryInput: Swift.Sendable {
     ///
     /// * logs:CreateLogStream
     public var executionRoleArn: Swift.String?
-    /// The number of days to retain data about failed runs of this canary.
+    /// The number of days to retain data about failed runs of this canary. This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html), as well as the range of information displayed in the Synthetics console.
     public var failureRetentionPeriodInDays: Swift.Int?
     /// The name of the canary that you want to update. To find the names of your canaries, use [DescribeCanaries](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DescribeCanaries.html). You cannot change the name of a canary that has already been created.
     /// This member is required.
     public var name: Swift.String?
     /// Specifies whether to also delete the Lambda functions and layers used by this canary when the canary is deleted. If the value of this parameter is OFF, then the value of the DeleteLambda parameter of the [DeleteCanary](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DeleteCanary.html) operation determines whether the Lambda functions and layers will be deleted.
     public var provisionedResourceCleanup: SyntheticsClientTypes.ProvisionedResourceCleanupSetting?
-    /// A structure that contains the timeout value that is used for each individual run of the canary. The environment variables keys and values are not encrypted. Do not store sensitive information in this field.
+    /// A structure that contains the timeout value that is used for each individual run of the canary. Environment variable keys and values are encrypted at rest using Amazon Web Services owned KMS keys. However, the environment variables are not encrypted on the client side. Do not store sensitive information in them.
     public var runConfig: SyntheticsClientTypes.CanaryRunConfigInput?
     /// Specifies the runtime version to use for the canary. For a list of valid runtime versions and for more information about runtime versions, see [ Canary Runtime Versions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Library.html).
     public var runtimeVersion: Swift.String?
     /// A structure that contains information about how often the canary is to run, and when these runs are to stop.
     public var schedule: SyntheticsClientTypes.CanaryScheduleInput?
-    /// The number of days to retain data about successful runs of this canary.
+    /// The number of days to retain data about successful runs of this canary. This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html), as well as the range of information displayed in the Synthetics console.
     public var successRetentionPeriodInDays: Swift.Int?
     /// Defines the screenshots to use as the baseline for comparisons during visual monitoring comparisons during future runs of this canary. If you omit this parameter, no changes are made to any baseline screenshots that the canary might be using already. Visual monitoring is supported only on canaries running the syn-puppeteer-node-3.2 runtime or later. For more information, see [ Visual monitoring](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Library_SyntheticsLogger_VisualTesting.html) and [ Visual monitoring blueprint](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Blueprints_VisualTesting.html)
     public var visualReference: SyntheticsClientTypes.VisualReferenceInput?
@@ -1754,6 +2034,7 @@ public struct UpdateCanaryInput: Swift.Sendable {
         artifactConfig: SyntheticsClientTypes.ArtifactConfigInput? = nil,
         artifactS3Location: Swift.String? = nil,
         code: SyntheticsClientTypes.CanaryCodeInput? = nil,
+        dryRunId: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
         failureRetentionPeriodInDays: Swift.Int? = nil,
         name: Swift.String? = nil,
@@ -1768,6 +2049,7 @@ public struct UpdateCanaryInput: Swift.Sendable {
         self.artifactConfig = artifactConfig
         self.artifactS3Location = artifactS3Location
         self.code = code
+        self.dryRunId = dryRunId
         self.executionRoleArn = executionRoleArn
         self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
         self.name = name
@@ -1883,6 +2165,18 @@ extension GetCanaryInput {
     }
 }
 
+extension GetCanaryInput {
+
+    static func queryItemProvider(_ value: GetCanaryInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let dryRunId = value.dryRunId {
+            let dryRunIdQueryItem = Smithy.URIQueryItem(name: "dryRunId".urlPercentEncoding(), value: Swift.String(dryRunId).urlPercentEncoding())
+            items.append(dryRunIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension GetCanaryRunsInput {
 
     static func urlPathProvider(_ value: GetCanaryRunsInput) -> Swift.String? {
@@ -1947,6 +2241,16 @@ extension StartCanaryInput {
             return nil
         }
         return "/canary/\(name.urlPercentEncoding())/start"
+    }
+}
+
+extension StartCanaryDryRunInput {
+
+    static func urlPathProvider(_ value: StartCanaryDryRunInput) -> Swift.String? {
+        guard let name = value.name else {
+            return nil
+        }
+        return "/canary/\(name.urlPercentEncoding())/dry-run/start"
     }
 }
 
@@ -2085,8 +2389,10 @@ extension GetCanaryRunsInput {
 
     static func write(value: GetCanaryRunsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DryRunId"].write(value.dryRunId)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+        try writer["RunType"].write(value.runType)
     }
 }
 
@@ -2117,6 +2423,24 @@ extension ListGroupsInput {
     }
 }
 
+extension StartCanaryDryRunInput {
+
+    static func write(value: StartCanaryDryRunInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ArtifactConfig"].write(value.artifactConfig, with: SyntheticsClientTypes.ArtifactConfigInput.write(value:to:))
+        try writer["ArtifactS3Location"].write(value.artifactS3Location)
+        try writer["Code"].write(value.code, with: SyntheticsClientTypes.CanaryCodeInput.write(value:to:))
+        try writer["ExecutionRoleArn"].write(value.executionRoleArn)
+        try writer["FailureRetentionPeriodInDays"].write(value.failureRetentionPeriodInDays)
+        try writer["ProvisionedResourceCleanup"].write(value.provisionedResourceCleanup)
+        try writer["RunConfig"].write(value.runConfig, with: SyntheticsClientTypes.CanaryRunConfigInput.write(value:to:))
+        try writer["RuntimeVersion"].write(value.runtimeVersion)
+        try writer["SuccessRetentionPeriodInDays"].write(value.successRetentionPeriodInDays)
+        try writer["VisualReference"].write(value.visualReference, with: SyntheticsClientTypes.VisualReferenceInput.write(value:to:))
+        try writer["VpcConfig"].write(value.vpcConfig, with: SyntheticsClientTypes.VpcConfigInput.write(value:to:))
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -2132,6 +2456,7 @@ extension UpdateCanaryInput {
         try writer["ArtifactConfig"].write(value.artifactConfig, with: SyntheticsClientTypes.ArtifactConfigInput.write(value:to:))
         try writer["ArtifactS3Location"].write(value.artifactS3Location)
         try writer["Code"].write(value.code, with: SyntheticsClientTypes.CanaryCodeInput.write(value:to:))
+        try writer["DryRunId"].write(value.dryRunId)
         try writer["ExecutionRoleArn"].write(value.executionRoleArn)
         try writer["FailureRetentionPeriodInDays"].write(value.failureRetentionPeriodInDays)
         try writer["ProvisionedResourceCleanup"].write(value.provisionedResourceCleanup)
@@ -2327,6 +2652,18 @@ extension StartCanaryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartCanaryOutput {
         return StartCanaryOutput()
+    }
+}
+
+extension StartCanaryDryRunOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartCanaryDryRunOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartCanaryDryRunOutput()
+        value.dryRunConfig = try reader["DryRunConfig"].readIfPresent(with: SyntheticsClientTypes.DryRunConfigOutput.read(from:))
+        return value
     }
 }
 
@@ -2636,6 +2973,24 @@ enum StartCanaryOutputError {
     }
 }
 
+enum StartCanaryDryRunOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StopCanaryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2697,6 +3052,7 @@ enum UpdateCanaryOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "RequestEntityTooLargeException": return try RequestEntityTooLargeException.makeError(baseError: baseError)
@@ -2704,32 +3060,6 @@ enum UpdateCanaryOutputError {
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
     }
 }
 
@@ -2772,11 +3102,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension RequestEntityTooLargeException {
+extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RequestEntityTooLargeException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
-        var value = RequestEntityTooLargeException()
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2785,11 +3115,24 @@ extension RequestEntityTooLargeException {
     }
 }
 
-extension InternalFailureException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = InternalFailureException()
+        var value = ValidationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension RequestEntityTooLargeException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RequestEntityTooLargeException {
+        let reader = baseError.errorBodyReader
+        var value = RequestEntityTooLargeException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2811,11 +3154,11 @@ extension BadRequestException {
     }
 }
 
-extension TooManyRequestsException {
+extension InternalFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
         let reader = baseError.errorBodyReader
-        var value = TooManyRequestsException()
+        var value = InternalFailureException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2829,6 +3172,32 @@ extension NotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyRequestsException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyRequestsException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2860,6 +3229,18 @@ extension SyntheticsClientTypes.Canary {
         value.provisionedResourceCleanup = try reader["ProvisionedResourceCleanup"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.artifactConfig = try reader["ArtifactConfig"].readIfPresent(with: SyntheticsClientTypes.ArtifactConfigOutput.read(from:))
+        value.dryRunConfig = try reader["DryRunConfig"].readIfPresent(with: SyntheticsClientTypes.DryRunConfigOutput.read(from:))
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.DryRunConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.DryRunConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.DryRunConfigOutput()
+        value.dryRunId = try reader["DryRunId"].readIfPresent()
+        value.lastDryRunExecutionStatus = try reader["LastDryRunExecutionStatus"].readIfPresent()
         return value
     }
 }
@@ -2965,6 +3346,7 @@ extension SyntheticsClientTypes.CanaryRunConfigOutput {
         value.timeoutInSeconds = try reader["TimeoutInSeconds"].readIfPresent()
         value.memoryInMB = try reader["MemoryInMB"].readIfPresent()
         value.activeTracing = try reader["ActiveTracing"].readIfPresent()
+        value.ephemeralStorage = try reader["EphemeralStorage"].readIfPresent()
         return value
     }
 }
@@ -2976,6 +3358,17 @@ extension SyntheticsClientTypes.CanaryScheduleOutput {
         var value = SyntheticsClientTypes.CanaryScheduleOutput()
         value.expression = try reader["Expression"].readIfPresent()
         value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
+        value.retryConfig = try reader["RetryConfig"].readIfPresent(with: SyntheticsClientTypes.RetryConfigOutput.read(from:))
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.RetryConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.RetryConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.RetryConfigOutput()
+        value.maxRetries = try reader["MaxRetries"].readIfPresent()
         return value
     }
 }
@@ -3023,10 +3416,23 @@ extension SyntheticsClientTypes.CanaryRun {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SyntheticsClientTypes.CanaryRun()
         value.id = try reader["Id"].readIfPresent()
+        value.scheduledRunId = try reader["ScheduledRunId"].readIfPresent()
+        value.retryAttempt = try reader["RetryAttempt"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.status = try reader["Status"].readIfPresent(with: SyntheticsClientTypes.CanaryRunStatus.read(from:))
         value.timeline = try reader["Timeline"].readIfPresent(with: SyntheticsClientTypes.CanaryRunTimeline.read(from:))
         value.artifactS3Location = try reader["ArtifactS3Location"].readIfPresent()
+        value.dryRunConfig = try reader["DryRunConfig"].readIfPresent(with: SyntheticsClientTypes.CanaryDryRunConfigOutput.read(from:))
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.CanaryDryRunConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.CanaryDryRunConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.CanaryDryRunConfigOutput()
+        value.dryRunId = try reader["DryRunId"].readIfPresent()
         return value
     }
 }
@@ -3038,6 +3444,7 @@ extension SyntheticsClientTypes.CanaryRunTimeline {
         var value = SyntheticsClientTypes.CanaryRunTimeline()
         value.started = try reader["Started"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.completed = try reader["Completed"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.metricTimestampForRunAndRetries = try reader["MetricTimestampForRunAndRetries"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -3050,6 +3457,7 @@ extension SyntheticsClientTypes.CanaryRunStatus {
         value.state = try reader["State"].readIfPresent()
         value.stateReason = try reader["StateReason"].readIfPresent()
         value.stateReasonCode = try reader["StateReasonCode"].readIfPresent()
+        value.testResult = try reader["TestResult"].readIfPresent()
         return value
     }
 }
@@ -3097,6 +3505,15 @@ extension SyntheticsClientTypes.CanaryScheduleInput {
         guard let value else { return }
         try writer["DurationInSeconds"].write(value.durationInSeconds)
         try writer["Expression"].write(value.expression)
+        try writer["RetryConfig"].write(value.retryConfig, with: SyntheticsClientTypes.RetryConfigInput.write(value:to:))
+    }
+}
+
+extension SyntheticsClientTypes.RetryConfigInput {
+
+    static func write(value: SyntheticsClientTypes.RetryConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxRetries"].write(value.maxRetries)
     }
 }
 
@@ -3106,6 +3523,7 @@ extension SyntheticsClientTypes.CanaryRunConfigInput {
         guard let value else { return }
         try writer["ActiveTracing"].write(value.activeTracing)
         try writer["EnvironmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["EphemeralStorage"].write(value.ephemeralStorage)
         try writer["MemoryInMB"].write(value.memoryInMB)
         try writer["TimeoutInSeconds"].write(value.timeoutInSeconds)
     }

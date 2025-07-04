@@ -3043,45 +3043,6 @@ enum UploadLayerPartOutputError {
     }
 }
 
-extension RepositoryNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RepositoryNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = RepositoryNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension UnsupportedCommandException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedCommandException {
-        let reader = baseError.errorBodyReader
-        var value = UnsupportedCommandException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServerException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServerException {
-        let reader = baseError.errorBodyReader
-        var value = ServerException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidParameterException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
@@ -3108,11 +3069,37 @@ extension RegistryNotFoundException {
     }
 }
 
-extension LayerAlreadyExistsException {
+extension RepositoryNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LayerAlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RepositoryNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = LayerAlreadyExistsException()
+        var value = RepositoryNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServerException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServerException {
+        let reader = baseError.errorBodyReader
+        var value = ServerException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnsupportedCommandException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedCommandException {
+        let reader = baseError.errorBodyReader
+        var value = UnsupportedCommandException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3147,6 +3134,19 @@ extension InvalidLayerException {
     }
 }
 
+extension LayerAlreadyExistsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LayerAlreadyExistsException {
+        let reader = baseError.errorBodyReader
+        var value = LayerAlreadyExistsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension LayerPartTooSmallException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LayerPartTooSmallException {
@@ -3173,19 +3173,6 @@ extension UploadNotFoundException {
     }
 }
 
-extension LimitExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidTagParameterException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTagParameterException {
@@ -3199,11 +3186,11 @@ extension InvalidTagParameterException {
     }
 }
 
-extension TooManyTagsException {
+extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = TooManyTagsException()
+        var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3217,6 +3204,19 @@ extension RepositoryAlreadyExistsException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RepositoryAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = RepositoryAlreadyExistsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyTagsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyTagsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3277,6 +3277,19 @@ extension RepositoryCatalogDataNotFoundException {
     }
 }
 
+extension ImageAlreadyExistsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ImageAlreadyExistsException {
+        let reader = baseError.errorBodyReader
+        var value = ImageAlreadyExistsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ImageDigestDoesNotMatchException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ImageDigestDoesNotMatchException {
@@ -3303,19 +3316,6 @@ extension ImageTagAlreadyExistsException {
     }
 }
 
-extension ReferencedImagesNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReferencedImagesNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ReferencedImagesNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension LayersNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LayersNotFoundException {
@@ -3329,11 +3329,11 @@ extension LayersNotFoundException {
     }
 }
 
-extension ImageAlreadyExistsException {
+extension ReferencedImagesNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ImageAlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReferencedImagesNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ImageAlreadyExistsException()
+        var value = ReferencedImagesNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

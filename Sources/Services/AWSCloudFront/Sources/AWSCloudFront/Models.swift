@@ -53,12 +53,22 @@ public struct DeleteCloudFrontOriginAccessIdentityOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteConnectionGroupOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteContinuousDeploymentPolicyOutput: Swift.Sendable {
 
     public init() { }
 }
 
 public struct DeleteDistributionOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteDistributionTenantOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -364,9 +374,9 @@ extension CloudFrontClientTypes {
     public struct AliasICPRecordal: Swift.Sendable, Swift.Equatable {
         /// A domain name associated with a distribution.
         public var cname: Swift.String?
-        /// The Internet Content Provider (ICP) recordal status for a CNAME. The ICPRecordalStatus is set to APPROVED for all CNAMEs (aliases) in regions outside of China. The status values returned are the following:
+        /// The Internet Content Provider (ICP) recordal status for a CNAME. The ICPRecordalStatus is set to APPROVED for all CNAMEs (aliases) in Amazon Web Services Regions outside of China. The status values returned are the following:
         ///
-        /// * APPROVED indicates that the associated CNAME has a valid ICP recordal number. Multiple CNAMEs can be associated with a distribution, and CNAMEs can correspond to different ICP recordals. To be marked as APPROVED, that is, valid to use with China region, a CNAME must have one ICP recordal number associated with it.
+        /// * APPROVED indicates that the associated CNAME has a valid ICP recordal number. Multiple CNAMEs can be associated with a distribution, and CNAMEs can correspond to different ICP recordals. To be marked as APPROVED, that is, valid to use with the China Regions, a CNAME must have one ICP recordal number associated with it.
         ///
         /// * SUSPENDED indicates that the associated CNAME does not have a valid ICP recordal number.
         ///
@@ -498,7 +508,7 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
-    /// An Anycast static IP list.
+    /// An Anycast static IP list. For more information, see [Request Anycast static IPs to use for allowlisting](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/request-static-ips.html) in the Amazon CloudFront Developer Guide.
     public struct AnycastIpList: Swift.Sendable {
         /// The static IP addresses that are allocated to the Anycast static IP list.
         /// This member is required.
@@ -728,6 +738,155 @@ public struct AssociateAliasInput: Swift.Sendable {
     ) {
         self.alias = alias
         self.targetDistributionId = targetDistributionId
+    }
+}
+
+/// The entity was not found.
+public struct EntityNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EntityNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The If-Match version is missing or not valid.
+public struct InvalidIfMatchVersion: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidIfMatchVersion" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The precondition in one or more of the request fields evaluated to false.
+public struct PreconditionFailed: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PreconditionFailed" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct AssociateDistributionTenantWebACLInput: Swift.Sendable {
+    /// The ID of the distribution tenant.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The current ETag of the distribution tenant. This value is returned in the response of the GetDistributionTenant API operation.
+    public var ifMatch: Swift.String?
+    /// The Amazon Resource Name (ARN) of the WAF web ACL to associate.
+    /// This member is required.
+    public var webACLArn: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil,
+        webACLArn: Swift.String? = nil
+    ) {
+        self.id = id
+        self.ifMatch = ifMatch
+        self.webACLArn = webACLArn
+    }
+}
+
+public struct AssociateDistributionTenantWebACLOutput: Swift.Sendable {
+    /// The current version of the distribution tenant.
+    public var eTag: Swift.String?
+    /// The ID of the distribution tenant.
+    public var id: Swift.String?
+    /// The ARN of the WAF web ACL that you associated with the distribution tenant.
+    public var webACLArn: Swift.String?
+
+    public init(
+        eTag: Swift.String? = nil,
+        id: Swift.String? = nil,
+        webACLArn: Swift.String? = nil
+    ) {
+        self.eTag = eTag
+        self.id = id
+        self.webACLArn = webACLArn
+    }
+}
+
+public struct AssociateDistributionWebACLInput: Swift.Sendable {
+    /// The ID of the distribution.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The value of the ETag header that you received when retrieving the distribution that you're associating with the WAF web ACL.
+    public var ifMatch: Swift.String?
+    /// The Amazon Resource Name (ARN) of the WAF web ACL to associate.
+    /// This member is required.
+    public var webACLArn: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil,
+        webACLArn: Swift.String? = nil
+    ) {
+        self.id = id
+        self.ifMatch = ifMatch
+        self.webACLArn = webACLArn
+    }
+}
+
+public struct AssociateDistributionWebACLOutput: Swift.Sendable {
+    /// The current version of the distribution.
+    public var eTag: Swift.String?
+    /// The ID of the distribution.
+    public var id: Swift.String?
+    /// The ARN of the WAF web ACL that you associated with the distribution.
+    public var webACLArn: Swift.String?
+
+    public init(
+        eTag: Swift.String? = nil,
+        id: Swift.String? = nil,
+        webACLArn: Swift.String? = nil
+    ) {
+        self.eTag = eTag
+        self.id = id
+        self.webACLArn = webACLArn
     }
 }
 
@@ -1783,6 +1942,22 @@ public struct CannotUpdateEntityWhileInUse: ClientRuntime.ModeledError, AWSClien
 
 extension CloudFrontClientTypes {
 
+    /// The Certificate Manager (ACM) certificate associated with your distribution.
+    public struct Certificate: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the ACM certificate.
+        /// This member is required.
+        public var arn: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil
+        ) {
+            self.arn = arn
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
     public enum CertificateSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case acm
         case cloudfront
@@ -1807,6 +1982,35 @@ extension CloudFrontClientTypes {
             case .acm: return "acm"
             case .cloudfront: return "cloudfront"
             case .iam: return "iam"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    public enum CertificateTransparencyLoggingPreference: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CertificateTransparencyLoggingPreference] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "disabled"
+            case .enabled: return "enabled"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2029,29 +2233,6 @@ public struct InvalidHeadersForS3Origin: ClientRuntime.ModeledError, AWSClientRu
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "InvalidHeadersForS3Origin" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The If-Match version is missing or not valid.
-public struct InvalidIfMatchVersion: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidIfMatchVersion" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -2581,29 +2762,6 @@ public struct NoSuchResponseHeadersPolicy: ClientRuntime.ModeledError, AWSClient
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "NoSuchResponseHeadersPolicy" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The precondition in one or more of the request fields evaluated to false.
-public struct PreconditionFailed: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "PreconditionFailed" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -3224,6 +3382,35 @@ public struct CopyDistributionInput: Swift.Sendable {
 
 extension CloudFrontClientTypes {
 
+    public enum ConnectionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case direct
+        case tenantonly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectionMode] {
+            return [
+                .direct,
+                .tenantonly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .direct: return "direct"
+            case .tenantonly: return "tenant-only"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
     /// A complex type that controls:
     ///
     /// * Whether CloudFront replaces HTTP status codes in the 4xx and 5xx range with custom error messages before returning the response to the viewer.
@@ -3833,7 +4020,7 @@ extension CloudFrontClientTypes {
         public var originAccessIdentity: Swift.String?
 
         public init(
-            originAccessIdentity: Swift.String? = nil
+            originAccessIdentity: Swift.String? = ""
         ) {
             self.originAccessIdentity = originAccessIdentity
         }
@@ -3869,6 +4056,8 @@ extension CloudFrontClientTypes {
     /// An origin. An origin is the location where content is stored, and from which CloudFront gets content to serve to viewers. To specify an origin:
     ///
     /// * Use S3OriginConfig to specify an Amazon S3 bucket that is not configured with static website hosting.
+    ///
+    /// * Use VpcOriginConfig to specify a VPC origin.
     ///
     /// * Use CustomOriginConfig to specify all other kinds of origins, including:
     ///
@@ -3965,6 +4154,7 @@ extension CloudFrontClientTypes {
 extension CloudFrontClientTypes {
 
     public enum PriceClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
         case priceclass100
         case priceclass200
         case priceclassAll
@@ -3972,6 +4162,7 @@ extension CloudFrontClientTypes {
 
         public static var allCases: [PriceClass] {
             return [
+                .none,
                 .priceclass100,
                 .priceclass200,
                 .priceclassAll
@@ -3985,6 +4176,7 @@ extension CloudFrontClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .none: return "None"
             case .priceclass100: return "PriceClass_100"
             case .priceclass200: return "PriceClass_200"
             case .priceclassAll: return "PriceClass_All"
@@ -4069,6 +4261,81 @@ extension CloudFrontClientTypes {
             geoRestriction: CloudFrontClientTypes.GeoRestriction? = nil
         ) {
             self.geoRestriction = geoRestriction
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// The configuration for a string schema.
+    public struct StringSchemaConfig: Swift.Sendable {
+        /// A comment to describe the parameter.
+        public var comment: Swift.String?
+        /// The default value of the parameter.
+        public var defaultValue: Swift.String?
+        /// Whether the defined parameter is required.
+        /// This member is required.
+        public var `required`: Swift.Bool?
+
+        public init(
+            comment: Swift.String? = nil,
+            defaultValue: Swift.String? = nil,
+            `required`: Swift.Bool? = nil
+        ) {
+            self.comment = comment
+            self.defaultValue = defaultValue
+            self.`required` = `required`
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// An object that contains information about the parameter definition.
+    public struct ParameterDefinitionSchema: Swift.Sendable {
+        /// An object that contains information about the string schema.
+        public var stringSchema: CloudFrontClientTypes.StringSchemaConfig?
+
+        public init(
+            stringSchema: CloudFrontClientTypes.StringSchemaConfig? = nil
+        ) {
+            self.stringSchema = stringSchema
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution.
+    public struct ParameterDefinition: Swift.Sendable {
+        /// The value that you assigned to the parameter.
+        /// This member is required.
+        public var definition: CloudFrontClientTypes.ParameterDefinitionSchema?
+        /// The name of the parameter.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            definition: CloudFrontClientTypes.ParameterDefinitionSchema? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.definition = definition
+            self.name = name
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// The configuration for a distribution tenant.
+    public struct TenantConfig: Swift.Sendable {
+        /// The parameters that you specify for a distribution tenant.
+        public var parameterDefinitions: [CloudFrontClientTypes.ParameterDefinition]?
+
+        public init(
+            parameterDefinitions: [CloudFrontClientTypes.ParameterDefinition]? = nil
+        ) {
+            self.parameterDefinitions = parameterDefinitions
         }
     }
 }
@@ -4221,7 +4488,7 @@ extension CloudFrontClientTypes {
         ///
         /// * vip – The distribution accepts HTTPS connections from all viewers including those that don't support SNI. This is not recommended, and results in additional monthly charges from CloudFront.
         ///
-        /// * static-ip - Do not specify this value unless your distribution has been enabled for this feature by the CloudFront team. If you have a use case that requires static IP addresses for a distribution, contact CloudFront through the [Amazon Web Services Support Center](https://console.aws.amazon.com/support/home).
+        /// * static-ip - Do not specify this value unless your distribution has been enabled for this feature by the CloudFront team. If you have a use case that requires static IP addresses for a distribution, contact CloudFront through the [Amazon Web ServicesSupport Center](https://console.aws.amazon.com/support/home).
         ///
         ///
         /// If the distribution uses the CloudFront domain name such as d111111abcdef8.cloudfront.net, don't set a value for this field.
@@ -4263,6 +4530,8 @@ extension CloudFrontClientTypes {
         /// A comment to describe the distribution. The comment cannot be longer than 128 characters.
         /// This member is required.
         public var comment: Swift.String?
+        /// The connection mode to filter distributions by.
+        public var connectionMode: CloudFrontClientTypes.ConnectionMode?
         /// The identifier of a continuous deployment policy. For more information, see CreateContinuousDeploymentPolicy.
         public var continuousDeploymentPolicyId: Swift.String?
         /// A complex type that controls the following:
@@ -4306,6 +4575,8 @@ extension CloudFrontClientTypes {
         public var restrictions: CloudFrontClientTypes.Restrictions?
         /// A Boolean that indicates whether this is a staging distribution. When this value is true, this is a staging distribution. When this value is false, this is not a staging distribution.
         public var staging: Swift.Bool?
+        /// A distribution tenant configuration.
+        public var tenantConfig: CloudFrontClientTypes.TenantConfig?
         /// A complex type that determines the distribution's SSL/TLS configuration for communicating with viewers.
         public var viewerCertificate: CloudFrontClientTypes.ViewerCertificate?
         /// A unique identifier that specifies the WAF web ACL, if any, to associate with this distribution. To specify a web ACL created using the latest version of WAF, use the ACL ARN, for example arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. To specify a web ACL created using WAF Classic, use the ACL ID, for example a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to CloudFront, and lets you control access to your content. Based on conditions that you specify, such as the IP addresses that requests originate from or the values of query strings, CloudFront responds to requests either with the requested content or with an HTTP 403 status code (Forbidden). You can also configure CloudFront to return a custom error page when a request is blocked. For more information about WAF, see the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/what-is-aws-waf.html).
@@ -4317,6 +4588,7 @@ extension CloudFrontClientTypes {
             cacheBehaviors: CloudFrontClientTypes.CacheBehaviors? = nil,
             callerReference: Swift.String? = nil,
             comment: Swift.String? = nil,
+            connectionMode: CloudFrontClientTypes.ConnectionMode? = nil,
             continuousDeploymentPolicyId: Swift.String? = nil,
             customErrorResponses: CloudFrontClientTypes.CustomErrorResponses? = nil,
             defaultCacheBehavior: CloudFrontClientTypes.DefaultCacheBehavior? = nil,
@@ -4330,6 +4602,7 @@ extension CloudFrontClientTypes {
             priceClass: CloudFrontClientTypes.PriceClass? = nil,
             restrictions: CloudFrontClientTypes.Restrictions? = nil,
             staging: Swift.Bool? = nil,
+            tenantConfig: CloudFrontClientTypes.TenantConfig? = nil,
             viewerCertificate: CloudFrontClientTypes.ViewerCertificate? = nil,
             webACLId: Swift.String? = nil
         ) {
@@ -4338,6 +4611,7 @@ extension CloudFrontClientTypes {
             self.cacheBehaviors = cacheBehaviors
             self.callerReference = callerReference
             self.comment = comment
+            self.connectionMode = connectionMode
             self.continuousDeploymentPolicyId = continuousDeploymentPolicyId
             self.customErrorResponses = customErrorResponses
             self.defaultCacheBehavior = defaultCacheBehavior
@@ -4351,6 +4625,7 @@ extension CloudFrontClientTypes {
             self.priceClass = priceClass
             self.restrictions = restrictions
             self.staging = staging
+            self.tenantConfig = tenantConfig
             self.viewerCertificate = viewerCertificate
             self.webACLId = webACLId
         }
@@ -4359,7 +4634,7 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes.DistributionConfig: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DistributionConfig(aliases: \(Swift.String(describing: aliases)), anycastIpListId: \(Swift.String(describing: anycastIpListId)), cacheBehaviors: \(Swift.String(describing: cacheBehaviors)), callerReference: \(Swift.String(describing: callerReference)), continuousDeploymentPolicyId: \(Swift.String(describing: continuousDeploymentPolicyId)), customErrorResponses: \(Swift.String(describing: customErrorResponses)), defaultCacheBehavior: \(Swift.String(describing: defaultCacheBehavior)), defaultRootObject: \(Swift.String(describing: defaultRootObject)), enabled: \(Swift.String(describing: enabled)), httpVersion: \(Swift.String(describing: httpVersion)), isIPV6Enabled: \(Swift.String(describing: isIPV6Enabled)), logging: \(Swift.String(describing: logging)), originGroups: \(Swift.String(describing: originGroups)), origins: \(Swift.String(describing: origins)), priceClass: \(Swift.String(describing: priceClass)), restrictions: \(Swift.String(describing: restrictions)), staging: \(Swift.String(describing: staging)), viewerCertificate: \(Swift.String(describing: viewerCertificate)), webACLId: \(Swift.String(describing: webACLId)), comment: \"CONTENT_REDACTED\")"}
+        "DistributionConfig(aliases: \(Swift.String(describing: aliases)), anycastIpListId: \(Swift.String(describing: anycastIpListId)), cacheBehaviors: \(Swift.String(describing: cacheBehaviors)), callerReference: \(Swift.String(describing: callerReference)), connectionMode: \(Swift.String(describing: connectionMode)), continuousDeploymentPolicyId: \(Swift.String(describing: continuousDeploymentPolicyId)), customErrorResponses: \(Swift.String(describing: customErrorResponses)), defaultCacheBehavior: \(Swift.String(describing: defaultCacheBehavior)), defaultRootObject: \(Swift.String(describing: defaultRootObject)), enabled: \(Swift.String(describing: enabled)), httpVersion: \(Swift.String(describing: httpVersion)), isIPV6Enabled: \(Swift.String(describing: isIPV6Enabled)), logging: \(Swift.String(describing: logging)), originGroups: \(Swift.String(describing: originGroups)), origins: \(Swift.String(describing: origins)), priceClass: \(Swift.String(describing: priceClass)), restrictions: \(Swift.String(describing: restrictions)), staging: \(Swift.String(describing: staging)), tenantConfig: \(Swift.String(describing: tenantConfig)), viewerCertificate: \(Swift.String(describing: viewerCertificate)), webACLId: \(Swift.String(describing: webACLId)), comment: \"CONTENT_REDACTED\")"}
 }
 
 extension CloudFrontClientTypes {
@@ -4508,7 +4783,7 @@ public struct InvalidTagging: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
     }
 }
 
-/// This operation is not supported in this region.
+/// This operation is not supported in this Amazon Web Services Region.
 public struct UnsupportedOperation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -4567,7 +4842,7 @@ extension CloudFrontClientTypes {
 }
 
 public struct CreateAnycastIpListInput: Swift.Sendable {
-    /// The number of static IP addresses that are allocated to the Anycast static IP list.
+    /// The number of static IP addresses that are allocated to the Anycast static IP list. Valid values: 21 or 3.
     /// This member is required.
     public var ipCount: Swift.Int?
     /// Name of the Anycast static IP list.
@@ -4847,6 +5122,108 @@ public struct CreateCloudFrontOriginAccessIdentityOutput: Swift.Sendable {
         self.cloudFrontOriginAccessIdentity = cloudFrontOriginAccessIdentity
         self.eTag = eTag
         self.location = location
+    }
+}
+
+public struct CreateConnectionGroupInput: Swift.Sendable {
+    /// The ID of the Anycast static IP list.
+    public var anycastIpListId: Swift.String?
+    /// Enable the connection group.
+    public var enabled: Swift.Bool?
+    /// Enable IPv6 for the connection group. The default is true. For more information, see [Enable IPv6](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesEnableIPv6) in the Amazon CloudFront Developer Guide.
+    public var ipv6Enabled: Swift.Bool?
+    /// The name of the connection group. Enter a friendly identifier that is unique within your Amazon Web Services account. This name can't be updated after you create the connection group.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A complex type that contains zero or more Tag elements.
+    public var tags: CloudFrontClientTypes.Tags?
+
+    public init(
+        anycastIpListId: Swift.String? = nil,
+        enabled: Swift.Bool? = nil,
+        ipv6Enabled: Swift.Bool? = nil,
+        name: Swift.String? = nil,
+        tags: CloudFrontClientTypes.Tags? = nil
+    ) {
+        self.anycastIpListId = anycastIpListId
+        self.enabled = enabled
+        self.ipv6Enabled = ipv6Enabled
+        self.name = name
+        self.tags = tags
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// The connection group for your distribution tenants. When you first create a distribution tenant and you don't specify a connection group, CloudFront will automatically create a default connection group for you. When you create a new distribution tenant and don't specify a connection group, the default one will be associated with your distribution tenant.
+    public struct ConnectionGroup: Swift.Sendable {
+        /// The ID of the Anycast static IP list.
+        public var anycastIpListId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the connection group.
+        public var arn: Swift.String?
+        /// The date and time when the connection group was created.
+        public var createdTime: Foundation.Date?
+        /// Whether the connection group is enabled.
+        public var enabled: Swift.Bool?
+        /// The ID of the connection group.
+        public var id: Swift.String?
+        /// IPv6 is enabled for the connection group.
+        public var ipv6Enabled: Swift.Bool?
+        /// Whether the connection group is the default connection group for the distribution tenants.
+        public var isDefault: Swift.Bool?
+        /// The date and time when the connection group was updated.
+        public var lastModifiedTime: Foundation.Date?
+        /// The name of the connection group.
+        public var name: Swift.String?
+        /// The routing endpoint (also known as the DNS name) that is assigned to the connection group, such as d111111abcdef8.cloudfront.net.
+        public var routingEndpoint: Swift.String?
+        /// The status of the connection group.
+        public var status: Swift.String?
+        /// A complex type that contains zero or more Tag elements.
+        public var tags: CloudFrontClientTypes.Tags?
+
+        public init(
+            anycastIpListId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            enabled: Swift.Bool? = nil,
+            id: Swift.String? = nil,
+            ipv6Enabled: Swift.Bool? = nil,
+            isDefault: Swift.Bool? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            routingEndpoint: Swift.String? = nil,
+            status: Swift.String? = nil,
+            tags: CloudFrontClientTypes.Tags? = nil
+        ) {
+            self.anycastIpListId = anycastIpListId
+            self.arn = arn
+            self.createdTime = createdTime
+            self.enabled = enabled
+            self.id = id
+            self.ipv6Enabled = ipv6Enabled
+            self.isDefault = isDefault
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.routingEndpoint = routingEndpoint
+            self.status = status
+            self.tags = tags
+        }
+    }
+}
+
+public struct CreateConnectionGroupOutput: Swift.Sendable {
+    /// The connection group that you created.
+    public var connectionGroup: CloudFrontClientTypes.ConnectionGroup?
+    /// The current version of the connection group.
+    public var eTag: Swift.String?
+
+    public init(
+        connectionGroup: CloudFrontClientTypes.ConnectionGroup? = nil,
+        eTag: Swift.String? = nil
+    ) {
+        self.connectionGroup = connectionGroup
+        self.eTag = eTag
     }
 }
 
@@ -5159,29 +5536,6 @@ public struct ContinuousDeploymentPolicyInUse: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-/// The entity was not found.
-public struct EntityNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "EntityNotFound" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 /// An origin cannot contain both an origin access control (OAC) and an origin access identity (OAI).
 public struct IllegalOriginAccessConfiguration: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -5281,6 +5635,394 @@ public struct CreateDistributionOutput: Swift.Sendable {
         self.distribution = distribution
         self.eTag = eTag
         self.location = location
+    }
+}
+
+/// The specified CloudFront resource can't be associated.
+public struct InvalidAssociation: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidAssociation" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// The customizations that you specified for the distribution tenant for geographic restrictions.
+    public struct GeoRestrictionCustomization: Swift.Sendable {
+        /// The locations for geographic restrictions.
+        public var locations: [Swift.String]?
+        /// The method that you want to use to restrict distribution of your content by country:
+        ///
+        /// * none: No geographic restriction is enabled, meaning access to content is not restricted by client geo location.
+        ///
+        /// * blacklist: The Location elements specify the countries in which you don't want CloudFront to distribute your content.
+        ///
+        /// * whitelist: The Location elements specify the countries in which you want CloudFront to distribute your content.
+        /// This member is required.
+        public var restrictionType: CloudFrontClientTypes.GeoRestrictionType?
+
+        public init(
+            locations: [Swift.String]? = nil,
+            restrictionType: CloudFrontClientTypes.GeoRestrictionType? = nil
+        ) {
+            self.locations = locations
+            self.restrictionType = restrictionType
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    public enum CustomizationActionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disable
+        case `override`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomizationActionType] {
+            return [
+                .disable,
+                .override
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disable: return "disable"
+            case .override: return "override"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// The WAF web ACL customization specified for the distribution tenant.
+    public struct WebAclCustomization: Swift.Sendable {
+        /// The action for the WAF web ACL customization. You can specify override to specify a separate WAF web ACL for the distribution tenant. If you specify disable, the distribution tenant won't have WAF web ACL protections and won't inherit from the multi-tenant distribution.
+        /// This member is required.
+        public var action: CloudFrontClientTypes.CustomizationActionType?
+        /// The Amazon Resource Name (ARN) of the WAF web ACL.
+        public var arn: Swift.String?
+
+        public init(
+            action: CloudFrontClientTypes.CustomizationActionType? = nil,
+            arn: Swift.String? = nil
+        ) {
+            self.action = action
+            self.arn = arn
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// Customizations for the distribution tenant. For each distribution tenant, you can specify the geographic restrictions, and the Amazon Resource Names (ARNs) for the ACM certificate and WAF web ACL. These are specific values that you can override or disable from the multi-tenant distribution that was used to create the distribution tenant.
+    public struct Customizations: Swift.Sendable {
+        /// The Certificate Manager (ACM) certificate.
+        public var certificate: CloudFrontClientTypes.Certificate?
+        /// The geographic restrictions.
+        public var geoRestrictions: CloudFrontClientTypes.GeoRestrictionCustomization?
+        /// The WAF web ACL.
+        public var webAcl: CloudFrontClientTypes.WebAclCustomization?
+
+        public init(
+            certificate: CloudFrontClientTypes.Certificate? = nil,
+            geoRestrictions: CloudFrontClientTypes.GeoRestrictionCustomization? = nil,
+            webAcl: CloudFrontClientTypes.WebAclCustomization? = nil
+        ) {
+            self.certificate = certificate
+            self.geoRestrictions = geoRestrictions
+            self.webAcl = webAcl
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// The domain for the specified distribution tenant.
+    public struct DomainItem: Swift.Sendable {
+        /// The domain name.
+        /// This member is required.
+        public var domain: Swift.String?
+
+        public init(
+            domain: Swift.String? = nil
+        ) {
+            self.domain = domain
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    public enum ValidationTokenHost: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cloudfront
+        case selfhosted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidationTokenHost] {
+            return [
+                .cloudfront,
+                .selfhosted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudfront: return "cloudfront"
+            case .selfhosted: return "self-hosted"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// An object that represents the request for the Amazon CloudFront managed ACM certificate.
+    public struct ManagedCertificateRequest: Swift.Sendable {
+        /// You can opt out of certificate transparency logging by specifying the disabled option. Opt in by specifying enabled. For more information, see [Certificate Transparency Logging ](https://docs.aws.amazon.com/acm/latest/userguide/acm-concepts.html#concept-transparency) in the Certificate Manager User Guide.
+        public var certificateTransparencyLoggingPreference: CloudFrontClientTypes.CertificateTransparencyLoggingPreference?
+        /// The primary domain name associated with the CloudFront managed ACM certificate.
+        public var primaryDomainName: Swift.String?
+        /// Specify how the HTTP validation token will be served when requesting the CloudFront managed ACM certificate.
+        ///
+        /// * For cloudfront, CloudFront will automatically serve the validation token. Choose this mode if you can point the domain's DNS to CloudFront immediately.
+        ///
+        /// * For self-hosted, you serve the validation token from your existing infrastructure. Choose this mode when you need to maintain current traffic flow while your certificate is being issued. You can place the validation token at the well-known path on your existing web server, wait for ACM to validate and issue the certificate, and then update your DNS to point to CloudFront.
+        /// This member is required.
+        public var validationTokenHost: CloudFrontClientTypes.ValidationTokenHost?
+
+        public init(
+            certificateTransparencyLoggingPreference: CloudFrontClientTypes.CertificateTransparencyLoggingPreference? = nil,
+            primaryDomainName: Swift.String? = nil,
+            validationTokenHost: CloudFrontClientTypes.ValidationTokenHost? = nil
+        ) {
+            self.certificateTransparencyLoggingPreference = certificateTransparencyLoggingPreference
+            self.primaryDomainName = primaryDomainName
+            self.validationTokenHost = validationTokenHost
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution.
+    public struct Parameter: Swift.Sendable {
+        /// The parameter name.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The parameter value.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+public struct CreateDistributionTenantInput: Swift.Sendable {
+    /// The ID of the connection group to associate with the distribution tenant.
+    public var connectionGroupId: Swift.String?
+    /// Customizations for the distribution tenant. For each distribution tenant, you can specify the geographic restrictions, and the Amazon Resource Names (ARNs) for the ACM certificate and WAF web ACL. These are specific values that you can override or disable from the multi-tenant distribution that was used to create the distribution tenant.
+    public var customizations: CloudFrontClientTypes.Customizations?
+    /// The ID of the multi-tenant distribution to use for creating the distribution tenant.
+    /// This member is required.
+    public var distributionId: Swift.String?
+    /// The domains associated with the distribution tenant. You must specify at least one domain in the request.
+    /// This member is required.
+    public var domains: [CloudFrontClientTypes.DomainItem]?
+    /// Indicates whether the distribution tenant should be enabled when created. If the distribution tenant is disabled, the distribution tenant won't serve traffic.
+    public var enabled: Swift.Bool?
+    /// The configuration for the CloudFront managed ACM certificate request.
+    public var managedCertificateRequest: CloudFrontClientTypes.ManagedCertificateRequest?
+    /// The name of the distribution tenant. Enter a friendly identifier that is unique within your Amazon Web Services account. This name can't be updated after you create the distribution tenant.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution.
+    public var parameters: [CloudFrontClientTypes.Parameter]?
+    /// A complex type that contains zero or more Tag elements.
+    public var tags: CloudFrontClientTypes.Tags?
+
+    public init(
+        connectionGroupId: Swift.String? = nil,
+        customizations: CloudFrontClientTypes.Customizations? = nil,
+        distributionId: Swift.String? = nil,
+        domains: [CloudFrontClientTypes.DomainItem]? = nil,
+        enabled: Swift.Bool? = nil,
+        managedCertificateRequest: CloudFrontClientTypes.ManagedCertificateRequest? = nil,
+        name: Swift.String? = nil,
+        parameters: [CloudFrontClientTypes.Parameter]? = nil,
+        tags: CloudFrontClientTypes.Tags? = nil
+    ) {
+        self.connectionGroupId = connectionGroupId
+        self.customizations = customizations
+        self.distributionId = distributionId
+        self.domains = domains
+        self.enabled = enabled
+        self.managedCertificateRequest = managedCertificateRequest
+        self.name = name
+        self.parameters = parameters
+        self.tags = tags
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    public enum DomainStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DomainStatus] {
+            return [
+                .active,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "active"
+            case .inactive: return "inactive"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// The details about the domain result.
+    public struct DomainResult: Swift.Sendable {
+        /// The specified domain.
+        /// This member is required.
+        public var domain: Swift.String?
+        /// Whether the domain is active or inactive.
+        public var status: CloudFrontClientTypes.DomainStatus?
+
+        public init(
+            domain: Swift.String? = nil,
+            status: CloudFrontClientTypes.DomainStatus? = nil
+        ) {
+            self.domain = domain
+            self.status = status
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// The distribution tenant.
+    public struct DistributionTenant: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the distribution tenant.
+        public var arn: Swift.String?
+        /// The ID of the connection group for the distribution tenant. If you don't specify a connection group, CloudFront uses the default connection group.
+        public var connectionGroupId: Swift.String?
+        /// The date and time when the distribution tenant was created.
+        public var createdTime: Foundation.Date?
+        /// Customizations for the distribution tenant. For each distribution tenant, you can specify the geographic restrictions, and the Amazon Resource Names (ARNs) for the ACM certificate and WAF web ACL. These are specific values that you can override or disable from the multi-tenant distribution that was used to create the distribution tenant.
+        public var customizations: CloudFrontClientTypes.Customizations?
+        /// The ID of the multi-tenant distribution.
+        public var distributionId: Swift.String?
+        /// The domains associated with the distribution tenant.
+        public var domains: [CloudFrontClientTypes.DomainResult]?
+        /// Indicates whether the distribution tenant is in an enabled state. If disabled, the distribution tenant won't serve traffic.
+        public var enabled: Swift.Bool?
+        /// The ID of the distribution tenant.
+        public var id: Swift.String?
+        /// The date and time when the distribution tenant was updated.
+        public var lastModifiedTime: Foundation.Date?
+        /// The name of the distribution tenant.
+        public var name: Swift.String?
+        /// A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution.
+        public var parameters: [CloudFrontClientTypes.Parameter]?
+        /// The status of the distribution tenant.
+        public var status: Swift.String?
+        /// A complex type that contains zero or more Tag elements.
+        public var tags: CloudFrontClientTypes.Tags?
+
+        public init(
+            arn: Swift.String? = nil,
+            connectionGroupId: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            customizations: CloudFrontClientTypes.Customizations? = nil,
+            distributionId: Swift.String? = nil,
+            domains: [CloudFrontClientTypes.DomainResult]? = nil,
+            enabled: Swift.Bool? = nil,
+            id: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            parameters: [CloudFrontClientTypes.Parameter]? = nil,
+            status: Swift.String? = nil,
+            tags: CloudFrontClientTypes.Tags? = nil
+        ) {
+            self.arn = arn
+            self.connectionGroupId = connectionGroupId
+            self.createdTime = createdTime
+            self.customizations = customizations
+            self.distributionId = distributionId
+            self.domains = domains
+            self.enabled = enabled
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.parameters = parameters
+            self.status = status
+            self.tags = tags
+        }
+    }
+}
+
+public struct CreateDistributionTenantOutput: Swift.Sendable {
+    /// The distribution tenant that you created.
+    public var distributionTenant: CloudFrontClientTypes.DistributionTenant?
+    /// The current version of the distribution tenant.
+    public var eTag: Swift.String?
+
+    public init(
+        distributionTenant: CloudFrontClientTypes.DistributionTenant? = nil,
+        eTag: Swift.String? = nil
+    ) {
+        self.distributionTenant = distributionTenant
+        self.eTag = eTag
     }
 }
 
@@ -6415,6 +7157,38 @@ public struct CreateInvalidationOutput: Swift.Sendable {
     /// The invalidation's information.
     public var invalidation: CloudFrontClientTypes.Invalidation?
     /// The fully qualified URI of the distribution and invalidation batch request, including the Invalidation ID.
+    public var location: Swift.String?
+
+    public init(
+        invalidation: CloudFrontClientTypes.Invalidation? = nil,
+        location: Swift.String? = nil
+    ) {
+        self.invalidation = invalidation
+        self.location = location
+    }
+}
+
+public struct CreateInvalidationForDistributionTenantInput: Swift.Sendable {
+    /// The ID of the distribution tenant.
+    /// This member is required.
+    public var id: Swift.String?
+    /// An invalidation batch.
+    /// This member is required.
+    public var invalidationBatch: CloudFrontClientTypes.InvalidationBatch?
+
+    public init(
+        id: Swift.String? = nil,
+        invalidationBatch: CloudFrontClientTypes.InvalidationBatch? = nil
+    ) {
+        self.id = id
+        self.invalidationBatch = invalidationBatch
+    }
+}
+
+public struct CreateInvalidationForDistributionTenantOutput: Swift.Sendable {
+    /// An invalidation.
+    public var invalidation: CloudFrontClientTypes.Invalidation?
+    /// The location for the invalidation.
     public var location: Swift.String?
 
     public init(
@@ -7689,9 +8463,9 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
-    /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data in a real-time log configuration.
+    /// Contains information about the Amazon Kinesis data stream where you're sending real-time log data in a real-time log configuration.
     public struct EndPoint: Swift.Sendable {
-        /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data.
+        /// Contains information about the Amazon Kinesis data stream where you are sending real-time log data in a real-time log configuration.
         public var kinesisStreamConfig: CloudFrontClientTypes.KinesisStreamConfig?
         /// The type of data stream where you are sending real-time log data. The only valid value is Kinesis.
         /// This member is required.
@@ -8811,10 +9585,10 @@ extension CloudFrontClientTypes {
         /// The ARN of the CloudFront VPC origin endpoint configuration.
         /// This member is required.
         public var arn: Swift.String?
-        /// The HTTP port for the CloudFront VPC origin endpoint configuration.
+        /// The HTTP port for the CloudFront VPC origin endpoint configuration. The default value is 80.
         /// This member is required.
         public var httpPort: Swift.Int?
-        /// The HTTPS port of the CloudFront VPC origin endpoint configuration.
+        /// The HTTPS port of the CloudFront VPC origin endpoint configuration. The default value is 443.
         /// This member is required.
         public var httpsPort: Swift.Int?
         /// The name of the CloudFront VPC origin endpoint configuration.
@@ -9039,6 +9813,46 @@ public struct DeleteCloudFrontOriginAccessIdentityInput: Swift.Sendable {
     }
 }
 
+/// The specified CloudFront resource hasn't been disabled yet.
+public struct ResourceNotDisabled: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotDisabled" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteConnectionGroupInput: Swift.Sendable {
+    /// The ID of the connection group to delete.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The value of the ETag header that you received when retrieving the connection group to delete.
+    /// This member is required.
+    public var ifMatch: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil
+    ) {
+        self.id = id
+        self.ifMatch = ifMatch
+    }
+}
+
 public struct DeleteContinuousDeploymentPolicyInput: Swift.Sendable {
     /// The identifier of the continuous deployment policy that you are deleting.
     /// This member is required.
@@ -9078,6 +9892,29 @@ public struct DistributionNotDisabled: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
+/// Cannot delete this resource because it is in use.
+public struct ResourceInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceInUse" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// This action deletes a web distribution. To delete a web distribution using the CloudFront API, perform the following steps. To delete a web distribution using the CloudFront API:
 ///
 /// * Disable the web distribution
@@ -9103,6 +9940,23 @@ public struct DeleteDistributionInput: Swift.Sendable {
     /// This member is required.
     public var id: Swift.String?
     /// The value of the ETag header that you received when you disabled the distribution. For example: E2QWRUHAPOMQZL.
+    public var ifMatch: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil
+    ) {
+        self.id = id
+        self.ifMatch = ifMatch
+    }
+}
+
+public struct DeleteDistributionTenantInput: Swift.Sendable {
+    /// The ID of the distribution tenant to delete.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The value of the ETag header that you received when retrieving the distribution tenant. This value is returned in the response of the GetDistributionTenant API operation.
+    /// This member is required.
     public var ifMatch: Swift.String?
 
     public init(
@@ -9264,29 +10118,6 @@ public struct NoSuchResource: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "NoSuchResource" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// Cannot delete this resource because it is in use.
-public struct ResourceInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceInUse" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -9658,7 +10489,7 @@ public struct DeleteVpcOriginInput: Swift.Sendable {
     /// The VPC origin ID.
     /// This member is required.
     public var id: Swift.String?
-    /// The VPC origin to delete, if a match occurs.
+    /// The version identifier of the VPC origin to delete. This is the ETag value returned in the response to [GetVpcOrigin].
     /// This member is required.
     public var ifMatch: Swift.String?
 
@@ -9741,6 +10572,68 @@ public struct DescribeKeyValueStoreOutput: Swift.Sendable {
     ) {
         self.eTag = eTag
         self.keyValueStore = keyValueStore
+    }
+}
+
+public struct DisassociateDistributionTenantWebACLInput: Swift.Sendable {
+    /// The ID of the distribution tenant.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The current version of the distribution tenant that you're disassociating from the WAF web ACL. This is the ETag value returned in the response to the GetDistributionTenant API operation.
+    public var ifMatch: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil
+    ) {
+        self.id = id
+        self.ifMatch = ifMatch
+    }
+}
+
+public struct DisassociateDistributionTenantWebACLOutput: Swift.Sendable {
+    /// The current version of the distribution tenant.
+    public var eTag: Swift.String?
+    /// The ID of the distribution tenant.
+    public var id: Swift.String?
+
+    public init(
+        eTag: Swift.String? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.eTag = eTag
+        self.id = id
+    }
+}
+
+public struct DisassociateDistributionWebACLInput: Swift.Sendable {
+    /// The ID of the distribution.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The value of the ETag header that you received when retrieving the distribution that you're disassociating from the WAF web ACL.
+    public var ifMatch: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil
+    ) {
+        self.id = id
+        self.ifMatch = ifMatch
+    }
+}
+
+public struct DisassociateDistributionWebACLOutput: Swift.Sendable {
+    /// The current version of the distribution.
+    public var eTag: Swift.String?
+    /// The ID of the distribution.
+    public var id: Swift.String?
+
+    public init(
+        eTag: Swift.String? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.eTag = eTag
+        self.id = id
     }
 }
 
@@ -9883,6 +10776,60 @@ public struct GetCloudFrontOriginAccessIdentityConfigOutput: Swift.Sendable {
     }
 }
 
+public struct GetConnectionGroupInput: Swift.Sendable {
+    /// The ID, name, or Amazon Resource Name (ARN) of the connection group.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct GetConnectionGroupOutput: Swift.Sendable {
+    /// The connection group that you retrieved.
+    public var connectionGroup: CloudFrontClientTypes.ConnectionGroup?
+    /// The current version of the connection group.
+    public var eTag: Swift.String?
+
+    public init(
+        connectionGroup: CloudFrontClientTypes.ConnectionGroup? = nil,
+        eTag: Swift.String? = nil
+    ) {
+        self.connectionGroup = connectionGroup
+        self.eTag = eTag
+    }
+}
+
+public struct GetConnectionGroupByRoutingEndpointInput: Swift.Sendable {
+    /// The routing endpoint for the target connection group, such as d111111abcdef8.cloudfront.net.
+    /// This member is required.
+    public var routingEndpoint: Swift.String?
+
+    public init(
+        routingEndpoint: Swift.String? = nil
+    ) {
+        self.routingEndpoint = routingEndpoint
+    }
+}
+
+public struct GetConnectionGroupByRoutingEndpointOutput: Swift.Sendable {
+    /// The connection group for your distribution tenants. When you first create a distribution tenant and you don't specify a connection group, CloudFront will automatically create a default connection group for you. When you create a new distribution tenant and don't specify a connection group, the default one will be associated with your distribution tenant.
+    public var connectionGroup: CloudFrontClientTypes.ConnectionGroup?
+    /// The current version of the connection group.
+    public var eTag: Swift.String?
+
+    public init(
+        connectionGroup: CloudFrontClientTypes.ConnectionGroup? = nil,
+        eTag: Swift.String? = nil
+    ) {
+        self.connectionGroup = connectionGroup
+        self.eTag = eTag
+    }
+}
+
 public struct GetContinuousDeploymentPolicyInput: Swift.Sendable {
     /// The identifier of the continuous deployment policy that you are getting.
     /// This member is required.
@@ -9991,6 +10938,60 @@ public struct GetDistributionConfigOutput: Swift.Sendable {
         eTag: Swift.String? = nil
     ) {
         self.distributionConfig = distributionConfig
+        self.eTag = eTag
+    }
+}
+
+public struct GetDistributionTenantInput: Swift.Sendable {
+    /// The identifier of the distribution tenant. You can specify the ARN, ID, or name of the distribution tenant.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct GetDistributionTenantOutput: Swift.Sendable {
+    /// The distribution tenant that you retrieved.
+    public var distributionTenant: CloudFrontClientTypes.DistributionTenant?
+    /// The current version of the distribution tenant.
+    public var eTag: Swift.String?
+
+    public init(
+        distributionTenant: CloudFrontClientTypes.DistributionTenant? = nil,
+        eTag: Swift.String? = nil
+    ) {
+        self.distributionTenant = distributionTenant
+        self.eTag = eTag
+    }
+}
+
+public struct GetDistributionTenantByDomainInput: Swift.Sendable {
+    /// A domain name associated with the target distribution tenant.
+    /// This member is required.
+    public var domain: Swift.String?
+
+    public init(
+        domain: Swift.String? = nil
+    ) {
+        self.domain = domain
+    }
+}
+
+public struct GetDistributionTenantByDomainOutput: Swift.Sendable {
+    /// The distribution tenant.
+    public var distributionTenant: CloudFrontClientTypes.DistributionTenant?
+    /// The current version of the distribution tenant.
+    public var eTag: Swift.String?
+
+    public init(
+        distributionTenant: CloudFrontClientTypes.DistributionTenant? = nil,
+        eTag: Swift.String? = nil
+    ) {
+        self.distributionTenant = distributionTenant
         self.eTag = eTag
     }
 }
@@ -10196,6 +11197,34 @@ public struct GetInvalidationOutput: Swift.Sendable {
     }
 }
 
+public struct GetInvalidationForDistributionTenantInput: Swift.Sendable {
+    /// The ID of the distribution tenant.
+    /// This member is required.
+    public var distributionTenantId: Swift.String?
+    /// The ID of the invalidation to retrieve.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        distributionTenantId: Swift.String? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.distributionTenantId = distributionTenantId
+        self.id = id
+    }
+}
+
+public struct GetInvalidationForDistributionTenantOutput: Swift.Sendable {
+    /// An invalidation.
+    public var invalidation: CloudFrontClientTypes.Invalidation?
+
+    public init(
+        invalidation: CloudFrontClientTypes.Invalidation? = nil
+    ) {
+        self.invalidation = invalidation
+    }
+}
+
 public struct GetKeyGroupInput: Swift.Sendable {
     /// The identifier of the key group that you are getting. To get the identifier, use ListKeyGroups.
     /// This member is required.
@@ -10247,6 +11276,131 @@ public struct GetKeyGroupConfigOutput: Swift.Sendable {
     ) {
         self.eTag = eTag
         self.keyGroupConfig = keyGroupConfig
+    }
+}
+
+public struct GetManagedCertificateDetailsInput: Swift.Sendable {
+    /// The identifier of the distribution tenant. You can specify the ARN, ID, or name of the distribution tenant.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    public enum ManagedCertificateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case expired
+        case failed
+        case inactive
+        case issued
+        case pendingvalidation
+        case revoked
+        case validationtimedout
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManagedCertificateStatus] {
+            return [
+                .expired,
+                .failed,
+                .inactive,
+                .issued,
+                .pendingvalidation,
+                .revoked,
+                .validationtimedout
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .expired: return "expired"
+            case .failed: return "failed"
+            case .inactive: return "inactive"
+            case .issued: return "issued"
+            case .pendingvalidation: return "pending-validation"
+            case .revoked: return "revoked"
+            case .validationtimedout: return "validation-timed-out"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// Contains details about the validation token.
+    public struct ValidationTokenDetail: Swift.Sendable {
+        /// The domain name.
+        /// This member is required.
+        public var domain: Swift.String?
+        /// The domain to redirect from.
+        public var redirectFrom: Swift.String?
+        /// The domain to redirect to.
+        public var redirectTo: Swift.String?
+
+        public init(
+            domain: Swift.String? = nil,
+            redirectFrom: Swift.String? = nil,
+            redirectTo: Swift.String? = nil
+        ) {
+            self.domain = domain
+            self.redirectFrom = redirectFrom
+            self.redirectTo = redirectTo
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// Contains details about the CloudFront managed ACM certificate.
+    public struct ManagedCertificateDetails: Swift.Sendable {
+        /// The ARN of the CloudFront managed ACM certificate.
+        public var certificateArn: Swift.String?
+        /// The status of the CloudFront managed ACM certificate. Your distribution tenant will be updated with the latest certificate status. When calling the [UpdateDistributionTenant](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_UpdateDistributionTenant.html) operation, use the latest value for the ETag.
+        public var certificateStatus: CloudFrontClientTypes.ManagedCertificateStatus?
+        /// Contains details about the validation token of the specified CloudFront managed ACM certificate.
+        public var validationTokenDetails: [CloudFrontClientTypes.ValidationTokenDetail]?
+        /// Contains details about the validation token host of the specified CloudFront managed ACM certificate.
+        ///
+        /// * For cloudfront, CloudFront will automatically serve the validation token. Choose this mode if you can point the domain's DNS to CloudFront immediately.
+        ///
+        /// * For self-hosted, you serve the validation token from your existing infrastructure. Choose this mode when you need to maintain current traffic flow while your certificate is being issued. You can place the validation token at the well-known path on your existing web server, wait for ACM to validate and issue the certificate, and then update your DNS to point to CloudFront.
+        ///
+        ///
+        /// This setting only affects the initial certificate request. Once the DNS points to CloudFront, all future certificate renewals are automatically handled through CloudFront.
+        public var validationTokenHost: CloudFrontClientTypes.ValidationTokenHost?
+
+        public init(
+            certificateArn: Swift.String? = nil,
+            certificateStatus: CloudFrontClientTypes.ManagedCertificateStatus? = nil,
+            validationTokenDetails: [CloudFrontClientTypes.ValidationTokenDetail]? = nil,
+            validationTokenHost: CloudFrontClientTypes.ValidationTokenHost? = nil
+        ) {
+            self.certificateArn = certificateArn
+            self.certificateStatus = certificateStatus
+            self.validationTokenDetails = validationTokenDetails
+            self.validationTokenHost = validationTokenHost
+        }
+    }
+}
+
+public struct GetManagedCertificateDetailsOutput: Swift.Sendable {
+    /// Contains details about the CloudFront managed ACM certificate.
+    public var managedCertificateDetails: CloudFrontClientTypes.ManagedCertificateDetails?
+
+    public init(
+        managedCertificateDetails: CloudFrontClientTypes.ManagedCertificateDetails? = nil
+    ) {
+        self.managedCertificateDetails = managedCertificateDetails
     }
 }
 
@@ -10839,6 +11993,117 @@ public struct ListConflictingAliasesOutput: Swift.Sendable {
     }
 }
 
+extension CloudFrontClientTypes {
+
+    /// Contains information about what CloudFront resources your connection groups are associated with.
+    public struct ConnectionGroupAssociationFilter: Swift.Sendable {
+        /// The ID of the Anycast static IP list.
+        public var anycastIpListId: Swift.String?
+
+        public init(
+            anycastIpListId: Swift.String? = nil
+        ) {
+            self.anycastIpListId = anycastIpListId
+        }
+    }
+}
+
+public struct ListConnectionGroupsInput: Swift.Sendable {
+    /// Filter by associated Anycast IP list ID.
+    public var associationFilter: CloudFrontClientTypes.ConnectionGroupAssociationFilter?
+    /// The marker for the next set of connection groups to retrieve.
+    public var marker: Swift.String?
+    /// The maximum number of connection groups to return.
+    public var maxItems: Swift.Int?
+
+    public init(
+        associationFilter: CloudFrontClientTypes.ConnectionGroupAssociationFilter? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    ) {
+        self.associationFilter = associationFilter
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// A summary that contains details about your connection groups.
+    public struct ConnectionGroupSummary: Swift.Sendable {
+        /// The ID of the Anycast static IP list.
+        public var anycastIpListId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the connection group.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The date and time when the connection group was created.
+        /// This member is required.
+        public var createdTime: Foundation.Date?
+        /// The current version of the connection group.
+        /// This member is required.
+        public var eTag: Swift.String?
+        /// Whether the connection group is enabled
+        public var enabled: Swift.Bool?
+        /// The ID of the connection group.
+        /// This member is required.
+        public var id: Swift.String?
+        /// Whether the connection group is the default connection group for the distribution tenants.
+        public var isDefault: Swift.Bool?
+        /// The date and time when the connection group was updated.
+        /// This member is required.
+        public var lastModifiedTime: Foundation.Date?
+        /// The name of the connection group.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The routing endpoint (also known as the DNS name) that is assigned to the connection group, such as d111111abcdef8.cloudfront.net.
+        /// This member is required.
+        public var routingEndpoint: Swift.String?
+        /// The status of the connection group.
+        public var status: Swift.String?
+
+        public init(
+            anycastIpListId: Swift.String? = nil,
+            arn: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            eTag: Swift.String? = nil,
+            enabled: Swift.Bool? = nil,
+            id: Swift.String? = nil,
+            isDefault: Swift.Bool? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            routingEndpoint: Swift.String? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.anycastIpListId = anycastIpListId
+            self.arn = arn
+            self.createdTime = createdTime
+            self.eTag = eTag
+            self.enabled = enabled
+            self.id = id
+            self.isDefault = isDefault
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.routingEndpoint = routingEndpoint
+            self.status = status
+        }
+    }
+}
+
+public struct ListConnectionGroupsOutput: Swift.Sendable {
+    /// The list of connection groups that you retrieved.
+    public var connectionGroups: [CloudFrontClientTypes.ConnectionGroupSummary]?
+    /// A token used for pagination of results returned in the response. You can use the token from the previous request to define where the current request should begin.
+    public var nextMarker: Swift.String?
+
+    public init(
+        connectionGroups: [CloudFrontClientTypes.ConnectionGroupSummary]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.connectionGroups = connectionGroups
+        self.nextMarker = nextMarker
+    }
+}
+
 public struct ListContinuousDeploymentPoliciesInput: Swift.Sendable {
     /// Use this field when paginating results to indicate where to begin in your list of continuous deployment policies. The response includes policies in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
     public var marker: Swift.String?
@@ -10946,6 +12211,8 @@ extension CloudFrontClientTypes {
         /// The comment originally specified when this distribution was created.
         /// This member is required.
         public var comment: Swift.String?
+        /// The connection mode to filter distributions by.
+        public var connectionMode: CloudFrontClientTypes.ConnectionMode?
         /// A complex type that contains zero or more CustomErrorResponses elements.
         /// This member is required.
         public var customErrorResponses: CloudFrontClientTypes.CustomErrorResponses?
@@ -10955,6 +12222,8 @@ extension CloudFrontClientTypes {
         /// The domain name that corresponds to the distribution, for example, d111111abcdef8.cloudfront.net.
         /// This member is required.
         public var domainName: Swift.String?
+        /// The current version of the distribution.
+        public var eTag: Swift.String?
         /// Whether the distribution is enabled to accept user requests for content.
         /// This member is required.
         public var enabled: Swift.Bool?
@@ -11001,9 +12270,11 @@ extension CloudFrontClientTypes {
             arn: Swift.String? = nil,
             cacheBehaviors: CloudFrontClientTypes.CacheBehaviors? = nil,
             comment: Swift.String? = nil,
+            connectionMode: CloudFrontClientTypes.ConnectionMode? = nil,
             customErrorResponses: CloudFrontClientTypes.CustomErrorResponses? = nil,
             defaultCacheBehavior: CloudFrontClientTypes.DefaultCacheBehavior? = nil,
             domainName: Swift.String? = nil,
+            eTag: Swift.String? = nil,
             enabled: Swift.Bool? = nil,
             httpVersion: CloudFrontClientTypes.HttpVersion? = nil,
             id: Swift.String? = nil,
@@ -11024,9 +12295,11 @@ extension CloudFrontClientTypes {
             self.arn = arn
             self.cacheBehaviors = cacheBehaviors
             self.comment = comment
+            self.connectionMode = connectionMode
             self.customErrorResponses = customErrorResponses
             self.defaultCacheBehavior = defaultCacheBehavior
             self.domainName = domainName
+            self.eTag = eTag
             self.enabled = enabled
             self.httpVersion = httpVersion
             self.id = id
@@ -11193,6 +12466,37 @@ public struct ListDistributionsByCachePolicyIdOutput: Swift.Sendable {
         distributionIdList: CloudFrontClientTypes.DistributionIdList? = nil
     ) {
         self.distributionIdList = distributionIdList
+    }
+}
+
+public struct ListDistributionsByConnectionModeInput: Swift.Sendable {
+    /// The connection mode to filter distributions by.
+    /// This member is required.
+    public var connectionMode: CloudFrontClientTypes.ConnectionMode?
+    /// The marker for the next set of distributions to retrieve.
+    public var marker: Swift.String?
+    /// The maximum number of distributions to return.
+    public var maxItems: Swift.Int?
+
+    public init(
+        connectionMode: CloudFrontClientTypes.ConnectionMode? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    ) {
+        self.connectionMode = connectionMode
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+public struct ListDistributionsByConnectionModeOutput: Swift.Sendable {
+    /// A distribution list.
+    public var distributionList: CloudFrontClientTypes.DistributionList?
+
+    public init(
+        distributionList: CloudFrontClientTypes.DistributionList? = nil
+    ) {
+        self.distributionList = distributionList
     }
 }
 
@@ -11384,6 +12688,283 @@ public struct ListDistributionsByWebACLIdOutput: Swift.Sendable {
         distributionList: CloudFrontClientTypes.DistributionList? = nil
     ) {
         self.distributionList = distributionList
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// Filter by the associated distribution ID or connection group ID.
+    public struct DistributionTenantAssociationFilter: Swift.Sendable {
+        /// The ID of the connection group to filter by. You can find distribution tenants associated with a specific connection group.
+        public var connectionGroupId: Swift.String?
+        /// The distribution ID to filter by. You can find distribution tenants associated with a specific distribution.
+        public var distributionId: Swift.String?
+
+        public init(
+            connectionGroupId: Swift.String? = nil,
+            distributionId: Swift.String? = nil
+        ) {
+            self.connectionGroupId = connectionGroupId
+            self.distributionId = distributionId
+        }
+    }
+}
+
+public struct ListDistributionTenantsInput: Swift.Sendable {
+    /// Filter by the associated distribution ID or connection group ID.
+    public var associationFilter: CloudFrontClientTypes.DistributionTenantAssociationFilter?
+    /// The marker for the next set of results.
+    public var marker: Swift.String?
+    /// The maximum number of distribution tenants to return.
+    public var maxItems: Swift.Int?
+
+    public init(
+        associationFilter: CloudFrontClientTypes.DistributionTenantAssociationFilter? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    ) {
+        self.associationFilter = associationFilter
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// A summary of the information about a distribution tenant.
+    public struct DistributionTenantSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the distribution tenant.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The ID of the connection group ID for the distribution tenant. If you don't specify a connection group, CloudFront uses the default connection group.
+        public var connectionGroupId: Swift.String?
+        /// The date and time when the distribution tenant was created.
+        /// This member is required.
+        public var createdTime: Foundation.Date?
+        /// Customizations for the distribution tenant. For each distribution tenant, you can specify the geographic restrictions, and the Amazon Resource Names (ARNs) for the ACM certificate and WAF web ACL. These are specific values that you can override or disable from the multi-tenant distribution that was used to create the distribution tenant.
+        public var customizations: CloudFrontClientTypes.Customizations?
+        /// The identifier for the multi-tenant distribution. For example: EDFDVBD632BHDS5.
+        /// This member is required.
+        public var distributionId: Swift.String?
+        /// The domains associated with the distribution tenant.
+        /// This member is required.
+        public var domains: [CloudFrontClientTypes.DomainResult]?
+        /// The current version of the distribution tenant.
+        /// This member is required.
+        public var eTag: Swift.String?
+        /// Indicates whether the distribution tenants are in an enabled state. If disabled, the distribution tenant won't service traffic.
+        public var enabled: Swift.Bool?
+        /// The ID of the distribution tenant.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The date and time when the distribution tenant was updated.
+        /// This member is required.
+        public var lastModifiedTime: Foundation.Date?
+        /// The name of the distribution tenant.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The status of the distribution tenant.
+        public var status: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            connectionGroupId: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            customizations: CloudFrontClientTypes.Customizations? = nil,
+            distributionId: Swift.String? = nil,
+            domains: [CloudFrontClientTypes.DomainResult]? = nil,
+            eTag: Swift.String? = nil,
+            enabled: Swift.Bool? = nil,
+            id: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.connectionGroupId = connectionGroupId
+            self.createdTime = createdTime
+            self.customizations = customizations
+            self.distributionId = distributionId
+            self.domains = domains
+            self.eTag = eTag
+            self.enabled = enabled
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.status = status
+        }
+    }
+}
+
+public struct ListDistributionTenantsOutput: Swift.Sendable {
+    /// The list of distribution tenants that you retrieved.
+    public var distributionTenantList: [CloudFrontClientTypes.DistributionTenantSummary]?
+    /// A token used for pagination of results returned in the response. You can use the token from the previous request to define where the current request should begin.
+    public var nextMarker: Swift.String?
+
+    public init(
+        distributionTenantList: [CloudFrontClientTypes.DistributionTenantSummary]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.distributionTenantList = distributionTenantList
+        self.nextMarker = nextMarker
+    }
+}
+
+public struct ListDistributionTenantsByCustomizationInput: Swift.Sendable {
+    /// Filter by the ARN of the associated ACM certificate.
+    public var certificateArn: Swift.String?
+    /// The marker for the next set of results.
+    public var marker: Swift.String?
+    /// The maximum number of distribution tenants to return by the specified customization.
+    public var maxItems: Swift.Int?
+    /// Filter by the ARN of the associated WAF web ACL.
+    public var webACLArn: Swift.String?
+
+    public init(
+        certificateArn: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil,
+        webACLArn: Swift.String? = nil
+    ) {
+        self.certificateArn = certificateArn
+        self.marker = marker
+        self.maxItems = maxItems
+        self.webACLArn = webACLArn
+    }
+}
+
+public struct ListDistributionTenantsByCustomizationOutput: Swift.Sendable {
+    /// A list of distribution tenants with the specified customization.
+    public var distributionTenantList: [CloudFrontClientTypes.DistributionTenantSummary]?
+    /// A token used for pagination of results returned in the response. You can use the token from the previous request to define where the current request should begin.
+    public var nextMarker: Swift.String?
+
+    public init(
+        distributionTenantList: [CloudFrontClientTypes.DistributionTenantSummary]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.distributionTenantList = distributionTenantList
+        self.nextMarker = nextMarker
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// The IDs for the distribution resources.
+    public struct DistributionResourceId: Swift.Sendable {
+        /// The ID of the multi-tenant distribution.
+        public var distributionId: Swift.String?
+        /// The ID of the distribution tenant.
+        public var distributionTenantId: Swift.String?
+
+        public init(
+            distributionId: Swift.String? = nil,
+            distributionTenantId: Swift.String? = nil
+        ) {
+            self.distributionId = distributionId
+            self.distributionTenantId = distributionTenantId
+        }
+    }
+}
+
+public struct ListDomainConflictsInput: Swift.Sendable {
+    /// The domain to check for conflicts.
+    /// This member is required.
+    public var domain: Swift.String?
+    /// The distribution resource identifier. This can be the distribution or distribution tenant that has a valid certificate, which covers the domain that you specify.
+    /// This member is required.
+    public var domainControlValidationResource: CloudFrontClientTypes.DistributionResourceId?
+    /// The marker for the next set of domain conflicts.
+    public var marker: Swift.String?
+    /// The maximum number of domain conflicts to return.
+    public var maxItems: Swift.Int?
+
+    public init(
+        domain: Swift.String? = nil,
+        domainControlValidationResource: CloudFrontClientTypes.DistributionResourceId? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    ) {
+        self.domain = domain
+        self.domainControlValidationResource = domainControlValidationResource
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    public enum DistributionResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case distribution
+        case distributiontenant
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DistributionResourceType] {
+            return [
+                .distribution,
+                .distributiontenant
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .distribution: return "distribution"
+            case .distributiontenant: return "distribution-tenant"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// Contains information about the domain conflict. Use this information to determine the affected domain, the related resource, and the affected Amazon Web Services account.
+    public struct DomainConflict: Swift.Sendable {
+        /// The ID of the Amazon Web Services account for the domain conflict.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// The domain used to find existing conflicts for domain configurations.
+        /// This member is required.
+        public var domain: Swift.String?
+        /// The ID of the resource that has a domain conflict.
+        /// This member is required.
+        public var resourceId: Swift.String?
+        /// The CloudFront resource type that has a domain conflict.
+        /// This member is required.
+        public var resourceType: CloudFrontClientTypes.DistributionResourceType?
+
+        public init(
+            accountId: Swift.String? = nil,
+            domain: Swift.String? = nil,
+            resourceId: Swift.String? = nil,
+            resourceType: CloudFrontClientTypes.DistributionResourceType? = nil
+        ) {
+            self.accountId = accountId
+            self.domain = domain
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+    }
+}
+
+public struct ListDomainConflictsOutput: Swift.Sendable {
+    /// Contains details about the domain conflicts.
+    public var domainConflicts: [CloudFrontClientTypes.DomainConflict]?
+    /// A token used for pagination of results returned in the response. You can use the token from the previous request to define where the current request should begin.
+    public var nextMarker: Swift.String?
+
+    public init(
+        domainConflicts: [CloudFrontClientTypes.DomainConflict]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.domainConflicts = domainConflicts
+        self.nextMarker = nextMarker
     }
 }
 
@@ -11713,6 +13294,37 @@ extension CloudFrontClientTypes {
 /// The returned result of the corresponding request.
 public struct ListInvalidationsOutput: Swift.Sendable {
     /// Information about invalidation batches.
+    public var invalidationList: CloudFrontClientTypes.InvalidationList?
+
+    public init(
+        invalidationList: CloudFrontClientTypes.InvalidationList? = nil
+    ) {
+        self.invalidationList = invalidationList
+    }
+}
+
+public struct ListInvalidationsForDistributionTenantInput: Swift.Sendable {
+    /// The ID of the distribution tenant.
+    /// This member is required.
+    public var id: Swift.String?
+    /// Use this parameter when paginating results to indicate where to begin in your list of invalidation batches. Because the results are returned in decreasing order from most recent to oldest, the most recent results are on the first page, the second page will contain earlier results, and so on. To get the next page of results, set Marker to the value of the NextMarker from the current page's response. This value is the same as the ID of the last invalidation batch on that page.
+    public var marker: Swift.String?
+    /// The maximum number of invalidations to return for the distribution tenant.
+    public var maxItems: Swift.Int?
+
+    public init(
+        id: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    ) {
+        self.id = id
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+public struct ListInvalidationsForDistributionTenantOutput: Swift.Sendable {
+    /// The InvalidationList complex type describes the list of invalidation objects. For more information about invalidation, see [Invalidating Objects (Web Distributions Only)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html) in the Amazon CloudFront Developer Guide.
     public var invalidationList: CloudFrontClientTypes.InvalidationList?
 
     public init(
@@ -12864,6 +14476,50 @@ public struct UpdateCloudFrontOriginAccessIdentityOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateConnectionGroupInput: Swift.Sendable {
+    /// The ID of the Anycast static IP list.
+    public var anycastIpListId: Swift.String?
+    /// Whether the connection group is enabled.
+    public var enabled: Swift.Bool?
+    /// The ID of the connection group.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The value of the ETag header that you received when retrieving the connection group that you're updating.
+    /// This member is required.
+    public var ifMatch: Swift.String?
+    /// Enable IPv6 for the connection group. For more information, see [Enable IPv6](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesEnableIPv6) in the Amazon CloudFront Developer Guide.
+    public var ipv6Enabled: Swift.Bool?
+
+    public init(
+        anycastIpListId: Swift.String? = nil,
+        enabled: Swift.Bool? = nil,
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil,
+        ipv6Enabled: Swift.Bool? = nil
+    ) {
+        self.anycastIpListId = anycastIpListId
+        self.enabled = enabled
+        self.id = id
+        self.ifMatch = ifMatch
+        self.ipv6Enabled = ipv6Enabled
+    }
+}
+
+public struct UpdateConnectionGroupOutput: Swift.Sendable {
+    /// The connection group that you updated.
+    public var connectionGroup: CloudFrontClientTypes.ConnectionGroup?
+    /// The current version of the connection group.
+    public var eTag: Swift.String?
+
+    public init(
+        connectionGroup: CloudFrontClientTypes.ConnectionGroup? = nil,
+        eTag: Swift.String? = nil
+    ) {
+        self.connectionGroup = connectionGroup
+        self.eTag = eTag
+    }
+}
+
 public struct UpdateContinuousDeploymentPolicyInput: Swift.Sendable {
     /// The continuous deployment policy configuration.
     /// This member is required.
@@ -12938,6 +14594,66 @@ public struct UpdateDistributionOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateDistributionTenantInput: Swift.Sendable {
+    /// The ID of the target connection group.
+    public var connectionGroupId: Swift.String?
+    /// Customizations for the distribution tenant. For each distribution tenant, you can specify the geographic restrictions, and the Amazon Resource Names (ARNs) for the ACM certificate and WAF web ACL. These are specific values that you can override or disable from the multi-tenant distribution that was used to create the distribution tenant.
+    public var customizations: CloudFrontClientTypes.Customizations?
+    /// The ID for the multi-tenant distribution.
+    public var distributionId: Swift.String?
+    /// The domains to update for the distribution tenant. A domain object can contain only a domain property. You must specify at least one domain. Each distribution tenant can have up to 5 domains.
+    public var domains: [CloudFrontClientTypes.DomainItem]?
+    /// Indicates whether the distribution tenant should be updated to an enabled state. If you update the distribution tenant and it's not enabled, the distribution tenant won't serve traffic.
+    public var enabled: Swift.Bool?
+    /// The ID of the distribution tenant.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The value of the ETag header that you received when retrieving the distribution tenant to update. This value is returned in the response of the GetDistributionTenant API operation.
+    /// This member is required.
+    public var ifMatch: Swift.String?
+    /// An object that contains the CloudFront managed ACM certificate request.
+    public var managedCertificateRequest: CloudFrontClientTypes.ManagedCertificateRequest?
+    /// A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution.
+    public var parameters: [CloudFrontClientTypes.Parameter]?
+
+    public init(
+        connectionGroupId: Swift.String? = nil,
+        customizations: CloudFrontClientTypes.Customizations? = nil,
+        distributionId: Swift.String? = nil,
+        domains: [CloudFrontClientTypes.DomainItem]? = nil,
+        enabled: Swift.Bool? = nil,
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil,
+        managedCertificateRequest: CloudFrontClientTypes.ManagedCertificateRequest? = nil,
+        parameters: [CloudFrontClientTypes.Parameter]? = nil
+    ) {
+        self.connectionGroupId = connectionGroupId
+        self.customizations = customizations
+        self.distributionId = distributionId
+        self.domains = domains
+        self.enabled = enabled
+        self.id = id
+        self.ifMatch = ifMatch
+        self.managedCertificateRequest = managedCertificateRequest
+        self.parameters = parameters
+    }
+}
+
+public struct UpdateDistributionTenantOutput: Swift.Sendable {
+    /// The distribution tenant that you're updating.
+    public var distributionTenant: CloudFrontClientTypes.DistributionTenant?
+    /// The current version of the distribution tenant.
+    public var eTag: Swift.String?
+
+    public init(
+        distributionTenant: CloudFrontClientTypes.DistributionTenant? = nil,
+        eTag: Swift.String? = nil
+    ) {
+        self.distributionTenant = distributionTenant
+        self.eTag = eTag
+    }
+}
+
 public struct UpdateDistributionWithStagingConfigInput: Swift.Sendable {
     /// The identifier of the primary distribution to which you are copying a staging distribution's configuration.
     /// This member is required.
@@ -12970,6 +14686,46 @@ public struct UpdateDistributionWithStagingConfigOutput: Swift.Sendable {
     ) {
         self.distribution = distribution
         self.eTag = eTag
+    }
+}
+
+public struct UpdateDomainAssociationInput: Swift.Sendable {
+    /// The domain to update.
+    /// This member is required.
+    public var domain: Swift.String?
+    /// The value of the ETag identifier for the distribution or distribution tenant that will be associated with the domain.
+    public var ifMatch: Swift.String?
+    /// The target distribution resource for the domain. You can specify either DistributionId or DistributionTenantId, but not both.
+    /// This member is required.
+    public var targetResource: CloudFrontClientTypes.DistributionResourceId?
+
+    public init(
+        domain: Swift.String? = nil,
+        ifMatch: Swift.String? = nil,
+        targetResource: CloudFrontClientTypes.DistributionResourceId? = nil
+    ) {
+        self.domain = domain
+        self.ifMatch = ifMatch
+        self.targetResource = targetResource
+    }
+}
+
+public struct UpdateDomainAssociationOutput: Swift.Sendable {
+    /// The domain that you're moving.
+    public var domain: Swift.String?
+    /// The current version of the target distribution or distribution tenant that was associated with the domain.
+    public var eTag: Swift.String?
+    /// The intended destination for the domain.
+    public var resourceId: Swift.String?
+
+    public init(
+        domain: Swift.String? = nil,
+        eTag: Swift.String? = nil,
+        resourceId: Swift.String? = nil
+    ) {
+        self.domain = domain
+        self.eTag = eTag
+        self.resourceId = resourceId
     }
 }
 
@@ -13422,6 +15178,96 @@ public struct UpdateVpcOriginOutput: Swift.Sendable {
     }
 }
 
+public struct VerifyDnsConfigurationInput: Swift.Sendable {
+    /// The domain name that you're verifying.
+    public var domain: Swift.String?
+    /// The identifier of the distribution tenant. You can specify the ARN, ID, or name of the distribution tenant.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domain: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.domain = domain
+        self.identifier = identifier
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    public enum DnsConfigurationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case invalid
+        case unknown
+        case valid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DnsConfigurationStatus] {
+            return [
+                .invalid,
+                .unknown,
+                .valid
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .invalid: return "invalid-configuration"
+            case .unknown: return "unknown-configuration"
+            case .valid: return "valid-configuration"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// The DNS configuration for your domain names.
+    public struct DnsConfiguration: Swift.Sendable {
+        /// The domain name that you're verifying.
+        /// This member is required.
+        public var domain: Swift.String?
+        /// Explains the status of the DNS configuration.
+        public var reason: Swift.String?
+        /// The status of your domain name.
+        ///
+        /// * valid-configuration: The domain name is correctly configured and points to the correct routing endpoint of the connection group.
+        ///
+        /// * invalid-configuration: There is either a missing DNS record or the DNS record exists but it's using an incorrect routing endpoint. Update the DNS record to point to the correct routing endpoint.
+        ///
+        /// * unknown-configuration: CloudFront can't validate your DNS configuration. This status can appear if CloudFront can't verify the DNS record, or the DNS lookup request failed or timed out.
+        /// This member is required.
+        public var status: CloudFrontClientTypes.DnsConfigurationStatus?
+
+        public init(
+            domain: Swift.String? = nil,
+            reason: Swift.String? = nil,
+            status: CloudFrontClientTypes.DnsConfigurationStatus? = nil
+        ) {
+            self.domain = domain
+            self.reason = reason
+            self.status = status
+        }
+    }
+}
+
+public struct VerifyDnsConfigurationOutput: Swift.Sendable {
+    /// The list of domain names, their statuses, and a description of each status.
+    public var dnsConfigurationList: [CloudFrontClientTypes.DnsConfiguration]?
+
+    public init(
+        dnsConfigurationList: [CloudFrontClientTypes.DnsConfiguration]? = nil
+    ) {
+        self.dnsConfigurationList = dnsConfigurationList
+    }
+}
+
 extension AssociateAliasInput {
 
     static func urlPathProvider(_ value: AssociateAliasInput) -> Swift.String? {
@@ -13442,6 +15288,48 @@ extension AssociateAliasInput {
         }
         let aliasQueryItem = Smithy.URIQueryItem(name: "Alias".urlPercentEncoding(), value: Swift.String(alias).urlPercentEncoding())
         items.append(aliasQueryItem)
+        return items
+    }
+}
+
+extension AssociateDistributionTenantWebACLInput {
+
+    static func urlPathProvider(_ value: AssociateDistributionTenantWebACLInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/distribution-tenant/\(id.urlPercentEncoding())/associate-web-acl"
+    }
+}
+
+extension AssociateDistributionTenantWebACLInput {
+
+    static func headerProvider(_ value: AssociateDistributionTenantWebACLInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        return items
+    }
+}
+
+extension AssociateDistributionWebACLInput {
+
+    static func urlPathProvider(_ value: AssociateDistributionWebACLInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/distribution/\(id.urlPercentEncoding())/associate-web-acl"
+    }
+}
+
+extension AssociateDistributionWebACLInput {
+
+    static func headerProvider(_ value: AssociateDistributionWebACLInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
         return items
     }
 }
@@ -13491,6 +15379,13 @@ extension CreateCloudFrontOriginAccessIdentityInput {
     }
 }
 
+extension CreateConnectionGroupInput {
+
+    static func urlPathProvider(_ value: CreateConnectionGroupInput) -> Swift.String? {
+        return "/2020-05-31/connection-group"
+    }
+}
+
 extension CreateContinuousDeploymentPolicyInput {
 
     static func urlPathProvider(_ value: CreateContinuousDeploymentPolicyInput) -> Swift.String? {
@@ -13502,6 +15397,13 @@ extension CreateDistributionInput {
 
     static func urlPathProvider(_ value: CreateDistributionInput) -> Swift.String? {
         return "/2020-05-31/distribution"
+    }
+}
+
+extension CreateDistributionTenantInput {
+
+    static func urlPathProvider(_ value: CreateDistributionTenantInput) -> Swift.String? {
+        return "/2020-05-31/distribution-tenant"
     }
 }
 
@@ -13549,6 +15451,16 @@ extension CreateInvalidationInput {
             return nil
         }
         return "/2020-05-31/distribution/\(distributionId.urlPercentEncoding())/invalidation"
+    }
+}
+
+extension CreateInvalidationForDistributionTenantInput {
+
+    static func urlPathProvider(_ value: CreateInvalidationForDistributionTenantInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/distribution-tenant/\(id.urlPercentEncoding())/invalidation"
     }
 }
 
@@ -13704,6 +15616,27 @@ extension DeleteCloudFrontOriginAccessIdentityInput {
     }
 }
 
+extension DeleteConnectionGroupInput {
+
+    static func urlPathProvider(_ value: DeleteConnectionGroupInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/connection-group/\(id.urlPercentEncoding())"
+    }
+}
+
+extension DeleteConnectionGroupInput {
+
+    static func headerProvider(_ value: DeleteConnectionGroupInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        return items
+    }
+}
+
 extension DeleteContinuousDeploymentPolicyInput {
 
     static func urlPathProvider(_ value: DeleteContinuousDeploymentPolicyInput) -> Swift.String? {
@@ -13738,6 +15671,27 @@ extension DeleteDistributionInput {
 extension DeleteDistributionInput {
 
     static func headerProvider(_ value: DeleteDistributionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        return items
+    }
+}
+
+extension DeleteDistributionTenantInput {
+
+    static func urlPathProvider(_ value: DeleteDistributionTenantInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/distribution-tenant/\(id.urlPercentEncoding())"
+    }
+}
+
+extension DeleteDistributionTenantInput {
+
+    static func headerProvider(_ value: DeleteDistributionTenantInput) -> SmithyHTTPAPI.Headers {
         var items = SmithyHTTPAPI.Headers()
         if let ifMatch = value.ifMatch {
             items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
@@ -14026,6 +15980,48 @@ extension DescribeKeyValueStoreInput {
     }
 }
 
+extension DisassociateDistributionTenantWebACLInput {
+
+    static func urlPathProvider(_ value: DisassociateDistributionTenantWebACLInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/distribution-tenant/\(id.urlPercentEncoding())/disassociate-web-acl"
+    }
+}
+
+extension DisassociateDistributionTenantWebACLInput {
+
+    static func headerProvider(_ value: DisassociateDistributionTenantWebACLInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        return items
+    }
+}
+
+extension DisassociateDistributionWebACLInput {
+
+    static func urlPathProvider(_ value: DisassociateDistributionWebACLInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/distribution/\(id.urlPercentEncoding())/disassociate-web-acl"
+    }
+}
+
+extension DisassociateDistributionWebACLInput {
+
+    static func headerProvider(_ value: DisassociateDistributionWebACLInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        return items
+    }
+}
+
 extension GetAnycastIpListInput {
 
     static func urlPathProvider(_ value: GetAnycastIpListInput) -> Swift.String? {
@@ -14076,6 +16072,37 @@ extension GetCloudFrontOriginAccessIdentityConfigInput {
     }
 }
 
+extension GetConnectionGroupInput {
+
+    static func urlPathProvider(_ value: GetConnectionGroupInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/2020-05-31/connection-group/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension GetConnectionGroupByRoutingEndpointInput {
+
+    static func urlPathProvider(_ value: GetConnectionGroupByRoutingEndpointInput) -> Swift.String? {
+        return "/2020-05-31/connection-group"
+    }
+}
+
+extension GetConnectionGroupByRoutingEndpointInput {
+
+    static func queryItemProvider(_ value: GetConnectionGroupByRoutingEndpointInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let routingEndpoint = value.routingEndpoint else {
+            let message = "Creating a URL Query Item failed. routingEndpoint is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let routingEndpointQueryItem = Smithy.URIQueryItem(name: "RoutingEndpoint".urlPercentEncoding(), value: Swift.String(routingEndpoint).urlPercentEncoding())
+        items.append(routingEndpointQueryItem)
+        return items
+    }
+}
+
 extension GetContinuousDeploymentPolicyInput {
 
     static func urlPathProvider(_ value: GetContinuousDeploymentPolicyInput) -> Swift.String? {
@@ -14113,6 +16140,37 @@ extension GetDistributionConfigInput {
             return nil
         }
         return "/2020-05-31/distribution/\(id.urlPercentEncoding())/config"
+    }
+}
+
+extension GetDistributionTenantInput {
+
+    static func urlPathProvider(_ value: GetDistributionTenantInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/2020-05-31/distribution-tenant/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension GetDistributionTenantByDomainInput {
+
+    static func urlPathProvider(_ value: GetDistributionTenantByDomainInput) -> Swift.String? {
+        return "/2020-05-31/distribution-tenant"
+    }
+}
+
+extension GetDistributionTenantByDomainInput {
+
+    static func queryItemProvider(_ value: GetDistributionTenantByDomainInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let domainQueryItem = Smithy.URIQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        return items
     }
 }
 
@@ -14191,6 +16249,19 @@ extension GetInvalidationInput {
     }
 }
 
+extension GetInvalidationForDistributionTenantInput {
+
+    static func urlPathProvider(_ value: GetInvalidationForDistributionTenantInput) -> Swift.String? {
+        guard let distributionTenantId = value.distributionTenantId else {
+            return nil
+        }
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/distribution-tenant/\(distributionTenantId.urlPercentEncoding())/invalidation/\(id.urlPercentEncoding())"
+    }
+}
+
 extension GetKeyGroupInput {
 
     static func urlPathProvider(_ value: GetKeyGroupInput) -> Swift.String? {
@@ -14208,6 +16279,16 @@ extension GetKeyGroupConfigInput {
             return nil
         }
         return "/2020-05-31/key-group/\(id.urlPercentEncoding())/config"
+    }
+}
+
+extension GetManagedCertificateDetailsInput {
+
+    static func urlPathProvider(_ value: GetManagedCertificateDetailsInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/2020-05-31/managed-certificate/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -14446,6 +16527,13 @@ extension ListConflictingAliasesInput {
     }
 }
 
+extension ListConnectionGroupsInput {
+
+    static func urlPathProvider(_ value: ListConnectionGroupsInput) -> Swift.String? {
+        return "/2020-05-31/connection-groups"
+    }
+}
+
 extension ListContinuousDeploymentPoliciesInput {
 
     static func urlPathProvider(_ value: ListContinuousDeploymentPoliciesInput) -> Swift.String? {
@@ -14531,6 +16619,32 @@ extension ListDistributionsByCachePolicyIdInput {
 extension ListDistributionsByCachePolicyIdInput {
 
     static func queryItemProvider(_ value: ListDistributionsByCachePolicyIdInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = Smithy.URIQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListDistributionsByConnectionModeInput {
+
+    static func urlPathProvider(_ value: ListDistributionsByConnectionModeInput) -> Swift.String? {
+        guard let connectionMode = value.connectionMode else {
+            return nil
+        }
+        return "/2020-05-31/distributionsByConnectionMode/\(connectionMode.rawValue.urlPercentEncoding())"
+    }
+}
+
+extension ListDistributionsByConnectionModeInput {
+
+    static func queryItemProvider(_ value: ListDistributionsByConnectionModeInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let marker = value.marker {
             let markerQueryItem = Smithy.URIQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
@@ -14681,6 +16795,27 @@ extension ListDistributionsByWebACLIdInput {
     }
 }
 
+extension ListDistributionTenantsInput {
+
+    static func urlPathProvider(_ value: ListDistributionTenantsInput) -> Swift.String? {
+        return "/2020-05-31/distribution-tenants"
+    }
+}
+
+extension ListDistributionTenantsByCustomizationInput {
+
+    static func urlPathProvider(_ value: ListDistributionTenantsByCustomizationInput) -> Swift.String? {
+        return "/2020-05-31/distribution-tenants-by-customization"
+    }
+}
+
+extension ListDomainConflictsInput {
+
+    static func urlPathProvider(_ value: ListDomainConflictsInput) -> Swift.String? {
+        return "/2020-05-31/domain-conflicts"
+    }
+}
+
 extension ListFieldLevelEncryptionConfigsInput {
 
     static func urlPathProvider(_ value: ListFieldLevelEncryptionConfigsInput) -> Swift.String? {
@@ -14767,6 +16902,32 @@ extension ListInvalidationsInput {
 extension ListInvalidationsInput {
 
     static func queryItemProvider(_ value: ListInvalidationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = Smithy.URIQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListInvalidationsForDistributionTenantInput {
+
+    static func urlPathProvider(_ value: ListInvalidationsForDistributionTenantInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/distribution-tenant/\(id.urlPercentEncoding())/invalidation"
+    }
+}
+
+extension ListInvalidationsForDistributionTenantInput {
+
+    static func queryItemProvider(_ value: ListInvalidationsForDistributionTenantInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let marker = value.marker {
             let markerQueryItem = Smithy.URIQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
@@ -15148,6 +17309,27 @@ extension UpdateCloudFrontOriginAccessIdentityInput {
     }
 }
 
+extension UpdateConnectionGroupInput {
+
+    static func urlPathProvider(_ value: UpdateConnectionGroupInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/connection-group/\(id.urlPercentEncoding())"
+    }
+}
+
+extension UpdateConnectionGroupInput {
+
+    static func headerProvider(_ value: UpdateConnectionGroupInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        return items
+    }
+}
+
 extension UpdateContinuousDeploymentPolicyInput {
 
     static func urlPathProvider(_ value: UpdateContinuousDeploymentPolicyInput) -> Swift.String? {
@@ -15190,6 +17372,27 @@ extension UpdateDistributionInput {
     }
 }
 
+extension UpdateDistributionTenantInput {
+
+    static func urlPathProvider(_ value: UpdateDistributionTenantInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/distribution-tenant/\(id.urlPercentEncoding())"
+    }
+}
+
+extension UpdateDistributionTenantInput {
+
+    static func headerProvider(_ value: UpdateDistributionTenantInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
+        return items
+    }
+}
+
 extension UpdateDistributionWithStagingConfigInput {
 
     static func urlPathProvider(_ value: UpdateDistributionWithStagingConfigInput) -> Swift.String? {
@@ -15218,6 +17421,24 @@ extension UpdateDistributionWithStagingConfigInput {
         if let stagingDistributionId = value.stagingDistributionId {
             let stagingDistributionIdQueryItem = Smithy.URIQueryItem(name: "StagingDistributionId".urlPercentEncoding(), value: Swift.String(stagingDistributionId).urlPercentEncoding())
             items.append(stagingDistributionIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension UpdateDomainAssociationInput {
+
+    static func urlPathProvider(_ value: UpdateDomainAssociationInput) -> Swift.String? {
+        return "/2020-05-31/domain-association"
+    }
+}
+
+extension UpdateDomainAssociationInput {
+
+    static func headerProvider(_ value: UpdateDomainAssociationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
         }
         return items
     }
@@ -15461,6 +17682,29 @@ extension UpdateVpcOriginInput {
     }
 }
 
+extension VerifyDnsConfigurationInput {
+
+    static func urlPathProvider(_ value: VerifyDnsConfigurationInput) -> Swift.String? {
+        return "/2020-05-31/verify-dns-configuration"
+    }
+}
+
+extension AssociateDistributionTenantWebACLInput {
+
+    static func write(value: AssociateDistributionTenantWebACLInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["WebACLArn"].write(value.webACLArn)
+    }
+}
+
+extension AssociateDistributionWebACLInput {
+
+    static func write(value: AssociateDistributionWebACLInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["WebACLArn"].write(value.webACLArn)
+    }
+}
+
 extension CopyDistributionInput {
 
     static func write(value: CopyDistributionInput?, to writer: SmithyXML.Writer) throws {
@@ -15496,6 +17740,18 @@ extension CreateCloudFrontOriginAccessIdentityInput {
     }
 }
 
+extension CreateConnectionGroupInput {
+
+    static func write(value: CreateConnectionGroupInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AnycastIpListId"].write(value.anycastIpListId)
+        try writer["Enabled"].write(value.enabled)
+        try writer["Ipv6Enabled"].write(value.ipv6Enabled)
+        try writer["Name"].write(value.name)
+        try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
+    }
+}
+
 extension CreateContinuousDeploymentPolicyInput {
 
     static func write(value: CreateContinuousDeploymentPolicyInput?, to writer: SmithyXML.Writer) throws {
@@ -15509,6 +17765,22 @@ extension CreateDistributionInput {
     static func write(value: CreateDistributionInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["DistributionConfig"].write(value.distributionConfig, with: CloudFrontClientTypes.DistributionConfig.write(value:to:))
+    }
+}
+
+extension CreateDistributionTenantInput {
+
+    static func write(value: CreateDistributionTenantInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionGroupId"].write(value.connectionGroupId)
+        try writer["Customizations"].write(value.customizations, with: CloudFrontClientTypes.Customizations.write(value:to:))
+        try writer["DistributionId"].write(value.distributionId)
+        try writer["Domains"].writeList(value.domains, memberWritingClosure: CloudFrontClientTypes.DomainItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Enabled"].write(value.enabled)
+        try writer["ManagedCertificateRequest"].write(value.managedCertificateRequest, with: CloudFrontClientTypes.ManagedCertificateRequest.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["Parameters"].writeList(value.parameters, memberWritingClosure: CloudFrontClientTypes.Parameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
     }
 }
 
@@ -15549,6 +17821,14 @@ extension CreateFunctionInput {
 extension CreateInvalidationInput {
 
     static func write(value: CreateInvalidationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["InvalidationBatch"].write(value.invalidationBatch, with: CloudFrontClientTypes.InvalidationBatch.write(value:to:))
+    }
+}
+
+extension CreateInvalidationForDistributionTenantInput {
+
+    static func write(value: CreateInvalidationForDistributionTenantInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["InvalidationBatch"].write(value.invalidationBatch, with: CloudFrontClientTypes.InvalidationBatch.write(value:to:))
     }
@@ -15666,6 +17946,16 @@ extension GetRealtimeLogConfigInput {
     }
 }
 
+extension ListConnectionGroupsInput {
+
+    static func write(value: ListConnectionGroupsInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AssociationFilter"].write(value.associationFilter, with: CloudFrontClientTypes.ConnectionGroupAssociationFilter.write(value:to:))
+        try writer["Marker"].write(value.marker)
+        try writer["MaxItems"].write(value.maxItems)
+    }
+}
+
 extension ListDistributionsByRealtimeLogConfigInput {
 
     static func write(value: ListDistributionsByRealtimeLogConfigInput?, to writer: SmithyXML.Writer) throws {
@@ -15674,6 +17964,38 @@ extension ListDistributionsByRealtimeLogConfigInput {
         try writer["MaxItems"].write(value.maxItems)
         try writer["RealtimeLogConfigArn"].write(value.realtimeLogConfigArn)
         try writer["RealtimeLogConfigName"].write(value.realtimeLogConfigName)
+    }
+}
+
+extension ListDistributionTenantsInput {
+
+    static func write(value: ListDistributionTenantsInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AssociationFilter"].write(value.associationFilter, with: CloudFrontClientTypes.DistributionTenantAssociationFilter.write(value:to:))
+        try writer["Marker"].write(value.marker)
+        try writer["MaxItems"].write(value.maxItems)
+    }
+}
+
+extension ListDistributionTenantsByCustomizationInput {
+
+    static func write(value: ListDistributionTenantsByCustomizationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateArn"].write(value.certificateArn)
+        try writer["Marker"].write(value.marker)
+        try writer["MaxItems"].write(value.maxItems)
+        try writer["WebACLArn"].write(value.webACLArn)
+    }
+}
+
+extension ListDomainConflictsInput {
+
+    static func write(value: ListDomainConflictsInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Domain"].write(value.domain)
+        try writer["DomainControlValidationResource"].write(value.domainControlValidationResource, with: CloudFrontClientTypes.DistributionResourceId.write(value:to:))
+        try writer["Marker"].write(value.marker)
+        try writer["MaxItems"].write(value.maxItems)
     }
 }
 
@@ -15718,6 +18040,16 @@ extension UpdateCloudFrontOriginAccessIdentityInput {
     }
 }
 
+extension UpdateConnectionGroupInput {
+
+    static func write(value: UpdateConnectionGroupInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AnycastIpListId"].write(value.anycastIpListId)
+        try writer["Enabled"].write(value.enabled)
+        try writer["Ipv6Enabled"].write(value.ipv6Enabled)
+    }
+}
+
 extension UpdateContinuousDeploymentPolicyInput {
 
     static func write(value: UpdateContinuousDeploymentPolicyInput?, to writer: SmithyXML.Writer) throws {
@@ -15731,6 +18063,29 @@ extension UpdateDistributionInput {
     static func write(value: UpdateDistributionInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["DistributionConfig"].write(value.distributionConfig, with: CloudFrontClientTypes.DistributionConfig.write(value:to:))
+    }
+}
+
+extension UpdateDistributionTenantInput {
+
+    static func write(value: UpdateDistributionTenantInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionGroupId"].write(value.connectionGroupId)
+        try writer["Customizations"].write(value.customizations, with: CloudFrontClientTypes.Customizations.write(value:to:))
+        try writer["DistributionId"].write(value.distributionId)
+        try writer["Domains"].writeList(value.domains, memberWritingClosure: CloudFrontClientTypes.DomainItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Enabled"].write(value.enabled)
+        try writer["ManagedCertificateRequest"].write(value.managedCertificateRequest, with: CloudFrontClientTypes.ManagedCertificateRequest.write(value:to:))
+        try writer["Parameters"].writeList(value.parameters, memberWritingClosure: CloudFrontClientTypes.Parameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateDomainAssociationInput {
+
+    static func write(value: UpdateDomainAssociationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Domain"].write(value.domain)
+        try writer["TargetResource"].write(value.targetResource, with: CloudFrontClientTypes.DistributionResourceId.write(value:to:))
     }
 }
 
@@ -15835,10 +18190,51 @@ extension UpdateVpcOriginInput {
     }
 }
 
+extension VerifyDnsConfigurationInput {
+
+    static func write(value: VerifyDnsConfigurationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Domain"].write(value.domain)
+        try writer["Identifier"].write(value.identifier)
+    }
+}
+
 extension AssociateAliasOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateAliasOutput {
         return AssociateAliasOutput()
+    }
+}
+
+extension AssociateDistributionTenantWebACLOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateDistributionTenantWebACLOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociateDistributionTenantWebACLOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.id = try reader["Id"].readIfPresent()
+        value.webACLArn = try reader["WebACLArn"].readIfPresent()
+        return value
+    }
+}
+
+extension AssociateDistributionWebACLOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateDistributionWebACLOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociateDistributionWebACLOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.id = try reader["Id"].readIfPresent()
+        value.webACLArn = try reader["WebACLArn"].readIfPresent()
+        return value
     }
 }
 
@@ -15911,6 +18307,21 @@ extension CreateCloudFrontOriginAccessIdentityOutput {
     }
 }
 
+extension CreateConnectionGroupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateConnectionGroupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateConnectionGroupOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.connectionGroup = try reader.readIfPresent(with: CloudFrontClientTypes.ConnectionGroup.read(from:))
+        return value
+    }
+}
+
 extension CreateContinuousDeploymentPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateContinuousDeploymentPolicyOutput {
@@ -15943,6 +18354,21 @@ extension CreateDistributionOutput {
             value.location = locationHeaderValue
         }
         value.distribution = try reader.readIfPresent(with: CloudFrontClientTypes.Distribution.read(from:))
+        return value
+    }
+}
+
+extension CreateDistributionTenantOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDistributionTenantOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDistributionTenantOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.distributionTenant = try reader.readIfPresent(with: CloudFrontClientTypes.DistributionTenant.read(from:))
         return value
     }
 }
@@ -16026,6 +18452,21 @@ extension CreateInvalidationOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
         var value = CreateInvalidationOutput()
+        if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
+            value.location = locationHeaderValue
+        }
+        value.invalidation = try reader.readIfPresent(with: CloudFrontClientTypes.Invalidation.read(from:))
+        return value
+    }
+}
+
+extension CreateInvalidationForDistributionTenantOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateInvalidationForDistributionTenantOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateInvalidationForDistributionTenantOutput()
         if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
             value.location = locationHeaderValue
         }
@@ -16241,6 +18682,13 @@ extension DeleteCloudFrontOriginAccessIdentityOutput {
     }
 }
 
+extension DeleteConnectionGroupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConnectionGroupOutput {
+        return DeleteConnectionGroupOutput()
+    }
+}
+
 extension DeleteContinuousDeploymentPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteContinuousDeploymentPolicyOutput {
@@ -16252,6 +18700,13 @@ extension DeleteDistributionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDistributionOutput {
         return DeleteDistributionOutput()
+    }
+}
+
+extension DeleteDistributionTenantOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDistributionTenantOutput {
+        return DeleteDistributionTenantOutput()
     }
 }
 
@@ -16384,6 +18839,36 @@ extension DescribeKeyValueStoreOutput {
     }
 }
 
+extension DisassociateDistributionTenantWebACLOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateDistributionTenantWebACLOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DisassociateDistributionTenantWebACLOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.id = try reader["Id"].readIfPresent()
+        return value
+    }
+}
+
+extension DisassociateDistributionWebACLOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateDistributionWebACLOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = DisassociateDistributionWebACLOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.id = try reader["Id"].readIfPresent()
+        return value
+    }
+}
+
 extension GetAnycastIpListOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAnycastIpListOutput {
@@ -16459,6 +18944,36 @@ extension GetCloudFrontOriginAccessIdentityConfigOutput {
     }
 }
 
+extension GetConnectionGroupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetConnectionGroupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetConnectionGroupOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.connectionGroup = try reader.readIfPresent(with: CloudFrontClientTypes.ConnectionGroup.read(from:))
+        return value
+    }
+}
+
+extension GetConnectionGroupByRoutingEndpointOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetConnectionGroupByRoutingEndpointOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetConnectionGroupByRoutingEndpointOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.connectionGroup = try reader.readIfPresent(with: CloudFrontClientTypes.ConnectionGroup.read(from:))
+        return value
+    }
+}
+
 extension GetContinuousDeploymentPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetContinuousDeploymentPolicyOutput {
@@ -16515,6 +19030,36 @@ extension GetDistributionConfigOutput {
             value.eTag = eTagHeaderValue
         }
         value.distributionConfig = try reader.readIfPresent(with: CloudFrontClientTypes.DistributionConfig.read(from:))
+        return value
+    }
+}
+
+extension GetDistributionTenantOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDistributionTenantOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDistributionTenantOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.distributionTenant = try reader.readIfPresent(with: CloudFrontClientTypes.DistributionTenant.read(from:))
+        return value
+    }
+}
+
+extension GetDistributionTenantByDomainOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDistributionTenantByDomainOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDistributionTenantByDomainOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.distributionTenant = try reader.readIfPresent(with: CloudFrontClientTypes.DistributionTenant.read(from:))
         return value
     }
 }
@@ -16613,6 +19158,18 @@ extension GetInvalidationOutput {
     }
 }
 
+extension GetInvalidationForDistributionTenantOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetInvalidationForDistributionTenantOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetInvalidationForDistributionTenantOutput()
+        value.invalidation = try reader.readIfPresent(with: CloudFrontClientTypes.Invalidation.read(from:))
+        return value
+    }
+}
+
 extension GetKeyGroupOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetKeyGroupOutput {
@@ -16639,6 +19196,18 @@ extension GetKeyGroupConfigOutput {
             value.eTag = eTagHeaderValue
         }
         value.keyGroupConfig = try reader.readIfPresent(with: CloudFrontClientTypes.KeyGroupConfig.read(from:))
+        return value
+    }
+}
+
+extension GetManagedCertificateDetailsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetManagedCertificateDetailsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetManagedCertificateDetailsOutput()
+        value.managedCertificateDetails = try reader.readIfPresent(with: CloudFrontClientTypes.ManagedCertificateDetails.read(from:))
         return value
     }
 }
@@ -16880,6 +19449,19 @@ extension ListConflictingAliasesOutput {
     }
 }
 
+extension ListConnectionGroupsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConnectionGroupsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListConnectionGroupsOutput()
+        value.connectionGroups = try reader["ConnectionGroups"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.ConnectionGroupSummary.read(from:), memberNodeInfo: "ConnectionGroupSummary", isFlattened: false)
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        return value
+    }
+}
+
 extension ListContinuousDeploymentPoliciesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListContinuousDeploymentPoliciesOutput {
@@ -16924,6 +19506,18 @@ extension ListDistributionsByCachePolicyIdOutput {
         let reader = responseReader
         var value = ListDistributionsByCachePolicyIdOutput()
         value.distributionIdList = try reader.readIfPresent(with: CloudFrontClientTypes.DistributionIdList.read(from:))
+        return value
+    }
+}
+
+extension ListDistributionsByConnectionModeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDistributionsByConnectionModeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDistributionsByConnectionModeOutput()
+        value.distributionList = try reader.readIfPresent(with: CloudFrontClientTypes.DistributionList.read(from:))
         return value
     }
 }
@@ -17000,6 +19594,45 @@ extension ListDistributionsByWebACLIdOutput {
     }
 }
 
+extension ListDistributionTenantsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDistributionTenantsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDistributionTenantsOutput()
+        value.distributionTenantList = try reader["DistributionTenantList"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.DistributionTenantSummary.read(from:), memberNodeInfo: "DistributionTenantSummary", isFlattened: false)
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDistributionTenantsByCustomizationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDistributionTenantsByCustomizationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDistributionTenantsByCustomizationOutput()
+        value.distributionTenantList = try reader["DistributionTenantList"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.DistributionTenantSummary.read(from:), memberNodeInfo: "DistributionTenantSummary", isFlattened: false)
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDomainConflictsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDomainConflictsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDomainConflictsOutput()
+        value.domainConflicts = try reader["DomainConflicts"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.DomainConflict.read(from:), memberNodeInfo: "DomainConflicts", isFlattened: false)
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        return value
+    }
+}
+
 extension ListFieldLevelEncryptionConfigsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListFieldLevelEncryptionConfigsOutput {
@@ -17043,6 +19676,18 @@ extension ListInvalidationsOutput {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let reader = responseReader
         var value = ListInvalidationsOutput()
+        value.invalidationList = try reader.readIfPresent(with: CloudFrontClientTypes.InvalidationList.read(from:))
+        return value
+    }
+}
+
+extension ListInvalidationsForDistributionTenantOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListInvalidationsForDistributionTenantOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListInvalidationsForDistributionTenantOutput()
         value.invalidationList = try reader.readIfPresent(with: CloudFrontClientTypes.InvalidationList.read(from:))
         return value
     }
@@ -17236,6 +19881,21 @@ extension UpdateCloudFrontOriginAccessIdentityOutput {
     }
 }
 
+extension UpdateConnectionGroupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateConnectionGroupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateConnectionGroupOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.connectionGroup = try reader.readIfPresent(with: CloudFrontClientTypes.ConnectionGroup.read(from:))
+        return value
+    }
+}
+
 extension UpdateContinuousDeploymentPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateContinuousDeploymentPolicyOutput {
@@ -17266,6 +19926,21 @@ extension UpdateDistributionOutput {
     }
 }
 
+extension UpdateDistributionTenantOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDistributionTenantOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDistributionTenantOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.distributionTenant = try reader.readIfPresent(with: CloudFrontClientTypes.DistributionTenant.read(from:))
+        return value
+    }
+}
+
 extension UpdateDistributionWithStagingConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDistributionWithStagingConfigOutput {
@@ -17277,6 +19952,22 @@ extension UpdateDistributionWithStagingConfigOutput {
             value.eTag = eTagHeaderValue
         }
         value.distribution = try reader.readIfPresent(with: CloudFrontClientTypes.Distribution.read(from:))
+        return value
+    }
+}
+
+extension UpdateDomainAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDomainAssociationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDomainAssociationOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.domain = try reader["Domain"].readIfPresent()
+        value.resourceId = try reader["ResourceId"].readIfPresent()
         return value
     }
 }
@@ -17458,6 +20149,18 @@ extension UpdateVpcOriginOutput {
     }
 }
 
+extension VerifyDnsConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> VerifyDnsConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = VerifyDnsConfigurationOutput()
+        value.dnsConfigurationList = try reader["DnsConfigurationList"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.DnsConfiguration.read(from:), memberNodeInfo: "DnsConfiguration", isFlattened: false)
+        return value
+    }
+}
+
 enum AssociateAliasOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -17471,6 +20174,42 @@ enum AssociateAliasOutputError {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
             case "NoSuchDistribution": return try NoSuchDistribution.makeError(baseError: baseError)
             case "TooManyDistributionCNAMEs": return try TooManyDistributionCNAMEs.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AssociateDistributionTenantWebACLOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AssociateDistributionWebACLOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -17611,6 +20350,25 @@ enum CreateCloudFrontOriginAccessIdentityOutputError {
     }
 }
 
+enum CreateConnectionGroupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityAlreadyExists": return try EntityAlreadyExists.makeError(baseError: baseError)
+            case "EntityLimitExceeded": return try EntityLimitExceeded.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidTagging": return try InvalidTagging.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateContinuousDeploymentPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -17642,6 +20400,7 @@ enum CreateDistributionOutputError {
             case "CNAMEAlreadyExists": return try CNAMEAlreadyExists.makeError(baseError: baseError)
             case "ContinuousDeploymentPolicyInUse": return try ContinuousDeploymentPolicyInUse.makeError(baseError: baseError)
             case "DistributionAlreadyExists": return try DistributionAlreadyExists.makeError(baseError: baseError)
+            case "EntityLimitExceeded": return try EntityLimitExceeded.makeError(baseError: baseError)
             case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
             case "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior": return try IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior.makeError(baseError: baseError)
             case "IllegalOriginAccessConfiguration": return try IllegalOriginAccessConfiguration.makeError(baseError: baseError)
@@ -17704,6 +20463,27 @@ enum CreateDistributionOutputError {
             case "TooManyTrustedSigners": return try TooManyTrustedSigners.makeError(baseError: baseError)
             case "TrustedKeyGroupDoesNotExist": return try TrustedKeyGroupDoesNotExist.makeError(baseError: baseError)
             case "TrustedSignerDoesNotExist": return try TrustedSignerDoesNotExist.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateDistributionTenantOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "CNAMEAlreadyExists": return try CNAMEAlreadyExists.makeError(baseError: baseError)
+            case "EntityAlreadyExists": return try EntityAlreadyExists.makeError(baseError: baseError)
+            case "EntityLimitExceeded": return try EntityLimitExceeded.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidAssociation": return try InvalidAssociation.makeError(baseError: baseError)
+            case "InvalidTagging": return try InvalidTagging.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -17863,6 +20643,26 @@ enum CreateInvalidationOutputError {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
             case "MissingBody": return try MissingBody.makeError(baseError: baseError)
             case "NoSuchDistribution": return try NoSuchDistribution.makeError(baseError: baseError)
+            case "TooManyInvalidationsInProgress": return try TooManyInvalidationsInProgress.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateInvalidationForDistributionTenantOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "BatchTooLarge": return try BatchTooLarge.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InconsistentQuantities": return try InconsistentQuantities.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "MissingBody": return try MissingBody.makeError(baseError: baseError)
             case "TooManyInvalidationsInProgress": return try TooManyInvalidationsInProgress.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -18144,6 +20944,25 @@ enum DeleteCloudFrontOriginAccessIdentityOutputError {
     }
 }
 
+enum DeleteConnectionGroupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "CannotDeleteEntityWhileInUse": return try CannotDeleteEntityWhileInUse.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            case "ResourceNotDisabled": return try ResourceNotDisabled.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteContinuousDeploymentPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -18176,6 +20995,25 @@ enum DeleteDistributionOutputError {
             case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
             case "NoSuchDistribution": return try NoSuchDistribution.makeError(baseError: baseError)
             case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            case "ResourceInUse": return try ResourceInUse.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDistributionTenantOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            case "ResourceNotDisabled": return try ResourceNotDisabled.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -18450,6 +21288,42 @@ enum DescribeKeyValueStoreOutputError {
     }
 }
 
+enum DisassociateDistributionTenantWebACLOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DisassociateDistributionWebACLOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetAnycastIpListOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -18527,6 +21401,36 @@ enum GetCloudFrontOriginAccessIdentityConfigOutputError {
     }
 }
 
+enum GetConnectionGroupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetConnectionGroupByRoutingEndpointOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetContinuousDeploymentPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -18582,6 +21486,36 @@ enum GetDistributionConfigOutputError {
         switch baseError.code {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
             case "NoSuchDistribution": return try NoSuchDistribution.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDistributionTenantOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDistributionTenantByDomainOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -18678,6 +21612,22 @@ enum GetInvalidationOutputError {
     }
 }
 
+enum GetInvalidationForDistributionTenantOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "NoSuchInvalidation": return try NoSuchInvalidation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetKeyGroupOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -18701,6 +21651,21 @@ enum GetKeyGroupConfigOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "NoSuchResource": return try NoSuchResource.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetManagedCertificateDetailsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -18968,6 +21933,22 @@ enum ListConflictingAliasesOutputError {
     }
 }
 
+enum ListConnectionGroupsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListContinuousDeploymentPoliciesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -19026,6 +22007,21 @@ enum ListDistributionsByCachePolicyIdOutputError {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
             case "NoSuchCachePolicy": return try NoSuchCachePolicy.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDistributionsByConnectionModeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -19124,6 +22120,54 @@ enum ListDistributionsByWebACLIdOutputError {
     }
 }
 
+enum ListDistributionTenantsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDistributionTenantsByCustomizationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDomainConflictsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListFieldLevelEncryptionConfigsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -19178,6 +22222,22 @@ enum ListInvalidationsOutputError {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
             case "NoSuchDistribution": return try NoSuchDistribution.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListInvalidationsForDistributionTenantOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -19452,6 +22512,27 @@ enum UpdateCloudFrontOriginAccessIdentityOutputError {
     }
 }
 
+enum UpdateConnectionGroupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityAlreadyExists": return try EntityAlreadyExists.makeError(baseError: baseError)
+            case "EntityLimitExceeded": return try EntityLimitExceeded.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            case "ResourceInUse": return try ResourceInUse.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateContinuousDeploymentPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -19552,6 +22633,28 @@ enum UpdateDistributionOutputError {
     }
 }
 
+enum UpdateDistributionTenantOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "CNAMEAlreadyExists": return try CNAMEAlreadyExists.makeError(baseError: baseError)
+            case "EntityAlreadyExists": return try EntityAlreadyExists.makeError(baseError: baseError)
+            case "EntityLimitExceeded": return try EntityLimitExceeded.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidAssociation": return try InvalidAssociation.makeError(baseError: baseError)
+            case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateDistributionWithStagingConfigOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -19622,6 +22725,25 @@ enum UpdateDistributionWithStagingConfigOutputError {
             case "TooManyTrustedSigners": return try TooManyTrustedSigners.makeError(baseError: baseError)
             case "TrustedKeyGroupDoesNotExist": return try TrustedKeyGroupDoesNotExist.makeError(baseError: baseError)
             case "TrustedSignerDoesNotExist": return try TrustedSignerDoesNotExist.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateDomainAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "IllegalUpdate": return try IllegalUpdate.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -19888,6 +23010,22 @@ enum UpdateVpcOriginOutputError {
     }
 }
 
+enum VerifyDnsConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension AccessDenied {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> AccessDenied {
@@ -19914,11 +23052,11 @@ extension IllegalUpdate {
     }
 }
 
-extension NoSuchDistribution {
+extension InvalidArgument {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchDistribution {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidArgument {
         let reader = baseError.errorBodyReader
-        var value = NoSuchDistribution()
+        var value = InvalidArgument()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -19927,11 +23065,11 @@ extension NoSuchDistribution {
     }
 }
 
-extension InvalidArgument {
+extension NoSuchDistribution {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidArgument {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchDistribution {
         let reader = baseError.errorBodyReader
-        var value = InvalidArgument()
+        var value = NoSuchDistribution()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -19953,141 +23091,11 @@ extension TooManyDistributionCNAMEs {
     }
 }
 
-extension TooManyDistributionsAssociatedToOriginRequestPolicy {
+extension EntityNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToOriginRequestPolicy {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityNotFound {
         let reader = baseError.errorBodyReader
-        var value = TooManyDistributionsAssociatedToOriginRequestPolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidRelativePath {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRelativePath {
-        let reader = baseError.errorBodyReader
-        var value = InvalidRelativePath()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyQueryStringParameters {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyQueryStringParameters {
-        let reader = baseError.errorBodyReader
-        var value = TooManyQueryStringParameters()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidOriginAccessControl {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginAccessControl {
-        let reader = baseError.errorBodyReader
-        var value = InvalidOriginAccessControl()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyLambdaFunctionAssociations {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyLambdaFunctionAssociations {
-        let reader = baseError.errorBodyReader
-        var value = TooManyLambdaFunctionAssociations()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InconsistentQuantities {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InconsistentQuantities {
-        let reader = baseError.errorBodyReader
-        var value = InconsistentQuantities()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidWebACLId {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidWebACLId {
-        let reader = baseError.errorBodyReader
-        var value = InvalidWebACLId()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidTTLOrder {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidTTLOrder {
-        let reader = baseError.errorBodyReader
-        var value = InvalidTTLOrder()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyDistributions {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributions {
-        let reader = baseError.errorBodyReader
-        var value = TooManyDistributions()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyDistributionsWithFunctionAssociations {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsWithFunctionAssociations {
-        let reader = baseError.errorBodyReader
-        var value = TooManyDistributionsWithFunctionAssociations()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyHeadersInForwardedValues {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyHeadersInForwardedValues {
-        let reader = baseError.errorBodyReader
-        var value = TooManyHeadersInForwardedValues()
+        var value = EntityNotFound()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20109,11 +23117,206 @@ extension InvalidIfMatchVersion {
     }
 }
 
-extension TooManyDistributionsAssociatedToFieldLevelEncryptionConfig {
+extension PreconditionFailed {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToFieldLevelEncryptionConfig {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> PreconditionFailed {
         let reader = baseError.errorBodyReader
-        var value = TooManyDistributionsAssociatedToFieldLevelEncryptionConfig()
+        var value = PreconditionFailed()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension CNAMEAlreadyExists {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CNAMEAlreadyExists {
+        let reader = baseError.errorBodyReader
+        var value = CNAMEAlreadyExists()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DistributionAlreadyExists {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DistributionAlreadyExists {
+        let reader = baseError.errorBodyReader
+        var value = DistributionAlreadyExists()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior {
+        let reader = baseError.errorBodyReader
+        var value = IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InconsistentQuantities {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InconsistentQuantities {
+        let reader = baseError.errorBodyReader
+        var value = InconsistentQuantities()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidDefaultRootObject {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidDefaultRootObject {
+        let reader = baseError.errorBodyReader
+        var value = InvalidDefaultRootObject()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidErrorCode {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidErrorCode {
+        let reader = baseError.errorBodyReader
+        var value = InvalidErrorCode()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidForwardCookies {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidForwardCookies {
+        let reader = baseError.errorBodyReader
+        var value = InvalidForwardCookies()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidFunctionAssociation {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidFunctionAssociation {
+        let reader = baseError.errorBodyReader
+        var value = InvalidFunctionAssociation()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidGeoRestrictionParameter {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidGeoRestrictionParameter {
+        let reader = baseError.errorBodyReader
+        var value = InvalidGeoRestrictionParameter()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidHeadersForS3Origin {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidHeadersForS3Origin {
+        let reader = baseError.errorBodyReader
+        var value = InvalidHeadersForS3Origin()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidLambdaFunctionAssociation {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidLambdaFunctionAssociation {
+        let reader = baseError.errorBodyReader
+        var value = InvalidLambdaFunctionAssociation()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidLocationCode {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidLocationCode {
+        let reader = baseError.errorBodyReader
+        var value = InvalidLocationCode()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidMinimumProtocolVersion {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidMinimumProtocolVersion {
+        let reader = baseError.errorBodyReader
+        var value = InvalidMinimumProtocolVersion()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidOrigin {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOrigin {
+        let reader = baseError.errorBodyReader
+        var value = InvalidOrigin()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidOriginAccessControl {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginAccessControl {
+        let reader = baseError.errorBodyReader
+        var value = InvalidOriginAccessControl()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20135,11 +23338,11 @@ extension InvalidOriginAccessIdentity {
     }
 }
 
-extension PreconditionFailed {
+extension InvalidOriginKeepaliveTimeout {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> PreconditionFailed {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginKeepaliveTimeout {
         let reader = baseError.errorBodyReader
-        var value = PreconditionFailed()
+        var value = InvalidOriginKeepaliveTimeout()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20148,11 +23351,206 @@ extension PreconditionFailed {
     }
 }
 
-extension DistributionAlreadyExists {
+extension InvalidOriginReadTimeout {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DistributionAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginReadTimeout {
         let reader = baseError.errorBodyReader
-        var value = DistributionAlreadyExists()
+        var value = InvalidOriginReadTimeout()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidProtocolSettings {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidProtocolSettings {
+        let reader = baseError.errorBodyReader
+        var value = InvalidProtocolSettings()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidQueryStringParameters {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidQueryStringParameters {
+        let reader = baseError.errorBodyReader
+        var value = InvalidQueryStringParameters()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidRelativePath {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRelativePath {
+        let reader = baseError.errorBodyReader
+        var value = InvalidRelativePath()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidRequiredProtocol {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRequiredProtocol {
+        let reader = baseError.errorBodyReader
+        var value = InvalidRequiredProtocol()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidResponseCode {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidResponseCode {
+        let reader = baseError.errorBodyReader
+        var value = InvalidResponseCode()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidTTLOrder {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidTTLOrder {
+        let reader = baseError.errorBodyReader
+        var value = InvalidTTLOrder()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidViewerCertificate {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidViewerCertificate {
+        let reader = baseError.errorBodyReader
+        var value = InvalidViewerCertificate()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidWebACLId {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidWebACLId {
+        let reader = baseError.errorBodyReader
+        var value = InvalidWebACLId()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension MissingBody {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> MissingBody {
+        let reader = baseError.errorBodyReader
+        var value = MissingBody()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoSuchCachePolicy {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchCachePolicy {
+        let reader = baseError.errorBodyReader
+        var value = NoSuchCachePolicy()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoSuchFieldLevelEncryptionConfig {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchFieldLevelEncryptionConfig {
+        let reader = baseError.errorBodyReader
+        var value = NoSuchFieldLevelEncryptionConfig()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoSuchOrigin {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchOrigin {
+        let reader = baseError.errorBodyReader
+        var value = NoSuchOrigin()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoSuchOriginRequestPolicy {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchOriginRequestPolicy {
+        let reader = baseError.errorBodyReader
+        var value = NoSuchOriginRequestPolicy()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoSuchRealtimeLogConfig {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchRealtimeLogConfig {
+        let reader = baseError.errorBodyReader
+        var value = NoSuchRealtimeLogConfig()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoSuchResponseHeadersPolicy {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchResponseHeadersPolicy {
+        let reader = baseError.errorBodyReader
+        var value = NoSuchResponseHeadersPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20187,11 +23585,37 @@ extension TooManyCacheBehaviors {
     }
 }
 
-extension NoSuchOrigin {
+extension TooManyCertificates {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchOrigin {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCertificates {
         let reader = baseError.errorBodyReader
-        var value = NoSuchOrigin()
+        var value = TooManyCertificates()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyCookieNamesInWhiteList {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCookieNamesInWhiteList {
+        let reader = baseError.errorBodyReader
+        var value = TooManyCookieNamesInWhiteList()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyDistributions {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributions {
+        let reader = baseError.errorBodyReader
+        var value = TooManyDistributions()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20213,180 +23637,11 @@ extension TooManyDistributionsAssociatedToCachePolicy {
     }
 }
 
-extension InvalidViewerCertificate {
+extension TooManyDistributionsAssociatedToFieldLevelEncryptionConfig {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidViewerCertificate {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToFieldLevelEncryptionConfig {
         let reader = baseError.errorBodyReader
-        var value = InvalidViewerCertificate()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidFunctionAssociation {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidFunctionAssociation {
-        let reader = baseError.errorBodyReader
-        var value = InvalidFunctionAssociation()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchResponseHeadersPolicy {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchResponseHeadersPolicy {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchResponseHeadersPolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidDefaultRootObject {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidDefaultRootObject {
-        let reader = baseError.errorBodyReader
-        var value = InvalidDefaultRootObject()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchCachePolicy {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchCachePolicy {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchCachePolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidProtocolSettings {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidProtocolSettings {
-        let reader = baseError.errorBodyReader
-        var value = InvalidProtocolSettings()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidMinimumProtocolVersion {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidMinimumProtocolVersion {
-        let reader = baseError.errorBodyReader
-        var value = InvalidMinimumProtocolVersion()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidLambdaFunctionAssociation {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidLambdaFunctionAssociation {
-        let reader = baseError.errorBodyReader
-        var value = InvalidLambdaFunctionAssociation()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidResponseCode {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidResponseCode {
-        let reader = baseError.errorBodyReader
-        var value = InvalidResponseCode()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchOriginRequestPolicy {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchOriginRequestPolicy {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchOriginRequestPolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchFieldLevelEncryptionConfig {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchFieldLevelEncryptionConfig {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchFieldLevelEncryptionConfig()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidHeadersForS3Origin {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidHeadersForS3Origin {
-        let reader = baseError.errorBodyReader
-        var value = InvalidHeadersForS3Origin()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TrustedSignerDoesNotExist {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TrustedSignerDoesNotExist {
-        let reader = baseError.errorBodyReader
-        var value = TrustedSignerDoesNotExist()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyCookieNamesInWhiteList {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCookieNamesInWhiteList {
-        let reader = baseError.errorBodyReader
-        var value = TooManyCookieNamesInWhiteList()
+        var value = TooManyDistributionsAssociatedToFieldLevelEncryptionConfig()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20421,258 +23676,11 @@ extension TooManyDistributionsAssociatedToOriginAccessControl {
     }
 }
 
-extension TooManyOrigins {
+extension TooManyDistributionsAssociatedToOriginRequestPolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOrigins {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToOriginRequestPolicy {
         let reader = baseError.errorBodyReader
-        var value = TooManyOrigins()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyTrustedSigners {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyTrustedSigners {
-        let reader = baseError.errorBodyReader
-        var value = TooManyTrustedSigners()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyDistributionsWithSingleFunctionARN {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsWithSingleFunctionARN {
-        let reader = baseError.errorBodyReader
-        var value = TooManyDistributionsWithSingleFunctionARN()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension MissingBody {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> MissingBody {
-        let reader = baseError.errorBodyReader
-        var value = MissingBody()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidGeoRestrictionParameter {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidGeoRestrictionParameter {
-        let reader = baseError.errorBodyReader
-        var value = InvalidGeoRestrictionParameter()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchRealtimeLogConfig {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchRealtimeLogConfig {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchRealtimeLogConfig()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidOriginReadTimeout {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginReadTimeout {
-        let reader = baseError.errorBodyReader
-        var value = InvalidOriginReadTimeout()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyCertificates {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCertificates {
-        let reader = baseError.errorBodyReader
-        var value = TooManyCertificates()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidLocationCode {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidLocationCode {
-        let reader = baseError.errorBodyReader
-        var value = InvalidLocationCode()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidQueryStringParameters {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidQueryStringParameters {
-        let reader = baseError.errorBodyReader
-        var value = InvalidQueryStringParameters()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension CNAMEAlreadyExists {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CNAMEAlreadyExists {
-        let reader = baseError.errorBodyReader
-        var value = CNAMEAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior {
-        let reader = baseError.errorBodyReader
-        var value = IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidErrorCode {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidErrorCode {
-        let reader = baseError.errorBodyReader
-        var value = InvalidErrorCode()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyKeyGroupsAssociatedToDistribution {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyKeyGroupsAssociatedToDistribution {
-        let reader = baseError.errorBodyReader
-        var value = TooManyKeyGroupsAssociatedToDistribution()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyDistributionsWithLambdaAssociations {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsWithLambdaAssociations {
-        let reader = baseError.errorBodyReader
-        var value = TooManyDistributionsWithLambdaAssociations()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyOriginCustomHeaders {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOriginCustomHeaders {
-        let reader = baseError.errorBodyReader
-        var value = TooManyOriginCustomHeaders()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TrustedKeyGroupDoesNotExist {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TrustedKeyGroupDoesNotExist {
-        let reader = baseError.errorBodyReader
-        var value = TrustedKeyGroupDoesNotExist()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidOriginKeepaliveTimeout {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginKeepaliveTimeout {
-        let reader = baseError.errorBodyReader
-        var value = InvalidOriginKeepaliveTimeout()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidForwardCookies {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidForwardCookies {
-        let reader = baseError.errorBodyReader
-        var value = InvalidForwardCookies()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidOrigin {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOrigin {
-        let reader = baseError.errorBodyReader
-        var value = InvalidOrigin()
+        var value = TooManyDistributionsAssociatedToOriginRequestPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20694,11 +23702,11 @@ extension TooManyDistributionsAssociatedToResponseHeadersPolicy {
     }
 }
 
-extension TooManyOriginGroupsPerDistribution {
+extension TooManyDistributionsWithFunctionAssociations {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOriginGroupsPerDistribution {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsWithFunctionAssociations {
         let reader = baseError.errorBodyReader
-        var value = TooManyOriginGroupsPerDistribution()
+        var value = TooManyDistributionsWithFunctionAssociations()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20707,11 +23715,24 @@ extension TooManyOriginGroupsPerDistribution {
     }
 }
 
-extension InvalidRequiredProtocol {
+extension TooManyDistributionsWithLambdaAssociations {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRequiredProtocol {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsWithLambdaAssociations {
         let reader = baseError.errorBodyReader
-        var value = InvalidRequiredProtocol()
+        var value = TooManyDistributionsWithLambdaAssociations()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyDistributionsWithSingleFunctionARN {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsWithSingleFunctionARN {
+        let reader = baseError.errorBodyReader
+        var value = TooManyDistributionsWithSingleFunctionARN()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20733,11 +23754,141 @@ extension TooManyFunctionAssociations {
     }
 }
 
-extension UnsupportedOperation {
+extension TooManyHeadersInForwardedValues {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> UnsupportedOperation {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyHeadersInForwardedValues {
         let reader = baseError.errorBodyReader
-        var value = UnsupportedOperation()
+        var value = TooManyHeadersInForwardedValues()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyKeyGroupsAssociatedToDistribution {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyKeyGroupsAssociatedToDistribution {
+        let reader = baseError.errorBodyReader
+        var value = TooManyKeyGroupsAssociatedToDistribution()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyLambdaFunctionAssociations {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyLambdaFunctionAssociations {
+        let reader = baseError.errorBodyReader
+        var value = TooManyLambdaFunctionAssociations()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyOriginCustomHeaders {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOriginCustomHeaders {
+        let reader = baseError.errorBodyReader
+        var value = TooManyOriginCustomHeaders()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyOriginGroupsPerDistribution {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOriginGroupsPerDistribution {
+        let reader = baseError.errorBodyReader
+        var value = TooManyOriginGroupsPerDistribution()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyOrigins {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOrigins {
+        let reader = baseError.errorBodyReader
+        var value = TooManyOrigins()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyQueryStringParameters {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyQueryStringParameters {
+        let reader = baseError.errorBodyReader
+        var value = TooManyQueryStringParameters()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyTrustedSigners {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyTrustedSigners {
+        let reader = baseError.errorBodyReader
+        var value = TooManyTrustedSigners()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TrustedKeyGroupDoesNotExist {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TrustedKeyGroupDoesNotExist {
+        let reader = baseError.errorBodyReader
+        var value = TrustedKeyGroupDoesNotExist()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TrustedSignerDoesNotExist {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TrustedSignerDoesNotExist {
+        let reader = baseError.errorBodyReader
+        var value = TrustedSignerDoesNotExist()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension EntityAlreadyExists {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityAlreadyExists {
+        let reader = baseError.errorBodyReader
+        var value = EntityAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20772,11 +23923,37 @@ extension InvalidTagging {
     }
 }
 
-extension EntityAlreadyExists {
+extension UnsupportedOperation {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> UnsupportedOperation {
         let reader = baseError.errorBodyReader
-        var value = EntityAlreadyExists()
+        var value = UnsupportedOperation()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension CachePolicyAlreadyExists {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CachePolicyAlreadyExists {
+        let reader = baseError.errorBodyReader
+        var value = CachePolicyAlreadyExists()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyCachePolicies {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCachePolicies {
+        let reader = baseError.errorBodyReader
+        var value = TooManyCachePolicies()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20811,37 +23988,11 @@ extension TooManyHeadersInCachePolicy {
     }
 }
 
-extension TooManyCachePolicies {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCachePolicies {
-        let reader = baseError.errorBodyReader
-        var value = TooManyCachePolicies()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension TooManyQueryStringsInCachePolicy {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyQueryStringsInCachePolicy {
         let reader = baseError.errorBodyReader
         var value = TooManyQueryStringsInCachePolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension CachePolicyAlreadyExists {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CachePolicyAlreadyExists {
-        let reader = baseError.errorBodyReader
-        var value = CachePolicyAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20876,11 +24027,11 @@ extension TooManyCloudFrontOriginAccessIdentities {
     }
 }
 
-extension TooManyContinuousDeploymentPolicies {
+extension ContinuousDeploymentPolicyAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyContinuousDeploymentPolicies {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ContinuousDeploymentPolicyAlreadyExists {
         let reader = baseError.errorBodyReader
-        var value = TooManyContinuousDeploymentPolicies()
+        var value = ContinuousDeploymentPolicyAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20902,24 +24053,11 @@ extension StagingDistributionInUse {
     }
 }
 
-extension ContinuousDeploymentPolicyAlreadyExists {
+extension TooManyContinuousDeploymentPolicies {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ContinuousDeploymentPolicyAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyContinuousDeploymentPolicies {
         let reader = baseError.errorBodyReader
-        var value = ContinuousDeploymentPolicyAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchContinuousDeploymentPolicy {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchContinuousDeploymentPolicy {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchContinuousDeploymentPolicy()
+        var value = TooManyContinuousDeploymentPolicies()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20967,11 +24105,11 @@ extension InvalidDomainNameForOriginAccessControl {
     }
 }
 
-extension EntityNotFound {
+extension NoSuchContinuousDeploymentPolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityNotFound {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchContinuousDeploymentPolicy {
         let reader = baseError.errorBodyReader
-        var value = EntityNotFound()
+        var value = NoSuchContinuousDeploymentPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -20980,11 +24118,11 @@ extension EntityNotFound {
     }
 }
 
-extension QueryArgProfileEmpty {
+extension InvalidAssociation {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> QueryArgProfileEmpty {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidAssociation {
         let reader = baseError.errorBodyReader
-        var value = QueryArgProfileEmpty()
+        var value = InvalidAssociation()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21006,19 +24144,6 @@ extension FieldLevelEncryptionConfigAlreadyExists {
     }
 }
 
-extension TooManyFieldLevelEncryptionContentTypeProfiles {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionContentTypeProfiles {
-        let reader = baseError.errorBodyReader
-        var value = TooManyFieldLevelEncryptionContentTypeProfiles()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension NoSuchFieldLevelEncryptionProfile {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchFieldLevelEncryptionProfile {
@@ -21032,11 +24157,37 @@ extension NoSuchFieldLevelEncryptionProfile {
     }
 }
 
+extension QueryArgProfileEmpty {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> QueryArgProfileEmpty {
+        let reader = baseError.errorBodyReader
+        var value = QueryArgProfileEmpty()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension TooManyFieldLevelEncryptionConfigs {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionConfigs {
         let reader = baseError.errorBodyReader
         var value = TooManyFieldLevelEncryptionConfigs()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyFieldLevelEncryptionContentTypeProfiles {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionContentTypeProfiles {
+        let reader = baseError.errorBodyReader
+        var value = TooManyFieldLevelEncryptionContentTypeProfiles()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21071,11 +24222,11 @@ extension FieldLevelEncryptionProfileAlreadyExists {
     }
 }
 
-extension TooManyFieldLevelEncryptionFieldPatterns {
+extension FieldLevelEncryptionProfileSizeExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionFieldPatterns {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> FieldLevelEncryptionProfileSizeExceeded {
         let reader = baseError.errorBodyReader
-        var value = TooManyFieldLevelEncryptionFieldPatterns()
+        var value = FieldLevelEncryptionProfileSizeExceeded()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21110,37 +24261,24 @@ extension TooManyFieldLevelEncryptionEncryptionEntities {
     }
 }
 
+extension TooManyFieldLevelEncryptionFieldPatterns {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionFieldPatterns {
+        let reader = baseError.errorBodyReader
+        var value = TooManyFieldLevelEncryptionFieldPatterns()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension TooManyFieldLevelEncryptionProfiles {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionProfiles {
         let reader = baseError.errorBodyReader
         var value = TooManyFieldLevelEncryptionProfiles()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension FieldLevelEncryptionProfileSizeExceeded {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> FieldLevelEncryptionProfileSizeExceeded {
-        let reader = baseError.errorBodyReader
-        var value = FieldLevelEncryptionProfileSizeExceeded()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyFunctions {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFunctions {
-        let reader = baseError.errorBodyReader
-        var value = TooManyFunctions()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21175,11 +24313,11 @@ extension FunctionSizeLimitExceeded {
     }
 }
 
-extension TooManyInvalidationsInProgress {
+extension TooManyFunctions {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyInvalidationsInProgress {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFunctions {
         let reader = baseError.errorBodyReader
-        var value = TooManyInvalidationsInProgress()
+        var value = TooManyFunctions()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21193,6 +24331,19 @@ extension BatchTooLarge {
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BatchTooLarge {
         let reader = baseError.errorBodyReader
         var value = BatchTooLarge()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyInvalidationsInProgress {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyInvalidationsInProgress {
+        let reader = baseError.errorBodyReader
+        var value = TooManyInvalidationsInProgress()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21266,6 +24417,19 @@ extension MonitoringSubscriptionAlreadyExists {
     }
 }
 
+extension OriginAccessControlAlreadyExists {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> OriginAccessControlAlreadyExists {
+        let reader = baseError.errorBodyReader
+        var value = OriginAccessControlAlreadyExists()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension TooManyOriginAccessControls {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOriginAccessControls {
@@ -21279,11 +24443,24 @@ extension TooManyOriginAccessControls {
     }
 }
 
-extension OriginAccessControlAlreadyExists {
+extension OriginRequestPolicyAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> OriginAccessControlAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> OriginRequestPolicyAlreadyExists {
         let reader = baseError.errorBodyReader
-        var value = OriginAccessControlAlreadyExists()
+        var value = OriginRequestPolicyAlreadyExists()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyCookiesInOriginRequestPolicy {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCookiesInOriginRequestPolicy {
+        let reader = baseError.errorBodyReader
+        var value = TooManyCookiesInOriginRequestPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21331,24 +24508,11 @@ extension TooManyQueryStringsInOriginRequestPolicy {
     }
 }
 
-extension OriginRequestPolicyAlreadyExists {
+extension PublicKeyAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> OriginRequestPolicyAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> PublicKeyAlreadyExists {
         let reader = baseError.errorBodyReader
-        var value = OriginRequestPolicyAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyCookiesInOriginRequestPolicy {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCookiesInOriginRequestPolicy {
-        let reader = baseError.errorBodyReader
-        var value = TooManyCookiesInOriginRequestPolicy()
+        var value = PublicKeyAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21370,11 +24534,11 @@ extension TooManyPublicKeys {
     }
 }
 
-extension PublicKeyAlreadyExists {
+extension RealtimeLogConfigAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> PublicKeyAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> RealtimeLogConfigAlreadyExists {
         let reader = baseError.errorBodyReader
-        var value = PublicKeyAlreadyExists()
+        var value = RealtimeLogConfigAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21396,24 +24560,11 @@ extension TooManyRealtimeLogConfigs {
     }
 }
 
-extension RealtimeLogConfigAlreadyExists {
+extension ResponseHeadersPolicyAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> RealtimeLogConfigAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ResponseHeadersPolicyAlreadyExists {
         let reader = baseError.errorBodyReader
-        var value = RealtimeLogConfigAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyCustomHeadersInResponseHeadersPolicy {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCustomHeadersInResponseHeadersPolicy {
-        let reader = baseError.errorBodyReader
-        var value = TooManyCustomHeadersInResponseHeadersPolicy()
+        var value = ResponseHeadersPolicyAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21427,6 +24578,19 @@ extension TooLongCSPInResponseHeadersPolicy {
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooLongCSPInResponseHeadersPolicy {
         let reader = baseError.errorBodyReader
         var value = TooLongCSPInResponseHeadersPolicy()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyCustomHeadersInResponseHeadersPolicy {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCustomHeadersInResponseHeadersPolicy {
+        let reader = baseError.errorBodyReader
+        var value = TooManyCustomHeadersInResponseHeadersPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21461,32 +24625,6 @@ extension TooManyResponseHeadersPolicies {
     }
 }
 
-extension ResponseHeadersPolicyAlreadyExists {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ResponseHeadersPolicyAlreadyExists {
-        let reader = baseError.errorBodyReader
-        var value = ResponseHeadersPolicyAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyStreamingDistributions {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyStreamingDistributions {
-        let reader = baseError.errorBodyReader
-        var value = TooManyStreamingDistributions()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension StreamingDistributionAlreadyExists {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> StreamingDistributionAlreadyExists {
@@ -21505,6 +24643,19 @@ extension TooManyStreamingDistributionCNAMEs {
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyStreamingDistributionCNAMEs {
         let reader = baseError.errorBodyReader
         var value = TooManyStreamingDistributionCNAMEs()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyStreamingDistributions {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyStreamingDistributions {
+        let reader = baseError.errorBodyReader
+        var value = TooManyStreamingDistributions()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21578,11 +24729,37 @@ extension NoSuchCloudFrontOriginAccessIdentity {
     }
 }
 
+extension ResourceNotDisabled {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ResourceNotDisabled {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotDisabled()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension DistributionNotDisabled {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DistributionNotDisabled {
         let reader = baseError.errorBodyReader
         var value = DistributionNotDisabled()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceInUse {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ResourceInUse {
+        let reader = baseError.errorBodyReader
+        var value = ResourceInUse()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21617,19 +24794,6 @@ extension FieldLevelEncryptionProfileInUse {
     }
 }
 
-extension NoSuchFunctionExists {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchFunctionExists {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchFunctionExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension FunctionInUse {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> FunctionInUse {
@@ -21643,11 +24807,11 @@ extension FunctionInUse {
     }
 }
 
-extension NoSuchResource {
+extension NoSuchFunctionExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchResource {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchFunctionExists {
         let reader = baseError.errorBodyReader
-        var value = NoSuchResource()
+        var value = NoSuchFunctionExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21656,11 +24820,11 @@ extension NoSuchResource {
     }
 }
 
-extension ResourceInUse {
+extension NoSuchResource {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ResourceInUse {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchResource {
         let reader = baseError.errorBodyReader
-        var value = ResourceInUse()
+        var value = NoSuchResource()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21760,11 +24924,11 @@ extension ResponseHeadersPolicyInUse {
     }
 }
 
-extension StreamingDistributionNotDisabled {
+extension NoSuchStreamingDistribution {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> StreamingDistributionNotDisabled {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchStreamingDistribution {
         let reader = baseError.errorBodyReader
-        var value = StreamingDistributionNotDisabled()
+        var value = NoSuchStreamingDistribution()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21773,11 +24937,11 @@ extension StreamingDistributionNotDisabled {
     }
 }
 
-extension NoSuchStreamingDistribution {
+extension StreamingDistributionNotDisabled {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchStreamingDistribution {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> StreamingDistributionNotDisabled {
         let reader = baseError.errorBodyReader
-        var value = NoSuchStreamingDistribution()
+        var value = StreamingDistributionNotDisabled()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -21877,6 +25041,7 @@ extension CloudFrontClientTypes.DistributionConfig {
         try writer["CacheBehaviors"].write(value.cacheBehaviors, with: CloudFrontClientTypes.CacheBehaviors.write(value:to:))
         try writer["CallerReference"].write(value.callerReference)
         try writer["Comment"].write(value.comment)
+        try writer["ConnectionMode"].write(value.connectionMode)
         try writer["ContinuousDeploymentPolicyId"].write(value.continuousDeploymentPolicyId)
         try writer["CustomErrorResponses"].write(value.customErrorResponses, with: CloudFrontClientTypes.CustomErrorResponses.write(value:to:))
         try writer["DefaultCacheBehavior"].write(value.defaultCacheBehavior, with: CloudFrontClientTypes.DefaultCacheBehavior.write(value:to:))
@@ -21890,6 +25055,7 @@ extension CloudFrontClientTypes.DistributionConfig {
         try writer["PriceClass"].write(value.priceClass)
         try writer["Restrictions"].write(value.restrictions, with: CloudFrontClientTypes.Restrictions.write(value:to:))
         try writer["Staging"].write(value.staging)
+        try writer["TenantConfig"].write(value.tenantConfig, with: CloudFrontClientTypes.TenantConfig.write(value:to:))
         try writer["ViewerCertificate"].write(value.viewerCertificate, with: CloudFrontClientTypes.ViewerCertificate.write(value:to:))
         try writer["WebACLId"].write(value.webACLId)
     }
@@ -21917,6 +25083,74 @@ extension CloudFrontClientTypes.DistributionConfig {
         value.continuousDeploymentPolicyId = try reader["ContinuousDeploymentPolicyId"].readIfPresent()
         value.staging = try reader["Staging"].readIfPresent()
         value.anycastIpListId = try reader["AnycastIpListId"].readIfPresent()
+        value.tenantConfig = try reader["TenantConfig"].readIfPresent(with: CloudFrontClientTypes.TenantConfig.read(from:))
+        value.connectionMode = try reader["ConnectionMode"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.TenantConfig {
+
+    static func write(value: CloudFrontClientTypes.TenantConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ParameterDefinitions"].writeList(value.parameterDefinitions, memberWritingClosure: CloudFrontClientTypes.ParameterDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.TenantConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.TenantConfig()
+        value.parameterDefinitions = try reader["ParameterDefinitions"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.ParameterDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ParameterDefinition {
+
+    static func write(value: CloudFrontClientTypes.ParameterDefinition?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Definition"].write(value.definition, with: CloudFrontClientTypes.ParameterDefinitionSchema.write(value:to:))
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ParameterDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ParameterDefinition()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.definition = try reader["Definition"].readIfPresent(with: CloudFrontClientTypes.ParameterDefinitionSchema.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ParameterDefinitionSchema {
+
+    static func write(value: CloudFrontClientTypes.ParameterDefinitionSchema?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["StringSchema"].write(value.stringSchema, with: CloudFrontClientTypes.StringSchemaConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ParameterDefinitionSchema {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ParameterDefinitionSchema()
+        value.stringSchema = try reader["StringSchema"].readIfPresent(with: CloudFrontClientTypes.StringSchemaConfig.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.StringSchemaConfig {
+
+    static func write(value: CloudFrontClientTypes.StringSchemaConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Comment"].write(value.comment)
+        try writer["DefaultValue"].write(value.defaultValue)
+        try writer["Required"].write(value.`required`)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.StringSchemaConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.StringSchemaConfig()
+        value.comment = try reader["Comment"].readIfPresent()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.`required` = try reader["Required"].readIfPresent() ?? false
         return value
     }
 }
@@ -22938,6 +26172,59 @@ extension CloudFrontClientTypes.CloudFrontOriginAccessIdentityConfig {
     }
 }
 
+extension CloudFrontClientTypes.ConnectionGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ConnectionGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ConnectionGroup()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.tags = try reader["Tags"].readIfPresent(with: CloudFrontClientTypes.Tags.read(from:))
+        value.ipv6Enabled = try reader["Ipv6Enabled"].readIfPresent()
+        value.routingEndpoint = try reader["RoutingEndpoint"].readIfPresent()
+        value.anycastIpListId = try reader["AnycastIpListId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.isDefault = try reader["IsDefault"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.Tags {
+
+    static func write(value: CloudFrontClientTypes.Tags?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Tags {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.Tags()
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.Tag {
+
+    static func write(value: CloudFrontClientTypes.Tag?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
 extension CloudFrontClientTypes.ContinuousDeploymentPolicy {
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContinuousDeploymentPolicy {
@@ -23052,6 +26339,124 @@ extension CloudFrontClientTypes.StagingDistributionDnsNames {
         var value = CloudFrontClientTypes.StagingDistributionDnsNames()
         value.quantity = try reader["Quantity"].readIfPresent() ?? 0
         value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "DnsName", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.DistributionTenant {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionTenant {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.DistributionTenant()
+        value.id = try reader["Id"].readIfPresent()
+        value.distributionId = try reader["DistributionId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.domains = try reader["Domains"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.DomainResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readIfPresent(with: CloudFrontClientTypes.Tags.read(from:))
+        value.customizations = try reader["Customizations"].readIfPresent(with: CloudFrontClientTypes.Customizations.read(from:))
+        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.Parameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectionGroupId = try reader["ConnectionGroupId"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.Parameter {
+
+    static func write(value: CloudFrontClientTypes.Parameter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Parameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.Parameter()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.Customizations {
+
+    static func write(value: CloudFrontClientTypes.Customizations?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Certificate"].write(value.certificate, with: CloudFrontClientTypes.Certificate.write(value:to:))
+        try writer["GeoRestrictions"].write(value.geoRestrictions, with: CloudFrontClientTypes.GeoRestrictionCustomization.write(value:to:))
+        try writer["WebAcl"].write(value.webAcl, with: CloudFrontClientTypes.WebAclCustomization.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Customizations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.Customizations()
+        value.webAcl = try reader["WebAcl"].readIfPresent(with: CloudFrontClientTypes.WebAclCustomization.read(from:))
+        value.certificate = try reader["Certificate"].readIfPresent(with: CloudFrontClientTypes.Certificate.read(from:))
+        value.geoRestrictions = try reader["GeoRestrictions"].readIfPresent(with: CloudFrontClientTypes.GeoRestrictionCustomization.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.GeoRestrictionCustomization {
+
+    static func write(value: CloudFrontClientTypes.GeoRestrictionCustomization?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Locations"].writeList(value.locations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Location", isFlattened: false)
+        try writer["RestrictionType"].write(value.restrictionType)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.GeoRestrictionCustomization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.GeoRestrictionCustomization()
+        value.restrictionType = try reader["RestrictionType"].readIfPresent() ?? .sdkUnknown("")
+        value.locations = try reader["Locations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "Location", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.Certificate {
+
+    static func write(value: CloudFrontClientTypes.Certificate?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Certificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.Certificate()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.WebAclCustomization {
+
+    static func write(value: CloudFrontClientTypes.WebAclCustomization?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["Arn"].write(value.arn)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.WebAclCustomization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.WebAclCustomization()
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.DomainResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DomainResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.DomainResult()
+        value.domain = try reader["Domain"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -24153,6 +27558,31 @@ extension CloudFrontClientTypes.VpcOriginEndpointConfig {
     }
 }
 
+extension CloudFrontClientTypes.ManagedCertificateDetails {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ManagedCertificateDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ManagedCertificateDetails()
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.certificateStatus = try reader["CertificateStatus"].readIfPresent()
+        value.validationTokenHost = try reader["ValidationTokenHost"].readIfPresent()
+        value.validationTokenDetails = try reader["ValidationTokenDetails"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.ValidationTokenDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.ValidationTokenDetail {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ValidationTokenDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ValidationTokenDetail()
+        value.domain = try reader["Domain"].readIfPresent() ?? ""
+        value.redirectTo = try reader["RedirectTo"].readIfPresent()
+        value.redirectFrom = try reader["RedirectFrom"].readIfPresent()
+        return value
+    }
+}
+
 extension CloudFrontClientTypes.AnycastIpListCollection {
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.AnycastIpListCollection {
@@ -24259,6 +27689,26 @@ extension CloudFrontClientTypes.ConflictingAlias {
     }
 }
 
+extension CloudFrontClientTypes.ConnectionGroupSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ConnectionGroupSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.ConnectionGroupSummary()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.routingEndpoint = try reader["RoutingEndpoint"].readIfPresent() ?? ""
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.eTag = try reader["ETag"].readIfPresent() ?? ""
+        value.anycastIpListId = try reader["AnycastIpListId"].readIfPresent()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.isDefault = try reader["IsDefault"].readIfPresent()
+        return value
+    }
+}
+
 extension CloudFrontClientTypes.ContinuousDeploymentPolicyList {
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.ContinuousDeploymentPolicyList {
@@ -24304,6 +27754,7 @@ extension CloudFrontClientTypes.DistributionSummary {
         var value = CloudFrontClientTypes.DistributionSummary()
         value.id = try reader["Id"].readIfPresent() ?? ""
         value.arn = try reader["ARN"].readIfPresent() ?? ""
+        value.eTag = try reader["ETag"].readIfPresent()
         value.status = try reader["Status"].readIfPresent() ?? ""
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.domainName = try reader["DomainName"].readIfPresent() ?? ""
@@ -24323,6 +27774,7 @@ extension CloudFrontClientTypes.DistributionSummary {
         value.isIPV6Enabled = try reader["IsIPV6Enabled"].readIfPresent() ?? false
         value.aliasICPRecordals = try reader["AliasICPRecordals"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.AliasICPRecordal.read(from:), memberNodeInfo: "AliasICPRecordal", isFlattened: false)
         value.staging = try reader["Staging"].readIfPresent() ?? false
+        value.connectionMode = try reader["ConnectionMode"].readIfPresent()
         value.anycastIpListId = try reader["AnycastIpListId"].readIfPresent()
         return value
     }
@@ -24339,6 +27791,40 @@ extension CloudFrontClientTypes.DistributionIdList {
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.quantity = try reader["Quantity"].readIfPresent() ?? 0
         value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "DistributionId", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.DistributionTenantSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionTenantSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.DistributionTenantSummary()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.distributionId = try reader["DistributionId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.domains = try reader["Domains"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.DomainResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.connectionGroupId = try reader["ConnectionGroupId"].readIfPresent()
+        value.customizations = try reader["Customizations"].readIfPresent(with: CloudFrontClientTypes.Customizations.read(from:))
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.eTag = try reader["ETag"].readIfPresent() ?? ""
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.DomainConflict {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DomainConflict {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.DomainConflict()
+        value.domain = try reader["Domain"].readIfPresent() ?? ""
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -24627,38 +28113,6 @@ extension CloudFrontClientTypes.StreamingDistributionSummary {
     }
 }
 
-extension CloudFrontClientTypes.Tags {
-
-    static func write(value: CloudFrontClientTypes.Tags?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Items"].writeList(value.items, memberWritingClosure: CloudFrontClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Tags {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.Tags()
-        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFrontClientTypes.Tag {
-
-    static func write(value: CloudFrontClientTypes.Tag?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFrontClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
 extension CloudFrontClientTypes.VpcOriginList {
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.VpcOriginList {
@@ -24704,6 +28158,36 @@ extension CloudFrontClientTypes.TestResult {
     }
 }
 
+extension CloudFrontClientTypes.DnsConfiguration {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DnsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.DnsConfiguration()
+        value.domain = try reader["Domain"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.reason = try reader["Reason"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.DomainItem {
+
+    static func write(value: CloudFrontClientTypes.DomainItem?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Domain"].write(value.domain)
+    }
+}
+
+extension CloudFrontClientTypes.ManagedCertificateRequest {
+
+    static func write(value: CloudFrontClientTypes.ManagedCertificateRequest?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateTransparencyLoggingPreference"].write(value.certificateTransparencyLoggingPreference)
+        try writer["PrimaryDomainName"].write(value.primaryDomainName)
+        try writer["ValidationTokenHost"].write(value.validationTokenHost)
+    }
+}
+
 extension CloudFrontClientTypes.DistributionConfigWithTags {
 
     static func write(value: CloudFrontClientTypes.DistributionConfigWithTags?, to writer: SmithyXML.Writer) throws {
@@ -24728,6 +28212,32 @@ extension CloudFrontClientTypes.StreamingDistributionConfigWithTags {
         guard let value else { return }
         try writer["StreamingDistributionConfig"].write(value.streamingDistributionConfig, with: CloudFrontClientTypes.StreamingDistributionConfig.write(value:to:))
         try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
+    }
+}
+
+extension CloudFrontClientTypes.ConnectionGroupAssociationFilter {
+
+    static func write(value: CloudFrontClientTypes.ConnectionGroupAssociationFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AnycastIpListId"].write(value.anycastIpListId)
+    }
+}
+
+extension CloudFrontClientTypes.DistributionTenantAssociationFilter {
+
+    static func write(value: CloudFrontClientTypes.DistributionTenantAssociationFilter?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionGroupId"].write(value.connectionGroupId)
+        try writer["DistributionId"].write(value.distributionId)
+    }
+}
+
+extension CloudFrontClientTypes.DistributionResourceId {
+
+    static func write(value: CloudFrontClientTypes.DistributionResourceId?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["DistributionId"].write(value.distributionId)
+        try writer["DistributionTenantId"].write(value.distributionTenantId)
     }
 }
 

@@ -9199,11 +9199,11 @@ enum UpdateThingRuntimeConfigurationOutputError {
     }
 }
 
-extension InternalServerErrorException {
+extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerErrorException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerErrorException()
+        var value = BadRequestException()
         value.properties.errorDetails = try reader["ErrorDetails"].readListIfPresent(memberReadingClosure: GreengrassClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -9213,11 +9213,11 @@ extension InternalServerErrorException {
     }
 }
 
-extension BadRequestException {
+extension InternalServerErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerErrorException {
         let reader = baseError.errorBodyReader
-        var value = BadRequestException()
+        var value = InternalServerErrorException()
         value.properties.errorDetails = try reader["ErrorDetails"].readListIfPresent(memberReadingClosure: GreengrassClientTypes.ErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse

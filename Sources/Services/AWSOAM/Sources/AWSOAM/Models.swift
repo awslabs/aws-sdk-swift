@@ -260,6 +260,8 @@ extension OAMClientTypes {
 
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsApplicationinsightsApplication
+        case awsApplicationSignalsService
+        case awsApplicationSignalsSlo
         case awsCloudwatchMetric
         case awsInternetmonitorMonitor
         case awsLogsLoggroup
@@ -269,6 +271,8 @@ extension OAMClientTypes {
         public static var allCases: [ResourceType] {
             return [
                 .awsApplicationinsightsApplication,
+                .awsApplicationSignalsService,
+                .awsApplicationSignalsSlo,
                 .awsCloudwatchMetric,
                 .awsInternetmonitorMonitor,
                 .awsLogsLoggroup,
@@ -284,6 +288,8 @@ extension OAMClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .awsApplicationinsightsApplication: return "AWS::ApplicationInsights::Application"
+            case .awsApplicationSignalsService: return "AWS::ApplicationSignals::Service"
+            case .awsApplicationSignalsSlo: return "AWS::ApplicationSignals::ServiceLevelObjective"
             case .awsCloudwatchMetric: return "AWS::CloudWatch::Metric"
             case .awsInternetmonitorMonitor: return "AWS::InternetMonitor::Monitor"
             case .awsLogsLoggroup: return "AWS::Logs::LogGroup"
@@ -302,6 +308,9 @@ public struct CreateLinkInput: Swift.Sendable {
     /// * $AccountEmail is the globally unique email address of the account
     ///
     /// * $AccountEmailNoDomain is the email address of the account without the domain name
+    ///
+    ///
+    /// In the Amazon Web Services GovCloud (US-East) and Amazon Web Services GovCloud (US-West) Regions, the only supported option is to use custom labels, and the $AccountName, $AccountEmail, and $AccountEmailNoDomain variables all resolve as account-id instead of the specified variable.
     /// This member is required.
     public var labelTemplate: Swift.String?
     /// Use this structure to optionally create filters that specify that only some metric namespaces or log groups are to be shared from the source account to the monitoring account.
@@ -473,11 +482,15 @@ public struct GetLinkInput: Swift.Sendable {
     /// The ARN of the link to retrieve information for.
     /// This member is required.
     public var identifier: Swift.String?
+    /// Specifies whether to include the tags associated with the link in the response. When IncludeTags is set to true and the caller has the required permission, oam:ListTagsForResource, the API will return the tags for the specified resource. If the caller doesn't have the required permission, oam:ListTagsForResource, the API will raise an exception. The default value is false.
+    public var includeTags: Swift.Bool?
 
     public init(
-        identifier: Swift.String? = nil
+        identifier: Swift.String? = nil,
+        includeTags: Swift.Bool? = nil
     ) {
         self.identifier = identifier
+        self.includeTags = includeTags
     }
 }
 
@@ -524,11 +537,15 @@ public struct GetSinkInput: Swift.Sendable {
     /// The ARN of the sink to retrieve information for.
     /// This member is required.
     public var identifier: Swift.String?
+    /// Specifies whether to include the tags associated with the sink in the response. When IncludeTags is set to true and the caller has the required permission, oam:ListTagsForResource, the API will return the tags for the specified resource. If the caller doesn't have the required permission, oam:ListTagsForResource, the API will raise an exception. The default value is false.
+    public var includeTags: Swift.Bool?
 
     public init(
-        identifier: Swift.String? = nil
+        identifier: Swift.String? = nil,
+        includeTags: Swift.Bool? = nil
     ) {
         self.identifier = identifier
+        self.includeTags = includeTags
     }
 }
 
@@ -914,6 +931,8 @@ public struct UpdateLinkInput: Swift.Sendable {
     /// The ARN of the link that you want to update.
     /// This member is required.
     public var identifier: Swift.String?
+    /// Specifies whether to include the tags associated with the link in the response after the update operation. When IncludeTags is set to true and the caller has the required permission, oam:ListTagsForResource, the API will return the tags for the specified resource. If the caller doesn't have the required permission, oam:ListTagsForResource, the API will raise an exception. The default value is false.
+    public var includeTags: Swift.Bool?
     /// Use this structure to filter which metric namespaces and which log groups are to be shared from the source account to the monitoring account.
     public var linkConfiguration: OAMClientTypes.LinkConfiguration?
     /// An array of strings that define which types of data that the source account will send to the monitoring account. Your input here replaces the current set of data types that are shared.
@@ -922,10 +941,12 @@ public struct UpdateLinkInput: Swift.Sendable {
 
     public init(
         identifier: Swift.String? = nil,
+        includeTags: Swift.Bool? = nil,
         linkConfiguration: OAMClientTypes.LinkConfiguration? = nil,
         resourceTypes: [OAMClientTypes.ResourceType]? = nil
     ) {
         self.identifier = identifier
+        self.includeTags = includeTags
         self.linkConfiguration = linkConfiguration
         self.resourceTypes = resourceTypes
     }
@@ -1142,6 +1163,7 @@ extension GetLinkInput {
     static func write(value: GetLinkInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Identifier"].write(value.identifier)
+        try writer["IncludeTags"].write(value.includeTags)
     }
 }
 
@@ -1150,6 +1172,7 @@ extension GetSinkInput {
     static func write(value: GetSinkInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Identifier"].write(value.identifier)
+        try writer["IncludeTags"].write(value.includeTags)
     }
 }
 
@@ -1211,6 +1234,7 @@ extension UpdateLinkInput {
     static func write(value: UpdateLinkInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Identifier"].write(value.identifier)
+        try writer["IncludeTags"].write(value.includeTags)
         try writer["LinkConfiguration"].write(value.linkConfiguration, with: OAMClientTypes.LinkConfiguration.write(value:to:))
         try writer["ResourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<OAMClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -1678,12 +1702,12 @@ extension ConflictException {
     }
 }
 
-extension ServiceQuotaExceededException {
+extension InternalServiceFault {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceFault {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
-        var value = ServiceQuotaExceededException()
+        var value = InternalServiceFault()
         if let amznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
             value.properties.amznErrorType = amznErrorTypeHeaderValue
         }
@@ -1695,16 +1719,16 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension InternalServiceFault {
+extension InvalidParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceFault {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
-        var value = InternalServiceFault()
+        var value = InvalidParameterException()
         if let amznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
             value.properties.amznErrorType = amznErrorTypeHeaderValue
         }
-        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -1729,16 +1753,16 @@ extension MissingRequiredParameterException {
     }
 }
 
-extension InvalidParameterException {
+extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidParameterException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
-        var value = InvalidParameterException()
+        var value = ServiceQuotaExceededException()
         if let amznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
             value.properties.amznErrorType = amznErrorTypeHeaderValue
         }
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

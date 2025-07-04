@@ -14,18 +14,22 @@ import software.amazon.smithy.protocoltests.traits.HttpRequestTestCase
 import software.amazon.smithy.swift.codegen.SwiftWriter
 
 class EC2QueryCustomizations : AWSHTTPProtocolCustomizations() {
+    override fun customRenderBodyComparison(
+        test: HttpRequestTestCase,
+    ): ((SwiftWriter, HttpRequestTestCase, Symbol, Shape, String, String) -> Unit)? = this::renderFormURLBodyComparison
 
-    override fun customRenderBodyComparison(test: HttpRequestTestCase): ((SwiftWriter, HttpRequestTestCase, Symbol, Shape, String, String) -> Unit)? {
-        return this::renderFormURLBodyComparison
-    }
-
-    private fun renderFormURLBodyComparison(writer: SwiftWriter, test: HttpRequestTestCase, symbol: Symbol, shape: Shape, expectedData: String, actualData: String) {
+    private fun renderFormURLBodyComparison(
+        writer: SwiftWriter,
+        test: HttpRequestTestCase,
+        symbol: Symbol,
+        shape: Shape,
+        expectedData: String,
+        actualData: String,
+    ) {
         writer.write("self.assertEqualFormURLBody($expectedData, $actualData)")
     }
 
-    override fun alwaysHasHttpBody(): Boolean {
-        return true
-    }
+    override fun alwaysHasHttpBody(): Boolean = true
 
     override val baseErrorSymbol: Symbol = AWSClientRuntimeTypes.EC2Query.EC2QueryError
 

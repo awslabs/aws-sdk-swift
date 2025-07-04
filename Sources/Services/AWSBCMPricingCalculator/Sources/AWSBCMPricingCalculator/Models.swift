@@ -1688,13 +1688,15 @@ extension BCMPricingCalculatorClientTypes {
         case failed
         case locked
         case ready
+        case stale
         case sdkUnknown(Swift.String)
 
         public static var allCases: [BillScenarioStatus] {
             return [
                 .failed,
                 .locked,
-                .ready
+                .ready,
+                .stale
             ]
         }
 
@@ -1708,6 +1710,7 @@ extension BCMPricingCalculatorClientTypes {
             case .failed: return "FAILED"
             case .locked: return "LOCKED"
             case .ready: return "READY"
+            case .stale: return "STALE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2363,12 +2366,14 @@ extension BCMPricingCalculatorClientTypes {
 
     public enum RateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afterDiscounts
+        case afterDiscountsAndCommitments
         case beforeDiscounts
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RateType] {
             return [
                 .afterDiscounts,
+                .afterDiscountsAndCommitments,
                 .beforeDiscounts
             ]
         }
@@ -2381,6 +2386,7 @@ extension BCMPricingCalculatorClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .afterDiscounts: return "AFTER_DISCOUNTS"
+            case .afterDiscountsAndCommitments: return "AFTER_DISCOUNTS_AND_COMMITMENTS"
             case .beforeDiscounts: return "BEFORE_DISCOUNTS"
             case let .sdkUnknown(s): return s
             }
@@ -2393,13 +2399,17 @@ public struct GetPreferencesOutput: Swift.Sendable {
     public var managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
     /// The preferred rate types for member accounts.
     public var memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
+    /// The preferred rate types for a standalone account.
+    public var standaloneAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
 
     public init(
         managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
-        memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil
+        memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
+        standaloneAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil
     ) {
         self.managementAccountRateTypeSelections = managementAccountRateTypeSelections
         self.memberAccountRateTypeSelections = memberAccountRateTypeSelections
+        self.standaloneAccountRateTypeSelections = standaloneAccountRateTypeSelections
     }
 }
 
@@ -2539,13 +2549,17 @@ public struct UpdatePreferencesInput: Swift.Sendable {
     public var managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
     /// The updated preferred rate types for member accounts.
     public var memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
+    /// The updated preferred rate types for a standalone account.
+    public var standaloneAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
 
     public init(
         managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
-        memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil
+        memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
+        standaloneAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil
     ) {
         self.managementAccountRateTypeSelections = managementAccountRateTypeSelections
         self.memberAccountRateTypeSelections = memberAccountRateTypeSelections
+        self.standaloneAccountRateTypeSelections = standaloneAccountRateTypeSelections
     }
 }
 
@@ -2554,13 +2568,17 @@ public struct UpdatePreferencesOutput: Swift.Sendable {
     public var managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
     /// The updated preferred rate types for member accounts.
     public var memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
+    /// The updated preferred rate types for a standalone account.
+    public var standaloneAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]?
 
     public init(
         managementAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
-        memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil
+        memberAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil,
+        standaloneAccountRateTypeSelections: [BCMPricingCalculatorClientTypes.RateType]? = nil
     ) {
         self.managementAccountRateTypeSelections = managementAccountRateTypeSelections
         self.memberAccountRateTypeSelections = memberAccountRateTypeSelections
+        self.standaloneAccountRateTypeSelections = standaloneAccountRateTypeSelections
     }
 }
 
@@ -2662,12 +2680,14 @@ extension BCMPricingCalculatorClientTypes {
 
     public enum WorkloadEstimateRateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afterDiscounts
+        case afterDiscountsAndCommitments
         case beforeDiscounts
         case sdkUnknown(Swift.String)
 
         public static var allCases: [WorkloadEstimateRateType] {
             return [
                 .afterDiscounts,
+                .afterDiscountsAndCommitments,
                 .beforeDiscounts
             ]
         }
@@ -2680,6 +2700,7 @@ extension BCMPricingCalculatorClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .afterDiscounts: return "AFTER_DISCOUNTS"
+            case .afterDiscountsAndCommitments: return "AFTER_DISCOUNTS_AND_COMMITMENTS"
             case .beforeDiscounts: return "BEFORE_DISCOUNTS"
             case let .sdkUnknown(s): return s
             }
@@ -4252,6 +4273,7 @@ extension BatchCreateBillScenarioCommitmentModificationInput {
     static func write(value: BatchCreateBillScenarioCommitmentModificationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["billScenarioId"].write(value.billScenarioId)
+        try writer["clientToken"].write(value.clientToken)
         try writer["commitmentModifications"].writeList(value.commitmentModifications, memberWritingClosure: BCMPricingCalculatorClientTypes.BatchCreateBillScenarioCommitmentModificationEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -4261,6 +4283,7 @@ extension BatchCreateBillScenarioUsageModificationInput {
     static func write(value: BatchCreateBillScenarioUsageModificationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["billScenarioId"].write(value.billScenarioId)
+        try writer["clientToken"].write(value.clientToken)
         try writer["usageModifications"].writeList(value.usageModifications, memberWritingClosure: BCMPricingCalculatorClientTypes.BatchCreateBillScenarioUsageModificationEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -4269,6 +4292,7 @@ extension BatchCreateWorkloadEstimateUsageInput {
 
     static func write(value: BatchCreateWorkloadEstimateUsageInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
         try writer["usage"].writeList(value.usage, memberWritingClosure: BCMPricingCalculatorClientTypes.BatchCreateWorkloadEstimateUsageEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["workloadEstimateId"].write(value.workloadEstimateId)
     }
@@ -4333,6 +4357,7 @@ extension CreateBillEstimateInput {
     static func write(value: CreateBillEstimateInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["billScenarioId"].write(value.billScenarioId)
+        try writer["clientToken"].write(value.clientToken)
         try writer["name"].write(value.name)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -4342,6 +4367,7 @@ extension CreateBillScenarioInput {
 
     static func write(value: CreateBillScenarioInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
         try writer["name"].write(value.name)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -4351,6 +4377,7 @@ extension CreateWorkloadEstimateInput {
 
     static func write(value: CreateWorkloadEstimateInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
         try writer["name"].write(value.name)
         try writer["rateType"].write(value.rateType)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -4575,6 +4602,7 @@ extension UpdatePreferencesInput {
         guard let value else { return }
         try writer["managementAccountRateTypeSelections"].writeList(value.managementAccountRateTypeSelections, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BCMPricingCalculatorClientTypes.RateType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["memberAccountRateTypeSelections"].writeList(value.memberAccountRateTypeSelections, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BCMPricingCalculatorClientTypes.RateType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["standaloneAccountRateTypeSelections"].writeList(value.standaloneAccountRateTypeSelections, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BCMPricingCalculatorClientTypes.RateType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4827,6 +4855,7 @@ extension GetPreferencesOutput {
         var value = GetPreferencesOutput()
         value.managementAccountRateTypeSelections = try reader["managementAccountRateTypeSelections"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BCMPricingCalculatorClientTypes.RateType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.memberAccountRateTypeSelections = try reader["memberAccountRateTypeSelections"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BCMPricingCalculatorClientTypes.RateType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.standaloneAccountRateTypeSelections = try reader["standaloneAccountRateTypeSelections"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BCMPricingCalculatorClientTypes.RateType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5054,6 +5083,7 @@ extension UpdatePreferencesOutput {
         var value = UpdatePreferencesOutput()
         value.managementAccountRateTypeSelections = try reader["managementAccountRateTypeSelections"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BCMPricingCalculatorClientTypes.RateType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.memberAccountRateTypeSelections = try reader["memberAccountRateTypeSelections"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BCMPricingCalculatorClientTypes.RateType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.standaloneAccountRateTypeSelections = try reader["standaloneAccountRateTypeSelections"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BCMPricingCalculatorClientTypes.RateType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5677,19 +5707,6 @@ enum UpdateWorkloadEstimateOutputError {
     }
 }
 
-extension DataUnavailableException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DataUnavailableException {
-        let reader = baseError.errorBodyReader
-        var value = DataUnavailableException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ConflictException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
@@ -5698,6 +5715,19 @@ extension ConflictException {
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DataUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DataUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = DataUnavailableException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

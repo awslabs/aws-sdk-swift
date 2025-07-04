@@ -9,6 +9,7 @@
 
 @_spi(SmithyReadWrite) import ClientRuntime
 import Foundation
+import SmithyJSON
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Reader
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
@@ -25,8 +26,10 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+import struct Smithy.Document
 import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// Internal server error.
 public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -1156,6 +1159,50 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    /// Specifies a cross-Region data aggregation configuration, including the aggregation Region and any linked Regions.
+    public struct AggregatorV2: Swift.Sendable {
+        /// The ARN of the aggregatorV2.
+        public var aggregatorV2Arn: Swift.String?
+
+        public init(
+            aggregatorV2Arn: Swift.String? = nil
+        ) {
+            self.aggregatorV2Arn = aggregatorV2Arn
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum AllowedOperators: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case and
+        case or
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AllowedOperators] {
+            return [
+                .and,
+                .or
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .and: return "AND"
+            case .or: return "OR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     /// Information about an enabled security standard in which a security control is enabled.
     public struct AssociatedStandard: Swift.Sendable {
         /// The unique identifier of a standard in which a control is enabled. This field consists of the resource portion of the Amazon Resource Name (ARN) returned for a standard in the [DescribeStandards](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_DescribeStandards.html) API response.
@@ -1367,8 +1414,115 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    /// Defines the settings and parameters required for integrating external security tools and services.
+    public struct ExternalIntegrationConfiguration: Swift.Sendable {
+        /// The ARN of the connector that establishes the integration.
+        public var connectorArn: Swift.String?
+
+        public init(
+            connectorArn: Swift.String? = nil
+        ) {
+            self.connectorArn = connectorArn
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Allows you to define the structure for modifying specific fields in security findings.
+    public struct AutomationRulesFindingFieldsUpdateV2: Swift.Sendable {
+        /// Notes or contextual information for findings that are modified by the automation rule.
+        public var comment: Swift.String?
+        /// The severity level to be assigned to findings that match the automation rule criteria.
+        public var severityId: Swift.Int?
+        /// The status to be applied to findings that match automation rule criteria.
+        public var statusId: Swift.Int?
+
+        public init(
+            comment: Swift.String? = nil,
+            severityId: Swift.Int? = nil,
+            statusId: Swift.Int? = nil
+        ) {
+            self.comment = comment
+            self.severityId = severityId
+            self.statusId = statusId
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum AutomationRulesActionTypeV2: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case externalIntegration
+        case findingFieldsUpdate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutomationRulesActionTypeV2] {
+            return [
+                .externalIntegration,
+                .findingFieldsUpdate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .externalIntegration: return "EXTERNAL_INTEGRATION"
+            case .findingFieldsUpdate: return "FINDING_FIELDS_UPDATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Allows you to configure automated responses.
+    public struct AutomationRulesActionV2: Swift.Sendable {
+        /// The settings for integrating automation rule actions with external systems or service.
+        public var externalIntegrationConfiguration: SecurityHubClientTypes.ExternalIntegrationConfiguration?
+        /// The changes to be applied to fields in a security finding when an automation rule is triggered.
+        public var findingFieldsUpdate: SecurityHubClientTypes.AutomationRulesFindingFieldsUpdateV2?
+        /// The category of action to be executed by the automation rule.
+        /// This member is required.
+        public var type: SecurityHubClientTypes.AutomationRulesActionTypeV2?
+
+        public init(
+            externalIntegrationConfiguration: SecurityHubClientTypes.ExternalIntegrationConfiguration? = nil,
+            findingFieldsUpdate: SecurityHubClientTypes.AutomationRulesFindingFieldsUpdateV2? = nil,
+            type: SecurityHubClientTypes.AutomationRulesActionTypeV2? = nil
+        ) {
+            self.externalIntegrationConfiguration = externalIntegrationConfiguration
+            self.findingFieldsUpdate = findingFieldsUpdate
+            self.type = type
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Allows you to customize security response workflows.
+    public struct AutomationRulesActionTypeObjectV2: Swift.Sendable {
+        /// The category of action to be executed by the automation rule.
+        public var type: SecurityHubClientTypes.AutomationRulesActionTypeV2?
+
+        public init(
+            type: SecurityHubClientTypes.AutomationRulesActionTypeV2? = nil
+        ) {
+            self.type = type
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     public enum StringFilterComparison: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case contains
+        case containsWord
         case equals
         case notContains
         case notEquals
@@ -1379,6 +1533,7 @@ extension SecurityHubClientTypes {
         public static var allCases: [StringFilterComparison] {
             return [
                 .contains,
+                .containsWord,
                 .equals,
                 .notContains,
                 .notEquals,
@@ -1395,6 +1550,7 @@ extension SecurityHubClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .contains: return "CONTAINS"
+            case .containsWord: return "CONTAINS_WORD"
             case .equals: return "EQUALS"
             case .notContains: return "NOT_CONTAINS"
             case .notEquals: return "NOT_EQUALS"
@@ -1439,7 +1595,7 @@ extension SecurityHubClientTypes {
         /// * ResourceType NOT_EQUALS AwsEc2NetworkInterface
         ///
         ///
-        /// CONTAINS and NOT_CONTAINS operators can be used only with automation rules. For more information, see [Automation rules](https://docs.aws.amazon.com/securityhub/latest/userguide/automation-rules.html) in the Security Hub User Guide.
+        /// CONTAINS and NOT_CONTAINS operators can be used only with automation rules V1. CONTAINS_WORD operator is only supported in GetFindingsV2, GetFindingStatisticsV2, GetResourcesV2, and GetResourceStatisticsV2 APIs. For more information, see [Automation rules](https://docs.aws.amazon.com/securityhub/latest/userguide/automation-rules.html) in the Security Hub User Guide.
         public var comparison: SecurityHubClientTypes.StringFilterComparison?
         /// The string filter value. Filter values are case sensitive. For example, the product name for control-based findings is Security Hub. If you provide security hub as the filter value, there's no match.
         public var value: Swift.String?
@@ -1911,6 +2067,82 @@ extension SecurityHubClientTypes {
             self.description = description
             self.isTerminal = isTerminal
             self.ruleArn = ruleArn
+            self.ruleName = ruleName
+            self.ruleOrder = ruleOrder
+            self.ruleStatus = ruleStatus
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum RuleStatusV2: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuleStatusV2] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Includes essential metadata information about automation rules.
+    public struct AutomationRulesMetadataV2: Swift.Sendable {
+        /// The list of action to be performed when the rule criteria is met.
+        public var actions: [SecurityHubClientTypes.AutomationRulesActionTypeObjectV2]?
+        /// The timestamp for when the automation rule was created.
+        public var createdAt: Foundation.Date?
+        /// An explanation for the purpose and funcitonality of the automation rule.
+        public var description: Swift.String?
+        /// The ARN of the automation rule.
+        public var ruleArn: Swift.String?
+        /// The ID of the automation rule.
+        public var ruleId: Swift.String?
+        /// The name of the automation rule.
+        public var ruleName: Swift.String?
+        /// The value for the rule priority.
+        public var ruleOrder: Swift.Float?
+        /// The status of the automation rule.
+        public var ruleStatus: SecurityHubClientTypes.RuleStatusV2?
+        /// The timestamp for the most recent modification to the automation rule.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            actions: [SecurityHubClientTypes.AutomationRulesActionTypeObjectV2]? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            ruleArn: Swift.String? = nil,
+            ruleId: Swift.String? = nil,
+            ruleName: Swift.String? = nil,
+            ruleOrder: Swift.Float? = nil,
+            ruleStatus: SecurityHubClientTypes.RuleStatusV2? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.actions = actions
+            self.createdAt = createdAt
+            self.description = description
+            self.ruleArn = ruleArn
+            self.ruleId = ruleId
             self.ruleName = ruleName
             self.ruleOrder = ruleOrder
             self.ruleStatus = ruleStatus
@@ -21054,6 +21286,35 @@ public struct BatchDisableStandardsInput: Swift.Sendable {
 
 extension SecurityHubClientTypes {
 
+    public enum StandardsControlsUpdatable: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case notReadyForUpdates
+        case readyForUpdates
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StandardsControlsUpdatable] {
+            return [
+                .notReadyForUpdates,
+                .readyForUpdates
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .notReadyForUpdates: return "NOT_READY_FOR_UPDATES"
+            case .readyForUpdates: return "READY_FOR_UPDATES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     public enum StandardsStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deleting
         case failed
@@ -21094,12 +21355,14 @@ extension SecurityHubClientTypes {
 
     public enum StatusReasonCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case internalError
+        case maximumNumberOfConfigRulesExceeded
         case noAvailableConfigurationRecorder
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StatusReasonCode] {
             return [
                 .internalError,
+                .maximumNumberOfConfigRulesExceeded,
                 .noAvailableConfigurationRecorder
             ]
         }
@@ -21112,6 +21375,7 @@ extension SecurityHubClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .internalError: return "INTERNAL_ERROR"
+            case .maximumNumberOfConfigRulesExceeded: return "MAXIMUM_NUMBER_OF_CONFIG_RULES_EXCEEDED"
             case .noAvailableConfigurationRecorder: return "NO_AVAILABLE_CONFIGURATION_RECORDER"
             case let .sdkUnknown(s): return s
             }
@@ -21121,7 +21385,7 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
-    /// The reason for the current status of a standard subscription.
+    /// The reason for the current status of your subscription to the standard.
     public struct StandardsStatusReason: Swift.Sendable {
         /// The reason code that represents the reason for the current status of a standard subscription.
         /// This member is required.
@@ -21139,39 +21403,47 @@ extension SecurityHubClientTypes {
 
     /// A resource that represents your subscription to a supported standard.
     public struct StandardsSubscription: Swift.Sendable {
-        /// The ARN of a standard.
+        /// The ARN of the standard.
         /// This member is required.
         public var standardsArn: Swift.String?
+        /// Specifies whether you can retrieve information about and configure individual controls that apply to the standard. Possible values are:
+        ///
+        /// * READY_FOR_UPDATES - Controls in the standard can be retrieved and configured.
+        ///
+        /// * NOT_READY_FOR_UPDATES - Controls in the standard cannot be retrieved or configured.
+        public var standardsControlsUpdatable: SecurityHubClientTypes.StandardsControlsUpdatable?
         /// A key-value pair of input for the standard.
         /// This member is required.
         public var standardsInput: [Swift.String: Swift.String]?
-        /// The status of the standard subscription. The status values are as follows:
+        /// The status of your subscription to the standard. Possible values are:
         ///
-        /// * PENDING - Standard is in the process of being enabled.
+        /// * PENDING - The standard is in the process of being enabled. Or the standard is already enabled and Security Hub is adding new controls to the standard.
         ///
-        /// * READY - Standard is enabled.
+        /// * READY - The standard is enabled.
         ///
-        /// * INCOMPLETE - Standard could not be enabled completely. Some controls may not be available.
+        /// * INCOMPLETE - The standard could not be enabled completely. One or more errors (StandardsStatusReason) occurred when Security Hub attempted to enable the standard.
         ///
-        /// * DELETING - Standard is in the process of being disabled.
+        /// * DELETING - The standard is in the process of being disabled.
         ///
-        /// * FAILED - Standard could not be disabled.
+        /// * FAILED - The standard could not be disabled. One or more errors (StandardsStatusReason) occurred when Security Hub attempted to disable the standard.
         /// This member is required.
         public var standardsStatus: SecurityHubClientTypes.StandardsStatus?
         /// The reason for the current status.
         public var standardsStatusReason: SecurityHubClientTypes.StandardsStatusReason?
-        /// The ARN of a resource that represents your subscription to a supported standard.
+        /// The ARN of the resource that represents your subscription to the standard.
         /// This member is required.
         public var standardsSubscriptionArn: Swift.String?
 
         public init(
             standardsArn: Swift.String? = nil,
+            standardsControlsUpdatable: SecurityHubClientTypes.StandardsControlsUpdatable? = nil,
             standardsInput: [Swift.String: Swift.String]? = nil,
             standardsStatus: SecurityHubClientTypes.StandardsStatus? = nil,
             standardsStatusReason: SecurityHubClientTypes.StandardsStatusReason? = nil,
             standardsSubscriptionArn: Swift.String? = nil
         ) {
             self.standardsArn = standardsArn
+            self.standardsControlsUpdatable = standardsControlsUpdatable
             self.standardsInput = standardsInput
             self.standardsStatus = standardsStatus
             self.standardsStatusReason = standardsStatusReason
@@ -22115,6 +22387,261 @@ public struct BatchUpdateFindingsOutput: Swift.Sendable {
     }
 }
 
+/// The request causes conflict with the current state of the service resource.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var code: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.code = code
+        self.properties.message = message
+    }
+}
+
+/// The request has failed due to an internal failure of the service.
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var code: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.code = code
+        self.properties.message = message
+    }
+}
+
+/// The limit on the number of requests per second was exceeded.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var code: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.code = code
+        self.properties.message = message
+    }
+}
+
+/// The request has failed validation because it's missing required fields or has invalid inputs.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var code: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        code: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.code = code
+        self.properties.message = message
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Provides a standard to identify security findings using OCSF.
+    public struct OcsfFindingIdentifier: Swift.Sendable {
+        /// Finding cloud.account.uid, which is a unique identifier in the Amazon Web Services account..
+        /// This member is required.
+        public var cloudAccountUid: Swift.String?
+        /// Finding finding_info.uid, which is a unique identifier for the finding from the finding provider.
+        /// This member is required.
+        public var findingInfoUid: Swift.String?
+        /// Finding metadata.product.uid, which is a unique identifier for the product.
+        /// This member is required.
+        public var metadataProductUid: Swift.String?
+
+        public init(
+            cloudAccountUid: Swift.String? = nil,
+            findingInfoUid: Swift.String? = nil,
+            metadataProductUid: Swift.String? = nil
+        ) {
+            self.cloudAccountUid = cloudAccountUid
+            self.findingInfoUid = findingInfoUid
+            self.metadataProductUid = metadataProductUid
+        }
+    }
+}
+
+public struct BatchUpdateFindingsV2Input: Swift.Sendable {
+    /// The updated value for a user provided comment about the finding. Minimum character length 1. Maximum character length 512.
+    public var comment: Swift.String?
+    /// Provides information to identify a specific V2 finding.
+    public var findingIdentifiers: [SecurityHubClientTypes.OcsfFindingIdentifier]?
+    /// The list of finding metadata.uid to indicate findings to update. Finding metadata.uid is a globally unique identifier associated with the finding. Customers cannot use MetadataUids together with FindingIdentifiers.
+    public var metadataUids: [Swift.String]?
+    /// The updated value for the normalized severity identifier. The severity ID is an integer with the allowed enum values [0, 1, 2, 3, 4, 5, 99]. When customer provides the updated severity ID, the string sibling severity will automatically be updated in the finding.
+    public var severityId: Swift.Int?
+    /// The updated value for the normalized status identifier. The status ID is an integer with the allowed enum values [0, 1, 2, 3, 4, 5, 6, 99]. When customer provides the updated status ID, the string sibling status will automatically be updated in the finding.
+    public var statusId: Swift.Int?
+
+    public init(
+        comment: Swift.String? = nil,
+        findingIdentifiers: [SecurityHubClientTypes.OcsfFindingIdentifier]? = nil,
+        metadataUids: [Swift.String]? = nil,
+        severityId: Swift.Int? = nil,
+        statusId: Swift.Int? = nil
+    ) {
+        self.comment = comment
+        self.findingIdentifiers = findingIdentifiers
+        self.metadataUids = metadataUids
+        self.severityId = severityId
+        self.statusId = statusId
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The list of findings that were updated.
+    public struct BatchUpdateFindingsV2ProcessedFinding: Swift.Sendable {
+        /// The finding identifier of a processed finding.
+        public var findingIdentifier: SecurityHubClientTypes.OcsfFindingIdentifier?
+        /// The metadata.uid of a processed finding.
+        public var metadataUid: Swift.String?
+
+        public init(
+            findingIdentifier: SecurityHubClientTypes.OcsfFindingIdentifier? = nil,
+            metadataUid: Swift.String? = nil
+        ) {
+            self.findingIdentifier = findingIdentifier
+            self.metadataUid = metadataUid
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum BatchUpdateFindingsV2UnprocessedFindingErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case conflictexception
+        case internalserverexception
+        case resourcenotfoundexception
+        case validationexception
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchUpdateFindingsV2UnprocessedFindingErrorCode] {
+            return [
+                .conflictexception,
+                .internalserverexception,
+                .resourcenotfoundexception,
+                .validationexception
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .conflictexception: return "ConflictException"
+            case .internalserverexception: return "InternalServerException"
+            case .resourcenotfoundexception: return "ResourceNotFoundException"
+            case .validationexception: return "ValidationException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The list of findings that were not updated.
+    public struct BatchUpdateFindingsV2UnprocessedFinding: Swift.Sendable {
+        /// Indicates the specific type of error preventing successful processing of a finding during a batch update operation.
+        public var errorCode: SecurityHubClientTypes.BatchUpdateFindingsV2UnprocessedFindingErrorCode?
+        /// A detailed description of why a finding could not be processed during a batch update operation.
+        public var errorMessage: Swift.String?
+        /// The finding identifier of an unprocessed finding.
+        public var findingIdentifier: SecurityHubClientTypes.OcsfFindingIdentifier?
+        /// The metadata.uid of an unprocessed finding.
+        public var metadataUid: Swift.String?
+
+        public init(
+            errorCode: SecurityHubClientTypes.BatchUpdateFindingsV2UnprocessedFindingErrorCode? = nil,
+            errorMessage: Swift.String? = nil,
+            findingIdentifier: SecurityHubClientTypes.OcsfFindingIdentifier? = nil,
+            metadataUid: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.findingIdentifier = findingIdentifier
+            self.metadataUid = metadataUid
+        }
+    }
+}
+
+public struct BatchUpdateFindingsV2Output: Swift.Sendable {
+    /// The list of findings that were updated successfully.
+    /// This member is required.
+    public var processedFindings: [SecurityHubClientTypes.BatchUpdateFindingsV2ProcessedFinding]?
+    /// The list of V2 findings that were not updated.
+    /// This member is required.
+    public var unprocessedFindings: [SecurityHubClientTypes.BatchUpdateFindingsV2UnprocessedFinding]?
+
+    public init(
+        processedFindings: [SecurityHubClientTypes.BatchUpdateFindingsV2ProcessedFinding]? = nil,
+        unprocessedFindings: [SecurityHubClientTypes.BatchUpdateFindingsV2UnprocessedFinding]? = nil
+    ) {
+        self.processedFindings = processedFindings
+        self.unprocessedFindings = unprocessedFindings
+    }
+}
+
 extension SecurityHubClientTypes {
 
     /// An array of requested updates to the enablement status of controls in specified standards. The objects in the array include a security control ID, the Amazon Resource Name (ARN) of the standard, the requested enablement status, and the reason for updating the enablement status.
@@ -22146,7 +22673,7 @@ extension SecurityHubClientTypes {
 }
 
 public struct BatchUpdateStandardsControlAssociationsInput: Swift.Sendable {
-    /// Updates the enablement status of a security control in a specified standard.
+    /// Updates the enablement status of a security control in a specified standard. Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the control has StandardsControlsUpdatable value NOT_READY_FOR_UPDATES.
     /// This member is required.
     public var standardsControlAssociationUpdates: [SecurityHubClientTypes.StandardsControlAssociationUpdate]?
 
@@ -22204,6 +22731,389 @@ extension SecurityHubClientTypes {
             defaultValue: Swift.Bool? = nil
         ) {
             self.defaultValue = defaultValue
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum OcsfBooleanField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case complianceAssessmentsMeetsCriteria
+        case vulnerabilitiesIsExploitAvailable
+        case vulnerabilitiesIsFixAvailable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OcsfBooleanField] {
+            return [
+                .complianceAssessmentsMeetsCriteria,
+                .vulnerabilitiesIsExploitAvailable,
+                .vulnerabilitiesIsFixAvailable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .complianceAssessmentsMeetsCriteria: return "compliance.assessments.meets_criteria"
+            case .vulnerabilitiesIsExploitAvailable: return "vulnerabilities.is_exploit_available"
+            case .vulnerabilitiesIsFixAvailable: return "vulnerabilities.is_fix_available"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables filtering of security findings based on boolean field values in OCSF.
+    public struct OcsfBooleanFilter: Swift.Sendable {
+        /// The name of the field.
+        public var fieldName: SecurityHubClientTypes.OcsfBooleanField?
+        /// Boolean filter for querying findings.
+        public var filter: SecurityHubClientTypes.BooleanFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.OcsfBooleanField? = nil,
+            filter: SecurityHubClientTypes.BooleanFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum OcsfDateField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case findingInfoCreatedTimeDt
+        case findingInfoFirstSeenTimeDt
+        case findingInfoLastSeenTimeDt
+        case findingInfoModifiedTimeDt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OcsfDateField] {
+            return [
+                .findingInfoCreatedTimeDt,
+                .findingInfoFirstSeenTimeDt,
+                .findingInfoLastSeenTimeDt,
+                .findingInfoModifiedTimeDt
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .findingInfoCreatedTimeDt: return "finding_info.created_time_dt"
+            case .findingInfoFirstSeenTimeDt: return "finding_info.first_seen_time_dt"
+            case .findingInfoLastSeenTimeDt: return "finding_info.last_seen_time_dt"
+            case .findingInfoModifiedTimeDt: return "finding_info.modified_time_dt"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables filtering of security findings based on date and timestamp fields in OCSF.
+    public struct OcsfDateFilter: Swift.Sendable {
+        /// The name of the field.
+        public var fieldName: SecurityHubClientTypes.OcsfDateField?
+        /// A date filter for querying findings.
+        public var filter: SecurityHubClientTypes.DateFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.OcsfDateField? = nil,
+            filter: SecurityHubClientTypes.DateFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum OcsfMapField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case resourcesTags
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OcsfMapField] {
+            return [
+                .resourcesTags
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .resourcesTags: return "resources.tags"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables filtering of security findings based on map field values in OCSF.
+    public struct OcsfMapFilter: Swift.Sendable {
+        /// The name of the field.
+        public var fieldName: SecurityHubClientTypes.OcsfMapField?
+        /// A map filter for filtering Security Hub findings. Each map filter provides the field to check for, the value to check for, and the comparison operator.
+        public var filter: SecurityHubClientTypes.MapFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.OcsfMapField? = nil,
+            filter: SecurityHubClientTypes.MapFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum OcsfNumberField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activityId
+        case complianceStatusId
+        case confidenceScore
+        case findingInfoRelatedEventsCount
+        case severityId
+        case statusId
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OcsfNumberField] {
+            return [
+                .activityId,
+                .complianceStatusId,
+                .confidenceScore,
+                .findingInfoRelatedEventsCount,
+                .severityId,
+                .statusId
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .activityId: return "activity_id"
+            case .complianceStatusId: return "compliance.status_id"
+            case .confidenceScore: return "confidence_score"
+            case .findingInfoRelatedEventsCount: return "finding_info.related_events_count"
+            case .severityId: return "severity_id"
+            case .statusId: return "status_id"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables filtering of security findings based on numerical field values in OCSF.
+    public struct OcsfNumberFilter: Swift.Sendable {
+        /// The name of the field.
+        public var fieldName: SecurityHubClientTypes.OcsfNumberField?
+        /// A number filter for querying findings.
+        public var filter: SecurityHubClientTypes.NumberFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.OcsfNumberField? = nil,
+            filter: SecurityHubClientTypes.NumberFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum OcsfStringField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activityName
+        case className
+        case cloudAccountUid
+        case cloudProvider
+        case cloudRegion
+        case comment
+        case complianceAssessmentsCategory
+        case complianceAssessmentsName
+        case complianceControl
+        case complianceStandards
+        case complianceStatus
+        case findingInfoDesc
+        case findingInfoRelatedEventsProductUid
+        case findingInfoRelatedEventsTitle
+        case findingInfoRelatedEventsUid
+        case findingInfoSrcUrl
+        case findingInfoTitle
+        case findingInfoTypes
+        case findingInfoUid
+        case metadataProductName
+        case metadataProductUid
+        case metadataProductVendorName
+        case metadataUid
+        case remediationDesc
+        case remediationReferences
+        case resourcesCloudPartition
+        case resourcesRegion
+        case resourcesType
+        case resourcesUid
+        case severity
+        case status
+        case vulnerabilitiesFixCoverage
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OcsfStringField] {
+            return [
+                .activityName,
+                .className,
+                .cloudAccountUid,
+                .cloudProvider,
+                .cloudRegion,
+                .comment,
+                .complianceAssessmentsCategory,
+                .complianceAssessmentsName,
+                .complianceControl,
+                .complianceStandards,
+                .complianceStatus,
+                .findingInfoDesc,
+                .findingInfoRelatedEventsProductUid,
+                .findingInfoRelatedEventsTitle,
+                .findingInfoRelatedEventsUid,
+                .findingInfoSrcUrl,
+                .findingInfoTitle,
+                .findingInfoTypes,
+                .findingInfoUid,
+                .metadataProductName,
+                .metadataProductUid,
+                .metadataProductVendorName,
+                .metadataUid,
+                .remediationDesc,
+                .remediationReferences,
+                .resourcesCloudPartition,
+                .resourcesRegion,
+                .resourcesType,
+                .resourcesUid,
+                .severity,
+                .status,
+                .vulnerabilitiesFixCoverage
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .activityName: return "activity_name"
+            case .className: return "class_name"
+            case .cloudAccountUid: return "cloud.account.uid"
+            case .cloudProvider: return "cloud.provider"
+            case .cloudRegion: return "cloud.region"
+            case .comment: return "comment"
+            case .complianceAssessmentsCategory: return "compliance.assessments.category"
+            case .complianceAssessmentsName: return "compliance.assessments.name"
+            case .complianceControl: return "compliance.control"
+            case .complianceStandards: return "compliance.standards"
+            case .complianceStatus: return "compliance.status"
+            case .findingInfoDesc: return "finding_info.desc"
+            case .findingInfoRelatedEventsProductUid: return "finding_info.related_events.product.uid"
+            case .findingInfoRelatedEventsTitle: return "finding_info.related_events.title"
+            case .findingInfoRelatedEventsUid: return "finding_info.related_events.uid"
+            case .findingInfoSrcUrl: return "finding_info.src_url"
+            case .findingInfoTitle: return "finding_info.title"
+            case .findingInfoTypes: return "finding_info.types"
+            case .findingInfoUid: return "finding_info.uid"
+            case .metadataProductName: return "metadata.product.name"
+            case .metadataProductUid: return "metadata.product.uid"
+            case .metadataProductVendorName: return "metadata.product.vendor_name"
+            case .metadataUid: return "metadata.uid"
+            case .remediationDesc: return "remediation.desc"
+            case .remediationReferences: return "remediation.references"
+            case .resourcesCloudPartition: return "resources.cloud_partition"
+            case .resourcesRegion: return "resources.region"
+            case .resourcesType: return "resources.type"
+            case .resourcesUid: return "resources.uid"
+            case .severity: return "severity"
+            case .status: return "status"
+            case .vulnerabilitiesFixCoverage: return "vulnerabilities.fix_coverage"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables filtering of security findings based on string field values in OCSF.
+    public struct OcsfStringFilter: Swift.Sendable {
+        /// The name of the field.
+        public var fieldName: SecurityHubClientTypes.OcsfStringField?
+        /// A string filter for filtering Security Hub findings.
+        public var filter: SecurityHubClientTypes.StringFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.OcsfStringField? = nil,
+            filter: SecurityHubClientTypes.StringFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables the creation of filtering criteria for security findings.
+    public struct CompositeFilter: Swift.Sendable {
+        /// Enables filtering based on boolean field values.
+        public var booleanFilters: [SecurityHubClientTypes.OcsfBooleanFilter]?
+        /// Enables filtering based on date and timestamp fields.
+        public var dateFilters: [SecurityHubClientTypes.OcsfDateFilter]?
+        /// Enables filtering based on map field values.
+        public var mapFilters: [SecurityHubClientTypes.OcsfMapFilter]?
+        /// Enables filtering based on numerical field values.
+        public var numberFilters: [SecurityHubClientTypes.OcsfNumberFilter]?
+        /// The logical operator used to combine multiple filter conditions.
+        public var `operator`: SecurityHubClientTypes.AllowedOperators?
+        /// Enables filtering based on string field values.
+        public var stringFilters: [SecurityHubClientTypes.OcsfStringFilter]?
+
+        public init(
+            booleanFilters: [SecurityHubClientTypes.OcsfBooleanFilter]? = nil,
+            dateFilters: [SecurityHubClientTypes.OcsfDateFilter]? = nil,
+            mapFilters: [SecurityHubClientTypes.OcsfMapFilter]? = nil,
+            numberFilters: [SecurityHubClientTypes.OcsfNumberFilter]? = nil,
+            `operator`: SecurityHubClientTypes.AllowedOperators? = nil,
+            stringFilters: [SecurityHubClientTypes.OcsfStringFilter]? = nil
+        ) {
+            self.booleanFilters = booleanFilters
+            self.dateFilters = dateFilters
+            self.mapFilters = mapFilters
+            self.numberFilters = numberFilters
+            self.`operator` = `operator`
+            self.stringFilters = stringFilters
         }
     }
 }
@@ -22434,6 +23344,190 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    public enum ConnectorAuthStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorAuthStatus] {
+            return [
+                .active,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .failed: return "FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum ConnectorProviderName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case jiraCloud
+        case servicenow
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorProviderName] {
+            return [
+                .jiraCloud,
+                .servicenow
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .jiraCloud: return "JIRA_CLOUD"
+            case .servicenow: return "SERVICENOW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ConnectorRegistrationsV2Input: Swift.Sendable {
+    /// The authCode retrieved from authUrl to complete the OAuth 2.0 authorization code flow.
+    /// This member is required.
+    public var authCode: Swift.String?
+    /// The authState retrieved from authUrl to complete the OAuth 2.0 authorization code flow.
+    /// This member is required.
+    public var authState: Swift.String?
+
+    public init(
+        authCode: Swift.String? = nil,
+        authState: Swift.String? = nil
+    ) {
+        self.authCode = authCode
+        self.authState = authState
+    }
+}
+
+public struct ConnectorRegistrationsV2Output: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the connectorV2.
+    public var connectorArn: Swift.String?
+    /// The UUID of the connectorV2 to identify connectorV2 resource.
+    /// This member is required.
+    public var connectorId: Swift.String?
+
+    public init(
+        connectorArn: Swift.String? = nil,
+        connectorId: Swift.String? = nil
+    ) {
+        self.connectorArn = connectorArn
+        self.connectorId = connectorId
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum ConnectorStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case connected
+        case failedToConnect
+        case pendingAuthorization
+        case pendingConfiguration
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorStatus] {
+            return [
+                .connected,
+                .failedToConnect,
+                .pendingAuthorization,
+                .pendingConfiguration
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .connected: return "CONNECTED"
+            case .failedToConnect: return "FAILED_TO_CONNECT"
+            case .pendingAuthorization: return "PENDING_AUTHORIZATION"
+            case .pendingConfiguration: return "PENDING_CONFIGURATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The connectorV2 third-party provider configuration summary.
+    public struct ProviderSummary: Swift.Sendable {
+        /// The status for the connectorV2.
+        public var connectorStatus: SecurityHubClientTypes.ConnectorStatus?
+        /// The name of the provider.
+        public var providerName: SecurityHubClientTypes.ConnectorProviderName?
+
+        public init(
+            connectorStatus: SecurityHubClientTypes.ConnectorStatus? = nil,
+            providerName: SecurityHubClientTypes.ConnectorProviderName? = nil
+        ) {
+            self.connectorStatus = connectorStatus
+            self.providerName = providerName
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// A condensed overview of the connectorV2..
+    public struct ConnectorSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the connectorV2.
+        public var connectorArn: Swift.String?
+        /// The UUID of the connectorV2 to identify connectorV2 resource.
+        /// This member is required.
+        public var connectorId: Swift.String?
+        /// ISO 8601 UTC timestamp for the time create the connectorV2.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The description of the connectorV2.
+        public var description: Swift.String?
+        /// The Name field contains the user-defined name assigned to the integration connector. This helps identify and manage multiple connectors within Security Hub.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The connectorV2 third party provider configuration summary.
+        /// This member is required.
+        public var providerSummary: SecurityHubClientTypes.ProviderSummary?
+
+        public init(
+            connectorArn: Swift.String? = nil,
+            connectorId: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            providerSummary: SecurityHubClientTypes.ProviderSummary? = nil
+        ) {
+            self.connectorArn = connectorArn
+            self.connectorId = connectorId
+            self.createdAt = createdAt
+            self.description = description
+            self.name = name
+            self.providerSummary = providerSummary
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     public enum ControlFindingGenerator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case securityControl
         case standardControl
@@ -22521,6 +23615,53 @@ public struct CreateActionTargetOutput: Swift.Sendable {
     }
 }
 
+public struct CreateAggregatorV2Input: Swift.Sendable {
+    /// A unique identifier used to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// The list of Regions that are linked to the aggregation Region.
+    public var linkedRegions: [Swift.String]?
+    /// Determines how Regions are linked to an Aggregator V2.
+    /// This member is required.
+    public var regionLinkingMode: Swift.String?
+    /// A list of key-value pairs to be applied to the AggregatorV2.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        linkedRegions: [Swift.String]? = nil,
+        regionLinkingMode: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.linkedRegions = linkedRegions
+        self.regionLinkingMode = regionLinkingMode
+        self.tags = tags
+    }
+}
+
+public struct CreateAggregatorV2Output: Swift.Sendable {
+    /// The Amazon Web Services Region where data is aggregated.
+    public var aggregationRegion: Swift.String?
+    /// The ARN of the AggregatorV2.
+    public var aggregatorV2Arn: Swift.String?
+    /// The list of Regions that are linked to the aggregation Region.
+    public var linkedRegions: [Swift.String]?
+    /// Determines how Regions are linked to an Aggregator V2.
+    public var regionLinkingMode: Swift.String?
+
+    public init(
+        aggregationRegion: Swift.String? = nil,
+        aggregatorV2Arn: Swift.String? = nil,
+        linkedRegions: [Swift.String]? = nil,
+        regionLinkingMode: Swift.String? = nil
+    ) {
+        self.aggregationRegion = aggregationRegion
+        self.aggregatorV2Arn = aggregatorV2Arn
+        self.linkedRegions = linkedRegions
+        self.regionLinkingMode = regionLinkingMode
+    }
+}
+
 public struct CreateAutomationRuleInput: Swift.Sendable {
     /// One or more actions to update finding fields if a finding matches the conditions specified in Criteria.
     /// This member is required.
@@ -22573,6 +23714,94 @@ public struct CreateAutomationRuleOutput: Swift.Sendable {
         ruleArn: Swift.String? = nil
     ) {
         self.ruleArn = ruleArn
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Specifies the filtering criteria for security findings using OCSF.
+    public struct OcsfFindingFilters: Swift.Sendable {
+        /// Enables the creation of complex filtering conditions by combining filter criteria.
+        public var compositeFilters: [SecurityHubClientTypes.CompositeFilter]?
+        /// The logical operators used to combine the filtering on multiple CompositeFilters.
+        public var compositeOperator: SecurityHubClientTypes.AllowedOperators?
+
+        public init(
+            compositeFilters: [SecurityHubClientTypes.CompositeFilter]? = nil,
+            compositeOperator: SecurityHubClientTypes.AllowedOperators? = nil
+        ) {
+            self.compositeFilters = compositeFilters
+            self.compositeOperator = compositeOperator
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Defines the parameters and conditions used to evaluate and filter security findings.
+    public enum Criteria: Swift.Sendable {
+        /// The filtering conditions that align with OCSF standards.
+        case ocsffindingcriteria(SecurityHubClientTypes.OcsfFindingFilters)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateAutomationRuleV2Input: Swift.Sendable {
+    /// A list of actions to be performed when the rule criteria is met.
+    /// This member is required.
+    public var actions: [SecurityHubClientTypes.AutomationRulesActionV2]?
+    /// A unique identifier used to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// The filtering type and configuration of the automation rule.
+    /// This member is required.
+    public var criteria: SecurityHubClientTypes.Criteria?
+    /// A description of the V2 automation rule.
+    /// This member is required.
+    public var description: Swift.String?
+    /// The name of the V2 automation rule.
+    /// This member is required.
+    public var ruleName: Swift.String?
+    /// The value for the rule priority.
+    /// This member is required.
+    public var ruleOrder: Swift.Float?
+    /// The status of the V2 automation rule.
+    public var ruleStatus: SecurityHubClientTypes.RuleStatusV2?
+    /// A list of key-value pairs associated with the V2 automation rule.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        actions: [SecurityHubClientTypes.AutomationRulesActionV2]? = nil,
+        clientToken: Swift.String? = nil,
+        criteria: SecurityHubClientTypes.Criteria? = nil,
+        description: Swift.String? = nil,
+        ruleName: Swift.String? = nil,
+        ruleOrder: Swift.Float? = nil,
+        ruleStatus: SecurityHubClientTypes.RuleStatusV2? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.actions = actions
+        self.clientToken = clientToken
+        self.criteria = criteria
+        self.description = description
+        self.ruleName = ruleName
+        self.ruleOrder = ruleOrder
+        self.ruleStatus = ruleStatus
+        self.tags = tags
+    }
+}
+
+public struct CreateAutomationRuleV2Output: Swift.Sendable {
+    /// The ARN of the V2 automation rule.
+    public var ruleArn: Swift.String?
+    /// The ID of the V2 automation rule.
+    public var ruleId: Swift.String?
+
+    public init(
+        ruleArn: Swift.String? = nil,
+        ruleId: Swift.String? = nil
+    ) {
+        self.ruleArn = ruleArn
+        self.ruleId = ruleId
     }
 }
 
@@ -22711,6 +23940,117 @@ public struct CreateConfigurationPolicyOutput: Swift.Sendable {
     }
 }
 
+extension SecurityHubClientTypes {
+
+    /// The initial configuration settings required to establish an integration between Security Hub and Jira Cloud.
+    public struct JiraCloudProviderConfiguration: Swift.Sendable {
+        /// The project key for a JiraCloud instance.
+        public var projectKey: Swift.String?
+
+        public init(
+            projectKey: Swift.String? = nil
+        ) {
+            self.projectKey = projectKey
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The initial configuration settings required to establish an integration between Security Hub and ServiceNow ITSM.
+    public struct ServiceNowProviderConfiguration: Swift.Sendable {
+        /// The client ID of ServiceNow ITSM.
+        /// This member is required.
+        public var clientId: Swift.String?
+        /// The client secret of ServiceNow ITSM.
+        /// This member is required.
+        public var clientSecret: Swift.String?
+        /// The instance name of ServiceNow ITSM.
+        /// This member is required.
+        public var instanceName: Swift.String?
+
+        public init(
+            clientId: Swift.String? = nil,
+            clientSecret: Swift.String? = nil,
+            instanceName: Swift.String? = nil
+        ) {
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+            self.instanceName = instanceName
+        }
+    }
+}
+
+extension SecurityHubClientTypes.ServiceNowProviderConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ServiceNowProviderConfiguration(clientId: \(Swift.String(describing: clientId)), instanceName: \(Swift.String(describing: instanceName)), clientSecret: \"CONTENT_REDACTED\")"}
+}
+
+extension SecurityHubClientTypes {
+
+    /// The initial configuration settings required to establish an integration between Security Hub and third-party provider.
+    public enum ProviderConfiguration: Swift.Sendable {
+        /// The configuration settings required to establish an integration with Jira Cloud.
+        case jiracloud(SecurityHubClientTypes.JiraCloudProviderConfiguration)
+        /// The configuration settings required to establish an integration with ServiceNow ITSM.
+        case servicenow(SecurityHubClientTypes.ServiceNowProviderConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateConnectorV2Input: Swift.Sendable {
+    /// A unique identifier used to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// The description of the connectorV2.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of KMS key used to encrypt secrets for the connectorV2.
+    public var kmsKeyArn: Swift.String?
+    /// The unique name of the connectorV2.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The third-party provider’s service configuration.
+    /// This member is required.
+    public var provider: SecurityHubClientTypes.ProviderConfiguration?
+    /// The tags to add to the connectorV2 when you create.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        name: Swift.String? = nil,
+        provider: SecurityHubClientTypes.ProviderConfiguration? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.kmsKeyArn = kmsKeyArn
+        self.name = name
+        self.provider = provider
+        self.tags = tags
+    }
+}
+
+public struct CreateConnectorV2Output: Swift.Sendable {
+    /// The Url provide to customers for OAuth auth code flow.
+    public var authUrl: Swift.String?
+    /// The Amazon Resource Name (ARN) of the connectorV2.
+    public var connectorArn: Swift.String?
+    /// The UUID of the connectorV2 to identify connectorV2 resource.
+    /// This member is required.
+    public var connectorId: Swift.String?
+
+    public init(
+        authUrl: Swift.String? = nil,
+        connectorArn: Swift.String? = nil,
+        connectorId: Swift.String? = nil
+    ) {
+        self.authUrl = authUrl
+        self.connectorArn = connectorArn
+        self.connectorId = connectorId
+    }
+}
+
 public struct CreateFindingAggregatorInput: Swift.Sendable {
     /// Indicates whether to aggregate findings from all of the available Regions in the current partition. Also determines whether to automatically aggregate findings from new Regions as Security Hub supports them and you opt into them. The selected option also determines how to use the Regions provided in the Regions list. The options are as follows:
     ///
@@ -22834,6 +24174,43 @@ public struct CreateMembersOutput: Swift.Sendable {
     }
 }
 
+public struct CreateTicketV2Input: Swift.Sendable {
+    /// The client idempotency token.
+    public var clientToken: Swift.String?
+    /// The UUID of the connectorV2 to identify connectorV2 resource.
+    /// This member is required.
+    public var connectorId: Swift.String?
+    /// The the unique ID for the finding.
+    /// This member is required.
+    public var findingMetadataUid: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        connectorId: Swift.String? = nil,
+        findingMetadataUid: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.connectorId = connectorId
+        self.findingMetadataUid = findingMetadataUid
+    }
+}
+
+public struct CreateTicketV2Output: Swift.Sendable {
+    /// The ID for the ticketv2.
+    /// This member is required.
+    public var ticketId: Swift.String?
+    /// The url to the created ticket.
+    public var ticketSrcUrl: Swift.String?
+
+    public init(
+        ticketId: Swift.String? = nil,
+        ticketSrcUrl: Swift.String? = nil
+    ) {
+        self.ticketId = ticketId
+        self.ticketSrcUrl = ticketSrcUrl
+    }
+}
+
 extension SecurityHubClientTypes {
 
     public enum SecurityControlProperty: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -22907,6 +24284,40 @@ public struct DeleteActionTargetOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteAggregatorV2Input: Swift.Sendable {
+    /// The ARN of the Aggregator V2.
+    /// This member is required.
+    public var aggregatorV2Arn: Swift.String?
+
+    public init(
+        aggregatorV2Arn: Swift.String? = nil
+    ) {
+        self.aggregatorV2Arn = aggregatorV2Arn
+    }
+}
+
+public struct DeleteAggregatorV2Output: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteAutomationRuleV2Input: Swift.Sendable {
+    /// The ARN of the V2 automation rule.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct DeleteAutomationRuleV2Output: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteConfigurationPolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
     /// This member is required.
@@ -22920,6 +24331,23 @@ public struct DeleteConfigurationPolicyInput: Swift.Sendable {
 }
 
 public struct DeleteConfigurationPolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteConnectorV2Input: Swift.Sendable {
+    /// The UUID of the connectorV2 to identify connectorV2 resource.
+    /// This member is required.
+    public var connectorId: Swift.String?
+
+    public init(
+        connectorId: Swift.String? = nil
+    ) {
+        self.connectorId = connectorId
+    }
+}
+
+public struct DeleteConnectorV2Output: Swift.Sendable {
 
     public init() { }
 }
@@ -23313,6 +24741,128 @@ public struct DescribeProductsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeProductsV2Input: Swift.Sendable {
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum IntegrationV2Type: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case receiveFindingsFromSecurityHub
+        case sendFindingsToSecurityHub
+        case updateFindingsInSecurityHub
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IntegrationV2Type] {
+            return [
+                .receiveFindingsFromSecurityHub,
+                .sendFindingsToSecurityHub,
+                .updateFindingsInSecurityHub
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .receiveFindingsFromSecurityHub: return "RECEIVE_FINDINGS_FROM_SECURITY_HUB"
+            case .sendFindingsToSecurityHub: return "SEND_FINDINGS_TO_SECURITY_HUB"
+            case .updateFindingsInSecurityHub: return "UPDATE_FINDINGS_IN_SECURITY_HUB"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Defines the structure for the productV2.
+    public struct ProductV2: Swift.Sendable {
+        /// The URL to the serviceV@ or productV2 documentation about the integration, which includes how to activate the integration.
+        public var activationUrl: Swift.String?
+        /// The domains or functional areas the productV2 addresses.
+        public var categories: [Swift.String]?
+        /// The name of the organization or vendor that provides the productV2.
+        public var companyName: Swift.String?
+        /// Detailed information about the productV2.
+        public var description: Swift.String?
+        /// The type of integration.
+        public var integrationV2Types: [SecurityHubClientTypes.IntegrationV2Type]?
+        /// The console URL where you can purchase or subscribe to products.
+        public var marketplaceUrl: Swift.String?
+        /// The name of the productV2.
+        public var productV2Name: Swift.String?
+
+        public init(
+            activationUrl: Swift.String? = nil,
+            categories: [Swift.String]? = nil,
+            companyName: Swift.String? = nil,
+            description: Swift.String? = nil,
+            integrationV2Types: [SecurityHubClientTypes.IntegrationV2Type]? = nil,
+            marketplaceUrl: Swift.String? = nil,
+            productV2Name: Swift.String? = nil
+        ) {
+            self.activationUrl = activationUrl
+            self.categories = categories
+            self.companyName = companyName
+            self.description = description
+            self.integrationV2Types = integrationV2Types
+            self.marketplaceUrl = marketplaceUrl
+            self.productV2Name = productV2Name
+        }
+    }
+}
+
+public struct DescribeProductsV2Output: Swift.Sendable {
+    /// The pagination token to use to request the next page of results. Otherwise, this parameter is null.
+    public var nextToken: Swift.String?
+    /// Gets information about the product integration.
+    /// This member is required.
+    public var productsV2: [SecurityHubClientTypes.ProductV2]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        productsV2: [SecurityHubClientTypes.ProductV2]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.productsV2 = productsV2
+    }
+}
+
+public struct DescribeSecurityHubV2Input: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DescribeSecurityHubV2Output: Swift.Sendable {
+    /// The ARN of the service resource.
+    public var hubV2Arn: Swift.String?
+    /// The date and time when the service was enabled in the account.
+    public var subscribedAt: Swift.String?
+
+    public init(
+        hubV2Arn: Swift.String? = nil,
+        subscribedAt: Swift.String? = nil
+    ) {
+        self.hubV2Arn = hubV2Arn
+        self.subscribedAt = subscribedAt
+    }
+}
+
 public struct DescribeStandardsInput: Swift.Sendable {
     /// The maximum number of standards to return.
     public var maxResults: Swift.Int?
@@ -23357,7 +24907,7 @@ extension SecurityHubClientTypes {
         public var enabledByDefault: Swift.Bool?
         /// The name of the standard.
         public var name: Swift.String?
-        /// The ARN of a standard.
+        /// The ARN of the standard.
         public var standardsArn: Swift.String?
         /// Provides details about the management of a standard.
         public var standardsManagedBy: SecurityHubClientTypes.StandardsManagedBy?
@@ -23496,15 +25046,48 @@ public struct DisableImportFindingsForProductOutput: Swift.Sendable {
     public init() { }
 }
 
+extension SecurityHubClientTypes {
+
+    public enum SecurityHubFeature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case securityHub
+        case securityHubV2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SecurityHubFeature] {
+            return [
+                .securityHub,
+                .securityHubV2
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .securityHub: return "SecurityHub"
+            case .securityHubV2: return "SecurityHubV2"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct DisableOrganizationAdminAccountInput: Swift.Sendable {
     /// The Amazon Web Services account identifier of the Security Hub administrator account.
     /// This member is required.
     public var adminAccountId: Swift.String?
+    /// The feature for which the delegated admin account is disabled. Defaults to Security Hub if not specified.
+    public var feature: SecurityHubClientTypes.SecurityHubFeature?
 
     public init(
-        adminAccountId: Swift.String? = nil
+        adminAccountId: Swift.String? = nil,
+        feature: SecurityHubClientTypes.SecurityHubFeature? = nil
     ) {
         self.adminAccountId = adminAccountId
+        self.feature = feature
     }
 }
 
@@ -23519,6 +25102,16 @@ public struct DisableSecurityHubInput: Swift.Sendable {
 }
 
 public struct DisableSecurityHubOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DisableSecurityHubV2Input: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DisableSecurityHubV2Output: Swift.Sendable {
 
     public init() { }
 }
@@ -23587,17 +25180,31 @@ public struct EnableOrganizationAdminAccountInput: Swift.Sendable {
     /// The Amazon Web Services account identifier of the account to designate as the Security Hub administrator account.
     /// This member is required.
     public var adminAccountId: Swift.String?
+    /// The feature for which the delegated admin account is enabled. Defaults to Security Hub if not specified.
+    public var feature: SecurityHubClientTypes.SecurityHubFeature?
 
     public init(
-        adminAccountId: Swift.String? = nil
+        adminAccountId: Swift.String? = nil,
+        feature: SecurityHubClientTypes.SecurityHubFeature? = nil
     ) {
         self.adminAccountId = adminAccountId
+        self.feature = feature
     }
 }
 
 public struct EnableOrganizationAdminAccountOutput: Swift.Sendable {
+    /// The Amazon Web Services account identifier of the account to designate as the Security Hub administrator account.
+    public var adminAccountId: Swift.String?
+    /// The feature where the delegated administrator is enabled. The default is Security Hub CSPM if no delegated administrator is specified in the request.
+    public var feature: SecurityHubClientTypes.SecurityHubFeature?
 
-    public init() { }
+    public init(
+        adminAccountId: Swift.String? = nil,
+        feature: SecurityHubClientTypes.SecurityHubFeature? = nil
+    ) {
+        self.adminAccountId = adminAccountId
+        self.feature = feature
+    }
 }
 
 public struct EnableSecurityHubInput: Swift.Sendable {
@@ -23622,6 +25229,28 @@ public struct EnableSecurityHubInput: Swift.Sendable {
 public struct EnableSecurityHubOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct EnableSecurityHubV2Input: Swift.Sendable {
+    /// The tags to add to the hub V2 resource when you enable Security Hub.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.tags = tags
+    }
+}
+
+public struct EnableSecurityHubV2Output: Swift.Sendable {
+    /// The ARN of the V2 resource that was created.
+    public var hubV2Arn: Swift.String?
+
+    public init(
+        hubV2Arn: Swift.String? = nil
+    ) {
+        self.hubV2Arn = hubV2Arn
+    }
 }
 
 extension SecurityHubClientTypes {
@@ -23788,6 +25417,100 @@ public struct GetAdministratorAccountOutput: Swift.Sendable {
     }
 }
 
+public struct GetAggregatorV2Input: Swift.Sendable {
+    /// The ARN of the Aggregator V2.
+    /// This member is required.
+    public var aggregatorV2Arn: Swift.String?
+
+    public init(
+        aggregatorV2Arn: Swift.String? = nil
+    ) {
+        self.aggregatorV2Arn = aggregatorV2Arn
+    }
+}
+
+public struct GetAggregatorV2Output: Swift.Sendable {
+    /// The Amazon Web Services Region where data is aggregated.
+    public var aggregationRegion: Swift.String?
+    /// The ARN of the Aggregator V2.
+    public var aggregatorV2Arn: Swift.String?
+    /// The list of Regions that are linked to the aggregation Region.
+    public var linkedRegions: [Swift.String]?
+    /// Determines how Regions are linked to an Aggregator V2.
+    public var regionLinkingMode: Swift.String?
+
+    public init(
+        aggregationRegion: Swift.String? = nil,
+        aggregatorV2Arn: Swift.String? = nil,
+        linkedRegions: [Swift.String]? = nil,
+        regionLinkingMode: Swift.String? = nil
+    ) {
+        self.aggregationRegion = aggregationRegion
+        self.aggregatorV2Arn = aggregatorV2Arn
+        self.linkedRegions = linkedRegions
+        self.regionLinkingMode = regionLinkingMode
+    }
+}
+
+public struct GetAutomationRuleV2Input: Swift.Sendable {
+    /// The ARN of the V2 automation rule.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct GetAutomationRuleV2Output: Swift.Sendable {
+    /// A list of actions performed when the rule criteria is met.
+    public var actions: [SecurityHubClientTypes.AutomationRulesActionV2]?
+    /// The timestamp when the V2 automation rule was created.
+    public var createdAt: Foundation.Date?
+    /// The filtering type and configuration of the V2 automation rule.
+    public var criteria: SecurityHubClientTypes.Criteria?
+    /// A description of the automation rule.
+    public var description: Swift.String?
+    /// The ARN of the V2 automation rule.
+    public var ruleArn: Swift.String?
+    /// The ID of the V2 automation rule.
+    public var ruleId: Swift.String?
+    /// The name of the V2 automation rule.
+    public var ruleName: Swift.String?
+    /// The value for the rule priority.
+    public var ruleOrder: Swift.Float?
+    /// The status of the V2 automation automation rule.
+    public var ruleStatus: SecurityHubClientTypes.RuleStatusV2?
+    /// The timestamp when the V2 automation rule was updated.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        actions: [SecurityHubClientTypes.AutomationRulesActionV2]? = nil,
+        createdAt: Foundation.Date? = nil,
+        criteria: SecurityHubClientTypes.Criteria? = nil,
+        description: Swift.String? = nil,
+        ruleArn: Swift.String? = nil,
+        ruleId: Swift.String? = nil,
+        ruleName: Swift.String? = nil,
+        ruleOrder: Swift.Float? = nil,
+        ruleStatus: SecurityHubClientTypes.RuleStatusV2? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.actions = actions
+        self.createdAt = createdAt
+        self.criteria = criteria
+        self.description = description
+        self.ruleArn = ruleArn
+        self.ruleId = ruleId
+        self.ruleName = ruleName
+        self.ruleOrder = ruleOrder
+        self.ruleStatus = ruleStatus
+        self.updatedAt = updatedAt
+    }
+}
+
 public struct GetConfigurationPolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
     /// This member is required.
@@ -23879,6 +25602,159 @@ public struct GetConfigurationPolicyAssociationOutput: Swift.Sendable {
         self.targetId = targetId
         self.targetType = targetType
         self.updatedAt = updatedAt
+    }
+}
+
+public struct GetConnectorV2Input: Swift.Sendable {
+    /// The UUID of the connectorV2 to identify connectorV2 resource.
+    /// This member is required.
+    public var connectorId: Swift.String?
+
+    public init(
+        connectorId: Swift.String? = nil
+    ) {
+        self.connectorId = connectorId
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Information about the operational status and health of a connectorV2.
+    public struct HealthCheck: Swift.Sendable {
+        /// The status of the connectorV2.
+        /// This member is required.
+        public var connectorStatus: SecurityHubClientTypes.ConnectorStatus?
+        /// ISO 8601 UTC timestamp for the time check the health status of the connectorV2.
+        /// This member is required.
+        public var lastCheckedAt: Foundation.Date?
+        /// The message for the reason of connectorStatus change.
+        public var message: Swift.String?
+
+        public init(
+            connectorStatus: SecurityHubClientTypes.ConnectorStatus? = nil,
+            lastCheckedAt: Foundation.Date? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.connectorStatus = connectorStatus
+            self.lastCheckedAt = lastCheckedAt
+            self.message = message
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Information about the configuration and status of a Jira Cloud integration.
+    public struct JiraCloudDetail: Swift.Sendable {
+        /// The status of the authorization between Jira Cloud and the service.
+        public var authStatus: SecurityHubClientTypes.ConnectorAuthStatus?
+        /// The URL to provide to customers for OAuth auth code flow.
+        public var authUrl: Swift.String?
+        /// The cloud id of the Jira Cloud.
+        public var cloudId: Swift.String?
+        /// The URL domain of your Jira Cloud instance.
+        public var domain: Swift.String?
+        /// The projectKey of Jira Cloud.
+        public var projectKey: Swift.String?
+
+        public init(
+            authStatus: SecurityHubClientTypes.ConnectorAuthStatus? = nil,
+            authUrl: Swift.String? = nil,
+            cloudId: Swift.String? = nil,
+            domain: Swift.String? = nil,
+            projectKey: Swift.String? = nil
+        ) {
+            self.authStatus = authStatus
+            self.authUrl = authUrl
+            self.cloudId = cloudId
+            self.domain = domain
+            self.projectKey = projectKey
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Information about a ServiceNow ITSM integration.
+    public struct ServiceNowDetail: Swift.Sendable {
+        /// The status of the authorization between Jira Cloud and the service.
+        /// This member is required.
+        public var authStatus: SecurityHubClientTypes.ConnectorAuthStatus?
+        /// The clientId of ServiceNow ITSM.
+        public var clientId: Swift.String?
+        /// The instanceName of ServiceNow ITSM.
+        public var instanceName: Swift.String?
+
+        public init(
+            authStatus: SecurityHubClientTypes.ConnectorAuthStatus? = nil,
+            clientId: Swift.String? = nil,
+            instanceName: Swift.String? = nil
+        ) {
+            self.authStatus = authStatus
+            self.clientId = clientId
+            self.instanceName = instanceName
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The third-party provider detail for a service configuration.
+    public enum ProviderDetail: Swift.Sendable {
+        /// Details about a Jira Cloud integration.
+        case jiracloud(SecurityHubClientTypes.JiraCloudDetail)
+        /// Details about a ServiceNow ITSM integration.
+        case servicenow(SecurityHubClientTypes.ServiceNowDetail)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct GetConnectorV2Output: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the connectorV2.
+    public var connectorArn: Swift.String?
+    /// The UUID of the connectorV2 to identify connectorV2 resource.
+    /// This member is required.
+    public var connectorId: Swift.String?
+    /// ISO 8601 UTC timestamp for the time create the connectorV2.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The description of the connectorV2.
+    public var description: Swift.String?
+    /// The current health status for connectorV2
+    /// This member is required.
+    public var health: SecurityHubClientTypes.HealthCheck?
+    /// The Amazon Resource Name (ARN) of KMS key used for the connectorV2.
+    public var kmsKeyArn: Swift.String?
+    /// ISO 8601 UTC timestamp for the time update the connectorV2 connectorStatus.
+    /// This member is required.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The name of the connectorV2.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The third-party provider detail for a service configuration.
+    /// This member is required.
+    public var providerDetail: SecurityHubClientTypes.ProviderDetail?
+
+    public init(
+        connectorArn: Swift.String? = nil,
+        connectorId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        health: SecurityHubClientTypes.HealthCheck? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        providerDetail: SecurityHubClientTypes.ProviderDetail? = nil
+    ) {
+        self.connectorArn = connectorArn
+        self.connectorId = connectorId
+        self.createdAt = createdAt
+        self.description = description
+        self.health = health
+        self.kmsKeyArn = kmsKeyArn
+        self.lastUpdatedAt = lastUpdatedAt
+        self.name = name
+        self.providerDetail = providerDetail
     }
 }
 
@@ -24074,6 +25950,207 @@ public struct GetFindingsOutput: Swift.Sendable {
 
     public init(
         findings: [SecurityHubClientTypes.AwsSecurityFinding]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.findings = findings
+        self.nextToken = nextToken
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum GroupByField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activityName
+        case className
+        case cloudAccountUid
+        case cloudProvider
+        case cloudRegion
+        case complianceAssessmentsName
+        case complianceControl
+        case complianceStatus
+        case findingInfoTitle
+        case findingInfoTypes
+        case metadataProductName
+        case metadataProductUid
+        case resourcesType
+        case resourcesUid
+        case severity
+        case status
+        case vulnerabilitiesFixCoverage
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GroupByField] {
+            return [
+                .activityName,
+                .className,
+                .cloudAccountUid,
+                .cloudProvider,
+                .cloudRegion,
+                .complianceAssessmentsName,
+                .complianceControl,
+                .complianceStatus,
+                .findingInfoTitle,
+                .findingInfoTypes,
+                .metadataProductName,
+                .metadataProductUid,
+                .resourcesType,
+                .resourcesUid,
+                .severity,
+                .status,
+                .vulnerabilitiesFixCoverage
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .activityName: return "activity_name"
+            case .className: return "class_name"
+            case .cloudAccountUid: return "cloud.account.uid"
+            case .cloudProvider: return "cloud.provider"
+            case .cloudRegion: return "cloud.region"
+            case .complianceAssessmentsName: return "compliance.assessments.name"
+            case .complianceControl: return "compliance.control"
+            case .complianceStatus: return "compliance.status"
+            case .findingInfoTitle: return "finding_info.title"
+            case .findingInfoTypes: return "finding_info.types"
+            case .metadataProductName: return "metadata.product.name"
+            case .metadataProductUid: return "metadata.product.uid"
+            case .resourcesType: return "resources.type"
+            case .resourcesUid: return "resources.uid"
+            case .severity: return "severity"
+            case .status: return "status"
+            case .vulnerabilitiesFixCoverage: return "vulnerabilities.fix_coverage"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Defines the how the finding attribute should be grouped.
+    public struct GroupByRule: Swift.Sendable {
+        /// The criteria used to select which security findings should be included in the grouping operation.
+        public var filters: SecurityHubClientTypes.OcsfFindingFilters?
+        /// The attribute by which filtered findings should be grouped.
+        /// This member is required.
+        public var groupByField: SecurityHubClientTypes.GroupByField?
+
+        public init(
+            filters: SecurityHubClientTypes.OcsfFindingFilters? = nil,
+            groupByField: SecurityHubClientTypes.GroupByField? = nil
+        ) {
+            self.filters = filters
+            self.groupByField = groupByField
+        }
+    }
+}
+
+public struct GetFindingStatisticsV2Input: Swift.Sendable {
+    /// Specifies how security findings should be aggregated and organized in the statistical analysis. It can accept up to 5 groupBy fields in a single call.
+    /// This member is required.
+    public var groupByRules: [SecurityHubClientTypes.GroupByRule]?
+    /// The maximum number of results to be returned.
+    public var maxStatisticResults: Swift.Int?
+    /// Orders the aggregation count in descending or ascending order. Descending order is the default.
+    public var sortOrder: SecurityHubClientTypes.SortOrder?
+
+    public init(
+        groupByRules: [SecurityHubClientTypes.GroupByRule]? = nil,
+        maxStatisticResults: Swift.Int? = nil,
+        sortOrder: SecurityHubClientTypes.SortOrder? = nil
+    ) {
+        self.groupByRules = groupByRules
+        self.maxStatisticResults = maxStatisticResults
+        self.sortOrder = sortOrder
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Represents individual aggregated results when grouping security findings for each GroupByField.
+    public struct GroupByValue: Swift.Sendable {
+        /// The number of findings for a specific FieldValue and GroupByField.
+        public var count: Swift.Int?
+        /// The value of the field by which findings are grouped.
+        public var fieldValue: Swift.String?
+
+        public init(
+            count: Swift.Int? = nil,
+            fieldValue: Swift.String? = nil
+        ) {
+            self.count = count
+            self.fieldValue = fieldValue
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Represents finding statistics grouped by GroupedByField.
+    public struct GroupByResult: Swift.Sendable {
+        /// The attribute by which filtered security findings should be grouped.
+        public var groupByField: Swift.String?
+        /// An array of grouped values and their respective counts for each GroupByField.
+        public var groupByValues: [SecurityHubClientTypes.GroupByValue]?
+
+        public init(
+            groupByField: Swift.String? = nil,
+            groupByValues: [SecurityHubClientTypes.GroupByValue]? = nil
+        ) {
+            self.groupByField = groupByField
+            self.groupByValues = groupByValues
+        }
+    }
+}
+
+public struct GetFindingStatisticsV2Output: Swift.Sendable {
+    /// Aggregated statistics about security findings based on specified grouping criteria.
+    public var groupByResults: [SecurityHubClientTypes.GroupByResult]?
+
+    public init(
+        groupByResults: [SecurityHubClientTypes.GroupByResult]? = nil
+    ) {
+        self.groupByResults = groupByResults
+    }
+}
+
+public struct GetFindingsV2Input: Swift.Sendable {
+    /// The finding attributes used to define a condition to filter the returned OCSF findings. You can filter up to 10 composite filters. For each filter type inside of a composite filter, you can provide up to 20 filters.
+    public var filters: SecurityHubClientTypes.OcsfFindingFilters?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
+    public var nextToken: Swift.String?
+    /// The finding attributes used to sort the list of returned findings.
+    public var sortCriteria: [SecurityHubClientTypes.SortCriterion]?
+
+    public init(
+        filters: SecurityHubClientTypes.OcsfFindingFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortCriteria: [SecurityHubClientTypes.SortCriterion]? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortCriteria = sortCriteria
+    }
+}
+
+public struct GetFindingsV2Output: Swift.Sendable {
+    /// An array of security findings returned by the operation.
+    public var findings: [Smithy.Document]?
+    /// The pagination token to use to request the next page of results. Otherwise, this parameter is null.
+    public var nextToken: Swift.String?
+
+    public init(
+        findings: [Smithy.Document]? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.findings = findings
@@ -24331,6 +26408,624 @@ public struct GetMembersOutput: Swift.Sendable {
     }
 }
 
+extension SecurityHubClientTypes {
+
+    public enum ResourcesDateField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case resourceCreationTimeDt
+        case resourceDetailCaptureTimeDt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourcesDateField] {
+            return [
+                .resourceCreationTimeDt,
+                .resourceDetailCaptureTimeDt
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .resourceCreationTimeDt: return "resource_creation_time_dt"
+            case .resourceDetailCaptureTimeDt: return "resource_detail_capture_time_dt"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables the filtering of Amazon Web Services resources based on date and timestamp attributes.
+    public struct ResourcesDateFilter: Swift.Sendable {
+        /// The name of the field.
+        public var fieldName: SecurityHubClientTypes.ResourcesDateField?
+        /// A date filter for querying findings.
+        public var filter: SecurityHubClientTypes.DateFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.ResourcesDateField? = nil,
+            filter: SecurityHubClientTypes.DateFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum ResourcesMapField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case tag
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourcesMapField] {
+            return [
+                .tag
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .tag: return "tags"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables filtering of Amazon Web Services resources based on key-value map attributes.
+    public struct ResourcesMapFilter: Swift.Sendable {
+        /// The name of the field.
+        public var fieldName: SecurityHubClientTypes.ResourcesMapField?
+        /// A map filter for filtering Security Hub findings. Each map filter provides the field to check for, the value to check for, and the comparison operator.
+        public var filter: SecurityHubClientTypes.MapFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.ResourcesMapField? = nil,
+            filter: SecurityHubClientTypes.MapFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum ResourcesNumberField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case severityCritical
+        case severityFatal
+        case severityHigh
+        case severityInformational
+        case severityLow
+        case severityMedium
+        case severityOther
+        case severityUnknown
+        case totalFindings
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourcesNumberField] {
+            return [
+                .severityCritical,
+                .severityFatal,
+                .severityHigh,
+                .severityInformational,
+                .severityLow,
+                .severityMedium,
+                .severityOther,
+                .severityUnknown,
+                .totalFindings
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .severityCritical: return "findings_summary.severities.critical"
+            case .severityFatal: return "findings_summary.severities.fatal"
+            case .severityHigh: return "findings_summary.severities.high"
+            case .severityInformational: return "findings_summary.severities.informational"
+            case .severityLow: return "findings_summary.severities.low"
+            case .severityMedium: return "findings_summary.severities.medium"
+            case .severityOther: return "findings_summary.severities.other"
+            case .severityUnknown: return "findings_summary.severities.unknown"
+            case .totalFindings: return "findings_summary.total_findings"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables filtering of Amazon Web Services resources based on numerical values.
+    public struct ResourcesNumberFilter: Swift.Sendable {
+        /// The name of the field.
+        public var fieldName: SecurityHubClientTypes.ResourcesNumberField?
+        /// A number filter for querying findings.
+        public var filter: SecurityHubClientTypes.NumberFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.ResourcesNumberField? = nil,
+            filter: SecurityHubClientTypes.NumberFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum ResourcesStringField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountId
+        case findingType
+        case productName
+        case region
+        case resourceArn
+        case resourceCategory
+        case resourceId
+        case resourceName
+        case resourceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourcesStringField] {
+            return [
+                .accountId,
+                .findingType,
+                .productName,
+                .region,
+                .resourceArn,
+                .resourceCategory,
+                .resourceId,
+                .resourceName,
+                .resourceType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountId: return "account_id"
+            case .findingType: return "findings_summary.finding_type"
+            case .productName: return "findings_summary.product_name"
+            case .region: return "region"
+            case .resourceArn: return "resource_arn"
+            case .resourceCategory: return "resource_category"
+            case .resourceId: return "resource_id"
+            case .resourceName: return "resource_name"
+            case .resourceType: return "resource_type"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables filtering of Amazon Web Services resources based on string field values.
+    public struct ResourcesStringFilter: Swift.Sendable {
+        /// The name of the field.
+        public var fieldName: SecurityHubClientTypes.ResourcesStringField?
+        /// A string filter for filtering Security Hub findings.
+        public var filter: SecurityHubClientTypes.StringFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.ResourcesStringField? = nil,
+            filter: SecurityHubClientTypes.StringFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables the creation of criteria for Amazon Web Services resources in Security Hub.
+    public struct ResourcesCompositeFilter: Swift.Sendable {
+        /// Enables filtering based on date and timestamp field values.
+        public var dateFilters: [SecurityHubClientTypes.ResourcesDateFilter]?
+        /// Enables filtering based on map-based field values.
+        public var mapFilters: [SecurityHubClientTypes.ResourcesMapFilter]?
+        /// Enables filtering based on numerical field values.
+        public var numberFilters: [SecurityHubClientTypes.ResourcesNumberFilter]?
+        /// The logical operator used to combine multiple filter conditions.
+        public var `operator`: SecurityHubClientTypes.AllowedOperators?
+        /// Enables filtering based on string field values.
+        public var stringFilters: [SecurityHubClientTypes.ResourcesStringFilter]?
+
+        public init(
+            dateFilters: [SecurityHubClientTypes.ResourcesDateFilter]? = nil,
+            mapFilters: [SecurityHubClientTypes.ResourcesMapFilter]? = nil,
+            numberFilters: [SecurityHubClientTypes.ResourcesNumberFilter]? = nil,
+            `operator`: SecurityHubClientTypes.AllowedOperators? = nil,
+            stringFilters: [SecurityHubClientTypes.ResourcesStringFilter]? = nil
+        ) {
+            self.dateFilters = dateFilters
+            self.mapFilters = mapFilters
+            self.numberFilters = numberFilters
+            self.`operator` = `operator`
+            self.stringFilters = stringFilters
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables filtering of Amazon Web Services resources based on data.
+    public struct ResourcesFilters: Swift.Sendable {
+        /// A collection of complex filtering conditions that can be applied to Amazon Web Services resources.
+        public var compositeFilters: [SecurityHubClientTypes.ResourcesCompositeFilter]?
+        /// The logical operator used to combine multiple filter conditions in the structure.
+        public var compositeOperator: SecurityHubClientTypes.AllowedOperators?
+
+        public init(
+            compositeFilters: [SecurityHubClientTypes.ResourcesCompositeFilter]? = nil,
+            compositeOperator: SecurityHubClientTypes.AllowedOperators? = nil
+        ) {
+            self.compositeFilters = compositeFilters
+            self.compositeOperator = compositeOperator
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum ResourceGroupByField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountId
+        case findingType
+        case region
+        case resourceCategory
+        case resourceName
+        case resourceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceGroupByField] {
+            return [
+                .accountId,
+                .findingType,
+                .region,
+                .resourceCategory,
+                .resourceName,
+                .resourceType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountId: return "account_id"
+            case .findingType: return "findings_summary.finding_type"
+            case .region: return "region"
+            case .resourceCategory: return "resource_category"
+            case .resourceName: return "resource_name"
+            case .resourceType: return "resource_type"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Defines the configuration for organizing and categorizing Amazon Web Services resources based on associated security findings.
+    public struct ResourceGroupByRule: Swift.Sendable {
+        /// The criteria used to select resources and associated security findings.
+        public var filters: SecurityHubClientTypes.ResourcesFilters?
+        /// Specifies the attribute that resources should be grouped by.
+        /// This member is required.
+        public var groupByField: SecurityHubClientTypes.ResourceGroupByField?
+
+        public init(
+            filters: SecurityHubClientTypes.ResourcesFilters? = nil,
+            groupByField: SecurityHubClientTypes.ResourceGroupByField? = nil
+        ) {
+            self.filters = filters
+            self.groupByField = groupByField
+        }
+    }
+}
+
+public struct GetResourcesStatisticsV2Input: Swift.Sendable {
+    /// How resource statistics should be aggregated and organized in the response.
+    /// This member is required.
+    public var groupByRules: [SecurityHubClientTypes.ResourceGroupByRule]?
+    /// The maximum number of results to be returned.
+    public var maxStatisticResults: Swift.Int?
+    /// Sorts aggregated statistics.
+    public var sortOrder: SecurityHubClientTypes.SortOrder?
+
+    public init(
+        groupByRules: [SecurityHubClientTypes.ResourceGroupByRule]? = nil,
+        maxStatisticResults: Swift.Int? = nil,
+        sortOrder: SecurityHubClientTypes.SortOrder? = nil
+    ) {
+        self.groupByRules = groupByRules
+        self.maxStatisticResults = maxStatisticResults
+        self.sortOrder = sortOrder
+    }
+}
+
+public struct GetResourcesStatisticsV2Output: Swift.Sendable {
+    /// The aggregated statistics about resources based on the specified grouping rule.
+    /// This member is required.
+    public var groupByResults: [SecurityHubClientTypes.GroupByResult]?
+
+    public init(
+        groupByResults: [SecurityHubClientTypes.GroupByResult]? = nil
+    ) {
+        self.groupByResults = groupByResults
+    }
+}
+
+public struct GetResourcesV2Input: Swift.Sendable {
+    /// Filters resources based on a set of criteria.
+    public var filters: SecurityHubClientTypes.ResourcesFilters?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
+    public var nextToken: Swift.String?
+    /// The finding attributes used to sort the list of returned findings.
+    public var sortCriteria: [SecurityHubClientTypes.SortCriterion]?
+
+    public init(
+        filters: SecurityHubClientTypes.ResourcesFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortCriteria: [SecurityHubClientTypes.SortCriterion]? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortCriteria = sortCriteria
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// A comprehensive distribution of security findings by severity level for Amazon Web Services resources.
+    public struct ResourceSeverityBreakdown: Swift.Sendable {
+        /// The number of findings with a severity level of critical.
+        public var critical: Swift.Int?
+        /// The number of findings with a severity level of fatal.
+        public var fatal: Swift.Int?
+        /// The number of findings with a severity level of high.
+        public var high: Swift.Int?
+        /// The number of findings that provide security-related information.
+        public var informational: Swift.Int?
+        /// The number of findings with a severity level of low.
+        public var low: Swift.Int?
+        /// The number of findings with a severity level of medium.
+        public var medium: Swift.Int?
+        /// The number of findings not in any of the severity categories.
+        public var other: Swift.Int?
+        /// The number of findings with a severity level cannot be determined.
+        public var unknown: Swift.Int?
+
+        public init(
+            critical: Swift.Int? = nil,
+            fatal: Swift.Int? = nil,
+            high: Swift.Int? = nil,
+            informational: Swift.Int? = nil,
+            low: Swift.Int? = nil,
+            medium: Swift.Int? = nil,
+            other: Swift.Int? = nil,
+            unknown: Swift.Int? = nil
+        ) {
+            self.critical = critical
+            self.fatal = fatal
+            self.high = high
+            self.informational = informational
+            self.low = low
+            self.medium = medium
+            self.other = other
+            self.unknown = unknown
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// A list of summaries for all finding types on a resource.
+    public struct ResourceFindingsSummary: Swift.Sendable {
+        /// The category or classification of the security finding.
+        /// This member is required.
+        public var findingType: Swift.String?
+        /// The name of the product associated with the security finding.
+        /// This member is required.
+        public var productName: Swift.String?
+        /// A breakdown of security findings by their severity levels.
+        public var severities: SecurityHubClientTypes.ResourceSeverityBreakdown?
+        /// The total count of security findings.
+        /// This member is required.
+        public var totalFindings: Swift.Int?
+
+        public init(
+            findingType: Swift.String? = nil,
+            productName: Swift.String? = nil,
+            severities: SecurityHubClientTypes.ResourceSeverityBreakdown? = nil,
+            totalFindings: Swift.Int? = nil
+        ) {
+            self.findingType = findingType
+            self.productName = productName
+            self.severities = severities
+            self.totalFindings = totalFindings
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    public enum ResourceCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aiMl
+        case code
+        case compute
+        case database
+        case identity
+        case network
+        case other
+        case storage
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceCategory] {
+            return [
+                .aiMl,
+                .code,
+                .compute,
+                .database,
+                .identity,
+                .network,
+                .other,
+                .storage
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aiMl: return "AI/ML"
+            case .code: return "Code"
+            case .compute: return "Compute"
+            case .database: return "Database"
+            case .identity: return "Identity"
+            case .network: return "Network"
+            case .other: return "Other"
+            case .storage: return "Storage"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Represents tag information associated with Amazon Web Services resources.
+    public struct ResourceTag: Swift.Sendable {
+        /// The identifier or name of the tag.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The data associated with the tag key.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Provides comprehensive details about an Amazon Web Services resource and its associated security findings.
+    public struct ResourceResult: Swift.Sendable {
+        /// The Amazon Web Services account that owns the resource.
+        /// This member is required.
+        public var accountId: Swift.String?
+        /// An aggregated view of security findings associated with a resource.
+        public var findingsSummary: [SecurityHubClientTypes.ResourceFindingsSummary]?
+        /// The Amazon Web Services Region where the resource is located.
+        /// This member is required.
+        public var region: Swift.String?
+        /// Specifies the ARN that uniquely identifies a resource.
+        public var resourceArn: Swift.String?
+        /// The grouping where the resource belongs.
+        public var resourceCategory: SecurityHubClientTypes.ResourceCategory?
+        /// The configuration details of a resource.
+        /// This member is required.
+        public var resourceConfig: Smithy.Document?
+        /// The time when the resource was created.
+        public var resourceCreationTimeDt: Swift.String?
+        /// The timestamp when information about the resource was captured.
+        /// This member is required.
+        public var resourceDetailCaptureTimeDt: Swift.String?
+        /// The unique identifier for a resource.
+        /// This member is required.
+        public var resourceId: Swift.String?
+        /// The name of the resource.
+        public var resourceName: Swift.String?
+        /// The key-value pairs associated with a resource.
+        public var resourceTags: [SecurityHubClientTypes.ResourceTag]?
+        /// The type of resource.
+        public var resourceType: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil,
+            findingsSummary: [SecurityHubClientTypes.ResourceFindingsSummary]? = nil,
+            region: Swift.String? = nil,
+            resourceArn: Swift.String? = nil,
+            resourceCategory: SecurityHubClientTypes.ResourceCategory? = nil,
+            resourceConfig: Smithy.Document? = nil,
+            resourceCreationTimeDt: Swift.String? = nil,
+            resourceDetailCaptureTimeDt: Swift.String? = nil,
+            resourceId: Swift.String? = nil,
+            resourceName: Swift.String? = nil,
+            resourceTags: [SecurityHubClientTypes.ResourceTag]? = nil,
+            resourceType: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+            self.findingsSummary = findingsSummary
+            self.region = region
+            self.resourceArn = resourceArn
+            self.resourceCategory = resourceCategory
+            self.resourceConfig = resourceConfig
+            self.resourceCreationTimeDt = resourceCreationTimeDt
+            self.resourceDetailCaptureTimeDt = resourceDetailCaptureTimeDt
+            self.resourceId = resourceId
+            self.resourceName = resourceName
+            self.resourceTags = resourceTags
+            self.resourceType = resourceType
+        }
+    }
+}
+
+public struct GetResourcesV2Output: Swift.Sendable {
+    /// The pagination token to use to request the next page of results. Otherwise, this parameter is null.
+    public var nextToken: Swift.String?
+    /// Filters resources based on a set of criteria.
+    /// This member is required.
+    public var resources: [SecurityHubClientTypes.ResourceResult]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        resources: [SecurityHubClientTypes.ResourceResult]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.resources = resources
+    }
+}
+
 public struct GetSecurityControlDefinitionInput: Swift.Sendable {
     /// The ID of the security control to retrieve the definition for. This field doesn’t accept an Amazon Resource Name (ARN).
     /// This member is required.
@@ -24477,6 +27172,52 @@ public struct InviteMembersOutput: Swift.Sendable {
     }
 }
 
+extension SecurityHubClientTypes {
+
+    /// The parameters used to modify an existing Jira Cloud integration.
+    public struct JiraCloudUpdateConfiguration: Swift.Sendable {
+        /// The project key for a JiraCloud instance.
+        /// This member is required.
+        public var projectKey: Swift.String?
+
+        public init(
+            projectKey: Swift.String? = nil
+        ) {
+            self.projectKey = projectKey
+        }
+    }
+}
+
+public struct ListAggregatorsV2Input: Swift.Sendable {
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAggregatorsV2Output: Swift.Sendable {
+    /// An array of aggregators.
+    public var aggregatorsV2: [SecurityHubClientTypes.AggregatorV2]?
+    /// The pagination token to use to request the next page of results. Otherwise, this parameter is null.
+    public var nextToken: Swift.String?
+
+    public init(
+        aggregatorsV2: [SecurityHubClientTypes.AggregatorV2]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.aggregatorsV2 = aggregatorsV2
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListAutomationRulesInput: Swift.Sendable {
     /// The maximum number of rules to return in the response. This currently ranges from 1 to 100.
     public var maxResults: Swift.Int?
@@ -24504,6 +27245,36 @@ public struct ListAutomationRulesOutput: Swift.Sendable {
     ) {
         self.automationRulesMetadata = automationRulesMetadata
         self.nextToken = nextToken
+    }
+}
+
+public struct ListAutomationRulesV2Input: Swift.Sendable {
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAutomationRulesV2Output: Swift.Sendable {
+    /// The pagination token to use to request the next page of results. Otherwise, this parameter is null.
+    public var nextToken: Swift.String?
+    /// An array of automation rules.
+    public var rules: [SecurityHubClientTypes.AutomationRulesMetadataV2]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        rules: [SecurityHubClientTypes.AutomationRulesMetadataV2]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.rules = rules
     }
 }
 
@@ -24567,6 +27338,45 @@ public struct ListConfigurationPolicyAssociationsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.configurationPolicyAssociationSummaries = configurationPolicyAssociationSummaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListConnectorsV2Input: Swift.Sendable {
+    /// The status for the connectorV2.
+    public var connectorStatus: SecurityHubClientTypes.ConnectorStatus?
+    /// The maximum number of results to be returned.
+    public var maxResults: Swift.Int?
+    /// The pagination token per the Amazon Web Services Pagination standard
+    public var nextToken: Swift.String?
+    /// The name of the third-party provider.
+    public var providerName: SecurityHubClientTypes.ConnectorProviderName?
+
+    public init(
+        connectorStatus: SecurityHubClientTypes.ConnectorStatus? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        providerName: SecurityHubClientTypes.ConnectorProviderName? = nil
+    ) {
+        self.connectorStatus = connectorStatus
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.providerName = providerName
+    }
+}
+
+public struct ListConnectorsV2Output: Swift.Sendable {
+    /// An array of connectorV2 summaries.
+    /// This member is required.
+    public var connectors: [SecurityHubClientTypes.ConnectorSummary]?
+    /// The pagination token to use to request the next page of results. Otherwise, this parameter is null.
+    public var nextToken: Swift.String?
+
+    public init(
+        connectors: [SecurityHubClientTypes.ConnectorSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.connectors = connectors
         self.nextToken = nextToken
     }
 }
@@ -24696,15 +27506,19 @@ public struct ListMembersOutput: Swift.Sendable {
 }
 
 public struct ListOrganizationAdminAccountsInput: Swift.Sendable {
+    /// The feature where the delegated administrator account is listed. Defaults to Security Hub if not specified.
+    public var feature: SecurityHubClientTypes.SecurityHubFeature?
     /// The maximum number of items to return in the response.
     public var maxResults: Swift.Int?
     /// The token that is required for pagination. On your first call to the ListOrganizationAdminAccounts operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
     public var nextToken: Swift.String?
 
     public init(
+        feature: SecurityHubClientTypes.SecurityHubFeature? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
+        self.feature = feature
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -24713,14 +27527,18 @@ public struct ListOrganizationAdminAccountsInput: Swift.Sendable {
 public struct ListOrganizationAdminAccountsOutput: Swift.Sendable {
     /// The list of Security Hub administrator accounts.
     public var adminAccounts: [SecurityHubClientTypes.AdminAccount]?
+    /// The feature where the delegated administrator account is listed. Defaults to Security Hub CSPM if not specified.
+    public var feature: SecurityHubClientTypes.SecurityHubFeature?
     /// The pagination token to use to request the next page of results.
     public var nextToken: Swift.String?
 
     public init(
         adminAccounts: [SecurityHubClientTypes.AdminAccount]? = nil,
+        feature: SecurityHubClientTypes.SecurityHubFeature? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.adminAccounts = adminAccounts
+        self.feature = feature
         self.nextToken = nextToken
     }
 }
@@ -24867,6 +27685,16 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.tags = tags
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The parameters required to update the configuration of an integration provider.
+    public enum ProviderUpdateConfiguration: Swift.Sendable {
+        /// The parameters required to update the configuration for a Jira Cloud integration.
+        case jiracloud(SecurityHubClientTypes.JiraCloudUpdateConfiguration)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -25038,6 +27866,91 @@ public struct UpdateActionTargetOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateAggregatorV2Input: Swift.Sendable {
+    /// The ARN of the Aggregator V2.
+    /// This member is required.
+    public var aggregatorV2Arn: Swift.String?
+    /// A list of Amazon Web Services Regions linked to the aggegation Region.
+    public var linkedRegions: [Swift.String]?
+    /// Determines how Amazon Web Services Regions should be linked to the Aggregator V2.
+    /// This member is required.
+    public var regionLinkingMode: Swift.String?
+
+    public init(
+        aggregatorV2Arn: Swift.String? = nil,
+        linkedRegions: [Swift.String]? = nil,
+        regionLinkingMode: Swift.String? = nil
+    ) {
+        self.aggregatorV2Arn = aggregatorV2Arn
+        self.linkedRegions = linkedRegions
+        self.regionLinkingMode = regionLinkingMode
+    }
+}
+
+public struct UpdateAggregatorV2Output: Swift.Sendable {
+    /// The Amazon Web Services Region where data is aggregated.
+    public var aggregationRegion: Swift.String?
+    /// The ARN of the Aggregator V2.
+    public var aggregatorV2Arn: Swift.String?
+    /// A list of Amazon Web Services Regions linked to the aggegation Region.
+    public var linkedRegions: [Swift.String]?
+    /// Determines how Amazon Web Services Regions should be linked to the Aggregator V2.
+    public var regionLinkingMode: Swift.String?
+
+    public init(
+        aggregationRegion: Swift.String? = nil,
+        aggregatorV2Arn: Swift.String? = nil,
+        linkedRegions: [Swift.String]? = nil,
+        regionLinkingMode: Swift.String? = nil
+    ) {
+        self.aggregationRegion = aggregationRegion
+        self.aggregatorV2Arn = aggregatorV2Arn
+        self.linkedRegions = linkedRegions
+        self.regionLinkingMode = regionLinkingMode
+    }
+}
+
+public struct UpdateAutomationRuleV2Input: Swift.Sendable {
+    /// A list of actions to be performed when the rule criteria is met.
+    public var actions: [SecurityHubClientTypes.AutomationRulesActionV2]?
+    /// The filtering type and configuration of the automation rule.
+    public var criteria: SecurityHubClientTypes.Criteria?
+    /// A description of the automation rule.
+    public var description: Swift.String?
+    /// The ARN of the automation rule.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The name of the automation rule.
+    public var ruleName: Swift.String?
+    /// Represents a value for the rule priority.
+    public var ruleOrder: Swift.Float?
+    /// The status of the automation rule.
+    public var ruleStatus: SecurityHubClientTypes.RuleStatusV2?
+
+    public init(
+        actions: [SecurityHubClientTypes.AutomationRulesActionV2]? = nil,
+        criteria: SecurityHubClientTypes.Criteria? = nil,
+        description: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        ruleName: Swift.String? = nil,
+        ruleOrder: Swift.Float? = nil,
+        ruleStatus: SecurityHubClientTypes.RuleStatusV2? = nil
+    ) {
+        self.actions = actions
+        self.criteria = criteria
+        self.description = description
+        self.identifier = identifier
+        self.ruleName = ruleName
+        self.ruleOrder = ruleOrder
+        self.ruleStatus = ruleStatus
+    }
+}
+
+public struct UpdateAutomationRuleV2Output: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateConfigurationPolicyInput: Swift.Sendable {
     /// An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls). When updating a configuration policy, provide a complete list of standards that you want to enable and a complete list of controls that you want to enable or disable. The updated configuration replaces the current configuration.
     public var configurationPolicy: SecurityHubClientTypes.Policy?
@@ -25099,6 +28012,40 @@ public struct UpdateConfigurationPolicyOutput: Swift.Sendable {
         self.name = name
         self.updatedAt = updatedAt
     }
+}
+
+public struct UpdateConnectorV2Input: Swift.Sendable {
+    /// The clientSecret of ServiceNow.
+    public var clientSecret: Swift.String?
+    /// The UUID of the connectorV2 to identify connectorV2 resource.
+    /// This member is required.
+    public var connectorId: Swift.String?
+    /// The description of the connectorV2.
+    public var description: Swift.String?
+    /// The third-party provider’s service configuration.
+    public var provider: SecurityHubClientTypes.ProviderUpdateConfiguration?
+
+    public init(
+        clientSecret: Swift.String? = nil,
+        connectorId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        provider: SecurityHubClientTypes.ProviderUpdateConfiguration? = nil
+    ) {
+        self.clientSecret = clientSecret
+        self.connectorId = connectorId
+        self.description = description
+        self.provider = provider
+    }
+}
+
+extension UpdateConnectorV2Input: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateConnectorV2Input(connectorId: \(Swift.String(describing: connectorId)), description: \(Swift.String(describing: description)), provider: \(Swift.String(describing: provider)), clientSecret: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateConnectorV2Output: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct UpdateFindingAggregatorInput: Swift.Sendable {
@@ -25387,10 +28334,24 @@ extension BatchUpdateFindingsInput {
     }
 }
 
+extension BatchUpdateFindingsV2Input {
+
+    static func urlPathProvider(_ value: BatchUpdateFindingsV2Input) -> Swift.String? {
+        return "/findingsv2/batchupdatev2"
+    }
+}
+
 extension BatchUpdateStandardsControlAssociationsInput {
 
     static func urlPathProvider(_ value: BatchUpdateStandardsControlAssociationsInput) -> Swift.String? {
         return "/associations"
+    }
+}
+
+extension ConnectorRegistrationsV2Input {
+
+    static func urlPathProvider(_ value: ConnectorRegistrationsV2Input) -> Swift.String? {
+        return "/connectorsv2/registrations"
     }
 }
 
@@ -25401,6 +28362,13 @@ extension CreateActionTargetInput {
     }
 }
 
+extension CreateAggregatorV2Input {
+
+    static func urlPathProvider(_ value: CreateAggregatorV2Input) -> Swift.String? {
+        return "/aggregatorv2/create"
+    }
+}
+
 extension CreateAutomationRuleInput {
 
     static func urlPathProvider(_ value: CreateAutomationRuleInput) -> Swift.String? {
@@ -25408,10 +28376,24 @@ extension CreateAutomationRuleInput {
     }
 }
 
+extension CreateAutomationRuleV2Input {
+
+    static func urlPathProvider(_ value: CreateAutomationRuleV2Input) -> Swift.String? {
+        return "/automationrulesv2/create"
+    }
+}
+
 extension CreateConfigurationPolicyInput {
 
     static func urlPathProvider(_ value: CreateConfigurationPolicyInput) -> Swift.String? {
         return "/configurationPolicy/create"
+    }
+}
+
+extension CreateConnectorV2Input {
+
+    static func urlPathProvider(_ value: CreateConnectorV2Input) -> Swift.String? {
+        return "/connectorsv2"
     }
 }
 
@@ -25436,6 +28418,13 @@ extension CreateMembersInput {
     }
 }
 
+extension CreateTicketV2Input {
+
+    static func urlPathProvider(_ value: CreateTicketV2Input) -> Swift.String? {
+        return "/ticketsv2"
+    }
+}
+
 extension DeclineInvitationsInput {
 
     static func urlPathProvider(_ value: DeclineInvitationsInput) -> Swift.String? {
@@ -25453,6 +28442,26 @@ extension DeleteActionTargetInput {
     }
 }
 
+extension DeleteAggregatorV2Input {
+
+    static func urlPathProvider(_ value: DeleteAggregatorV2Input) -> Swift.String? {
+        guard let aggregatorV2Arn = value.aggregatorV2Arn else {
+            return nil
+        }
+        return "/aggregatorv2/delete/\(aggregatorV2Arn.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension DeleteAutomationRuleV2Input {
+
+    static func urlPathProvider(_ value: DeleteAutomationRuleV2Input) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/automationrulesv2/\(identifier.urlPercentEncoding())"
+    }
+}
+
 extension DeleteConfigurationPolicyInput {
 
     static func urlPathProvider(_ value: DeleteConfigurationPolicyInput) -> Swift.String? {
@@ -25460,6 +28469,16 @@ extension DeleteConfigurationPolicyInput {
             return nil
         }
         return "/configurationPolicy/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension DeleteConnectorV2Input {
+
+    static func urlPathProvider(_ value: DeleteConnectorV2Input) -> Swift.String? {
+        guard let connectorId = value.connectorId else {
+            return nil
+        }
+        return "/connectorsv2/\(connectorId.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -25557,6 +28576,36 @@ extension DescribeProductsInput {
     }
 }
 
+extension DescribeProductsV2Input {
+
+    static func urlPathProvider(_ value: DescribeProductsV2Input) -> Swift.String? {
+        return "/productsV2"
+    }
+}
+
+extension DescribeProductsV2Input {
+
+    static func queryItemProvider(_ value: DescribeProductsV2Input) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension DescribeSecurityHubV2Input {
+
+    static func urlPathProvider(_ value: DescribeSecurityHubV2Input) -> Swift.String? {
+        return "/hubv2"
+    }
+}
+
 extension DescribeStandardsInput {
 
     static func urlPathProvider(_ value: DescribeStandardsInput) -> Swift.String? {
@@ -25630,6 +28679,13 @@ extension DisableSecurityHubInput {
     }
 }
 
+extension DisableSecurityHubV2Input {
+
+    static func urlPathProvider(_ value: DisableSecurityHubV2Input) -> Swift.String? {
+        return "/hubv2"
+    }
+}
+
 extension DisassociateFromAdministratorAccountInput {
 
     static func urlPathProvider(_ value: DisassociateFromAdministratorAccountInput) -> Swift.String? {
@@ -25672,10 +28728,37 @@ extension EnableSecurityHubInput {
     }
 }
 
+extension EnableSecurityHubV2Input {
+
+    static func urlPathProvider(_ value: EnableSecurityHubV2Input) -> Swift.String? {
+        return "/hubv2"
+    }
+}
+
 extension GetAdministratorAccountInput {
 
     static func urlPathProvider(_ value: GetAdministratorAccountInput) -> Swift.String? {
         return "/administrator"
+    }
+}
+
+extension GetAggregatorV2Input {
+
+    static func urlPathProvider(_ value: GetAggregatorV2Input) -> Swift.String? {
+        guard let aggregatorV2Arn = value.aggregatorV2Arn else {
+            return nil
+        }
+        return "/aggregatorv2/get/\(aggregatorV2Arn.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension GetAutomationRuleV2Input {
+
+    static func urlPathProvider(_ value: GetAutomationRuleV2Input) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/automationrulesv2/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -25693,6 +28776,16 @@ extension GetConfigurationPolicyAssociationInput {
 
     static func urlPathProvider(_ value: GetConfigurationPolicyAssociationInput) -> Swift.String? {
         return "/configurationPolicyAssociation/get"
+    }
+}
+
+extension GetConnectorV2Input {
+
+    static func urlPathProvider(_ value: GetConnectorV2Input) -> Swift.String? {
+        guard let connectorId = value.connectorId else {
+            return nil
+        }
+        return "/connectorsv2/\(connectorId.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -25724,6 +28817,20 @@ extension GetFindingsInput {
 
     static func urlPathProvider(_ value: GetFindingsInput) -> Swift.String? {
         return "/findings"
+    }
+}
+
+extension GetFindingStatisticsV2Input {
+
+    static func urlPathProvider(_ value: GetFindingStatisticsV2Input) -> Swift.String? {
+        return "/findingsv2/statistics"
+    }
+}
+
+extension GetFindingsV2Input {
+
+    static func urlPathProvider(_ value: GetFindingsV2Input) -> Swift.String? {
+        return "/findingsv2"
     }
 }
 
@@ -25765,6 +28872,20 @@ extension GetMembersInput {
     }
 }
 
+extension GetResourcesStatisticsV2Input {
+
+    static func urlPathProvider(_ value: GetResourcesStatisticsV2Input) -> Swift.String? {
+        return "/resourcesv2/statistics"
+    }
+}
+
+extension GetResourcesV2Input {
+
+    static func urlPathProvider(_ value: GetResourcesV2Input) -> Swift.String? {
+        return "/resourcesv2"
+    }
+}
+
 extension GetSecurityControlDefinitionInput {
 
     static func urlPathProvider(_ value: GetSecurityControlDefinitionInput) -> Swift.String? {
@@ -25793,6 +28914,29 @@ extension InviteMembersInput {
     }
 }
 
+extension ListAggregatorsV2Input {
+
+    static func urlPathProvider(_ value: ListAggregatorsV2Input) -> Swift.String? {
+        return "/aggregatorv2/list"
+    }
+}
+
+extension ListAggregatorsV2Input {
+
+    static func queryItemProvider(_ value: ListAggregatorsV2Input) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListAutomationRulesInput {
 
     static func urlPathProvider(_ value: ListAutomationRulesInput) -> Swift.String? {
@@ -25803,6 +28947,29 @@ extension ListAutomationRulesInput {
 extension ListAutomationRulesInput {
 
     static func queryItemProvider(_ value: ListAutomationRulesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAutomationRulesV2Input {
+
+    static func urlPathProvider(_ value: ListAutomationRulesV2Input) -> Swift.String? {
+        return "/automationrulesv2/list"
+    }
+}
+
+extension ListAutomationRulesV2Input {
+
+    static func queryItemProvider(_ value: ListAutomationRulesV2Input) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -25843,6 +29010,37 @@ extension ListConfigurationPolicyAssociationsInput {
 
     static func urlPathProvider(_ value: ListConfigurationPolicyAssociationsInput) -> Swift.String? {
         return "/configurationPolicyAssociation/list"
+    }
+}
+
+extension ListConnectorsV2Input {
+
+    static func urlPathProvider(_ value: ListConnectorsV2Input) -> Swift.String? {
+        return "/connectorsv2"
+    }
+}
+
+extension ListConnectorsV2Input {
+
+    static func queryItemProvider(_ value: ListConnectorsV2Input) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let providerName = value.providerName {
+            let providerNameQueryItem = Smithy.URIQueryItem(name: "ProviderName".urlPercentEncoding(), value: Swift.String(providerName.rawValue).urlPercentEncoding())
+            items.append(providerNameQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let connectorStatus = value.connectorStatus {
+            let connectorStatusQueryItem = Smithy.URIQueryItem(name: "ConnectorStatus".urlPercentEncoding(), value: Swift.String(connectorStatus.rawValue).urlPercentEncoding())
+            items.append(connectorStatusQueryItem)
+        }
+        return items
     }
 }
 
@@ -25960,6 +29158,10 @@ extension ListOrganizationAdminAccountsInput {
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
+        }
+        if let feature = value.feature {
+            let featureQueryItem = Smithy.URIQueryItem(name: "Feature".urlPercentEncoding(), value: Swift.String(feature.rawValue).urlPercentEncoding())
+            items.append(featureQueryItem)
         }
         return items
     }
@@ -26091,6 +29293,26 @@ extension UpdateActionTargetInput {
     }
 }
 
+extension UpdateAggregatorV2Input {
+
+    static func urlPathProvider(_ value: UpdateAggregatorV2Input) -> Swift.String? {
+        guard let aggregatorV2Arn = value.aggregatorV2Arn else {
+            return nil
+        }
+        return "/aggregatorv2/update/\(aggregatorV2Arn.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension UpdateAutomationRuleV2Input {
+
+    static func urlPathProvider(_ value: UpdateAutomationRuleV2Input) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/automationrulesv2/\(identifier.urlPercentEncoding())"
+    }
+}
+
 extension UpdateConfigurationPolicyInput {
 
     static func urlPathProvider(_ value: UpdateConfigurationPolicyInput) -> Swift.String? {
@@ -26098,6 +29320,16 @@ extension UpdateConfigurationPolicyInput {
             return nil
         }
         return "/configurationPolicy/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension UpdateConnectorV2Input {
+
+    static func urlPathProvider(_ value: UpdateConnectorV2Input) -> Swift.String? {
+        guard let connectorId = value.connectorId else {
+            return nil
+        }
+        return "/connectorsv2/\(connectorId.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -26263,11 +29495,32 @@ extension BatchUpdateFindingsInput {
     }
 }
 
+extension BatchUpdateFindingsV2Input {
+
+    static func write(value: BatchUpdateFindingsV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Comment"].write(value.comment)
+        try writer["FindingIdentifiers"].writeList(value.findingIdentifiers, memberWritingClosure: SecurityHubClientTypes.OcsfFindingIdentifier.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MetadataUids"].writeList(value.metadataUids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SeverityId"].write(value.severityId)
+        try writer["StatusId"].write(value.statusId)
+    }
+}
+
 extension BatchUpdateStandardsControlAssociationsInput {
 
     static func write(value: BatchUpdateStandardsControlAssociationsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["StandardsControlAssociationUpdates"].writeList(value.standardsControlAssociationUpdates, memberWritingClosure: SecurityHubClientTypes.StandardsControlAssociationUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ConnectorRegistrationsV2Input {
+
+    static func write(value: ConnectorRegistrationsV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthCode"].write(value.authCode)
+        try writer["AuthState"].write(value.authState)
     }
 }
 
@@ -26278,6 +29531,17 @@ extension CreateActionTargetInput {
         try writer["Description"].write(value.description)
         try writer["Id"].write(value.id)
         try writer["Name"].write(value.name)
+    }
+}
+
+extension CreateAggregatorV2Input {
+
+    static func write(value: CreateAggregatorV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["LinkedRegions"].writeList(value.linkedRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RegionLinkingMode"].write(value.regionLinkingMode)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -26296,6 +29560,21 @@ extension CreateAutomationRuleInput {
     }
 }
 
+extension CreateAutomationRuleV2Input {
+
+    static func write(value: CreateAutomationRuleV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Actions"].writeList(value.actions, memberWritingClosure: SecurityHubClientTypes.AutomationRulesActionV2.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Criteria"].write(value.criteria, with: SecurityHubClientTypes.Criteria.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["RuleName"].write(value.ruleName)
+        try writer["RuleOrder"].write(value.ruleOrder)
+        try writer["RuleStatus"].write(value.ruleStatus)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateConfigurationPolicyInput {
 
     static func write(value: CreateConfigurationPolicyInput?, to writer: SmithyJSON.Writer) throws {
@@ -26303,6 +29582,19 @@ extension CreateConfigurationPolicyInput {
         try writer["ConfigurationPolicy"].write(value.configurationPolicy, with: SecurityHubClientTypes.Policy.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateConnectorV2Input {
+
+    static func write(value: CreateConnectorV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["Description"].write(value.description)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+        try writer["Name"].write(value.name)
+        try writer["Provider"].write(value.provider, with: SecurityHubClientTypes.ProviderConfiguration.write(value:to:))
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -26331,6 +29623,16 @@ extension CreateMembersInput {
     static func write(value: CreateMembersInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AccountDetails"].writeList(value.accountDetails, memberWritingClosure: SecurityHubClientTypes.AccountDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateTicketV2Input {
+
+    static func write(value: CreateTicketV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["ConnectorId"].write(value.connectorId)
+        try writer["FindingMetadataUid"].write(value.findingMetadataUid)
     }
 }
 
@@ -26373,6 +29675,7 @@ extension DisableOrganizationAdminAccountInput {
     static func write(value: DisableOrganizationAdminAccountInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AdminAccountId"].write(value.adminAccountId)
+        try writer["Feature"].write(value.feature)
     }
 }
 
@@ -26397,6 +29700,7 @@ extension EnableOrganizationAdminAccountInput {
     static func write(value: EnableOrganizationAdminAccountInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AdminAccountId"].write(value.adminAccountId)
+        try writer["Feature"].write(value.feature)
     }
 }
 
@@ -26406,6 +29710,14 @@ extension EnableSecurityHubInput {
         guard let value else { return }
         try writer["ControlFindingGenerator"].write(value.controlFindingGenerator)
         try writer["EnableDefaultStandards"].write(value.enableDefaultStandards)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension EnableSecurityHubV2Input {
+
+    static func write(value: EnableSecurityHubV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -26451,6 +29763,27 @@ extension GetFindingsInput {
     }
 }
 
+extension GetFindingStatisticsV2Input {
+
+    static func write(value: GetFindingStatisticsV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GroupByRules"].writeList(value.groupByRules, memberWritingClosure: SecurityHubClientTypes.GroupByRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxStatisticResults"].write(value.maxStatisticResults)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension GetFindingsV2Input {
+
+    static func write(value: GetFindingsV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].write(value.filters, with: SecurityHubClientTypes.OcsfFindingFilters.write(value:to:))
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SortCriteria"].writeList(value.sortCriteria, memberWritingClosure: SecurityHubClientTypes.SortCriterion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension GetInsightsInput {
 
     static func write(value: GetInsightsInput?, to writer: SmithyJSON.Writer) throws {
@@ -26466,6 +29799,27 @@ extension GetMembersInput {
     static func write(value: GetMembersInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AccountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GetResourcesStatisticsV2Input {
+
+    static func write(value: GetResourcesStatisticsV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GroupByRules"].writeList(value.groupByRules, memberWritingClosure: SecurityHubClientTypes.ResourceGroupByRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxStatisticResults"].write(value.maxStatisticResults)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension GetResourcesV2Input {
+
+    static func write(value: GetResourcesV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].write(value.filters, with: SecurityHubClientTypes.ResourcesFilters.write(value:to:))
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SortCriteria"].writeList(value.sortCriteria, memberWritingClosure: SecurityHubClientTypes.SortCriterion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -26522,6 +29876,28 @@ extension UpdateActionTargetInput {
     }
 }
 
+extension UpdateAggregatorV2Input {
+
+    static func write(value: UpdateAggregatorV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LinkedRegions"].writeList(value.linkedRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RegionLinkingMode"].write(value.regionLinkingMode)
+    }
+}
+
+extension UpdateAutomationRuleV2Input {
+
+    static func write(value: UpdateAutomationRuleV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Actions"].writeList(value.actions, memberWritingClosure: SecurityHubClientTypes.AutomationRulesActionV2.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Criteria"].write(value.criteria, with: SecurityHubClientTypes.Criteria.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["RuleName"].write(value.ruleName)
+        try writer["RuleOrder"].write(value.ruleOrder)
+        try writer["RuleStatus"].write(value.ruleStatus)
+    }
+}
+
 extension UpdateConfigurationPolicyInput {
 
     static func write(value: UpdateConfigurationPolicyInput?, to writer: SmithyJSON.Writer) throws {
@@ -26530,6 +29906,16 @@ extension UpdateConfigurationPolicyInput {
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
         try writer["UpdatedReason"].write(value.updatedReason)
+    }
+}
+
+extension UpdateConnectorV2Input {
+
+    static func write(value: UpdateConnectorV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientSecret"].write(value.clientSecret)
+        try writer["Description"].write(value.description)
+        try writer["Provider"].write(value.provider, with: SecurityHubClientTypes.ProviderUpdateConfiguration.write(value:to:))
     }
 }
 
@@ -26744,6 +30130,19 @@ extension BatchUpdateFindingsOutput {
     }
 }
 
+extension BatchUpdateFindingsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchUpdateFindingsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchUpdateFindingsV2Output()
+        value.processedFindings = try reader["ProcessedFindings"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.BatchUpdateFindingsV2ProcessedFinding.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.unprocessedFindings = try reader["UnprocessedFindings"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.BatchUpdateFindingsV2UnprocessedFinding.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension BatchUpdateStandardsControlAssociationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchUpdateStandardsControlAssociationsOutput {
@@ -26752,6 +30151,19 @@ extension BatchUpdateStandardsControlAssociationsOutput {
         let reader = responseReader
         var value = BatchUpdateStandardsControlAssociationsOutput()
         value.unprocessedAssociationUpdates = try reader["UnprocessedAssociationUpdates"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.UnprocessedStandardsControlAssociationUpdate.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectorRegistrationsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ConnectorRegistrationsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ConnectorRegistrationsV2Output()
+        value.connectorArn = try reader["ConnectorArn"].readIfPresent()
+        value.connectorId = try reader["ConnectorId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -26768,6 +30180,21 @@ extension CreateActionTargetOutput {
     }
 }
 
+extension CreateAggregatorV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAggregatorV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAggregatorV2Output()
+        value.aggregationRegion = try reader["AggregationRegion"].readIfPresent()
+        value.aggregatorV2Arn = try reader["AggregatorV2Arn"].readIfPresent()
+        value.linkedRegions = try reader["LinkedRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.regionLinkingMode = try reader["RegionLinkingMode"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateAutomationRuleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAutomationRuleOutput {
@@ -26776,6 +30203,19 @@ extension CreateAutomationRuleOutput {
         let reader = responseReader
         var value = CreateAutomationRuleOutput()
         value.ruleArn = try reader["RuleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateAutomationRuleV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAutomationRuleV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAutomationRuleV2Output()
+        value.ruleArn = try reader["RuleArn"].readIfPresent()
+        value.ruleId = try reader["RuleId"].readIfPresent()
         return value
     }
 }
@@ -26794,6 +30234,20 @@ extension CreateConfigurationPolicyOutput {
         value.id = try reader["Id"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension CreateConnectorV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateConnectorV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateConnectorV2Output()
+        value.authUrl = try reader["AuthUrl"].readIfPresent()
+        value.connectorArn = try reader["ConnectorArn"].readIfPresent()
+        value.connectorId = try reader["ConnectorId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -26837,6 +30291,19 @@ extension CreateMembersOutput {
     }
 }
 
+extension CreateTicketV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTicketV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTicketV2Output()
+        value.ticketId = try reader["TicketId"].readIfPresent() ?? ""
+        value.ticketSrcUrl = try reader["TicketSrcUrl"].readIfPresent()
+        return value
+    }
+}
+
 extension DeclineInvitationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeclineInvitationsOutput {
@@ -26861,10 +30328,31 @@ extension DeleteActionTargetOutput {
     }
 }
 
+extension DeleteAggregatorV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAggregatorV2Output {
+        return DeleteAggregatorV2Output()
+    }
+}
+
+extension DeleteAutomationRuleV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAutomationRuleV2Output {
+        return DeleteAutomationRuleV2Output()
+    }
+}
+
 extension DeleteConfigurationPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConfigurationPolicyOutput {
         return DeleteConfigurationPolicyOutput()
+    }
+}
+
+extension DeleteConnectorV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConnectorV2Output {
+        return DeleteConnectorV2Output()
     }
 }
 
@@ -26967,6 +30455,32 @@ extension DescribeProductsOutput {
     }
 }
 
+extension DescribeProductsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeProductsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeProductsV2Output()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.productsV2 = try reader["ProductsV2"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ProductV2.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension DescribeSecurityHubV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeSecurityHubV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeSecurityHubV2Output()
+        value.hubV2Arn = try reader["HubV2Arn"].readIfPresent()
+        value.subscribedAt = try reader["SubscribedAt"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeStandardsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeStandardsOutput {
@@ -27014,6 +30528,13 @@ extension DisableSecurityHubOutput {
     }
 }
 
+extension DisableSecurityHubV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisableSecurityHubV2Output {
+        return DisableSecurityHubV2Output()
+    }
+}
+
 extension DisassociateFromAdministratorAccountOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateFromAdministratorAccountOutput {
@@ -27050,7 +30571,13 @@ extension EnableImportFindingsForProductOutput {
 extension EnableOrganizationAdminAccountOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableOrganizationAdminAccountOutput {
-        return EnableOrganizationAdminAccountOutput()
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = EnableOrganizationAdminAccountOutput()
+        value.adminAccountId = try reader["AdminAccountId"].readIfPresent()
+        value.feature = try reader["Feature"].readIfPresent()
+        return value
     }
 }
 
@@ -27058,6 +30585,18 @@ extension EnableSecurityHubOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableSecurityHubOutput {
         return EnableSecurityHubOutput()
+    }
+}
+
+extension EnableSecurityHubV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableSecurityHubV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = EnableSecurityHubV2Output()
+        value.hubV2Arn = try reader["HubV2Arn"].readIfPresent()
+        return value
     }
 }
 
@@ -27069,6 +30608,42 @@ extension GetAdministratorAccountOutput {
         let reader = responseReader
         var value = GetAdministratorAccountOutput()
         value.administrator = try reader["Administrator"].readIfPresent(with: SecurityHubClientTypes.Invitation.read(from:))
+        return value
+    }
+}
+
+extension GetAggregatorV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAggregatorV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAggregatorV2Output()
+        value.aggregationRegion = try reader["AggregationRegion"].readIfPresent()
+        value.aggregatorV2Arn = try reader["AggregatorV2Arn"].readIfPresent()
+        value.linkedRegions = try reader["LinkedRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.regionLinkingMode = try reader["RegionLinkingMode"].readIfPresent()
+        return value
+    }
+}
+
+extension GetAutomationRuleV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAutomationRuleV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAutomationRuleV2Output()
+        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.AutomationRulesActionV2.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.criteria = try reader["Criteria"].readIfPresent(with: SecurityHubClientTypes.Criteria.read(from:))
+        value.description = try reader["Description"].readIfPresent()
+        value.ruleArn = try reader["RuleArn"].readIfPresent()
+        value.ruleId = try reader["RuleId"].readIfPresent()
+        value.ruleName = try reader["RuleName"].readIfPresent()
+        value.ruleOrder = try reader["RuleOrder"].readIfPresent()
+        value.ruleStatus = try reader["RuleStatus"].readIfPresent()
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -27105,6 +30680,26 @@ extension GetConfigurationPolicyAssociationOutput {
         value.targetId = try reader["TargetId"].readIfPresent()
         value.targetType = try reader["TargetType"].readIfPresent()
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension GetConnectorV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetConnectorV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetConnectorV2Output()
+        value.connectorArn = try reader["ConnectorArn"].readIfPresent()
+        value.connectorId = try reader["ConnectorId"].readIfPresent() ?? ""
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["Description"].readIfPresent()
+        value.health = try reader["Health"].readIfPresent(with: SecurityHubClientTypes.HealthCheck.read(from:))
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.providerDetail = try reader["ProviderDetail"].readIfPresent(with: SecurityHubClientTypes.ProviderDetail.read(from:))
         return value
     }
 }
@@ -27158,6 +30753,31 @@ extension GetFindingsOutput {
         let reader = responseReader
         var value = GetFindingsOutput()
         value.findings = try reader["Findings"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.AwsSecurityFinding.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension GetFindingStatisticsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFindingStatisticsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetFindingStatisticsV2Output()
+        value.groupByResults = try reader["GroupByResults"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.GroupByResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GetFindingsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetFindingsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetFindingsV2Output()
+        value.findings = try reader["Findings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDocument(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -27225,6 +30845,31 @@ extension GetMembersOutput {
     }
 }
 
+extension GetResourcesStatisticsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourcesStatisticsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetResourcesStatisticsV2Output()
+        value.groupByResults = try reader["GroupByResults"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.GroupByResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GetResourcesV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourcesV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetResourcesV2Output()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ResourceResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension GetSecurityControlDefinitionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSecurityControlDefinitionOutput {
@@ -27249,6 +30894,19 @@ extension InviteMembersOutput {
     }
 }
 
+extension ListAggregatorsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAggregatorsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAggregatorsV2Output()
+        value.aggregatorsV2 = try reader["AggregatorsV2"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.AggregatorV2.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListAutomationRulesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAutomationRulesOutput {
@@ -27258,6 +30916,19 @@ extension ListAutomationRulesOutput {
         var value = ListAutomationRulesOutput()
         value.automationRulesMetadata = try reader["AutomationRulesMetadata"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.AutomationRulesMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAutomationRulesV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAutomationRulesV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAutomationRulesV2Output()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.AutomationRulesMetadataV2.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -27283,6 +30954,19 @@ extension ListConfigurationPolicyAssociationsOutput {
         let reader = responseReader
         var value = ListConfigurationPolicyAssociationsOutput()
         value.configurationPolicyAssociationSummaries = try reader["ConfigurationPolicyAssociationSummaries"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ConfigurationPolicyAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListConnectorsV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListConnectorsV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListConnectorsV2Output()
+        value.connectors = try reader["Connectors"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ConnectorSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -27348,6 +31032,7 @@ extension ListOrganizationAdminAccountsOutput {
         let reader = responseReader
         var value = ListOrganizationAdminAccountsOutput()
         value.adminAccounts = try reader["AdminAccounts"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.AdminAccount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.feature = try reader["Feature"].readIfPresent()
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -27437,6 +31122,28 @@ extension UpdateActionTargetOutput {
     }
 }
 
+extension UpdateAggregatorV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAggregatorV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAggregatorV2Output()
+        value.aggregationRegion = try reader["AggregationRegion"].readIfPresent()
+        value.aggregatorV2Arn = try reader["AggregatorV2Arn"].readIfPresent()
+        value.linkedRegions = try reader["LinkedRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.regionLinkingMode = try reader["RegionLinkingMode"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateAutomationRuleV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAutomationRuleV2Output {
+        return UpdateAutomationRuleV2Output()
+    }
+}
+
 extension UpdateConfigurationPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateConfigurationPolicyOutput {
@@ -27452,6 +31159,13 @@ extension UpdateConfigurationPolicyOutput {
         value.name = try reader["Name"].readIfPresent()
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
+    }
+}
+
+extension UpdateConnectorV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateConnectorV2Output {
+        return UpdateConnectorV2Output()
     }
 }
 
@@ -27726,6 +31440,24 @@ enum BatchUpdateFindingsOutputError {
     }
 }
 
+enum BatchUpdateFindingsV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum BatchUpdateStandardsControlAssociationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -27739,6 +31471,25 @@ enum BatchUpdateStandardsControlAssociationsOutputError {
             case "InvalidAccessException": return try InvalidAccessException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ConnectorRegistrationsV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -27762,6 +31513,25 @@ enum CreateActionTargetOutputError {
     }
 }
 
+enum CreateAggregatorV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateAutomationRuleOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -27775,6 +31545,24 @@ enum CreateAutomationRuleOutputError {
             case "InvalidAccessException": return try InvalidAccessException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateAutomationRuleV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -27794,6 +31582,25 @@ enum CreateConfigurationPolicyOutputError {
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateConnectorV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -27854,6 +31661,25 @@ enum CreateMembersOutputError {
     }
 }
 
+enum CreateTicketV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeclineInvitationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -27888,6 +31714,44 @@ enum DeleteActionTargetOutputError {
     }
 }
 
+enum DeleteAggregatorV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteAutomationRuleV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteConfigurationPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -27903,6 +31767,25 @@ enum DeleteConfigurationPolicyOutputError {
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteConnectorV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -28050,6 +31933,41 @@ enum DescribeProductsOutputError {
     }
 }
 
+enum DescribeProductsV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeSecurityHubV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeStandardsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -28132,6 +32050,23 @@ enum DisableSecurityHubOutputError {
             case "InvalidAccessException": return try InvalidAccessException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DisableSecurityHubV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -28246,6 +32181,23 @@ enum EnableSecurityHubOutputError {
     }
 }
 
+enum EnableSecurityHubV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetAdministratorAccountOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -28259,6 +32211,44 @@ enum GetAdministratorAccountOutputError {
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAggregatorV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAutomationRuleV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -28297,6 +32287,25 @@ enum GetConfigurationPolicyAssociationOutputError {
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetConnectorV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -28367,6 +32376,42 @@ enum GetFindingsOutputError {
             case "InvalidAccessException": return try InvalidAccessException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetFindingStatisticsV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetFindingsV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -28461,6 +32506,44 @@ enum GetMembersOutputError {
     }
 }
 
+enum GetResourcesStatisticsV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetResourcesV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetSecurityControlDefinitionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -28497,6 +32580,25 @@ enum InviteMembersOutputError {
     }
 }
 
+enum ListAggregatorsV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAutomationRulesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -28510,6 +32612,24 @@ enum ListAutomationRulesOutputError {
             case "InvalidAccessException": return try InvalidAccessException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAutomationRulesV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -28546,6 +32666,25 @@ enum ListConfigurationPolicyAssociationsOutputError {
             case "InvalidAccessException": return try InvalidAccessException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListConnectorsV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -28773,6 +32912,44 @@ enum UpdateActionTargetOutputError {
     }
 }
 
+enum UpdateAggregatorV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateAutomationRuleV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateConfigurationPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -28788,6 +32965,25 @@ enum UpdateConfigurationPolicyOutputError {
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateConnectorV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -28925,34 +33121,6 @@ enum UpdateStandardsControlOutputError {
     }
 }
 
-extension InvalidInputException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidInputException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidInputException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.code = try reader["Code"].readIfPresent()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InternalException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalException {
@@ -28981,6 +33149,20 @@ extension InvalidAccessException {
     }
 }
 
+extension InvalidInputException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidInputException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidInputException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension LimitExceededException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
@@ -28995,11 +33177,81 @@ extension LimitExceededException {
     }
 }
 
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalServerException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
+        value.properties.code = try reader["Code"].readIfPresent()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
         value.properties.code = try reader["Code"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -29058,6 +33310,7 @@ extension SecurityHubClientTypes.StandardsSubscription {
         value.standardsArn = try reader["StandardsArn"].readIfPresent() ?? ""
         value.standardsInput = try reader["StandardsInput"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.standardsStatus = try reader["StandardsStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.standardsControlsUpdatable = try reader["StandardsControlsUpdatable"].readIfPresent()
         value.standardsStatusReason = try reader["StandardsStatusReason"].readIfPresent(with: SecurityHubClientTypes.StandardsStatusReason.read(from:))
         return value
     }
@@ -29657,6 +33910,49 @@ extension SecurityHubClientTypes.BatchUpdateFindingsUnprocessedFinding {
     }
 }
 
+extension SecurityHubClientTypes.BatchUpdateFindingsV2ProcessedFinding {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.BatchUpdateFindingsV2ProcessedFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.BatchUpdateFindingsV2ProcessedFinding()
+        value.findingIdentifier = try reader["FindingIdentifier"].readIfPresent(with: SecurityHubClientTypes.OcsfFindingIdentifier.read(from:))
+        value.metadataUid = try reader["MetadataUid"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.OcsfFindingIdentifier {
+
+    static func write(value: SecurityHubClientTypes.OcsfFindingIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CloudAccountUid"].write(value.cloudAccountUid)
+        try writer["FindingInfoUid"].write(value.findingInfoUid)
+        try writer["MetadataProductUid"].write(value.metadataProductUid)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.OcsfFindingIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.OcsfFindingIdentifier()
+        value.cloudAccountUid = try reader["CloudAccountUid"].readIfPresent() ?? ""
+        value.findingInfoUid = try reader["FindingInfoUid"].readIfPresent() ?? ""
+        value.metadataProductUid = try reader["MetadataProductUid"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.BatchUpdateFindingsV2UnprocessedFinding {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.BatchUpdateFindingsV2UnprocessedFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.BatchUpdateFindingsV2UnprocessedFinding()
+        value.findingIdentifier = try reader["FindingIdentifier"].readIfPresent(with: SecurityHubClientTypes.OcsfFindingIdentifier.read(from:))
+        value.metadataUid = try reader["MetadataUid"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
 extension SecurityHubClientTypes.UnprocessedStandardsControlAssociationUpdate {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.UnprocessedStandardsControlAssociationUpdate {
@@ -29829,6 +34125,22 @@ extension SecurityHubClientTypes.Product {
     }
 }
 
+extension SecurityHubClientTypes.ProductV2 {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ProductV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ProductV2()
+        value.productV2Name = try reader["ProductV2Name"].readIfPresent()
+        value.companyName = try reader["CompanyName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.integrationV2Types = try reader["IntegrationV2Types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SecurityHubClientTypes.IntegrationV2Type>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.marketplaceUrl = try reader["MarketplaceUrl"].readIfPresent()
+        value.activationUrl = try reader["ActivationUrl"].readIfPresent()
+        return value
+    }
+}
+
 extension SecurityHubClientTypes.Standard {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.Standard {
@@ -29882,6 +34194,279 @@ extension SecurityHubClientTypes.Invitation {
         value.invitationId = try reader["InvitationId"].readIfPresent()
         value.invitedAt = try reader["InvitedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.memberStatus = try reader["MemberStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.Criteria {
+
+    static func write(value: SecurityHubClientTypes.Criteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .ocsffindingcriteria(ocsffindingcriteria):
+                try writer["OcsfFindingCriteria"].write(ocsffindingcriteria, with: SecurityHubClientTypes.OcsfFindingFilters.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.Criteria {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "OcsfFindingCriteria":
+                return .ocsffindingcriteria(try reader["OcsfFindingCriteria"].read(with: SecurityHubClientTypes.OcsfFindingFilters.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension SecurityHubClientTypes.OcsfFindingFilters {
+
+    static func write(value: SecurityHubClientTypes.OcsfFindingFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CompositeFilters"].writeList(value.compositeFilters, memberWritingClosure: SecurityHubClientTypes.CompositeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CompositeOperator"].write(value.compositeOperator)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.OcsfFindingFilters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.OcsfFindingFilters()
+        value.compositeFilters = try reader["CompositeFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.CompositeFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.compositeOperator = try reader["CompositeOperator"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.CompositeFilter {
+
+    static func write(value: SecurityHubClientTypes.CompositeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BooleanFilters"].writeList(value.booleanFilters, memberWritingClosure: SecurityHubClientTypes.OcsfBooleanFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DateFilters"].writeList(value.dateFilters, memberWritingClosure: SecurityHubClientTypes.OcsfDateFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MapFilters"].writeList(value.mapFilters, memberWritingClosure: SecurityHubClientTypes.OcsfMapFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NumberFilters"].writeList(value.numberFilters, memberWritingClosure: SecurityHubClientTypes.OcsfNumberFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Operator"].write(value.`operator`)
+        try writer["StringFilters"].writeList(value.stringFilters, memberWritingClosure: SecurityHubClientTypes.OcsfStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.CompositeFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.CompositeFilter()
+        value.stringFilters = try reader["StringFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.OcsfStringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dateFilters = try reader["DateFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.OcsfDateFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.booleanFilters = try reader["BooleanFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.OcsfBooleanFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.numberFilters = try reader["NumberFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.OcsfNumberFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mapFilters = try reader["MapFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.OcsfMapFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.`operator` = try reader["Operator"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.OcsfMapFilter {
+
+    static func write(value: SecurityHubClientTypes.OcsfMapFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+        try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.MapFilter.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.OcsfMapFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.OcsfMapFilter()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: SecurityHubClientTypes.MapFilter.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.OcsfNumberFilter {
+
+    static func write(value: SecurityHubClientTypes.OcsfNumberFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+        try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.NumberFilter.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.OcsfNumberFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.OcsfNumberFilter()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: SecurityHubClientTypes.NumberFilter.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.OcsfBooleanFilter {
+
+    static func write(value: SecurityHubClientTypes.OcsfBooleanFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+        try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.BooleanFilter.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.OcsfBooleanFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.OcsfBooleanFilter()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: SecurityHubClientTypes.BooleanFilter.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.BooleanFilter {
+
+    static func write(value: SecurityHubClientTypes.BooleanFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.BooleanFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.BooleanFilter()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.OcsfDateFilter {
+
+    static func write(value: SecurityHubClientTypes.OcsfDateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+        try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.DateFilter.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.OcsfDateFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.OcsfDateFilter()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: SecurityHubClientTypes.DateFilter.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.OcsfStringFilter {
+
+    static func write(value: SecurityHubClientTypes.OcsfStringFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+        try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.StringFilter.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.OcsfStringFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.OcsfStringFilter()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: SecurityHubClientTypes.StringFilter.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.AutomationRulesActionV2 {
+
+    static func write(value: SecurityHubClientTypes.AutomationRulesActionV2?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExternalIntegrationConfiguration"].write(value.externalIntegrationConfiguration, with: SecurityHubClientTypes.ExternalIntegrationConfiguration.write(value:to:))
+        try writer["FindingFieldsUpdate"].write(value.findingFieldsUpdate, with: SecurityHubClientTypes.AutomationRulesFindingFieldsUpdateV2.write(value:to:))
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.AutomationRulesActionV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.AutomationRulesActionV2()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.findingFieldsUpdate = try reader["FindingFieldsUpdate"].readIfPresent(with: SecurityHubClientTypes.AutomationRulesFindingFieldsUpdateV2.read(from:))
+        value.externalIntegrationConfiguration = try reader["ExternalIntegrationConfiguration"].readIfPresent(with: SecurityHubClientTypes.ExternalIntegrationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.ExternalIntegrationConfiguration {
+
+    static func write(value: SecurityHubClientTypes.ExternalIntegrationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectorArn"].write(value.connectorArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ExternalIntegrationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ExternalIntegrationConfiguration()
+        value.connectorArn = try reader["ConnectorArn"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.AutomationRulesFindingFieldsUpdateV2 {
+
+    static func write(value: SecurityHubClientTypes.AutomationRulesFindingFieldsUpdateV2?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Comment"].write(value.comment)
+        try writer["SeverityId"].write(value.severityId)
+        try writer["StatusId"].write(value.statusId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.AutomationRulesFindingFieldsUpdateV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.AutomationRulesFindingFieldsUpdateV2()
+        value.severityId = try reader["SeverityId"].readIfPresent()
+        value.comment = try reader["Comment"].readIfPresent()
+        value.statusId = try reader["StatusId"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.HealthCheck {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.HealthCheck {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.HealthCheck()
+        value.connectorStatus = try reader["ConnectorStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["Message"].readIfPresent()
+        value.lastCheckedAt = try reader["LastCheckedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.ProviderDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ProviderDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "JiraCloud":
+                return .jiracloud(try reader["JiraCloud"].read(with: SecurityHubClientTypes.JiraCloudDetail.read(from:)))
+            case "ServiceNow":
+                return .servicenow(try reader["ServiceNow"].read(with: SecurityHubClientTypes.ServiceNowDetail.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension SecurityHubClientTypes.ServiceNowDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ServiceNowDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ServiceNowDetail()
+        value.instanceName = try reader["InstanceName"].readIfPresent()
+        value.clientId = try reader["ClientId"].readIfPresent()
+        value.authStatus = try reader["AuthStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.JiraCloudDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.JiraCloudDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.JiraCloudDetail()
+        value.cloudId = try reader["CloudId"].readIfPresent()
+        value.projectKey = try reader["ProjectKey"].readIfPresent()
+        value.domain = try reader["Domain"].readIfPresent()
+        value.authUrl = try reader["AuthUrl"].readIfPresent()
+        value.authStatus = try reader["AuthStatus"].readIfPresent()
         return value
     }
 }
@@ -43438,6 +48023,28 @@ extension SecurityHubClientTypes.Severity {
     }
 }
 
+extension SecurityHubClientTypes.GroupByResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.GroupByResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.GroupByResult()
+        value.groupByField = try reader["GroupByField"].readIfPresent()
+        value.groupByValues = try reader["GroupByValues"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.GroupByValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.GroupByValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.GroupByValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.GroupByValue()
+        value.fieldValue = try reader["FieldValue"].readIfPresent()
+        value.count = try reader["Count"].readIfPresent()
+        return value
+    }
+}
+
 extension SecurityHubClientTypes.InsightResults {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.InsightResults {
@@ -43695,21 +48302,6 @@ extension SecurityHubClientTypes.AwsSecurityFindingFilters {
     }
 }
 
-extension SecurityHubClientTypes.BooleanFilter {
-
-    static func write(value: SecurityHubClientTypes.BooleanFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.BooleanFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityHubClientTypes.BooleanFilter()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
 extension SecurityHubClientTypes.KeywordFilter {
 
     static func write(value: SecurityHubClientTypes.KeywordFilter?, to writer: SmithyJSON.Writer) throws {
@@ -43752,6 +48344,68 @@ extension SecurityHubClientTypes.Member {
         value.memberStatus = try reader["MemberStatus"].readIfPresent()
         value.invitedAt = try reader["InvitedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.ResourceResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourceResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourceResult()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
+        value.region = try reader["Region"].readIfPresent() ?? ""
+        value.resourceCategory = try reader["ResourceCategory"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceName = try reader["ResourceName"].readIfPresent()
+        value.resourceCreationTimeDt = try reader["ResourceCreationTimeDt"].readIfPresent()
+        value.resourceDetailCaptureTimeDt = try reader["ResourceDetailCaptureTimeDt"].readIfPresent() ?? ""
+        value.findingsSummary = try reader["FindingsSummary"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ResourceFindingsSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceTags = try reader["ResourceTags"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.ResourceTag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceConfig = try reader["ResourceConfig"].readIfPresent() ?? [:]
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.ResourceTag {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourceTag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourceTag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.ResourceFindingsSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourceFindingsSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourceFindingsSummary()
+        value.findingType = try reader["FindingType"].readIfPresent() ?? ""
+        value.productName = try reader["ProductName"].readIfPresent() ?? ""
+        value.totalFindings = try reader["TotalFindings"].readIfPresent() ?? 0
+        value.severities = try reader["Severities"].readIfPresent(with: SecurityHubClientTypes.ResourceSeverityBreakdown.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.ResourceSeverityBreakdown {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourceSeverityBreakdown {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ResourceSeverityBreakdown()
+        value.other = try reader["Other"].readIfPresent()
+        value.fatal = try reader["Fatal"].readIfPresent()
+        value.critical = try reader["Critical"].readIfPresent()
+        value.high = try reader["High"].readIfPresent()
+        value.medium = try reader["Medium"].readIfPresent()
+        value.low = try reader["Low"].readIfPresent()
+        value.informational = try reader["Informational"].readIfPresent()
+        value.unknown = try reader["Unknown"].readIfPresent()
         return value
     }
 }
@@ -43907,6 +48561,16 @@ extension SecurityHubClientTypes.IntegerConfigurationOptions {
     }
 }
 
+extension SecurityHubClientTypes.AggregatorV2 {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.AggregatorV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.AggregatorV2()
+        value.aggregatorV2Arn = try reader["AggregatorV2Arn"].readIfPresent()
+        return value
+    }
+}
+
 extension SecurityHubClientTypes.AutomationRulesMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.AutomationRulesMetadata {
@@ -43925,6 +48589,34 @@ extension SecurityHubClientTypes.AutomationRulesMetadata {
     }
 }
 
+extension SecurityHubClientTypes.AutomationRulesMetadataV2 {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.AutomationRulesMetadataV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.AutomationRulesMetadataV2()
+        value.ruleArn = try reader["RuleArn"].readIfPresent()
+        value.ruleId = try reader["RuleId"].readIfPresent()
+        value.ruleOrder = try reader["RuleOrder"].readIfPresent()
+        value.ruleName = try reader["RuleName"].readIfPresent()
+        value.ruleStatus = try reader["RuleStatus"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.AutomationRulesActionTypeObjectV2.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.AutomationRulesActionTypeObjectV2 {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.AutomationRulesActionTypeObjectV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.AutomationRulesActionTypeObjectV2()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
 extension SecurityHubClientTypes.ConfigurationPolicySummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ConfigurationPolicySummary {
@@ -43936,6 +48628,32 @@ extension SecurityHubClientTypes.ConfigurationPolicySummary {
         value.description = try reader["Description"].readIfPresent()
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.serviceEnabled = try reader["ServiceEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.ConnectorSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ConnectorSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ConnectorSummary()
+        value.connectorArn = try reader["ConnectorArn"].readIfPresent()
+        value.connectorId = try reader["ConnectorId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.providerSummary = try reader["ProviderSummary"].readIfPresent(with: SecurityHubClientTypes.ProviderSummary.read(from:))
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.ProviderSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ProviderSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.ProviderSummary()
+        value.providerName = try reader["ProviderName"].readIfPresent()
+        value.connectorStatus = try reader["ConnectorStatus"].readIfPresent()
         return value
     }
 }
@@ -44003,6 +48721,39 @@ extension SecurityHubClientTypes.UpdateAutomationRulesRequestItem {
     }
 }
 
+extension SecurityHubClientTypes.ProviderConfiguration {
+
+    static func write(value: SecurityHubClientTypes.ProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .jiracloud(jiracloud):
+                try writer["JiraCloud"].write(jiracloud, with: SecurityHubClientTypes.JiraCloudProviderConfiguration.write(value:to:))
+            case let .servicenow(servicenow):
+                try writer["ServiceNow"].write(servicenow, with: SecurityHubClientTypes.ServiceNowProviderConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension SecurityHubClientTypes.ServiceNowProviderConfiguration {
+
+    static func write(value: SecurityHubClientTypes.ServiceNowProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientId"].write(value.clientId)
+        try writer["ClientSecret"].write(value.clientSecret)
+        try writer["InstanceName"].write(value.instanceName)
+    }
+}
+
+extension SecurityHubClientTypes.JiraCloudProviderConfiguration {
+
+    static func write(value: SecurityHubClientTypes.JiraCloudProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProjectKey"].write(value.projectKey)
+    }
+}
+
 extension SecurityHubClientTypes.AccountDetails {
 
     static func write(value: SecurityHubClientTypes.AccountDetails?, to writer: SmithyJSON.Writer) throws {
@@ -44021,6 +48772,81 @@ extension SecurityHubClientTypes.SortCriterion {
     }
 }
 
+extension SecurityHubClientTypes.GroupByRule {
+
+    static func write(value: SecurityHubClientTypes.GroupByRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].write(value.filters, with: SecurityHubClientTypes.OcsfFindingFilters.write(value:to:))
+        try writer["GroupByField"].write(value.groupByField)
+    }
+}
+
+extension SecurityHubClientTypes.ResourceGroupByRule {
+
+    static func write(value: SecurityHubClientTypes.ResourceGroupByRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].write(value.filters, with: SecurityHubClientTypes.ResourcesFilters.write(value:to:))
+        try writer["GroupByField"].write(value.groupByField)
+    }
+}
+
+extension SecurityHubClientTypes.ResourcesFilters {
+
+    static func write(value: SecurityHubClientTypes.ResourcesFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CompositeFilters"].writeList(value.compositeFilters, memberWritingClosure: SecurityHubClientTypes.ResourcesCompositeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CompositeOperator"].write(value.compositeOperator)
+    }
+}
+
+extension SecurityHubClientTypes.ResourcesCompositeFilter {
+
+    static func write(value: SecurityHubClientTypes.ResourcesCompositeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DateFilters"].writeList(value.dateFilters, memberWritingClosure: SecurityHubClientTypes.ResourcesDateFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MapFilters"].writeList(value.mapFilters, memberWritingClosure: SecurityHubClientTypes.ResourcesMapFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NumberFilters"].writeList(value.numberFilters, memberWritingClosure: SecurityHubClientTypes.ResourcesNumberFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Operator"].write(value.`operator`)
+        try writer["StringFilters"].writeList(value.stringFilters, memberWritingClosure: SecurityHubClientTypes.ResourcesStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SecurityHubClientTypes.ResourcesMapFilter {
+
+    static func write(value: SecurityHubClientTypes.ResourcesMapFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+        try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.MapFilter.write(value:to:))
+    }
+}
+
+extension SecurityHubClientTypes.ResourcesNumberFilter {
+
+    static func write(value: SecurityHubClientTypes.ResourcesNumberFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+        try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.NumberFilter.write(value:to:))
+    }
+}
+
+extension SecurityHubClientTypes.ResourcesDateFilter {
+
+    static func write(value: SecurityHubClientTypes.ResourcesDateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+        try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.DateFilter.write(value:to:))
+    }
+}
+
+extension SecurityHubClientTypes.ResourcesStringFilter {
+
+    static func write(value: SecurityHubClientTypes.ResourcesStringFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+        try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.StringFilter.write(value:to:))
+    }
+}
+
 extension SecurityHubClientTypes.AssociationFilters {
 
     static func write(value: SecurityHubClientTypes.AssociationFilters?, to writer: SmithyJSON.Writer) throws {
@@ -44028,6 +48854,27 @@ extension SecurityHubClientTypes.AssociationFilters {
         try writer["AssociationStatus"].write(value.associationStatus)
         try writer["AssociationType"].write(value.associationType)
         try writer["ConfigurationPolicyId"].write(value.configurationPolicyId)
+    }
+}
+
+extension SecurityHubClientTypes.ProviderUpdateConfiguration {
+
+    static func write(value: SecurityHubClientTypes.ProviderUpdateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .jiracloud(jiracloud):
+                try writer["JiraCloud"].write(jiracloud, with: SecurityHubClientTypes.JiraCloudUpdateConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension SecurityHubClientTypes.JiraCloudUpdateConfiguration {
+
+    static func write(value: SecurityHubClientTypes.JiraCloudUpdateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProjectKey"].write(value.projectKey)
     }
 }
 

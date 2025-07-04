@@ -82,6 +82,81 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
+extension B2biClientTypes {
+
+    public enum X12SplitBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case transaction
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [X12SplitBy] {
+            return [
+                .none,
+                .transaction
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .transaction: return "TRANSACTION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension B2biClientTypes {
+
+    /// Contains options for splitting X12 EDI files into smaller units. This is useful for processing large EDI files more efficiently.
+    public struct X12SplitOptions: Swift.Sendable {
+        /// Specifies the method used to split X12 EDI files. Valid values include TRANSACTION (split by individual transaction sets), or NONE (no splitting).
+        /// This member is required.
+        public var splitBy: B2biClientTypes.X12SplitBy?
+
+        public init(
+            splitBy: B2biClientTypes.X12SplitBy? = nil
+        ) {
+            self.splitBy = splitBy
+        }
+    }
+}
+
+extension B2biClientTypes {
+
+    /// Contains advanced options specific to X12 EDI processing, such as splitting large X12 files into smaller units.
+    public struct X12AdvancedOptions: Swift.Sendable {
+        /// Specifies options for splitting X12 EDI files. These options control how large X12 files are divided into smaller, more manageable units.
+        public var splitOptions: B2biClientTypes.X12SplitOptions?
+
+        public init(
+            splitOptions: B2biClientTypes.X12SplitOptions? = nil
+        ) {
+            self.splitOptions = splitOptions
+        }
+    }
+}
+
+extension B2biClientTypes {
+
+    /// A structure that contains advanced options for EDI processing. Currently, only X12 advanced options are supported.
+    public struct AdvancedOptions: Swift.Sendable {
+        /// A structure that contains X12-specific advanced options, such as split options for processing X12 EDI files.
+        public var x12: B2biClientTypes.X12AdvancedOptions?
+
+        public init(
+            x12: B2biClientTypes.X12AdvancedOptions? = nil
+        ) {
+            self.x12 = x12
+        }
+    }
+}
+
 /// A conflict exception is thrown when you attempt to delete a resource (such as a profile or a capability) that is being used by other resources.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1865,13 +1940,13 @@ public struct CreateStarterMappingTemplateOutput: Swift.Sendable {
 }
 
 public struct GenerateMappingInput: Swift.Sendable {
-    /// Provide the contents of a sample X12 EDI file (for inbound EDI) or JSON/XML file (for outbound EDI) to use as a starting point for the mapping.
+    /// Provide the contents of a sample X12 EDI file, either in JSON or XML format, to use as a starting point for the mapping.
     /// This member is required.
     public var inputFileContent: Swift.String?
     /// Specify the mapping type: either JSONATA or XSLT.
     /// This member is required.
     public var mappingType: B2biClientTypes.MappingType?
-    /// Provide the contents of a sample X12 EDI file (for outbound EDI) or JSON/XML file (for inbound EDI) to use as a target for the mapping.
+    /// Provide the contents of a sample X12 EDI file, either in JSON or XML format, to use as a target for the mapping.
     /// This member is required.
     public var outputFileContent: Swift.String?
 
@@ -1996,6 +2071,141 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
 extension B2biClientTypes {
 
+    public enum X12FunctionalAcknowledgment: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case doNotGenerate
+        case generateAllSegments
+        case generateWithoutTransactionSetResponseLoop
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [X12FunctionalAcknowledgment] {
+            return [
+                .doNotGenerate,
+                .generateAllSegments,
+                .generateWithoutTransactionSetResponseLoop
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .doNotGenerate: return "DO_NOT_GENERATE"
+            case .generateAllSegments: return "GENERATE_ALL_SEGMENTS"
+            case .generateWithoutTransactionSetResponseLoop: return "GENERATE_WITHOUT_TRANSACTION_SET_RESPONSE_LOOP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension B2biClientTypes {
+
+    public enum X12TechnicalAcknowledgment: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case doNotGenerate
+        case generateAllSegments
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [X12TechnicalAcknowledgment] {
+            return [
+                .doNotGenerate,
+                .generateAllSegments
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .doNotGenerate: return "DO_NOT_GENERATE"
+            case .generateAllSegments: return "GENERATE_ALL_SEGMENTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension B2biClientTypes {
+
+    /// Contains options for configuring X12 acknowledgments. These options control how functional and technical acknowledgments are handled.
+    public struct X12AcknowledgmentOptions: Swift.Sendable {
+        /// Specifies whether functional acknowledgments (997/999) should be generated for incoming X12 transactions. Valid values are DO_NOT_GENERATE, GENERATE_ALL_SEGMENTS and GENERATE_WITHOUT_TRANSACTION_SET_RESPONSE_LOOP. If you choose GENERATE_WITHOUT_TRANSACTION_SET_RESPONSE_LOOP, Amazon Web Services B2B Data Interchange skips the AK2_Loop when generating an acknowledgment document.
+        /// This member is required.
+        public var functionalAcknowledgment: B2biClientTypes.X12FunctionalAcknowledgment?
+        /// Specifies whether technical acknowledgments (TA1) should be generated for incoming X12 interchanges. Valid values are DO_NOT_GENERATE and GENERATE_ALL_SEGMENTS and.
+        /// This member is required.
+        public var technicalAcknowledgment: B2biClientTypes.X12TechnicalAcknowledgment?
+
+        public init(
+            functionalAcknowledgment: B2biClientTypes.X12FunctionalAcknowledgment? = nil,
+            technicalAcknowledgment: B2biClientTypes.X12TechnicalAcknowledgment? = nil
+        ) {
+            self.functionalAcknowledgment = functionalAcknowledgment
+            self.technicalAcknowledgment = technicalAcknowledgment
+        }
+    }
+}
+
+extension B2biClientTypes {
+
+    /// Contains options specific to processing inbound X12 EDI files.
+    public struct X12InboundEdiOptions: Swift.Sendable {
+        /// Specifies acknowledgment options for inbound X12 EDI files. These options control how functional and technical acknowledgments are handled.
+        public var acknowledgmentOptions: B2biClientTypes.X12AcknowledgmentOptions?
+
+        public init(
+            acknowledgmentOptions: B2biClientTypes.X12AcknowledgmentOptions? = nil
+        ) {
+            self.acknowledgmentOptions = acknowledgmentOptions
+        }
+    }
+}
+
+extension B2biClientTypes {
+
+    /// Contains options for processing inbound EDI files. These options allow for customizing how incoming EDI documents are processed.
+    public struct InboundEdiOptions: Swift.Sendable {
+        /// A structure that contains X12-specific options for processing inbound X12 EDI files.
+        public var x12: B2biClientTypes.X12InboundEdiOptions?
+
+        public init(
+            x12: B2biClientTypes.X12InboundEdiOptions? = nil
+        ) {
+            self.x12 = x12
+        }
+    }
+}
+
+extension B2biClientTypes {
+
+    /// Contains configuration for X12 control numbers used in X12 EDI generation. Control numbers are used to uniquely identify interchanges, functional groups, and transaction sets.
+    public struct X12ControlNumbers: Swift.Sendable {
+        /// Specifies the starting functional group control number (GS06) to use for X12 EDI generation. This number is incremented for each new functional group. For the GS (functional group) envelope, Amazon Web Services B2B Data Interchange generates a functional group control number that is unique to the sender ID, receiver ID, and functional identifier code combination.
+        public var startingFunctionalGroupControlNumber: Swift.Int?
+        /// Specifies the starting interchange control number (ISA13) to use for X12 EDI generation. This number is incremented for each new interchange. For the ISA (interchange) envelope, Amazon Web Services B2B Data Interchange generates an interchange control number that is unique for the ISA05 and ISA06 (sender) & ISA07 and ISA08 (receiver) combination.
+        public var startingInterchangeControlNumber: Swift.Int?
+        /// Specifies the starting transaction set control number (ST02) to use for X12 EDI generation. This number is incremented for each new transaction set.
+        public var startingTransactionSetControlNumber: Swift.Int?
+
+        public init(
+            startingFunctionalGroupControlNumber: Swift.Int? = nil,
+            startingInterchangeControlNumber: Swift.Int? = nil,
+            startingTransactionSetControlNumber: Swift.Int? = nil
+        ) {
+            self.startingFunctionalGroupControlNumber = startingFunctionalGroupControlNumber
+            self.startingInterchangeControlNumber = startingInterchangeControlNumber
+            self.startingTransactionSetControlNumber = startingTransactionSetControlNumber
+        }
+    }
+}
+
+extension B2biClientTypes {
+
     /// In X12 EDI messages, delimiters are used to mark the end of segments or elements, and are defined in the interchange control header. The delimiters are part of the message's syntax and divide up its different elements.
     public struct X12Delimiters: Swift.Sendable {
         /// The component, or sub-element, separator. The default value is : (colon).
@@ -2036,6 +2246,56 @@ extension B2biClientTypes {
             self.applicationReceiverCode = applicationReceiverCode
             self.applicationSenderCode = applicationSenderCode
             self.responsibleAgencyCode = responsibleAgencyCode
+        }
+    }
+}
+
+extension B2biClientTypes {
+
+    /// Specifies the time format in the GS05 element (time) of the functional group header. The following formats use 24-hour clock time:
+    ///
+    /// * HHMM - Hours and minutes
+    ///
+    /// * HHMMSS - Hours, minutes, and seconds
+    ///
+    /// * HHMMSSDD - Hours, minutes, seconds, and decimal seconds
+    ///
+    ///
+    /// Where:
+    ///
+    /// * HH - Hours (00-23)
+    ///
+    /// * MM - Minutes (00-59)
+    ///
+    /// * SS - Seconds (00-59)
+    ///
+    /// * DD - Hundredths of seconds (00-99)
+    public enum X12GS05TimeFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hhmm
+        case hhmmss
+        case hhmmssdd
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [X12GS05TimeFormat] {
+            return [
+                .hhmm,
+                .hhmmss,
+                .hhmmssdd
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hhmm: return "HHMM"
+            case .hhmmss: return "HHMMSS"
+            case .hhmmssdd: return "HHMMSSDD"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -2089,25 +2349,150 @@ extension B2biClientTypes {
 
     /// A structure containing the details for an outbound EDI object.
     public struct X12OutboundEdiHeaders: Swift.Sendable {
+        /// Specifies control number configuration for outbound X12 EDI headers. These settings determine the starting values for interchange, functional group, and transaction set control numbers.
+        public var controlNumbers: B2biClientTypes.X12ControlNumbers?
         /// The delimiters, for example semicolon (;), that separates sections of the headers for the X12 object.
         public var delimiters: B2biClientTypes.X12Delimiters?
         /// The functional group headers for the X12 object.
         public var functionalGroupHeaders: B2biClientTypes.X12FunctionalGroupHeaders?
+        /// Specifies the time format in the GS05 element (time) of the functional group header. The following formats use 24-hour clock time:
+        ///
+        /// * HHMM - Hours and minutes
+        ///
+        /// * HHMMSS - Hours, minutes, and seconds
+        ///
+        /// * HHMMSSDD - Hours, minutes, seconds, and decimal seconds
+        ///
+        ///
+        /// Where:
+        ///
+        /// * HH - Hours (00-23)
+        ///
+        /// * MM - Minutes (00-59)
+        ///
+        /// * SS - Seconds (00-59)
+        ///
+        /// * DD - Hundredths of seconds (00-99)
+        public var gs05TimeFormat: B2biClientTypes.X12GS05TimeFormat?
         /// In X12 EDI messages, delimiters are used to mark the end of segments or elements, and are defined in the interchange control header.
         public var interchangeControlHeaders: B2biClientTypes.X12InterchangeControlHeaders?
         /// Specifies whether or not to validate the EDI for this X12 object: TRUE or FALSE.
         public var validateEdi: Swift.Bool?
 
         public init(
+            controlNumbers: B2biClientTypes.X12ControlNumbers? = nil,
             delimiters: B2biClientTypes.X12Delimiters? = nil,
             functionalGroupHeaders: B2biClientTypes.X12FunctionalGroupHeaders? = nil,
+            gs05TimeFormat: B2biClientTypes.X12GS05TimeFormat? = nil,
             interchangeControlHeaders: B2biClientTypes.X12InterchangeControlHeaders? = nil,
             validateEdi: Swift.Bool? = nil
         ) {
+            self.controlNumbers = controlNumbers
             self.delimiters = delimiters
             self.functionalGroupHeaders = functionalGroupHeaders
+            self.gs05TimeFormat = gs05TimeFormat
             self.interchangeControlHeaders = interchangeControlHeaders
             self.validateEdi = validateEdi
+        }
+    }
+}
+
+extension B2biClientTypes {
+
+    public enum LineTerminator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cr
+        case crlf
+        case lf
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LineTerminator] {
+            return [
+                .cr,
+                .crlf,
+                .lf
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cr: return "CR"
+            case .crlf: return "CRLF"
+            case .lf: return "LF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension B2biClientTypes {
+
+    public enum WrapFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lineLength
+        case oneLine
+        case segment
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WrapFormat] {
+            return [
+                .lineLength,
+                .oneLine,
+                .segment
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lineLength: return "LINE_LENGTH"
+            case .oneLine: return "ONE_LINE"
+            case .segment: return "SEGMENT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension B2biClientTypes {
+
+    /// Contains options for wrapping (line folding) in X12 EDI files. Wrapping controls how long lines are handled in the EDI output.
+    public struct WrapOptions: Swift.Sendable {
+        /// Specifies the maximum length of a line before wrapping occurs. This value is used when wrapBy is set to LINE_LENGTH.
+        public var lineLength: Swift.Int?
+        /// Specifies the character sequence used to terminate lines when wrapping. Valid values:
+        ///
+        /// * CRLF: carriage return and line feed
+        ///
+        /// * LF: line feed)
+        ///
+        /// * CR: carriage return
+        public var lineTerminator: B2biClientTypes.LineTerminator?
+        /// Specifies the method used for wrapping lines in the EDI output. Valid values:
+        ///
+        /// * SEGMENT: Wraps by segment.
+        ///
+        /// * ONE_LINE: Indicates that the entire content is on a single line. When you specify ONE_LINE, do not provide either the line length nor the line terminator value.
+        ///
+        /// * LINE_LENGTH: Wraps by character count, as specified by lineLength value.
+        /// This member is required.
+        public var wrapBy: B2biClientTypes.WrapFormat?
+
+        public init(
+            lineLength: Swift.Int? = nil,
+            lineTerminator: B2biClientTypes.LineTerminator? = nil,
+            wrapBy: B2biClientTypes.WrapFormat? = nil
+        ) {
+            self.lineLength = lineLength
+            self.lineTerminator = lineTerminator
+            self.wrapBy = wrapBy
         }
     }
 }
@@ -2124,11 +2509,15 @@ extension B2biClientTypes {
     public struct X12Envelope: Swift.Sendable {
         /// A container for the X12 outbound EDI headers.
         public var common: B2biClientTypes.X12OutboundEdiHeaders?
+        /// Contains options for wrapping (line folding) in X12 EDI files. Wrapping controls how long lines are handled in the EDI output.
+        public var wrapOptions: B2biClientTypes.WrapOptions?
 
         public init(
-            common: B2biClientTypes.X12OutboundEdiHeaders? = nil
+            common: B2biClientTypes.X12OutboundEdiHeaders? = nil,
+            wrapOptions: B2biClientTypes.WrapOptions? = nil
         ) {
             self.common = common
+            self.wrapOptions = wrapOptions
         }
     }
 }
@@ -2147,12 +2536,16 @@ extension B2biClientTypes {
 
     /// Contains the details for an Outbound EDI capability.
     public struct CapabilityOptions: Swift.Sendable {
+        /// A structure that contains the inbound EDI options for the capability.
+        public var inboundEdi: B2biClientTypes.InboundEdiOptions?
         /// A structure that contains the outbound EDI options.
         public var outboundEdi: B2biClientTypes.OutboundEdiOptions?
 
         public init(
+            inboundEdi: B2biClientTypes.InboundEdiOptions? = nil,
             outboundEdi: B2biClientTypes.OutboundEdiOptions? = nil
         ) {
+            self.inboundEdi = inboundEdi
             self.outboundEdi = outboundEdi
         }
     }
@@ -3170,6 +3563,8 @@ public struct TestMappingOutput: Swift.Sendable {
 }
 
 public struct TestParsingInput: Swift.Sendable {
+    /// Specifies advanced options for parsing the input EDI file. These options allow for more granular control over the parsing process, including split options for X12 files.
+    public var advancedOptions: B2biClientTypes.AdvancedOptions?
     /// Specifies the details for the EDI standard that is being used for the transformer. Currently, only X12 is supported. X12 is a set of standards and corresponding messages that define specific business documents.
     /// This member is required.
     public var ediType: B2biClientTypes.EdiType?
@@ -3181,10 +3576,12 @@ public struct TestParsingInput: Swift.Sendable {
     public var inputFile: B2biClientTypes.S3Location?
 
     public init(
+        advancedOptions: B2biClientTypes.AdvancedOptions? = nil,
         ediType: B2biClientTypes.EdiType? = nil,
         fileFormat: B2biClientTypes.FileFormat? = nil,
         inputFile: B2biClientTypes.S3Location? = nil
     ) {
+        self.advancedOptions = advancedOptions
         self.ediType = ediType
         self.fileFormat = fileFormat
         self.inputFile = inputFile
@@ -3195,11 +3592,15 @@ public struct TestParsingOutput: Swift.Sendable {
     /// Returns the contents of the input file being tested, parsed according to the specified EDI (electronic data interchange) type.
     /// This member is required.
     public var parsedFileContent: Swift.String?
+    /// Returns an array of parsed file contents when the input file is split according to the specified split options. Each element in the array represents a separate split file's parsed content.
+    public var parsedSplitFileContents: [Swift.String]?
 
     public init(
-        parsedFileContent: Swift.String? = nil
+        parsedFileContent: Swift.String? = nil,
+        parsedSplitFileContents: [Swift.String]? = nil
     ) {
         self.parsedFileContent = parsedFileContent
+        self.parsedSplitFileContents = parsedSplitFileContents
     }
 }
 
@@ -3243,6 +3644,8 @@ extension B2biClientTypes {
 
     /// Contains the input formatting options for an inbound transformer (takes an X12-formatted EDI document as input and converts it to JSON or XML.
     public struct InputConversion: Swift.Sendable {
+        /// Specifies advanced options for the input conversion process. These options provide additional control over how EDI files are processed during transformation.
+        public var advancedOptions: B2biClientTypes.AdvancedOptions?
         /// A structure that contains the formatting options for an inbound transformer.
         public var formatOptions: B2biClientTypes.FormatOptions?
         /// The format for the transformer input: currently on X12 is supported.
@@ -3250,9 +3653,11 @@ extension B2biClientTypes {
         public var fromFormat: B2biClientTypes.FromFormat?
 
         public init(
+            advancedOptions: B2biClientTypes.AdvancedOptions? = nil,
             formatOptions: B2biClientTypes.FormatOptions? = nil,
             fromFormat: B2biClientTypes.FromFormat? = nil
         ) {
+            self.advancedOptions = advancedOptions
             self.formatOptions = formatOptions
             self.fromFormat = fromFormat
         }
@@ -4216,32 +4621,32 @@ extension CreateTransformerInput {
 extension DeleteCapabilityInput {
 
     static func write(value: DeleteCapabilityInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["capabilityId"].write(value.capabilityId)
     }
 }
 
 extension DeletePartnershipInput {
 
     static func write(value: DeletePartnershipInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["partnershipId"].write(value.partnershipId)
     }
 }
 
 extension DeleteProfileInput {
 
     static func write(value: DeleteProfileInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["profileId"].write(value.profileId)
     }
 }
 
 extension DeleteTransformerInput {
 
     static func write(value: DeleteTransformerInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["transformerId"].write(value.transformerId)
     }
 }
 
@@ -4258,80 +4663,86 @@ extension GenerateMappingInput {
 extension GetCapabilityInput {
 
     static func write(value: GetCapabilityInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["capabilityId"].write(value.capabilityId)
     }
 }
 
 extension GetPartnershipInput {
 
     static func write(value: GetPartnershipInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["partnershipId"].write(value.partnershipId)
     }
 }
 
 extension GetProfileInput {
 
     static func write(value: GetProfileInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["profileId"].write(value.profileId)
     }
 }
 
 extension GetTransformerInput {
 
     static func write(value: GetTransformerInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["transformerId"].write(value.transformerId)
     }
 }
 
 extension GetTransformerJobInput {
 
     static func write(value: GetTransformerJobInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["transformerId"].write(value.transformerId)
+        try writer["transformerJobId"].write(value.transformerJobId)
     }
 }
 
 extension ListCapabilitiesInput {
 
     static func write(value: ListCapabilitiesInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
 extension ListPartnershipsInput {
 
     static func write(value: ListPartnershipsInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["profileId"].write(value.profileId)
     }
 }
 
 extension ListProfilesInput {
 
     static func write(value: ListProfilesInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
 extension ListTagsForResourceInput {
 
     static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
     }
 }
 
 extension ListTransformersInput {
 
     static func write(value: ListTransformersInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -4350,6 +4761,7 @@ extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: B2biClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -4377,6 +4789,7 @@ extension TestParsingInput {
 
     static func write(value: TestParsingInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["advancedOptions"].write(value.advancedOptions, with: B2biClientTypes.AdvancedOptions.write(value:to:))
         try writer["ediType"].write(value.ediType, with: B2biClientTypes.EdiType.write(value:to:))
         try writer["fileFormat"].write(value.fileFormat)
         try writer["inputFile"].write(value.inputFile, with: B2biClientTypes.S3Location.write(value:to:))
@@ -4386,8 +4799,9 @@ extension TestParsingInput {
 extension UntagResourceInput {
 
     static func write(value: UntagResourceInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
+        try writer["TagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4395,6 +4809,7 @@ extension UpdateCapabilityInput {
 
     static func write(value: UpdateCapabilityInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["capabilityId"].write(value.capabilityId)
         try writer["configuration"].write(value.configuration, with: B2biClientTypes.CapabilityConfiguration.write(value:to:))
         try writer["instructionsDocuments"].writeList(value.instructionsDocuments, memberWritingClosure: B2biClientTypes.S3Location.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
@@ -4408,6 +4823,7 @@ extension UpdatePartnershipInput {
         try writer["capabilities"].writeList(value.capabilities, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["capabilityOptions"].write(value.capabilityOptions, with: B2biClientTypes.CapabilityOptions.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["partnershipId"].write(value.partnershipId)
     }
 }
 
@@ -4419,6 +4835,7 @@ extension UpdateProfileInput {
         try writer["email"].write(value.email)
         try writer["name"].write(value.name)
         try writer["phone"].write(value.phone)
+        try writer["profileId"].write(value.profileId)
     }
 }
 
@@ -4436,6 +4853,7 @@ extension UpdateTransformerInput {
         try writer["sampleDocument"].write(value.sampleDocument)
         try writer["sampleDocuments"].write(value.sampleDocuments, with: B2biClientTypes.SampleDocuments.write(value:to:))
         try writer["status"].write(value.status)
+        try writer["transformerId"].write(value.transformerId)
     }
 }
 
@@ -4519,7 +4937,7 @@ extension CreateTransformerOutput {
         var value = CreateTransformerOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.ediType = try reader["ediType"].readIfPresent(with: B2biClientTypes.EdiType.read(from:))
-        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? .notUsed
+        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? B2biClientTypes.FileFormat.notUsed
         value.inputConversion = try reader["inputConversion"].readIfPresent(with: B2biClientTypes.InputConversion.read(from:))
         value.mapping = try reader["mapping"].readIfPresent(with: B2biClientTypes.Mapping.read(from:))
         value.mappingTemplate = try reader["mappingTemplate"].readIfPresent() ?? "NOT_USED"
@@ -4646,7 +5064,7 @@ extension GetTransformerOutput {
         var value = GetTransformerOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.ediType = try reader["ediType"].readIfPresent(with: B2biClientTypes.EdiType.read(from:))
-        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? .notUsed
+        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? B2biClientTypes.FileFormat.notUsed
         value.inputConversion = try reader["inputConversion"].readIfPresent(with: B2biClientTypes.InputConversion.read(from:))
         value.mapping = try reader["mapping"].readIfPresent(with: B2biClientTypes.Mapping.read(from:))
         value.mappingTemplate = try reader["mappingTemplate"].readIfPresent() ?? "NOT_USED"
@@ -4792,6 +5210,7 @@ extension TestParsingOutput {
         let reader = responseReader
         var value = TestParsingOutput()
         value.parsedFileContent = try reader["parsedFileContent"].readIfPresent() ?? ""
+        value.parsedSplitFileContents = try reader["parsedSplitFileContents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -4874,7 +5293,7 @@ extension UpdateTransformerOutput {
         var value = UpdateTransformerOutput()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.ediType = try reader["ediType"].readIfPresent(with: B2biClientTypes.EdiType.read(from:))
-        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? .notUsed
+        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? B2biClientTypes.FileFormat.notUsed
         value.inputConversion = try reader["inputConversion"].readIfPresent(with: B2biClientTypes.InputConversion.read(from:))
         value.mapping = try reader["mapping"].readIfPresent(with: B2biClientTypes.Mapping.read(from:))
         value.mappingTemplate = try reader["mappingTemplate"].readIfPresent() ?? "NOT_USED"
@@ -5441,16 +5860,25 @@ enum UpdateTransformerOutputError {
     }
 }
 
-extension ServiceQuotaExceededException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5475,12 +5903,12 @@ extension InternalServerException {
     }
 }
 
-extension ValidationException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5488,12 +5916,16 @@ extension ValidationException {
     }
 }
 
-extension ConflictException {
+extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5518,25 +5950,12 @@ extension ThrottlingException {
     }
 }
 
-extension AccessDeniedException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        var value = ValidationException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -5653,6 +6072,7 @@ extension B2biClientTypes.CapabilityOptions {
 
     static func write(value: B2biClientTypes.CapabilityOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["inboundEdi"].write(value.inboundEdi, with: B2biClientTypes.InboundEdiOptions.write(value:to:))
         try writer["outboundEdi"].write(value.outboundEdi, with: B2biClientTypes.OutboundEdiOptions.write(value:to:))
     }
 
@@ -5660,6 +6080,54 @@ extension B2biClientTypes.CapabilityOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = B2biClientTypes.CapabilityOptions()
         value.outboundEdi = try reader["outboundEdi"].readIfPresent(with: B2biClientTypes.OutboundEdiOptions.read(from:))
+        value.inboundEdi = try reader["inboundEdi"].readIfPresent(with: B2biClientTypes.InboundEdiOptions.read(from:))
+        return value
+    }
+}
+
+extension B2biClientTypes.InboundEdiOptions {
+
+    static func write(value: B2biClientTypes.InboundEdiOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["x12"].write(value.x12, with: B2biClientTypes.X12InboundEdiOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.InboundEdiOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.InboundEdiOptions()
+        value.x12 = try reader["x12"].readIfPresent(with: B2biClientTypes.X12InboundEdiOptions.read(from:))
+        return value
+    }
+}
+
+extension B2biClientTypes.X12InboundEdiOptions {
+
+    static func write(value: B2biClientTypes.X12InboundEdiOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["acknowledgmentOptions"].write(value.acknowledgmentOptions, with: B2biClientTypes.X12AcknowledgmentOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12InboundEdiOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.X12InboundEdiOptions()
+        value.acknowledgmentOptions = try reader["acknowledgmentOptions"].readIfPresent(with: B2biClientTypes.X12AcknowledgmentOptions.read(from:))
+        return value
+    }
+}
+
+extension B2biClientTypes.X12AcknowledgmentOptions {
+
+    static func write(value: B2biClientTypes.X12AcknowledgmentOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["functionalAcknowledgment"].write(value.functionalAcknowledgment)
+        try writer["technicalAcknowledgment"].write(value.technicalAcknowledgment)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12AcknowledgmentOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.X12AcknowledgmentOptions()
+        value.functionalAcknowledgment = try reader["functionalAcknowledgment"].readIfPresent() ?? .sdkUnknown("")
+        value.technicalAcknowledgment = try reader["technicalAcknowledgment"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5693,12 +6161,33 @@ extension B2biClientTypes.X12Envelope {
     static func write(value: B2biClientTypes.X12Envelope?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["common"].write(value.common, with: B2biClientTypes.X12OutboundEdiHeaders.write(value:to:))
+        try writer["wrapOptions"].write(value.wrapOptions, with: B2biClientTypes.WrapOptions.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12Envelope {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = B2biClientTypes.X12Envelope()
         value.common = try reader["common"].readIfPresent(with: B2biClientTypes.X12OutboundEdiHeaders.read(from:))
+        value.wrapOptions = try reader["wrapOptions"].readIfPresent(with: B2biClientTypes.WrapOptions.read(from:))
+        return value
+    }
+}
+
+extension B2biClientTypes.WrapOptions {
+
+    static func write(value: B2biClientTypes.WrapOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["lineLength"].write(value.lineLength)
+        try writer["lineTerminator"].write(value.lineTerminator)
+        try writer["wrapBy"].write(value.wrapBy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.WrapOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.WrapOptions()
+        value.wrapBy = try reader["wrapBy"].readIfPresent() ?? .sdkUnknown("")
+        value.lineTerminator = try reader["lineTerminator"].readIfPresent()
+        value.lineLength = try reader["lineLength"].readIfPresent()
         return value
     }
 }
@@ -5707,8 +6196,10 @@ extension B2biClientTypes.X12OutboundEdiHeaders {
 
     static func write(value: B2biClientTypes.X12OutboundEdiHeaders?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["controlNumbers"].write(value.controlNumbers, with: B2biClientTypes.X12ControlNumbers.write(value:to:))
         try writer["delimiters"].write(value.delimiters, with: B2biClientTypes.X12Delimiters.write(value:to:))
         try writer["functionalGroupHeaders"].write(value.functionalGroupHeaders, with: B2biClientTypes.X12FunctionalGroupHeaders.write(value:to:))
+        try writer["gs05TimeFormat"].write(value.gs05TimeFormat)
         try writer["interchangeControlHeaders"].write(value.interchangeControlHeaders, with: B2biClientTypes.X12InterchangeControlHeaders.write(value:to:))
         try writer["validateEdi"].write(value.validateEdi)
     }
@@ -5720,6 +6211,27 @@ extension B2biClientTypes.X12OutboundEdiHeaders {
         value.functionalGroupHeaders = try reader["functionalGroupHeaders"].readIfPresent(with: B2biClientTypes.X12FunctionalGroupHeaders.read(from:))
         value.delimiters = try reader["delimiters"].readIfPresent(with: B2biClientTypes.X12Delimiters.read(from:))
         value.validateEdi = try reader["validateEdi"].readIfPresent()
+        value.controlNumbers = try reader["controlNumbers"].readIfPresent(with: B2biClientTypes.X12ControlNumbers.read(from:))
+        value.gs05TimeFormat = try reader["gs05TimeFormat"].readIfPresent()
+        return value
+    }
+}
+
+extension B2biClientTypes.X12ControlNumbers {
+
+    static func write(value: B2biClientTypes.X12ControlNumbers?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["startingFunctionalGroupControlNumber"].write(value.startingFunctionalGroupControlNumber)
+        try writer["startingInterchangeControlNumber"].write(value.startingInterchangeControlNumber)
+        try writer["startingTransactionSetControlNumber"].write(value.startingTransactionSetControlNumber)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12ControlNumbers {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.X12ControlNumbers()
+        value.startingInterchangeControlNumber = try reader["startingInterchangeControlNumber"].readIfPresent()
+        value.startingFunctionalGroupControlNumber = try reader["startingFunctionalGroupControlNumber"].readIfPresent()
+        value.startingTransactionSetControlNumber = try reader["startingTransactionSetControlNumber"].readIfPresent()
         return value
     }
 }
@@ -5793,6 +6305,7 @@ extension B2biClientTypes.InputConversion {
 
     static func write(value: B2biClientTypes.InputConversion?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["advancedOptions"].write(value.advancedOptions, with: B2biClientTypes.AdvancedOptions.write(value:to:))
         try writer["formatOptions"].write(value.formatOptions, with: B2biClientTypes.FormatOptions.write(value:to:))
         try writer["fromFormat"].write(value.fromFormat)
     }
@@ -5802,6 +6315,52 @@ extension B2biClientTypes.InputConversion {
         var value = B2biClientTypes.InputConversion()
         value.fromFormat = try reader["fromFormat"].readIfPresent() ?? .sdkUnknown("")
         value.formatOptions = try reader["formatOptions"].readIfPresent(with: B2biClientTypes.FormatOptions.read(from:))
+        value.advancedOptions = try reader["advancedOptions"].readIfPresent(with: B2biClientTypes.AdvancedOptions.read(from:))
+        return value
+    }
+}
+
+extension B2biClientTypes.AdvancedOptions {
+
+    static func write(value: B2biClientTypes.AdvancedOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["x12"].write(value.x12, with: B2biClientTypes.X12AdvancedOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.AdvancedOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.AdvancedOptions()
+        value.x12 = try reader["x12"].readIfPresent(with: B2biClientTypes.X12AdvancedOptions.read(from:))
+        return value
+    }
+}
+
+extension B2biClientTypes.X12AdvancedOptions {
+
+    static func write(value: B2biClientTypes.X12AdvancedOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["splitOptions"].write(value.splitOptions, with: B2biClientTypes.X12SplitOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12AdvancedOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.X12AdvancedOptions()
+        value.splitOptions = try reader["splitOptions"].readIfPresent(with: B2biClientTypes.X12SplitOptions.read(from:))
+        return value
+    }
+}
+
+extension B2biClientTypes.X12SplitOptions {
+
+    static func write(value: B2biClientTypes.X12SplitOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["splitBy"].write(value.splitBy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12SplitOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.X12SplitOptions()
+        value.splitBy = try reader["splitBy"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5972,7 +6531,7 @@ extension B2biClientTypes.TransformerSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? .notUsed
+        value.fileFormat = try reader["fileFormat"].readIfPresent() ?? B2biClientTypes.FileFormat.notUsed
         value.mappingTemplate = try reader["mappingTemplate"].readIfPresent() ?? "NOT_USED"
         value.ediType = try reader["ediType"].readIfPresent(with: B2biClientTypes.EdiType.read(from:))
         value.sampleDocument = try reader["sampleDocument"].readIfPresent()

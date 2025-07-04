@@ -31,6 +31,7 @@ extension DescribeApplicableIndividualAssessmentsInput: ClientRuntime.PaginateTo
             marker: token,
             maxRecords: self.maxRecords,
             migrationType: self.migrationType,
+            replicationConfigArn: self.replicationConfigArn,
             replicationInstanceArn: self.replicationInstanceArn,
             replicationTaskArn: self.replicationTaskArn,
             sourceEngineName: self.sourceEngineName,

@@ -47,6 +47,37 @@ extension PaginatorSequence where OperationStackInput == GetCisScanResultDetails
     }
 }
 extension Inspector2Client {
+    /// Paginate over `[GetClustersForImageOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetClustersForImageInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetClustersForImageOutput`
+    public func getClustersForImagePaginated(input: GetClustersForImageInput) -> ClientRuntime.PaginatorSequence<GetClustersForImageInput, GetClustersForImageOutput> {
+        return ClientRuntime.PaginatorSequence<GetClustersForImageInput, GetClustersForImageOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getClustersForImage(input:))
+    }
+}
+
+extension GetClustersForImageInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetClustersForImageInput {
+        return GetClustersForImageInput(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetClustersForImageInput, OperationStackOutput == GetClustersForImageOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getClustersForImagePaginated`
+    /// to access the nested member `[Inspector2ClientTypes.ClusterInformation]`
+    /// - Returns: `[Inspector2ClientTypes.ClusterInformation]`
+    public func cluster() async throws -> [Inspector2ClientTypes.ClusterInformation] {
+        return try await self.asyncCompactMap { item in item.cluster }
+    }
+}
+extension Inspector2Client {
     /// Paginate over `[ListAccountPermissionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

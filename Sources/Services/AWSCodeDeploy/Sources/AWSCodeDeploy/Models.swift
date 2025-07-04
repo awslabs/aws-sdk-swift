@@ -9513,11 +9513,11 @@ enum UpdateDeploymentGroupOutputError {
     }
 }
 
-extension TagLimitExceededException {
+extension InstanceLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InstanceLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = TagLimitExceededException()
+        var value = InstanceLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9539,24 +9539,11 @@ extension InstanceNameRequiredException {
     }
 }
 
-extension InstanceLimitExceededException {
+extension InstanceNotRegisteredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InstanceLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InstanceNotRegisteredException {
         let reader = baseError.errorBodyReader
-        var value = InstanceLimitExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TagRequiredException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagRequiredException {
-        let reader = baseError.errorBodyReader
-        var value = TagRequiredException()
+        var value = InstanceNotRegisteredException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9591,11 +9578,11 @@ extension InvalidTagException {
     }
 }
 
-extension InstanceNotRegisteredException {
+extension TagLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InstanceNotRegisteredException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = InstanceNotRegisteredException()
+        var value = TagLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9604,63 +9591,11 @@ extension InstanceNotRegisteredException {
     }
 }
 
-extension BatchLimitExceededException {
+extension TagRequiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BatchLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagRequiredException {
         let reader = baseError.errorBodyReader
-        var value = BatchLimitExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ApplicationNameRequiredException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ApplicationNameRequiredException {
-        let reader = baseError.errorBodyReader
-        var value = ApplicationNameRequiredException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidApplicationNameException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidApplicationNameException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidApplicationNameException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension RevisionRequiredException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RevisionRequiredException {
-        let reader = baseError.errorBodyReader
-        var value = RevisionRequiredException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidRevisionException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRevisionException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidRevisionException()
+        var value = TagRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9682,11 +9617,76 @@ extension ApplicationDoesNotExistException {
     }
 }
 
-extension InvalidDeploymentGroupNameException {
+extension ApplicationNameRequiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeploymentGroupNameException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ApplicationNameRequiredException {
         let reader = baseError.errorBodyReader
-        var value = InvalidDeploymentGroupNameException()
+        var value = ApplicationNameRequiredException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension BatchLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BatchLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = BatchLimitExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidApplicationNameException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidApplicationNameException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidApplicationNameException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidRevisionException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRevisionException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidRevisionException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension RevisionRequiredException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RevisionRequiredException {
+        let reader = baseError.errorBodyReader
+        var value = RevisionRequiredException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DeploymentConfigDoesNotExistException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentConfigDoesNotExistException {
+        let reader = baseError.errorBodyReader
+        var value = DeploymentConfigDoesNotExistException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9708,11 +9708,37 @@ extension DeploymentGroupNameRequiredException {
     }
 }
 
-extension DeploymentConfigDoesNotExistException {
+extension InvalidDeploymentGroupNameException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentConfigDoesNotExistException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeploymentGroupNameException {
         let reader = baseError.errorBodyReader
-        var value = DeploymentConfigDoesNotExistException()
+        var value = InvalidDeploymentGroupNameException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DeploymentDoesNotExistException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentDoesNotExistException {
+        let reader = baseError.errorBodyReader
+        var value = DeploymentDoesNotExistException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DeploymentIdRequiredException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentIdRequiredException {
+        let reader = baseError.errorBodyReader
+        var value = DeploymentIdRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9760,11 +9786,11 @@ extension InvalidDeploymentIdException {
     }
 }
 
-extension DeploymentDoesNotExistException {
+extension DeploymentNotStartedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentDoesNotExistException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentNotStartedException {
         let reader = baseError.errorBodyReader
-        var value = DeploymentDoesNotExistException()
+        var value = DeploymentNotStartedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9773,11 +9799,11 @@ extension DeploymentDoesNotExistException {
     }
 }
 
-extension DeploymentIdRequiredException {
+extension DeploymentTargetDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentIdRequiredException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentTargetDoesNotExistException {
         let reader = baseError.errorBodyReader
-        var value = DeploymentIdRequiredException()
+        var value = DeploymentTargetDoesNotExistException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9799,11 +9825,11 @@ extension DeploymentTargetIdRequiredException {
     }
 }
 
-extension DeploymentNotStartedException {
+extension DeploymentTargetListSizeExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentNotStartedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentTargetListSizeExceededException {
         let reader = baseError.errorBodyReader
-        var value = DeploymentNotStartedException()
+        var value = DeploymentTargetListSizeExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9838,32 +9864,6 @@ extension InvalidDeploymentTargetIdException {
     }
 }
 
-extension DeploymentTargetDoesNotExistException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentTargetDoesNotExistException {
-        let reader = baseError.errorBodyReader
-        var value = DeploymentTargetDoesNotExistException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DeploymentTargetListSizeExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentTargetListSizeExceededException {
-        let reader = baseError.errorBodyReader
-        var value = DeploymentTargetListSizeExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension DeploymentAlreadyCompletedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentAlreadyCompletedException {
@@ -9890,6 +9890,19 @@ extension DeploymentIsNotInReadyStateException {
     }
 }
 
+extension InvalidDeploymentStatusException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeploymentStatusException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidDeploymentStatusException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidDeploymentWaitTypeException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeploymentWaitTypeException {
@@ -9908,19 +9921,6 @@ extension UnsupportedActionForDeploymentTypeException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedActionForDeploymentTypeException {
         let reader = baseError.errorBodyReader
         var value = UnsupportedActionForDeploymentTypeException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidDeploymentStatusException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeploymentStatusException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidDeploymentStatusException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9968,102 +9968,11 @@ extension InvalidTagsToAddException {
     }
 }
 
-extension InvalidDeploymentConfigNameException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeploymentConfigNameException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidDeploymentConfigNameException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidAutoScalingGroupException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAutoScalingGroupException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidAutoScalingGroupException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidTrafficRoutingConfigurationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTrafficRoutingConfigurationException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidTrafficRoutingConfigurationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidAlarmConfigException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAlarmConfigException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidAlarmConfigException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AlarmsLimitExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AlarmsLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = AlarmsLimitExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidIgnoreApplicationStopFailuresValueException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidIgnoreApplicationStopFailuresValueException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidIgnoreApplicationStopFailuresValueException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidRoleException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRoleException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidRoleException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10085,76 +9994,11 @@ extension DeploymentGroupDoesNotExistException {
     }
 }
 
-extension InvalidFileExistsBehaviorException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidFileExistsBehaviorException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidFileExistsBehaviorException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidAutoRollbackConfigException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAutoRollbackConfigException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidAutoRollbackConfigException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidTargetInstancesException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTargetInstancesException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidTargetInstancesException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension DeploymentLimitExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = DeploymentLimitExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidUpdateOutdatedInstancesOnlyValueException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidUpdateOutdatedInstancesOnlyValueException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidUpdateOutdatedInstancesOnlyValueException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidLoadBalancerInfoException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLoadBalancerInfoException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidLoadBalancerInfoException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10176,11 +10020,154 @@ extension DescriptionTooLongException {
     }
 }
 
+extension InvalidAlarmConfigException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAlarmConfigException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidAlarmConfigException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidAutoRollbackConfigException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAutoRollbackConfigException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidAutoRollbackConfigException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidAutoScalingGroupException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAutoScalingGroupException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidAutoScalingGroupException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidDeploymentConfigNameException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeploymentConfigNameException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidDeploymentConfigNameException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidFileExistsBehaviorException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidFileExistsBehaviorException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidFileExistsBehaviorException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidGitHubAccountTokenException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidGitHubAccountTokenException {
         let reader = baseError.errorBodyReader
         var value = InvalidGitHubAccountTokenException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidIgnoreApplicationStopFailuresValueException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidIgnoreApplicationStopFailuresValueException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidIgnoreApplicationStopFailuresValueException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidLoadBalancerInfoException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLoadBalancerInfoException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidLoadBalancerInfoException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidRoleException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidRoleException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidRoleException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidTargetInstancesException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTargetInstancesException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidTargetInstancesException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidTrafficRoutingConfigurationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTrafficRoutingConfigurationException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidTrafficRoutingConfigurationException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidUpdateOutdatedInstancesOnlyValueException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidUpdateOutdatedInstancesOnlyValueException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidUpdateOutdatedInstancesOnlyValueException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10202,24 +10189,11 @@ extension RevisionDoesNotExistException {
     }
 }
 
-extension InvalidZonalDeploymentConfigurationException {
+extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidZonalDeploymentConfigurationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
-        var value = InvalidZonalDeploymentConfigurationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DeploymentConfigNameRequiredException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentConfigNameRequiredException {
-        let reader = baseError.errorBodyReader
-        var value = DeploymentConfigNameRequiredException()
+        var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10254,6 +10228,19 @@ extension DeploymentConfigLimitExceededException {
     }
 }
 
+extension DeploymentConfigNameRequiredException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentConfigNameRequiredException {
+        let reader = baseError.errorBodyReader
+        var value = DeploymentConfigNameRequiredException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidMinimumHealthyHostValueException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidMinimumHealthyHostValueException {
@@ -10267,24 +10254,11 @@ extension InvalidMinimumHealthyHostValueException {
     }
 }
 
-extension InvalidDeploymentStyleException {
+extension InvalidZonalDeploymentConfigurationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeploymentStyleException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidZonalDeploymentConfigurationException {
         let reader = baseError.errorBodyReader
-        var value = InvalidDeploymentStyleException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidECSServiceException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidECSServiceException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidECSServiceException()
+        var value = InvalidZonalDeploymentConfigurationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10306,102 +10280,11 @@ extension DeploymentGroupAlreadyExistsException {
     }
 }
 
-extension InvalidEC2TagException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEC2TagException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidEC2TagException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidTargetGroupPairException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTargetGroupPairException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidTargetGroupPairException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension DeploymentGroupLimitExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DeploymentGroupLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = DeploymentGroupLimitExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidInputException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInputException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidInputException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TriggerTargetsLimitExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TriggerTargetsLimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = TriggerTargetsLimitExceededException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension RoleRequiredException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RoleRequiredException {
-        let reader = baseError.errorBodyReader
-        var value = RoleRequiredException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidEC2TagCombinationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEC2TagCombinationException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidEC2TagCombinationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidTriggerConfigException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTriggerConfigException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidTriggerConfigException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10436,11 +10319,128 @@ extension InvalidBlueGreenDeploymentConfigurationException {
     }
 }
 
+extension InvalidDeploymentStyleException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeploymentStyleException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidDeploymentStyleException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidEC2TagCombinationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEC2TagCombinationException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidEC2TagCombinationException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidEC2TagException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidEC2TagException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidEC2TagException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidECSServiceException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidECSServiceException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidECSServiceException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidInputException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInputException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidInputException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidOnPremisesTagCombinationException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidOnPremisesTagCombinationException {
         let reader = baseError.errorBodyReader
         var value = InvalidOnPremisesTagCombinationException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidTargetGroupPairException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTargetGroupPairException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidTargetGroupPairException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidTriggerConfigException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTriggerConfigException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidTriggerConfigException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension LifecycleHookLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LifecycleHookLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = LifecycleHookLimitExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension RoleRequiredException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RoleRequiredException {
+        let reader = baseError.errorBodyReader
+        var value = RoleRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10462,11 +10462,11 @@ extension TagSetListLimitExceededException {
     }
 }
 
-extension LifecycleHookLimitExceededException {
+extension TriggerTargetsLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LifecycleHookLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TriggerTargetsLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = LifecycleHookLimitExceededException()
+        var value = TriggerTargetsLimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10501,6 +10501,19 @@ extension InvalidOperationException {
     }
 }
 
+extension GitHubAccountTokenDoesNotExistException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> GitHubAccountTokenDoesNotExistException {
+        let reader = baseError.errorBodyReader
+        var value = GitHubAccountTokenDoesNotExistException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension GitHubAccountTokenNameRequiredException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> GitHubAccountTokenNameRequiredException {
@@ -10519,19 +10532,6 @@ extension InvalidGitHubAccountTokenNameException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidGitHubAccountTokenNameException {
         let reader = baseError.errorBodyReader
         var value = InvalidGitHubAccountTokenNameException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension GitHubAccountTokenDoesNotExistException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> GitHubAccountTokenDoesNotExistException {
-        let reader = baseError.errorBodyReader
-        var value = GitHubAccountTokenDoesNotExistException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10566,19 +10566,6 @@ extension ResourceValidationException {
     }
 }
 
-extension InvalidKeyPrefixFilterException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidKeyPrefixFilterException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidKeyPrefixFilterException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension BucketNameFilterRequiredException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BucketNameFilterRequiredException {
@@ -10592,11 +10579,11 @@ extension BucketNameFilterRequiredException {
     }
 }
 
-extension InvalidNextTokenException {
+extension InvalidBucketNameFilterException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidBucketNameFilterException {
         let reader = baseError.errorBodyReader
-        var value = InvalidNextTokenException()
+        var value = InvalidBucketNameFilterException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10605,11 +10592,37 @@ extension InvalidNextTokenException {
     }
 }
 
-extension InvalidBucketNameFilterException {
+extension InvalidDeployedStateFilterException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidBucketNameFilterException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeployedStateFilterException {
         let reader = baseError.errorBodyReader
-        var value = InvalidBucketNameFilterException()
+        var value = InvalidDeployedStateFilterException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidKeyPrefixFilterException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidKeyPrefixFilterException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidKeyPrefixFilterException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidNextTokenException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidNextTokenException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10644,50 +10657,11 @@ extension InvalidSortOrderException {
     }
 }
 
-extension InvalidDeployedStateFilterException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeployedStateFilterException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidDeployedStateFilterException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidTargetFilterNameException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTargetFilterNameException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidTargetFilterNameException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidDeploymentInstanceTypeException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDeploymentInstanceTypeException {
         let reader = baseError.errorBodyReader
         var value = InvalidDeploymentInstanceTypeException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidInstanceTypeException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInstanceTypeException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidInstanceTypeException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10709,11 +10683,24 @@ extension InvalidInstanceStatusException {
     }
 }
 
-extension InvalidTimeRangeException {
+extension InvalidInstanceTypeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTimeRangeException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidInstanceTypeException {
         let reader = baseError.errorBodyReader
-        var value = InvalidTimeRangeException()
+        var value = InvalidInstanceTypeException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidTargetFilterNameException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTargetFilterNameException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidTargetFilterNameException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10727,6 +10714,19 @@ extension InvalidExternalIdException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidExternalIdException {
         let reader = baseError.errorBodyReader
         var value = InvalidExternalIdException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidTimeRangeException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTimeRangeException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidTimeRangeException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10761,11 +10761,11 @@ extension InvalidTagFilterException {
     }
 }
 
-extension InvalidArnException {
+extension ArnNotSupportedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArnException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ArnNotSupportedException {
         let reader = baseError.errorBodyReader
-        var value = InvalidArnException()
+        var value = ArnNotSupportedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10774,11 +10774,11 @@ extension InvalidArnException {
     }
 }
 
-extension ArnNotSupportedException {
+extension InvalidArnException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ArnNotSupportedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArnException {
         let reader = baseError.errorBodyReader
-        var value = ArnNotSupportedException()
+        var value = InvalidArnException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10800,11 +10800,11 @@ extension ResourceArnRequiredException {
     }
 }
 
-extension InvalidLifecycleEventHookExecutionStatusException {
+extension InvalidLifecycleEventHookExecutionIdException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLifecycleEventHookExecutionStatusException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLifecycleEventHookExecutionIdException {
         let reader = baseError.errorBodyReader
-        var value = InvalidLifecycleEventHookExecutionStatusException()
+        var value = InvalidLifecycleEventHookExecutionIdException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10813,11 +10813,11 @@ extension InvalidLifecycleEventHookExecutionStatusException {
     }
 }
 
-extension InvalidLifecycleEventHookExecutionIdException {
+extension InvalidLifecycleEventHookExecutionStatusException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLifecycleEventHookExecutionIdException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLifecycleEventHookExecutionStatusException {
         let reader = baseError.errorBodyReader
-        var value = InvalidLifecycleEventHookExecutionIdException()
+        var value = InvalidLifecycleEventHookExecutionStatusException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10839,11 +10839,11 @@ extension LifecycleEventAlreadyCompletedException {
     }
 }
 
-extension InvalidIamUserArnException {
+extension IamArnRequiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidIamUserArnException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IamArnRequiredException {
         let reader = baseError.errorBodyReader
-        var value = InvalidIamUserArnException()
+        var value = IamArnRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10865,11 +10865,11 @@ extension IamSessionArnAlreadyRegisteredException {
     }
 }
 
-extension IamUserArnRequiredException {
+extension IamUserArnAlreadyRegisteredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IamUserArnRequiredException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IamUserArnAlreadyRegisteredException {
         let reader = baseError.errorBodyReader
-        var value = IamUserArnRequiredException()
+        var value = IamUserArnAlreadyRegisteredException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10878,11 +10878,11 @@ extension IamUserArnRequiredException {
     }
 }
 
-extension MultipleIamArnsProvidedException {
+extension IamUserArnRequiredException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MultipleIamArnsProvidedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IamUserArnRequiredException {
         let reader = baseError.errorBodyReader
-        var value = MultipleIamArnsProvidedException()
+        var value = IamUserArnRequiredException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10904,19 +10904,6 @@ extension InstanceNameAlreadyRegisteredException {
     }
 }
 
-extension IamUserArnAlreadyRegisteredException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IamUserArnAlreadyRegisteredException {
-        let reader = baseError.errorBodyReader
-        var value = IamUserArnAlreadyRegisteredException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidIamSessionArnException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidIamSessionArnException {
@@ -10930,11 +10917,24 @@ extension InvalidIamSessionArnException {
     }
 }
 
-extension IamArnRequiredException {
+extension InvalidIamUserArnException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IamArnRequiredException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidIamUserArnException {
         let reader = baseError.errorBodyReader
-        var value = IamArnRequiredException()
+        var value = InvalidIamUserArnException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension MultipleIamArnsProvidedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MultipleIamArnsProvidedException {
+        let reader = baseError.errorBodyReader
+        var value = MultipleIamArnsProvidedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

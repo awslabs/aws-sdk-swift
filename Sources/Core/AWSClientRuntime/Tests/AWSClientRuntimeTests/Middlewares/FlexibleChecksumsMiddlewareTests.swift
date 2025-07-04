@@ -366,7 +366,7 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
 
         if !checkLogs.isEmpty {
             checkLogs.forEach { expectedLog in
-                let logFound = testLogger.messages.contains { $0.level == .info && $0.message.contains(expectedLog) }
+                let logFound = testLogger.messages.contains { $0.level == .debug && $0.message.contains(expectedLog) }
                 XCTAssertTrue(logFound, "Expected log message \"\(expectedLog)\" not found", file: file, line: line)
             }
         }
@@ -448,17 +448,17 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
 
 }
 
-class TestLogger: LogAgent {
+class TestLogger: LogAgent, @unchecked Sendable {
     var name: String
 
     var messages: [(level: LogAgentLevel, message: String)] = []
 
-    init(name: String = "Test", messages: [(level: LogAgentLevel, message: String)] = [], level: LogAgentLevel = .info) {
+    init(name: String = "Test", messages: [(level: LogAgentLevel, message: String)] = [], level: LogAgentLevel = .debug) {
         self.name = name
         self.messages = messages
     }
 
-    func log(level: LogAgentLevel = .info, message: @autoclosure () -> String, metadata: @autoclosure () -> [String : String]? = nil, source: @autoclosure () -> String = "ChecksumUnitTests", file: String = #file, function: String = #function, line: UInt = #line) {
+    func log(level: LogAgentLevel = .debug, message: @autoclosure () -> String, metadata: @autoclosure () -> [String : String]? = nil, source: @autoclosure () -> String = "ChecksumUnitTests", file: String = #file, function: String = #function, line: UInt = #line) {
         messages.append((level: level, message: message()))
     }
 }

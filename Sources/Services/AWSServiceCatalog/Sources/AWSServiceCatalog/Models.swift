@@ -6312,7 +6312,7 @@ public struct SearchProvisionedProductsInput: Swift.Sendable {
     ///
     /// * zh - Chinese
     public var acceptLanguage: Swift.String?
-    /// The access level to use to obtain results. The default is User.
+    /// The access level to use to obtain results. The default is Account.
     public var accessLevelFilter: ServiceCatalogClientTypes.AccessLevelFilter?
     /// The search filters. When the key is SearchQuery, the searchable fields are arn, createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId, provisioningArtifactId, type, status, tags, userArn, userArnSession, lastProvisioningRecordId, lastSuccessfulProvisioningRecordId, productName, and provisioningArtifactName. Example: "SearchQuery":["status:AVAILABLE"]
     public var filters: [Swift.String: [Swift.String]]?
@@ -8023,8 +8023,8 @@ extension DeleteServiceActionInput {
 extension DeleteTagOptionInput {
 
     static func write(value: DeleteTagOptionInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["Id"].write(value.id)
     }
 }
 
@@ -8186,8 +8186,8 @@ extension DescribeServiceActionExecutionParametersInput {
 extension DescribeTagOptionInput {
 
     static func write(value: DescribeTagOptionInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["Id"].write(value.id)
     }
 }
 
@@ -8244,8 +8244,9 @@ extension DisassociateServiceActionFromProvisioningArtifactInput {
 extension DisassociateTagOptionFromResourceInput {
 
     static func write(value: DisassociateTagOptionFromResourceInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["ResourceId"].write(value.resourceId)
+        try writer["TagOptionId"].write(value.tagOptionId)
     }
 }
 
@@ -8461,8 +8462,11 @@ extension ListRecordHistoryInput {
 extension ListResourcesForTagOptionInput {
 
     static func write(value: ListResourcesForTagOptionInput?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+        guard let value else { return }
+        try writer["PageSize"].write(value.pageSize)
+        try writer["PageToken"].write(value.pageToken)
+        try writer["ResourceType"].write(value.resourceType)
+        try writer["TagOptionId"].write(value.tagOptionId)
     }
 }
 
@@ -10187,6 +10191,7 @@ enum DeleteServiceActionOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -10515,6 +10520,7 @@ enum DisassociateServiceActionFromProvisioningArtifactOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InvalidParametersException": return try InvalidParametersException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }

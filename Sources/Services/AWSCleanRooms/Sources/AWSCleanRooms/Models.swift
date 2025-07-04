@@ -230,11 +230,13 @@ extension CleanRoomsClientTypes {
 extension CleanRoomsClientTypes {
 
     public enum AnalysisFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case pyspark10
         case sql
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AnalysisFormat] {
             return [
+                .pyspark10,
                 .sql
             ]
         }
@@ -246,6 +248,7 @@ extension CleanRoomsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .pyspark10: return "PYSPARK_1_0"
             case .sql: return "SQL"
             case let .sdkUnknown(s): return s
             }
@@ -256,12 +259,16 @@ extension CleanRoomsClientTypes {
 extension CleanRoomsClientTypes {
 
     public enum AnalysisMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case directJob
         case directQuery
+        case multiple
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AnalysisMethod] {
             return [
-                .directQuery
+                .directJob,
+                .directQuery,
+                .multiple
             ]
         }
 
@@ -272,7 +279,9 @@ extension CleanRoomsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .directJob: return "DIRECT_JOB"
             case .directQuery: return "DIRECT_QUERY"
+            case .multiple: return "MULTIPLE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -414,6 +423,87 @@ extension CleanRoomsClientTypes {
 extension CleanRoomsClientTypes.AnalysisParameter: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CONTENT_REDACTED"
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The configured table association analysis rule applied to a configured table with the aggregation analysis rule.
+    public struct ConfiguredTableAssociationAnalysisRuleAggregation: Swift.Sendable {
+        /// The list of resources or wildcards (ARNs) that are allowed to perform additional analysis on query output. The allowedAdditionalAnalyses parameter is currently supported for the list analysis rule (AnalysisRuleList) and the custom analysis rule (AnalysisRuleCustom).
+        public var allowedAdditionalAnalyses: [Swift.String]?
+        /// The list of collaboration members who are allowed to receive results of queries run with this configured table.
+        public var allowedResultReceivers: [Swift.String]?
+
+        public init(
+            allowedAdditionalAnalyses: [Swift.String]? = nil,
+            allowedResultReceivers: [Swift.String]? = nil
+        ) {
+            self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
+            self.allowedResultReceivers = allowedResultReceivers
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The configured table association analysis rule applied to a configured table with the custom analysis rule.
+    public struct ConfiguredTableAssociationAnalysisRuleCustom: Swift.Sendable {
+        /// The list of resources or wildcards (ARNs) that are allowed to perform additional analysis on query output.
+        public var allowedAdditionalAnalyses: [Swift.String]?
+        /// The list of collaboration members who are allowed to receive results of queries run with this configured table.
+        public var allowedResultReceivers: [Swift.String]?
+
+        public init(
+            allowedAdditionalAnalyses: [Swift.String]? = nil,
+            allowedResultReceivers: [Swift.String]? = nil
+        ) {
+            self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
+            self.allowedResultReceivers = allowedResultReceivers
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The configured table association analysis rule applied to a configured table with the list analysis rule.
+    public struct ConfiguredTableAssociationAnalysisRuleList: Swift.Sendable {
+        /// The list of resources or wildcards (ARNs) that are allowed to perform additional analysis on query output.
+        public var allowedAdditionalAnalyses: [Swift.String]?
+        /// The list of collaboration members who are allowed to receive results of queries run with this configured table.
+        public var allowedResultReceivers: [Swift.String]?
+
+        public init(
+            allowedAdditionalAnalyses: [Swift.String]? = nil,
+            allowedResultReceivers: [Swift.String]? = nil
+        ) {
+            self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
+            self.allowedResultReceivers = allowedResultReceivers
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Controls on the query specifications that can be run on an associated configured table.
+    public enum ConfiguredTableAssociationAnalysisRulePolicyV1: Swift.Sendable {
+        /// Analysis rule type that enables only list queries on a configured table.
+        case list(CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleList)
+        /// Analysis rule type that enables only aggregation queries on a configured table.
+        case aggregation(CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleAggregation)
+        /// Analysis rule type that enables the table owner to approve custom SQL queries on their configured tables. It supports differential privacy.
+        case custom(CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleCustom)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Controls on the query specifications that can be run on an associated configured table.
+    public enum ConfiguredTableAssociationAnalysisRulePolicy: Swift.Sendable {
+        /// The policy for the configured table association analysis rule.
+        case v1(CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicyV1)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -569,6 +659,195 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    /// Controls on the analysis specifications that can be run on a configured table.
+    public struct ConsolidatedPolicyAggregation: Swift.Sendable {
+        /// Additional analyses for the consolidated policy aggregation.
+        public var additionalAnalyses: CleanRoomsClientTypes.AdditionalAnalyses?
+        /// Aggregate columns in consolidated policy aggregation.
+        /// This member is required.
+        public var aggregateColumns: [CleanRoomsClientTypes.AggregateColumn]?
+        /// The additional analyses allowed by the consolidated policy aggregation.
+        public var allowedAdditionalAnalyses: [Swift.String]?
+        /// The allowed join operators.
+        public var allowedJoinOperators: [CleanRoomsClientTypes.JoinOperator]?
+        /// The allowed result receivers.
+        public var allowedResultReceivers: [Swift.String]?
+        /// The dimension columns of the consolidated policy aggregation.
+        /// This member is required.
+        public var dimensionColumns: [Swift.String]?
+        /// The columns to join on.
+        /// This member is required.
+        public var joinColumns: [Swift.String]?
+        /// Join required
+        public var joinRequired: CleanRoomsClientTypes.JoinRequiredOption?
+        /// The output constraints of the consolidated policy aggregation.
+        /// This member is required.
+        public var outputConstraints: [CleanRoomsClientTypes.AggregationConstraint]?
+        /// The scalar functions.
+        /// This member is required.
+        public var scalarFunctions: [CleanRoomsClientTypes.ScalarFunctions]?
+
+        public init(
+            additionalAnalyses: CleanRoomsClientTypes.AdditionalAnalyses? = nil,
+            aggregateColumns: [CleanRoomsClientTypes.AggregateColumn]? = nil,
+            allowedAdditionalAnalyses: [Swift.String]? = nil,
+            allowedJoinOperators: [CleanRoomsClientTypes.JoinOperator]? = nil,
+            allowedResultReceivers: [Swift.String]? = nil,
+            dimensionColumns: [Swift.String]? = nil,
+            joinColumns: [Swift.String]? = nil,
+            joinRequired: CleanRoomsClientTypes.JoinRequiredOption? = nil,
+            outputConstraints: [CleanRoomsClientTypes.AggregationConstraint]? = nil,
+            scalarFunctions: [CleanRoomsClientTypes.ScalarFunctions]? = nil
+        ) {
+            self.additionalAnalyses = additionalAnalyses
+            self.aggregateColumns = aggregateColumns
+            self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
+            self.allowedJoinOperators = allowedJoinOperators
+            self.allowedResultReceivers = allowedResultReceivers
+            self.dimensionColumns = dimensionColumns
+            self.joinColumns = joinColumns
+            self.joinRequired = joinRequired
+            self.outputConstraints = outputConstraints
+            self.scalarFunctions = scalarFunctions
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Specifies the name of the column that contains the unique identifier of your users, whose privacy you want to protect.
+    public struct DifferentialPrivacyColumn: Swift.Sendable {
+        /// The name of the column, such as user_id, that contains the unique identifier of your users, whose privacy you want to protect. If you want to turn on differential privacy for two or more tables in a collaboration, you must configure the same column as the user identifier column in both analysis rules.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            name: Swift.String? = nil
+        ) {
+            self.name = name
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Specifies the unique identifier for your users.
+    public struct DifferentialPrivacyConfiguration: Swift.Sendable {
+        /// The name of the column (such as user_id) that contains the unique identifier of your users whose privacy you want to protect. If you want to turn on diﬀerential privacy for two or more tables in a collaboration, you must conﬁgure the same column as the user identiﬁer column in both analysis rules.
+        /// This member is required.
+        public var columns: [CleanRoomsClientTypes.DifferentialPrivacyColumn]?
+
+        public init(
+            columns: [CleanRoomsClientTypes.DifferentialPrivacyColumn]? = nil
+        ) {
+            self.columns = columns
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Controls on the analysis specifications that can be run on a configured table.
+    public struct ConsolidatedPolicyCustom: Swift.Sendable {
+        /// Additional analyses for the consolidated policy.
+        public var additionalAnalyses: CleanRoomsClientTypes.AdditionalAnalyses?
+        /// The additional analyses allowed by the consolidated policy.
+        public var allowedAdditionalAnalyses: [Swift.String]?
+        /// The allowed analyses.
+        /// This member is required.
+        public var allowedAnalyses: [Swift.String]?
+        /// The allowed analysis providers.
+        public var allowedAnalysisProviders: [Swift.String]?
+        /// The allowed result receivers.
+        public var allowedResultReceivers: [Swift.String]?
+        /// Specifies the unique identifier for your users.
+        public var differentialPrivacy: CleanRoomsClientTypes.DifferentialPrivacyConfiguration?
+        /// Disallowed output columns
+        public var disallowedOutputColumns: [Swift.String]?
+
+        public init(
+            additionalAnalyses: CleanRoomsClientTypes.AdditionalAnalyses? = nil,
+            allowedAdditionalAnalyses: [Swift.String]? = nil,
+            allowedAnalyses: [Swift.String]? = nil,
+            allowedAnalysisProviders: [Swift.String]? = nil,
+            allowedResultReceivers: [Swift.String]? = nil,
+            differentialPrivacy: CleanRoomsClientTypes.DifferentialPrivacyConfiguration? = nil,
+            disallowedOutputColumns: [Swift.String]? = nil
+        ) {
+            self.additionalAnalyses = additionalAnalyses
+            self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
+            self.allowedAnalyses = allowedAnalyses
+            self.allowedAnalysisProviders = allowedAnalysisProviders
+            self.allowedResultReceivers = allowedResultReceivers
+            self.differentialPrivacy = differentialPrivacy
+            self.disallowedOutputColumns = disallowedOutputColumns
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Controls on the analysis specifications that can be run on a configured table.
+    public struct ConsolidatedPolicyList: Swift.Sendable {
+        /// Additional analyses for the consolidated policy list.
+        public var additionalAnalyses: CleanRoomsClientTypes.AdditionalAnalyses?
+        /// The additional analyses allowed by the consolidated policy list.
+        public var allowedAdditionalAnalyses: [Swift.String]?
+        /// The allowed join operators in the consolidated policy list.
+        public var allowedJoinOperators: [CleanRoomsClientTypes.JoinOperator]?
+        /// The allowed result receivers.
+        public var allowedResultReceivers: [Swift.String]?
+        /// The columns to join on.
+        /// This member is required.
+        public var joinColumns: [Swift.String]?
+        /// The columns in the consolidated policy list.
+        /// This member is required.
+        public var listColumns: [Swift.String]?
+
+        public init(
+            additionalAnalyses: CleanRoomsClientTypes.AdditionalAnalyses? = nil,
+            allowedAdditionalAnalyses: [Swift.String]? = nil,
+            allowedJoinOperators: [CleanRoomsClientTypes.JoinOperator]? = nil,
+            allowedResultReceivers: [Swift.String]? = nil,
+            joinColumns: [Swift.String]? = nil,
+            listColumns: [Swift.String]? = nil
+        ) {
+            self.additionalAnalyses = additionalAnalyses
+            self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
+            self.allowedJoinOperators = allowedJoinOperators
+            self.allowedResultReceivers = allowedResultReceivers
+            self.joinColumns = joinColumns
+            self.listColumns = listColumns
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Controls on the analysis specifications that can be run on a configured table.
+    public enum ConsolidatedPolicyV1: Swift.Sendable {
+        /// The list of consolidated policies.
+        case list(CleanRoomsClientTypes.ConsolidatedPolicyList)
+        /// The aggregation setting for the consolidated policy.
+        case aggregation(CleanRoomsClientTypes.ConsolidatedPolicyAggregation)
+        /// Custom policy
+        case custom(CleanRoomsClientTypes.ConsolidatedPolicyCustom)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Controls on the analysis specifications that can be run on a configured table.
+    public enum ConsolidatedPolicy: Swift.Sendable {
+        /// The consolidated policy version 1.
+        case v1(CleanRoomsClientTypes.ConsolidatedPolicyV1)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// A type of analysis rule that enables query structure and specified queries that produce aggregate statistics.
     public struct AnalysisRuleAggregation: Swift.Sendable {
         /// An indicator as to whether additional analyses (such as Clean Rooms ML) can be applied to the output of the direct query. The additionalAnalyses parameter is currently supported for the list analysis rule (AnalysisRuleList) and the custom analysis rule (AnalysisRuleCustom).
@@ -611,38 +890,6 @@ extension CleanRoomsClientTypes {
             self.joinRequired = joinRequired
             self.outputConstraints = outputConstraints
             self.scalarFunctions = scalarFunctions
-        }
-    }
-}
-
-extension CleanRoomsClientTypes {
-
-    /// Specifies the name of the column that contains the unique identifier of your users, whose privacy you want to protect.
-    public struct DifferentialPrivacyColumn: Swift.Sendable {
-        /// The name of the column, such as user_id, that contains the unique identifier of your users, whose privacy you want to protect. If you want to turn on differential privacy for two or more tables in a collaboration, you must configure the same column as the user identifier column in both analysis rules.
-        /// This member is required.
-        public var name: Swift.String?
-
-        public init(
-            name: Swift.String? = nil
-        ) {
-            self.name = name
-        }
-    }
-}
-
-extension CleanRoomsClientTypes {
-
-    /// Specifies the unique identifier for your users.
-    public struct DifferentialPrivacyConfiguration: Swift.Sendable {
-        /// The name of the column (such as user_id) that contains the unique identifier of your users whose privacy you want to protect. If you want to turn on diﬀerential privacy for two or more tables in a collaboration, you must conﬁgure the same column as the user identiﬁer column in both analysis rules.
-        /// This member is required.
-        public var columns: [CleanRoomsClientTypes.DifferentialPrivacyColumn]?
-
-        public init(
-            columns: [CleanRoomsClientTypes.DifferentialPrivacyColumn]? = nil
-        ) {
-            self.columns = columns
         }
     }
 }
@@ -826,6 +1073,10 @@ extension CleanRoomsClientTypes {
         /// The unique ID for the associated collaboration.
         /// This member is required.
         public var collaborationId: Swift.String?
+        /// Controls on the query specifications that can be run on an associated configured table.
+        public var collaborationPolicy: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicy?
+        /// The consolidated policy for the analysis rule.
+        public var consolidatedPolicy: CleanRoomsClientTypes.ConsolidatedPolicy?
         /// The time the analysis rule was created.
         /// This member is required.
         public var createTime: Foundation.Date?
@@ -844,6 +1095,8 @@ extension CleanRoomsClientTypes {
 
         public init(
             collaborationId: Swift.String? = nil,
+            collaborationPolicy: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicy? = nil,
+            consolidatedPolicy: CleanRoomsClientTypes.ConsolidatedPolicy? = nil,
             createTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             policy: CleanRoomsClientTypes.AnalysisRulePolicy? = nil,
@@ -851,6 +1104,8 @@ extension CleanRoomsClientTypes {
             updateTime: Foundation.Date? = nil
         ) {
             self.collaborationId = collaborationId
+            self.collaborationPolicy = collaborationPolicy
+            self.consolidatedPolicy = consolidatedPolicy
             self.createTime = createTime
             self.name = name
             self.policy = policy
@@ -877,10 +1132,119 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    /// The S3 location.
+    public struct S3Location: Swift.Sendable {
+        /// The bucket name.
+        /// This member is required.
+        public var bucket: Swift.String?
+        /// The object key.
+        /// This member is required.
+        public var key: Swift.String?
+
+        public init(
+            bucket: Swift.String? = nil,
+            key: Swift.String? = nil
+        ) {
+            self.bucket = bucket
+            self.key = key
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The analysis template artifact.
+    public struct AnalysisTemplateArtifact: Swift.Sendable {
+        /// The artifact location.
+        /// This member is required.
+        public var location: CleanRoomsClientTypes.S3Location?
+
+        public init(
+            location: CleanRoomsClientTypes.S3Location? = nil
+        ) {
+            self.location = location
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The analysis template artifacts.
+    public struct AnalysisTemplateArtifacts: Swift.Sendable {
+        /// Additional artifacts for the analysis template.
+        public var additionalArtifacts: [CleanRoomsClientTypes.AnalysisTemplateArtifact]?
+        /// The entry point for the analysis template artifacts.
+        /// This member is required.
+        public var entryPoint: CleanRoomsClientTypes.AnalysisTemplateArtifact?
+        /// The role ARN for the analysis template artifacts.
+        /// This member is required.
+        public var roleArn: Swift.String?
+
+        public init(
+            additionalArtifacts: [CleanRoomsClientTypes.AnalysisTemplateArtifact]? = nil,
+            entryPoint: CleanRoomsClientTypes.AnalysisTemplateArtifact? = nil,
+            roleArn: Swift.String? = nil
+        ) {
+            self.additionalArtifacts = additionalArtifacts
+            self.entryPoint = entryPoint
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// The structure that defines the body of the analysis template.
     public enum AnalysisSource: Swift.Sendable {
         /// The query text.
         case text(Swift.String)
+        /// The artifacts of the analysis source.
+        case artifacts(CleanRoomsClientTypes.AnalysisTemplateArtifacts)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Hash
+    public struct Hash: Swift.Sendable {
+        /// The SHA-256 hash value.
+        public var sha256: Swift.String?
+
+        public init(
+            sha256: Swift.String? = nil
+        ) {
+            self.sha256 = sha256
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The analysis template artifact metadata.
+    public struct AnalysisTemplateArtifactMetadata: Swift.Sendable {
+        /// Additional artifact hashes for the analysis template.
+        public var additionalArtifactHashes: [CleanRoomsClientTypes.Hash]?
+        /// The hash of the entry point for the analysis template artifact metadata.
+        /// This member is required.
+        public var entryPointHash: CleanRoomsClientTypes.Hash?
+
+        public init(
+            additionalArtifactHashes: [CleanRoomsClientTypes.Hash]? = nil,
+            entryPointHash: CleanRoomsClientTypes.Hash? = nil
+        ) {
+            self.additionalArtifactHashes = additionalArtifactHashes
+            self.entryPointHash = entryPointHash
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The analysis source metadata.
+    public enum AnalysisSourceMetadata: Swift.Sendable {
+        /// The artifacts of the analysis source metadata.
+        case artifacts(CleanRoomsClientTypes.AnalysisTemplateArtifactMetadata)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1025,6 +1389,8 @@ extension CleanRoomsClientTypes {
         /// The source of the analysis template.
         /// This member is required.
         public var source: CleanRoomsClientTypes.AnalysisSource?
+        /// The source metadata for the analysis template.
+        public var sourceMetadata: CleanRoomsClientTypes.AnalysisSourceMetadata?
         /// The time that the analysis template was last updated.
         /// This member is required.
         public var updateTime: Foundation.Date?
@@ -1045,6 +1411,7 @@ extension CleanRoomsClientTypes {
             name: Swift.String? = nil,
             schema: CleanRoomsClientTypes.AnalysisSchema? = nil,
             source: CleanRoomsClientTypes.AnalysisSource? = nil,
+            sourceMetadata: CleanRoomsClientTypes.AnalysisSourceMetadata? = nil,
             updateTime: Foundation.Date? = nil,
             validations: [CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail]? = nil
         ) {
@@ -1061,6 +1428,7 @@ extension CleanRoomsClientTypes {
             self.name = name
             self.schema = schema
             self.source = source
+            self.sourceMetadata = sourceMetadata
             self.updateTime = updateTime
             self.validations = validations
         }
@@ -1069,7 +1437,7 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes.AnalysisTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AnalysisTemplate(arn: \(Swift.String(describing: arn)), collaborationArn: \(Swift.String(describing: collaborationArn)), collaborationId: \(Swift.String(describing: collaborationId)), createTime: \(Swift.String(describing: createTime)), description: \(Swift.String(describing: description)), format: \(Swift.String(describing: format)), id: \(Swift.String(describing: id)), membershipArn: \(Swift.String(describing: membershipArn)), membershipId: \(Swift.String(describing: membershipId)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), updateTime: \(Swift.String(describing: updateTime)), validations: \(Swift.String(describing: validations)), analysisParameters: \"CONTENT_REDACTED\", source: \"CONTENT_REDACTED\")"}
+        "AnalysisTemplate(arn: \(Swift.String(describing: arn)), collaborationArn: \(Swift.String(describing: collaborationArn)), collaborationId: \(Swift.String(describing: collaborationId)), createTime: \(Swift.String(describing: createTime)), description: \(Swift.String(describing: description)), format: \(Swift.String(describing: format)), id: \(Swift.String(describing: id)), membershipArn: \(Swift.String(describing: membershipArn)), membershipId: \(Swift.String(describing: membershipId)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), source: \(Swift.String(describing: source)), sourceMetadata: \(Swift.String(describing: sourceMetadata)), updateTime: \(Swift.String(describing: updateTime)), validations: \(Swift.String(describing: validations)), analysisParameters: \"CONTENT_REDACTED\")"}
 }
 
 extension CleanRoomsClientTypes {
@@ -1389,6 +1757,8 @@ public struct CreateAnalysisTemplateInput: Swift.Sendable {
     /// The name of the analysis template.
     /// This member is required.
     public var name: Swift.String?
+    /// A relation within an analysis.
+    public var schema: CleanRoomsClientTypes.AnalysisSchema?
     /// The information in the analysis template. Currently supports text, the query text for the analysis template.
     /// This member is required.
     public var source: CleanRoomsClientTypes.AnalysisSource?
@@ -1401,6 +1771,7 @@ public struct CreateAnalysisTemplateInput: Swift.Sendable {
         format: CleanRoomsClientTypes.AnalysisFormat? = nil,
         membershipIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
+        schema: CleanRoomsClientTypes.AnalysisSchema? = nil,
         source: CleanRoomsClientTypes.AnalysisSource? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
@@ -1409,6 +1780,7 @@ public struct CreateAnalysisTemplateInput: Swift.Sendable {
         self.format = format
         self.membershipIdentifier = membershipIdentifier
         self.name = name
+        self.schema = schema
         self.source = source
         self.tags = tags
     }
@@ -1416,7 +1788,7 @@ public struct CreateAnalysisTemplateInput: Swift.Sendable {
 
 extension CreateAnalysisTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAnalysisTemplateInput(description: \(Swift.String(describing: description)), format: \(Swift.String(describing: format)), membershipIdentifier: \(Swift.String(describing: membershipIdentifier)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), analysisParameters: \"CONTENT_REDACTED\", source: \"CONTENT_REDACTED\")"}
+        "CreateAnalysisTemplateInput(description: \(Swift.String(describing: description)), format: \(Swift.String(describing: format)), membershipIdentifier: \(Swift.String(describing: membershipIdentifier)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), source: \(Swift.String(describing: source)), tags: \(Swift.String(describing: tags)), analysisParameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateAnalysisTemplateOutput: Swift.Sendable {
@@ -1752,8 +2124,9 @@ extension CleanRoomsClientTypes {
         /// This member is required.
         public var schema: CleanRoomsClientTypes.AnalysisSchema?
         /// The source of the analysis template within a collaboration.
-        /// This member is required.
         public var source: CleanRoomsClientTypes.AnalysisSource?
+        /// The source metadata for the collaboration analysis template.
+        public var sourceMetadata: CleanRoomsClientTypes.AnalysisSourceMetadata?
         /// The time that the analysis template in the collaboration was last updated.
         /// This member is required.
         public var updateTime: Foundation.Date?
@@ -1773,6 +2146,7 @@ extension CleanRoomsClientTypes {
             name: Swift.String? = nil,
             schema: CleanRoomsClientTypes.AnalysisSchema? = nil,
             source: CleanRoomsClientTypes.AnalysisSource? = nil,
+            sourceMetadata: CleanRoomsClientTypes.AnalysisSourceMetadata? = nil,
             updateTime: Foundation.Date? = nil,
             validations: [CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail]? = nil
         ) {
@@ -1788,6 +2162,7 @@ extension CleanRoomsClientTypes {
             self.name = name
             self.schema = schema
             self.source = source
+            self.sourceMetadata = sourceMetadata
             self.updateTime = updateTime
             self.validations = validations
         }
@@ -1796,7 +2171,7 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes.CollaborationAnalysisTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CollaborationAnalysisTemplate(arn: \(Swift.String(describing: arn)), collaborationArn: \(Swift.String(describing: collaborationArn)), collaborationId: \(Swift.String(describing: collaborationId)), createTime: \(Swift.String(describing: createTime)), creatorAccountId: \(Swift.String(describing: creatorAccountId)), description: \(Swift.String(describing: description)), format: \(Swift.String(describing: format)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), updateTime: \(Swift.String(describing: updateTime)), validations: \(Swift.String(describing: validations)), analysisParameters: \"CONTENT_REDACTED\", source: \"CONTENT_REDACTED\")"}
+        "CollaborationAnalysisTemplate(arn: \(Swift.String(describing: arn)), collaborationArn: \(Swift.String(describing: collaborationArn)), collaborationId: \(Swift.String(describing: collaborationId)), createTime: \(Swift.String(describing: createTime)), creatorAccountId: \(Swift.String(describing: creatorAccountId)), description: \(Swift.String(describing: description)), format: \(Swift.String(describing: format)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), source: \(Swift.String(describing: source)), sourceMetadata: \(Swift.String(describing: sourceMetadata)), updateTime: \(Swift.String(describing: updateTime)), validations: \(Swift.String(describing: validations)), analysisParameters: \"CONTENT_REDACTED\")"}
 }
 
 extension CleanRoomsClientTypes {
@@ -2149,6 +2524,35 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    public enum SelectedAnalysisMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case directJob
+        case directQuery
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SelectedAnalysisMethod] {
+            return [
+                .directJob,
+                .directQuery
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .directJob: return "DIRECT_JOB"
+            case .directQuery: return "DIRECT_QUERY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     public enum SchemaType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case idMappingTable
         case table
@@ -2180,7 +2584,7 @@ extension CleanRoomsClientTypes {
 
     /// A schema is a relation within a collaboration.
     public struct Schema: Swift.Sendable {
-        /// The analysis method for the schema. The only valid value is currently DIRECT_QUERY.
+        /// The analysis method for the schema. DIRECT_QUERY allows SQL queries to be run directly on this table. DIRECT_JOB allows PySpark jobs to be run directly on this table. MULTIPLE allows both SQL queries and PySpark jobs to be run directly on this table.
         public var analysisMethod: CleanRoomsClientTypes.AnalysisMethod?
         /// The analysis rule types that are associated with the schema. Currently, only one entry is present.
         /// This member is required.
@@ -2214,6 +2618,8 @@ extension CleanRoomsClientTypes {
         public var schemaStatusDetails: [CleanRoomsClientTypes.SchemaStatusDetail]?
         /// The schema type properties.
         public var schemaTypeProperties: CleanRoomsClientTypes.SchemaTypeProperties?
+        /// The selected analysis methods for the schema.
+        public var selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]?
         /// The type of schema.
         /// This member is required.
         public var type: CleanRoomsClientTypes.SchemaType?
@@ -2234,6 +2640,7 @@ extension CleanRoomsClientTypes {
             partitionKeys: [CleanRoomsClientTypes.Column]? = nil,
             schemaStatusDetails: [CleanRoomsClientTypes.SchemaStatusDetail]? = [],
             schemaTypeProperties: CleanRoomsClientTypes.SchemaTypeProperties? = nil,
+            selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]? = nil,
             type: CleanRoomsClientTypes.SchemaType? = nil,
             updateTime: Foundation.Date? = nil
         ) {
@@ -2249,6 +2656,7 @@ extension CleanRoomsClientTypes {
             self.partitionKeys = partitionKeys
             self.schemaStatusDetails = schemaStatusDetails
             self.schemaTypeProperties = schemaTypeProperties
+            self.selectedAnalysisMethods = selectedAnalysisMethods
             self.type = type
             self.updateTime = updateTime
         }
@@ -2363,12 +2771,14 @@ extension CleanRoomsClientTypes {
     public enum MemberAbility: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case canQuery
         case canReceiveResults
+        case canRunJob
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MemberAbility] {
             return [
                 .canQuery,
-                .canReceiveResults
+                .canReceiveResults,
+                .canRunJob
             ]
         }
 
@@ -2381,6 +2791,7 @@ extension CleanRoomsClientTypes {
             switch self {
             case .canQuery: return "CAN_QUERY"
             case .canReceiveResults: return "CAN_RECEIVE_RESULTS"
+            case .canRunJob: return "CAN_RUN_JOB"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2418,9 +2829,9 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
-    /// The ML member abilities for a collaboration member. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/).
+    /// The ML member abilities for a collaboration member.
     public struct MLMemberAbilities: Swift.Sendable {
-        /// The custom ML member abilities for a collaboration member. The inference feature is not available in the custom ML modeling beta. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/).
+        /// The custom ML member abilities for a collaboration member.
         /// This member is required.
         public var customMLMemberAbilities: [CleanRoomsClientTypes.CustomMLMemberAbility]?
 
@@ -2428,6 +2839,22 @@ extension CleanRoomsClientTypes {
             customMLMemberAbilities: [CleanRoomsClientTypes.CustomMLMemberAbility]? = nil
         ) {
             self.customMLMemberAbilities = customMLMemberAbilities
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// An object representing the collaboration member's payment responsibilities set by the collaboration creator for query and job compute costs.
+    public struct JobComputePaymentConfig: Swift.Sendable {
+        /// Indicates whether the collaboration creator has configured the collaboration member to pay for query and job compute costs (TRUE) or has not configured the collaboration member to pay for query and job compute costs (FALSE). Exactly one member can be configured to pay for query and job compute costs. An error is returned if the collaboration creator sets a TRUE value for more than one member in the collaboration. An error is returned if the collaboration creator sets a FALSE value for the member who can run queries and jobs.
+        /// This member is required.
+        public var isResponsible: Swift.Bool?
+
+        public init(
+            isResponsible: Swift.Bool? = nil
+        ) {
+            self.isResponsible = isResponsible
         }
     }
 }
@@ -2503,6 +2930,8 @@ extension CleanRoomsClientTypes {
 
     /// An object representing the collaboration member's payment responsibilities set by the collaboration creator.
     public struct PaymentConfiguration: Swift.Sendable {
+        /// The compute configuration for the job.
+        public var jobCompute: CleanRoomsClientTypes.JobComputePaymentConfig?
         /// An object representing the collaboration member's machine learning payment responsibilities set by the collaboration creator.
         public var machineLearning: CleanRoomsClientTypes.MLPaymentConfig?
         /// The collaboration member's payment responsibilities set by the collaboration creator for query compute costs.
@@ -2510,9 +2939,11 @@ extension CleanRoomsClientTypes {
         public var queryCompute: CleanRoomsClientTypes.QueryComputePaymentConfig?
 
         public init(
+            jobCompute: CleanRoomsClientTypes.JobComputePaymentConfig? = nil,
             machineLearning: CleanRoomsClientTypes.MLPaymentConfig? = nil,
             queryCompute: CleanRoomsClientTypes.QueryComputePaymentConfig? = nil
         ) {
+            self.jobCompute = jobCompute
             self.machineLearning = machineLearning
             self.queryCompute = queryCompute
         }
@@ -2552,6 +2983,35 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    public enum CollaborationJobLogStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CollaborationJobLogStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// Basic metadata used to construct a new member.
     public struct MemberSpecification: Swift.Sendable {
         /// The identifier used to reference members of the collaboration. Currently only supports Amazon Web Services account ID.
@@ -2563,7 +3023,7 @@ extension CleanRoomsClientTypes {
         /// The abilities granted to the collaboration member.
         /// This member is required.
         public var memberAbilities: [CleanRoomsClientTypes.MemberAbility]?
-        /// The ML abilities granted to the collaboration member. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/).
+        /// The ML abilities granted to the collaboration member.
         public var mlMemberAbilities: CleanRoomsClientTypes.MLMemberAbilities?
         /// The collaboration member's payment responsibilities set by the collaboration creator. If the collaboration creator hasn't speciﬁed anyone as the member paying for query compute costs, then the member who can query is the default payer.
         public var paymentConfiguration: CleanRoomsClientTypes.PaymentConfiguration?
@@ -2619,7 +3079,7 @@ public struct CreateCollaborationInput: Swift.Sendable {
     /// The display name of the collaboration creator.
     /// This member is required.
     public var creatorDisplayName: Swift.String?
-    /// The ML abilities granted to the collaboration creator. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/).
+    /// The ML abilities granted to the collaboration creator.
     public var creatorMLMemberAbilities: CleanRoomsClientTypes.MLMemberAbilities?
     /// The abilities granted to the collaboration creator.
     /// This member is required.
@@ -2631,13 +3091,15 @@ public struct CreateCollaborationInput: Swift.Sendable {
     /// A description of the collaboration provided by the collaboration owner.
     /// This member is required.
     public var description: Swift.String?
+    /// Specifies whether job logs are enabled for this collaboration. When ENABLED, Clean Rooms logs details about jobs run within this collaboration; those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
+    public var jobLogStatus: CleanRoomsClientTypes.CollaborationJobLogStatus?
     /// A list of initial members, not including the creator. This list is immutable.
     /// This member is required.
     public var members: [CleanRoomsClientTypes.MemberSpecification]?
     /// The display name for a collaboration.
     /// This member is required.
     public var name: Swift.String?
-    /// An indicator as to whether query logging has been enabled or disabled for the collaboration.
+    /// An indicator as to whether query logging has been enabled or disabled for the collaboration. When ENABLED, Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
     /// This member is required.
     public var queryLogStatus: CleanRoomsClientTypes.CollaborationQueryLogStatus?
     /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
@@ -2651,6 +3113,7 @@ public struct CreateCollaborationInput: Swift.Sendable {
         creatorPaymentConfiguration: CleanRoomsClientTypes.PaymentConfiguration? = nil,
         dataEncryptionMetadata: CleanRoomsClientTypes.DataEncryptionMetadata? = nil,
         description: Swift.String? = nil,
+        jobLogStatus: CleanRoomsClientTypes.CollaborationJobLogStatus? = nil,
         members: [CleanRoomsClientTypes.MemberSpecification]? = nil,
         name: Swift.String? = nil,
         queryLogStatus: CleanRoomsClientTypes.CollaborationQueryLogStatus? = nil,
@@ -2663,6 +3126,7 @@ public struct CreateCollaborationInput: Swift.Sendable {
         self.creatorPaymentConfiguration = creatorPaymentConfiguration
         self.dataEncryptionMetadata = dataEncryptionMetadata
         self.description = description
+        self.jobLogStatus = jobLogStatus
         self.members = members
         self.name = name
         self.queryLogStatus = queryLogStatus
@@ -2730,6 +3194,8 @@ extension CleanRoomsClientTypes {
         /// The unique ID for the collaboration.
         /// This member is required.
         public var id: Swift.String?
+        /// An indicator as to whether job logging has been enabled or disabled for the collaboration. When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
+        public var jobLogStatus: CleanRoomsClientTypes.CollaborationJobLogStatus?
         /// The status of a member in a collaboration.
         /// This member is required.
         public var memberStatus: CleanRoomsClientTypes.MemberStatus?
@@ -2740,7 +3206,7 @@ extension CleanRoomsClientTypes {
         /// A human-readable identifier provided by the collaboration owner. Display names are not unique.
         /// This member is required.
         public var name: Swift.String?
-        /// An indicator as to whether query logging has been enabled or disabled for the collaboration.
+        /// An indicator as to whether query logging has been enabled or disabled for the collaboration. When ENABLED, Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
         /// This member is required.
         public var queryLogStatus: CleanRoomsClientTypes.CollaborationQueryLogStatus?
         /// The time the collaboration metadata was last updated.
@@ -2756,6 +3222,7 @@ extension CleanRoomsClientTypes {
             dataEncryptionMetadata: CleanRoomsClientTypes.DataEncryptionMetadata? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
+            jobLogStatus: CleanRoomsClientTypes.CollaborationJobLogStatus? = nil,
             memberStatus: CleanRoomsClientTypes.MemberStatus? = nil,
             membershipArn: Swift.String? = nil,
             membershipId: Swift.String? = nil,
@@ -2771,6 +3238,7 @@ extension CleanRoomsClientTypes {
             self.dataEncryptionMetadata = dataEncryptionMetadata
             self.description = description
             self.id = id
+            self.jobLogStatus = jobLogStatus
             self.memberStatus = memberStatus
             self.membershipArn = membershipArn
             self.membershipId = membershipId
@@ -4119,7 +4587,7 @@ extension CleanRoomsClientTypes {
         public var membershipArn: Swift.String?
         /// The unique ID for the member's associated membership, if present.
         public var membershipId: Swift.String?
-        /// Provides a summary of the ML abilities for the collaboration member. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/).
+        /// Provides a summary of the ML abilities for the collaboration member.
         public var mlAbilities: CleanRoomsClientTypes.MLMemberAbilities?
         /// The collaboration member's payment responsibilities set by the collaboration creator.
         /// This member is required.
@@ -4201,7 +4669,7 @@ extension CleanRoomsClientTypes {
 
     /// The schema summary for the objects listed by the request.
     public struct SchemaSummary: Swift.Sendable {
-        /// The analysis method for the associated schema. The only valid value is currently `DIRECT_QUERY`.
+        /// The analysis method for the associated schema. DIRECT_QUERY allows SQL queries to be run directly on this table. DIRECT_JOB allows PySpark jobs to be run directly on this table. MULTIPLE allows both SQL queries and PySpark jobs to be run directly on this table.
         public var analysisMethod: CleanRoomsClientTypes.AnalysisMethod?
         /// The types of analysis rules that are associated with this schema object.
         /// This member is required.
@@ -4221,6 +4689,8 @@ extension CleanRoomsClientTypes {
         /// The name for the schema object.
         /// This member is required.
         public var name: Swift.String?
+        /// The selected analysis methods for the schema.
+        public var selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]?
         /// The type of schema object.
         /// This member is required.
         public var type: CleanRoomsClientTypes.SchemaType?
@@ -4236,6 +4706,7 @@ extension CleanRoomsClientTypes {
             createTime: Foundation.Date? = nil,
             creatorAccountId: Swift.String? = nil,
             name: Swift.String? = nil,
+            selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]? = nil,
             type: CleanRoomsClientTypes.SchemaType? = nil,
             updateTime: Foundation.Date? = nil
         ) {
@@ -4246,6 +4717,7 @@ extension CleanRoomsClientTypes {
             self.createTime = createTime
             self.creatorAccountId = creatorAccountId
             self.name = name
+            self.selectedAnalysisMethods = selectedAnalysisMethods
             self.type = type
             self.updateTime = updateTime
         }
@@ -4269,6 +4741,8 @@ public struct ListSchemasOutput: Swift.Sendable {
 }
 
 public struct UpdateCollaborationInput: Swift.Sendable {
+    /// The analytics engine.
+    public var analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine?
     /// The identifier for the collaboration.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -4278,10 +4752,12 @@ public struct UpdateCollaborationInput: Swift.Sendable {
     public var name: Swift.String?
 
     public init(
+        analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine? = nil,
         collaborationIdentifier: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil
     ) {
+        self.analyticsEngine = analyticsEngine
         self.collaborationIdentifier = collaborationIdentifier
         self.description = description
         self.name = name
@@ -4754,87 +5230,6 @@ public struct CreateConfiguredTableAssociationOutput: Swift.Sendable {
     }
 }
 
-extension CleanRoomsClientTypes {
-
-    /// The configured table association analysis rule applied to a configured table with the aggregation analysis rule.
-    public struct ConfiguredTableAssociationAnalysisRuleAggregation: Swift.Sendable {
-        /// The list of resources or wildcards (ARNs) that are allowed to perform additional analysis on query output. The allowedAdditionalAnalyses parameter is currently supported for the list analysis rule (AnalysisRuleList) and the custom analysis rule (AnalysisRuleCustom).
-        public var allowedAdditionalAnalyses: [Swift.String]?
-        /// The list of collaboration members who are allowed to receive results of queries run with this configured table.
-        public var allowedResultReceivers: [Swift.String]?
-
-        public init(
-            allowedAdditionalAnalyses: [Swift.String]? = nil,
-            allowedResultReceivers: [Swift.String]? = nil
-        ) {
-            self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
-            self.allowedResultReceivers = allowedResultReceivers
-        }
-    }
-}
-
-extension CleanRoomsClientTypes {
-
-    /// The configured table association analysis rule applied to a configured table with the custom analysis rule.
-    public struct ConfiguredTableAssociationAnalysisRuleCustom: Swift.Sendable {
-        /// The list of resources or wildcards (ARNs) that are allowed to perform additional analysis on query output.
-        public var allowedAdditionalAnalyses: [Swift.String]?
-        /// The list of collaboration members who are allowed to receive results of queries run with this configured table.
-        public var allowedResultReceivers: [Swift.String]?
-
-        public init(
-            allowedAdditionalAnalyses: [Swift.String]? = nil,
-            allowedResultReceivers: [Swift.String]? = nil
-        ) {
-            self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
-            self.allowedResultReceivers = allowedResultReceivers
-        }
-    }
-}
-
-extension CleanRoomsClientTypes {
-
-    /// The configured table association analysis rule applied to a configured table with the list analysis rule.
-    public struct ConfiguredTableAssociationAnalysisRuleList: Swift.Sendable {
-        /// The list of resources or wildcards (ARNs) that are allowed to perform additional analysis on query output.
-        public var allowedAdditionalAnalyses: [Swift.String]?
-        /// The list of collaboration members who are allowed to receive results of queries run with this configured table.
-        public var allowedResultReceivers: [Swift.String]?
-
-        public init(
-            allowedAdditionalAnalyses: [Swift.String]? = nil,
-            allowedResultReceivers: [Swift.String]? = nil
-        ) {
-            self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
-            self.allowedResultReceivers = allowedResultReceivers
-        }
-    }
-}
-
-extension CleanRoomsClientTypes {
-
-    /// Controls on the query specifications that can be run on an associated configured table.
-    public enum ConfiguredTableAssociationAnalysisRulePolicyV1: Swift.Sendable {
-        /// Analysis rule type that enables only list queries on a configured table.
-        case list(CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleList)
-        /// Analysis rule type that enables only aggregation queries on a configured table.
-        case aggregation(CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleAggregation)
-        /// Analysis rule type that enables the table owner to approve custom SQL queries on their configured tables. It supports differential privacy.
-        case custom(CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleCustom)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension CleanRoomsClientTypes {
-
-    /// Controls on the query specifications that can be run on an associated configured table.
-    public enum ConfiguredTableAssociationAnalysisRulePolicy: Swift.Sendable {
-        /// The policy for the configured table association analysis rule.
-        case v1(CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicyV1)
-        case sdkUnknown(Swift.String)
-    }
-}
-
 public struct CreateConfiguredTableAssociationAnalysisRuleInput: Swift.Sendable {
     /// The analysis rule policy that was created for the configured table association.
     /// This member is required.
@@ -5056,6 +5451,8 @@ extension CleanRoomsClientTypes {
 
     /// The configured table association summary for the objects listed by the request.
     public struct ConfiguredTableAssociationSummary: Swift.Sendable {
+        /// The analysis rule types that are associated with the configured table associations in this summary.
+        public var analysisRuleTypes: [CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleType]?
         /// The unique ARN for the configured table association.
         /// This member is required.
         public var arn: Swift.String?
@@ -5082,6 +5479,7 @@ extension CleanRoomsClientTypes {
         public var updateTime: Foundation.Date?
 
         public init(
+            analysisRuleTypes: [CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleType]? = nil,
             arn: Swift.String? = nil,
             configuredTableId: Swift.String? = nil,
             createTime: Foundation.Date? = nil,
@@ -5091,6 +5489,7 @@ extension CleanRoomsClientTypes {
             name: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
         ) {
+            self.analysisRuleTypes = analysisRuleTypes
             self.arn = arn
             self.configuredTableId = configuredTableId
             self.createTime = createTime
@@ -5306,7 +5705,7 @@ public struct CreateConfiguredTableInput: Swift.Sendable {
     /// The columns of the underlying table that can be used by collaborations or analysis rules.
     /// This member is required.
     public var allowedColumns: [Swift.String]?
-    /// The analysis method for the configured tables. The only valid value is currently `DIRECT_QUERY`.
+    /// The analysis method allowed for the configured tables. DIRECT_QUERY allows SQL queries to be run directly on this table. DIRECT_JOB allows PySpark jobs to be run directly on this table. MULTIPLE allows both SQL queries and PySpark jobs to be run directly on this table.
     /// This member is required.
     public var analysisMethod: CleanRoomsClientTypes.AnalysisMethod?
     /// A description for the configured table.
@@ -5314,6 +5713,8 @@ public struct CreateConfiguredTableInput: Swift.Sendable {
     /// The name of the configured table.
     /// This member is required.
     public var name: Swift.String?
+    /// The analysis methods to enable for the configured table. When configured, you must specify at least two analysis methods.
+    public var selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]?
     /// A reference to the table being configured.
     /// This member is required.
     public var tableReference: CleanRoomsClientTypes.TableReference?
@@ -5325,6 +5726,7 @@ public struct CreateConfiguredTableInput: Swift.Sendable {
         analysisMethod: CleanRoomsClientTypes.AnalysisMethod? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
+        selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]? = nil,
         tableReference: CleanRoomsClientTypes.TableReference? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
@@ -5332,6 +5734,7 @@ public struct CreateConfiguredTableInput: Swift.Sendable {
         self.analysisMethod = analysisMethod
         self.description = description
         self.name = name
+        self.selectedAnalysisMethods = selectedAnalysisMethods
         self.tableReference = tableReference
         self.tags = tags
     }
@@ -5376,7 +5779,7 @@ extension CleanRoomsClientTypes {
         /// The columns within the underlying Glue table that can be utilized within collaborations.
         /// This member is required.
         public var allowedColumns: [Swift.String]?
-        /// The analysis method for the configured table. The only valid value is currently `DIRECT_QUERY`.
+        /// The analysis method for the configured table. DIRECT_QUERY allows SQL queries to be run directly on this table. DIRECT_JOB allows PySpark jobs to be run directly on this table. MULTIPLE allows both SQL queries and PySpark jobs to be run directly on this table.
         /// This member is required.
         public var analysisMethod: CleanRoomsClientTypes.AnalysisMethod?
         /// The types of analysis rules associated with this configured table. Currently, only one analysis rule may be associated with a configured table.
@@ -5396,6 +5799,8 @@ extension CleanRoomsClientTypes {
         /// A name for the configured table.
         /// This member is required.
         public var name: Swift.String?
+        /// The selected analysis methods for the configured table.
+        public var selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]?
         /// The table that this configured table represents.
         /// This member is required.
         public var tableReference: CleanRoomsClientTypes.TableReference?
@@ -5412,6 +5817,7 @@ extension CleanRoomsClientTypes {
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
+            selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]? = nil,
             tableReference: CleanRoomsClientTypes.TableReference? = nil,
             updateTime: Foundation.Date? = nil
         ) {
@@ -5423,6 +5829,7 @@ extension CleanRoomsClientTypes {
             self.description = description
             self.id = id
             self.name = name
+            self.selectedAnalysisMethods = selectedAnalysisMethods
             self.tableReference = tableReference
             self.updateTime = updateTime
         }
@@ -5653,7 +6060,7 @@ extension CleanRoomsClientTypes {
 
     /// The configured table summary for the objects listed by the request.
     public struct ConfiguredTableSummary: Swift.Sendable {
-        /// The analysis method for the configured tables. The only valid value is currently `DIRECT_QUERY`.
+        /// The analysis method for the configured tables. DIRECT_QUERY allows SQL queries to be run directly on this table. DIRECT_JOB allows PySpark jobs to be run directly on this table. MULTIPLE allows both SQL queries and PySpark jobs to be run directly on this table.
         /// This member is required.
         public var analysisMethod: CleanRoomsClientTypes.AnalysisMethod?
         /// The types of analysis rules associated with this configured table.
@@ -5671,6 +6078,8 @@ extension CleanRoomsClientTypes {
         /// The name of the configured table.
         /// This member is required.
         public var name: Swift.String?
+        /// The selected analysis methods for the configured table summary.
+        public var selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]?
         /// The time the configured table was last updated.
         /// This member is required.
         public var updateTime: Foundation.Date?
@@ -5682,6 +6091,7 @@ extension CleanRoomsClientTypes {
             createTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
+            selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]? = nil,
             updateTime: Foundation.Date? = nil
         ) {
             self.analysisMethod = analysisMethod
@@ -5690,6 +6100,7 @@ extension CleanRoomsClientTypes {
             self.createTime = createTime
             self.id = id
             self.name = name
+            self.selectedAnalysisMethods = selectedAnalysisMethods
             self.updateTime = updateTime
         }
     }
@@ -5712,6 +6123,8 @@ public struct ListConfiguredTablesOutput: Swift.Sendable {
 }
 
 public struct UpdateConfiguredTableInput: Swift.Sendable {
+    /// The analysis method for the configured table. DIRECT_QUERY allows SQL queries to be run directly on this table. DIRECT_JOB allows PySpark jobs to be run directly on this table. MULTIPLE allows both SQL queries and PySpark jobs to be run directly on this table.
+    public var analysisMethod: CleanRoomsClientTypes.AnalysisMethod?
     /// The identifier for the configured table to update. Currently accepts the configured table ID.
     /// This member is required.
     public var configuredTableIdentifier: Swift.String?
@@ -5719,15 +6132,21 @@ public struct UpdateConfiguredTableInput: Swift.Sendable {
     public var description: Swift.String?
     /// A new name for the configured table.
     public var name: Swift.String?
+    /// The selected analysis methods for the table configuration update.
+    public var selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]?
 
     public init(
+        analysisMethod: CleanRoomsClientTypes.AnalysisMethod? = nil,
         configuredTableIdentifier: Swift.String? = nil,
         description: Swift.String? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]? = nil
     ) {
+        self.analysisMethod = analysisMethod
         self.configuredTableIdentifier = configuredTableIdentifier
         self.description = description
         self.name = name
+        self.selectedAnalysisMethods = selectedAnalysisMethods
     }
 }
 
@@ -6496,6 +6915,57 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 
 extension CleanRoomsClientTypes {
 
+    /// Contains input information for protected jobs with an S3 output type.
+    public struct ProtectedJobS3OutputConfigurationInput: Swift.Sendable {
+        /// The S3 bucket for job output.
+        /// This member is required.
+        public var bucket: Swift.String?
+        /// The S3 prefix to unload the protected job results.
+        public var keyPrefix: Swift.String?
+
+        public init(
+            bucket: Swift.String? = nil,
+            keyPrefix: Swift.String? = nil
+        ) {
+            self.bucket = bucket
+            self.keyPrefix = keyPrefix
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains configurations for protected job results.
+    public enum MembershipProtectedJobOutputConfiguration: Swift.Sendable {
+        /// Contains the configuration to write the job results to S3.
+        case s3(CleanRoomsClientTypes.ProtectedJobS3OutputConfigurationInput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains configurations for protected job results.
+    public struct MembershipProtectedJobResultConfiguration: Swift.Sendable {
+        /// The output configuration for a protected job result.
+        /// This member is required.
+        public var outputConfiguration: CleanRoomsClientTypes.MembershipProtectedJobOutputConfiguration?
+        /// The unique ARN for an IAM role that is used by Clean Rooms to write protected job results to the result location, given by the member who can receive results.
+        /// This member is required.
+        public var roleArn: Swift.String?
+
+        public init(
+            outputConfiguration: CleanRoomsClientTypes.MembershipProtectedJobOutputConfiguration? = nil,
+            roleArn: Swift.String? = nil
+        ) {
+            self.outputConfiguration = outputConfiguration
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     public enum ResultFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case csv
         case parquet
@@ -6584,6 +7054,55 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    public enum MembershipJobLogStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MembershipJobLogStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// An object representing the payment responsibilities accepted by the collaboration member for query and job compute costs.
+    public struct MembershipJobComputePaymentConfig: Swift.Sendable {
+        /// Indicates whether the collaboration member has accepted to pay for job compute costs (TRUE) or has not accepted to pay for query and job compute costs (FALSE). There is only one member who pays for queries and jobs. An error message is returned for the following reasons:
+        ///
+        /// * If you set the value to FALSE but you are responsible to pay for query and job compute costs.
+        ///
+        /// * If you set the value to TRUE but you are not responsible to pay for query and job compute costs.
+        /// This member is required.
+        public var isResponsible: Swift.Bool?
+
+        public init(
+            isResponsible: Swift.Bool? = nil
+        ) {
+            self.isResponsible = isResponsible
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// An object representing the collaboration member's model inference payment responsibilities set by the collaboration creator.
     public struct MembershipModelInferencePaymentConfig: Swift.Sendable {
         /// Indicates whether the collaboration member has accepted to pay for model inference costs (TRUE) or has not accepted to pay for model inference costs (FALSE). If the collaboration creator has not specified anyone to pay for model inference costs, then the member who can query is the default payer. An error message is returned for the following reasons:
@@ -6665,6 +7184,8 @@ extension CleanRoomsClientTypes {
 
     /// An object representing the payment responsibilities accepted by the collaboration member.
     public struct MembershipPaymentConfiguration: Swift.Sendable {
+        /// The payment responsibilities accepted by the collaboration member for job compute costs.
+        public var jobCompute: CleanRoomsClientTypes.MembershipJobComputePaymentConfig?
         /// The payment responsibilities accepted by the collaboration member for machine learning costs.
         public var machineLearning: CleanRoomsClientTypes.MembershipMLPaymentConfig?
         /// The payment responsibilities accepted by the collaboration member for query compute costs.
@@ -6672,9 +7193,11 @@ extension CleanRoomsClientTypes {
         public var queryCompute: CleanRoomsClientTypes.MembershipQueryComputePaymentConfig?
 
         public init(
+            jobCompute: CleanRoomsClientTypes.MembershipJobComputePaymentConfig? = nil,
             machineLearning: CleanRoomsClientTypes.MembershipMLPaymentConfig? = nil,
             queryCompute: CleanRoomsClientTypes.MembershipQueryComputePaymentConfig? = nil
         ) {
+            self.jobCompute = jobCompute
             self.machineLearning = machineLearning
             self.queryCompute = queryCompute
         }
@@ -6714,11 +7237,15 @@ public struct CreateMembershipInput: Swift.Sendable {
     /// The unique ID for the associated collaboration.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
+    /// The default job result configuration that determines how job results are protected and managed within this membership. This configuration applies to all jobs.
+    public var defaultJobResultConfiguration: CleanRoomsClientTypes.MembershipProtectedJobResultConfiguration?
     /// The default protected query result configuration as specified by the member who can receive results.
     public var defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration?
+    /// An indicator as to whether job logging has been enabled or disabled for the collaboration. When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
+    public var jobLogStatus: CleanRoomsClientTypes.MembershipJobLogStatus?
     /// The payment responsibilities accepted by the collaboration member. Not required if the collaboration member has the member ability to run queries. Required if the collaboration member doesn't have the member ability to run queries but is configured as a payer by the collaboration creator.
     public var paymentConfiguration: CleanRoomsClientTypes.MembershipPaymentConfiguration?
-    /// An indicator as to whether query logging has been enabled or disabled for the membership.
+    /// An indicator as to whether query logging has been enabled or disabled for the membership. When ENABLED, Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
     /// This member is required.
     public var queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus?
     /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
@@ -6726,13 +7253,17 @@ public struct CreateMembershipInput: Swift.Sendable {
 
     public init(
         collaborationIdentifier: Swift.String? = nil,
+        defaultJobResultConfiguration: CleanRoomsClientTypes.MembershipProtectedJobResultConfiguration? = nil,
         defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration? = nil,
+        jobLogStatus: CleanRoomsClientTypes.MembershipJobLogStatus? = nil,
         paymentConfiguration: CleanRoomsClientTypes.MembershipPaymentConfiguration? = nil,
         queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.collaborationIdentifier = collaborationIdentifier
+        self.defaultJobResultConfiguration = defaultJobResultConfiguration
         self.defaultResultConfiguration = defaultResultConfiguration
+        self.jobLogStatus = jobLogStatus
         self.paymentConfiguration = paymentConfiguration
         self.queryLogStatus = queryLogStatus
         self.tags = tags
@@ -6796,20 +7327,24 @@ extension CleanRoomsClientTypes {
         /// The time when the membership was created.
         /// This member is required.
         public var createTime: Foundation.Date?
+        /// The default job result configuration for the membership.
+        public var defaultJobResultConfiguration: CleanRoomsClientTypes.MembershipProtectedJobResultConfiguration?
         /// The default protected query result configuration as specified by the member who can receive results.
         public var defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration?
         /// The unique ID of the membership.
         /// This member is required.
         public var id: Swift.String?
+        /// An indicator as to whether job logging has been enabled or disabled for the collaboration. When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
+        public var jobLogStatus: CleanRoomsClientTypes.MembershipJobLogStatus?
         /// The abilities granted to the collaboration member.
         /// This member is required.
         public var memberAbilities: [CleanRoomsClientTypes.MemberAbility]?
-        /// Specifies the ML member abilities that are granted to a collaboration member. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/).
+        /// Specifies the ML member abilities that are granted to a collaboration member.
         public var mlMemberAbilities: CleanRoomsClientTypes.MLMemberAbilities?
         /// The payment responsibilities accepted by the collaboration member.
         /// This member is required.
         public var paymentConfiguration: CleanRoomsClientTypes.MembershipPaymentConfiguration?
-        /// An indicator as to whether query logging has been enabled or disabled for the membership.
+        /// An indicator as to whether query logging has been enabled or disabled for the membership. When ENABLED, Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
         /// This member is required.
         public var queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus?
         /// The status of the membership.
@@ -6827,8 +7362,10 @@ extension CleanRoomsClientTypes {
             collaborationId: Swift.String? = nil,
             collaborationName: Swift.String? = nil,
             createTime: Foundation.Date? = nil,
+            defaultJobResultConfiguration: CleanRoomsClientTypes.MembershipProtectedJobResultConfiguration? = nil,
             defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration? = nil,
             id: Swift.String? = nil,
+            jobLogStatus: CleanRoomsClientTypes.MembershipJobLogStatus? = nil,
             memberAbilities: [CleanRoomsClientTypes.MemberAbility]? = nil,
             mlMemberAbilities: CleanRoomsClientTypes.MLMemberAbilities? = nil,
             paymentConfiguration: CleanRoomsClientTypes.MembershipPaymentConfiguration? = nil,
@@ -6843,8 +7380,10 @@ extension CleanRoomsClientTypes {
             self.collaborationId = collaborationId
             self.collaborationName = collaborationName
             self.createTime = createTime
+            self.defaultJobResultConfiguration = defaultJobResultConfiguration
             self.defaultResultConfiguration = defaultResultConfiguration
             self.id = id
+            self.jobLogStatus = jobLogStatus
             self.memberAbilities = memberAbilities
             self.mlMemberAbilities = mlMemberAbilities
             self.paymentConfiguration = paymentConfiguration
@@ -6905,6 +7444,327 @@ public struct GetMembershipOutput: Swift.Sendable {
         membership: CleanRoomsClientTypes.Membership? = nil
     ) {
         self.membership = membership
+    }
+}
+
+public struct GetProtectedJobInput: Swift.Sendable {
+    /// The identifier for a membership in a protected job instance.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// The identifier for the protected job instance.
+    /// This member is required.
+    public var protectedJobIdentifier: Swift.String?
+
+    public init(
+        membershipIdentifier: Swift.String? = nil,
+        protectedJobIdentifier: Swift.String? = nil
+    ) {
+        self.membershipIdentifier = membershipIdentifier
+        self.protectedJobIdentifier = protectedJobIdentifier
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The protected job error.
+    public struct ProtectedJobError: Swift.Sendable {
+        /// The error code for the protected job.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The message for the protected job error.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The parameters for the protected job.
+    public struct ProtectedJobParameters: Swift.Sendable {
+        /// The ARN of the analysis template.
+        public var analysisTemplateArn: Swift.String?
+
+        public init(
+            analysisTemplateArn: Swift.String? = nil
+        ) {
+            self.analysisTemplateArn = analysisTemplateArn
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Details about the member who received the job result.
+    public struct ProtectedJobSingleMemberOutput: Swift.Sendable {
+        /// The Amazon Web Services account ID of the member in the collaboration who can receive results from analyses.
+        /// This member is required.
+        public var accountId: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains output information for protected jobs with an S3 output type.
+    public struct ProtectedJobS3Output: Swift.Sendable {
+        /// The S3 location for the protected job output.
+        /// This member is required.
+        public var location: Swift.String?
+
+        public init(
+            location: Swift.String? = nil
+        ) {
+            self.location = location
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains details about the protected job output.
+    public enum ProtectedJobOutput: Swift.Sendable {
+        /// If present, the output for a protected job with an `S3` output type.
+        case s3(CleanRoomsClientTypes.ProtectedJobS3Output)
+        /// The list of member Amazon Web Services account(s) that received the results of the job.
+        case memberlist([CleanRoomsClientTypes.ProtectedJobSingleMemberOutput])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Details about the job results.
+    public struct ProtectedJobResult: Swift.Sendable {
+        /// The output of the protected job.
+        /// This member is required.
+        public var output: CleanRoomsClientTypes.ProtectedJobOutput?
+
+        public init(
+            output: CleanRoomsClientTypes.ProtectedJobOutput? = nil
+        ) {
+            self.output = output
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The protected job member output configuration output.
+    public struct ProtectedJobMemberOutputConfigurationOutput: Swift.Sendable {
+        /// The account ID.
+        /// This member is required.
+        public var accountId: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The output configuration for a protected job's S3 output.
+    public struct ProtectedJobS3OutputConfigurationOutput: Swift.Sendable {
+        /// The S3 bucket for job output.
+        /// This member is required.
+        public var bucket: Swift.String?
+        /// The S3 prefix to unload the protected job results.
+        public var keyPrefix: Swift.String?
+
+        public init(
+            bucket: Swift.String? = nil,
+            keyPrefix: Swift.String? = nil
+        ) {
+            self.bucket = bucket
+            self.keyPrefix = keyPrefix
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The protected job output configuration output.
+    public enum ProtectedJobOutputConfigurationOutput: Swift.Sendable {
+        /// If present, the output for a protected job with an `S3` output type.
+        case s3(CleanRoomsClientTypes.ProtectedJobS3OutputConfigurationOutput)
+        /// The member output configuration for a protected job.
+        case member(CleanRoomsClientTypes.ProtectedJobMemberOutputConfigurationOutput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The output configuration for a protected job result.
+    public struct ProtectedJobResultConfigurationOutput: Swift.Sendable {
+        /// The output configuration.
+        /// This member is required.
+        public var outputConfiguration: CleanRoomsClientTypes.ProtectedJobOutputConfigurationOutput?
+
+        public init(
+            outputConfiguration: CleanRoomsClientTypes.ProtectedJobOutputConfigurationOutput? = nil
+        ) {
+            self.outputConfiguration = outputConfiguration
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Information related to the utilization of resources that have been billed or charged for in a given context, such as a protected job.
+    public struct BilledJobResourceUtilization: Swift.Sendable {
+        /// The number of Clean Rooms Processing Unit (CRPU) hours that have been billed.
+        /// This member is required.
+        public var units: Swift.Double?
+
+        public init(
+            units: Swift.Double? = nil
+        ) {
+            self.units = units
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Contains statistics about the execution of the protected job.
+    public struct ProtectedJobStatistics: Swift.Sendable {
+        /// The billed resource utilization for the protected job.
+        public var billedResourceUtilization: CleanRoomsClientTypes.BilledJobResourceUtilization?
+        /// The duration of the protected job, from creation until job completion, in milliseconds.
+        public var totalDurationInMillis: Swift.Int?
+
+        public init(
+            billedResourceUtilization: CleanRoomsClientTypes.BilledJobResourceUtilization? = nil,
+            totalDurationInMillis: Swift.Int? = nil
+        ) {
+            self.billedResourceUtilization = billedResourceUtilization
+            self.totalDurationInMillis = totalDurationInMillis
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum ProtectedJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
+        case cancelling
+        case failed
+        case started
+        case submitted
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProtectedJobStatus] {
+            return [
+                .cancelled,
+                .cancelling,
+                .failed,
+                .started,
+                .submitted,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case .cancelling: return "CANCELLING"
+            case .failed: return "FAILED"
+            case .started: return "STARTED"
+            case .submitted: return "SUBMITTED"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The parameters for an Clean Rooms protected job.
+    public struct ProtectedJob: Swift.Sendable {
+        /// The creation time of the protected job.
+        /// This member is required.
+        public var createTime: Foundation.Date?
+        /// The error from the protected job.
+        public var error: CleanRoomsClientTypes.ProtectedJobError?
+        /// The identifier for a protected job instance.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The job parameters for the protected job.
+        public var jobParameters: CleanRoomsClientTypes.ProtectedJobParameters?
+        /// The ARN of the membership.
+        /// This member is required.
+        public var membershipArn: Swift.String?
+        /// he identifier for the membership.
+        /// This member is required.
+        public var membershipId: Swift.String?
+        /// The result of the protected job.
+        public var result: CleanRoomsClientTypes.ProtectedJobResult?
+        /// Contains any details needed to write the job results.
+        public var resultConfiguration: CleanRoomsClientTypes.ProtectedJobResultConfigurationOutput?
+        /// The statistics of the protected job.
+        public var statistics: CleanRoomsClientTypes.ProtectedJobStatistics?
+        /// The status of the protected job.
+        /// This member is required.
+        public var status: CleanRoomsClientTypes.ProtectedJobStatus?
+
+        public init(
+            createTime: Foundation.Date? = nil,
+            error: CleanRoomsClientTypes.ProtectedJobError? = nil,
+            id: Swift.String? = nil,
+            jobParameters: CleanRoomsClientTypes.ProtectedJobParameters? = nil,
+            membershipArn: Swift.String? = nil,
+            membershipId: Swift.String? = nil,
+            result: CleanRoomsClientTypes.ProtectedJobResult? = nil,
+            resultConfiguration: CleanRoomsClientTypes.ProtectedJobResultConfigurationOutput? = nil,
+            statistics: CleanRoomsClientTypes.ProtectedJobStatistics? = nil,
+            status: CleanRoomsClientTypes.ProtectedJobStatus? = nil
+        ) {
+            self.createTime = createTime
+            self.error = error
+            self.id = id
+            self.jobParameters = jobParameters
+            self.membershipArn = membershipArn
+            self.membershipId = membershipId
+            self.result = result
+            self.resultConfiguration = resultConfiguration
+            self.statistics = statistics
+            self.status = status
+        }
+    }
+}
+
+public struct GetProtectedJobOutput: Swift.Sendable {
+    /// The protected job metadata.
+    /// This member is required.
+    public var protectedJob: CleanRoomsClientTypes.ProtectedJob?
+
+    public init(
+        protectedJob: CleanRoomsClientTypes.ProtectedJob? = nil
+    ) {
+        self.protectedJob = protectedJob
     }
 }
 
@@ -7088,12 +7948,33 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    /// Contains the output information for a protected query with a distribute output configuration. This output type allows query results to be distributed to multiple receivers, including S3 and collaboration members. It is only available for queries using the Spark analytics engine.
+    public struct ProtectedQueryDistributeOutput: Swift.Sendable {
+        /// Contains the output results for each member location specified in the distribute output configuration. Each entry provides details about the result distribution to a specific collaboration member.
+        public var memberList: [CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput]?
+        /// Contains output information for protected queries with an S3 output type.
+        public var s3: CleanRoomsClientTypes.ProtectedQueryS3Output?
+
+        public init(
+            memberList: [CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput]? = nil,
+            s3: CleanRoomsClientTypes.ProtectedQueryS3Output? = nil
+        ) {
+            self.memberList = memberList
+            self.s3 = s3
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// Contains details about the protected query output.
     public enum ProtectedQueryOutput: Swift.Sendable {
-        /// If present, the output for a protected query with an `S3` output type.
+        /// If present, the output for a protected query with an S3 output type.
         case s3(CleanRoomsClientTypes.ProtectedQueryS3Output)
         /// The list of member Amazon Web Services account(s) that received the results of the query.
         case memberlist([CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput])
+        /// Contains output information for protected queries that use a distribute output type. This output type lets you send query results to multiple locations - either to S3 or to collaboration members. You can only use the distribute output type with the Spark analytics engine.
+        case distribute(CleanRoomsClientTypes.ProtectedQueryDistributeOutput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -7132,12 +8013,42 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    /// Specifies where you'll distribute the results of your protected query. You must configure either an S3 destination or a collaboration member destination.
+    public enum ProtectedQueryDistributeOutputConfigurationLocation: Swift.Sendable {
+        /// Contains the configuration to write the query results to S3.
+        case s3(CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration)
+        /// Contains configuration details for the protected query member output.
+        case member(CleanRoomsClientTypes.ProtectedQueryMemberOutputConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Specifies the configuration for distributing protected query results to multiple receivers, including S3 and collaboration members.
+    public struct ProtectedQueryDistributeOutputConfiguration: Swift.Sendable {
+        /// A list of locations where you want to distribute the protected query results. Each location must specify either an S3 destination or a collaboration member destination. You can't specify more than one S3 location. You can't specify the query runner's account as a member location. You must include either an S3 or member output configuration for each location, but not both.
+        /// This member is required.
+        public var locations: [CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfigurationLocation]?
+
+        public init(
+            locations: [CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfigurationLocation]? = nil
+        ) {
+            self.locations = locations
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// Contains configuration details for protected query output.
     public enum ProtectedQueryOutputConfiguration: Swift.Sendable {
         /// Required configuration for a protected query with an s3 output type.
         case s3(CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration)
         /// Required configuration for a protected query with a member output type.
         case member(CleanRoomsClientTypes.ProtectedQueryMemberOutputConfiguration)
+        /// Required configuration for a protected query with a distribute output type.
+        case distribute(CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -7209,7 +8120,7 @@ extension CleanRoomsClientTypes {
     public struct ProtectedQueryStatistics: Swift.Sendable {
         /// The billed resource utilization.
         public var billedResourceUtilization: CleanRoomsClientTypes.BilledResourceUtilization?
-        /// The duration of the protected query, from creation until query completion.
+        /// The duration of the protected query, from creation until query completion, in milliseconds.
         public var totalDurationInMillis: Swift.Int?
 
         public init(
@@ -7397,7 +8308,7 @@ extension CleanRoomsClientTypes {
         /// The abilities granted to the collaboration member.
         /// This member is required.
         public var memberAbilities: [CleanRoomsClientTypes.MemberAbility]?
-        /// Provides a summary of the ML abilities for the collaboration member. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/).
+        /// Provides a summary of the ML abilities for the collaboration member.
         public var mlMemberAbilities: CleanRoomsClientTypes.MLMemberAbilities?
         /// The payment responsibilities accepted by the collaboration member.
         /// This member is required.
@@ -7561,6 +8472,158 @@ public struct ListPrivacyBudgetsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.privacyBudgetSummaries = privacyBudgetSummaries
+    }
+}
+
+public struct ListProtectedJobsInput: Swift.Sendable {
+    /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
+    public var maxResults: Swift.Int?
+    /// The identifier for the membership in the collaboration.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// The pagination token that's used to fetch the next set of results.
+    public var nextToken: Swift.String?
+    /// A filter on the status of the protected job.
+    public var status: CleanRoomsClientTypes.ProtectedJobStatus?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        membershipIdentifier: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        status: CleanRoomsClientTypes.ProtectedJobStatus? = nil
+    ) {
+        self.maxResults = maxResults
+        self.membershipIdentifier = membershipIdentifier
+        self.nextToken = nextToken
+        self.status = status
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum ProtectedJobAnalysisType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case directAnalysis
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProtectedJobAnalysisType] {
+            return [
+                .directAnalysis
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .directAnalysis: return "DIRECT_ANALYSIS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The protected job direct analysis configuration details.
+    public struct ProtectedJobDirectAnalysisConfigurationDetails: Swift.Sendable {
+        /// The receiver account IDs.
+        public var receiverAccountIds: [Swift.String]?
+
+        public init(
+            receiverAccountIds: [Swift.String]? = nil
+        ) {
+            self.receiverAccountIds = receiverAccountIds
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The protected job configuration details.
+    public enum ProtectedJobConfigurationDetails: Swift.Sendable {
+        /// The details needed to configure the direct analysis.
+        case directanalysisconfigurationdetails(CleanRoomsClientTypes.ProtectedJobDirectAnalysisConfigurationDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The protected job receiver configuration.
+    public struct ProtectedJobReceiverConfiguration: Swift.Sendable {
+        /// The analysis type for the protected job receiver configuration.
+        /// This member is required.
+        public var analysisType: CleanRoomsClientTypes.ProtectedJobAnalysisType?
+        /// The configuration details for the protected job receiver.
+        public var configurationDetails: CleanRoomsClientTypes.ProtectedJobConfigurationDetails?
+
+        public init(
+            analysisType: CleanRoomsClientTypes.ProtectedJobAnalysisType? = nil,
+            configurationDetails: CleanRoomsClientTypes.ProtectedJobConfigurationDetails? = nil
+        ) {
+            self.analysisType = analysisType
+            self.configurationDetails = configurationDetails
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The protected job summary for the objects listed by the request.
+    public struct ProtectedJobSummary: Swift.Sendable {
+        /// The time the protected job was created.
+        /// This member is required.
+        public var createTime: Foundation.Date?
+        /// The ID of the protected job.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The unique ARN for the membership that initiated the protected job.
+        /// This member is required.
+        public var membershipArn: Swift.String?
+        /// The unique ID for the membership that initiated the protected job.
+        /// This member is required.
+        public var membershipId: Swift.String?
+        /// The receiver configurations for the protected job.
+        /// This member is required.
+        public var receiverConfigurations: [CleanRoomsClientTypes.ProtectedJobReceiverConfiguration]?
+        /// The status of the protected job.
+        /// This member is required.
+        public var status: CleanRoomsClientTypes.ProtectedJobStatus?
+
+        public init(
+            createTime: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            membershipArn: Swift.String? = nil,
+            membershipId: Swift.String? = nil,
+            receiverConfigurations: [CleanRoomsClientTypes.ProtectedJobReceiverConfiguration]? = [],
+            status: CleanRoomsClientTypes.ProtectedJobStatus? = nil
+        ) {
+            self.createTime = createTime
+            self.id = id
+            self.membershipArn = membershipArn
+            self.membershipId = membershipId
+            self.receiverConfigurations = receiverConfigurations
+            self.status = status
+        }
+    }
+}
+
+public struct ListProtectedJobsOutput: Swift.Sendable {
+    /// The pagination token that's used to fetch the next set of results.
+    public var nextToken: Swift.String?
+    /// A list of protected job summaries.
+    /// This member is required.
+    public var protectedJobs: [CleanRoomsClientTypes.ProtectedJobSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        protectedJobs: [CleanRoomsClientTypes.ProtectedJobSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.protectedJobs = protectedJobs
     }
 }
 
@@ -7799,6 +8862,112 @@ public struct PreviewPrivacyImpactOutput: Swift.Sendable {
 
 extension CleanRoomsClientTypes {
 
+    /// The protected job member output configuration input.
+    public struct ProtectedJobMemberOutputConfigurationInput: Swift.Sendable {
+        /// The account ID.
+        /// This member is required.
+        public var accountId: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil
+        ) {
+            self.accountId = accountId
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The protected job output configuration input.
+    public enum ProtectedJobOutputConfigurationInput: Swift.Sendable {
+        /// The member of the protected job output configuration input.
+        case member(CleanRoomsClientTypes.ProtectedJobMemberOutputConfigurationInput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The protected job result configuration input.
+    public struct ProtectedJobResultConfigurationInput: Swift.Sendable {
+        /// The output configuration for a protected job result.
+        /// This member is required.
+        public var outputConfiguration: CleanRoomsClientTypes.ProtectedJobOutputConfigurationInput?
+
+        public init(
+            outputConfiguration: CleanRoomsClientTypes.ProtectedJobOutputConfigurationInput? = nil
+        ) {
+            self.outputConfiguration = outputConfiguration
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum ProtectedJobType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case pyspark
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProtectedJobType] {
+            return [
+                .pyspark
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .pyspark: return "PYSPARK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct StartProtectedJobInput: Swift.Sendable {
+    /// The job parameters.
+    /// This member is required.
+    public var jobParameters: CleanRoomsClientTypes.ProtectedJobParameters?
+    /// A unique identifier for the membership to run this job against. Currently accepts a membership ID.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// The details needed to write the job results.
+    public var resultConfiguration: CleanRoomsClientTypes.ProtectedJobResultConfigurationInput?
+    /// The type of protected job to start.
+    /// This member is required.
+    public var type: CleanRoomsClientTypes.ProtectedJobType?
+
+    public init(
+        jobParameters: CleanRoomsClientTypes.ProtectedJobParameters? = nil,
+        membershipIdentifier: Swift.String? = nil,
+        resultConfiguration: CleanRoomsClientTypes.ProtectedJobResultConfigurationInput? = nil,
+        type: CleanRoomsClientTypes.ProtectedJobType? = nil
+    ) {
+        self.jobParameters = jobParameters
+        self.membershipIdentifier = membershipIdentifier
+        self.resultConfiguration = resultConfiguration
+        self.type = type
+    }
+}
+
+public struct StartProtectedJobOutput: Swift.Sendable {
+    /// The protected job.
+    /// This member is required.
+    public var protectedJob: CleanRoomsClientTypes.ProtectedJob?
+
+    public init(
+        protectedJob: CleanRoomsClientTypes.ProtectedJob? = nil
+    ) {
+        self.protectedJob = protectedJob
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     public enum ProtectedQueryType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case sql
         case sdkUnknown(Swift.String)
@@ -7871,20 +9040,28 @@ public struct StartProtectedQueryOutput: Swift.Sendable {
 }
 
 public struct UpdateMembershipInput: Swift.Sendable {
+    /// The default job result configuration.
+    public var defaultJobResultConfiguration: CleanRoomsClientTypes.MembershipProtectedJobResultConfiguration?
     /// The default protected query result configuration as specified by the member who can receive results.
     public var defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration?
+    /// An indicator as to whether job logging has been enabled or disabled for the collaboration. When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
+    public var jobLogStatus: CleanRoomsClientTypes.MembershipJobLogStatus?
     /// The unique identifier of the membership.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
-    /// An indicator as to whether query logging has been enabled or disabled for the membership.
+    /// An indicator as to whether query logging has been enabled or disabled for the membership. When ENABLED, Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
     public var queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus?
 
     public init(
+        defaultJobResultConfiguration: CleanRoomsClientTypes.MembershipProtectedJobResultConfiguration? = nil,
         defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration? = nil,
+        jobLogStatus: CleanRoomsClientTypes.MembershipJobLogStatus? = nil,
         membershipIdentifier: Swift.String? = nil,
         queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus? = nil
     ) {
+        self.defaultJobResultConfiguration = defaultJobResultConfiguration
         self.defaultResultConfiguration = defaultResultConfiguration
+        self.jobLogStatus = jobLogStatus
         self.membershipIdentifier = membershipIdentifier
         self.queryLogStatus = queryLogStatus
     }
@@ -7899,6 +9076,66 @@ public struct UpdateMembershipOutput: Swift.Sendable {
         membership: CleanRoomsClientTypes.Membership? = nil
     ) {
         self.membership = membership
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum TargetProtectedJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TargetProtectedJobStatus] {
+            return [
+                .cancelled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct UpdateProtectedJobInput: Swift.Sendable {
+    /// The identifier for a member of a protected job instance.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// The identifier of the protected job to update.
+    /// This member is required.
+    public var protectedJobIdentifier: Swift.String?
+    /// The target status of a protected job. Used to update the execution status of a currently running job.
+    /// This member is required.
+    public var targetStatus: CleanRoomsClientTypes.TargetProtectedJobStatus?
+
+    public init(
+        membershipIdentifier: Swift.String? = nil,
+        protectedJobIdentifier: Swift.String? = nil,
+        targetStatus: CleanRoomsClientTypes.TargetProtectedJobStatus? = nil
+    ) {
+        self.membershipIdentifier = membershipIdentifier
+        self.protectedJobIdentifier = protectedJobIdentifier
+        self.targetStatus = targetStatus
+    }
+}
+
+public struct UpdateProtectedJobOutput: Swift.Sendable {
+    /// The protected job output.
+    /// This member is required.
+    public var protectedJob: CleanRoomsClientTypes.ProtectedJob?
+
+    public init(
+        protectedJob: CleanRoomsClientTypes.ProtectedJob? = nil
+    ) {
+        self.protectedJob = protectedJob
     }
 }
 
@@ -8829,6 +10066,19 @@ extension GetPrivacyBudgetTemplateInput {
     }
 }
 
+extension GetProtectedJobInput {
+
+    static func urlPathProvider(_ value: GetProtectedJobInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
+            return nil
+        }
+        guard let protectedJobIdentifier = value.protectedJobIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/protectedJobs/\(protectedJobIdentifier.urlPercentEncoding())"
+    }
+}
+
 extension GetProtectedQueryInput {
 
     static func urlPathProvider(_ value: GetProtectedQueryInput) -> Swift.String? {
@@ -9298,6 +10548,36 @@ extension ListPrivacyBudgetTemplatesInput {
     }
 }
 
+extension ListProtectedJobsInput {
+
+    static func urlPathProvider(_ value: ListProtectedJobsInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/protectedJobs"
+    }
+}
+
+extension ListProtectedJobsInput {
+
+    static func queryItemProvider(_ value: ListProtectedJobsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListProtectedQueriesInput {
 
     static func urlPathProvider(_ value: ListProtectedQueriesInput) -> Swift.String? {
@@ -9388,6 +10668,16 @@ extension PreviewPrivacyImpactInput {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/previewprivacyimpact"
+    }
+}
+
+extension StartProtectedJobInput {
+
+    static func urlPathProvider(_ value: StartProtectedJobInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/protectedJobs"
     }
 }
 
@@ -9574,6 +10864,19 @@ extension UpdatePrivacyBudgetTemplateInput {
     }
 }
 
+extension UpdateProtectedJobInput {
+
+    static func urlPathProvider(_ value: UpdateProtectedJobInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
+            return nil
+        }
+        guard let protectedJobIdentifier = value.protectedJobIdentifier else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/protectedJobs/\(protectedJobIdentifier.urlPercentEncoding())"
+    }
+}
+
 extension UpdateProtectedQueryInput {
 
     static func urlPathProvider(_ value: UpdateProtectedQueryInput) -> Swift.String? {
@@ -9619,6 +10922,7 @@ extension CreateAnalysisTemplateInput {
         try writer["description"].write(value.description)
         try writer["format"].write(value.format)
         try writer["name"].write(value.name)
+        try writer["schema"].write(value.schema, with: CleanRoomsClientTypes.AnalysisSchema.write(value:to:))
         try writer["source"].write(value.source, with: CleanRoomsClientTypes.AnalysisSource.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -9635,6 +10939,7 @@ extension CreateCollaborationInput {
         try writer["creatorPaymentConfiguration"].write(value.creatorPaymentConfiguration, with: CleanRoomsClientTypes.PaymentConfiguration.write(value:to:))
         try writer["dataEncryptionMetadata"].write(value.dataEncryptionMetadata, with: CleanRoomsClientTypes.DataEncryptionMetadata.write(value:to:))
         try writer["description"].write(value.description)
+        try writer["jobLogStatus"].write(value.jobLogStatus)
         try writer["members"].writeList(value.members, memberWritingClosure: CleanRoomsClientTypes.MemberSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
         try writer["queryLogStatus"].write(value.queryLogStatus)
@@ -9662,6 +10967,7 @@ extension CreateConfiguredTableInput {
         try writer["analysisMethod"].write(value.analysisMethod)
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
+        try writer["selectedAnalysisMethods"].writeList(value.selectedAnalysisMethods, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CleanRoomsClientTypes.SelectedAnalysisMethod>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tableReference"].write(value.tableReference, with: CleanRoomsClientTypes.TableReference.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -9726,7 +11032,9 @@ extension CreateMembershipInput {
     static func write(value: CreateMembershipInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["collaborationIdentifier"].write(value.collaborationIdentifier)
+        try writer["defaultJobResultConfiguration"].write(value.defaultJobResultConfiguration, with: CleanRoomsClientTypes.MembershipProtectedJobResultConfiguration.write(value:to:))
         try writer["defaultResultConfiguration"].write(value.defaultResultConfiguration, with: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration.write(value:to:))
+        try writer["jobLogStatus"].write(value.jobLogStatus)
         try writer["paymentConfiguration"].write(value.paymentConfiguration, with: CleanRoomsClientTypes.MembershipPaymentConfiguration.write(value:to:))
         try writer["queryLogStatus"].write(value.queryLogStatus)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -9749,6 +11057,16 @@ extension PreviewPrivacyImpactInput {
     static func write(value: PreviewPrivacyImpactInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["parameters"].write(value.parameters, with: CleanRoomsClientTypes.PreviewPrivacyImpactParametersInput.write(value:to:))
+    }
+}
+
+extension StartProtectedJobInput {
+
+    static func write(value: StartProtectedJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jobParameters"].write(value.jobParameters, with: CleanRoomsClientTypes.ProtectedJobParameters.write(value:to:))
+        try writer["resultConfiguration"].write(value.resultConfiguration, with: CleanRoomsClientTypes.ProtectedJobResultConfigurationInput.write(value:to:))
+        try writer["type"].write(value.type)
     }
 }
 
@@ -9783,6 +11101,7 @@ extension UpdateCollaborationInput {
 
     static func write(value: UpdateCollaborationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["analyticsEngine"].write(value.analyticsEngine)
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
     }
@@ -9801,8 +11120,10 @@ extension UpdateConfiguredTableInput {
 
     static func write(value: UpdateConfiguredTableInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["analysisMethod"].write(value.analysisMethod)
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
+        try writer["selectedAnalysisMethods"].writeList(value.selectedAnalysisMethods, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CleanRoomsClientTypes.SelectedAnalysisMethod>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -9854,7 +11175,9 @@ extension UpdateMembershipInput {
 
     static func write(value: UpdateMembershipInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["defaultJobResultConfiguration"].write(value.defaultJobResultConfiguration, with: CleanRoomsClientTypes.MembershipProtectedJobResultConfiguration.write(value:to:))
         try writer["defaultResultConfiguration"].write(value.defaultResultConfiguration, with: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration.write(value:to:))
+        try writer["jobLogStatus"].write(value.jobLogStatus)
         try writer["queryLogStatus"].write(value.queryLogStatus)
     }
 }
@@ -9865,6 +11188,14 @@ extension UpdatePrivacyBudgetTemplateInput {
         guard let value else { return }
         try writer["parameters"].write(value.parameters, with: CleanRoomsClientTypes.PrivacyBudgetTemplateUpdateParameters.write(value:to:))
         try writer["privacyBudgetType"].write(value.privacyBudgetType)
+    }
+}
+
+extension UpdateProtectedJobInput {
+
+    static func write(value: UpdateProtectedJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetStatus"].write(value.targetStatus)
     }
 }
 
@@ -10311,6 +11642,18 @@ extension GetPrivacyBudgetTemplateOutput {
     }
 }
 
+extension GetProtectedJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetProtectedJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetProtectedJobOutput()
+        value.protectedJob = try reader["protectedJob"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJob.read(from:))
+        return value
+    }
+}
+
 extension GetProtectedQueryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetProtectedQueryOutput {
@@ -10555,6 +11898,19 @@ extension ListPrivacyBudgetTemplatesOutput {
     }
 }
 
+extension ListProtectedJobsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListProtectedJobsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListProtectedJobsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.protectedJobs = try reader["protectedJobs"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ProtectedJobSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListProtectedQueriesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListProtectedQueriesOutput {
@@ -10613,6 +11969,18 @@ extension PreviewPrivacyImpactOutput {
         let reader = responseReader
         var value = PreviewPrivacyImpactOutput()
         value.privacyImpact = try reader["privacyImpact"].readIfPresent(with: CleanRoomsClientTypes.PrivacyImpact.read(from:))
+        return value
+    }
+}
+
+extension StartProtectedJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartProtectedJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartProtectedJobOutput()
+        value.protectedJob = try reader["protectedJob"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJob.read(from:))
         return value
     }
 }
@@ -10775,6 +12143,18 @@ extension UpdatePrivacyBudgetTemplateOutput {
     }
 }
 
+extension UpdateProtectedJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateProtectedJobOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateProtectedJobOutput()
+        value.protectedJob = try reader["protectedJob"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJob.read(from:))
+        return value
+    }
+}
+
 extension UpdateProtectedQueryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateProtectedQueryOutput {
@@ -10931,6 +12311,7 @@ enum CreateConfiguredTableAnalysisRuleOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -11546,6 +12927,24 @@ enum GetPrivacyBudgetTemplateOutputError {
     }
 }
 
+enum GetProtectedJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetProtectedQueryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11885,6 +13284,24 @@ enum ListPrivacyBudgetTemplatesOutputError {
     }
 }
 
+enum ListProtectedJobsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListProtectedQueriesOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11967,6 +13384,25 @@ enum PreviewPrivacyImpactOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartProtectedJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -12226,6 +13662,25 @@ enum UpdatePrivacyBudgetTemplateOutputError {
     }
 }
 
+enum UpdateProtectedJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateProtectedQueryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12245,14 +13700,13 @@ enum UpdateProtectedQueryOutputError {
     }
 }
 
-extension ResourceNotFoundException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12273,14 +13727,14 @@ extension InternalServerException {
     }
 }
 
-extension ValidationException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.reason = try reader["reason"].readIfPresent()
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12301,11 +13755,12 @@ extension ThrottlingException {
     }
 }
 
-extension AccessDeniedException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ValidationException()
+        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -12363,6 +13818,7 @@ extension CleanRoomsClientTypes.CollaborationAnalysisTemplate {
         value.schema = try reader["schema"].readIfPresent(with: CleanRoomsClientTypes.AnalysisSchema.read(from:))
         value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
         value.source = try reader["source"].readIfPresent(with: CleanRoomsClientTypes.AnalysisSource.read(from:))
+        value.sourceMetadata = try reader["sourceMetadata"].readIfPresent(with: CleanRoomsClientTypes.AnalysisSourceMetadata.read(from:))
         value.analysisParameters = try reader["analysisParameters"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.validations = try reader["validations"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -12410,11 +13866,48 @@ extension CleanRoomsClientTypes.AnalysisParameter {
     }
 }
 
+extension CleanRoomsClientTypes.AnalysisSourceMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AnalysisSourceMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "artifacts":
+                return .artifacts(try reader["artifacts"].read(with: CleanRoomsClientTypes.AnalysisTemplateArtifactMetadata.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.AnalysisTemplateArtifactMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AnalysisTemplateArtifactMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.AnalysisTemplateArtifactMetadata()
+        value.entryPointHash = try reader["entryPointHash"].readIfPresent(with: CleanRoomsClientTypes.Hash.read(from:))
+        value.additionalArtifactHashes = try reader["additionalArtifactHashes"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.Hash.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.Hash {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.Hash {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.Hash()
+        value.sha256 = try reader["sha256"].readIfPresent()
+        return value
+    }
+}
+
 extension CleanRoomsClientTypes.AnalysisSource {
 
     static func write(value: CleanRoomsClientTypes.AnalysisSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .artifacts(artifacts):
+                try writer["artifacts"].write(artifacts, with: CleanRoomsClientTypes.AnalysisTemplateArtifacts.write(value:to:))
             case let .text(text):
                 try writer["text"].write(text)
             case let .sdkUnknown(sdkUnknown):
@@ -12428,13 +13921,71 @@ extension CleanRoomsClientTypes.AnalysisSource {
         switch name {
             case "text":
                 return .text(try reader["text"].read())
+            case "artifacts":
+                return .artifacts(try reader["artifacts"].read(with: CleanRoomsClientTypes.AnalysisTemplateArtifacts.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
     }
 }
 
+extension CleanRoomsClientTypes.AnalysisTemplateArtifacts {
+
+    static func write(value: CleanRoomsClientTypes.AnalysisTemplateArtifacts?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalArtifacts"].writeList(value.additionalArtifacts, memberWritingClosure: CleanRoomsClientTypes.AnalysisTemplateArtifact.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["entryPoint"].write(value.entryPoint, with: CleanRoomsClientTypes.AnalysisTemplateArtifact.write(value:to:))
+        try writer["roleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AnalysisTemplateArtifacts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.AnalysisTemplateArtifacts()
+        value.entryPoint = try reader["entryPoint"].readIfPresent(with: CleanRoomsClientTypes.AnalysisTemplateArtifact.read(from:))
+        value.additionalArtifacts = try reader["additionalArtifacts"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisTemplateArtifact.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.AnalysisTemplateArtifact {
+
+    static func write(value: CleanRoomsClientTypes.AnalysisTemplateArtifact?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["location"].write(value.location, with: CleanRoomsClientTypes.S3Location.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AnalysisTemplateArtifact {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.AnalysisTemplateArtifact()
+        value.location = try reader["location"].readIfPresent(with: CleanRoomsClientTypes.S3Location.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.S3Location {
+
+    static func write(value: CleanRoomsClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["key"].write(value.key)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.S3Location {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.S3Location()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
+        value.key = try reader["key"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CleanRoomsClientTypes.AnalysisSchema {
+
+    static func write(value: CleanRoomsClientTypes.AnalysisSchema?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["referencedTables"].writeList(value.referencedTables, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AnalysisSchema {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
@@ -12465,6 +14016,7 @@ extension CleanRoomsClientTypes.Schema {
         value.partitionKeys = try reader["partitionKeys"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.Column.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.analysisRuleTypes = try reader["analysisRuleTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.AnalysisRuleType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.analysisMethod = try reader["analysisMethod"].readIfPresent()
+        value.selectedAnalysisMethods = try reader["selectedAnalysisMethods"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.SelectedAnalysisMethod>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.creatorAccountId = try reader["creatorAccountId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.collaborationId = try reader["collaborationId"].readIfPresent() ?? ""
@@ -12573,6 +14125,263 @@ extension CleanRoomsClientTypes.AnalysisRule {
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.policy = try reader["policy"].readIfPresent(with: CleanRoomsClientTypes.AnalysisRulePolicy.read(from:))
+        value.collaborationPolicy = try reader["collaborationPolicy"].readIfPresent(with: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicy.read(from:))
+        value.consolidatedPolicy = try reader["consolidatedPolicy"].readIfPresent(with: CleanRoomsClientTypes.ConsolidatedPolicy.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ConsolidatedPolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConsolidatedPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "v1":
+                return .v1(try reader["v1"].read(with: CleanRoomsClientTypes.ConsolidatedPolicyV1.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.ConsolidatedPolicyV1 {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConsolidatedPolicyV1 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "list":
+                return .list(try reader["list"].read(with: CleanRoomsClientTypes.ConsolidatedPolicyList.read(from:)))
+            case "aggregation":
+                return .aggregation(try reader["aggregation"].read(with: CleanRoomsClientTypes.ConsolidatedPolicyAggregation.read(from:)))
+            case "custom":
+                return .custom(try reader["custom"].read(with: CleanRoomsClientTypes.ConsolidatedPolicyCustom.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.ConsolidatedPolicyCustom {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConsolidatedPolicyCustom {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ConsolidatedPolicyCustom()
+        value.allowedAnalyses = try reader["allowedAnalyses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.allowedAnalysisProviders = try reader["allowedAnalysisProviders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.additionalAnalyses = try reader["additionalAnalyses"].readIfPresent()
+        value.disallowedOutputColumns = try reader["disallowedOutputColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.differentialPrivacy = try reader["differentialPrivacy"].readIfPresent(with: CleanRoomsClientTypes.DifferentialPrivacyConfiguration.read(from:))
+        value.allowedResultReceivers = try reader["allowedResultReceivers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedAdditionalAnalyses = try reader["allowedAdditionalAnalyses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.DifferentialPrivacyConfiguration {
+
+    static func write(value: CleanRoomsClientTypes.DifferentialPrivacyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columns"].writeList(value.columns, memberWritingClosure: CleanRoomsClientTypes.DifferentialPrivacyColumn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.DifferentialPrivacyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.DifferentialPrivacyConfiguration()
+        value.columns = try reader["columns"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.DifferentialPrivacyColumn.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.DifferentialPrivacyColumn {
+
+    static func write(value: CleanRoomsClientTypes.DifferentialPrivacyColumn?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.DifferentialPrivacyColumn {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.DifferentialPrivacyColumn()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ConsolidatedPolicyAggregation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConsolidatedPolicyAggregation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ConsolidatedPolicyAggregation()
+        value.aggregateColumns = try reader["aggregateColumns"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AggregateColumn.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.joinColumns = try reader["joinColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.joinRequired = try reader["joinRequired"].readIfPresent()
+        value.allowedJoinOperators = try reader["allowedJoinOperators"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.JoinOperator>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dimensionColumns = try reader["dimensionColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.scalarFunctions = try reader["scalarFunctions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.ScalarFunctions>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.outputConstraints = try reader["outputConstraints"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AggregationConstraint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.additionalAnalyses = try reader["additionalAnalyses"].readIfPresent()
+        value.allowedResultReceivers = try reader["allowedResultReceivers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedAdditionalAnalyses = try reader["allowedAdditionalAnalyses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.AggregationConstraint {
+
+    static func write(value: CleanRoomsClientTypes.AggregationConstraint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columnName"].write(value.columnName)
+        try writer["minimum"].write(value.minimum)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AggregationConstraint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.AggregationConstraint()
+        value.columnName = try reader["columnName"].readIfPresent() ?? ""
+        value.minimum = try reader["minimum"].readIfPresent() ?? 0
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.AggregateColumn {
+
+    static func write(value: CleanRoomsClientTypes.AggregateColumn?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columnNames"].writeList(value.columnNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["function"].write(value.function)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AggregateColumn {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.AggregateColumn()
+        value.columnNames = try reader["columnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.function = try reader["function"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ConsolidatedPolicyList {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConsolidatedPolicyList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ConsolidatedPolicyList()
+        value.joinColumns = try reader["joinColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.allowedJoinOperators = try reader["allowedJoinOperators"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.JoinOperator>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.listColumns = try reader["listColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.additionalAnalyses = try reader["additionalAnalyses"].readIfPresent()
+        value.allowedResultReceivers = try reader["allowedResultReceivers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedAdditionalAnalyses = try reader["allowedAdditionalAnalyses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicy {
+
+    static func write(value: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .v1(v1):
+                try writer["v1"].write(v1, with: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicyV1.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "v1":
+                return .v1(try reader["v1"].read(with: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicyV1.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicyV1 {
+
+    static func write(value: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicyV1?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .aggregation(aggregation):
+                try writer["aggregation"].write(aggregation, with: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleAggregation.write(value:to:))
+            case let .custom(custom):
+                try writer["custom"].write(custom, with: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleCustom.write(value:to:))
+            case let .list(list):
+                try writer["list"].write(list, with: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleList.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicyV1 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "list":
+                return .list(try reader["list"].read(with: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleList.read(from:)))
+            case "aggregation":
+                return .aggregation(try reader["aggregation"].read(with: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleAggregation.read(from:)))
+            case "custom":
+                return .custom(try reader["custom"].read(with: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleCustom.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleCustom {
+
+    static func write(value: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleCustom?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowedAdditionalAnalyses"].writeList(value.allowedAdditionalAnalyses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["allowedResultReceivers"].writeList(value.allowedResultReceivers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleCustom {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleCustom()
+        value.allowedResultReceivers = try reader["allowedResultReceivers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedAdditionalAnalyses = try reader["allowedAdditionalAnalyses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleAggregation {
+
+    static func write(value: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleAggregation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowedAdditionalAnalyses"].writeList(value.allowedAdditionalAnalyses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["allowedResultReceivers"].writeList(value.allowedResultReceivers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleAggregation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleAggregation()
+        value.allowedResultReceivers = try reader["allowedResultReceivers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedAdditionalAnalyses = try reader["allowedAdditionalAnalyses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleList {
+
+    static func write(value: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleList?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowedAdditionalAnalyses"].writeList(value.allowedAdditionalAnalyses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["allowedResultReceivers"].writeList(value.allowedResultReceivers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleList()
+        value.allowedResultReceivers = try reader["allowedResultReceivers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedAdditionalAnalyses = try reader["allowedAdditionalAnalyses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -12670,36 +14479,6 @@ extension CleanRoomsClientTypes.AnalysisRuleCustom {
     }
 }
 
-extension CleanRoomsClientTypes.DifferentialPrivacyConfiguration {
-
-    static func write(value: CleanRoomsClientTypes.DifferentialPrivacyConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["columns"].writeList(value.columns, memberWritingClosure: CleanRoomsClientTypes.DifferentialPrivacyColumn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.DifferentialPrivacyConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CleanRoomsClientTypes.DifferentialPrivacyConfiguration()
-        value.columns = try reader["columns"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.DifferentialPrivacyColumn.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension CleanRoomsClientTypes.DifferentialPrivacyColumn {
-
-    static func write(value: CleanRoomsClientTypes.DifferentialPrivacyColumn?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.DifferentialPrivacyColumn {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CleanRoomsClientTypes.DifferentialPrivacyColumn()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension CleanRoomsClientTypes.AnalysisRuleAggregation {
 
     static func write(value: CleanRoomsClientTypes.AnalysisRuleAggregation?, to writer: SmithyJSON.Writer) throws {
@@ -12725,42 +14504,6 @@ extension CleanRoomsClientTypes.AnalysisRuleAggregation {
         value.scalarFunctions = try reader["scalarFunctions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.ScalarFunctions>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.outputConstraints = try reader["outputConstraints"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AggregationConstraint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.additionalAnalyses = try reader["additionalAnalyses"].readIfPresent()
-        return value
-    }
-}
-
-extension CleanRoomsClientTypes.AggregationConstraint {
-
-    static func write(value: CleanRoomsClientTypes.AggregationConstraint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["columnName"].write(value.columnName)
-        try writer["minimum"].write(value.minimum)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AggregationConstraint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CleanRoomsClientTypes.AggregationConstraint()
-        value.columnName = try reader["columnName"].readIfPresent() ?? ""
-        value.minimum = try reader["minimum"].readIfPresent() ?? 0
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension CleanRoomsClientTypes.AggregateColumn {
-
-    static func write(value: CleanRoomsClientTypes.AggregateColumn?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["columnNames"].writeList(value.columnNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["function"].write(value.function)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AggregateColumn {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CleanRoomsClientTypes.AggregateColumn()
-        value.columnNames = try reader["columnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.function = try reader["function"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -12817,6 +14560,7 @@ extension CleanRoomsClientTypes.AnalysisTemplate {
         value.schema = try reader["schema"].readIfPresent(with: CleanRoomsClientTypes.AnalysisSchema.read(from:))
         value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
         value.source = try reader["source"].readIfPresent(with: CleanRoomsClientTypes.AnalysisSource.read(from:))
+        value.sourceMetadata = try reader["sourceMetadata"].readIfPresent(with: CleanRoomsClientTypes.AnalysisSourceMetadata.read(from:))
         value.analysisParameters = try reader["analysisParameters"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.validations = try reader["validations"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -12841,6 +14585,7 @@ extension CleanRoomsClientTypes.Collaboration {
         value.membershipArn = try reader["membershipArn"].readIfPresent()
         value.dataEncryptionMetadata = try reader["dataEncryptionMetadata"].readIfPresent(with: CleanRoomsClientTypes.DataEncryptionMetadata.read(from:))
         value.queryLogStatus = try reader["queryLogStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.jobLogStatus = try reader["jobLogStatus"].readIfPresent()
         value.analyticsEngine = try reader["analyticsEngine"].readIfPresent()
         return value
     }
@@ -12903,6 +14648,7 @@ extension CleanRoomsClientTypes.ConfiguredTable {
         value.analysisRuleTypes = try reader["analysisRuleTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.ConfiguredTableAnalysisRuleType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.analysisMethod = try reader["analysisMethod"].readIfPresent() ?? .sdkUnknown("")
         value.allowedColumns = try reader["allowedColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.selectedAnalysisMethods = try reader["selectedAnalysisMethods"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.SelectedAnalysisMethod>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -13151,113 +14897,6 @@ extension CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRule {
     }
 }
 
-extension CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicy {
-
-    static func write(value: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .v1(v1):
-                try writer["v1"].write(v1, with: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicyV1.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "v1":
-                return .v1(try reader["v1"].read(with: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicyV1.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicyV1 {
-
-    static func write(value: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicyV1?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .aggregation(aggregation):
-                try writer["aggregation"].write(aggregation, with: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleAggregation.write(value:to:))
-            case let .custom(custom):
-                try writer["custom"].write(custom, with: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleCustom.write(value:to:))
-            case let .list(list):
-                try writer["list"].write(list, with: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleList.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRulePolicyV1 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "list":
-                return .list(try reader["list"].read(with: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleList.read(from:)))
-            case "aggregation":
-                return .aggregation(try reader["aggregation"].read(with: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleAggregation.read(from:)))
-            case "custom":
-                return .custom(try reader["custom"].read(with: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleCustom.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleCustom {
-
-    static func write(value: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleCustom?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowedAdditionalAnalyses"].writeList(value.allowedAdditionalAnalyses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["allowedResultReceivers"].writeList(value.allowedResultReceivers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleCustom {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleCustom()
-        value.allowedResultReceivers = try reader["allowedResultReceivers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.allowedAdditionalAnalyses = try reader["allowedAdditionalAnalyses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleAggregation {
-
-    static func write(value: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleAggregation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowedAdditionalAnalyses"].writeList(value.allowedAdditionalAnalyses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["allowedResultReceivers"].writeList(value.allowedResultReceivers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleAggregation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleAggregation()
-        value.allowedResultReceivers = try reader["allowedResultReceivers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.allowedAdditionalAnalyses = try reader["allowedAdditionalAnalyses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleList {
-
-    static func write(value: CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowedAdditionalAnalyses"].writeList(value.allowedAdditionalAnalyses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["allowedResultReceivers"].writeList(value.allowedResultReceivers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleList()
-        value.allowedResultReceivers = try reader["allowedResultReceivers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.allowedAdditionalAnalyses = try reader["allowedAdditionalAnalyses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension CleanRoomsClientTypes.IdMappingTable {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.IdMappingTable {
@@ -13390,7 +15029,9 @@ extension CleanRoomsClientTypes.Membership {
         value.memberAbilities = try reader["memberAbilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.MemberAbility>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.mlMemberAbilities = try reader["mlMemberAbilities"].readIfPresent(with: CleanRoomsClientTypes.MLMemberAbilities.read(from:))
         value.queryLogStatus = try reader["queryLogStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.jobLogStatus = try reader["jobLogStatus"].readIfPresent()
         value.defaultResultConfiguration = try reader["defaultResultConfiguration"].readIfPresent(with: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration.read(from:))
+        value.defaultJobResultConfiguration = try reader["defaultJobResultConfiguration"].readIfPresent(with: CleanRoomsClientTypes.MembershipProtectedJobResultConfiguration.read(from:))
         value.paymentConfiguration = try reader["paymentConfiguration"].readIfPresent(with: CleanRoomsClientTypes.MembershipPaymentConfiguration.read(from:))
         return value
     }
@@ -13400,6 +15041,7 @@ extension CleanRoomsClientTypes.MembershipPaymentConfiguration {
 
     static func write(value: CleanRoomsClientTypes.MembershipPaymentConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["jobCompute"].write(value.jobCompute, with: CleanRoomsClientTypes.MembershipJobComputePaymentConfig.write(value:to:))
         try writer["machineLearning"].write(value.machineLearning, with: CleanRoomsClientTypes.MembershipMLPaymentConfig.write(value:to:))
         try writer["queryCompute"].write(value.queryCompute, with: CleanRoomsClientTypes.MembershipQueryComputePaymentConfig.write(value:to:))
     }
@@ -13409,6 +15051,22 @@ extension CleanRoomsClientTypes.MembershipPaymentConfiguration {
         var value = CleanRoomsClientTypes.MembershipPaymentConfiguration()
         value.queryCompute = try reader["queryCompute"].readIfPresent(with: CleanRoomsClientTypes.MembershipQueryComputePaymentConfig.read(from:))
         value.machineLearning = try reader["machineLearning"].readIfPresent(with: CleanRoomsClientTypes.MembershipMLPaymentConfig.read(from:))
+        value.jobCompute = try reader["jobCompute"].readIfPresent(with: CleanRoomsClientTypes.MembershipJobComputePaymentConfig.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.MembershipJobComputePaymentConfig {
+
+    static func write(value: CleanRoomsClientTypes.MembershipJobComputePaymentConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isResponsible"].write(value.isResponsible)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.MembershipJobComputePaymentConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.MembershipJobComputePaymentConfig()
+        value.isResponsible = try reader["isResponsible"].readIfPresent() ?? false
         return value
     }
 }
@@ -13471,6 +15129,64 @@ extension CleanRoomsClientTypes.MembershipQueryComputePaymentConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.MembershipQueryComputePaymentConfig()
         value.isResponsible = try reader["isResponsible"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.MembershipProtectedJobResultConfiguration {
+
+    static func write(value: CleanRoomsClientTypes.MembershipProtectedJobResultConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["outputConfiguration"].write(value.outputConfiguration, with: CleanRoomsClientTypes.MembershipProtectedJobOutputConfiguration.write(value:to:))
+        try writer["roleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.MembershipProtectedJobResultConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.MembershipProtectedJobResultConfiguration()
+        value.outputConfiguration = try reader["outputConfiguration"].readIfPresent(with: CleanRoomsClientTypes.MembershipProtectedJobOutputConfiguration.read(from:))
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.MembershipProtectedJobOutputConfiguration {
+
+    static func write(value: CleanRoomsClientTypes.MembershipProtectedJobOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .s3(s3):
+                try writer["s3"].write(s3, with: CleanRoomsClientTypes.ProtectedJobS3OutputConfigurationInput.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.MembershipProtectedJobOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3":
+                return .s3(try reader["s3"].read(with: CleanRoomsClientTypes.ProtectedJobS3OutputConfigurationInput.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobS3OutputConfigurationInput {
+
+    static func write(value: CleanRoomsClientTypes.ProtectedJobS3OutputConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["keyPrefix"].write(value.keyPrefix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobS3OutputConfigurationInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ProtectedJobS3OutputConfigurationInput()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
+        value.keyPrefix = try reader["keyPrefix"].readIfPresent()
         return value
     }
 }
@@ -13656,6 +15372,165 @@ extension CleanRoomsClientTypes.CollaborationPrivacyBudgetTemplate {
     }
 }
 
+extension CleanRoomsClientTypes.ProtectedJob {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ProtectedJob()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.membershipId = try reader["membershipId"].readIfPresent() ?? ""
+        value.membershipArn = try reader["membershipArn"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.jobParameters = try reader["jobParameters"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJobParameters.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.resultConfiguration = try reader["resultConfiguration"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJobResultConfigurationOutput.read(from:))
+        value.statistics = try reader["statistics"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJobStatistics.read(from:))
+        value.result = try reader["result"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJobResult.read(from:))
+        value.error = try reader["error"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJobError.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ProtectedJobError()
+        value.message = try reader["message"].readIfPresent() ?? ""
+        value.code = try reader["code"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ProtectedJobResult()
+        value.output = try reader["output"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJobOutput.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3":
+                return .s3(try reader["s3"].read(with: CleanRoomsClientTypes.ProtectedJobS3Output.read(from:)))
+            case "memberList":
+                return .memberlist(try reader["memberList"].readList(memberReadingClosure: CleanRoomsClientTypes.ProtectedJobSingleMemberOutput.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobSingleMemberOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobSingleMemberOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ProtectedJobSingleMemberOutput()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobS3Output {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobS3Output {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ProtectedJobS3Output()
+        value.location = try reader["location"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ProtectedJobStatistics()
+        value.totalDurationInMillis = try reader["totalDurationInMillis"].readIfPresent()
+        value.billedResourceUtilization = try reader["billedResourceUtilization"].readIfPresent(with: CleanRoomsClientTypes.BilledJobResourceUtilization.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.BilledJobResourceUtilization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.BilledJobResourceUtilization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.BilledJobResourceUtilization()
+        value.units = try reader["units"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobResultConfigurationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobResultConfigurationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ProtectedJobResultConfigurationOutput()
+        value.outputConfiguration = try reader["outputConfiguration"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJobOutputConfigurationOutput.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobOutputConfigurationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobOutputConfigurationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3":
+                return .s3(try reader["s3"].read(with: CleanRoomsClientTypes.ProtectedJobS3OutputConfigurationOutput.read(from:)))
+            case "member":
+                return .member(try reader["member"].read(with: CleanRoomsClientTypes.ProtectedJobMemberOutputConfigurationOutput.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobMemberOutputConfigurationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobMemberOutputConfigurationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ProtectedJobMemberOutputConfigurationOutput()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobS3OutputConfigurationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobS3OutputConfigurationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ProtectedJobS3OutputConfigurationOutput()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
+        value.keyPrefix = try reader["keyPrefix"].readIfPresent()
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobParameters {
+
+    static func write(value: CleanRoomsClientTypes.ProtectedJobParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["analysisTemplateArn"].write(value.analysisTemplateArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ProtectedJobParameters()
+        value.analysisTemplateArn = try reader["analysisTemplateArn"].readIfPresent()
+        return value
+    }
+}
+
 extension CleanRoomsClientTypes.ProtectedQuery {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedQuery {
@@ -13773,9 +15648,22 @@ extension CleanRoomsClientTypes.ProtectedQueryOutput {
                 return .s3(try reader["s3"].read(with: CleanRoomsClientTypes.ProtectedQueryS3Output.read(from:)))
             case "memberList":
                 return .memberlist(try reader["memberList"].readList(memberReadingClosure: CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "distribute":
+                return .distribute(try reader["distribute"].read(with: CleanRoomsClientTypes.ProtectedQueryDistributeOutput.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedQueryDistributeOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedQueryDistributeOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ProtectedQueryDistributeOutput()
+        value.s3 = try reader["s3"].readIfPresent(with: CleanRoomsClientTypes.ProtectedQueryS3Output.read(from:))
+        value.memberList = try reader["memberList"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -13840,6 +15728,8 @@ extension CleanRoomsClientTypes.ProtectedQueryOutputConfiguration {
     static func write(value: CleanRoomsClientTypes.ProtectedQueryOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .distribute(distribute):
+                try writer["distribute"].write(distribute, with: CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfiguration.write(value:to:))
             case let .member(member):
                 try writer["member"].write(member, with: CleanRoomsClientTypes.ProtectedQueryMemberOutputConfiguration.write(value:to:))
             case let .s3(s3):
@@ -13850,6 +15740,51 @@ extension CleanRoomsClientTypes.ProtectedQueryOutputConfiguration {
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedQueryOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3":
+                return .s3(try reader["s3"].read(with: CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration.read(from:)))
+            case "member":
+                return .member(try reader["member"].read(with: CleanRoomsClientTypes.ProtectedQueryMemberOutputConfiguration.read(from:)))
+            case "distribute":
+                return .distribute(try reader["distribute"].read(with: CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfiguration {
+
+    static func write(value: CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["locations"].writeList(value.locations, memberWritingClosure: CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfigurationLocation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfiguration()
+        value.locations = try reader["locations"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfigurationLocation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfigurationLocation {
+
+    static func write(value: CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfigurationLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .member(member):
+                try writer["member"].write(member, with: CleanRoomsClientTypes.ProtectedQueryMemberOutputConfiguration.write(value:to:))
+            case let .s3(s3):
+                try writer["s3"].write(s3, with: CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedQueryDistributeOutputConfigurationLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
@@ -14108,6 +16043,7 @@ extension CleanRoomsClientTypes.ConfiguredTableAssociationSummary {
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.id = try reader["id"].readIfPresent() ?? ""
         value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.analysisRuleTypes = try reader["analysisRuleTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.ConfiguredTableAssociationAnalysisRuleType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -14124,6 +16060,7 @@ extension CleanRoomsClientTypes.ConfiguredTableSummary {
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.analysisRuleTypes = try reader["analysisRuleTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.ConfiguredTableAnalysisRuleType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.analysisMethod = try reader["analysisMethod"].readIfPresent() ?? .sdkUnknown("")
+        value.selectedAnalysisMethods = try reader["selectedAnalysisMethods"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.SelectedAnalysisMethod>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -14192,6 +16129,7 @@ extension CleanRoomsClientTypes.PaymentConfiguration {
 
     static func write(value: CleanRoomsClientTypes.PaymentConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["jobCompute"].write(value.jobCompute, with: CleanRoomsClientTypes.JobComputePaymentConfig.write(value:to:))
         try writer["machineLearning"].write(value.machineLearning, with: CleanRoomsClientTypes.MLPaymentConfig.write(value:to:))
         try writer["queryCompute"].write(value.queryCompute, with: CleanRoomsClientTypes.QueryComputePaymentConfig.write(value:to:))
     }
@@ -14201,6 +16139,22 @@ extension CleanRoomsClientTypes.PaymentConfiguration {
         var value = CleanRoomsClientTypes.PaymentConfiguration()
         value.queryCompute = try reader["queryCompute"].readIfPresent(with: CleanRoomsClientTypes.QueryComputePaymentConfig.read(from:))
         value.machineLearning = try reader["machineLearning"].readIfPresent(with: CleanRoomsClientTypes.MLPaymentConfig.read(from:))
+        value.jobCompute = try reader["jobCompute"].readIfPresent(with: CleanRoomsClientTypes.JobComputePaymentConfig.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.JobComputePaymentConfig {
+
+    static func write(value: CleanRoomsClientTypes.JobComputePaymentConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isResponsible"].write(value.isResponsible)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.JobComputePaymentConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.JobComputePaymentConfig()
+        value.isResponsible = try reader["isResponsible"].readIfPresent() ?? false
         return value
     }
 }
@@ -14327,6 +16281,56 @@ extension CleanRoomsClientTypes.PrivacyBudgetTemplateSummary {
     }
 }
 
+extension CleanRoomsClientTypes.ProtectedJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ProtectedJobSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.membershipId = try reader["membershipId"].readIfPresent() ?? ""
+        value.membershipArn = try reader["membershipArn"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.receiverConfigurations = try reader["receiverConfigurations"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.ProtectedJobReceiverConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobReceiverConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobReceiverConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ProtectedJobReceiverConfiguration()
+        value.analysisType = try reader["analysisType"].readIfPresent() ?? .sdkUnknown("")
+        value.configurationDetails = try reader["configurationDetails"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJobConfigurationDetails.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobConfigurationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobConfigurationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "directAnalysisConfigurationDetails":
+                return .directanalysisconfigurationdetails(try reader["directAnalysisConfigurationDetails"].read(with: CleanRoomsClientTypes.ProtectedJobDirectAnalysisConfigurationDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobDirectAnalysisConfigurationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobDirectAnalysisConfigurationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ProtectedJobDirectAnalysisConfigurationDetails()
+        value.receiverAccountIds = try reader["receiverAccountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension CleanRoomsClientTypes.ProtectedQuerySummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedQuerySummary {
@@ -14391,6 +16395,7 @@ extension CleanRoomsClientTypes.SchemaSummary {
         value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
         value.analysisRuleTypes = try reader["analysisRuleTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.AnalysisRuleType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.analysisMethod = try reader["analysisMethod"].readIfPresent()
+        value.selectedAnalysisMethods = try reader["selectedAnalysisMethods"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.SelectedAnalysisMethod>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -14503,6 +16508,35 @@ extension CleanRoomsClientTypes.DifferentialPrivacyPreviewParametersInput {
         guard let value else { return }
         try writer["epsilon"].write(value.epsilon)
         try writer["usersNoisePerQuery"].write(value.usersNoisePerQuery)
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobResultConfigurationInput {
+
+    static func write(value: CleanRoomsClientTypes.ProtectedJobResultConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["outputConfiguration"].write(value.outputConfiguration, with: CleanRoomsClientTypes.ProtectedJobOutputConfigurationInput.write(value:to:))
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobOutputConfigurationInput {
+
+    static func write(value: CleanRoomsClientTypes.ProtectedJobOutputConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .member(member):
+                try writer["member"].write(member, with: CleanRoomsClientTypes.ProtectedJobMemberOutputConfigurationInput.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobMemberOutputConfigurationInput {
+
+    static func write(value: CleanRoomsClientTypes.ProtectedJobMemberOutputConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountId"].write(value.accountId)
     }
 }
 

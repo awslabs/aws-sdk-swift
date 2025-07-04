@@ -2740,7 +2740,7 @@ extension DirectoryClientTypes.DirectoryDescription: Swift.CustomDebugStringConv
 
 /// Contains the results of the [DescribeDirectories] operation.
 public struct DescribeDirectoriesOutput: Swift.Sendable {
-    /// The list of [DirectoryDescription] objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
+    /// The list of available [DirectoryDescription] objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
     public var directoryDescriptions: [DirectoryClientTypes.DirectoryDescription]?
     /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to [DescribeDirectories] to retrieve the next set of items.
     public var nextToken: Swift.String?
@@ -8724,25 +8724,11 @@ enum VerifyTrustOutputError {
     }
 }
 
-extension EntityDoesNotExistException {
+extension ClientException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EntityDoesNotExistException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClientException {
         let reader = baseError.errorBodyReader
-        var value = EntityDoesNotExistException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.requestId = try reader["RequestId"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceException()
+        var value = ClientException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -8766,6 +8752,20 @@ extension DirectoryAlreadySharedException {
     }
 }
 
+extension EntityDoesNotExistException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EntityDoesNotExistException {
+        let reader = baseError.errorBodyReader
+        var value = EntityDoesNotExistException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidParameterException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
@@ -8780,39 +8780,11 @@ extension InvalidParameterException {
     }
 }
 
-extension ClientException {
+extension ServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ClientException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceException {
         let reader = baseError.errorBodyReader
-        var value = ClientException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.requestId = try reader["RequestId"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension IpRouteLimitExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IpRouteLimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = IpRouteLimitExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.requestId = try reader["RequestId"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension EntityAlreadyExistsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EntityAlreadyExistsException {
-        let reader = baseError.errorBodyReader
-        var value = EntityAlreadyExistsException()
+        var value = ServiceException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -8836,11 +8808,11 @@ extension DirectoryUnavailableException {
     }
 }
 
-extension UnsupportedOperationException {
+extension EntityAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EntityAlreadyExistsException {
         let reader = baseError.errorBodyReader
-        var value = UnsupportedOperationException()
+        var value = EntityAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -8850,11 +8822,11 @@ extension UnsupportedOperationException {
     }
 }
 
-extension DirectoryDoesNotExistException {
+extension IpRouteLimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectoryDoesNotExistException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> IpRouteLimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = DirectoryDoesNotExistException()
+        var value = IpRouteLimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -8878,6 +8850,34 @@ extension AccessDeniedException {
     }
 }
 
+extension DirectoryAlreadyInRegionException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectoryAlreadyInRegionException {
+        let reader = baseError.errorBodyReader
+        var value = DirectoryAlreadyInRegionException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DirectoryDoesNotExistException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectoryDoesNotExistException {
+        let reader = baseError.errorBodyReader
+        var value = DirectoryDoesNotExistException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension RegionLimitExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RegionLimitExceededException {
@@ -8892,11 +8892,11 @@ extension RegionLimitExceededException {
     }
 }
 
-extension DirectoryAlreadyInRegionException {
+extension UnsupportedOperationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DirectoryAlreadyInRegionException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperationException {
         let reader = baseError.errorBodyReader
-        var value = DirectoryAlreadyInRegionException()
+        var value = UnsupportedOperationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -8976,11 +8976,11 @@ extension SnapshotLimitExceededException {
     }
 }
 
-extension CertificateInUseException {
+extension CertificateDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CertificateInUseException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CertificateDoesNotExistException {
         let reader = baseError.errorBodyReader
-        var value = CertificateInUseException()
+        var value = CertificateDoesNotExistException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -8990,11 +8990,11 @@ extension CertificateInUseException {
     }
 }
 
-extension CertificateDoesNotExistException {
+extension CertificateInUseException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CertificateDoesNotExistException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> CertificateInUseException {
         let reader = baseError.errorBodyReader
-        var value = CertificateDoesNotExistException()
+        var value = CertificateInUseException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -9116,6 +9116,20 @@ extension InvalidCertificateException {
     }
 }
 
+extension InvalidPasswordException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPasswordException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidPasswordException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension UserDoesNotExistException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UserDoesNotExistException {
@@ -9130,11 +9144,11 @@ extension UserDoesNotExistException {
     }
 }
 
-extension InvalidPasswordException {
+extension InvalidTargetException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPasswordException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTargetException {
         let reader = baseError.errorBodyReader
-        var value = InvalidPasswordException()
+        var value = InvalidTargetException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -9163,20 +9177,6 @@ extension ShareLimitExceededException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ShareLimitExceededException {
         let reader = baseError.errorBodyReader
         var value = ShareLimitExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.requestId = try reader["RequestId"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidTargetException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTargetException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidTargetException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse

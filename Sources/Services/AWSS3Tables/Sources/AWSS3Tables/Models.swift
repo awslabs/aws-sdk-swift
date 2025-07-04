@@ -33,6 +33,11 @@ public struct DeleteNamespaceOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteTableBucketEncryptionOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteTableBucketOutput: Swift.Sendable {
 
     public init() { }
@@ -49,6 +54,11 @@ public struct DeleteTableOutput: Swift.Sendable {
 }
 
 public struct DeleteTablePolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct PutTableBucketEncryptionOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -275,6 +285,55 @@ public struct CreateNamespaceOutput: Swift.Sendable {
 
 extension S3TablesClientTypes {
 
+    public enum SSEAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aes256
+        case awsKms
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SSEAlgorithm] {
+            return [
+                .aes256,
+                .awsKms
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aes256: return "AES256"
+            case .awsKms: return "aws:kms"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Configuration specifying how data should be encrypted. This structure defines the encryption algorithm and optional KMS key to be used for server-side encryption.
+    public struct EncryptionConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the KMS key to use for encryption. This field is required only when sseAlgorithm is set to aws:kms.
+        public var kmsKeyArn: Swift.String?
+        /// The server-side encryption algorithm to use. Valid values are AES256 for S3-managed encryption keys, or aws:kms for Amazon Web Services KMS-managed encryption keys. If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see [Permissions requirements for S3 Tables SSE-KMS encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-kms-permissions.html).
+        /// This member is required.
+        public var sseAlgorithm: S3TablesClientTypes.SSEAlgorithm?
+
+        public init(
+            kmsKeyArn: Swift.String? = nil,
+            sseAlgorithm: S3TablesClientTypes.SSEAlgorithm? = nil
+        ) {
+            self.kmsKeyArn = kmsKeyArn
+            self.sseAlgorithm = sseAlgorithm
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
     public enum OpenTableFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case iceberg
         case sdkUnknown(Swift.String)
@@ -367,6 +426,8 @@ extension S3TablesClientTypes {
 }
 
 public struct CreateTableInput: Swift.Sendable {
+    /// The encryption configuration to use for the table. This configuration specifies the encryption algorithm and, if using SSE-KMS, the KMS key to use for encrypting the table. If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see [Permissions requirements for S3 Tables SSE-KMS encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-kms-permissions.html).
+    public var encryptionConfiguration: S3TablesClientTypes.EncryptionConfiguration?
     /// The format for the table.
     /// This member is required.
     public var format: S3TablesClientTypes.OpenTableFormat?
@@ -383,12 +444,14 @@ public struct CreateTableInput: Swift.Sendable {
     public var tableBucketARN: Swift.String?
 
     public init(
+        encryptionConfiguration: S3TablesClientTypes.EncryptionConfiguration? = nil,
         format: S3TablesClientTypes.OpenTableFormat? = nil,
         metadata: S3TablesClientTypes.TableMetadata? = nil,
         name: Swift.String? = nil,
         namespace: Swift.String? = nil,
         tableBucketARN: Swift.String? = nil
     ) {
+        self.encryptionConfiguration = encryptionConfiguration
         self.format = format
         self.metadata = metadata
         self.name = name
@@ -415,13 +478,17 @@ public struct CreateTableOutput: Swift.Sendable {
 }
 
 public struct CreateTableBucketInput: Swift.Sendable {
+    /// The encryption configuration to use for the table bucket. This configuration specifies the default encryption settings that will be applied to all tables created in this bucket unless overridden at the table level. The configuration includes the encryption algorithm and, if using SSE-KMS, the KMS key to use.
+    public var encryptionConfiguration: S3TablesClientTypes.EncryptionConfiguration?
     /// The name for the table bucket.
     /// This member is required.
     public var name: Swift.String?
 
     public init(
+        encryptionConfiguration: S3TablesClientTypes.EncryptionConfiguration? = nil,
         name: Swift.String? = nil
     ) {
+        self.encryptionConfiguration = encryptionConfiguration
         self.name = name
     }
 }
@@ -482,6 +549,18 @@ public struct DeleteTableInput: Swift.Sendable {
 }
 
 public struct DeleteTableBucketInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the table bucket.
+    /// This member is required.
+    public var tableBucketARN: Swift.String?
+
+    public init(
+        tableBucketARN: Swift.String? = nil
+    ) {
+        self.tableBucketARN = tableBucketARN
+    }
+}
+
+public struct DeleteTableBucketEncryptionInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the table bucket.
     /// This member is required.
     public var tableBucketARN: Swift.String?
@@ -554,41 +633,50 @@ public struct GetNamespaceOutput: Swift.Sendable {
     /// The name of the namespace.
     /// This member is required.
     public var namespace: [Swift.String]?
+    /// The unique identifier of the namespace.
+    public var namespaceId: Swift.String?
     /// The ID of the account that owns the namespcace.
     /// This member is required.
     public var ownerAccountId: Swift.String?
+    /// The unique identifier of the table bucket containing this namespace.
+    public var tableBucketId: Swift.String?
 
     public init(
         createdAt: Foundation.Date? = nil,
         createdBy: Swift.String? = nil,
         namespace: [Swift.String]? = nil,
-        ownerAccountId: Swift.String? = nil
+        namespaceId: Swift.String? = nil,
+        ownerAccountId: Swift.String? = nil,
+        tableBucketId: Swift.String? = nil
     ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.namespace = namespace
+        self.namespaceId = namespaceId
         self.ownerAccountId = ownerAccountId
+        self.tableBucketId = tableBucketId
     }
 }
 
 public struct GetTableInput: Swift.Sendable {
     /// The name of the table.
-    /// This member is required.
     public var name: Swift.String?
     /// The name of the namespace the table is associated with.
-    /// This member is required.
     public var namespace: Swift.String?
+    /// The Amazon Resource Name (ARN) of the table.
+    public var tableArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the table bucket associated with the table.
-    /// This member is required.
     public var tableBucketARN: Swift.String?
 
     public init(
         name: Swift.String? = nil,
         namespace: Swift.String? = nil,
+        tableArn: Swift.String? = nil,
         tableBucketARN: Swift.String? = nil
     ) {
         self.name = name
         self.namespace = namespace
+        self.tableArn = tableArn
         self.tableBucketARN = tableBucketARN
     }
 }
@@ -648,12 +736,16 @@ public struct GetTableOutput: Swift.Sendable {
     /// The namespace associated with the table.
     /// This member is required.
     public var namespace: [Swift.String]?
+    /// The unique identifier of the namespace containing this table.
+    public var namespaceId: Swift.String?
     /// The ID of the account that owns the table.
     /// This member is required.
     public var ownerAccountId: Swift.String?
     /// The Amazon Resource Name (ARN) of the table.
     /// This member is required.
     public var tableARN: Swift.String?
+    /// The unique identifier of the table bucket containing this table.
+    public var tableBucketId: Swift.String?
     /// The type of the table.
     /// This member is required.
     public var type: S3TablesClientTypes.TableType?
@@ -674,8 +766,10 @@ public struct GetTableOutput: Swift.Sendable {
         modifiedBy: Swift.String? = nil,
         name: Swift.String? = nil,
         namespace: [Swift.String]? = nil,
+        namespaceId: Swift.String? = nil,
         ownerAccountId: Swift.String? = nil,
         tableARN: Swift.String? = nil,
+        tableBucketId: Swift.String? = nil,
         type: S3TablesClientTypes.TableType? = nil,
         versionToken: Swift.String? = nil,
         warehouseLocation: Swift.String? = nil
@@ -689,8 +783,10 @@ public struct GetTableOutput: Swift.Sendable {
         self.modifiedBy = modifiedBy
         self.name = name
         self.namespace = namespace
+        self.namespaceId = namespaceId
         self.ownerAccountId = ownerAccountId
         self.tableARN = tableARN
+        self.tableBucketId = tableBucketId
         self.type = type
         self.versionToken = versionToken
         self.warehouseLocation = warehouseLocation
@@ -722,17 +818,45 @@ public struct GetTableBucketOutput: Swift.Sendable {
     /// The ID of the account that owns the table bucket.
     /// This member is required.
     public var ownerAccountId: Swift.String?
+    /// The unique identifier of the table bucket.
+    public var tableBucketId: Swift.String?
 
     public init(
         arn: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
-        ownerAccountId: Swift.String? = nil
+        ownerAccountId: Swift.String? = nil,
+        tableBucketId: Swift.String? = nil
     ) {
         self.arn = arn
         self.createdAt = createdAt
         self.name = name
         self.ownerAccountId = ownerAccountId
+        self.tableBucketId = tableBucketId
+    }
+}
+
+public struct GetTableBucketEncryptionInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the table bucket.
+    /// This member is required.
+    public var tableBucketARN: Swift.String?
+
+    public init(
+        tableBucketARN: Swift.String? = nil
+    ) {
+        self.tableBucketARN = tableBucketARN
+    }
+}
+
+public struct GetTableBucketEncryptionOutput: Swift.Sendable {
+    /// The encryption configuration for the table bucket.
+    /// This member is required.
+    public var encryptionConfiguration: S3TablesClientTypes.EncryptionConfiguration?
+
+    public init(
+        encryptionConfiguration: S3TablesClientTypes.EncryptionConfiguration? = nil
+    ) {
+        self.encryptionConfiguration = encryptionConfiguration
     }
 }
 
@@ -892,6 +1016,40 @@ public struct GetTableBucketPolicyOutput: Swift.Sendable {
     }
 }
 
+public struct GetTableEncryptionInput: Swift.Sendable {
+    /// The name of the table.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The namespace associated with the table.
+    /// This member is required.
+    public var namespace: Swift.String?
+    /// The Amazon Resource Name (ARN) of the table bucket containing the table.
+    /// This member is required.
+    public var tableBucketARN: Swift.String?
+
+    public init(
+        name: Swift.String? = nil,
+        namespace: Swift.String? = nil,
+        tableBucketARN: Swift.String? = nil
+    ) {
+        self.name = name
+        self.namespace = namespace
+        self.tableBucketARN = tableBucketARN
+    }
+}
+
+public struct GetTableEncryptionOutput: Swift.Sendable {
+    /// The encryption configuration for the table.
+    /// This member is required.
+    public var encryptionConfiguration: S3TablesClientTypes.EncryptionConfiguration?
+
+    public init(
+        encryptionConfiguration: S3TablesClientTypes.EncryptionConfiguration? = nil
+    ) {
+        self.encryptionConfiguration = encryptionConfiguration
+    }
+}
+
 public struct GetTableMaintenanceConfigurationInput: Swift.Sendable {
     /// The name of the table.
     /// This member is required.
@@ -945,14 +1103,53 @@ extension S3TablesClientTypes {
 
 extension S3TablesClientTypes {
 
+    public enum IcebergCompactionStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case binpack
+        case sort
+        case zorder
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IcebergCompactionStrategy] {
+            return [
+                .auto,
+                .binpack,
+                .sort,
+                .zorder
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "auto"
+            case .binpack: return "binpack"
+            case .sort: return "sort"
+            case .zorder: return "z-order"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
     /// Contains details about the compaction settings for an Iceberg table.
     public struct IcebergCompactionSettings: Swift.Sendable {
+        /// The compaction strategy to use for the table. This determines how files are selected and combined during compaction operations.
+        public var strategy: S3TablesClientTypes.IcebergCompactionStrategy?
         /// The target file size for the table in MB.
         public var targetFileSizeMB: Swift.Int?
 
         public init(
+            strategy: S3TablesClientTypes.IcebergCompactionStrategy? = nil,
             targetFileSizeMB: Swift.Int? = nil
         ) {
+            self.strategy = strategy
             self.targetFileSizeMB = targetFileSizeMB
         }
     }
@@ -1269,20 +1466,28 @@ extension S3TablesClientTypes {
         /// The name of the namespace.
         /// This member is required.
         public var namespace: [Swift.String]?
+        /// The system-assigned unique identifier for the namespace.
+        public var namespaceId: Swift.String?
         /// The ID of the account that owns the namespace.
         /// This member is required.
         public var ownerAccountId: Swift.String?
+        /// The system-assigned unique identifier for the table bucket that contains this namespace.
+        public var tableBucketId: Swift.String?
 
         public init(
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
             namespace: [Swift.String]? = nil,
-            ownerAccountId: Swift.String? = nil
+            namespaceId: Swift.String? = nil,
+            ownerAccountId: Swift.String? = nil,
+            tableBucketId: Swift.String? = nil
         ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.namespace = namespace
+            self.namespaceId = namespaceId
             self.ownerAccountId = ownerAccountId
+            self.tableBucketId = tableBucketId
         }
     }
 }
@@ -1338,17 +1543,21 @@ extension S3TablesClientTypes {
         /// The ID of the account that owns the table bucket.
         /// This member is required.
         public var ownerAccountId: Swift.String?
+        /// The system-assigned unique identifier for the table bucket.
+        public var tableBucketId: Swift.String?
 
         public init(
             arn: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
-            ownerAccountId: Swift.String? = nil
+            ownerAccountId: Swift.String? = nil,
+            tableBucketId: Swift.String? = nil
         ) {
             self.arn = arn
             self.createdAt = createdAt
             self.name = name
             self.ownerAccountId = ownerAccountId
+            self.tableBucketId = tableBucketId
         }
     }
 }
@@ -1413,9 +1622,13 @@ extension S3TablesClientTypes {
         /// The name of the namespace.
         /// This member is required.
         public var namespace: [Swift.String]?
+        /// The unique identifier for the namespace that contains this table.
+        public var namespaceId: Swift.String?
         /// The Amazon Resource Name (ARN) of the table.
         /// This member is required.
         public var tableARN: Swift.String?
+        /// The unique identifier for the table bucket that contains this table.
+        public var tableBucketId: Swift.String?
         /// The type of the table.
         /// This member is required.
         public var type: S3TablesClientTypes.TableType?
@@ -1425,14 +1638,18 @@ extension S3TablesClientTypes {
             modifiedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             namespace: [Swift.String]? = nil,
+            namespaceId: Swift.String? = nil,
             tableARN: Swift.String? = nil,
+            tableBucketId: Swift.String? = nil,
             type: S3TablesClientTypes.TableType? = nil
         ) {
             self.createdAt = createdAt
             self.modifiedAt = modifiedAt
             self.name = name
             self.namespace = namespace
+            self.namespaceId = namespaceId
             self.tableARN = tableARN
+            self.tableBucketId = tableBucketId
             self.type = type
         }
     }
@@ -1451,6 +1668,23 @@ public struct ListTablesOutput: Swift.Sendable {
     ) {
         self.continuationToken = continuationToken
         self.tables = tables
+    }
+}
+
+public struct PutTableBucketEncryptionInput: Swift.Sendable {
+    /// The encryption configuration to apply to the table bucket.
+    /// This member is required.
+    public var encryptionConfiguration: S3TablesClientTypes.EncryptionConfiguration?
+    /// The Amazon Resource Name (ARN) of the table bucket.
+    /// This member is required.
+    public var tableBucketARN: Swift.String?
+
+    public init(
+        encryptionConfiguration: S3TablesClientTypes.EncryptionConfiguration? = nil,
+        tableBucketARN: Swift.String? = nil
+    ) {
+        self.encryptionConfiguration = encryptionConfiguration
+        self.tableBucketARN = tableBucketARN
     }
 }
 
@@ -1731,6 +1965,16 @@ extension DeleteTableBucketInput {
     }
 }
 
+extension DeleteTableBucketEncryptionInput {
+
+    static func urlPathProvider(_ value: DeleteTableBucketEncryptionInput) -> Swift.String? {
+        guard let tableBucketARN = value.tableBucketARN else {
+            return nil
+        }
+        return "/buckets/\(tableBucketARN.urlPercentEncoding())/encryption"
+    }
+}
+
 extension DeleteTableBucketPolicyInput {
 
     static func urlPathProvider(_ value: DeleteTableBucketPolicyInput) -> Swift.String? {
@@ -1773,16 +2017,31 @@ extension GetNamespaceInput {
 extension GetTableInput {
 
     static func urlPathProvider(_ value: GetTableInput) -> Swift.String? {
-        guard let tableBucketARN = value.tableBucketARN else {
-            return nil
+        return "/get-table"
+    }
+}
+
+extension GetTableInput {
+
+    static func queryItemProvider(_ value: GetTableInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let tableBucketARN = value.tableBucketARN {
+            let tableBucketARNQueryItem = Smithy.URIQueryItem(name: "tableBucketARN".urlPercentEncoding(), value: Swift.String(tableBucketARN).urlPercentEncoding())
+            items.append(tableBucketARNQueryItem)
         }
-        guard let namespace = value.namespace else {
-            return nil
+        if let namespace = value.namespace {
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
         }
-        guard let name = value.name else {
-            return nil
+        if let name = value.name {
+            let nameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            items.append(nameQueryItem)
         }
-        return "/tables/\(tableBucketARN.urlPercentEncoding())/\(namespace.urlPercentEncoding())/\(name.urlPercentEncoding())"
+        if let tableArn = value.tableArn {
+            let tableArnQueryItem = Smithy.URIQueryItem(name: "tableArn".urlPercentEncoding(), value: Swift.String(tableArn).urlPercentEncoding())
+            items.append(tableArnQueryItem)
+        }
+        return items
     }
 }
 
@@ -1793,6 +2052,16 @@ extension GetTableBucketInput {
             return nil
         }
         return "/buckets/\(tableBucketARN.urlPercentEncoding())"
+    }
+}
+
+extension GetTableBucketEncryptionInput {
+
+    static func urlPathProvider(_ value: GetTableBucketEncryptionInput) -> Swift.String? {
+        guard let tableBucketARN = value.tableBucketARN else {
+            return nil
+        }
+        return "/buckets/\(tableBucketARN.urlPercentEncoding())/encryption"
     }
 }
 
@@ -1813,6 +2082,22 @@ extension GetTableBucketPolicyInput {
             return nil
         }
         return "/buckets/\(tableBucketARN.urlPercentEncoding())/policy"
+    }
+}
+
+extension GetTableEncryptionInput {
+
+    static func urlPathProvider(_ value: GetTableEncryptionInput) -> Swift.String? {
+        guard let tableBucketARN = value.tableBucketARN else {
+            return nil
+        }
+        guard let namespace = value.namespace else {
+            return nil
+        }
+        guard let name = value.name else {
+            return nil
+        }
+        return "/tables/\(tableBucketARN.urlPercentEncoding())/\(namespace.urlPercentEncoding())/\(name.urlPercentEncoding())/encryption"
     }
 }
 
@@ -1971,6 +2256,16 @@ extension ListTablesInput {
     }
 }
 
+extension PutTableBucketEncryptionInput {
+
+    static func urlPathProvider(_ value: PutTableBucketEncryptionInput) -> Swift.String? {
+        guard let tableBucketARN = value.tableBucketARN else {
+            return nil
+        }
+        return "/buckets/\(tableBucketARN.urlPercentEncoding())/encryption"
+    }
+}
+
 extension PutTableBucketMaintenanceConfigurationInput {
 
     static func urlPathProvider(_ value: PutTableBucketMaintenanceConfigurationInput) -> Swift.String? {
@@ -2073,6 +2368,7 @@ extension CreateTableInput {
 
     static func write(value: CreateTableInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: S3TablesClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["format"].write(value.format)
         try writer["metadata"].write(value.metadata, with: S3TablesClientTypes.TableMetadata.write(value:to:))
         try writer["name"].write(value.name)
@@ -2083,7 +2379,16 @@ extension CreateTableBucketInput {
 
     static func write(value: CreateTableBucketInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: S3TablesClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["name"].write(value.name)
+    }
+}
+
+extension PutTableBucketEncryptionInput {
+
+    static func write(value: PutTableBucketEncryptionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: S3TablesClientTypes.EncryptionConfiguration.write(value:to:))
     }
 }
 
@@ -2197,6 +2502,13 @@ extension DeleteTableBucketOutput {
     }
 }
 
+extension DeleteTableBucketEncryptionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTableBucketEncryptionOutput {
+        return DeleteTableBucketEncryptionOutput()
+    }
+}
+
 extension DeleteTableBucketPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTableBucketPolicyOutput {
@@ -2221,7 +2533,9 @@ extension GetNamespaceOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.namespace = try reader["namespace"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.namespaceId = try reader["namespaceId"].readIfPresent()
         value.ownerAccountId = try reader["ownerAccountId"].readIfPresent() ?? ""
+        value.tableBucketId = try reader["tableBucketId"].readIfPresent()
         return value
     }
 }
@@ -2242,8 +2556,10 @@ extension GetTableOutput {
         value.modifiedBy = try reader["modifiedBy"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.namespace = try reader["namespace"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.namespaceId = try reader["namespaceId"].readIfPresent()
         value.ownerAccountId = try reader["ownerAccountId"].readIfPresent() ?? ""
         value.tableARN = try reader["tableARN"].readIfPresent() ?? ""
+        value.tableBucketId = try reader["tableBucketId"].readIfPresent()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.versionToken = try reader["versionToken"].readIfPresent() ?? ""
         value.warehouseLocation = try reader["warehouseLocation"].readIfPresent() ?? ""
@@ -2262,6 +2578,19 @@ extension GetTableBucketOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.name = try reader["name"].readIfPresent() ?? ""
         value.ownerAccountId = try reader["ownerAccountId"].readIfPresent() ?? ""
+        value.tableBucketId = try reader["tableBucketId"].readIfPresent()
+        return value
+    }
+}
+
+extension GetTableBucketEncryptionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTableBucketEncryptionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTableBucketEncryptionOutput()
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: S3TablesClientTypes.EncryptionConfiguration.read(from:))
         return value
     }
 }
@@ -2287,6 +2616,18 @@ extension GetTableBucketPolicyOutput {
         let reader = responseReader
         var value = GetTableBucketPolicyOutput()
         value.resourcePolicy = try reader["resourcePolicy"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GetTableEncryptionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTableEncryptionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTableEncryptionOutput()
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: S3TablesClientTypes.EncryptionConfiguration.read(from:))
         return value
     }
 }
@@ -2379,6 +2720,13 @@ extension ListTablesOutput {
         value.continuationToken = try reader["continuationToken"].readIfPresent()
         value.tables = try reader["tables"].readListIfPresent(memberReadingClosure: S3TablesClientTypes.TableSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+extension PutTableBucketEncryptionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutTableBucketEncryptionOutput {
+        return PutTableBucketEncryptionOutput()
     }
 }
 
@@ -2547,6 +2895,25 @@ enum DeleteTableBucketOutputError {
     }
 }
 
+enum DeleteTableBucketEncryptionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteTableBucketPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2645,6 +3012,25 @@ enum GetTableBucketOutputError {
     }
 }
 
+enum GetTableBucketEncryptionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetTableBucketMaintenanceConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2674,6 +3060,25 @@ enum GetTableBucketPolicyOutputError {
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTableEncryptionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
@@ -2818,6 +3223,25 @@ enum ListTablesOutputError {
     }
 }
 
+enum PutTableBucketEncryptionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutTableBucketMaintenanceConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2932,11 +3356,24 @@ enum UpdateTableMetadataLocationOutputError {
     }
 }
 
-extension TooManyRequestsException {
+extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
-        var value = TooManyRequestsException()
+        var value = BadRequestException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2984,24 +3421,11 @@ extension NotFoundException {
     }
 }
 
-extension BadRequestException {
+extension TooManyRequestsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
-        var value = BadRequestException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = TooManyRequestsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3019,6 +3443,23 @@ extension AccessDeniedException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension S3TablesClientTypes.EncryptionConfiguration {
+
+    static func write(value: S3TablesClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["sseAlgorithm"].write(value.sseAlgorithm)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3TablesClientTypes.EncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3TablesClientTypes.EncryptionConfiguration()
+        value.sseAlgorithm = try reader["sseAlgorithm"].readIfPresent() ?? .sdkUnknown("")
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         return value
     }
 }
@@ -3147,6 +3588,7 @@ extension S3TablesClientTypes.IcebergCompactionSettings {
 
     static func write(value: S3TablesClientTypes.IcebergCompactionSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["strategy"].write(value.strategy)
         try writer["targetFileSizeMB"].write(value.targetFileSizeMB)
     }
 
@@ -3154,6 +3596,7 @@ extension S3TablesClientTypes.IcebergCompactionSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3TablesClientTypes.IcebergCompactionSettings()
         value.targetFileSizeMB = try reader["targetFileSizeMB"].readIfPresent()
+        value.strategy = try reader["strategy"].readIfPresent()
         return value
     }
 }
@@ -3179,6 +3622,8 @@ extension S3TablesClientTypes.NamespaceSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.ownerAccountId = try reader["ownerAccountId"].readIfPresent() ?? ""
+        value.namespaceId = try reader["namespaceId"].readIfPresent()
+        value.tableBucketId = try reader["tableBucketId"].readIfPresent()
         return value
     }
 }
@@ -3192,6 +3637,7 @@ extension S3TablesClientTypes.TableBucketSummary {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.ownerAccountId = try reader["ownerAccountId"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.tableBucketId = try reader["tableBucketId"].readIfPresent()
         return value
     }
 }
@@ -3207,6 +3653,8 @@ extension S3TablesClientTypes.TableSummary {
         value.tableARN = try reader["tableARN"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.namespaceId = try reader["namespaceId"].readIfPresent()
+        value.tableBucketId = try reader["tableBucketId"].readIfPresent()
         return value
     }
 }

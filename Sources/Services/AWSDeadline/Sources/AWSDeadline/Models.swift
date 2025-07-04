@@ -94,7 +94,7 @@ extension DeadlineClientTypes {
 
     /// Describes a specific GPU accelerator required for an Amazon Elastic Compute Cloud worker host.
     public struct AcceleratorSelection: Swift.Sendable {
-        /// The name of the chip used by the GPU accelerator. If you specify l4 as the name of the accelerator, you must specify latest or grid:r550 as the runtime. The available GPU accelerators are:
+        /// The name of the chip used by the GPU accelerator. If you specify l4 as the name of the accelerator, you must specify latest or grid:r570 as the runtime. The available GPU accelerators are:
         ///
         /// * t4 - NVIDIA T4 Tensor Core GPU
         ///
@@ -109,7 +109,7 @@ extension DeadlineClientTypes {
         ///
         /// * latest - Use the latest runtime available for the chip. If you specify latest and a new version of the runtime is released, the new version of the runtime is used.
         ///
-        /// * grid:r550 - [NVIDIA vGPU software 17](https://docs.nvidia.com/vgpu/17.0/index.html)
+        /// * grid:r570 - [NVIDIA vGPU software 18](https://docs.nvidia.com/vgpu/18.0/index.html)
         ///
         /// * grid:r535 - [NVIDIA vGPU software 16](https://docs.nvidia.com/vgpu/16.0/index.html)
         ///
@@ -330,6 +330,8 @@ extension DeadlineClientTypes {
         case string(Swift.String)
         /// A file system path represented as a string.
         case path(Swift.String)
+        /// A range (for example 1-10) or selection of specific (for example 1,3,7,8,10) integers represented as a string.
+        case chunkint(Swift.String)
         case sdkUnknown(Swift.String)
     }
 }
@@ -345,7 +347,6 @@ extension DeadlineClientTypes {
         /// This member is required.
         public var stepId: Swift.String?
         /// The task ID.
-        /// This member is required.
         public var taskId: Swift.String?
 
         public init(
@@ -502,12 +503,14 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 extension DeadlineClientTypes {
 
     public enum ServiceQuotaExceededExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dependencyLimitExceeded
         case kmsKeyLimitExceeded
         case serviceQuotaExceededException
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ServiceQuotaExceededExceptionReason] {
             return [
+                .dependencyLimitExceeded,
                 .kmsKeyLimitExceeded,
                 .serviceQuotaExceededException
             ]
@@ -520,6 +523,7 @@ extension DeadlineClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .dependencyLimitExceeded: return "DEPENDENCY_LIMIT_EXCEEDED"
             case .kmsKeyLimitExceeded: return "KMS_KEY_LIMIT_EXCEEDED"
             case .serviceQuotaExceededException: return "SERVICE_QUOTA_EXCEEDED_EXCEPTION"
             case let .sdkUnknown(s): return s
@@ -2872,6 +2876,35 @@ public struct CreateFarmOutput: Swift.Sendable {
 
 extension DeadlineClientTypes {
 
+    public enum TagPropagationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case noPropagation
+        case propagateTagsToWorkersAtLaunch
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TagPropagationMode] {
+            return [
+                .noPropagation,
+                .propagateTagsToWorkersAtLaunch
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .noPropagation: return "NO_PROPAGATION"
+            case .propagateTagsToWorkersAtLaunch: return "PROPAGATE_TAGS_TO_WORKERS_AT_LAUNCH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
     /// The fleet amount and attribute capabilities.
     public struct FleetAmountCapability: Swift.Sendable {
         /// The maximum amount of the fleet worker capability.
@@ -3048,6 +3081,8 @@ extension DeadlineClientTypes {
         public var mode: DeadlineClientTypes.AutoScalingMode?
         /// The storage profile ID.
         public var storageProfileId: Swift.String?
+        /// Specifies whether tags associated with a fleet are attached to workers when the worker is launched. When the tagPropagationMode is set to PROPAGATE_TAGS_TO_WORKERS_AT_LAUNCH any tag associated with a fleet is attached to workers when they launch. If the tags for a fleet change, the tags associated with running workers do not change. If you don't specify tagPropagationMode, the default is NO_PROPAGATION.
+        public var tagPropagationMode: DeadlineClientTypes.TagPropagationMode?
         /// The worker capabilities for a customer managed fleet configuration.
         /// This member is required.
         public var workerCapabilities: DeadlineClientTypes.CustomerManagedWorkerCapabilities?
@@ -3055,10 +3090,12 @@ extension DeadlineClientTypes {
         public init(
             mode: DeadlineClientTypes.AutoScalingMode? = nil,
             storageProfileId: Swift.String? = nil,
+            tagPropagationMode: DeadlineClientTypes.TagPropagationMode? = nil,
             workerCapabilities: DeadlineClientTypes.CustomerManagedWorkerCapabilities? = nil
         ) {
             self.mode = mode
             self.storageProfileId = storageProfileId
+            self.tagPropagationMode = tagPropagationMode
             self.workerCapabilities = workerCapabilities
         }
     }
@@ -3226,13 +3263,17 @@ extension DeadlineClientTypes {
         /// The Amazon EC2 market type.
         /// This member is required.
         public var instanceMarketOptions: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions?
+        /// The storage profile ID.
+        public var storageProfileId: Swift.String?
 
         public init(
             instanceCapabilities: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities? = nil,
-            instanceMarketOptions: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions? = nil
+            instanceMarketOptions: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions? = nil,
+            storageProfileId: Swift.String? = nil
         ) {
             self.instanceCapabilities = instanceCapabilities
             self.instanceMarketOptions = instanceMarketOptions
+            self.storageProfileId = storageProfileId
         }
     }
 }
@@ -3249,6 +3290,31 @@ extension DeadlineClientTypes {
     }
 }
 
+extension DeadlineClientTypes {
+
+    /// Provides a script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet. To remove a script from a fleet, use the [UpdateFleet](https://docs.aws.amazon.com/deadline-cloud/latest/APIReference/API_UpdateFleet.html) operation with the hostConfigurationscriptBody parameter set to an empty string ("").
+    public struct HostConfiguration: Swift.Sendable {
+        /// The text of the script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet. The script runs after a worker enters the STARTING state and before the worker processes tasks. For more information about using the script, see [Run scripts as an administrator to configure workers](https://docs.aws.amazon.com/deadline-cloud/latest/developerguide/smf-admin.html) in the Deadline Cloud Developer Guide. The script runs as an administrative user (sudo root on Linux, as an Administrator on Windows).
+        /// This member is required.
+        public var scriptBody: Swift.String?
+        /// The maximum time that the host configuration can run. If the timeout expires, the worker enters the NOT RESPONDING state and shuts down. You are charged for the time that the worker is running the host configuration script. You should configure your fleet for a maximum of one worker while testing your host configuration script to avoid starting additional workers. The default is 300 seconds (5 minutes).
+        public var scriptTimeoutSeconds: Swift.Int?
+
+        public init(
+            scriptBody: Swift.String? = nil,
+            scriptTimeoutSeconds: Swift.Int? = 300
+        ) {
+            self.scriptBody = scriptBody
+            self.scriptTimeoutSeconds = scriptTimeoutSeconds
+        }
+    }
+}
+
+extension DeadlineClientTypes.HostConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "HostConfiguration(scriptTimeoutSeconds: \(Swift.String(describing: scriptTimeoutSeconds)), scriptBody: \"CONTENT_REDACTED\")"}
+}
+
 public struct CreateFleetInput: Swift.Sendable {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
@@ -3263,7 +3329,9 @@ public struct CreateFleetInput: Swift.Sendable {
     /// The farm ID of the farm to connect to the fleet.
     /// This member is required.
     public var farmId: Swift.String?
-    /// The maximum number of workers for the fleet.
+    /// Provides a script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
+    public var hostConfiguration: DeadlineClientTypes.HostConfiguration?
+    /// The maximum number of workers for the fleet. Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to CreateWorker before the field updates, you might exceed your fleet's maximum worker count. For example, if your maxWorkerCount is 10 and you currently have 9 workers, making two quick CreateWorker calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
     /// This member is required.
     public var maxWorkerCount: Swift.Int?
     /// The minimum number of workers for the fleet.
@@ -3280,6 +3348,7 @@ public struct CreateFleetInput: Swift.Sendable {
         description: Swift.String? = nil,
         displayName: Swift.String? = nil,
         farmId: Swift.String? = nil,
+        hostConfiguration: DeadlineClientTypes.HostConfiguration? = nil,
         maxWorkerCount: Swift.Int? = nil,
         minWorkerCount: Swift.Int? = nil,
         roleArn: Swift.String? = nil,
@@ -3290,6 +3359,7 @@ public struct CreateFleetInput: Swift.Sendable {
         self.description = description
         self.displayName = displayName
         self.farmId = farmId
+        self.hostConfiguration = hostConfiguration
         self.maxWorkerCount = maxWorkerCount
         self.minWorkerCount = minWorkerCount
         self.roleArn = roleArn
@@ -3299,7 +3369,7 @@ public struct CreateFleetInput: Swift.Sendable {
 
 extension CreateFleetInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateFleetInput(clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+        "CreateFleetInput(clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), hostConfiguration: \(Swift.String(describing: hostConfiguration)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateFleetOutput: Swift.Sendable {
@@ -3359,7 +3429,7 @@ public struct CreateJobInput: Swift.Sendable {
     public var maxWorkerCount: Swift.Int?
     /// The parameters for the job.
     public var parameters: [Swift.String: DeadlineClientTypes.JobParameter]?
-    /// The priority of the job on a scale of 0 to 100. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
+    /// The priority of the job. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
     /// This member is required.
     public var priority: Swift.Int?
     /// The ID of the queue that the job is submitted to.
@@ -3655,7 +3725,7 @@ public struct CreateQueueInput: Swift.Sendable {
 
 extension CreateQueueInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateQueueInput(allowedStorageProfileIds: \(Swift.String(describing: allowedStorageProfileIds)), clientToken: \(Swift.String(describing: clientToken)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", requiredFileSystemLocationNames: \"CONTENT_REDACTED\")"}
+        "CreateQueueInput(allowedStorageProfileIds: \(Swift.String(describing: allowedStorageProfileIds)), clientToken: \(Swift.String(describing: clientToken)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), requiredFileSystemLocationNames: \(Swift.String(describing: requiredFileSystemLocationNames)), roleArn: \(Swift.String(describing: roleArn)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateQueueOutput: Swift.Sendable {
@@ -3705,7 +3775,7 @@ public struct CreateQueueEnvironmentInput: Swift.Sendable {
     /// The farm ID of the farm to connect to the environment.
     /// This member is required.
     public var farmId: Swift.String?
-    /// Sets the priority of the environments in the queue from 0 to 10,000, where 0 is the highest priority. If two environments share the same priority value, the environment created first takes higher priority.
+    /// Sets the priority of the environments in the queue from 0 to 10,000, where 0 is the highest priority (activated first and deactivated last). If two environments share the same priority value, the environment created first takes higher priority.
     /// This member is required.
     public var priority: Swift.Int?
     /// The queue ID to connect the queue and environment.
@@ -3995,17 +4065,21 @@ public struct CreateWorkerInput: Swift.Sendable {
     public var fleetId: Swift.String?
     /// The IP address and host name of the worker.
     public var hostProperties: DeadlineClientTypes.HostPropertiesRequest?
+    /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         clientToken: Swift.String? = nil,
         farmId: Swift.String? = nil,
         fleetId: Swift.String? = nil,
-        hostProperties: DeadlineClientTypes.HostPropertiesRequest? = nil
+        hostProperties: DeadlineClientTypes.HostPropertiesRequest? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.farmId = farmId
         self.fleetId = fleetId
         self.hostProperties = hostProperties
+        self.tags = tags
     }
 }
 
@@ -4336,6 +4410,8 @@ public struct GetFleetOutput: Swift.Sendable {
     /// The fleet ID.
     /// This member is required.
     public var fleetId: Swift.String?
+    /// The script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
+    public var hostConfiguration: DeadlineClientTypes.HostConfiguration?
     /// The maximum number of workers specified in the fleet.
     /// This member is required.
     public var maxWorkerCount: Swift.Int?
@@ -4345,7 +4421,7 @@ public struct GetFleetOutput: Swift.Sendable {
     /// The IAM role ARN.
     /// This member is required.
     public var roleArn: Swift.String?
-    /// The Auto Scaling status of the fleet.
+    /// The status of the fleet.
     /// This member is required.
     public var status: DeadlineClientTypes.FleetStatus?
     /// The number of target workers in the fleet.
@@ -4368,6 +4444,7 @@ public struct GetFleetOutput: Swift.Sendable {
         displayName: Swift.String? = nil,
         farmId: Swift.String? = nil,
         fleetId: Swift.String? = nil,
+        hostConfiguration: DeadlineClientTypes.HostConfiguration? = nil,
         maxWorkerCount: Swift.Int? = nil,
         minWorkerCount: Swift.Int? = nil,
         roleArn: Swift.String? = nil,
@@ -4386,6 +4463,7 @@ public struct GetFleetOutput: Swift.Sendable {
         self.displayName = displayName
         self.farmId = farmId
         self.fleetId = fleetId
+        self.hostConfiguration = hostConfiguration
         self.maxWorkerCount = maxWorkerCount
         self.minWorkerCount = minWorkerCount
         self.roleArn = roleArn
@@ -4399,7 +4477,7 @@ public struct GetFleetOutput: Swift.Sendable {
 
 extension GetFleetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetFleetOutput(autoScalingStatus: \(Swift.String(describing: autoScalingStatus)), capabilities: \(Swift.String(describing: capabilities)), configuration: \(Swift.String(describing: configuration)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), fleetId: \(Swift.String(describing: fleetId)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), targetWorkerCount: \(Swift.String(describing: targetWorkerCount)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), workerCount: \(Swift.String(describing: workerCount)), description: \"CONTENT_REDACTED\")"}
+        "GetFleetOutput(autoScalingStatus: \(Swift.String(describing: autoScalingStatus)), capabilities: \(Swift.String(describing: capabilities)), configuration: \(Swift.String(describing: configuration)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), fleetId: \(Swift.String(describing: fleetId)), hostConfiguration: \(Swift.String(describing: hostConfiguration)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), targetWorkerCount: \(Swift.String(describing: targetWorkerCount)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), workerCount: \(Swift.String(describing: workerCount)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListFleetMembersInput: Swift.Sendable {
@@ -4624,7 +4702,9 @@ public struct UpdateFleetInput: Swift.Sendable {
     /// The fleet ID to update.
     /// This member is required.
     public var fleetId: Swift.String?
-    /// The maximum number of workers in the fleet.
+    /// Provides a script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
+    public var hostConfiguration: DeadlineClientTypes.HostConfiguration?
+    /// The maximum number of workers in the fleet. Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to CreateWorker before the field updates, you might exceed your fleet's maximum worker count. For example, if your maxWorkerCount is 10 and you currently have 9 workers, making two quick CreateWorker calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
     public var maxWorkerCount: Swift.Int?
     /// The minimum number of workers in the fleet.
     public var minWorkerCount: Swift.Int?
@@ -4638,6 +4718,7 @@ public struct UpdateFleetInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         farmId: Swift.String? = nil,
         fleetId: Swift.String? = nil,
+        hostConfiguration: DeadlineClientTypes.HostConfiguration? = nil,
         maxWorkerCount: Swift.Int? = nil,
         minWorkerCount: Swift.Int? = nil,
         roleArn: Swift.String? = nil
@@ -4648,6 +4729,7 @@ public struct UpdateFleetInput: Swift.Sendable {
         self.displayName = displayName
         self.farmId = farmId
         self.fleetId = fleetId
+        self.hostConfiguration = hostConfiguration
         self.maxWorkerCount = maxWorkerCount
         self.minWorkerCount = minWorkerCount
         self.roleArn = roleArn
@@ -4656,7 +4738,7 @@ public struct UpdateFleetInput: Swift.Sendable {
 
 extension UpdateFleetInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateFleetInput(clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), fleetId: \(Swift.String(describing: fleetId)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\")"}
+        "UpdateFleetInput(clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), fleetId: \(Swift.String(describing: fleetId)), hostConfiguration: \(Swift.String(describing: hostConfiguration)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateFleetOutput: Swift.Sendable {
@@ -5222,13 +5304,36 @@ public struct UpdateWorkerInput: Swift.Sendable {
 }
 
 public struct UpdateWorkerOutput: Swift.Sendable {
+    /// The script that runs as a worker is starting up that you can use to provide additional configuration for workers in your fleet.
+    public var hostConfiguration: DeadlineClientTypes.HostConfiguration?
     /// The worker log to update.
     public var log: DeadlineClientTypes.LogConfiguration?
 
     public init(
+        hostConfiguration: DeadlineClientTypes.HostConfiguration? = nil,
         log: DeadlineClientTypes.LogConfiguration? = nil
     ) {
+        self.hostConfiguration = hostConfiguration
         self.log = log
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The output manifest properties reported by the worker agent for a completed task run.
+    public struct TaskRunManifestPropertiesRequest: Swift.Sendable {
+        /// The hash value of the file.
+        public var outputManifestHash: Swift.String?
+        /// The manifest file path.
+        public var outputManifestPath: Swift.String?
+
+        public init(
+            outputManifestHash: Swift.String? = nil,
+            outputManifestPath: Swift.String? = nil
+        ) {
+            self.outputManifestHash = outputManifestHash
+            self.outputManifestPath = outputManifestPath
+        }
     }
 }
 
@@ -5240,7 +5345,9 @@ extension DeadlineClientTypes {
         public var completedStatus: DeadlineClientTypes.CompletedStatus?
         /// The date and time the resource ended running.
         public var endedAt: Foundation.Date?
-        /// The process exit code.
+        /// A list of output manifest properties reported by the worker agent, with each entry corresponding to a manifest property in the job.
+        public var manifests: [DeadlineClientTypes.TaskRunManifestPropertiesRequest]?
+        /// The process exit code. The default Deadline Cloud worker agent converts unsigned 32-bit exit codes to signed 32-bit exit codes.
         public var processExitCode: Swift.Int?
         /// A message to indicate the progress of the updated session action.
         public var progressMessage: Swift.String?
@@ -5254,6 +5361,7 @@ extension DeadlineClientTypes {
         public init(
             completedStatus: DeadlineClientTypes.CompletedStatus? = nil,
             endedAt: Foundation.Date? = nil,
+            manifests: [DeadlineClientTypes.TaskRunManifestPropertiesRequest]? = nil,
             processExitCode: Swift.Int? = nil,
             progressMessage: Swift.String? = nil,
             progressPercent: Swift.Float? = nil,
@@ -5262,6 +5370,7 @@ extension DeadlineClientTypes {
         ) {
             self.completedStatus = completedStatus
             self.endedAt = endedAt
+            self.manifests = manifests
             self.processExitCode = processExitCode
             self.progressMessage = progressMessage
             self.progressPercent = progressPercent
@@ -5273,7 +5382,7 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes.UpdatedSessionActionInfo: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdatedSessionActionInfo(completedStatus: \(Swift.String(describing: completedStatus)), endedAt: \(Swift.String(describing: endedAt)), processExitCode: \(Swift.String(describing: processExitCode)), progressPercent: \(Swift.String(describing: progressPercent)), startedAt: \(Swift.String(describing: startedAt)), updatedAt: \(Swift.String(describing: updatedAt)), progressMessage: \"CONTENT_REDACTED\")"}
+        "UpdatedSessionActionInfo(completedStatus: \(Swift.String(describing: completedStatus)), endedAt: \(Swift.String(describing: endedAt)), manifests: \(Swift.String(describing: manifests)), processExitCode: \(Swift.String(describing: processExitCode)), progressPercent: \(Swift.String(describing: progressPercent)), startedAt: \(Swift.String(describing: startedAt)), updatedAt: \(Swift.String(describing: updatedAt)), progressMessage: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateWorkerScheduleInput: Swift.Sendable {
@@ -6109,7 +6218,7 @@ public struct GetQueueOutput: Swift.Sendable {
 
 extension GetQueueOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetQueueOutput(allowedStorageProfileIds: \(Swift.String(describing: allowedStorageProfileIds)), blockedReason: \(Swift.String(describing: blockedReason)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), queueId: \(Swift.String(describing: queueId)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", requiredFileSystemLocationNames: \"CONTENT_REDACTED\")"}
+        "GetQueueOutput(allowedStorageProfileIds: \(Swift.String(describing: allowedStorageProfileIds)), blockedReason: \(Swift.String(describing: blockedReason)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), queueId: \(Swift.String(describing: queueId)), requiredFileSystemLocationNames: \(Swift.String(describing: requiredFileSystemLocationNames)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetQueueEnvironmentInput: Swift.Sendable {
@@ -6490,6 +6599,8 @@ public struct GetJobOutput: Swift.Sendable {
     public var storageProfileId: Swift.String?
     /// The task status with which the job started.
     public var targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus?
+    /// The total number of times tasks from the job failed and were retried.
+    public var taskFailureRetryCount: Swift.Int?
     /// The task run status for the job.
     public var taskRunStatus: DeadlineClientTypes.TaskRunStatus?
     /// The number of tasks running on the job.
@@ -6518,6 +6629,7 @@ public struct GetJobOutput: Swift.Sendable {
         startedAt: Foundation.Date? = nil,
         storageProfileId: Swift.String? = nil,
         targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus? = nil,
+        taskFailureRetryCount: Swift.Int? = nil,
         taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
         taskRunStatusCounts: [Swift.String: Swift.Int]? = nil,
         updatedAt: Foundation.Date? = nil,
@@ -6541,6 +6653,7 @@ public struct GetJobOutput: Swift.Sendable {
         self.startedAt = startedAt
         self.storageProfileId = storageProfileId
         self.targetTaskRunStatus = targetTaskRunStatus
+        self.taskFailureRetryCount = taskFailureRetryCount
         self.taskRunStatus = taskRunStatus
         self.taskRunStatusCounts = taskRunStatusCounts
         self.updatedAt = updatedAt
@@ -6550,7 +6663,7 @@ public struct GetJobOutput: Swift.Sendable {
 
 extension GetJobOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetJobOutput(attachments: \(Swift.String(describing: attachments)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
+        "GetJobOutput(attachments: \(Swift.String(describing: attachments)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskFailureRetryCount: \(Swift.String(describing: taskFailureRetryCount)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetSessionInput: Swift.Sendable {
@@ -6726,7 +6839,6 @@ extension DeadlineClientTypes {
         /// This member is required.
         public var stepId: Swift.String?
         /// The task ID.
-        /// This member is required.
         public var taskId: Swift.String?
 
         public init(
@@ -6759,6 +6871,25 @@ extension DeadlineClientTypes {
         /// The job attachments to sync with a session action.
         case syncinputjobattachments(DeadlineClientTypes.SyncInputJobAttachmentsSessionActionDefinition)
         case sdkUnknown(Swift.String)
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// The manifest properties for a task run, corresponding to the manifest properties in the job.
+    public struct TaskRunManifestPropertiesResponse: Swift.Sendable {
+        /// The hash value of the file.
+        public var outputManifestHash: Swift.String?
+        /// The manifest file path.
+        public var outputManifestPath: Swift.String?
+
+        public init(
+            outputManifestHash: Swift.String? = nil,
+            outputManifestPath: Swift.String? = nil
+        ) {
+            self.outputManifestHash = outputManifestHash
+            self.outputManifestPath = outputManifestPath
+        }
     }
 }
 
@@ -6826,7 +6957,9 @@ public struct GetSessionActionOutput: Swift.Sendable {
     public var definition: DeadlineClientTypes.SessionActionDefinition?
     /// The date and time the resource ended running.
     public var endedAt: Foundation.Date?
-    /// The exit code to exit the session.
+    /// The list of manifest properties that describe file attachments for the task run.
+    public var manifests: [DeadlineClientTypes.TaskRunManifestPropertiesResponse]?
+    /// The process exit code. The default Deadline Cloud worker agent converts unsigned 32-bit exit codes to signed 32-bit exit codes.
     public var processExitCode: Swift.Int?
     /// The message that communicates the progress of the session action.
     public var progressMessage: Swift.String?
@@ -6850,6 +6983,7 @@ public struct GetSessionActionOutput: Swift.Sendable {
         acquiredLimits: [DeadlineClientTypes.AcquiredLimit]? = nil,
         definition: DeadlineClientTypes.SessionActionDefinition? = nil,
         endedAt: Foundation.Date? = nil,
+        manifests: [DeadlineClientTypes.TaskRunManifestPropertiesResponse]? = nil,
         processExitCode: Swift.Int? = nil,
         progressMessage: Swift.String? = nil,
         progressPercent: Swift.Float? = nil,
@@ -6862,6 +6996,7 @@ public struct GetSessionActionOutput: Swift.Sendable {
         self.acquiredLimits = acquiredLimits
         self.definition = definition
         self.endedAt = endedAt
+        self.manifests = manifests
         self.processExitCode = processExitCode
         self.progressMessage = progressMessage
         self.progressPercent = progressPercent
@@ -6875,7 +7010,7 @@ public struct GetSessionActionOutput: Swift.Sendable {
 
 extension GetSessionActionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetSessionActionOutput(acquiredLimits: \(Swift.String(describing: acquiredLimits)), definition: \(Swift.String(describing: definition)), endedAt: \(Swift.String(describing: endedAt)), processExitCode: \(Swift.String(describing: processExitCode)), progressPercent: \(Swift.String(describing: progressPercent)), sessionActionId: \(Swift.String(describing: sessionActionId)), sessionId: \(Swift.String(describing: sessionId)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), workerUpdatedAt: \(Swift.String(describing: workerUpdatedAt)), progressMessage: \"CONTENT_REDACTED\")"}
+        "GetSessionActionOutput(acquiredLimits: \(Swift.String(describing: acquiredLimits)), definition: \(Swift.String(describing: definition)), endedAt: \(Swift.String(describing: endedAt)), manifests: \(Swift.String(describing: manifests)), processExitCode: \(Swift.String(describing: processExitCode)), progressPercent: \(Swift.String(describing: progressPercent)), sessionActionId: \(Swift.String(describing: sessionActionId)), sessionId: \(Swift.String(describing: sessionId)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), workerUpdatedAt: \(Swift.String(describing: workerUpdatedAt)), progressMessage: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetStepInput: Swift.Sendable {
@@ -6974,6 +7109,7 @@ extension DeadlineClientTypes {
 extension DeadlineClientTypes {
 
     public enum StepParameterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case chunkInt
         case float
         case int
         case path
@@ -6982,6 +7118,7 @@ extension DeadlineClientTypes {
 
         public static var allCases: [StepParameterType] {
             return [
+                .chunkInt,
                 .float,
                 .int,
                 .path,
@@ -6996,6 +7133,7 @@ extension DeadlineClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .chunkInt: return "CHUNK_INT"
             case .float: return "FLOAT"
             case .int: return "INT"
             case .path: return "PATH"
@@ -7193,6 +7331,8 @@ public struct GetStepOutput: Swift.Sendable {
     public var stepId: Swift.String?
     /// The task status with which the job started.
     public var targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus?
+    /// The total number of times tasks from the step failed and were retried.
+    public var taskFailureRetryCount: Swift.Int?
     /// The task run status for the job.
     /// This member is required.
     public var taskRunStatus: DeadlineClientTypes.TaskRunStatus?
@@ -7218,6 +7358,7 @@ public struct GetStepOutput: Swift.Sendable {
         startedAt: Foundation.Date? = nil,
         stepId: Swift.String? = nil,
         targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus? = nil,
+        taskFailureRetryCount: Swift.Int? = nil,
         taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
         taskRunStatusCounts: [Swift.String: Swift.Int]? = nil,
         updatedAt: Foundation.Date? = nil,
@@ -7236,6 +7377,7 @@ public struct GetStepOutput: Swift.Sendable {
         self.startedAt = startedAt
         self.stepId = stepId
         self.targetTaskRunStatus = targetTaskRunStatus
+        self.taskFailureRetryCount = taskFailureRetryCount
         self.taskRunStatus = taskRunStatus
         self.taskRunStatusCounts = taskRunStatusCounts
         self.updatedAt = updatedAt
@@ -7245,7 +7387,7 @@ public struct GetStepOutput: Swift.Sendable {
 
 extension GetStepOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetStepOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), dependencyCounts: \(Swift.String(describing: dependencyCounts)), endedAt: \(Swift.String(describing: endedAt)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), name: \(Swift.String(describing: name)), parameterSpace: \(Swift.String(describing: parameterSpace)), requiredCapabilities: \(Swift.String(describing: requiredCapabilities)), startedAt: \(Swift.String(describing: startedAt)), stepId: \(Swift.String(describing: stepId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
+        "GetStepOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), dependencyCounts: \(Swift.String(describing: dependencyCounts)), endedAt: \(Swift.String(describing: endedAt)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), name: \(Swift.String(describing: name)), parameterSpace: \(Swift.String(describing: parameterSpace)), requiredCapabilities: \(Swift.String(describing: requiredCapabilities)), startedAt: \(Swift.String(describing: startedAt)), stepId: \(Swift.String(describing: stepId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskFailureRetryCount: \(Swift.String(describing: taskFailureRetryCount)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetTaskInput: Swift.Sendable {
@@ -7591,6 +7733,8 @@ extension DeadlineClientTypes {
         public var startedAt: Foundation.Date?
         /// The task status to start with on the job.
         public var targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus?
+        /// The total number of times tasks from the job failed and were retried.
+        public var taskFailureRetryCount: Swift.Int?
         /// The task run status for the job.
         ///
         /// * PENDING–pending and waiting for resources.
@@ -7635,6 +7779,7 @@ extension DeadlineClientTypes {
             sourceJobId: Swift.String? = nil,
             startedAt: Foundation.Date? = nil,
             targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus? = nil,
+            taskFailureRetryCount: Swift.Int? = nil,
             taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
             taskRunStatusCounts: [Swift.String: Swift.Int]? = nil,
             updatedAt: Foundation.Date? = nil,
@@ -7654,6 +7799,7 @@ extension DeadlineClientTypes {
             self.sourceJobId = sourceJobId
             self.startedAt = startedAt
             self.targetTaskRunStatus = targetTaskRunStatus
+            self.taskFailureRetryCount = taskFailureRetryCount
             self.taskRunStatus = taskRunStatus
             self.taskRunStatusCounts = taskRunStatusCounts
             self.updatedAt = updatedAt
@@ -7767,21 +7913,29 @@ extension DeadlineClientTypes {
 
     /// The details of a task run in a session action.
     public struct TaskRunSessionActionDefinitionSummary: Swift.Sendable {
+        /// The parameters of a task run in a session action.
+        public var parameters: [Swift.String: DeadlineClientTypes.TaskParameterValue]?
         /// The step ID.
         /// This member is required.
         public var stepId: Swift.String?
         /// The task ID.
-        /// This member is required.
         public var taskId: Swift.String?
 
         public init(
+            parameters: [Swift.String: DeadlineClientTypes.TaskParameterValue]? = nil,
             stepId: Swift.String? = nil,
             taskId: Swift.String? = nil
         ) {
+            self.parameters = parameters
             self.stepId = stepId
             self.taskId = taskId
         }
     }
+}
+
+extension DeadlineClientTypes.TaskRunSessionActionDefinitionSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TaskRunSessionActionDefinitionSummary(stepId: \(Swift.String(describing: stepId)), taskId: \(Swift.String(describing: taskId)), parameters: \"CONTENT_REDACTED\")"}
 }
 
 extension DeadlineClientTypes {
@@ -7809,6 +7963,8 @@ extension DeadlineClientTypes {
         public var definition: DeadlineClientTypes.SessionActionDefinitionSummary?
         /// The date and time the resource ended running.
         public var endedAt: Foundation.Date?
+        /// The list of manifest properties that describe file attachments for the task run.
+        public var manifests: [DeadlineClientTypes.TaskRunManifestPropertiesResponse]?
         /// The completion percentage for the session action.
         public var progressPercent: Swift.Float?
         /// The session action ID.
@@ -7825,6 +7981,7 @@ extension DeadlineClientTypes {
         public init(
             definition: DeadlineClientTypes.SessionActionDefinitionSummary? = nil,
             endedAt: Foundation.Date? = nil,
+            manifests: [DeadlineClientTypes.TaskRunManifestPropertiesResponse]? = nil,
             progressPercent: Swift.Float? = nil,
             sessionActionId: Swift.String? = nil,
             startedAt: Foundation.Date? = nil,
@@ -7833,6 +7990,7 @@ extension DeadlineClientTypes {
         ) {
             self.definition = definition
             self.endedAt = endedAt
+            self.manifests = manifests
             self.progressPercent = progressPercent
             self.sessionActionId = sessionActionId
             self.startedAt = startedAt
@@ -8188,6 +8346,8 @@ extension DeadlineClientTypes {
         public var stepId: Swift.String?
         /// The task status to start with on the job.
         public var targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus?
+        /// The total number of times tasks from the step failed and were retried.
+        public var taskFailureRetryCount: Swift.Int?
         /// The task run status for the job.
         ///
         /// * PENDING–pending and waiting for resources.
@@ -8230,6 +8390,7 @@ extension DeadlineClientTypes {
             startedAt: Foundation.Date? = nil,
             stepId: Swift.String? = nil,
             targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus? = nil,
+            taskFailureRetryCount: Swift.Int? = nil,
             taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
             taskRunStatusCounts: [Swift.String: Swift.Int]? = nil,
             updatedAt: Foundation.Date? = nil,
@@ -8245,6 +8406,7 @@ extension DeadlineClientTypes {
             self.startedAt = startedAt
             self.stepId = stepId
             self.targetTaskRunStatus = targetTaskRunStatus
+            self.taskFailureRetryCount = taskFailureRetryCount
             self.taskRunStatus = taskRunStatus
             self.taskRunStatusCounts = taskRunStatusCounts
             self.updatedAt = updatedAt
@@ -8958,7 +9120,7 @@ public struct UpdateQueueInput: Swift.Sendable {
 
 extension UpdateQueueInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateQueueInput(allowedStorageProfileIdsToAdd: \(Swift.String(describing: allowedStorageProfileIdsToAdd)), allowedStorageProfileIdsToRemove: \(Swift.String(describing: allowedStorageProfileIdsToRemove)), clientToken: \(Swift.String(describing: clientToken)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), queueId: \(Swift.String(describing: queueId)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\", requiredFileSystemLocationNamesToAdd: \"CONTENT_REDACTED\", requiredFileSystemLocationNamesToRemove: \"CONTENT_REDACTED\")"}
+        "UpdateQueueInput(allowedStorageProfileIdsToAdd: \(Swift.String(describing: allowedStorageProfileIdsToAdd)), allowedStorageProfileIdsToRemove: \(Swift.String(describing: allowedStorageProfileIdsToRemove)), clientToken: \(Swift.String(describing: clientToken)), defaultBudgetAction: \(Swift.String(describing: defaultBudgetAction)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), jobAttachmentSettings: \(Swift.String(describing: jobAttachmentSettings)), jobRunAsUser: \(Swift.String(describing: jobRunAsUser)), queueId: \(Swift.String(describing: queueId)), requiredFileSystemLocationNamesToAdd: \(Swift.String(describing: requiredFileSystemLocationNamesToAdd)), requiredFileSystemLocationNamesToRemove: \(Swift.String(describing: requiredFileSystemLocationNamesToRemove)), roleArn: \(Swift.String(describing: roleArn)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateQueueOutput: Swift.Sendable {
@@ -10288,15 +10450,52 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
+    public enum SearchTermMatchingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contains
+        case fuzzyMatch
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchTermMatchingType] {
+            return [
+                .contains,
+                .fuzzyMatch
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contains: return "CONTAINS"
+            case .fuzzyMatch: return "FUZZY_MATCH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
     /// Searches for a particular search term.
     public struct SearchTermFilterExpression: Swift.Sendable {
+        /// Specifies how Deadline Cloud matches your search term in the results. If you don't specify a matchType the default is FUZZY_MATCH.
+        ///
+        /// * FUZZY_MATCH - Matches if a portion of the search term is found in the result.
+        ///
+        /// * CONTAINS - Matches if the exact search term is contained in the result.
+        public var matchType: DeadlineClientTypes.SearchTermMatchingType?
         /// The term to search for.
         /// This member is required.
         public var searchTerm: Swift.String?
 
         public init(
+            matchType: DeadlineClientTypes.SearchTermMatchingType? = .fuzzyMatch,
             searchTerm: Swift.String? = nil
         ) {
+            self.matchType = matchType
             self.searchTerm = searchTerm
         }
     }
@@ -10494,6 +10693,8 @@ extension DeadlineClientTypes {
         public var startedAt: Foundation.Date?
         /// The task status to start with on the job.
         public var targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus?
+        /// The total number of times tasks from the job failed and were retried.
+        public var taskFailureRetryCount: Swift.Int?
         /// The task run status for the job.
         ///
         /// * PENDING–pending and waiting for resources.
@@ -10536,6 +10737,7 @@ extension DeadlineClientTypes {
             sourceJobId: Swift.String? = nil,
             startedAt: Foundation.Date? = nil,
             targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus? = nil,
+            taskFailureRetryCount: Swift.Int? = nil,
             taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
             taskRunStatusCounts: [Swift.String: Swift.Int]? = nil
         ) {
@@ -10555,6 +10757,7 @@ extension DeadlineClientTypes {
             self.sourceJobId = sourceJobId
             self.startedAt = startedAt
             self.targetTaskRunStatus = targetTaskRunStatus
+            self.taskFailureRetryCount = taskFailureRetryCount
             self.taskRunStatus = taskRunStatus
             self.taskRunStatusCounts = taskRunStatusCounts
         }
@@ -10563,7 +10766,7 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes.JobSearchSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "JobSearchSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), jobParameters: \"CONTENT_REDACTED\")"}
+        "JobSearchSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskFailureRetryCount: \(Swift.String(describing: taskFailureRetryCount)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), jobParameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct SearchJobsOutput: Swift.Sendable {
@@ -10613,6 +10816,8 @@ extension DeadlineClientTypes {
         public var stepId: Swift.String?
         /// The task status to start with on the job.
         public var targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus?
+        /// The total number of times tasks from the step failed and were retried.
+        public var taskFailureRetryCount: Swift.Int?
         /// The task run status for the job.
         ///
         /// * PENDING–pending and waiting for resources.
@@ -10650,6 +10855,7 @@ extension DeadlineClientTypes {
             startedAt: Foundation.Date? = nil,
             stepId: Swift.String? = nil,
             targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus? = nil,
+            taskFailureRetryCount: Swift.Int? = nil,
             taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
             taskRunStatusCounts: [Swift.String: Swift.Int]? = nil
         ) {
@@ -10664,6 +10870,7 @@ extension DeadlineClientTypes {
             self.startedAt = startedAt
             self.stepId = stepId
             self.targetTaskRunStatus = targetTaskRunStatus
+            self.taskFailureRetryCount = taskFailureRetryCount
             self.taskRunStatus = taskRunStatus
             self.taskRunStatusCounts = taskRunStatusCounts
         }
@@ -13739,6 +13946,7 @@ extension CreateFleetInput {
         try writer["configuration"].write(value.configuration, with: DeadlineClientTypes.FleetConfiguration.write(value:to:))
         try writer["description"].write(value.description)
         try writer["displayName"].write(value.displayName)
+        try writer["hostConfiguration"].write(value.hostConfiguration, with: DeadlineClientTypes.HostConfiguration.write(value:to:))
         try writer["maxWorkerCount"].write(value.maxWorkerCount)
         try writer["minWorkerCount"].write(value.minWorkerCount)
         try writer["roleArn"].write(value.roleArn)
@@ -13856,6 +14064,7 @@ extension CreateWorkerInput {
     static func write(value: CreateWorkerInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["hostProperties"].write(value.hostProperties, with: DeadlineClientTypes.HostPropertiesRequest.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -13961,6 +14170,7 @@ extension UpdateFleetInput {
         try writer["configuration"].write(value.configuration, with: DeadlineClientTypes.FleetConfiguration.write(value:to:))
         try writer["description"].write(value.description)
         try writer["displayName"].write(value.displayName)
+        try writer["hostConfiguration"].write(value.hostConfiguration, with: DeadlineClientTypes.HostConfiguration.write(value:to:))
         try writer["maxWorkerCount"].write(value.maxWorkerCount)
         try writer["minWorkerCount"].write(value.minWorkerCount)
         try writer["roleArn"].write(value.roleArn)
@@ -14535,6 +14745,7 @@ extension GetFleetOutput {
         value.displayName = try reader["displayName"].readIfPresent() ?? ""
         value.farmId = try reader["farmId"].readIfPresent() ?? ""
         value.fleetId = try reader["fleetId"].readIfPresent() ?? ""
+        value.hostConfiguration = try reader["hostConfiguration"].readIfPresent(with: DeadlineClientTypes.HostConfiguration.read(from:))
         value.maxWorkerCount = try reader["maxWorkerCount"].readIfPresent() ?? 0
         value.minWorkerCount = try reader["minWorkerCount"].readIfPresent() ?? 0
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
@@ -14572,6 +14783,7 @@ extension GetJobOutput {
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.storageProfileId = try reader["storageProfileId"].readIfPresent()
         value.targetTaskRunStatus = try reader["targetTaskRunStatus"].readIfPresent()
+        value.taskFailureRetryCount = try reader["taskFailureRetryCount"].readIfPresent()
         value.taskRunStatus = try reader["taskRunStatus"].readIfPresent()
         value.taskRunStatusCounts = try reader["taskRunStatusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -14758,6 +14970,7 @@ extension GetSessionActionOutput {
         value.acquiredLimits = try reader["acquiredLimits"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.AcquiredLimit.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.definition = try reader["definition"].readIfPresent(with: DeadlineClientTypes.SessionActionDefinition.read(from:))
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.manifests = try reader["manifests"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.TaskRunManifestPropertiesResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.processExitCode = try reader["processExitCode"].readIfPresent()
         value.progressMessage = try reader["progressMessage"].readIfPresent()
         value.progressPercent = try reader["progressPercent"].readIfPresent()
@@ -14805,6 +15018,7 @@ extension GetStepOutput {
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.stepId = try reader["stepId"].readIfPresent() ?? ""
         value.targetTaskRunStatus = try reader["targetTaskRunStatus"].readIfPresent()
+        value.taskFailureRetryCount = try reader["taskFailureRetryCount"].readIfPresent()
         value.taskRunStatus = try reader["taskRunStatus"].readIfPresent() ?? .sdkUnknown("")
         value.taskRunStatusCounts = try reader["taskRunStatusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -15461,6 +15675,7 @@ extension UpdateWorkerOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateWorkerOutput()
+        value.hostConfiguration = try reader["hostConfiguration"].readIfPresent(with: DeadlineClientTypes.HostConfiguration.read(from:))
         value.log = try reader["log"].readIfPresent(with: DeadlineClientTypes.LogConfiguration.read(from:))
         return value
     }
@@ -17538,6 +17753,20 @@ enum UpdateWorkerScheduleOutputError {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.context = try reader["context"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InternalServerErrorException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerErrorException {
@@ -17548,6 +17777,22 @@ extension InternalServerErrorException {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
         value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.context = try reader["context"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -17574,13 +17819,19 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension AccessDeniedException {
+extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        let httpResponse = baseError.httpResponse
+        var value = ThrottlingException()
+        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
+            value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
+        }
         value.properties.context = try reader["context"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -17597,42 +17848,6 @@ extension ValidationException {
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.context = try reader["context"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        let httpResponse = baseError.httpResponse
-        var value = ThrottlingException()
-        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
-            value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
-        }
-        value.properties.context = try reader["context"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -17740,7 +17955,7 @@ extension DeadlineClientTypes.Attachments {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeadlineClientTypes.Attachments()
         value.manifests = try reader["manifests"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.ManifestProperties.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.fileSystem = try reader["fileSystem"].readIfPresent() ?? .copied
+        value.fileSystem = try reader["fileSystem"].readIfPresent() ?? DeadlineClientTypes.JobAttachmentsFileSystem.copied
         return value
     }
 }
@@ -18096,6 +18311,7 @@ extension DeadlineClientTypes.ServiceManagedEc2FleetConfiguration {
         guard let value else { return }
         try writer["instanceCapabilities"].write(value.instanceCapabilities, with: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities.write(value:to:))
         try writer["instanceMarketOptions"].write(value.instanceMarketOptions, with: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions.write(value:to:))
+        try writer["storageProfileId"].write(value.storageProfileId)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.ServiceManagedEc2FleetConfiguration {
@@ -18103,6 +18319,7 @@ extension DeadlineClientTypes.ServiceManagedEc2FleetConfiguration {
         var value = DeadlineClientTypes.ServiceManagedEc2FleetConfiguration()
         value.instanceCapabilities = try reader["instanceCapabilities"].readIfPresent(with: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities.read(from:))
         value.instanceMarketOptions = try reader["instanceMarketOptions"].readIfPresent(with: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions.read(from:))
+        value.storageProfileId = try reader["storageProfileId"].readIfPresent()
         return value
     }
 }
@@ -18301,6 +18518,7 @@ extension DeadlineClientTypes.CustomerManagedFleetConfiguration {
         guard let value else { return }
         try writer["mode"].write(value.mode)
         try writer["storageProfileId"].write(value.storageProfileId)
+        try writer["tagPropagationMode"].write(value.tagPropagationMode)
         try writer["workerCapabilities"].write(value.workerCapabilities, with: DeadlineClientTypes.CustomerManagedWorkerCapabilities.write(value:to:))
     }
 
@@ -18310,6 +18528,7 @@ extension DeadlineClientTypes.CustomerManagedFleetConfiguration {
         value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
         value.workerCapabilities = try reader["workerCapabilities"].readIfPresent(with: DeadlineClientTypes.CustomerManagedWorkerCapabilities.read(from:))
         value.storageProfileId = try reader["storageProfileId"].readIfPresent()
+        value.tagPropagationMode = try reader["tagPropagationMode"].readIfPresent()
         return value
     }
 }
@@ -18358,6 +18577,23 @@ extension DeadlineClientTypes.AcceleratorTotalMemoryMiBRange {
         var value = DeadlineClientTypes.AcceleratorTotalMemoryMiBRange()
         value.min = try reader["min"].readIfPresent() ?? 0
         value.max = try reader["max"].readIfPresent()
+        return value
+    }
+}
+
+extension DeadlineClientTypes.HostConfiguration {
+
+    static func write(value: DeadlineClientTypes.HostConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scriptBody"].write(value.scriptBody)
+        try writer["scriptTimeoutSeconds"].write(value.scriptTimeoutSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.HostConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.HostConfiguration()
+        value.scriptBody = try reader["scriptBody"].readIfPresent() ?? ""
+        value.scriptTimeoutSeconds = try reader["scriptTimeoutSeconds"].readIfPresent() ?? 300
         return value
     }
 }
@@ -18451,7 +18687,7 @@ extension DeadlineClientTypes.TaskRunSessionActionDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.TaskRunSessionActionDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeadlineClientTypes.TaskRunSessionActionDefinition()
-        value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        value.taskId = try reader["taskId"].readIfPresent()
         value.stepId = try reader["stepId"].readIfPresent() ?? ""
         value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.TaskParameterValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
@@ -18472,6 +18708,8 @@ extension DeadlineClientTypes.TaskParameterValue {
                 return .string(try reader["string"].read())
             case "path":
                 return .path(try reader["path"].read())
+            case "chunkInt":
+                return .chunkint(try reader["chunkInt"].read())
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -18505,6 +18743,17 @@ extension DeadlineClientTypes.AcquiredLimit {
         var value = DeadlineClientTypes.AcquiredLimit()
         value.limitId = try reader["limitId"].readIfPresent() ?? ""
         value.count = try reader["count"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension DeadlineClientTypes.TaskRunManifestPropertiesResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.TaskRunManifestPropertiesResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.TaskRunManifestPropertiesResponse()
+        value.outputManifestPath = try reader["outputManifestPath"].readIfPresent()
+        value.outputManifestHash = try reader["outputManifestHash"].readIfPresent()
         return value
     }
 }
@@ -18770,6 +19019,7 @@ extension DeadlineClientTypes.JobSummary {
         value.taskRunStatus = try reader["taskRunStatus"].readIfPresent()
         value.targetTaskRunStatus = try reader["targetTaskRunStatus"].readIfPresent()
         value.taskRunStatusCounts = try reader["taskRunStatusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.taskFailureRetryCount = try reader["taskFailureRetryCount"].readIfPresent()
         value.maxFailedTasksCount = try reader["maxFailedTasksCount"].readIfPresent()
         value.maxRetriesPerTask = try reader["maxRetriesPerTask"].readIfPresent()
         value.maxWorkerCount = try reader["maxWorkerCount"].readIfPresent()
@@ -18920,6 +19170,7 @@ extension DeadlineClientTypes.SessionActionSummary {
         value.workerUpdatedAt = try reader["workerUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.progressPercent = try reader["progressPercent"].readIfPresent()
         value.definition = try reader["definition"].readIfPresent(with: DeadlineClientTypes.SessionActionDefinitionSummary.read(from:))
+        value.manifests = try reader["manifests"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.TaskRunManifestPropertiesResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -18959,8 +19210,9 @@ extension DeadlineClientTypes.TaskRunSessionActionDefinitionSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.TaskRunSessionActionDefinitionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeadlineClientTypes.TaskRunSessionActionDefinitionSummary()
-        value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        value.taskId = try reader["taskId"].readIfPresent()
         value.stepId = try reader["stepId"].readIfPresent() ?? ""
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.TaskParameterValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -19052,6 +19304,7 @@ extension DeadlineClientTypes.StepSummary {
         value.lifecycleStatusMessage = try reader["lifecycleStatusMessage"].readIfPresent()
         value.taskRunStatus = try reader["taskRunStatus"].readIfPresent() ?? .sdkUnknown("")
         value.taskRunStatusCounts = try reader["taskRunStatusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.taskFailureRetryCount = try reader["taskFailureRetryCount"].readIfPresent()
         value.targetTaskRunStatus = try reader["targetTaskRunStatus"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
@@ -19129,6 +19382,7 @@ extension DeadlineClientTypes.JobSearchSummary {
         value.taskRunStatus = try reader["taskRunStatus"].readIfPresent()
         value.targetTaskRunStatus = try reader["targetTaskRunStatus"].readIfPresent()
         value.taskRunStatusCounts = try reader["taskRunStatusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.taskFailureRetryCount = try reader["taskFailureRetryCount"].readIfPresent()
         value.priority = try reader["priority"].readIfPresent()
         value.maxFailedTasksCount = try reader["maxFailedTasksCount"].readIfPresent()
         value.maxRetriesPerTask = try reader["maxRetriesPerTask"].readIfPresent()
@@ -19157,6 +19411,7 @@ extension DeadlineClientTypes.StepSearchSummary {
         value.taskRunStatus = try reader["taskRunStatus"].readIfPresent()
         value.targetTaskRunStatus = try reader["targetTaskRunStatus"].readIfPresent()
         value.taskRunStatusCounts = try reader["taskRunStatusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.taskFailureRetryCount = try reader["taskFailureRetryCount"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -19260,7 +19515,7 @@ extension DeadlineClientTypes.AssignedTaskRunSessionActionDefinition {
     static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.AssignedTaskRunSessionActionDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DeadlineClientTypes.AssignedTaskRunSessionActionDefinition()
-        value.taskId = try reader["taskId"].readIfPresent() ?? ""
+        value.taskId = try reader["taskId"].readIfPresent()
         value.stepId = try reader["stepId"].readIfPresent() ?? ""
         value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.TaskParameterValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
@@ -19423,6 +19678,7 @@ extension DeadlineClientTypes.SearchTermFilterExpression {
 
     static func write(value: DeadlineClientTypes.SearchTermFilterExpression?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["matchType"].write(value.matchType)
         try writer["searchTerm"].write(value.searchTerm)
     }
 }
@@ -19547,11 +19803,21 @@ extension DeadlineClientTypes.UpdatedSessionActionInfo {
         guard let value else { return }
         try writer["completedStatus"].write(value.completedStatus)
         try writer["endedAt"].writeTimestamp(value.endedAt, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["manifests"].writeList(value.manifests, memberWritingClosure: DeadlineClientTypes.TaskRunManifestPropertiesRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["processExitCode"].write(value.processExitCode)
         try writer["progressMessage"].write(value.progressMessage)
         try writer["progressPercent"].write(value.progressPercent)
         try writer["startedAt"].writeTimestamp(value.startedAt, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["updatedAt"].writeTimestamp(value.updatedAt, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+}
+
+extension DeadlineClientTypes.TaskRunManifestPropertiesRequest {
+
+    static func write(value: DeadlineClientTypes.TaskRunManifestPropertiesRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["outputManifestHash"].write(value.outputManifestHash)
+        try writer["outputManifestPath"].write(value.outputManifestPath)
     }
 }
 

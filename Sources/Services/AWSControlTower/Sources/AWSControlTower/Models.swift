@@ -652,7 +652,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-/// The request would cause a service quota to be exceeded. The limit is 10 concurrent operations.
+/// The request would cause a service quota to be exceeded. The limit is 100 concurrent operations.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -811,6 +811,87 @@ public struct GetEnabledBaselineInput: Swift.Sendable {
 
 extension ControlTowerClientTypes {
 
+    public enum EnabledBaselineDriftStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case drifted
+        case inSync
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EnabledBaselineDriftStatus] {
+            return [
+                .drifted,
+                .inSync
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .drifted: return "DRIFTED"
+            case .inSync: return "IN_SYNC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ControlTowerClientTypes {
+
+    /// The inheritance drift summary for the enabled baseline. Inheritance drift occurs when any accounts in the target OU do not match the baseline configuration defined on that OU.
+    public struct EnabledBaselineInheritanceDrift: Swift.Sendable {
+        /// The inheritance drift status for enabled baselines.
+        public var status: ControlTowerClientTypes.EnabledBaselineDriftStatus?
+
+        public init(
+            status: ControlTowerClientTypes.EnabledBaselineDriftStatus? = nil
+        ) {
+            self.status = status
+        }
+    }
+}
+
+extension ControlTowerClientTypes {
+
+    /// The types of drift that can be detected for an enabled baseline.
+    ///
+    /// * Amazon Web Services Control Tower detects inheritance drift on the enabled baselines that target OUs: AWSControlTowerBaseline and BackupBaseline.
+    ///
+    /// * Amazon Web Services Control Tower does not detect drift on the baselines that apply to your landing zone: IdentityCenterBaseline, AuditBaseline, LogArchiveBaseline, BackupCentralVaultBaseline, or BackupAdminBaseline. For more information, see [Types of baselines](https://docs.aws.amazon.com/controltower/latest/userguide/types-of-baselines.html).
+    ///
+    ///
+    /// Baselines enabled on an OU are inherited by its member accounts as child EnabledBaseline resources. The baseline on the OU serves as the parent EnabledBaseline, which governs the configuration of each child EnabledBaseline. If the baseline configuration of a member account in an OU does not match the configuration of the parent OU, the parent and child baseline is in a state of inheritance drift. This drift could occur in the AWSControlTowerBaseline or the BackupBaseline related to that account.
+    public struct EnabledBaselineDriftTypes: Swift.Sendable {
+        /// At least one account within the target OU does not match the baseline configuration defined on that OU. An account is in inheritance drift when it does not match the configuration of a parent OU, possibly a new parent OU, if the account is moved.
+        public var inheritance: ControlTowerClientTypes.EnabledBaselineInheritanceDrift?
+
+        public init(
+            inheritance: ControlTowerClientTypes.EnabledBaselineInheritanceDrift? = nil
+        ) {
+            self.inheritance = inheritance
+        }
+    }
+}
+
+extension ControlTowerClientTypes {
+
+    /// The drift summary of the enabled baseline. Amazon Web Services Control Tower reports inheritance drift when an enabled baseline configuration of a member account is different than the configuration that applies to the OU. Amazon Web Services Control Tower reports this type of drift for a parent or child enabled baseline. One way to repair this drift by resetting the parent enabled baseline, on the OU. For example, you may see this type of drift if you move accounts between OUs, but the accounts are not yet (re-)enrolled.
+    public struct EnabledBaselineDriftStatusSummary: Swift.Sendable {
+        /// The types of drift that can be detected for an enabled baseline. Amazon Web Services Control Tower detects inheritance drift on enabled baselines that apply at the OU level.
+        public var types: ControlTowerClientTypes.EnabledBaselineDriftTypes?
+
+        public init(
+            types: ControlTowerClientTypes.EnabledBaselineDriftTypes? = nil
+        ) {
+            self.types = types
+        }
+    }
+}
+
+extension ControlTowerClientTypes {
+
     /// Summary of an applied parameter to an EnabledBaseline resource.
     public struct EnabledBaselineParameterSummary: Swift.Sendable {
         /// A string denoting the parameter key.
@@ -899,6 +980,8 @@ extension ControlTowerClientTypes {
         public var baselineIdentifier: Swift.String?
         /// The enabled version of the Baseline.
         public var baselineVersion: Swift.String?
+        /// The drift status of the enabled baseline.
+        public var driftStatusSummary: ControlTowerClientTypes.EnabledBaselineDriftStatusSummary?
         /// Shows the parameters that are applied when enabling this Baseline.
         public var parameters: [ControlTowerClientTypes.EnabledBaselineParameterSummary]?
         /// An ARN that represents the parent EnabledBaseline at the Organizational Unit (OU) level, from which the child EnabledBaseline inherits its configuration. The value is returned by GetEnabledBaseline.
@@ -914,6 +997,7 @@ extension ControlTowerClientTypes {
             arn: Swift.String? = nil,
             baselineIdentifier: Swift.String? = nil,
             baselineVersion: Swift.String? = nil,
+            driftStatusSummary: ControlTowerClientTypes.EnabledBaselineDriftStatusSummary? = nil,
             parameters: [ControlTowerClientTypes.EnabledBaselineParameterSummary]? = nil,
             parentIdentifier: Swift.String? = nil,
             statusSummary: ControlTowerClientTypes.EnablementStatusSummary? = nil,
@@ -922,6 +1006,7 @@ extension ControlTowerClientTypes {
             self.arn = arn
             self.baselineIdentifier = baselineIdentifier
             self.baselineVersion = baselineVersion
+            self.driftStatusSummary = driftStatusSummary
             self.parameters = parameters
             self.parentIdentifier = parentIdentifier
             self.statusSummary = statusSummary
@@ -947,18 +1032,26 @@ extension ControlTowerClientTypes {
     public struct EnabledBaselineFilter: Swift.Sendable {
         /// Identifiers for the Baseline objects returned as part of the filter operation.
         public var baselineIdentifiers: [Swift.String]?
+        /// A list of EnabledBaselineDriftStatus items for enabled baselines.
+        public var inheritanceDriftStatuses: [ControlTowerClientTypes.EnabledBaselineDriftStatus]?
         /// An optional filter that sets up a list of parentIdentifiers to filter the results of the ListEnabledBaseline output.
         public var parentIdentifiers: [Swift.String]?
+        /// A list of EnablementStatus items.
+        public var statuses: [ControlTowerClientTypes.EnablementStatus]?
         /// Identifiers for the targets of the Baseline filter operation.
         public var targetIdentifiers: [Swift.String]?
 
         public init(
             baselineIdentifiers: [Swift.String]? = nil,
+            inheritanceDriftStatuses: [ControlTowerClientTypes.EnabledBaselineDriftStatus]? = nil,
             parentIdentifiers: [Swift.String]? = nil,
+            statuses: [ControlTowerClientTypes.EnablementStatus]? = nil,
             targetIdentifiers: [Swift.String]? = nil
         ) {
             self.baselineIdentifiers = baselineIdentifiers
+            self.inheritanceDriftStatuses = inheritanceDriftStatuses
             self.parentIdentifiers = parentIdentifiers
+            self.statuses = statuses
             self.targetIdentifiers = targetIdentifiers
         }
     }
@@ -999,6 +1092,8 @@ extension ControlTowerClientTypes {
         public var baselineIdentifier: Swift.String?
         /// The enabled version of the baseline.
         public var baselineVersion: Swift.String?
+        /// The drift status of the enabled baseline.
+        public var driftStatusSummary: ControlTowerClientTypes.EnabledBaselineDriftStatusSummary?
         /// An ARN that represents an object returned by ListEnabledBaseline, to describe an enabled baseline.
         public var parentIdentifier: Swift.String?
         /// The deployment summary of an EnabledControl or EnabledBaseline resource.
@@ -1012,6 +1107,7 @@ extension ControlTowerClientTypes {
             arn: Swift.String? = nil,
             baselineIdentifier: Swift.String? = nil,
             baselineVersion: Swift.String? = nil,
+            driftStatusSummary: ControlTowerClientTypes.EnabledBaselineDriftStatusSummary? = nil,
             parentIdentifier: Swift.String? = nil,
             statusSummary: ControlTowerClientTypes.EnablementStatusSummary? = nil,
             targetIdentifier: Swift.String? = nil
@@ -1019,6 +1115,7 @@ extension ControlTowerClientTypes {
             self.arn = arn
             self.baselineIdentifier = baselineIdentifier
             self.baselineVersion = baselineVersion
+            self.driftStatusSummary = driftStatusSummary
             self.parentIdentifier = parentIdentifier
             self.statusSummary = statusSummary
             self.targetIdentifier = targetIdentifier
@@ -3361,25 +3458,6 @@ enum UpdateLandingZoneOutputError {
     }
 }
 
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        let httpResponse = baseError.httpResponse
-        var value = ThrottlingException()
-        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
-            value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
-        }
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
@@ -3412,6 +3490,25 @@ extension InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
+        var value = ThrottlingException()
+        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
+            value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
+        }
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3499,6 +3596,7 @@ extension ControlTowerClientTypes.EnabledBaselineDetails {
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.baselineIdentifier = try reader["baselineIdentifier"].readIfPresent() ?? ""
         value.baselineVersion = try reader["baselineVersion"].readIfPresent()
+        value.driftStatusSummary = try reader["driftStatusSummary"].readIfPresent(with: ControlTowerClientTypes.EnabledBaselineDriftStatusSummary.read(from:))
         value.targetIdentifier = try reader["targetIdentifier"].readIfPresent() ?? ""
         value.parentIdentifier = try reader["parentIdentifier"].readIfPresent()
         value.statusSummary = try reader["statusSummary"].readIfPresent(with: ControlTowerClientTypes.EnablementStatusSummary.read(from:))
@@ -3525,6 +3623,36 @@ extension ControlTowerClientTypes.EnablementStatusSummary {
         var value = ControlTowerClientTypes.EnablementStatusSummary()
         value.status = try reader["status"].readIfPresent()
         value.lastOperationIdentifier = try reader["lastOperationIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension ControlTowerClientTypes.EnabledBaselineDriftStatusSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledBaselineDriftStatusSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlTowerClientTypes.EnabledBaselineDriftStatusSummary()
+        value.types = try reader["types"].readIfPresent(with: ControlTowerClientTypes.EnabledBaselineDriftTypes.read(from:))
+        return value
+    }
+}
+
+extension ControlTowerClientTypes.EnabledBaselineDriftTypes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledBaselineDriftTypes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlTowerClientTypes.EnabledBaselineDriftTypes()
+        value.inheritance = try reader["inheritance"].readIfPresent(with: ControlTowerClientTypes.EnabledBaselineInheritanceDrift.read(from:))
+        return value
+    }
+}
+
+extension ControlTowerClientTypes.EnabledBaselineInheritanceDrift {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledBaselineInheritanceDrift {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlTowerClientTypes.EnabledBaselineInheritanceDrift()
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -3654,6 +3782,7 @@ extension ControlTowerClientTypes.EnabledBaselineSummary {
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.baselineIdentifier = try reader["baselineIdentifier"].readIfPresent() ?? ""
         value.baselineVersion = try reader["baselineVersion"].readIfPresent()
+        value.driftStatusSummary = try reader["driftStatusSummary"].readIfPresent(with: ControlTowerClientTypes.EnabledBaselineDriftStatusSummary.read(from:))
         value.targetIdentifier = try reader["targetIdentifier"].readIfPresent() ?? ""
         value.parentIdentifier = try reader["parentIdentifier"].readIfPresent()
         value.statusSummary = try reader["statusSummary"].readIfPresent(with: ControlTowerClientTypes.EnablementStatusSummary.read(from:))
@@ -3732,7 +3861,9 @@ extension ControlTowerClientTypes.EnabledBaselineFilter {
     static func write(value: ControlTowerClientTypes.EnabledBaselineFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["baselineIdentifiers"].writeList(value.baselineIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["inheritanceDriftStatuses"].writeList(value.inheritanceDriftStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.EnabledBaselineDriftStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["parentIdentifiers"].writeList(value.parentIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["statuses"].writeList(value.statuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.EnablementStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["targetIdentifiers"].writeList(value.targetIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }

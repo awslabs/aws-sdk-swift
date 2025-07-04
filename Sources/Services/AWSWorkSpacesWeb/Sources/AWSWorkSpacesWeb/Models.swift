@@ -26,6 +26,8 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// Access is denied.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
@@ -3754,6 +3756,176 @@ extension WorkSpacesWebClientTypes {
     }
 }
 
+extension WorkSpacesWebClientTypes {
+
+    public enum ToolbarItem: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualMonitor
+        case fullScreen
+        case microphone
+        case webcam
+        case windows
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ToolbarItem] {
+            return [
+                .dualMonitor,
+                .fullScreen,
+                .microphone,
+                .webcam,
+                .windows
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualMonitor: return "DualMonitor"
+            case .fullScreen: return "FullScreen"
+            case .microphone: return "Microphone"
+            case .webcam: return "Webcam"
+            case .windows: return "Windows"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    public enum MaxDisplayResolution: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case resolution1080p
+        case resolution1440p
+        case resolution1440pUltraWide
+        case resolution600p
+        case resolution720p
+        case resolution768p
+        case resolutionDci4k
+        case resolutionUhd4k
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MaxDisplayResolution] {
+            return [
+                .resolution1080p,
+                .resolution1440p,
+                .resolution1440pUltraWide,
+                .resolution600p,
+                .resolution720p,
+                .resolution768p,
+                .resolutionDci4k,
+                .resolutionUhd4k
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .resolution1080p: return "size1920X1080"
+            case .resolution1440p: return "size2560X1440"
+            case .resolution1440pUltraWide: return "size3440X1440"
+            case .resolution600p: return "size800X600"
+            case .resolution720p: return "size1280X720"
+            case .resolution768p: return "size1024X768"
+            case .resolutionDci4k: return "size4096X2160"
+            case .resolutionUhd4k: return "size3840X2160"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    public enum ToolbarType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case docked
+        case floating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ToolbarType] {
+            return [
+                .docked,
+                .floating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .docked: return "Docked"
+            case .floating: return "Floating"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    public enum VisualMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dark
+        case light
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VisualMode] {
+            return [
+                .dark,
+                .light
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dark: return "Dark"
+            case .light: return "Light"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The configuration of the toolbar. This allows administrators to select the toolbar type and visual mode, set maximum display resolution for sessions, and choose which items are visible to end users during their sessions. If administrators do not modify these settings, end users retain control over their toolbar preferences.
+    public struct ToolbarConfiguration: Swift.Sendable {
+        /// The list of toolbar items to be hidden.
+        public var hiddenToolbarItems: [WorkSpacesWebClientTypes.ToolbarItem]?
+        /// The maximum display resolution that is allowed for the session.
+        public var maxDisplayResolution: WorkSpacesWebClientTypes.MaxDisplayResolution?
+        /// The type of toolbar displayed during the session.
+        public var toolbarType: WorkSpacesWebClientTypes.ToolbarType?
+        /// The visual mode of the toolbar.
+        public var visualMode: WorkSpacesWebClientTypes.VisualMode?
+
+        public init(
+            hiddenToolbarItems: [WorkSpacesWebClientTypes.ToolbarItem]? = nil,
+            maxDisplayResolution: WorkSpacesWebClientTypes.MaxDisplayResolution? = nil,
+            toolbarType: WorkSpacesWebClientTypes.ToolbarType? = nil,
+            visualMode: WorkSpacesWebClientTypes.VisualMode? = nil
+        ) {
+            self.hiddenToolbarItems = hiddenToolbarItems
+            self.maxDisplayResolution = maxDisplayResolution
+            self.toolbarType = toolbarType
+            self.visualMode = visualMode
+        }
+    }
+}
+
 public struct CreateUserSettingsInput: Swift.Sendable {
     /// The additional encryption context of the user settings.
     public var additionalEncryptionContext: [Swift.String: Swift.String]?
@@ -3783,6 +3955,8 @@ public struct CreateUserSettingsInput: Swift.Sendable {
     public var printAllowed: WorkSpacesWebClientTypes.EnabledType?
     /// The tags to add to the user settings resource. A tag is a key-value pair.
     public var tags: [WorkSpacesWebClientTypes.Tag]?
+    /// The configuration of the toolbar. This allows administrators to select the toolbar type and visual mode, set maximum display resolution for sessions, and choose which items are visible to end users during their sessions. If administrators do not modify these settings, end users retain control over their toolbar preferences.
+    public var toolbarConfiguration: WorkSpacesWebClientTypes.ToolbarConfiguration?
     /// Specifies whether the user can upload files from the local device to the streaming session.
     /// This member is required.
     public var uploadAllowed: WorkSpacesWebClientTypes.EnabledType?
@@ -3800,6 +3974,7 @@ public struct CreateUserSettingsInput: Swift.Sendable {
         pasteAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
         printAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil,
+        toolbarConfiguration: WorkSpacesWebClientTypes.ToolbarConfiguration? = nil,
         uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil
     ) {
         self.additionalEncryptionContext = additionalEncryptionContext
@@ -3814,13 +3989,14 @@ public struct CreateUserSettingsInput: Swift.Sendable {
         self.pasteAllowed = pasteAllowed
         self.printAllowed = printAllowed
         self.tags = tags
+        self.toolbarConfiguration = toolbarConfiguration
         self.uploadAllowed = uploadAllowed
     }
 }
 
 extension CreateUserSettingsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateUserSettingsInput(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), clientToken: \(Swift.String(describing: clientToken)), copyAllowed: \(Swift.String(describing: copyAllowed)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateUserSettingsInput(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), clientToken: \(Swift.String(describing: clientToken)), copyAllowed: \(Swift.String(describing: copyAllowed)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), toolbarConfiguration: \(Swift.String(describing: toolbarConfiguration)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateUserSettingsOutput: Swift.Sendable {
@@ -3890,6 +4066,8 @@ extension WorkSpacesWebClientTypes {
         public var pasteAllowed: WorkSpacesWebClientTypes.EnabledType?
         /// Specifies whether the user can print to the local device.
         public var printAllowed: WorkSpacesWebClientTypes.EnabledType?
+        /// The configuration of the toolbar. This allows administrators to select the toolbar type and visual mode, set maximum display resolution for sessions, and choose which items are visible to end users during their sessions. If administrators do not modify these settings, end users retain control over their toolbar preferences.
+        public var toolbarConfiguration: WorkSpacesWebClientTypes.ToolbarConfiguration?
         /// Specifies whether the user can upload files from the local device to the streaming session.
         public var uploadAllowed: WorkSpacesWebClientTypes.EnabledType?
         /// The ARN of the user settings.
@@ -3908,6 +4086,7 @@ extension WorkSpacesWebClientTypes {
             idleDisconnectTimeoutInMinutes: Swift.Int? = nil,
             pasteAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             printAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
+            toolbarConfiguration: WorkSpacesWebClientTypes.ToolbarConfiguration? = nil,
             uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             userSettingsArn: Swift.String? = nil
         ) {
@@ -3922,6 +4101,7 @@ extension WorkSpacesWebClientTypes {
             self.idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutes
             self.pasteAllowed = pasteAllowed
             self.printAllowed = printAllowed
+            self.toolbarConfiguration = toolbarConfiguration
             self.uploadAllowed = uploadAllowed
             self.userSettingsArn = userSettingsArn
         }
@@ -3930,7 +4110,7 @@ extension WorkSpacesWebClientTypes {
 
 extension WorkSpacesWebClientTypes.UserSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UserSettings(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), copyAllowed: \(Swift.String(describing: copyAllowed)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
+        "UserSettings(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), copyAllowed: \(Swift.String(describing: copyAllowed)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), toolbarConfiguration: \(Swift.String(describing: toolbarConfiguration)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetUserSettingsOutput: Swift.Sendable {
@@ -3979,6 +4159,8 @@ extension WorkSpacesWebClientTypes {
         public var pasteAllowed: WorkSpacesWebClientTypes.EnabledType?
         /// Specifies whether the user can print to the local device.
         public var printAllowed: WorkSpacesWebClientTypes.EnabledType?
+        /// The configuration of the toolbar. This allows administrators to select the toolbar type and visual mode, set maximum display resolution for sessions, and choose which items are visible to end users during their sessions. If administrators do not modify these settings, end users retain control over their toolbar preferences.
+        public var toolbarConfiguration: WorkSpacesWebClientTypes.ToolbarConfiguration?
         /// Specifies whether the user can upload files from the local device to the streaming session.
         public var uploadAllowed: WorkSpacesWebClientTypes.EnabledType?
         /// The ARN of the user settings.
@@ -3994,6 +4176,7 @@ extension WorkSpacesWebClientTypes {
             idleDisconnectTimeoutInMinutes: Swift.Int? = nil,
             pasteAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             printAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
+            toolbarConfiguration: WorkSpacesWebClientTypes.ToolbarConfiguration? = nil,
             uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             userSettingsArn: Swift.String? = nil
         ) {
@@ -4005,6 +4188,7 @@ extension WorkSpacesWebClientTypes {
             self.idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutes
             self.pasteAllowed = pasteAllowed
             self.printAllowed = printAllowed
+            self.toolbarConfiguration = toolbarConfiguration
             self.uploadAllowed = uploadAllowed
             self.userSettingsArn = userSettingsArn
         }
@@ -4013,7 +4197,7 @@ extension WorkSpacesWebClientTypes {
 
 extension WorkSpacesWebClientTypes.UserSettingsSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UserSettingsSummary(copyAllowed: \(Swift.String(describing: copyAllowed)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
+        "UserSettingsSummary(copyAllowed: \(Swift.String(describing: copyAllowed)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), toolbarConfiguration: \(Swift.String(describing: toolbarConfiguration)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListUserSettingsOutput: Swift.Sendable {
@@ -4050,6 +4234,8 @@ public struct UpdateUserSettingsInput: Swift.Sendable {
     public var pasteAllowed: WorkSpacesWebClientTypes.EnabledType?
     /// Specifies whether the user can print to the local device.
     public var printAllowed: WorkSpacesWebClientTypes.EnabledType?
+    /// The configuration of the toolbar. This allows administrators to select the toolbar type and visual mode, set maximum display resolution for sessions, and choose which items are visible to end users during their sessions. If administrators do not modify these settings, end users retain control over their toolbar preferences.
+    public var toolbarConfiguration: WorkSpacesWebClientTypes.ToolbarConfiguration?
     /// Specifies whether the user can upload files from the local device to the streaming session.
     public var uploadAllowed: WorkSpacesWebClientTypes.EnabledType?
     /// The ARN of the user settings.
@@ -4066,6 +4252,7 @@ public struct UpdateUserSettingsInput: Swift.Sendable {
         idleDisconnectTimeoutInMinutes: Swift.Int? = nil,
         pasteAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
         printAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
+        toolbarConfiguration: WorkSpacesWebClientTypes.ToolbarConfiguration? = nil,
         uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
         userSettingsArn: Swift.String? = nil
     ) {
@@ -4078,6 +4265,7 @@ public struct UpdateUserSettingsInput: Swift.Sendable {
         self.idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutes
         self.pasteAllowed = pasteAllowed
         self.printAllowed = printAllowed
+        self.toolbarConfiguration = toolbarConfiguration
         self.uploadAllowed = uploadAllowed
         self.userSettingsArn = userSettingsArn
     }
@@ -4085,7 +4273,7 @@ public struct UpdateUserSettingsInput: Swift.Sendable {
 
 extension UpdateUserSettingsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateUserSettingsInput(clientToken: \(Swift.String(describing: clientToken)), copyAllowed: \(Swift.String(describing: copyAllowed)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
+        "UpdateUserSettingsInput(clientToken: \(Swift.String(describing: clientToken)), copyAllowed: \(Swift.String(describing: copyAllowed)), deepLinkAllowed: \(Swift.String(describing: deepLinkAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), toolbarConfiguration: \(Swift.String(describing: toolbarConfiguration)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateUserSettingsOutput: Swift.Sendable {
@@ -5171,6 +5359,7 @@ extension CreateUserSettingsInput {
         try writer["pasteAllowed"].write(value.pasteAllowed)
         try writer["printAllowed"].write(value.printAllowed)
         try writer["tags"].writeList(value.tags, memberWritingClosure: WorkSpacesWebClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["toolbarConfiguration"].write(value.toolbarConfiguration, with: WorkSpacesWebClientTypes.ToolbarConfiguration.write(value:to:))
         try writer["uploadAllowed"].write(value.uploadAllowed)
     }
 }
@@ -5280,6 +5469,7 @@ extension UpdateUserSettingsInput {
         try writer["idleDisconnectTimeoutInMinutes"].write(value.idleDisconnectTimeoutInMinutes)
         try writer["pasteAllowed"].write(value.pasteAllowed)
         try writer["printAllowed"].write(value.printAllowed)
+        try writer["toolbarConfiguration"].write(value.toolbarConfiguration, with: WorkSpacesWebClientTypes.ToolbarConfiguration.write(value:to:))
         try writer["uploadAllowed"].write(value.uploadAllowed)
     }
 }
@@ -7273,6 +7463,19 @@ enum UpdateUserSettingsOutputError {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ConflictException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
@@ -7288,26 +7491,15 @@ extension ConflictException {
     }
 }
 
-extension ValidationException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: WorkSpacesWebClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.reason = try reader["reason"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        let httpResponse = baseError.httpResponse
+        var value = InternalServerException()
+        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
+            value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
+        }
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7350,16 +7542,14 @@ extension ThrottlingException {
     }
 }
 
-extension InternalServerException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        let httpResponse = baseError.httpResponse
-        var value = InternalServerException()
-        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
-            value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
-        }
+        var value = ValidationException()
+        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: WorkSpacesWebClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent()
+        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7675,6 +7865,28 @@ extension WorkSpacesWebClientTypes.UserSettings {
         value.customerManagedKey = try reader["customerManagedKey"].readIfPresent()
         value.additionalEncryptionContext = try reader["additionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.deepLinkAllowed = try reader["deepLinkAllowed"].readIfPresent()
+        value.toolbarConfiguration = try reader["toolbarConfiguration"].readIfPresent(with: WorkSpacesWebClientTypes.ToolbarConfiguration.read(from:))
+        return value
+    }
+}
+
+extension WorkSpacesWebClientTypes.ToolbarConfiguration {
+
+    static func write(value: WorkSpacesWebClientTypes.ToolbarConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["hiddenToolbarItems"].writeList(value.hiddenToolbarItems, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WorkSpacesWebClientTypes.ToolbarItem>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxDisplayResolution"].write(value.maxDisplayResolution)
+        try writer["toolbarType"].write(value.toolbarType)
+        try writer["visualMode"].write(value.visualMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.ToolbarConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.ToolbarConfiguration()
+        value.toolbarType = try reader["toolbarType"].readIfPresent()
+        value.visualMode = try reader["visualMode"].readIfPresent()
+        value.hiddenToolbarItems = try reader["hiddenToolbarItems"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WorkSpacesWebClientTypes.ToolbarItem>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.maxDisplayResolution = try reader["maxDisplayResolution"].readIfPresent()
         return value
     }
 }
@@ -7882,6 +8094,7 @@ extension WorkSpacesWebClientTypes.UserSettingsSummary {
         value.idleDisconnectTimeoutInMinutes = try reader["idleDisconnectTimeoutInMinutes"].readIfPresent()
         value.cookieSynchronizationConfiguration = try reader["cookieSynchronizationConfiguration"].readIfPresent(with: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration.read(from:))
         value.deepLinkAllowed = try reader["deepLinkAllowed"].readIfPresent()
+        value.toolbarConfiguration = try reader["toolbarConfiguration"].readIfPresent(with: WorkSpacesWebClientTypes.ToolbarConfiguration.read(from:))
         return value
     }
 }

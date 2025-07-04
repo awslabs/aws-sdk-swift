@@ -283,7 +283,23 @@ extension GuardDutyClientTypes {
         /// The member account ID.
         /// This member is required.
         public var accountId: Swift.String?
-        /// The email address of the member account.
+        /// The email address of the member account. The rules for a valid email address:
+        ///
+        /// * The email address must be a minimum of 6 and a maximum of 64 characters long.
+        ///
+        /// * All characters must be 7-bit ASCII characters.
+        ///
+        /// * There must be one and only one @ symbol, which separates the local name from the domain name.
+        ///
+        /// * The local name can't contain any of the following characters: whitespace, " ' ( ) < > [ ] : ' , \ | % &
+        ///
+        /// * The local name can't begin with a dot (.).
+        ///
+        /// * The domain name can consist of only the characters [a-z], [A-Z], [0-9], hyphen (-), or dot (.).
+        ///
+        /// * The domain name can't begin or end with a dot (.) or hyphen (-).
+        ///
+        /// * The domain name must contain at least one dot.
         /// This member is required.
         public var email: Swift.String?
 
@@ -616,7 +632,7 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
-    /// Contains information about the location of the remote IP address.
+    /// Contains information about the location of the remote IP address. By default, GuardDuty returns Geolocation with Lat and Lon as 0.0.
     public struct GeoLocation: Swift.Sendable {
         /// The latitude information of the remote IP address.
         public var lat: Swift.Double?
@@ -1156,6 +1172,31 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    /// Contains information about a process involved in a GuardDuty finding, including process identification, execution details, and file information.
+    public struct ActorProcess: Swift.Sendable {
+        /// The name of the process as it appears in the system.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The full file path to the process executable on the system.
+        /// This member is required.
+        public var path: Swift.String?
+        /// The SHA256 hash of the process executable file, which can be used for identification and verification purposes.
+        public var sha256: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            path: Swift.String? = nil,
+            sha256: Swift.String? = nil
+        ) {
+            self.name = name
+            self.path = path
+            self.sha256 = sha256
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     public enum MfaStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -1251,6 +1292,8 @@ extension GuardDutyClientTypes {
         /// ID of the threat actor.
         /// This member is required.
         public var id: Swift.String?
+        /// Contains information about the process associated with the threat actor. This includes details such as process name, path, execution time, and unique identifiers that help track the actor's activities within the system.
+        public var process: GuardDutyClientTypes.ActorProcess?
         /// Contains information about the user session where the activity initiated.
         public var session: GuardDutyClientTypes.Session?
         /// Contains information about the user credentials used by the threat actor.
@@ -1258,10 +1301,12 @@ extension GuardDutyClientTypes {
 
         public init(
             id: Swift.String? = nil,
+            process: GuardDutyClientTypes.ActorProcess? = nil,
             session: GuardDutyClientTypes.Session? = nil,
             user: GuardDutyClientTypes.User? = nil
         ) {
             self.id = id
+            self.process = process
             self.session = session
             self.user = user
         }
@@ -1674,6 +1719,47 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    public enum ClusterStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case pending
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .pending,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     /// Contains information about the condition.
     public struct Condition: Swift.Sendable {
         /// Represents the equal condition to be applied to a single field when querying for findings.
@@ -1838,6 +1924,26 @@ extension GuardDutyClientTypes {
             self.name = name
             self.securityContext = securityContext
             self.volumeMounts = volumeMounts
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about container resources involved in a GuardDuty finding. This structure provides details about containers that were identified as part of suspicious or malicious activity.
+    public struct ContainerFindingResource: Swift.Sendable {
+        /// The container image information, including the image name and tag used to run the container that was involved in the finding.
+        /// This member is required.
+        public var image: Swift.String?
+        /// The unique ID associated with the container image.
+        public var imageUid: Swift.String?
+
+        public init(
+            image: Swift.String? = nil,
+            imageUid: Swift.String? = nil
+        ) {
+            self.image = image
+            self.imageUid = imageUid
         }
     }
 }
@@ -3036,7 +3142,7 @@ public struct CreateFilterInput: Swift.Sendable {
     ///
     /// * service.runtimeDetails.process.name
     ///
-    /// * service.runtimeDetails.process.name
+    /// * service.runtimeDetails.process.executablePath
     ///
     /// * resource.lambdaDetails.functionName
     ///
@@ -4060,7 +4166,7 @@ extension GuardDutyClientTypes {
 
     /// Represents a condition that when matched will be added to the response of the operation. Irrespective of using any filter criteria, an administrator account can view the scan entries for all of its member accounts. However, each member account can view the scan entries only for their own account.
     public struct FilterCriterion: Swift.Sendable {
-        /// An enum value representing possible scan properties to match with given scan entries. Replace the enum value CLUSTER_NAME with EKS_CLUSTER_NAME. CLUSTER_NAME has been deprecated.
+        /// An enum value representing possible scan properties to match with given scan entries.
         public var criterionKey: GuardDutyClientTypes.CriterionKey?
         /// Contains information about the condition.
         public var filterCondition: GuardDutyClientTypes.FilterCondition?
@@ -5135,6 +5241,107 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
 
+    /// Contains information about the Amazon EKS cluster involved in a GuardDuty finding, including cluster identification, status, and network configuration.
+    public struct EksCluster: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the Amazon EKS cluster involved in the finding.
+        public var arn: Swift.String?
+        /// The timestamp indicating when the Amazon EKS cluster was created, in UTC format.
+        public var createdAt: Foundation.Date?
+        /// A list of unique identifiers for the Amazon EC2 instances that serve as worker nodes in the Amazon EKS cluster.
+        public var ec2InstanceUids: [Swift.String]?
+        /// The current status of the Amazon EKS cluster.
+        public var status: GuardDutyClientTypes.ClusterStatus?
+        /// The ID of the Amazon Virtual Private Cloud (Amazon VPC) associated with the Amazon EKS cluster.
+        public var vpcId: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: Foundation.Date? = nil,
+            ec2InstanceUids: [Swift.String]? = nil,
+            status: GuardDutyClientTypes.ClusterStatus? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.ec2InstanceUids = ec2InstanceUids
+            self.status = status
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum KubernetesResourcesTypes: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cronjobs
+        case daemonsets
+        case deployments
+        case jobs
+        case pods
+        case replicasets
+        case replicationcontrollers
+        case statefulsets
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KubernetesResourcesTypes] {
+            return [
+                .cronjobs,
+                .daemonsets,
+                .deployments,
+                .jobs,
+                .pods,
+                .replicasets,
+                .replicationcontrollers,
+                .statefulsets
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cronjobs: return "CRONJOBS"
+            case .daemonsets: return "DAEMONSETS"
+            case .deployments: return "DEPLOYMENTS"
+            case .jobs: return "JOBS"
+            case .pods: return "PODS"
+            case .replicasets: return "REPLICASETS"
+            case .replicationcontrollers: return "REPLICATIONCONTROLLERS"
+            case .statefulsets: return "STATEFULSETS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    /// Contains information about Kubernetes workloads involved in a GuardDuty finding, including pods, deployments, and other Kubernetes resources.
+    public struct KubernetesWorkload: Swift.Sendable {
+        /// A list of unique identifiers for the containers that are part of the Kubernetes workload.
+        public var containerUids: [Swift.String]?
+        /// The types of Kubernetes resources involved in the workload.
+        public var kubernetesResourcesTypes: GuardDutyClientTypes.KubernetesResourcesTypes?
+        /// The Kubernetes namespace in which the workload is running, providing logical isolation within the cluster.
+        public var namespace: Swift.String?
+
+        public init(
+            containerUids: [Swift.String]? = nil,
+            kubernetesResourcesTypes: GuardDutyClientTypes.KubernetesResourcesTypes? = nil,
+            namespace: Swift.String? = nil
+        ) {
+            self.containerUids = containerUids
+            self.kubernetesResourcesTypes = kubernetesResourcesTypes
+            self.namespace = namespace
+        }
+    }
+}
+
+extension GuardDutyClientTypes {
+
     public enum PublicAccessStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case allowed
         case blocked
@@ -5327,10 +5534,16 @@ extension GuardDutyClientTypes {
     public struct ResourceData: Swift.Sendable {
         /// Contains information about the IAM access key details of a user that involved in the GuardDuty finding.
         public var accessKey: GuardDutyClientTypes.AccessKey?
+        /// Contains detailed information about the container associated with the activity that prompted GuardDuty to generate a finding.
+        public var container: GuardDutyClientTypes.ContainerFindingResource?
         /// Contains information about the Amazon EC2 instance.
         public var ec2Instance: GuardDutyClientTypes.Ec2Instance?
         /// Contains information about the elastic network interface of the Amazon EC2 instance.
         public var ec2NetworkInterface: GuardDutyClientTypes.Ec2NetworkInterface?
+        /// Contains detailed information about the Amazon EKS cluster associated with the activity that prompted GuardDuty to generate a finding.
+        public var eksCluster: GuardDutyClientTypes.EksCluster?
+        /// Contains detailed information about the Kubernetes workload associated with the activity that prompted GuardDuty to generate a finding.
+        public var kubernetesWorkload: GuardDutyClientTypes.KubernetesWorkload?
         /// Contains information about the Amazon S3 bucket.
         public var s3Bucket: GuardDutyClientTypes.S3Bucket?
         /// Contains information about the Amazon S3 object.
@@ -5338,14 +5551,20 @@ extension GuardDutyClientTypes {
 
         public init(
             accessKey: GuardDutyClientTypes.AccessKey? = nil,
+            container: GuardDutyClientTypes.ContainerFindingResource? = nil,
             ec2Instance: GuardDutyClientTypes.Ec2Instance? = nil,
             ec2NetworkInterface: GuardDutyClientTypes.Ec2NetworkInterface? = nil,
+            eksCluster: GuardDutyClientTypes.EksCluster? = nil,
+            kubernetesWorkload: GuardDutyClientTypes.KubernetesWorkload? = nil,
             s3Bucket: GuardDutyClientTypes.S3Bucket? = nil,
             s3Object: GuardDutyClientTypes.S3Object? = nil
         ) {
             self.accessKey = accessKey
+            self.container = container
             self.ec2Instance = ec2Instance
             self.ec2NetworkInterface = ec2NetworkInterface
+            self.eksCluster = eksCluster
+            self.kubernetesWorkload = kubernetesWorkload
             self.s3Bucket = s3Bucket
             self.s3Object = s3Object
         }
@@ -5356,8 +5575,11 @@ extension GuardDutyClientTypes {
 
     public enum FindingResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessKey
+        case container
         case ec2Instance
         case ec2NetworkInterface
+        case eksCluster
+        case kubernetesWorkload
         case s3Bucket
         case s3Object
         case sdkUnknown(Swift.String)
@@ -5365,8 +5587,11 @@ extension GuardDutyClientTypes {
         public static var allCases: [FindingResourceType] {
             return [
                 .accessKey,
+                .container,
                 .ec2Instance,
                 .ec2NetworkInterface,
+                .eksCluster,
+                .kubernetesWorkload,
                 .s3Bucket,
                 .s3Object
             ]
@@ -5380,8 +5605,11 @@ extension GuardDutyClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .accessKey: return "ACCESS_KEY"
+            case .container: return "CONTAINER"
             case .ec2Instance: return "EC2_INSTANCE"
             case .ec2NetworkInterface: return "EC2_NETWORK_INTERFACE"
+            case .eksCluster: return "EKS_CLUSTER"
+            case .kubernetesWorkload: return "KUBERNETES_WORKLOAD"
             case .s3Bucket: return "S3_BUCKET"
             case .s3Object: return "S3_OBJECT"
             case let .sdkUnknown(s): return s
@@ -5463,9 +5691,15 @@ extension GuardDutyClientTypes {
     public enum IndicatorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case attackTactic
         case attackTechnique
+        case cryptominingDomain
+        case cryptominingIp
+        case cryptominingProcess
         case highRiskApi
+        case maliciousDomain
         case maliciousIp
+        case maliciousProcess
         case suspiciousNetwork
+        case suspiciousProcess
         case suspiciousUserAgent
         case torIp
         case unusualApiForAccount
@@ -5477,9 +5711,15 @@ extension GuardDutyClientTypes {
             return [
                 .attackTactic,
                 .attackTechnique,
+                .cryptominingDomain,
+                .cryptominingIp,
+                .cryptominingProcess,
                 .highRiskApi,
+                .maliciousDomain,
                 .maliciousIp,
+                .maliciousProcess,
                 .suspiciousNetwork,
+                .suspiciousProcess,
                 .suspiciousUserAgent,
                 .torIp,
                 .unusualApiForAccount,
@@ -5497,9 +5737,15 @@ extension GuardDutyClientTypes {
             switch self {
             case .attackTactic: return "ATTACK_TACTIC"
             case .attackTechnique: return "ATTACK_TECHNIQUE"
+            case .cryptominingDomain: return "CRYPTOMINING_DOMAIN"
+            case .cryptominingIp: return "CRYPTOMINING_IP"
+            case .cryptominingProcess: return "CRYPTOMINING_PROCESS"
             case .highRiskApi: return "HIGH_RISK_API"
+            case .maliciousDomain: return "MALICIOUS_DOMAIN"
             case .maliciousIp: return "MALICIOUS_IP"
+            case .maliciousProcess: return "MALICIOUS_PROCESS"
             case .suspiciousNetwork: return "SUSPICIOUS_NETWORK"
+            case .suspiciousProcess: return "SUSPICIOUS_PROCESS"
             case .suspiciousUserAgent: return "SUSPICIOUS_USER_AGENT"
             case .torIp: return "TOR_IP"
             case .unusualApiForAccount: return "UNUSUAL_API_FOR_ACCOUNT"
@@ -5515,12 +5761,12 @@ extension GuardDutyClientTypes {
 
     /// Contains information about the indicators that include a set of signals observed in an attack sequence.
     public struct Indicator: Swift.Sendable {
-        /// Specific indicator keys observed in the attack sequence.
+        /// Specific indicator keys observed in the attack sequence. For description of the valid values for key, see [Attack sequence finding details](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings-summary.html#guardduty-extended-threat-detection-attack-sequence-finding-details) in the Amazon GuardDuty User Guide.
         /// This member is required.
         public var key: GuardDutyClientTypes.IndicatorType?
         /// Title describing the indicator.
         public var title: Swift.String?
-        /// Values associated with each indicator key. For example, if the indicator key is SUSPICIOUS_NETWORK, then the value will be the name of the network. If the indicator key is ATTACK_TACTIC, then the value will be one of the MITRE tactics. For more information about the values associated with the key, see GuardDuty Extended Threat Detection in the GuardDuty User Guide.
+        /// Values associated with each indicator key. For example, if the indicator key is SUSPICIOUS_NETWORK, then the value will be the name of the network. If the indicator key is ATTACK_TACTIC, then the value will be one of the MITRE tactics.
         public var values: [Swift.String]?
 
         public init(
@@ -5539,14 +5785,22 @@ extension GuardDutyClientTypes {
 
     public enum SignalType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cloudTrail
+        case dnsLogs
+        case eksAuditLogs
         case finding
+        case flowLogs
+        case runtimeMonitoring
         case s3DataEvents
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SignalType] {
             return [
                 .cloudTrail,
+                .dnsLogs,
+                .eksAuditLogs,
                 .finding,
+                .flowLogs,
+                .runtimeMonitoring,
                 .s3DataEvents
             ]
         }
@@ -5559,7 +5813,11 @@ extension GuardDutyClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cloudTrail: return "CLOUD_TRAIL"
+            case .dnsLogs: return "DNS_LOGS"
+            case .eksAuditLogs: return "EKS_AUDIT_LOGS"
             case .finding: return "FINDING"
+            case .flowLogs: return "FLOW_LOGS"
+            case .runtimeMonitoring: return "RUNTIME_MONITORING"
             case .s3DataEvents: return "S3_DATA_EVENTS"
             case let .sdkUnknown(s): return s
             }
@@ -5594,17 +5852,17 @@ extension GuardDutyClientTypes {
         public var name: Swift.String?
         /// Information about the unique identifiers of the resources involved in the signal.
         public var resourceUids: [Swift.String]?
-        /// The severity associated with the signal. For more information about severity, see [Findings severity levels](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings-severity.html) in the GuardDuty User Guide.
+        /// The severity associated with the signal. For more information about severity, see [Findings severity levels](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_findings-severity.html) in the Amazon GuardDuty User Guide.
         public var severity: Swift.Double?
         /// Contains information about the indicators associated with the signals.
         public var signalIndicators: [GuardDutyClientTypes.Indicator]?
-        /// The type of the signal used to identify an attack sequence. Signals can be GuardDuty findings or activities observed in data sources that GuardDuty monitors. For more information, see [Foundational data sources](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_data-sources.html) in the GuardDuty User Guide. A signal type can be one of the valid values listed in this API. Here are the related descriptions:
+        /// The type of the signal used to identify an attack sequence. Signals can be GuardDuty findings or activities observed in data sources that GuardDuty monitors. For more information, see [Foundational data sources](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_data-sources.html) in the Amazon GuardDuty User Guide. A signal type can be one of the valid values listed in this API. Here are the related descriptions:
         ///
         /// * FINDING - Individually generated GuardDuty finding.
         ///
         /// * CLOUD_TRAIL - Activity observed from CloudTrail logs
         ///
-        /// * S3_DATA_EVENTS - Activity observed from CloudTrail data events for S3. Activities associated with this type will show up only when you have enabled GuardDuty S3 Protection feature in your account. For more information about S3 Protection and steps to enable it, see [S3 Protection](https://docs.aws.amazon.com/guardduty/latest/ug/s3-protection.html) in the GuardDuty User Guide.
+        /// * S3_DATA_EVENTS - Activity observed from CloudTrail data events for S3. Activities associated with this type will show up only when you have enabled GuardDuty S3 Protection feature in your account. For more information about S3 Protection and steps to enable it, see [S3 Protection](https://docs.aws.amazon.com/guardduty/latest/ug/s3-protection.html) in the Amazon GuardDuty User Guide.
         /// This member is required.
         public var type: GuardDutyClientTypes.SignalType?
         /// The unique identifier of the signal.
@@ -5654,6 +5912,8 @@ extension GuardDutyClientTypes {
     public struct Sequence: Swift.Sendable {
         /// Contains information about the actors involved in the attack sequence.
         public var actors: [GuardDutyClientTypes.Actor]?
+        /// Additional types of sequences that may be associated with the attack sequence finding, providing further context about the nature of the detected threat.
+        public var additionalSequenceTypes: [Swift.String]?
         /// Description of the attack sequence.
         /// This member is required.
         public var description: Swift.String?
@@ -5672,6 +5932,7 @@ extension GuardDutyClientTypes {
 
         public init(
             actors: [GuardDutyClientTypes.Actor]? = nil,
+            additionalSequenceTypes: [Swift.String]? = nil,
             description: Swift.String? = nil,
             endpoints: [GuardDutyClientTypes.NetworkEndpoint]? = nil,
             resources: [GuardDutyClientTypes.ResourceV2]? = nil,
@@ -5680,6 +5941,7 @@ extension GuardDutyClientTypes {
             uid: Swift.String? = nil
         ) {
             self.actors = actors
+            self.additionalSequenceTypes = additionalSequenceTypes
             self.description = description
             self.endpoints = endpoints
             self.resources = resources
@@ -7453,7 +7715,7 @@ extension GuardDutyClientTypes {
         public var id: Swift.String?
         /// The partition associated with the finding.
         public var partition: Swift.String?
-        /// The Region where the finding was generated.
+        /// The Region where the finding was generated. For findings generated from [Global Service Events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-concepts.html#cloudtrail-concepts-global-service-events), the Region value in the finding might differ from the Region where GuardDuty identifies the potential threat. For more information, see [How GuardDuty handles Amazon Web Services CloudTrail global events](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_data-sources.html#cloudtrail_global) in the Amazon GuardDuty User Guide.
         /// This member is required.
         public var region: Swift.String?
         /// Contains information about the Amazon Web Services resource associated with the activity that prompted GuardDuty to generate a finding.
@@ -8112,7 +8374,7 @@ extension GuardDutyClientTypes {
     public struct MalwareProtectionPlanStatusReason: Swift.Sendable {
         /// Issue code.
         public var code: Swift.String?
-        /// Issue message that specifies the reason. For information about potential troubleshooting steps, see [Troubleshooting Malware Protection for S3 status issues](https://docs.aws.amazon.com/guardduty/latest/ug/troubleshoot-s3-malware-protection-status-errors.html) in the GuardDuty User Guide.
+        /// Issue message that specifies the reason. For information about potential troubleshooting steps, see [Troubleshooting Malware Protection for S3 status issues](https://docs.aws.amazon.com/guardduty/latest/ug/troubleshoot-s3-malware-protection-status-errors.html) in the Amazon GuardDuty User Guide.
         public var message: Swift.String?
 
         public init(
@@ -14263,6 +14525,7 @@ extension GuardDutyClientTypes.Sequence {
         value.endpoints = try reader["endpoints"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.NetworkEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.signals = try reader["signals"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Signal.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.sequenceIndicators = try reader["sequenceIndicators"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Indicator.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.additionalSequenceTypes = try reader["additionalSequenceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -14380,6 +14643,46 @@ extension GuardDutyClientTypes.ResourceData {
         value.accessKey = try reader["accessKey"].readIfPresent(with: GuardDutyClientTypes.AccessKey.read(from:))
         value.ec2NetworkInterface = try reader["ec2NetworkInterface"].readIfPresent(with: GuardDutyClientTypes.Ec2NetworkInterface.read(from:))
         value.s3Object = try reader["s3Object"].readIfPresent(with: GuardDutyClientTypes.S3Object.read(from:))
+        value.eksCluster = try reader["eksCluster"].readIfPresent(with: GuardDutyClientTypes.EksCluster.read(from:))
+        value.kubernetesWorkload = try reader["kubernetesWorkload"].readIfPresent(with: GuardDutyClientTypes.KubernetesWorkload.read(from:))
+        value.container = try reader["container"].readIfPresent(with: GuardDutyClientTypes.ContainerFindingResource.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ContainerFindingResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ContainerFindingResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ContainerFindingResource()
+        value.image = try reader["image"].readIfPresent() ?? ""
+        value.imageUid = try reader["imageUid"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.KubernetesWorkload {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesWorkload {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.KubernetesWorkload()
+        value.containerUids = try reader["containerUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.namespace = try reader["namespace"].readIfPresent()
+        value.kubernetesResourcesTypes = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.EksCluster {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EksCluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.EksCluster()
+        value.arn = try reader["arn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        value.vpcId = try reader["vpcId"].readIfPresent()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -14536,6 +14839,19 @@ extension GuardDutyClientTypes.Actor {
         value.id = try reader["id"].readIfPresent() ?? ""
         value.user = try reader["user"].readIfPresent(with: GuardDutyClientTypes.User.read(from:))
         value.session = try reader["session"].readIfPresent(with: GuardDutyClientTypes.Session.read(from:))
+        value.process = try reader["process"].readIfPresent(with: GuardDutyClientTypes.ActorProcess.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ActorProcess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ActorProcess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ActorProcess()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.path = try reader["path"].readIfPresent() ?? ""
+        value.sha256 = try reader["sha256"].readIfPresent()
         return value
     }
 }

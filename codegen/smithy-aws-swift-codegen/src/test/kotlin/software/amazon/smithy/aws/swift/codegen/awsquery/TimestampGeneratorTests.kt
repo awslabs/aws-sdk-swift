@@ -15,7 +15,6 @@ import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.AwsQueryTrait
 
 class TimestampGeneratorTests {
-
     @Test
     fun `001 encode timestamps`() {
         val context = setupTests("awsquery/query-timestamp.smithy", "aws.protocoltests.query#AwsQuery")
@@ -37,7 +36,10 @@ extension QueryTimestampsInput {
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
-    private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
+    private fun setupTests(
+        smithyFile: String,
+        serviceShapeId: String,
+    ): TestContext {
         val context =
             TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, AwsQueryTrait.ID)
         val generator = AWSQueryProtocolGenerator()

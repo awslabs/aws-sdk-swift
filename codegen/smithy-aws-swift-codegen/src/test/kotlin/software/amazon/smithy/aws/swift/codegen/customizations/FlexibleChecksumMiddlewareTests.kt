@@ -9,7 +9,6 @@ import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
 
 class FlexibleChecksumMiddlewareTests {
-
     @Test
     fun `Test that FlexibleChecksumsRequestMiddleware is properly generated`() {
         val context = setupTests("flexible-checksums.smithy", "aws.flex.checks#ChecksumTests")
@@ -32,7 +31,10 @@ class FlexibleChecksumMiddlewareTests {
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
-    private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
+    private fun setupTests(
+        smithyFile: String,
+        serviceShapeId: String,
+    ): TestContext {
         val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, RestJson1Trait.ID)
         val generator = AWSRestJson1ProtocolGenerator()
         generator.generateProtocolUnitTests(context.ctx)

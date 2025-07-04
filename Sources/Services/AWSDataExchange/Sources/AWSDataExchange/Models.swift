@@ -1625,13 +1625,17 @@ public struct CreateEventActionInput: Swift.Sendable {
     /// What occurs to start an action.
     /// This member is required.
     public var event: DataExchangeClientTypes.Event?
+    /// Key-value pairs that you can associate with the event action.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         action: DataExchangeClientTypes.Action? = nil,
-        event: DataExchangeClientTypes.Event? = nil
+        event: DataExchangeClientTypes.Event? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.action = action
         self.event = event
+        self.tags = tags
     }
 }
 
@@ -1646,6 +1650,8 @@ public struct CreateEventActionOutput: Swift.Sendable {
     public var event: DataExchangeClientTypes.Event?
     /// The unique identifier for the event action.
     public var id: Swift.String?
+    /// The tags for the event action.
+    public var tags: [Swift.String: Swift.String]?
     /// The date and time that the event action was last updated, in ISO 8601 format.
     public var updatedAt: Foundation.Date?
 
@@ -1655,6 +1661,7 @@ public struct CreateEventActionOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         event: DataExchangeClientTypes.Event? = nil,
         id: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
         self.action = action
@@ -1662,6 +1669,7 @@ public struct CreateEventActionOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.event = event
         self.id = id
+        self.tags = tags
         self.updatedAt = updatedAt
     }
 }
@@ -3209,6 +3217,8 @@ public struct GetEventActionOutput: Swift.Sendable {
     public var event: DataExchangeClientTypes.Event?
     /// The unique identifier for the event action.
     public var id: Swift.String?
+    /// The tags for the event action.
+    public var tags: [Swift.String: Swift.String]?
     /// The date and time that the event action was last updated, in ISO 8601 format.
     public var updatedAt: Foundation.Date?
 
@@ -3218,6 +3228,7 @@ public struct GetEventActionOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         event: DataExchangeClientTypes.Event? = nil,
         id: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
         updatedAt: Foundation.Date? = nil
     ) {
         self.action = action
@@ -3225,6 +3236,7 @@ public struct GetEventActionOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.event = event
         self.id = id
+        self.tags = tags
         self.updatedAt = updatedAt
     }
 }
@@ -5229,6 +5241,7 @@ extension SendApiAssetInput {
         }
         if let requestHeaders = value.requestHeaders {
             for (prefixHeaderMapKey, prefixHeaderMapValue) in requestHeaders {
+                guard !items.exists(name: "x-amzn-dataexchange-header-\(prefixHeaderMapKey)") else { continue }
                 items.add(SmithyHTTPAPI.Header(name: "x-amzn-dataexchange-header-\(prefixHeaderMapKey)", value: Swift.String(prefixHeaderMapValue)))
             }
         }
@@ -5389,6 +5402,7 @@ extension CreateEventActionInput {
         guard let value else { return }
         try writer["Action"].write(value.action, with: DataExchangeClientTypes.Action.write(value:to:))
         try writer["Event"].write(value.event, with: DataExchangeClientTypes.Event.write(value:to:))
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -5571,6 +5585,7 @@ extension CreateEventActionOutput {
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.event = try reader["Event"].readIfPresent(with: DataExchangeClientTypes.Event.read(from:))
         value.id = try reader["Id"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -5734,6 +5749,7 @@ extension GetEventActionOutput {
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.event = try reader["Event"].readIfPresent(with: DataExchangeClientTypes.Event.read(from:))
         value.id = try reader["Id"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
@@ -6712,11 +6728,24 @@ enum UpdateRevisionOutputError {
     }
 }
 
-extension ResourceNotFoundException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = AccessDeniedException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["ResourceId"].readIfPresent()
         value.properties.resourceType = try reader["ResourceType"].readIfPresent()
@@ -6727,12 +6756,27 @@ extension ResourceNotFoundException {
     }
 }
 
-extension AccessDeniedException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6760,34 +6804,6 @@ extension ValidationException {
         var value = ValidationException()
         value.properties.exceptionCause = try reader["ExceptionCause"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalServerException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
-        let reader = baseError.errorBodyReader
-        var value = InternalServerException()
-        value.properties.message = try reader["Message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["Message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent()
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

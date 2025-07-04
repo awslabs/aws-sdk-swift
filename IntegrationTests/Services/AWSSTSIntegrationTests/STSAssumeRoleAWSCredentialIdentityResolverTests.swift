@@ -11,6 +11,12 @@ import AWSSTS
 import AWSIAM
 import AWSSDKIdentity
 import ClientRuntime
+#if canImport(InMemoryExporter)
+import InMemoryExporter
+#endif
+//#if os(Linux)
+//import OpenTelemetryConcurrency
+//#endif
 
 class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
     private let region = "us-east-1"
@@ -71,6 +77,39 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
         XCTAssertNotEqual(arn, "")
     }
 
+    // Right now opentelemetry-swift doesnt support linux or visionos
+    #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
+    // OpenTelemetry Tracing works as expected
+    func testGetCallerIdentityWithOTelTracing() async throws {
+        let inMemoryExporter = InMemoryExporter()
+
+        // TODO: Uncomment below and import at top of file when linux is supported by opentelemetry-swift
+        //#if os(Linux)
+        // On Apple platforms, the default is the activity based context manager. We want to opt-in to the structured concurrency based context manager instead.
+        // OpenTelemetry.registerDefaultConcurrencyContextManager()
+        //#endif
+
+        let config = try await STSClient.STSClientConfiguration(
+            region: "us-west-2",
+            telemetryProvider: OpenTelemetrySwift.provider(spanExporter: inMemoryExporter)
+        )
+        let client = STSClient(config: config)
+        _ = try await client.getCallerIdentity(input: GetCallerIdentityInput())
+
+        // some CI simulators may be slow to process
+        try await Task.sleep(nanoseconds: 500_000_000) // 500ms
+
+        let traceResults = inMemoryExporter.getFinishedSpanItems()
+
+        XCTAssertTrue(
+            traceResults.contains { span in
+                span.instrumentationScope.name == "STS" && span.name == "STS.GetCallerIdentity"
+            },
+            "Expected STS.GetCallerIdentity span not found"
+        )
+    }
+    #endif
+
     // MARK: - Setup & teardown
 
     override func setUp() async throws {
@@ -97,7 +136,7 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
         ))
 
         // Construct STS client wih assume-role credentials provider.
-        let underlyingResolver = try DefaultAWSCredentialIdentityResolverChain()
+        let underlyingResolver = DefaultAWSCredentialIdentityResolverChain()
         let assumeRoleAWSCredentialIdentityResolver = try STSAssumeRoleAWSCredentialIdentityResolver(
             awsCredentialIdentityResolver: underlyingResolver,
             roleArn: roleArn,

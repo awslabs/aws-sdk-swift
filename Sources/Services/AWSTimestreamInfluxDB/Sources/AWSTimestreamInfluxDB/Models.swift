@@ -341,15 +341,13 @@ extension TimestreamInfluxDBClientTypes {
 
 extension TimestreamInfluxDBClientTypes {
 
-    public enum DeploymentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case singleAz
-        case withMultiazStandby
+    public enum ClusterDeploymentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case multiNodeReadReplicas
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [DeploymentType] {
+        public static var allCases: [ClusterDeploymentType] {
             return [
-                .singleAz,
-                .withMultiazStandby
+                .multiNodeReadReplicas
             ]
         }
 
@@ -360,8 +358,36 @@ extension TimestreamInfluxDBClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .singleAz: return "SINGLE_AZ"
-            case .withMultiazStandby: return "WITH_MULTIAZ_STANDBY"
+            case .multiNodeReadReplicas: return "MULTI_NODE_READ_REPLICAS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    public enum FailoverMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case automatic
+        case noFailover
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FailoverMode] {
+            return [
+                .automatic,
+                .noFailover
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatic: return "AUTOMATIC"
+            case .noFailover: return "NO_FAILOVER"
             case let .sdkUnknown(s): return s
             }
         }
@@ -434,6 +460,625 @@ extension TimestreamInfluxDBClientTypes {
     }
 }
 
+public struct CreateDbClusterInput: Swift.Sendable {
+    /// The amount of storage to allocate for your DB storage type in GiB (gibibytes).
+    /// This member is required.
+    public var allocatedStorage: Swift.Int?
+    /// The name of the initial InfluxDB bucket. All InfluxDB data is stored in a bucket. A bucket combines the concept of a database and a retention period (the duration of time that each data point persists). A bucket belongs to an organization.
+    public var bucket: Swift.String?
+    /// The Timestream for InfluxDB DB instance type to run InfluxDB on.
+    /// This member is required.
+    public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
+    /// The ID of the DB parameter group to assign to your DB cluster. DB parameter groups specify how the database is configured. For example, DB parameter groups can specify the limit for query concurrency.
+    public var dbParameterGroupIdentifier: Swift.String?
+    /// The Timestream for InfluxDB DB storage type to read and write InfluxDB data. You can choose between three different types of provisioned Influx IOPS Included storage according to your workload requirements:
+    ///
+    /// * Influx I/O Included 3000 IOPS
+    ///
+    /// * Influx I/O Included 12000 IOPS
+    ///
+    /// * Influx I/O Included 16000 IOPS
+    public var dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType?
+    /// Specifies the type of cluster to create.
+    /// This member is required.
+    public var deploymentType: TimestreamInfluxDBClientTypes.ClusterDeploymentType?
+    /// Specifies the behavior of failure recovery when the primary node of the cluster fails.
+    public var failoverMode: TimestreamInfluxDBClientTypes.FailoverMode?
+    /// Configuration for sending InfluxDB engine logs to a specified S3 bucket.
+    public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
+    /// The name that uniquely identifies the DB cluster when interacting with the Amazon Timestream for InfluxDB API and CLI commands. This name will also be a prefix included in the endpoint. DB cluster names must be unique per customer and per region.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Specifies whether the network type of the Timestream for InfluxDB cluster is IPv4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
+    public var networkType: TimestreamInfluxDBClientTypes.NetworkType?
+    /// The name of the initial organization for the initial admin user in InfluxDB. An InfluxDB organization is a workspace for a group of users.
+    public var organization: Swift.String?
+    /// The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a secret created in Secrets Manager in your account.
+    /// This member is required.
+    public var password: Swift.String?
+    /// The port number on which InfluxDB accepts connections. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
+    public var port: Swift.Int?
+    /// Configures the Timestream for InfluxDB cluster with a public IP to facilitate access from outside the VPC.
+    public var publiclyAccessible: Swift.Bool?
+    /// A list of key-value pairs to associate with the DB instance.
+    public var tags: [Swift.String: Swift.String]?
+    /// The username of the initial admin user created in InfluxDB. Must start with a letter and can't end with a hyphen or contain two consecutive hyphens. For example, my-user1. This username will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a secret created in Secrets Manager in your account.
+    public var username: Swift.String?
+    /// A list of VPC security group IDs to associate with the Timestream for InfluxDB cluster.
+    /// This member is required.
+    public var vpcSecurityGroupIds: [Swift.String]?
+    /// A list of VPC subnet IDs to associate with the DB cluster. Provide at least two VPC subnet IDs in different Availability Zones when deploying with a Multi-AZ standby.
+    /// This member is required.
+    public var vpcSubnetIds: [Swift.String]?
+
+    public init(
+        allocatedStorage: Swift.Int? = nil,
+        bucket: Swift.String? = nil,
+        dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
+        dbParameterGroupIdentifier: Swift.String? = nil,
+        dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
+        deploymentType: TimestreamInfluxDBClientTypes.ClusterDeploymentType? = nil,
+        failoverMode: TimestreamInfluxDBClientTypes.FailoverMode? = nil,
+        logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
+        name: Swift.String? = nil,
+        networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
+        organization: Swift.String? = nil,
+        password: Swift.String? = nil,
+        port: Swift.Int? = nil,
+        publiclyAccessible: Swift.Bool? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        username: Swift.String? = nil,
+        vpcSecurityGroupIds: [Swift.String]? = nil,
+        vpcSubnetIds: [Swift.String]? = nil
+    ) {
+        self.allocatedStorage = allocatedStorage
+        self.bucket = bucket
+        self.dbInstanceType = dbInstanceType
+        self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
+        self.dbStorageType = dbStorageType
+        self.deploymentType = deploymentType
+        self.failoverMode = failoverMode
+        self.logDeliveryConfiguration = logDeliveryConfiguration
+        self.name = name
+        self.networkType = networkType
+        self.organization = organization
+        self.password = password
+        self.port = port
+        self.publiclyAccessible = publiclyAccessible
+        self.tags = tags
+        self.username = username
+        self.vpcSecurityGroupIds = vpcSecurityGroupIds
+        self.vpcSubnetIds = vpcSubnetIds
+    }
+}
+
+extension CreateDbClusterInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateDbClusterInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), bucket: \(Swift.String(describing: bucket)), dbInstanceType: \(Swift.String(describing: dbInstanceType)), dbParameterGroupIdentifier: \(Swift.String(describing: dbParameterGroupIdentifier)), dbStorageType: \(Swift.String(describing: dbStorageType)), deploymentType: \(Swift.String(describing: deploymentType)), failoverMode: \(Swift.String(describing: failoverMode)), logDeliveryConfiguration: \(Swift.String(describing: logDeliveryConfiguration)), name: \(Swift.String(describing: name)), networkType: \(Swift.String(describing: networkType)), organization: \(Swift.String(describing: organization)), port: \(Swift.String(describing: port)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), vpcSubnetIds: \(Swift.String(describing: vpcSubnetIds)), password: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    public enum ClusterStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case creating
+        case deleted
+        case deleting
+        case failed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterStatus] {
+            return [
+                .available,
+                .creating,
+                .deleted,
+                .deleting,
+                .failed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .creating: return "CREATING"
+            case .deleted: return "DELETED"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateDbClusterOutput: Swift.Sendable {
+    /// A service-generated unique identifier.
+    public var dbClusterId: Swift.String?
+    /// The status of the DB cluster.
+    public var dbClusterStatus: TimestreamInfluxDBClientTypes.ClusterStatus?
+
+    public init(
+        dbClusterId: Swift.String? = nil,
+        dbClusterStatus: TimestreamInfluxDBClientTypes.ClusterStatus? = nil
+    ) {
+        self.dbClusterId = dbClusterId
+        self.dbClusterStatus = dbClusterStatus
+    }
+}
+
+public struct DeleteDbClusterInput: Swift.Sendable {
+    /// Service-generated unique identifier of the DB cluster.
+    /// This member is required.
+    public var dbClusterId: Swift.String?
+
+    public init(
+        dbClusterId: Swift.String? = nil
+    ) {
+        self.dbClusterId = dbClusterId
+    }
+}
+
+public struct DeleteDbClusterOutput: Swift.Sendable {
+    /// The status of the DB cluster.
+    public var dbClusterStatus: TimestreamInfluxDBClientTypes.ClusterStatus?
+
+    public init(
+        dbClusterStatus: TimestreamInfluxDBClientTypes.ClusterStatus? = nil
+    ) {
+        self.dbClusterStatus = dbClusterStatus
+    }
+}
+
+public struct GetDbClusterInput: Swift.Sendable {
+    /// Service-generated unique identifier of the DB cluster to retrieve.
+    /// This member is required.
+    public var dbClusterId: Swift.String?
+
+    public init(
+        dbClusterId: Swift.String? = nil
+    ) {
+        self.dbClusterId = dbClusterId
+    }
+}
+
+public struct GetDbClusterOutput: Swift.Sendable {
+    /// The amount of storage allocated for your DB storage type (in gibibytes).
+    public var allocatedStorage: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the DB cluster.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The Timestream for InfluxDB instance type that InfluxDB runs on.
+    public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
+    /// The ID of the DB parameter group assigned to your DB cluster.
+    public var dbParameterGroupIdentifier: Swift.String?
+    /// The Timestream for InfluxDB DB storage type that InfluxDB stores data on.
+    public var dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType?
+    /// Deployment type of the DB cluster.
+    public var deploymentType: TimestreamInfluxDBClientTypes.ClusterDeploymentType?
+    /// The endpoint used to connect to the Timestream for InfluxDB cluster for write and read operations.
+    public var endpoint: Swift.String?
+    /// The configured failover mode for the DB cluster.
+    public var failoverMode: TimestreamInfluxDBClientTypes.FailoverMode?
+    /// Service-generated unique identifier of the DB cluster to retrieve.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
+    public var influxAuthParametersSecretArn: Swift.String?
+    /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
+    public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
+    /// Customer-supplied name of the Timestream for InfluxDB cluster.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Specifies whether the network type of the Timestream for InfluxDB cluster is IPv4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
+    public var networkType: TimestreamInfluxDBClientTypes.NetworkType?
+    /// The port number on which InfluxDB accepts connections.
+    public var port: Swift.Int?
+    /// Indicates if the DB cluster has a public IP to facilitate access from outside the VPC.
+    public var publiclyAccessible: Swift.Bool?
+    /// The endpoint used to connect to the Timestream for InfluxDB cluster for read-only operations.
+    public var readerEndpoint: Swift.String?
+    /// The status of the DB cluster.
+    public var status: TimestreamInfluxDBClientTypes.ClusterStatus?
+    /// A list of VPC security group IDs associated with the DB cluster.
+    public var vpcSecurityGroupIds: [Swift.String]?
+    /// A list of VPC subnet IDs associated with the DB cluster.
+    public var vpcSubnetIds: [Swift.String]?
+
+    public init(
+        allocatedStorage: Swift.Int? = nil,
+        arn: Swift.String? = nil,
+        dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
+        dbParameterGroupIdentifier: Swift.String? = nil,
+        dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
+        deploymentType: TimestreamInfluxDBClientTypes.ClusterDeploymentType? = nil,
+        endpoint: Swift.String? = nil,
+        failoverMode: TimestreamInfluxDBClientTypes.FailoverMode? = nil,
+        id: Swift.String? = nil,
+        influxAuthParametersSecretArn: Swift.String? = nil,
+        logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
+        name: Swift.String? = nil,
+        networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
+        port: Swift.Int? = nil,
+        publiclyAccessible: Swift.Bool? = nil,
+        readerEndpoint: Swift.String? = nil,
+        status: TimestreamInfluxDBClientTypes.ClusterStatus? = nil,
+        vpcSecurityGroupIds: [Swift.String]? = nil,
+        vpcSubnetIds: [Swift.String]? = nil
+    ) {
+        self.allocatedStorage = allocatedStorage
+        self.arn = arn
+        self.dbInstanceType = dbInstanceType
+        self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
+        self.dbStorageType = dbStorageType
+        self.deploymentType = deploymentType
+        self.endpoint = endpoint
+        self.failoverMode = failoverMode
+        self.id = id
+        self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
+        self.logDeliveryConfiguration = logDeliveryConfiguration
+        self.name = name
+        self.networkType = networkType
+        self.port = port
+        self.publiclyAccessible = publiclyAccessible
+        self.readerEndpoint = readerEndpoint
+        self.status = status
+        self.vpcSecurityGroupIds = vpcSecurityGroupIds
+        self.vpcSubnetIds = vpcSubnetIds
+    }
+}
+
+public struct ListDbClustersInput: Swift.Sendable {
+    /// The maximum number of items to return in the output. If the total number of items available is more than the value specified, a nextToken is provided in the output. To resume pagination, provide the nextToken value as an argument of a subsequent API invocation.
+    public var maxResults: Swift.Int?
+    /// The pagination token. To resume pagination, provide the nextToken value as an argument of a subsequent API invocation.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    /// Describes a summary of a Timestream for InfluxDB cluster.
+    public struct DbClusterSummary: Swift.Sendable {
+        /// The amount of storage allocated for your DB storage type (in gibibytes).
+        public var allocatedStorage: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the DB cluster.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The Timestream for InfluxDB DB instance type that InfluxDB runs on.
+        public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
+        /// The Timestream for InfluxDB DB storage type that InfluxDB stores data on.
+        public var dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType?
+        /// Deployment type of the DB cluster
+        public var deploymentType: TimestreamInfluxDBClientTypes.ClusterDeploymentType?
+        /// The endpoint used to connect to the Timestream for InfluxDB cluster for write and read operations.
+        public var endpoint: Swift.String?
+        /// Service-generated unique identifier of the DB cluster to retrieve.
+        /// This member is required.
+        public var id: Swift.String?
+        /// Customer supplied name of the Timestream for InfluxDB cluster.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies whether the network type of the Timestream for InfluxDB Cluster is IPv4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
+        public var networkType: TimestreamInfluxDBClientTypes.NetworkType?
+        /// The port number on which InfluxDB accepts connections.
+        public var port: Swift.Int?
+        /// The endpoint used to connect to the Timestream for InfluxDB cluster for read-only operations.
+        public var readerEndpoint: Swift.String?
+        /// The status of the DB cluster.
+        public var status: TimestreamInfluxDBClientTypes.ClusterStatus?
+
+        public init(
+            allocatedStorage: Swift.Int? = nil,
+            arn: Swift.String? = nil,
+            dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
+            dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
+            deploymentType: TimestreamInfluxDBClientTypes.ClusterDeploymentType? = nil,
+            endpoint: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
+            port: Swift.Int? = nil,
+            readerEndpoint: Swift.String? = nil,
+            status: TimestreamInfluxDBClientTypes.ClusterStatus? = nil
+        ) {
+            self.allocatedStorage = allocatedStorage
+            self.arn = arn
+            self.dbInstanceType = dbInstanceType
+            self.dbStorageType = dbStorageType
+            self.deploymentType = deploymentType
+            self.endpoint = endpoint
+            self.id = id
+            self.name = name
+            self.networkType = networkType
+            self.port = port
+            self.readerEndpoint = readerEndpoint
+            self.status = status
+        }
+    }
+}
+
+public struct ListDbClustersOutput: Swift.Sendable {
+    /// A list of Timestream for InfluxDB cluster summaries.
+    /// This member is required.
+    public var items: [TimestreamInfluxDBClientTypes.DbClusterSummary]?
+    /// Token from a previous call of the operation. When this value is provided, the service returns results from where the previous response left off.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [TimestreamInfluxDBClientTypes.DbClusterSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListDbInstancesForClusterInput: Swift.Sendable {
+    /// Service-generated unique identifier of the DB cluster.
+    /// This member is required.
+    public var dbClusterId: Swift.String?
+    /// The maximum number of items to return in the output. If the total number of items available is more than the value specified, a nextToken is provided in the output. To resume pagination, provide the nextToken value as an argument of a subsequent API invocation.
+    public var maxResults: Swift.Int?
+    /// The pagination token. To resume pagination, provide the nextToken value as an argument of a subsequent API invocation.
+    public var nextToken: Swift.String?
+
+    public init(
+        dbClusterId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.dbClusterId = dbClusterId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    public enum DeploymentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case singleAz
+        case withMultiazStandby
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeploymentType] {
+            return [
+                .singleAz,
+                .withMultiazStandby
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .singleAz: return "SINGLE_AZ"
+            case .withMultiazStandby: return "WITH_MULTIAZ_STANDBY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    public enum InstanceMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case primary
+        case replica
+        case standby
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceMode] {
+            return [
+                .primary,
+                .replica,
+                .standby
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .primary: return "PRIMARY"
+            case .replica: return "REPLICA"
+            case .standby: return "STANDBY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case creating
+        case deleted
+        case deleting
+        case failed
+        case modifying
+        case updating
+        case updatingDeploymentType
+        case updatingInstanceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Status] {
+            return [
+                .available,
+                .creating,
+                .deleted,
+                .deleting,
+                .failed,
+                .modifying,
+                .updating,
+                .updatingDeploymentType,
+                .updatingInstanceType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .creating: return "CREATING"
+            case .deleted: return "DELETED"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .modifying: return "MODIFYING"
+            case .updating: return "UPDATING"
+            case .updatingDeploymentType: return "UPDATING_DEPLOYMENT_TYPE"
+            case .updatingInstanceType: return "UPDATING_INSTANCE_TYPE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    /// Contains a summary of a DB instance belonging to a DB cluster.
+    public struct DbInstanceForClusterSummary: Swift.Sendable {
+        /// The amount of storage allocated for your DB storage type in GiB (gibibytes).
+        public var allocatedStorage: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the DB instance.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The Timestream for InfluxDB instance type to run InfluxDB on.
+        public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
+        /// The storage type for your DB instance.
+        public var dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType?
+        /// Specifies the deployment type if applicable.
+        public var deploymentType: TimestreamInfluxDBClientTypes.DeploymentType?
+        /// The endpoint used to connect to InfluxDB. The default InfluxDB port is 8086.
+        public var endpoint: Swift.String?
+        /// The service-generated unique identifier of the DB instance.
+        /// This member is required.
+        public var id: Swift.String?
+        /// Specifies the DB instance's role in the cluster.
+        public var instanceMode: TimestreamInfluxDBClientTypes.InstanceMode?
+        /// A service-generated name for the DB instance based on the customer-supplied name for the DB cluster.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies whether the network type of the Timestream for InfluxDB instance is IPv4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
+        public var networkType: TimestreamInfluxDBClientTypes.NetworkType?
+        /// The port number on which InfluxDB accepts connections.
+        public var port: Swift.Int?
+        /// The status of the DB instance.
+        public var status: TimestreamInfluxDBClientTypes.Status?
+
+        public init(
+            allocatedStorage: Swift.Int? = nil,
+            arn: Swift.String? = nil,
+            dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
+            dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
+            deploymentType: TimestreamInfluxDBClientTypes.DeploymentType? = nil,
+            endpoint: Swift.String? = nil,
+            id: Swift.String? = nil,
+            instanceMode: TimestreamInfluxDBClientTypes.InstanceMode? = nil,
+            name: Swift.String? = nil,
+            networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
+            port: Swift.Int? = nil,
+            status: TimestreamInfluxDBClientTypes.Status? = nil
+        ) {
+            self.allocatedStorage = allocatedStorage
+            self.arn = arn
+            self.dbInstanceType = dbInstanceType
+            self.dbStorageType = dbStorageType
+            self.deploymentType = deploymentType
+            self.endpoint = endpoint
+            self.id = id
+            self.instanceMode = instanceMode
+            self.name = name
+            self.networkType = networkType
+            self.port = port
+            self.status = status
+        }
+    }
+}
+
+public struct ListDbInstancesForClusterOutput: Swift.Sendable {
+    /// A list of Timestream for InfluxDB instance summaries belonging to the cluster.
+    /// This member is required.
+    public var items: [TimestreamInfluxDBClientTypes.DbInstanceForClusterSummary]?
+    /// Token from a previous call of the operation. When this value is provided, the service returns results from where the previous response left off.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [TimestreamInfluxDBClientTypes.DbInstanceForClusterSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateDbClusterInput: Swift.Sendable {
+    /// Service-generated unique identifier of the DB cluster to update.
+    /// This member is required.
+    public var dbClusterId: Swift.String?
+    /// Update the DB cluster to use the specified DB instance Type.
+    public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
+    /// Update the DB cluster to use the specified DB parameter group.
+    public var dbParameterGroupIdentifier: Swift.String?
+    /// Update the DB cluster's failover behavior.
+    public var failoverMode: TimestreamInfluxDBClientTypes.FailoverMode?
+    /// The log delivery configuration to apply to the DB cluster.
+    public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
+    /// Update the DB cluster to use the specified port.
+    public var port: Swift.Int?
+
+    public init(
+        dbClusterId: Swift.String? = nil,
+        dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
+        dbParameterGroupIdentifier: Swift.String? = nil,
+        failoverMode: TimestreamInfluxDBClientTypes.FailoverMode? = nil,
+        logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
+        port: Swift.Int? = nil
+    ) {
+        self.dbClusterId = dbClusterId
+        self.dbInstanceType = dbInstanceType
+        self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
+        self.failoverMode = failoverMode
+        self.logDeliveryConfiguration = logDeliveryConfiguration
+        self.port = port
+    }
+}
+
+public struct UpdateDbClusterOutput: Swift.Sendable {
+    /// The status of the DB cluster.
+    public var dbClusterStatus: TimestreamInfluxDBClientTypes.ClusterStatus?
+
+    public init(
+        dbClusterStatus: TimestreamInfluxDBClientTypes.ClusterStatus? = nil
+    ) {
+        self.dbClusterStatus = dbClusterStatus
+    }
+}
+
 public struct CreateDbInstanceInput: Swift.Sendable {
     /// The amount of storage to allocate for your DB storage type in GiB (gibibytes).
     /// This member is required.
@@ -464,7 +1109,7 @@ public struct CreateDbInstanceInput: Swift.Sendable {
     public var networkType: TimestreamInfluxDBClientTypes.NetworkType?
     /// The name of the initial organization for the initial admin user in InfluxDB. An InfluxDB organization is a workspace for a group of users.
     public var organization: Swift.String?
-    /// The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret created in Amazon Web Services SecretManager in your account.
+    /// The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret created in Secrets Manager in your account.
     /// This member is required.
     public var password: Swift.String?
     /// The port number on which InfluxDB accepts connections. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
@@ -526,56 +1171,6 @@ extension CreateDbInstanceInput: Swift.CustomDebugStringConvertible {
         "CreateDbInstanceInput(allocatedStorage: \(Swift.String(describing: allocatedStorage)), bucket: \(Swift.String(describing: bucket)), dbInstanceType: \(Swift.String(describing: dbInstanceType)), dbParameterGroupIdentifier: \(Swift.String(describing: dbParameterGroupIdentifier)), dbStorageType: \(Swift.String(describing: dbStorageType)), deploymentType: \(Swift.String(describing: deploymentType)), logDeliveryConfiguration: \(Swift.String(describing: logDeliveryConfiguration)), name: \(Swift.String(describing: name)), networkType: \(Swift.String(describing: networkType)), organization: \(Swift.String(describing: organization)), port: \(Swift.String(describing: port)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), vpcSubnetIds: \(Swift.String(describing: vpcSubnetIds)), password: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
 }
 
-extension TimestreamInfluxDBClientTypes {
-
-    public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case available
-        case creating
-        case deleted
-        case deleting
-        case failed
-        case modifying
-        case updating
-        case updatingDeploymentType
-        case updatingInstanceType
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [Status] {
-            return [
-                .available,
-                .creating,
-                .deleted,
-                .deleting,
-                .failed,
-                .modifying,
-                .updating,
-                .updatingDeploymentType,
-                .updatingInstanceType
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .available: return "AVAILABLE"
-            case .creating: return "CREATING"
-            case .deleted: return "DELETED"
-            case .deleting: return "DELETING"
-            case .failed: return "FAILED"
-            case .modifying: return "MODIFYING"
-            case .updating: return "UPDATING"
-            case .updatingDeploymentType: return "UPDATING_DEPLOYMENT_TYPE"
-            case .updatingInstanceType: return "UPDATING_INSTANCE_TYPE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
 public struct CreateDbInstanceOutput: Swift.Sendable {
     /// The amount of storage allocated for your DB storage type (in gibibytes).
     public var allocatedStorage: Swift.Int?
@@ -584,6 +1179,8 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The Availability Zone in which the DB instance resides.
     public var availabilityZone: Swift.String?
+    /// Specifies the DbCluster to which this DbInstance belongs to.
+    public var dbClusterId: Swift.String?
     /// The Timestream for InfluxDB instance type that InfluxDB runs on.
     public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
     /// The id of the DB parameter group assigned to your DB instance.
@@ -597,8 +1194,10 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
     /// A service-generated unique identifier.
     /// This member is required.
     public var id: Swift.String?
-    /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
+    /// The Amazon Resource Name (ARN) of the Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
     public var influxAuthParametersSecretArn: Swift.String?
+    /// Specifies the DbInstance's role in the cluster.
+    public var instanceMode: TimestreamInfluxDBClientTypes.InstanceMode?
     /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
     public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
     /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
@@ -624,6 +1223,7 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
         allocatedStorage: Swift.Int? = nil,
         arn: Swift.String? = nil,
         availabilityZone: Swift.String? = nil,
+        dbClusterId: Swift.String? = nil,
         dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
         dbParameterGroupIdentifier: Swift.String? = nil,
         dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
@@ -631,6 +1231,7 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
         endpoint: Swift.String? = nil,
         id: Swift.String? = nil,
         influxAuthParametersSecretArn: Swift.String? = nil,
+        instanceMode: TimestreamInfluxDBClientTypes.InstanceMode? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         name: Swift.String? = nil,
         networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
@@ -644,6 +1245,7 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
         self.allocatedStorage = allocatedStorage
         self.arn = arn
         self.availabilityZone = availabilityZone
+        self.dbClusterId = dbClusterId
         self.dbInstanceType = dbInstanceType
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
         self.dbStorageType = dbStorageType
@@ -651,6 +1253,7 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
         self.endpoint = endpoint
         self.id = id
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
+        self.instanceMode = instanceMode
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.name = name
         self.networkType = networkType
@@ -683,6 +1286,8 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The Availability Zone in which the DB instance resides.
     public var availabilityZone: Swift.String?
+    /// Specifies the DbCluster to which this DbInstance belongs to.
+    public var dbClusterId: Swift.String?
     /// The Timestream for InfluxDB instance type that InfluxDB runs on.
     public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
     /// The id of the DB parameter group assigned to your DB instance.
@@ -696,8 +1301,10 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
     /// A service-generated unique identifier.
     /// This member is required.
     public var id: Swift.String?
-    /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
+    /// The Amazon Resource Name (ARN) of the Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
     public var influxAuthParametersSecretArn: Swift.String?
+    /// Specifies the DbInstance's role in the cluster.
+    public var instanceMode: TimestreamInfluxDBClientTypes.InstanceMode?
     /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
     public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
     /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
@@ -723,6 +1330,7 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
         allocatedStorage: Swift.Int? = nil,
         arn: Swift.String? = nil,
         availabilityZone: Swift.String? = nil,
+        dbClusterId: Swift.String? = nil,
         dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
         dbParameterGroupIdentifier: Swift.String? = nil,
         dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
@@ -730,6 +1338,7 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
         endpoint: Swift.String? = nil,
         id: Swift.String? = nil,
         influxAuthParametersSecretArn: Swift.String? = nil,
+        instanceMode: TimestreamInfluxDBClientTypes.InstanceMode? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         name: Swift.String? = nil,
         networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
@@ -743,6 +1352,7 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
         self.allocatedStorage = allocatedStorage
         self.arn = arn
         self.availabilityZone = availabilityZone
+        self.dbClusterId = dbClusterId
         self.dbInstanceType = dbInstanceType
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
         self.dbStorageType = dbStorageType
@@ -750,6 +1360,7 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
         self.endpoint = endpoint
         self.id = id
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
+        self.instanceMode = instanceMode
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.name = name
         self.networkType = networkType
@@ -782,6 +1393,8 @@ public struct GetDbInstanceOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The Availability Zone in which the DB instance resides.
     public var availabilityZone: Swift.String?
+    /// Specifies the DbCluster to which this DbInstance belongs to.
+    public var dbClusterId: Swift.String?
     /// The Timestream for InfluxDB instance type that InfluxDB runs on.
     public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
     /// The id of the DB parameter group assigned to your DB instance.
@@ -795,8 +1408,10 @@ public struct GetDbInstanceOutput: Swift.Sendable {
     /// A service-generated unique identifier.
     /// This member is required.
     public var id: Swift.String?
-    /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
+    /// The Amazon Resource Name (ARN) of the Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
     public var influxAuthParametersSecretArn: Swift.String?
+    /// Specifies the DbInstance's role in the cluster.
+    public var instanceMode: TimestreamInfluxDBClientTypes.InstanceMode?
     /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
     public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
     /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
@@ -822,6 +1437,7 @@ public struct GetDbInstanceOutput: Swift.Sendable {
         allocatedStorage: Swift.Int? = nil,
         arn: Swift.String? = nil,
         availabilityZone: Swift.String? = nil,
+        dbClusterId: Swift.String? = nil,
         dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
         dbParameterGroupIdentifier: Swift.String? = nil,
         dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
@@ -829,6 +1445,7 @@ public struct GetDbInstanceOutput: Swift.Sendable {
         endpoint: Swift.String? = nil,
         id: Swift.String? = nil,
         influxAuthParametersSecretArn: Swift.String? = nil,
+        instanceMode: TimestreamInfluxDBClientTypes.InstanceMode? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         name: Swift.String? = nil,
         networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
@@ -842,6 +1459,7 @@ public struct GetDbInstanceOutput: Swift.Sendable {
         self.allocatedStorage = allocatedStorage
         self.arn = arn
         self.availabilityZone = availabilityZone
+        self.dbClusterId = dbClusterId
         self.dbInstanceType = dbInstanceType
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
         self.dbStorageType = dbStorageType
@@ -849,6 +1467,7 @@ public struct GetDbInstanceOutput: Swift.Sendable {
         self.endpoint = endpoint
         self.id = id
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
+        self.instanceMode = instanceMode
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.name = name
         self.networkType = networkType
@@ -896,7 +1515,7 @@ extension TimestreamInfluxDBClientTypes {
         /// The service-generated unique identifier of the DB instance.
         /// This member is required.
         public var id: Swift.String?
-        /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and Amazon Web Services CLI commands.
+        /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
         /// This member is required.
         public var name: Swift.String?
         /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
@@ -998,6 +1617,8 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The Availability Zone in which the DB instance resides.
     public var availabilityZone: Swift.String?
+    /// Specifies the DbCluster to which this DbInstance belongs to.
+    public var dbClusterId: Swift.String?
     /// The Timestream for InfluxDB instance type that InfluxDB runs on.
     public var dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType?
     /// The id of the DB parameter group assigned to your DB instance.
@@ -1011,11 +1632,13 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
     /// A service-generated unique identifier.
     /// This member is required.
     public var id: Swift.String?
-    /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
+    /// The Amazon Resource Name (ARN) of the Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
     public var influxAuthParametersSecretArn: Swift.String?
+    /// Specifies the DbInstance's role in the cluster.
+    public var instanceMode: TimestreamInfluxDBClientTypes.InstanceMode?
     /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
     public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
-    /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and Amazon Web Services CLI commands.
+    /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
     /// This member is required.
     public var name: Swift.String?
     /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
@@ -1038,6 +1661,7 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
         allocatedStorage: Swift.Int? = nil,
         arn: Swift.String? = nil,
         availabilityZone: Swift.String? = nil,
+        dbClusterId: Swift.String? = nil,
         dbInstanceType: TimestreamInfluxDBClientTypes.DbInstanceType? = nil,
         dbParameterGroupIdentifier: Swift.String? = nil,
         dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
@@ -1045,6 +1669,7 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
         endpoint: Swift.String? = nil,
         id: Swift.String? = nil,
         influxAuthParametersSecretArn: Swift.String? = nil,
+        instanceMode: TimestreamInfluxDBClientTypes.InstanceMode? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         name: Swift.String? = nil,
         networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
@@ -1058,6 +1683,7 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
         self.allocatedStorage = allocatedStorage
         self.arn = arn
         self.availabilityZone = availabilityZone
+        self.dbClusterId = dbClusterId
         self.dbInstanceType = dbInstanceType
         self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
         self.dbStorageType = dbStorageType
@@ -1065,6 +1691,7 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
         self.endpoint = endpoint
         self.id = id
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
+        self.instanceMode = instanceMode
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.name = name
         self.networkType = networkType
@@ -1220,7 +1847,7 @@ extension TimestreamInfluxDBClientTypes {
         public var metricsDisabled: Swift.Bool?
         /// Disable the task scheduler. If problematic tasks prevent InfluxDB from starting, use this option to start InfluxDB without scheduling or executing tasks. Default: false
         public var noTasks: Swift.Bool?
-        /// Disable the /debug/pprof HTTP endpoint. This endpoint provides runtime profiling data and can be helpful when debugging. Default: false
+        /// Disable the /debug/pprof HTTP endpoint. This endpoint provides runtime profiling data and can be helpful when debugging. Default: true
         public var pprofDisabled: Swift.Bool?
         /// Number of queries allowed to execute concurrently. Setting to 0 allows an unlimited number of concurrent queries. Default: 0
         public var queryConcurrency: Swift.Int?
@@ -1565,6 +2192,13 @@ public struct UntagResourceInput: Swift.Sendable {
     }
 }
 
+extension CreateDbClusterInput {
+
+    static func urlPathProvider(_ value: CreateDbClusterInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateDbInstanceInput {
 
     static func urlPathProvider(_ value: CreateDbInstanceInput) -> Swift.String? {
@@ -1579,9 +2213,23 @@ extension CreateDbParameterGroupInput {
     }
 }
 
+extension DeleteDbClusterInput {
+
+    static func urlPathProvider(_ value: DeleteDbClusterInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteDbInstanceInput {
 
     static func urlPathProvider(_ value: DeleteDbInstanceInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetDbClusterInput {
+
+    static func urlPathProvider(_ value: GetDbClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1600,9 +2248,23 @@ extension GetDbParameterGroupInput {
     }
 }
 
+extension ListDbClustersInput {
+
+    static func urlPathProvider(_ value: ListDbClustersInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListDbInstancesInput {
 
     static func urlPathProvider(_ value: ListDbInstancesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListDbInstancesForClusterInput {
+
+    static func urlPathProvider(_ value: ListDbInstancesForClusterInput) -> Swift.String? {
         return "/"
     }
 }
@@ -1635,10 +2297,42 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateDbClusterInput {
+
+    static func urlPathProvider(_ value: UpdateDbClusterInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateDbInstanceInput {
 
     static func urlPathProvider(_ value: UpdateDbInstanceInput) -> Swift.String? {
         return "/"
+    }
+}
+
+extension CreateDbClusterInput {
+
+    static func write(value: CreateDbClusterInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allocatedStorage"].write(value.allocatedStorage)
+        try writer["bucket"].write(value.bucket)
+        try writer["dbInstanceType"].write(value.dbInstanceType)
+        try writer["dbParameterGroupIdentifier"].write(value.dbParameterGroupIdentifier)
+        try writer["dbStorageType"].write(value.dbStorageType)
+        try writer["deploymentType"].write(value.deploymentType)
+        try writer["failoverMode"].write(value.failoverMode)
+        try writer["logDeliveryConfiguration"].write(value.logDeliveryConfiguration, with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["networkType"].write(value.networkType)
+        try writer["organization"].write(value.organization)
+        try writer["password"].write(value.password)
+        try writer["port"].write(value.port)
+        try writer["publiclyAccessible"].write(value.publiclyAccessible)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["username"].write(value.username)
+        try writer["vpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["vpcSubnetIds"].writeList(value.vpcSubnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -1677,11 +2371,27 @@ extension CreateDbParameterGroupInput {
     }
 }
 
+extension DeleteDbClusterInput {
+
+    static func write(value: DeleteDbClusterInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dbClusterId"].write(value.dbClusterId)
+    }
+}
+
 extension DeleteDbInstanceInput {
 
     static func write(value: DeleteDbInstanceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["identifier"].write(value.identifier)
+    }
+}
+
+extension GetDbClusterInput {
+
+    static func write(value: GetDbClusterInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dbClusterId"].write(value.dbClusterId)
     }
 }
 
@@ -1701,10 +2411,29 @@ extension GetDbParameterGroupInput {
     }
 }
 
+extension ListDbClustersInput {
+
+    static func write(value: ListDbClustersInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
 extension ListDbInstancesInput {
 
     static func write(value: ListDbInstancesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListDbInstancesForClusterInput {
+
+    static func write(value: ListDbInstancesForClusterInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dbClusterId"].write(value.dbClusterId)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
     }
@@ -1740,7 +2469,21 @@ extension UntagResourceInput {
 
     static func write(value: UntagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["resourceArn"].write(value.resourceArn)
         try writer["tagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateDbClusterInput {
+
+    static func write(value: UpdateDbClusterInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dbClusterId"].write(value.dbClusterId)
+        try writer["dbInstanceType"].write(value.dbInstanceType)
+        try writer["dbParameterGroupIdentifier"].write(value.dbParameterGroupIdentifier)
+        try writer["failoverMode"].write(value.failoverMode)
+        try writer["logDeliveryConfiguration"].write(value.logDeliveryConfiguration, with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.write(value:to:))
+        try writer["port"].write(value.port)
     }
 }
 
@@ -1759,6 +2502,19 @@ extension UpdateDbInstanceInput {
     }
 }
 
+extension CreateDbClusterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDbClusterOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDbClusterOutput()
+        value.dbClusterId = try reader["dbClusterId"].readIfPresent()
+        value.dbClusterStatus = try reader["dbClusterStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateDbInstanceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDbInstanceOutput {
@@ -1769,6 +2525,7 @@ extension CreateDbInstanceOutput {
         value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.dbClusterId = try reader["dbClusterId"].readIfPresent()
         value.dbInstanceType = try reader["dbInstanceType"].readIfPresent()
         value.dbParameterGroupIdentifier = try reader["dbParameterGroupIdentifier"].readIfPresent()
         value.dbStorageType = try reader["dbStorageType"].readIfPresent()
@@ -1776,6 +2533,7 @@ extension CreateDbInstanceOutput {
         value.endpoint = try reader["endpoint"].readIfPresent()
         value.id = try reader["id"].readIfPresent() ?? ""
         value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
+        value.instanceMode = try reader["instanceMode"].readIfPresent()
         value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
         value.networkType = try reader["networkType"].readIfPresent()
@@ -1805,6 +2563,18 @@ extension CreateDbParameterGroupOutput {
     }
 }
 
+extension DeleteDbClusterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDbClusterOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteDbClusterOutput()
+        value.dbClusterStatus = try reader["dbClusterStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteDbInstanceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDbInstanceOutput {
@@ -1815,6 +2585,7 @@ extension DeleteDbInstanceOutput {
         value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.dbClusterId = try reader["dbClusterId"].readIfPresent()
         value.dbInstanceType = try reader["dbInstanceType"].readIfPresent()
         value.dbParameterGroupIdentifier = try reader["dbParameterGroupIdentifier"].readIfPresent()
         value.dbStorageType = try reader["dbStorageType"].readIfPresent()
@@ -1822,6 +2593,7 @@ extension DeleteDbInstanceOutput {
         value.endpoint = try reader["endpoint"].readIfPresent()
         value.id = try reader["id"].readIfPresent() ?? ""
         value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
+        value.instanceMode = try reader["instanceMode"].readIfPresent()
         value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
         value.networkType = try reader["networkType"].readIfPresent()
@@ -1831,6 +2603,36 @@ extension DeleteDbInstanceOutput {
         value.status = try reader["status"].readIfPresent()
         value.vpcSecurityGroupIds = try reader["vpcSecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcSubnetIds = try reader["vpcSubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GetDbClusterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDbClusterOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDbClusterOutput()
+        value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.dbInstanceType = try reader["dbInstanceType"].readIfPresent()
+        value.dbParameterGroupIdentifier = try reader["dbParameterGroupIdentifier"].readIfPresent()
+        value.dbStorageType = try reader["dbStorageType"].readIfPresent()
+        value.deploymentType = try reader["deploymentType"].readIfPresent()
+        value.endpoint = try reader["endpoint"].readIfPresent()
+        value.failoverMode = try reader["failoverMode"].readIfPresent()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
+        value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.networkType = try reader["networkType"].readIfPresent()
+        value.port = try reader["port"].readIfPresent()
+        value.publiclyAccessible = try reader["publiclyAccessible"].readIfPresent()
+        value.readerEndpoint = try reader["readerEndpoint"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.vpcSecurityGroupIds = try reader["vpcSecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcSubnetIds = try reader["vpcSubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -1845,6 +2647,7 @@ extension GetDbInstanceOutput {
         value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.dbClusterId = try reader["dbClusterId"].readIfPresent()
         value.dbInstanceType = try reader["dbInstanceType"].readIfPresent()
         value.dbParameterGroupIdentifier = try reader["dbParameterGroupIdentifier"].readIfPresent()
         value.dbStorageType = try reader["dbStorageType"].readIfPresent()
@@ -1852,6 +2655,7 @@ extension GetDbInstanceOutput {
         value.endpoint = try reader["endpoint"].readIfPresent()
         value.id = try reader["id"].readIfPresent() ?? ""
         value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
+        value.instanceMode = try reader["instanceMode"].readIfPresent()
         value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
         value.networkType = try reader["networkType"].readIfPresent()
@@ -1881,6 +2685,19 @@ extension GetDbParameterGroupOutput {
     }
 }
 
+extension ListDbClustersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDbClustersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDbClustersOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: TimestreamInfluxDBClientTypes.DbClusterSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListDbInstancesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDbInstancesOutput {
@@ -1889,6 +2706,19 @@ extension ListDbInstancesOutput {
         let reader = responseReader
         var value = ListDbInstancesOutput()
         value.items = try reader["items"].readListIfPresent(memberReadingClosure: TimestreamInfluxDBClientTypes.DbInstanceSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDbInstancesForClusterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDbInstancesForClusterOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDbInstancesForClusterOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: TimestreamInfluxDBClientTypes.DbInstanceForClusterSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -1933,6 +2763,18 @@ extension UntagResourceOutput {
     }
 }
 
+extension UpdateDbClusterOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDbClusterOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDbClusterOutput()
+        value.dbClusterStatus = try reader["dbClusterStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateDbInstanceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDbInstanceOutput {
@@ -1943,6 +2785,7 @@ extension UpdateDbInstanceOutput {
         value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.dbClusterId = try reader["dbClusterId"].readIfPresent()
         value.dbInstanceType = try reader["dbInstanceType"].readIfPresent()
         value.dbParameterGroupIdentifier = try reader["dbParameterGroupIdentifier"].readIfPresent()
         value.dbStorageType = try reader["dbStorageType"].readIfPresent()
@@ -1950,6 +2793,7 @@ extension UpdateDbInstanceOutput {
         value.endpoint = try reader["endpoint"].readIfPresent()
         value.id = try reader["id"].readIfPresent() ?? ""
         value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
+        value.instanceMode = try reader["instanceMode"].readIfPresent()
         value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
         value.networkType = try reader["networkType"].readIfPresent()
@@ -1960,6 +2804,26 @@ extension UpdateDbInstanceOutput {
         value.vpcSecurityGroupIds = try reader["vpcSecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcSubnetIds = try reader["vpcSubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+enum CreateDbClusterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -2003,6 +2867,25 @@ enum CreateDbParameterGroupOutputError {
     }
 }
 
+enum DeleteDbClusterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteDbInstanceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2013,6 +2896,24 @@ enum DeleteDbInstanceOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetDbClusterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -2058,7 +2959,43 @@ enum GetDbParameterGroupOutputError {
     }
 }
 
+enum ListDbClustersOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListDbInstancesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDbInstancesForClusterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -2137,6 +3074,25 @@ enum UntagResourceOutputError {
     }
 }
 
+enum UpdateDbClusterOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateDbInstanceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2156,13 +3112,12 @@ enum UpdateDbInstanceOutputError {
     }
 }
 
-extension ValidationException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2170,11 +3125,26 @@ extension ValidationException {
     }
 }
 
-extension AccessDeniedException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalServerException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2191,6 +3161,19 @@ extension ResourceNotFoundException {
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2215,40 +3198,13 @@ extension ThrottlingException {
     }
 }
 
-extension InternalServerException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerException()
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2410,6 +3366,27 @@ extension TimestreamInfluxDBClientTypes.Duration {
     }
 }
 
+extension TimestreamInfluxDBClientTypes.DbClusterSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.DbClusterSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TimestreamInfluxDBClientTypes.DbClusterSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent()
+        value.endpoint = try reader["endpoint"].readIfPresent()
+        value.readerEndpoint = try reader["readerEndpoint"].readIfPresent()
+        value.port = try reader["port"].readIfPresent()
+        value.deploymentType = try reader["deploymentType"].readIfPresent()
+        value.dbInstanceType = try reader["dbInstanceType"].readIfPresent()
+        value.networkType = try reader["networkType"].readIfPresent()
+        value.dbStorageType = try reader["dbStorageType"].readIfPresent()
+        value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()
+        return value
+    }
+}
+
 extension TimestreamInfluxDBClientTypes.DbInstanceSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.DbInstanceSummary {
@@ -2426,6 +3403,27 @@ extension TimestreamInfluxDBClientTypes.DbInstanceSummary {
         value.dbStorageType = try reader["dbStorageType"].readIfPresent()
         value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()
         value.deploymentType = try reader["deploymentType"].readIfPresent()
+        return value
+    }
+}
+
+extension TimestreamInfluxDBClientTypes.DbInstanceForClusterSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.DbInstanceForClusterSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TimestreamInfluxDBClientTypes.DbInstanceForClusterSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent()
+        value.endpoint = try reader["endpoint"].readIfPresent()
+        value.port = try reader["port"].readIfPresent()
+        value.networkType = try reader["networkType"].readIfPresent()
+        value.dbInstanceType = try reader["dbInstanceType"].readIfPresent()
+        value.dbStorageType = try reader["dbStorageType"].readIfPresent()
+        value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()
+        value.deploymentType = try reader["deploymentType"].readIfPresent()
+        value.instanceMode = try reader["instanceMode"].readIfPresent()
         return value
     }
 }

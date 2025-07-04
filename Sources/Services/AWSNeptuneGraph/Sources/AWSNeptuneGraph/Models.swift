@@ -796,12 +796,12 @@ extension NeptuneGraphClientTypes {
 public struct CreateGraphInput: Swift.Sendable {
     /// Indicates whether or not to enable deletion protection on the graph. The graph can’t be deleted when deletion protection is enabled. (true or false).
     public var deletionProtection: Swift.Bool?
-    /// A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+    /// A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
     /// This member is required.
     public var graphName: Swift.String?
     /// Specifies a KMS key to use to encrypt data in the new graph.
     public var kmsKeyIdentifier: Swift.String?
-    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 128
+    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16
     /// This member is required.
     public var provisionedMemory: Swift.Int?
     /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable.
@@ -898,10 +898,10 @@ public struct CreateGraphOutput: Swift.Sendable {
     public var id: Swift.String?
     /// Specifies the KMS key used to encrypt data in the new graph.
     public var kmsKeyIdentifier: Swift.String?
-    /// The graph name. For example: my-graph-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+    /// The graph name. For example: my-graph-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
     /// This member is required.
     public var name: Swift.String?
-    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 128
+    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16
     public var provisionedMemory: Swift.Int?
     /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. If enabling public connectivity for the first time, there will be a delay while it is enabled.
     public var publicConnectivity: Swift.Bool?
@@ -1295,10 +1295,10 @@ public struct ResetGraphOutput: Swift.Sendable {
 public struct RestoreGraphFromSnapshotInput: Swift.Sendable {
     /// A value that indicates whether the graph has deletion protection enabled. The graph can't be deleted when deletion protection is enabled.
     public var deletionProtection: Swift.Bool?
-    /// A name for the new Neptune Analytics graph to be created from the snapshot. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+    /// A name for the new Neptune Analytics graph to be created from the snapshot. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
     /// This member is required.
     public var graphName: Swift.String?
-    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 128
+    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16
     public var provisionedMemory: Swift.Int?
     /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable).
     public var publicConnectivity: Swift.Bool?
@@ -1405,7 +1405,7 @@ public struct UpdateGraphInput: Swift.Sendable {
     /// The unique identifier of the Neptune Analytics graph.
     /// This member is required.
     public var graphIdentifier: Swift.String?
-    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 128
+    /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16
     public var provisionedMemory: Swift.Int?
     /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable.
     public var publicConnectivity: Swift.Bool?
@@ -1856,7 +1856,7 @@ public struct CreateGraphSnapshotInput: Swift.Sendable {
     /// The unique identifier of the Neptune Analytics graph.
     /// This member is required.
     public var graphIdentifier: Swift.String?
-    /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+    /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
     /// This member is required.
     public var snapshotName: Swift.String?
     /// Adds metadata tags to the new graph. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy.
@@ -1967,7 +1967,7 @@ public struct DeleteGraphSnapshotOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The ID of the KMS key used to encrypt and decrypt the snapshot.
     public var kmsKeyIdentifier: Swift.String?
-    /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+    /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
     /// This member is required.
     public var name: Swift.String?
     /// The time when the snapshot was created.
@@ -2017,7 +2017,7 @@ public struct GetGraphSnapshotOutput: Swift.Sendable {
     public var id: Swift.String?
     /// The ID of the KMS key used to encrypt and decrypt the snapshot.
     public var kmsKeyIdentifier: Swift.String?
-    /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+    /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
     /// This member is required.
     public var name: Swift.String?
     /// The time when the snapshot was created.
@@ -2077,7 +2077,7 @@ extension NeptuneGraphClientTypes {
         public var id: Swift.String?
         /// The ID of the KMS key used to encrypt and decrypt the snapshot.
         public var kmsKeyIdentifier: Swift.String?
-        /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+        /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
         /// This member is required.
         public var name: Swift.String?
         /// The time when the snapshot was created.
@@ -2522,7 +2522,7 @@ public struct CreateGraphUsingImportTaskInput: Swift.Sendable {
     public var failOnError: Swift.Bool?
     /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the [Gremlin CSV format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-gremlin.html), OPEN_CYPHER, which identifies the [openCypher load format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-opencypher.html), or ntriples, which identifies the [RDF n-triples](https://docs.aws.amazon.com/neptune-analytics/latest/userguide/using-rdf-data.html) format.
     public var format: NeptuneGraphClientTypes.Format?
-    /// A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+    /// A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
     /// This member is required.
     public var graphName: Swift.String?
     /// Contains options for controlling the import process. For example, if the failOnError key is set to false, the import skips problem data and attempts to continue (whereas if set to true, the default, or if omitted, the import operation halts immediately when an error is encountered.
@@ -2531,7 +2531,7 @@ public struct CreateGraphUsingImportTaskInput: Swift.Sendable {
     public var kmsKeyIdentifier: Swift.String?
     /// The maximum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 1024, or the approved upper limit for your account. If both the minimum and maximum values are specified, the final provisioned-memory will be chosen per the actual size of your imported data. If neither value is specified, 128 m-NCUs are used.
     public var maxProvisionedMemory: Swift.Int?
-    /// The minimum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 128
+    /// The minimum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 16
     public var minProvisionedMemory: Swift.Int?
     /// The parquet type of the import task.
     public var parquetType: NeptuneGraphClientTypes.ParquetType?
@@ -5077,6 +5077,33 @@ enum UpdateGraphOutputError {
     }
 }
 
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalServerException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
@@ -5108,33 +5135,6 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.reason = try reader["reason"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalServerException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
-        let reader = baseError.errorBodyReader
-        var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -5308,7 +5308,7 @@ extension NeptuneGraphClientTypes.ExportFilterPropertyAttributes {
         var value = NeptuneGraphClientTypes.ExportFilterPropertyAttributes()
         value.outputType = try reader["outputType"].readIfPresent()
         value.sourcePropertyName = try reader["sourcePropertyName"].readIfPresent()
-        value.multiValueHandling = try reader["multiValueHandling"].readIfPresent() ?? .pickFirst
+        value.multiValueHandling = try reader["multiValueHandling"].readIfPresent() ?? NeptuneGraphClientTypes.MultiValueHandlingType.pickFirst
         return value
     }
 }

@@ -46,7 +46,7 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
                 try builder.setAwsChunkedHeaders() // x-amz-decoded-content-length
             }
         } else if case(.noStream) = builder.body {
-            logger.info("Request body is empty. Skipping request checksum calculation...")
+            logger.debug("Request body is empty. Skipping request checksum calculation...")
             return
         }
 
@@ -82,7 +82,7 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
             if requestChecksumRequired || (attributes.requestChecksumCalculation == .whenSupported) {
                 // If requestChecksumRequired == true OR RequestChecksumCalculation == when_supported, use CRC32 as default algorithm.
                 checksumHashFunction = ChecksumAlgorithm.from(string: "crc32")!
-                logger.info("No algorithm chosen by user. Defaulting to CRC32 checksum algorithm.")
+                logger.debug("No algorithm chosen by user. Defaulting to CRC32 checksum algorithm.")
                 // If the input member tied to `requestAlgorithmMember` has `@httpHeader` trait in model,
                 //   manually set the header with the name from `@httpHeader` trait with SDK's default algorithm: CRC32.
                 // This needs to be manually added here because user didn't configure checksumAlgorithm but we're sending default checksum.
@@ -92,9 +92,9 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
                 }
             } else {
                 // If requestChecksumRequired == false AND RequestChecksumCalculation == when_required, skip calculation.
-                logger.info("Checksum not required for the operation.")
-                logger.info("Client config `requestChecksumCalculation` set to `.whenRequired`")
-                logger.info("No checksum algorithm chosen by the user. Skipping checksum calculation...")
+                logger.debug("Checksum not required for the operation.")
+                logger.debug("Client config `requestChecksumCalculation` set to `.whenRequired`")
+                logger.debug("No checksum algorithm chosen by the user. Skipping checksum calculation...")
                 return
             }
         }
@@ -137,7 +137,7 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
 
         func calculateAndAddChecksumHeader(data: Data?) async throws {
             guard let data else {
-                logger.info("Request body is empty. Skipping request checksum calculation...")
+                logger.debug("Request body is empty. Skipping request checksum calculation...")
                 return
             }
             if builder.headers.value(for: checksumHashHeaderName) == nil {

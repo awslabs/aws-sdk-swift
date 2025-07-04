@@ -24,29 +24,34 @@ class AWSXAmzTargetMiddlewareTests {
 builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<TestInputShapeName, TestOutputShapeName>(xAmzTarget: "ExampleServiceShapeName.ExampleOperation"))
 """
         val writer = SwiftWriter("testName")
-        val serviceShape = ServiceShape.builder()
-            .id("com.test#ExampleServiceShapeName")
-            .version("1.0")
-            .build()
+        val serviceShape =
+            ServiceShape
+                .builder()
+                .id("com.test#ExampleServiceShapeName")
+                .version("1.0")
+                .build()
         val inputShape = StructureShape.builder().id("com.test#TestInputShapeName").build()
         val outputShape = StructureShape.builder().id("com.test#TestOutputShapeName").build()
         val errorShape = StructureShape.builder().id("com.test#TestErrorShapeName").build()
-        val operationShape = OperationShape.builder()
-            .id("com.test#ExampleOperation")
-            .addTrait(UnsignedPayloadTrait())
-            .input { ShapeId.from("com.test#TestInputShapeName") }
-            .output { ShapeId.from("com.test#TestOutputShapeName") }
-            .addError("com.test#TestErrorShapeName")
-            .build()
+        val operationShape =
+            OperationShape
+                .builder()
+                .id("com.test#ExampleOperation")
+                .addTrait(UnsignedPayloadTrait())
+                .input { ShapeId.from("com.test#TestInputShapeName") }
+                .output { ShapeId.from("com.test#TestOutputShapeName") }
+                .addError("com.test#TestErrorShapeName")
+                .build()
         val opStackName = "stack"
-        val model = Model
-            .builder()
-            .addShape(serviceShape)
-            .addShape(operationShape)
-            .addShape(inputShape)
-            .addShape(outputShape)
-            .addShape(errorShape)
-            .build()
+        val model =
+            Model
+                .builder()
+                .addShape(serviceShape)
+                .addShape(operationShape)
+                .addShape(inputShape)
+                .addShape(outputShape)
+                .addShape(errorShape)
+                .build()
         val context = model.newTestContext("com.test#ExampleServiceShapeName", AWSJSON1_0ProtocolGenerator()).ctx
         val sut = AWSXAmzTargetMiddleware(context.model, context.symbolProvider, context.service)
 

@@ -68,7 +68,8 @@ extension DescribeClusterVersionsInput: ClientRuntime.PaginateToken {
             includeAll: self.includeAll,
             maxResults: self.maxResults,
             nextToken: token,
-            status: self.status
+            status: self.status,
+            versionStatus: self.versionStatus
         )}
 }
 

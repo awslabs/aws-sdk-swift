@@ -1320,6 +1320,29 @@ public struct DeleteBrokerOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteConfigurationInput: Swift.Sendable {
+    /// The unique ID that Amazon MQ generates for the configuration.
+    /// This member is required.
+    public var configurationId: Swift.String?
+
+    public init(
+        configurationId: Swift.String? = nil
+    ) {
+        self.configurationId = configurationId
+    }
+}
+
+public struct DeleteConfigurationOutput: Swift.Sendable {
+    /// The unique ID that Amazon MQ generates for the configuration.
+    public var configurationId: Swift.String?
+
+    public init(
+        configurationId: Swift.String? = nil
+    ) {
+        self.configurationId = configurationId
+    }
+}
+
 public struct DeleteTagsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource tag.
     /// This member is required.
@@ -2378,6 +2401,16 @@ extension DeleteBrokerInput {
     }
 }
 
+extension DeleteConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteConfigurationInput) -> Swift.String? {
+        guard let configurationId = value.configurationId else {
+            return nil
+        }
+        return "/v1/configurations/\(configurationId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteTagsInput {
 
     static func urlPathProvider(_ value: DeleteTagsInput) -> Swift.String? {
@@ -2846,6 +2879,18 @@ extension DeleteBrokerOutput {
     }
 }
 
+extension DeleteConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteConfigurationOutput()
+        value.configurationId = try reader["configurationId"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteTagsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTagsOutput {
@@ -3209,6 +3254,24 @@ enum DeleteBrokerOutputError {
     }
 }
 
+enum DeleteConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteTagsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3514,11 +3577,11 @@ enum UpdateUserOutputError {
     }
 }
 
-extension ConflictException {
+extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = BadRequestException()
         value.properties.errorAttribute = try reader["errorAttribute"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -3528,11 +3591,11 @@ extension ConflictException {
     }
 }
 
-extension BadRequestException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = BadRequestException()
+        var value = ConflictException()
         value.properties.errorAttribute = try reader["errorAttribute"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse

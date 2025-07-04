@@ -20,7 +20,10 @@ class AWSOperationEndpointResolverMiddlewareTests {
     fun `test endpoint middleware init`() {
         val writer = SwiftWriter("smithy.example")
         val context = setupTests("endpoints.smithy", "smithy.example#ExampleService")
-        val operation = context.ctx.model.operationShapes.toList().first { it.id.name == "GetThing" }
+        val operation =
+            context.ctx.model.operationShapes
+                .toList()
+                .first { it.id.name == "GetThing" }
         val middleware = AWSOperationEndpointResolverMiddleware(context.ctx, AWSClientRuntimeTypes.Core.AWSEndpointResolverMiddleware)
         middleware.render(context.ctx, writer, operation, "operationStack")
         var contents = writer.toString()
@@ -60,12 +63,24 @@ builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetThingOut
     }
 }
 
-private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
+private fun setupTests(
+    smithyFile: String,
+    serviceShapeId: String,
+): TestContext {
     val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, RestJson1Trait.ID)
     val presigner = PresignerGenerator()
     val generator = AWSRestJson1ProtocolGenerator()
     val codegenContext = GenerationContext(context.ctx.model, context.ctx.symbolProvider, context.ctx.settings, context.manifest, generator)
-    val protocolGenerationContext = ProtocolGenerator.GenerationContext(context.ctx.settings, context.ctx.model, context.ctx.service, context.ctx.symbolProvider, listOf(), RestJson1Trait.ID, context.ctx.delegator)
+    val protocolGenerationContext =
+        ProtocolGenerator.GenerationContext(
+            context.ctx.settings,
+            context.ctx.model,
+            context.ctx.service,
+            context.ctx.symbolProvider,
+            listOf(),
+            RestJson1Trait.ID,
+            context.ctx.delegator,
+        )
     codegenContext.protocolGenerator?.initializeMiddleware(context.ctx)
     presigner.writeAdditionalFiles(codegenContext, protocolGenerationContext, context.ctx.delegator)
     context.ctx.delegator.flushWriters()

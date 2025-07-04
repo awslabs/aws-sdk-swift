@@ -15,8 +15,8 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.113.0"
-let crtVersion: Version = "0.43.0"
+let clientRuntimeVersion: Version = "0.145.0"
+let crtVersion: Version = "0.52.1"
 
 let excludeRuntimeUnitTests = false
 
@@ -25,6 +25,7 @@ let isPreviewBuild = false
 let serviceTargets: [String] = [
     "AWSACM",
     "AWSACMPCA",
+    "AWSAIOps",
     "AWSAPIGateway",
     "AWSARCZonalShift",
     "AWSAccessAnalyzer",
@@ -162,7 +163,6 @@ let serviceTargets: [String] = [
     "AWSEMRcontainers",
     "AWSElastiCache",
     "AWSElasticBeanstalk",
-    "AWSElasticInference",
     "AWSElasticLoadBalancing",
     "AWSElasticLoadBalancingv2",
     "AWSElasticTranscoder",
@@ -170,6 +170,7 @@ let serviceTargets: [String] = [
     "AWSEntityResolution",
     "AWSEventBridge",
     "AWSEvidently",
+    "AWSEvs",
     "AWSFMS",
     "AWSFSx",
     "AWSFinspace",
@@ -181,6 +182,7 @@ let serviceTargets: [String] = [
     "AWSFraudDetector",
     "AWSFreeTier",
     "AWSGameLift",
+    "AWSGameLiftStreams",
     "AWSGeoMaps",
     "AWSGeoPlaces",
     "AWSGeoRoutes",
@@ -211,6 +213,7 @@ let serviceTargets: [String] = [
     "AWSIoTFleetHub",
     "AWSIoTFleetWise",
     "AWSIoTJobsDataPlane",
+    "AWSIoTManagedIntegrations",
     "AWSIoTSecureTunneling",
     "AWSIoTSiteWise",
     "AWSIoTThingsGraph",
@@ -225,6 +228,7 @@ let serviceTargets: [String] = [
     "AWSKendra",
     "AWSKendraRanking",
     "AWSKeyspaces",
+    "AWSKeyspacesStreams",
     "AWSKinesis",
     "AWSKinesisAnalytics",
     "AWSKinesisAnalyticsV2",
@@ -249,6 +253,7 @@ let serviceTargets: [String] = [
     "AWSLookoutMetrics",
     "AWSLookoutVision",
     "AWSM2",
+    "AWSMPA",
     "AWSMTurk",
     "AWSMWAA",
     "AWSMachineLearning",
@@ -293,6 +298,7 @@ let serviceTargets: [String] = [
     "AWSOAM",
     "AWSOSIS",
     "AWSObservabilityAdmin",
+    "AWSOdb",
     "AWSOmics",
     "AWSOpenSearch",
     "AWSOpenSearchServerless",
@@ -318,7 +324,6 @@ let serviceTargets: [String] = [
     "AWSPipes",
     "AWSPolly",
     "AWSPricing",
-    "AWSPrivateNetworks",
     "AWSProton",
     "AWSQApps",
     "AWSQBusiness",
@@ -361,6 +366,7 @@ let serviceTargets: [String] = [
     "AWSSQS",
     "AWSSSM",
     "AWSSSMContacts",
+    "AWSSSMGuiConnect",
     "AWSSSMIncidents",
     "AWSSSMQuickSetup",
     "AWSSSO",
@@ -424,6 +430,7 @@ let serviceTargets: [String] = [
     "AWSWorkSpaces",
     "AWSWorkSpacesThinClient",
     "AWSWorkSpacesWeb",
+    "AWSWorkspacesInstances",
     "AWSXRay",
 ]
 
@@ -439,6 +446,7 @@ extension Target.Dependency {
     static var awsSDKHTTPAuth: Self { "AWSSDKHTTPAuth" }
     static var awsSDKIdentity: Self { "AWSSDKIdentity" }
     static var awsSDKChecksums: Self { "AWSSDKChecksums" }
+    static var awsSDKPartitions: Self { "AWSSDKPartitions" }
 
     // CRT module
     static var crt: Self { .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift") }
@@ -467,7 +475,7 @@ extension Target.Dependency {
 let package = Package(
     name: "aws-sdk-swift",
     platforms: [
-        .macOS(.v10_15),
+        .macOS(.v12),
         .iOS(.v13),
         .tvOS(.v13),
         .watchOS(.v6)
@@ -535,12 +543,10 @@ private var runtimeTargets: [Target] {
                 .clientRuntime,
                 .smithyRetriesAPI,
                 .smithyRetries,
-                .smithyEventStreamsAPI,
-                .smithyEventStreamsAuthAPI,
                 .awsSDKCommon,
                 .awsSDKHTTPAuth,
-                .awsSDKIdentity,
                 .awsSDKChecksums,
+                .awsSDKPartitions,
             ],
             path: "Sources/Core/AWSClientRuntime/Sources/AWSClientRuntime",
             resources: [
@@ -559,19 +565,95 @@ private var runtimeTargets: [Target] {
         ),
         .target(
             name: "AWSSDKHTTPAuth",
-            dependencies: [.crt, .smithy, .clientRuntime, .smithyHTTPAuth, "AWSSDKIdentity", "AWSSDKChecksums"],
+            dependencies: [.crt, .smithy, .clientRuntime, .smithyHTTPAuth, "AWSSDKChecksums", "AWSSDKIdentity"],
             path: "Sources/Core/AWSSDKHTTPAuth/Sources"
         ),
         .target(
             name: "AWSSDKIdentity",
             dependencies: [.crt, .smithy, .clientRuntime, .smithyIdentity, .smithyIdentityAPI, .smithyHTTPAPI, .awsSDKCommon],
-            path: "Sources/Core/AWSSDKIdentity/Sources"
+            path: "Sources/Core/AWSSDKIdentity/Sources/AWSSDKIdentity"
+        ),
+        .target(
+            name: "InternalAWSSTS",
+            dependencies: [
+                .clientRuntime,
+                .awsClientRuntime,
+                .smithyRetriesAPI,
+                .smithyRetries,
+                .smithy,
+                .smithyIdentity,
+                .smithyIdentityAPI,
+                .smithyEventStreamsAPI,
+                .smithyEventStreamsAuthAPI,
+                .smithyEventStreams,
+                .smithyChecksumsAPI,
+                .smithyChecksums,
+                .smithyWaitersAPI,
+                .awsSDKCommon,
+                .awsSDKIdentity,
+                .awsSDKHTTPAuth,
+                .awsSDKEventStreamsAuth,
+                .awsSDKChecksums,
+            ],
+            path: "Sources/Core/AWSSDKIdentity/Sources/InternalAWSSTS"
+        ),
+        .target(
+            name: "InternalAWSSSO",
+            dependencies: [
+                .clientRuntime,
+                .awsClientRuntime,
+                .smithyRetriesAPI,
+                .smithyRetries,
+                .smithy,
+                .smithyIdentity,
+                .smithyIdentityAPI,
+                .smithyEventStreamsAPI,
+                .smithyEventStreamsAuthAPI,
+                .smithyEventStreams,
+                .smithyChecksumsAPI,
+                .smithyChecksums,
+                .smithyWaitersAPI,
+                .awsSDKCommon,
+                .awsSDKIdentity,
+                .awsSDKHTTPAuth,
+                .awsSDKEventStreamsAuth,
+                .awsSDKChecksums,
+            ],
+            path: "Sources/Core/AWSSDKIdentity/Sources/InternalAWSSSO"
+        ),
+        .target(
+            name: "InternalAWSSSOOIDC",
+            dependencies: [
+                .clientRuntime,
+                .awsClientRuntime,
+                .smithyRetriesAPI,
+                .smithyRetries,
+                .smithy,
+                .smithyIdentity,
+                .smithyIdentityAPI,
+                .smithyEventStreamsAPI,
+                .smithyEventStreamsAuthAPI,
+                .smithyEventStreams,
+                .smithyChecksumsAPI,
+                .smithyChecksums,
+                .smithyWaitersAPI,
+                .awsSDKCommon,
+                .awsSDKIdentity,
+                .awsSDKHTTPAuth,
+                .awsSDKEventStreamsAuth,
+                .awsSDKChecksums,
+            ],
+            path: "Sources/Core/AWSSDKIdentity/Sources/InternalAWSSSOOIDC"
         ),
         .target(
             name: "AWSSDKChecksums",
             dependencies: [.crt, .smithy, .clientRuntime, .smithyChecksumsAPI, .smithyChecksums, .smithyHTTPAPI],
             path: "Sources/Core/AWSSDKChecksums/Sources"
-        )
+        ),
+        .target(
+            name: "AWSSDKPartitions",
+            path: "Sources/Core/AWSSDKPartitions/Sources"
+        ),
     ]
 }
 
@@ -586,7 +668,7 @@ private var runtimeTestTargets: [Target] {
         ),
         .testTarget(
             name: "AWSSDKEventStreamsAuthTests",
-            dependencies: ["AWSClientRuntime", "AWSSDKEventStreamsAuth", .smithyStreams, .smithyTestUtils],
+            dependencies: ["AWSClientRuntime", "AWSSDKEventStreamsAuth", "AWSSDKIdentity", .smithyStreams, .smithyTestUtils],
             path: "Sources/Core/AWSSDKEventStreamsAuth/Tests/AWSSDKEventStreamsAuthTests"
         ),
         .testTarget(
@@ -625,6 +707,9 @@ private func target(_ service: String) -> Target {
             .awsSDKHTTPAuth,
             .awsSDKEventStreamsAuth,
             .awsSDKChecksums,
+            "InternalAWSSTS",
+            "InternalAWSSSO",
+            "InternalAWSSSOOIDC",
         ],
         path: "Sources/Services/\(service)/Sources/\(service)"
     )

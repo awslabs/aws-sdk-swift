@@ -653,7 +653,7 @@ extension CloudWatchLogsClientTypes {
         public var evaluationFrequency: CloudWatchLogsClientTypes.EvaluationFrequency?
         /// A symbolic description of how CloudWatch Logs should interpret the data in each log event. For example, a log event can contain timestamps, IP addresses, strings, and so on. You use the filter pattern to specify what to look for in the log event message.
         public var filterPattern: Swift.String?
-        /// The ID of the KMS key assigned to this anomaly detector, if any.
+        /// The ARN of the KMS key assigned to this anomaly detector, if any.
         public var kmsKeyId: Swift.String?
         /// The date and time when this anomaly detector was most recently modified.
         public var lastModifiedTimeStamp: Swift.Int
@@ -1332,7 +1332,7 @@ public struct CreateLogAnomalyDetectorInput: Swift.Sendable {
     public var evaluationFrequency: CloudWatchLogsClientTypes.EvaluationFrequency?
     /// You can use this parameter to limit the anomaly detection model to examine only log events that match the pattern you specify here. For more information, see [Filter and Pattern Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html).
     public var filterPattern: Swift.String?
-    /// Optionally assigns a KMS key to secure this anomaly detector and its findings. If a key is assigned, the anomalies found and the model used by this detector are encrypted at rest with the key. If a key is assigned to an anomaly detector, a user must have permissions for both this key and for the anomaly detector to retrieve information about the anomalies that it finds. For more information about using a KMS key and to see the required IAM policy, see [Use a KMS key with an anomaly detector](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/LogsAnomalyDetection-KMS.html).
+    /// Optionally assigns a KMS key to secure this anomaly detector and its findings. If a key is assigned, the anomalies found and the model used by this detector are encrypted at rest with the key. If a key is assigned to an anomaly detector, a user must have permissions for both this key and for the anomaly detector to retrieve information about the anomalies that it finds. Make sure the value provided is a valid KMS key ARN. For more information about using a KMS key and to see the required IAM policy, see [Use a KMS key with an anomaly detector](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/LogsAnomalyDetection-KMS.html).
     public var kmsKeyId: Swift.String?
     /// An array containing the ARN of the log group that this anomaly detector will watch. You can specify only one log group ARN.
     /// This member is required.
@@ -1373,12 +1373,14 @@ public struct CreateLogAnomalyDetectorOutput: Swift.Sendable {
 extension CloudWatchLogsClientTypes {
 
     public enum LogGroupClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case delivery
         case infrequentAccess
         case standard
         case sdkUnknown(Swift.String)
 
         public static var allCases: [LogGroupClass] {
             return [
+                .delivery,
                 .infrequentAccess,
                 .standard
             ]
@@ -1391,6 +1393,7 @@ extension CloudWatchLogsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .delivery: return "DELIVERY"
             case .infrequentAccess: return "INFREQUENT_ACCESS"
             case .standard: return "STANDARD"
             case let .sdkUnknown(s): return s
@@ -1402,11 +1405,13 @@ extension CloudWatchLogsClientTypes {
 public struct CreateLogGroupInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. For more information, see [Amazon Resource Names](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms).
     public var kmsKeyId: Swift.String?
-    /// Use this parameter to specify the log group class for this log group. There are two classes:
+    /// Use this parameter to specify the log group class for this log group. There are three classes:
     ///
     /// * The Standard log class supports all CloudWatch Logs features.
     ///
     /// * The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.
+    ///
+    /// * Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capabilities such as CloudWatch Logs Insights queries.
     ///
     ///
     /// If you omit this parameter, the default of STANDARD is used. The value of logGroupClass can't be changed after a log group is created. For details about the features supported by each class, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
@@ -2523,21 +2528,25 @@ public struct DescribeIndexPoliciesOutput: Swift.Sendable {
 }
 
 public struct DescribeLogGroupsInput: Swift.Sendable {
-    /// When includeLinkedAccounts is set to True, use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array.
+    /// When includeLinkedAccounts is set to true, use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array.
     public var accountIdentifiers: [Swift.String]?
-    /// If you are using a monitoring account, set this to True to have the operation return log groups in the accounts listed in accountIdentifiers. If this parameter is set to true and accountIdentifiers contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account.
+    /// If you are using a monitoring account, set this to true to have the operation return log groups in the accounts listed in accountIdentifiers. If this parameter is set to true and accountIdentifiers contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account. The default for this parameter is false.
     public var includeLinkedAccounts: Swift.Bool?
     /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
     public var limit: Swift.Int?
-    /// Specifies the log group class for this log group. There are two classes:
+    /// Use this parameter to limit the results to only those log groups in the specified log group class. If you omit this parameter, log groups of all classes can be returned. Specifies the log group class for this log group. There are three classes:
     ///
     /// * The Standard log class supports all CloudWatch Logs features.
     ///
     /// * The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.
     ///
+    /// * Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capabilities such as CloudWatch Logs Insights queries.
+    ///
     ///
     /// For details about the features supported by each class, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
     public var logGroupClass: CloudWatchLogsClientTypes.LogGroupClass?
+    /// Use this array to filter the list of log groups returned. If you specify this parameter, the only other filter that you can choose to specify is includeLinkedAccounts. If you are using this operation in a monitoring account, you can specify the ARNs of log groups in source accounts and in the monitoring account itself. If you are using this operation in an account that is not a cross-account monitoring account, you can specify only log group names in the same account as the operation.
+    public var logGroupIdentifiers: [Swift.String]?
     /// If you specify a string for this parameter, the operation returns only log groups that have names that match the string based on a case-sensitive substring search. For example, if you specify Foo, log groups named FooBar, aws/Foo, and GroupFoo would match, but foo, F/o/o and Froo would not match. If you specify logGroupNamePattern in your request, then only arn, creationTime, and logGroupName are included in the response. logGroupNamePattern and logGroupNamePrefix are mutually exclusive. Only one of these parameters can be passed.
     public var logGroupNamePattern: Swift.String?
     /// The prefix to match. logGroupNamePrefix and logGroupNamePattern are mutually exclusive. Only one of these parameters can be passed.
@@ -2550,6 +2559,7 @@ public struct DescribeLogGroupsInput: Swift.Sendable {
         includeLinkedAccounts: Swift.Bool? = nil,
         limit: Swift.Int? = nil,
         logGroupClass: CloudWatchLogsClientTypes.LogGroupClass? = nil,
+        logGroupIdentifiers: [Swift.String]? = nil,
         logGroupNamePattern: Swift.String? = nil,
         logGroupNamePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
@@ -2558,6 +2568,7 @@ public struct DescribeLogGroupsInput: Swift.Sendable {
         self.includeLinkedAccounts = includeLinkedAccounts
         self.limit = limit
         self.logGroupClass = logGroupClass
+        self.logGroupIdentifiers = logGroupIdentifiers
         self.logGroupNamePattern = logGroupNamePattern
         self.logGroupNamePrefix = logGroupNamePrefix
         self.nextToken = nextToken
@@ -2612,14 +2623,16 @@ extension CloudWatchLogsClientTypes {
         ///
         /// * In IAM policies, when specifying permissions for [TagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_TagResource.html), [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UntagResource.html), and [ListTagsForResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListTagsForResource.html).
         public var logGroupArn: Swift.String?
-        /// This specifies the log group class for this log group. There are two classes:
+        /// This specifies the log group class for this log group. There are three classes:
         ///
         /// * The Standard log class supports all CloudWatch Logs features.
         ///
         /// * The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.
         ///
+        /// * Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capabilities such as CloudWatch Logs Insights queries.
         ///
-        /// For details about the features supported by each class, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
+        ///
+        /// For details about the features supported by the Standard and Infrequent Access classes, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
         public var logGroupClass: CloudWatchLogsClientTypes.LogGroupClass?
         /// The name of the log group.
         public var logGroupName: Swift.String?
@@ -2659,7 +2672,7 @@ extension CloudWatchLogsClientTypes {
 }
 
 public struct DescribeLogGroupsOutput: Swift.Sendable {
-    /// The log groups. If the retentionInDays value is not included for a log group, then that log group's events do not expire.
+    /// An array of structures, where each structure contains the information about one log group.
     public var logGroups: [CloudWatchLogsClientTypes.LogGroup]?
     /// The token for the next set of items to return. The token expires after 24 hours.
     public var nextToken: Swift.String?
@@ -3497,6 +3510,44 @@ extension CloudWatchLogsClientTypes {
 
 extension CloudWatchLogsClientTypes {
 
+    public enum EventSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awswaf
+        case cloudTrail
+        case eksAudit
+        case route53Resolver
+        case vpcFlow
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventSource] {
+            return [
+                .awswaf,
+                .cloudTrail,
+                .eksAudit,
+                .route53Resolver,
+                .vpcFlow
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awswaf: return "AWSWAF"
+            case .cloudTrail: return "CloudTrail"
+            case .eksAudit: return "EKSAudit"
+            case .route53Resolver: return "Route53Resolver"
+            case .vpcFlow: return "VPCFlow"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
     /// Represents a matched event.
     public struct FilteredLogEvent: Swift.Sendable {
         /// The ID of the event.
@@ -3600,7 +3651,7 @@ extension CloudWatchLogsClientTypes {
 public struct FilterLogEventsOutput: Swift.Sendable {
     /// The matched events.
     public var events: [CloudWatchLogsClientTypes.FilteredLogEvent]?
-    /// The token to use when requesting the next set of items. The token expires after 24 hours.
+    /// The token to use when requesting the next set of items. The token expires after 24 hours. If the results don't include a nextToken, then pagination is finished.
     public var nextToken: Swift.String?
     /// Important As of May 15, 2020, this parameter is no longer supported. This parameter returns an empty list. Indicates which log streams have been searched and whether each has been searched completely.
     public var searchedLogStreams: [CloudWatchLogsClientTypes.SearchedLogStream]?
@@ -4169,7 +4220,7 @@ public struct GetLogAnomalyDetectorOutput: Swift.Sendable {
     public var evaluationFrequency: CloudWatchLogsClientTypes.EvaluationFrequency?
     /// A symbolic description of how CloudWatch Logs should interpret the data in each log event. For example, a log event can contain timestamps, IP addresses, strings, and so on. You use the filter pattern to specify what to look for in the log event message.
     public var filterPattern: Swift.String?
-    /// The ID of the KMS key assigned to this anomaly detector, if any.
+    /// The ARN of the KMS key assigned to this anomaly detector, if any.
     public var kmsKeyId: Swift.String?
     /// The date and time when this anomaly detector was most recently modified.
     public var lastModifiedTimeStamp: Swift.Int
@@ -4470,7 +4521,7 @@ extension CloudWatchLogsClientTypes {
 
     /// This processor uses pattern matching to parse and structure unstructured data. This processor can also extract fields from log messages. For more information about this processor including examples, see [ grok](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-Grok) in the CloudWatch Logs User Guide.
     public struct Grok: Swift.Sendable {
-        /// The grok pattern to match against the log event. For a list of supported grok patterns, see [Supported grok patterns](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#Grok-Patterns).
+        /// The grok pattern to match against the log event. For a list of supported grok patterns, see [Supported grok patterns](https://docs.aws.amazon.com/mazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation-Processors.html#Grok-Patterns).
         /// This member is required.
         public var match: Swift.String?
         /// The path to the field in the log event that you want to parse. If you omit this value, the whole log message is parsed.
@@ -4488,7 +4539,7 @@ extension CloudWatchLogsClientTypes {
 
 extension CloudWatchLogsClientTypes {
 
-    /// This processor takes a list of objects that contain key fields, and converts them into a map of target keys. For more information about this processor including examples, see [ listToMap](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-listToMap) in the CloudWatch Logs User Guide.
+    /// This processor takes a list of objects that contain key fields, and converts them into a map of target keys. For more information about this processor including examples, see [ listToMap](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation-Processors.html#CloudWatch-Logs-Transformation-listToMap) in the CloudWatch Logs User Guide.
     public struct ListToMap: Swift.Sendable {
         /// A Boolean value to indicate whether the list will be flattened into single items. Specify true to flatten the list. The default is false
         public var flatten: Swift.Bool
@@ -4678,6 +4729,57 @@ extension CloudWatchLogsClientTypes {
         public init(
             source: Swift.String? = nil
         ) {
+            self.source = source
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    public enum OCSFVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case v11
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OCSFVersion] {
+            return [
+                .v11
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .v11: return "V1.1"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// This processor converts logs into [Open Cybersecurity Schema Framework (OCSF)](https://ocsf.io) events. For more information about this processor including examples, see [ parseToOSCF](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-parseToOCSF) in the CloudWatch Logs User Guide.
+    public struct ParseToOCSF: Swift.Sendable {
+        /// Specify the service or process that produces the log events that will be converted with this processor.
+        /// This member is required.
+        public var eventSource: CloudWatchLogsClientTypes.EventSource?
+        /// Specify which version of the OCSF schema to use for the transformed log events.
+        /// This member is required.
+        public var ocsfVersion: CloudWatchLogsClientTypes.OCSFVersion?
+        /// The path to the field in the log event that you want to parse. If you omit this value, the whole log message is parsed.
+        public var source: Swift.String?
+
+        public init(
+            eventSource: CloudWatchLogsClientTypes.EventSource? = nil,
+            ocsfVersion: CloudWatchLogsClientTypes.OCSFVersion? = nil,
+            source: Swift.String? = nil
+        ) {
+            self.eventSource = eventSource
+            self.ocsfVersion = ocsfVersion
             self.source = source
         }
     }
@@ -4969,6 +5071,8 @@ extension CloudWatchLogsClientTypes {
         public var parsePostgres: CloudWatchLogsClientTypes.ParsePostgres?
         /// Use this parameter to include the [ parseRoute53](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-parseRoute53) processor in your transformer. If you use this processor, it must be the first processor in your transformer.
         public var parseRoute53: CloudWatchLogsClientTypes.ParseRoute53?
+        /// Use this processor to convert logs into Open Cybersecurity Schema Framework (OCSF) format
+        public var parseToOCSF: CloudWatchLogsClientTypes.ParseToOCSF?
         /// Use this parameter to include the [ parseVPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-parseVPC) processor in your transformer. If you use this processor, it must be the first processor in your transformer.
         public var parseVPC: CloudWatchLogsClientTypes.ParseVPC?
         /// Use this parameter to include the [ parseWAF](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-parseWAF) processor in your transformer. If you use this processor, it must be the first processor in your transformer.
@@ -5001,6 +5105,7 @@ extension CloudWatchLogsClientTypes {
             parseKeyValue: CloudWatchLogsClientTypes.ParseKeyValue? = nil,
             parsePostgres: CloudWatchLogsClientTypes.ParsePostgres? = nil,
             parseRoute53: CloudWatchLogsClientTypes.ParseRoute53? = nil,
+            parseToOCSF: CloudWatchLogsClientTypes.ParseToOCSF? = nil,
             parseVPC: CloudWatchLogsClientTypes.ParseVPC? = nil,
             parseWAF: CloudWatchLogsClientTypes.ParseWAF? = nil,
             renameKeys: CloudWatchLogsClientTypes.RenameKeys? = nil,
@@ -5024,6 +5129,7 @@ extension CloudWatchLogsClientTypes {
             self.parseKeyValue = parseKeyValue
             self.parsePostgres = parsePostgres
             self.parseRoute53 = parseRoute53
+            self.parseToOCSF = parseToOCSF
             self.parseVPC = parseVPC
             self.parseWAF = parseWAF
             self.renameKeys = renameKeys
@@ -5063,7 +5169,7 @@ extension CloudWatchLogsClientTypes {
 
     /// Represents a log event, which is a record of activity that was recorded by the application or resource being monitored.
     public struct InputLogEvent: Swift.Sendable {
-        /// The raw event message. Each log event can be no larger than 256 KB.
+        /// The raw event message. Each log event can be no larger than 1 MB.
         /// This member is required.
         public var message: Swift.String?
         /// The time the event occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
@@ -5256,6 +5362,84 @@ public struct ListLogAnomalyDetectorsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.anomalyDetectors = anomalyDetectors
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListLogGroupsInput: Swift.Sendable {
+    /// When includeLinkedAccounts is set to true, use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array.
+    public var accountIdentifiers: [Swift.String]?
+    /// If you are using a monitoring account, set this to true to have the operation return log groups in the accounts listed in accountIdentifiers. If this parameter is set to true and accountIdentifiers contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account. The default for this parameter is false.
+    public var includeLinkedAccounts: Swift.Bool?
+    /// The maximum number of log groups to return. If you omit this parameter, the default is up to 50 log groups.
+    public var limit: Swift.Int?
+    /// Use this parameter to limit the results to only those log groups in the specified log group class. If you omit this parameter, log groups of all classes can be returned.
+    public var logGroupClass: CloudWatchLogsClientTypes.LogGroupClass?
+    /// Use this parameter to limit the returned log groups to only those with names that match the pattern that you specify. This parameter is a regular expression that can match prefixes and substrings, and supports wildcard matching and matching multiple patterns, as in the following examples.
+    ///
+    /// * Use ^ to match log group names by prefix.
+    ///
+    /// * For a substring match, specify the string to match. All matches are case sensitive
+    ///
+    /// * To match multiple patterns, separate them with a | as in the example ^/aws/lambda|discovery
+    ///
+    ///
+    /// You can specify as many as five different regular expression patterns in this field, each of which must be between 3 and 24 characters. You can include the ^ symbol as many as five times, and include the | symbol as many as four times.
+    public var logGroupNamePattern: Swift.String?
+    /// The token for the next set of items to return. The token expires after 24 hours.
+    public var nextToken: Swift.String?
+
+    public init(
+        accountIdentifiers: [Swift.String]? = nil,
+        includeLinkedAccounts: Swift.Bool? = nil,
+        limit: Swift.Int? = nil,
+        logGroupClass: CloudWatchLogsClientTypes.LogGroupClass? = nil,
+        logGroupNamePattern: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.accountIdentifiers = accountIdentifiers
+        self.includeLinkedAccounts = includeLinkedAccounts
+        self.limit = limit
+        self.logGroupClass = logGroupClass
+        self.logGroupNamePattern = logGroupNamePattern
+        self.nextToken = nextToken
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+
+    /// This structure contains information about one log group in your account.
+    public struct LogGroupSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the log group.
+        public var logGroupArn: Swift.String?
+        /// The log group class for this log group. For details about the features supported by each log group class, see [Log classes](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html)
+        public var logGroupClass: CloudWatchLogsClientTypes.LogGroupClass?
+        /// The name of the log group.
+        public var logGroupName: Swift.String?
+
+        public init(
+            logGroupArn: Swift.String? = nil,
+            logGroupClass: CloudWatchLogsClientTypes.LogGroupClass? = nil,
+            logGroupName: Swift.String? = nil
+        ) {
+            self.logGroupArn = logGroupArn
+            self.logGroupClass = logGroupClass
+            self.logGroupName = logGroupName
+        }
+    }
+}
+
+public struct ListLogGroupsOutput: Swift.Sendable {
+    /// An array of structures, where each structure contains the information about one log group.
+    public var logGroups: [CloudWatchLogsClientTypes.LogGroupSummary]?
+    /// The token for the next set of items to return. The token expires after 24 hours.
+    public var nextToken: Swift.String?
+
+    public init(
+        logGroups: [CloudWatchLogsClientTypes.LogGroupSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.logGroups = logGroups
         self.nextToken = nextToken
     }
 }
@@ -5638,11 +5822,13 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For Elemental MediaTailor, the valid values are AD_DECISION_SERVER_LOGS, MANIFEST_SERVICE_LOGS, and TRANSCODE_LOGS.
     ///
+    /// * For Entity Resolution, the valid value is WORKFLOW_LOGS.
+    ///
     /// * For IAM Identity Center, the valid value is ERROR_LOGS.
     ///
     /// * For Amazon Q, the valid value is EVENT_LOGS.
     ///
-    /// * For Amazon SES mail manager, the valid value is APPLICATION_LOG.
+    /// * For Amazon SES mail manager, the valid values are APPLICATION_LOG and TRAFFIC_POLICY_DEBUG_LOGS.
     ///
     /// * For Amazon WorkMail, the valid values are ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, WORKMAIL_MAILBOX_ACCESS_LOGS, and WORKMAIL_PERSONAL_ACCESS_TOKEN_LOGS.
     /// This member is required.
@@ -7149,6 +7335,13 @@ extension ListLogAnomalyDetectorsInput {
     }
 }
 
+extension ListLogGroupsInput {
+
+    static func urlPathProvider(_ value: ListLogGroupsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListLogGroupsForQueryInput {
 
     static func urlPathProvider(_ value: ListLogGroupsForQueryInput) -> Swift.String? {
@@ -7692,6 +7885,7 @@ extension DescribeLogGroupsInput {
         try writer["includeLinkedAccounts"].write(value.includeLinkedAccounts)
         try writer["limit"].write(value.limit)
         try writer["logGroupClass"].write(value.logGroupClass)
+        try writer["logGroupIdentifiers"].writeList(value.logGroupIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["logGroupNamePattern"].write(value.logGroupNamePattern)
         try writer["logGroupNamePrefix"].write(value.logGroupNamePrefix)
         try writer["nextToken"].write(value.nextToken)
@@ -7929,6 +8123,19 @@ extension ListLogAnomalyDetectorsInput {
         guard let value else { return }
         try writer["filterLogGroupArn"].write(value.filterLogGroupArn)
         try writer["limit"].write(value.limit)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListLogGroupsInput {
+
+    static func write(value: ListLogGroupsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountIdentifiers"].writeList(value.accountIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["includeLinkedAccounts"].write(value.includeLinkedAccounts)
+        try writer["limit"].write(value.limit)
+        try writer["logGroupClass"].write(value.logGroupClass)
+        try writer["logGroupNamePattern"].write(value.logGroupNamePattern)
         try writer["nextToken"].write(value.nextToken)
     }
 }
@@ -8876,6 +9083,19 @@ extension ListLogAnomalyDetectorsOutput {
         let reader = responseReader
         var value = ListLogAnomalyDetectorsOutput()
         value.anomalyDetectors = try reader["anomalyDetectors"].readListIfPresent(memberReadingClosure: CloudWatchLogsClientTypes.AnomalyDetector.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListLogGroupsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListLogGroupsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListLogGroupsOutput()
+        value.logGroups = try reader["logGroups"].readListIfPresent(memberReadingClosure: CloudWatchLogsClientTypes.LogGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -10183,6 +10403,21 @@ enum ListLogAnomalyDetectorsOutputError {
     }
 }
 
+enum ListLogGroupsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListLogGroupsForQueryOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -10712,19 +10947,6 @@ enum UpdateLogAnomalyDetectorOutputError {
     }
 }
 
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidParameterException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
@@ -10743,6 +10965,19 @@ extension OperationAbortedException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OperationAbortedException {
         let reader = baseError.errorBodyReader
         var value = OperationAbortedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10777,11 +11012,11 @@ extension InvalidOperationException {
     }
 }
 
-extension ThrottlingException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10803,37 +11038,37 @@ extension ConflictException {
     }
 }
 
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ServiceQuotaExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10868,11 +11103,12 @@ extension ResourceAlreadyExistsException {
     }
 }
 
-extension UnrecognizedClientException {
+extension DataAlreadyAcceptedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnrecognizedClientException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DataAlreadyAcceptedException {
         let reader = baseError.errorBodyReader
-        var value = UnrecognizedClientException()
+        var value = DataAlreadyAcceptedException()
+        value.properties.expectedSequenceToken = try reader["expectedSequenceToken"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10895,12 +11131,11 @@ extension InvalidSequenceTokenException {
     }
 }
 
-extension DataAlreadyAcceptedException {
+extension UnrecognizedClientException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DataAlreadyAcceptedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnrecognizedClientException {
         let reader = baseError.errorBodyReader
-        var value = DataAlreadyAcceptedException()
-        value.properties.expectedSequenceToken = try reader["expectedSequenceToken"].readIfPresent()
+        var value = UnrecognizedClientException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -11570,6 +11805,7 @@ extension CloudWatchLogsClientTypes.Processor {
         try writer["parseKeyValue"].write(value.parseKeyValue, with: CloudWatchLogsClientTypes.ParseKeyValue.write(value:to:))
         try writer["parsePostgres"].write(value.parsePostgres, with: CloudWatchLogsClientTypes.ParsePostgres.write(value:to:))
         try writer["parseRoute53"].write(value.parseRoute53, with: CloudWatchLogsClientTypes.ParseRoute53.write(value:to:))
+        try writer["parseToOCSF"].write(value.parseToOCSF, with: CloudWatchLogsClientTypes.ParseToOCSF.write(value:to:))
         try writer["parseVPC"].write(value.parseVPC, with: CloudWatchLogsClientTypes.ParseVPC.write(value:to:))
         try writer["parseWAF"].write(value.parseWAF, with: CloudWatchLogsClientTypes.ParseWAF.write(value:to:))
         try writer["renameKeys"].write(value.renameKeys, with: CloudWatchLogsClientTypes.RenameKeys.write(value:to:))
@@ -11596,6 +11832,7 @@ extension CloudWatchLogsClientTypes.Processor {
         value.parseJSON = try reader["parseJSON"].readIfPresent(with: CloudWatchLogsClientTypes.ParseJSON.read(from:))
         value.parseKeyValue = try reader["parseKeyValue"].readIfPresent(with: CloudWatchLogsClientTypes.ParseKeyValue.read(from:))
         value.parseRoute53 = try reader["parseRoute53"].readIfPresent(with: CloudWatchLogsClientTypes.ParseRoute53.read(from:))
+        value.parseToOCSF = try reader["parseToOCSF"].readIfPresent(with: CloudWatchLogsClientTypes.ParseToOCSF.read(from:))
         value.parsePostgres = try reader["parsePostgres"].readIfPresent(with: CloudWatchLogsClientTypes.ParsePostgres.read(from:))
         value.parseVPC = try reader["parseVPC"].readIfPresent(with: CloudWatchLogsClientTypes.ParseVPC.read(from:))
         value.parseWAF = try reader["parseWAF"].readIfPresent(with: CloudWatchLogsClientTypes.ParseWAF.read(from:))
@@ -11812,6 +12049,25 @@ extension CloudWatchLogsClientTypes.ParsePostgres {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudWatchLogsClientTypes.ParsePostgres()
         value.source = try reader["source"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchLogsClientTypes.ParseToOCSF {
+
+    static func write(value: CloudWatchLogsClientTypes.ParseToOCSF?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventSource"].write(value.eventSource)
+        try writer["ocsfVersion"].write(value.ocsfVersion)
+        try writer["source"].write(value.source)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.ParseToOCSF {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchLogsClientTypes.ParseToOCSF()
+        value.source = try reader["source"].readIfPresent()
+        value.eventSource = try reader["eventSource"].readIfPresent() ?? .sdkUnknown("")
+        value.ocsfVersion = try reader["ocsfVersion"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -12192,6 +12448,18 @@ extension CloudWatchLogsClientTypes.AnomalyDetector {
         value.creationTimeStamp = try reader["creationTimeStamp"].readIfPresent() ?? 0
         value.lastModifiedTimeStamp = try reader["lastModifiedTimeStamp"].readIfPresent() ?? 0
         value.anomalyVisibilityTime = try reader["anomalyVisibilityTime"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudWatchLogsClientTypes.LogGroupSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudWatchLogsClientTypes.LogGroupSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudWatchLogsClientTypes.LogGroupSummary()
+        value.logGroupName = try reader["logGroupName"].readIfPresent()
+        value.logGroupArn = try reader["logGroupArn"].readIfPresent()
+        value.logGroupClass = try reader["logGroupClass"].readIfPresent()
         return value
     }
 }

@@ -119,7 +119,7 @@ public struct DatabaseNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// A request was canceled because the Aurora Serverless v2 DB instance was in a paused state. The Data API request automatically causes the DB instance to begin resuming. Wait a few seconds and try again.
+/// A request was cancelled because the Aurora Serverless v2 DB instance was paused. The Data API request automatically resumes the DB instance. Wait a few seconds and try again.
 public struct DatabaseResumingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -213,6 +213,29 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     public internal(set) var requestID: Swift.String?
 
     public init() { }
+}
+
+/// The resource is in an invalid state.
+public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidResourceStateException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
 }
 
 /// The Secrets Manager secret used with the request isn't valid.
@@ -1116,6 +1139,7 @@ enum BatchExecuteStatementOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "HttpEndpointNotEnabledException": return try HttpEndpointNotEnabledException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "InvalidResourceStateException": return try InvalidResourceStateException.makeError(baseError: baseError)
             case "InvalidSecretException": return try InvalidSecretException.makeError(baseError: baseError)
             case "SecretsErrorException": return try SecretsErrorException.makeError(baseError: baseError)
             case "ServiceUnavailableError": return try ServiceUnavailableError.makeError(baseError: baseError)
@@ -1143,6 +1167,7 @@ enum BeginTransactionOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "HttpEndpointNotEnabledException": return try HttpEndpointNotEnabledException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "InvalidResourceStateException": return try InvalidResourceStateException.makeError(baseError: baseError)
             case "InvalidSecretException": return try InvalidSecretException.makeError(baseError: baseError)
             case "SecretsErrorException": return try SecretsErrorException.makeError(baseError: baseError)
             case "ServiceUnavailableError": return try ServiceUnavailableError.makeError(baseError: baseError)
@@ -1169,6 +1194,7 @@ enum CommitTransactionOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "HttpEndpointNotEnabledException": return try HttpEndpointNotEnabledException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "InvalidResourceStateException": return try InvalidResourceStateException.makeError(baseError: baseError)
             case "InvalidSecretException": return try InvalidSecretException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "SecretsErrorException": return try SecretsErrorException.makeError(baseError: baseError)
@@ -1197,6 +1223,7 @@ enum ExecuteStatementOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "HttpEndpointNotEnabledException": return try HttpEndpointNotEnabledException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "InvalidResourceStateException": return try InvalidResourceStateException.makeError(baseError: baseError)
             case "InvalidSecretException": return try InvalidSecretException.makeError(baseError: baseError)
             case "SecretsErrorException": return try SecretsErrorException.makeError(baseError: baseError)
             case "ServiceUnavailableError": return try ServiceUnavailableError.makeError(baseError: baseError)
@@ -1224,6 +1251,7 @@ enum RollbackTransactionOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "HttpEndpointNotEnabledException": return try HttpEndpointNotEnabledException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "InvalidResourceStateException": return try InvalidResourceStateException.makeError(baseError: baseError)
             case "InvalidSecretException": return try InvalidSecretException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "SecretsErrorException": return try SecretsErrorException.makeError(baseError: baseError)
@@ -1235,11 +1263,63 @@ enum RollbackTransactionOutputError {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension BadRequestException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+        let reader = baseError.errorBodyReader
+        var value = BadRequestException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DatabaseErrorException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DatabaseErrorException {
+        let reader = baseError.errorBodyReader
+        var value = DatabaseErrorException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension DatabaseNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DatabaseNotFoundException {
         let reader = baseError.errorBodyReader
         var value = DatabaseNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DatabaseResumingException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DatabaseResumingException {
+        let reader = baseError.errorBodyReader
+        var value = DatabaseResumingException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1259,37 +1339,11 @@ extension DatabaseUnavailableException {
     }
 }
 
-extension AccessDeniedException {
+extension ForbiddenException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ForbiddenException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TransactionNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TransactionNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = TransactionNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DatabaseErrorException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DatabaseErrorException {
-        let reader = baseError.errorBodyReader
-        var value = DatabaseErrorException()
+        var value = ForbiddenException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1322,36 +1376,11 @@ extension InternalServerErrorException {
     }
 }
 
-extension StatementTimeoutException {
+extension InvalidResourceStateException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> StatementTimeoutException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidResourceStateException {
         let reader = baseError.errorBodyReader
-        var value = StatementTimeoutException()
-        value.properties.dbConnectionId = try reader["dbConnectionId"].readIfPresent() ?? 0
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceUnavailableError {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableError {
-        var value = ServiceUnavailableError()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DatabaseResumingException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DatabaseResumingException {
-        let reader = baseError.errorBodyReader
-        var value = DatabaseResumingException()
+        var value = InvalidResourceStateException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1373,37 +1402,49 @@ extension InvalidSecretException {
     }
 }
 
-extension BadRequestException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
-        let reader = baseError.errorBodyReader
-        var value = BadRequestException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ForbiddenException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ForbiddenException {
-        let reader = baseError.errorBodyReader
-        var value = ForbiddenException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension SecretsErrorException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SecretsErrorException {
         let reader = baseError.errorBodyReader
         var value = SecretsErrorException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceUnavailableError {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableError {
+        var value = ServiceUnavailableError()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension StatementTimeoutException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> StatementTimeoutException {
+        let reader = baseError.errorBodyReader
+        var value = StatementTimeoutException()
+        value.properties.dbConnectionId = try reader["dbConnectionId"].readIfPresent() ?? 0
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TransactionNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TransactionNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = TransactionNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

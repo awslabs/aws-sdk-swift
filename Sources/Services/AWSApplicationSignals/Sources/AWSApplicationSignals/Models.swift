@@ -27,6 +27,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 /// You don't have sufficient permissions to perform this action.
@@ -365,6 +366,37 @@ extension ApplicationSignalsClientTypes {
 
 extension ApplicationSignalsClientTypes {
 
+    /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName. When creating a service dependency SLO, you must specify the KeyAttributes of the service, and the DependencyConfig for the dependency. You can specify the OperationName of the service, from which it calls the dependency. Alternatively, you can exclude OperationName and the SLO will monitor all of the service's operations that call the dependency.
+    public struct DependencyConfig: Swift.Sendable {
+        /// This is a string-to-string map. It can include the following fields.
+        ///
+        /// * Type designates the type of object this is.
+        ///
+        /// * ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.
+        ///
+        /// * Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.
+        ///
+        /// * Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource.
+        ///
+        /// * Environment specifies the location where this object is hosted, or what it belongs to.
+        /// This member is required.
+        public var dependencyKeyAttributes: [Swift.String: Swift.String]?
+        /// The name of the called operation in the dependency.
+        /// This member is required.
+        public var dependencyOperationName: Swift.String?
+
+        public init(
+            dependencyKeyAttributes: [Swift.String: Swift.String]? = nil,
+            dependencyOperationName: Swift.String? = nil
+        ) {
+            self.dependencyKeyAttributes = dependencyKeyAttributes
+            self.dependencyOperationName = dependencyOperationName
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
     public enum ServiceLevelIndicatorMetricType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case availability
         case latency
@@ -632,6 +664,8 @@ extension ApplicationSignalsClientTypes {
 
     /// This structure contains the information about the metric that is used for a request-based SLO.
     public struct RequestBasedServiceLevelIndicatorMetric: Swift.Sendable {
+        /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
+        public var dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig?
         /// This is a string-to-string map that contains information about the type of object that this SLO is related to. It can include the following fields.
         ///
         /// * Type designates the type of object that this SLO is related to.
@@ -656,12 +690,14 @@ extension ApplicationSignalsClientTypes {
         public var totalRequestCountMetric: [ApplicationSignalsClientTypes.MetricDataQuery]?
 
         public init(
+            dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig? = nil,
             keyAttributes: [Swift.String: Swift.String]? = nil,
             metricType: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricType? = nil,
             monitoredRequestCountMetric: ApplicationSignalsClientTypes.MonitoredRequestCountMetricDataQueries? = nil,
             operationName: Swift.String? = nil,
             totalRequestCountMetric: [ApplicationSignalsClientTypes.MetricDataQuery]? = nil
         ) {
+            self.dependencyConfig = dependencyConfig
             self.keyAttributes = keyAttributes
             self.metricType = metricType
             self.monitoredRequestCountMetric = monitoredRequestCountMetric
@@ -699,6 +735,8 @@ extension ApplicationSignalsClientTypes {
 
     /// This structure contains the information about the metric that is used for a period-based SLO.
     public struct ServiceLevelIndicatorMetric: Swift.Sendable {
+        /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
+        public var dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig?
         /// This is a string-to-string map that contains information about the type of object that this SLO is related to. It can include the following fields.
         ///
         /// * Type designates the type of object that this SLO is related to.
@@ -720,11 +758,13 @@ extension ApplicationSignalsClientTypes {
         public var operationName: Swift.String?
 
         public init(
+            dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig? = nil,
             keyAttributes: [Swift.String: Swift.String]? = nil,
             metricDataQueries: [ApplicationSignalsClientTypes.MetricDataQuery]? = nil,
             metricType: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricType? = nil,
             operationName: Swift.String? = nil
         ) {
+            self.dependencyConfig = dependencyConfig
             self.keyAttributes = keyAttributes
             self.metricDataQueries = metricDataQueries
             self.metricType = metricType
@@ -851,6 +891,168 @@ public struct BatchGetServiceLevelObjectiveBudgetReportOutput: Swift.Sendable {
     }
 }
 
+/// Resource not found.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// Can't find the resource id.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The resource type is not valid.
+        /// This member is required.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// The recurrence rule for the SLO time window exclusion .
+    public struct RecurrenceRule: Swift.Sendable {
+        /// A cron or rate expression that specifies the schedule for the exclusion window.
+        /// This member is required.
+        public var expression: Swift.String?
+
+        public init(
+            expression: Swift.String? = nil
+        ) {
+            self.expression = expression
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// The object that defines the time length of an exclusion window.
+    public struct Window: Swift.Sendable {
+        /// The number of time units for the exclusion window length.
+        /// This member is required.
+        public var duration: Swift.Int?
+        /// The unit of time for the exclusion window duration. Valid values: MINUTE, HOUR, DAY, MONTH.
+        /// This member is required.
+        public var durationUnit: ApplicationSignalsClientTypes.DurationUnit?
+
+        public init(
+            duration: Swift.Int? = nil,
+            durationUnit: ApplicationSignalsClientTypes.DurationUnit? = nil
+        ) {
+            self.duration = duration
+            self.durationUnit = durationUnit
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// The core SLO time window exclusion object that includes Window, StartTime, RecurrenceRule, and Reason.
+    public struct ExclusionWindow: Swift.Sendable {
+        /// A description explaining why this time period should be excluded from SLO calculations.
+        public var reason: Swift.String?
+        /// The recurrence rule for the SLO time window exclusion. Supports both cron and rate expressions.
+        public var recurrenceRule: ApplicationSignalsClientTypes.RecurrenceRule?
+        /// The start of the SLO time window exclusion. Defaults to current time if not specified.
+        public var startTime: Foundation.Date?
+        /// The SLO time window exclusion .
+        /// This member is required.
+        public var window: ApplicationSignalsClientTypes.Window?
+
+        public init(
+            reason: Swift.String? = nil,
+            recurrenceRule: ApplicationSignalsClientTypes.RecurrenceRule? = nil,
+            startTime: Foundation.Date? = nil,
+            window: ApplicationSignalsClientTypes.Window? = nil
+        ) {
+            self.reason = reason
+            self.recurrenceRule = recurrenceRule
+            self.startTime = startTime
+            self.window = window
+        }
+    }
+}
+
+public struct BatchUpdateExclusionWindowsInput: Swift.Sendable {
+    /// A list of exclusion windows to add to the specified SLOs. You can add up to 10 exclusion windows per SLO.
+    public var addExclusionWindows: [ApplicationSignalsClientTypes.ExclusionWindow]?
+    /// A list of exclusion windows to remove from the specified SLOs. The window configuration must match an existing exclusion window.
+    public var removeExclusionWindows: [ApplicationSignalsClientTypes.ExclusionWindow]?
+    /// The list of SLO IDs to add or remove exclusion windows from.
+    /// This member is required.
+    public var sloIds: [Swift.String]?
+
+    public init(
+        addExclusionWindows: [ApplicationSignalsClientTypes.ExclusionWindow]? = nil,
+        removeExclusionWindows: [ApplicationSignalsClientTypes.ExclusionWindow]? = nil,
+        sloIds: [Swift.String]? = nil
+    ) {
+        self.addExclusionWindows = addExclusionWindows
+        self.removeExclusionWindows = removeExclusionWindows
+        self.sloIds = sloIds
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
+    /// An array of structures, where each structure includes an error indicating that one of the requests in the array was not valid.
+    public struct BatchUpdateExclusionWindowsError: Swift.Sendable {
+        /// The error code.
+        /// This member is required.
+        public var errorCode: Swift.String?
+        /// The error message.
+        /// This member is required.
+        public var errorMessage: Swift.String?
+        /// The SLO ID in the error.
+        /// This member is required.
+        public var sloId: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            sloId: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.sloId = sloId
+        }
+    }
+}
+
+public struct BatchUpdateExclusionWindowsOutput: Swift.Sendable {
+    /// A list of errors that occurred while processing the request.
+    /// This member is required.
+    public var errors: [ApplicationSignalsClientTypes.BatchUpdateExclusionWindowsError]?
+    /// The list of SLO IDs that were successfully processed.
+    /// This member is required.
+    public var sloIds: [Swift.String]?
+
+    public init(
+        errors: [ApplicationSignalsClientTypes.BatchUpdateExclusionWindowsError]? = nil,
+        sloIds: [Swift.String]? = nil
+    ) {
+        self.errors = errors
+        self.sloIds = sloIds
+    }
+}
+
 public struct GetServiceInput: Swift.Sendable {
     /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057 Your requested start time will be rounded to the nearest hour.
     /// This member is required.
@@ -887,6 +1089,8 @@ extension ApplicationSignalsClientTypes {
 
     /// This structure contains information about one CloudWatch metric associated with this entity discovered by Application Signals.
     public struct MetricReference: Swift.Sendable {
+        /// Amazon Web Services account ID.
+        public var accountId: Swift.String?
         /// An array of one or more dimensions that further define the metric. For more information, see [CloudWatchDimensions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Dimension).
         public var dimensions: [ApplicationSignalsClientTypes.Dimension]?
         /// The name of the metric.
@@ -900,11 +1104,13 @@ extension ApplicationSignalsClientTypes {
         public var namespace: Swift.String?
 
         public init(
+            accountId: Swift.String? = nil,
             dimensions: [ApplicationSignalsClientTypes.Dimension]? = nil,
             metricName: Swift.String? = nil,
             metricType: Swift.String? = nil,
             namespace: Swift.String? = nil
         ) {
+            self.accountId = accountId
             self.dimensions = dimensions
             self.metricName = metricName
             self.metricType = metricType
@@ -1238,6 +1444,42 @@ public struct ListServiceDependentsOutput: Swift.Sendable {
     }
 }
 
+public struct ListServiceLevelObjectiveExclusionWindowsInput: Swift.Sendable {
+    /// The ID of the SLO to list exclusion windows for.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
+    public var maxResults: Swift.Int?
+    /// Include this value, if it was returned by the previous operation, to get the next set of service level objectives.
+    public var nextToken: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.id = id
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListServiceLevelObjectiveExclusionWindowsOutput: Swift.Sendable {
+    /// A list of exclusion windows configured for the SLO.
+    /// This member is required.
+    public var exclusionWindows: [ApplicationSignalsClientTypes.ExclusionWindow]?
+    /// Include this value, if it was returned by the previous operation, to get the next set of service level objectives.
+    public var nextToken: Swift.String?
+
+    public init(
+        exclusionWindows: [ApplicationSignalsClientTypes.ExclusionWindow]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.exclusionWindows = exclusionWindows
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListServiceOperationsInput: Swift.Sendable {
     /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057 Your requested end time will be rounded to the nearest hour.
     /// This member is required.
@@ -1326,9 +1568,13 @@ public struct ListServiceOperationsOutput: Swift.Sendable {
 }
 
 public struct ListServicesInput: Swift.Sendable {
+    /// Amazon Web Services Account ID.
+    public var awsAccountId: Swift.String?
     /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057 Your requested start time will be rounded to the nearest hour.
     /// This member is required.
     public var endTime: Foundation.Date?
+    /// If you are using this operation in a monitoring account, specify true to include services from source accounts in the returned data.
+    public var includeLinkedAccounts: Swift.Bool?
     /// The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
     public var maxResults: Swift.Int?
     /// Include this value, if it was returned by the previous operation, to get the next set of services.
@@ -1338,12 +1584,16 @@ public struct ListServicesInput: Swift.Sendable {
     public var startTime: Foundation.Date?
 
     public init(
+        awsAccountId: Swift.String? = nil,
         endTime: Foundation.Date? = nil,
+        includeLinkedAccounts: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startTime: Foundation.Date? = nil
     ) {
+        self.awsAccountId = awsAccountId
         self.endTime = endTime
+        self.includeLinkedAccounts = includeLinkedAccounts
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.startTime = startTime
@@ -1447,40 +1697,6 @@ public struct ListServicesOutput: Swift.Sendable {
     }
 }
 
-/// Resource not found.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// Can't find the resource id.
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The resource type is not valid.
-        /// This member is required.
-        public internal(set) var resourceType: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
-    }
-}
-
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the CloudWatch resource that you want to view tags for. The ARN format of an Application Signals SLO is arn:aws:cloudwatch:Region:account-id:slo:slo-name  For more information about ARN format, see [ Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies) in the Amazon Web Services General Reference.
     /// This member is required.
@@ -1575,7 +1791,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension ApplicationSignalsClientTypes {
 
-    /// This object defines the length of the look-back window used to calculate one burn rate metric for this SLO. The burn rate measures how fast the service is consuming the error budget, relative to the attainment goal of the SLO. A burn rate of exactly 1 indicates that the SLO goal will be met exactly. For example, if you specify 60 as the number of minutes in the look-back window, the burn rate is calculated as the following: burn rate = error rate over the look-back window / (1 - attainment goal percentage) For more information about burn rates, see [Calculate burn rates](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-ServiceLevelObjectives.html#CloudWatch-ServiceLevelObjectives-burn).
+    /// This object defines the length of the look-back window used to calculate one burn rate metric for this SLO. The burn rate measures how fast the service is consuming the error budget, relative to the attainment goal of the SLO. A burn rate of exactly 1 indicates that the SLO goal will be met exactly. For example, if you specify 60 as the number of minutes in the look-back window, the burn rate is calculated as the following: burn rate = error rate over the look-back window / (100% - attainment goal percentage) For more information about burn rates, see [Calculate burn rates](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-ServiceLevelObjectives.html#CloudWatch-ServiceLevelObjectives-burn).
     public struct BurnRateConfiguration: Swift.Sendable {
         /// The number of minutes to use as the look-back window.
         /// This member is required.
@@ -1593,6 +1809,8 @@ extension ApplicationSignalsClientTypes {
 
     /// Use this structure to specify the information for the metric that a period-based SLO will monitor.
     public struct RequestBasedServiceLevelIndicatorMetricConfig: Swift.Sendable {
+        /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
+        public var dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig?
         /// If this SLO is related to a metric collected by Application Signals, you must use this field to specify which service the SLO metric is related to. To do so, you must specify at least the Type, Name, and Environment attributes. This is a string-to-string map. It can include the following fields.
         ///
         /// * Type designates the type of object this is.
@@ -1615,12 +1833,14 @@ extension ApplicationSignalsClientTypes {
         public var totalRequestCountMetric: [ApplicationSignalsClientTypes.MetricDataQuery]?
 
         public init(
+            dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig? = nil,
             keyAttributes: [Swift.String: Swift.String]? = nil,
             metricType: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricType? = nil,
             monitoredRequestCountMetric: ApplicationSignalsClientTypes.MonitoredRequestCountMetricDataQueries? = nil,
             operationName: Swift.String? = nil,
             totalRequestCountMetric: [ApplicationSignalsClientTypes.MetricDataQuery]? = nil
         ) {
+            self.dependencyConfig = dependencyConfig
             self.keyAttributes = keyAttributes
             self.metricType = metricType
             self.monitoredRequestCountMetric = monitoredRequestCountMetric
@@ -1658,6 +1878,8 @@ extension ApplicationSignalsClientTypes {
 
     /// Use this structure to specify the information for the metric that a period-based SLO will monitor.
     public struct ServiceLevelIndicatorMetricConfig: Swift.Sendable {
+        /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
+        public var dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig?
         /// If this SLO is related to a metric collected by Application Signals, you must use this field to specify which service the SLO metric is related to. To do so, you must specify at least the Type, Name, and Environment attributes. This is a string-to-string map. It can include the following fields.
         ///
         /// * Type designates the type of object this is.
@@ -1682,6 +1904,7 @@ extension ApplicationSignalsClientTypes {
         public var statistic: Swift.String?
 
         public init(
+            dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig? = nil,
             keyAttributes: [Swift.String: Swift.String]? = nil,
             metricDataQueries: [ApplicationSignalsClientTypes.MetricDataQuery]? = nil,
             metricType: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricType? = nil,
@@ -1689,6 +1912,7 @@ extension ApplicationSignalsClientTypes {
             periodSeconds: Swift.Int? = nil,
             statistic: Swift.String? = nil
         ) {
+            self.dependencyConfig = dependencyConfig
             self.keyAttributes = keyAttributes
             self.metricDataQueries = metricDataQueries
             self.metricType = metricType
@@ -1763,6 +1987,38 @@ public struct CreateServiceLevelObjectiveInput: Swift.Sendable {
 
 extension ApplicationSignalsClientTypes {
 
+    public enum MetricSourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cloudwatchMetric
+        case serviceDependency
+        case serviceOperation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetricSourceType] {
+            return [
+                .cloudwatchMetric,
+                .serviceDependency,
+                .serviceOperation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudwatchMetric: return "CloudWatchMetric"
+            case .serviceDependency: return "ServiceDependency"
+            case .serviceOperation: return "ServiceOperation"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes {
+
     /// A structure containing information about one service level objective (SLO) that has been created in Application Signals. Creating SLOs can help you ensure your services are performing to the level that you expect. SLOs help you set and track a specific target level for the reliability and availability of your applications and services. Each SLO uses a service level indicator (SLI), which is a key performance metric, to calculate how much underperformance can be tolerated before the goal that you set for the SLO is not achieved.
     public struct ServiceLevelObjective: Swift.Sendable {
         /// The ARN of this SLO.
@@ -1783,6 +2039,14 @@ extension ApplicationSignalsClientTypes {
         /// The time that this SLO was most recently updated. When used in a raw HTTP Query API, it is formatted as yyyy-MM-dd'T'HH:mm:ss. For example, 2019-07-01T23:59:59.
         /// This member is required.
         public var lastUpdatedTime: Foundation.Date?
+        /// Displays the SLI metric source type for this SLO. Supported types are:
+        ///
+        /// * Service operation
+        ///
+        /// * Service dependency
+        ///
+        /// * CloudWatch metric
+        public var metricSourceType: ApplicationSignalsClientTypes.MetricSourceType?
         /// The name of this SLO.
         /// This member is required.
         public var name: Swift.String?
@@ -1799,6 +2063,7 @@ extension ApplicationSignalsClientTypes {
             evaluationType: ApplicationSignalsClientTypes.EvaluationType? = nil,
             goal: ApplicationSignalsClientTypes.Goal? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
+            metricSourceType: ApplicationSignalsClientTypes.MetricSourceType? = nil,
             name: Swift.String? = nil,
             requestBasedSli: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicator? = nil,
             sli: ApplicationSignalsClientTypes.ServiceLevelIndicator? = nil
@@ -1810,6 +2075,7 @@ extension ApplicationSignalsClientTypes {
             self.evaluationType = evaluationType
             self.goal = goal
             self.lastUpdatedTime = lastUpdatedTime
+            self.metricSourceType = metricSourceType
             self.name = name
             self.requestBasedSli = requestBasedSli
             self.sli = sli
@@ -1871,6 +2137,10 @@ public struct GetServiceLevelObjectiveOutput: Swift.Sendable {
 }
 
 public struct ListServiceLevelObjectivesInput: Swift.Sendable {
+    /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
+    public var dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig?
+    /// If you are using this operation in a monitoring account, specify true to include SLO from source accounts in the returned data. When you are monitoring an account, you can use Amazon Web Services account ID in KeyAttribute filter for service source account and SloOwnerawsaccountID for SLO source account with IncludeLinkedAccounts to filter the returned data to only a single source account.
+    public var includeLinkedAccounts: Swift.Bool?
     /// You can use this optional field to specify which services you want to retrieve SLO information for. This is a string-to-string map. It can include the following fields.
     ///
     /// * Type designates the type of object this is.
@@ -1885,21 +2155,39 @@ public struct ListServiceLevelObjectivesInput: Swift.Sendable {
     public var keyAttributes: [Swift.String: Swift.String]?
     /// The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
     public var maxResults: Swift.Int?
+    /// Use this optional field to only include SLOs with the specified metric source types in the output. Supported types are:
+    ///
+    /// * Service operation
+    ///
+    /// * Service dependency
+    ///
+    /// * CloudWatch metric
+    public var metricSourceTypes: [ApplicationSignalsClientTypes.MetricSourceType]?
     /// Include this value, if it was returned by the previous operation, to get the next set of service level objectives.
     public var nextToken: Swift.String?
     /// The name of the operation that this SLO is associated with.
     public var operationName: Swift.String?
+    /// SLO's Amazon Web Services account ID.
+    public var sloOwnerAwsAccountId: Swift.String?
 
     public init(
+        dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig? = nil,
+        includeLinkedAccounts: Swift.Bool? = nil,
         keyAttributes: [Swift.String: Swift.String]? = nil,
         maxResults: Swift.Int? = nil,
+        metricSourceTypes: [ApplicationSignalsClientTypes.MetricSourceType]? = nil,
         nextToken: Swift.String? = nil,
-        operationName: Swift.String? = nil
+        operationName: Swift.String? = nil,
+        sloOwnerAwsAccountId: Swift.String? = nil
     ) {
+        self.dependencyConfig = dependencyConfig
+        self.includeLinkedAccounts = includeLinkedAccounts
         self.keyAttributes = keyAttributes
         self.maxResults = maxResults
+        self.metricSourceTypes = metricSourceTypes
         self.nextToken = nextToken
         self.operationName = operationName
+        self.sloOwnerAwsAccountId = sloOwnerAwsAccountId
     }
 }
 
@@ -1912,6 +2200,10 @@ extension ApplicationSignalsClientTypes {
         public var arn: Swift.String?
         /// The date and time that this service level objective was created. It is expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public var createdTime: Foundation.Date?
+        /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
+        public var dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig?
+        /// Displays whether this is a period-based SLO or a request-based SLO.
+        public var evaluationType: ApplicationSignalsClientTypes.EvaluationType?
         /// This is a string-to-string map. It can include the following fields.
         ///
         /// * Type designates the type of object this service level objective is for.
@@ -1924,6 +2216,14 @@ extension ApplicationSignalsClientTypes {
         ///
         /// * Environment specifies the location where this object is hosted, or what it belongs to.
         public var keyAttributes: [Swift.String: Swift.String]?
+        /// Displays the SLI metric source type for this SLO. Supported types are:
+        ///
+        /// * Service operation
+        ///
+        /// * Service dependency
+        ///
+        /// * CloudWatch metric
+        public var metricSourceType: ApplicationSignalsClientTypes.MetricSourceType?
         /// The name of the service level objective.
         /// This member is required.
         public var name: Swift.String?
@@ -1933,13 +2233,19 @@ extension ApplicationSignalsClientTypes {
         public init(
             arn: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
+            dependencyConfig: ApplicationSignalsClientTypes.DependencyConfig? = nil,
+            evaluationType: ApplicationSignalsClientTypes.EvaluationType? = nil,
             keyAttributes: [Swift.String: Swift.String]? = nil,
+            metricSourceType: ApplicationSignalsClientTypes.MetricSourceType? = nil,
             name: Swift.String? = nil,
             operationName: Swift.String? = nil
         ) {
             self.arn = arn
             self.createdTime = createdTime
+            self.dependencyConfig = dependencyConfig
+            self.evaluationType = evaluationType
             self.keyAttributes = keyAttributes
+            self.metricSourceType = metricSourceType
             self.name = name
             self.operationName = operationName
         }
@@ -2063,6 +2369,13 @@ extension BatchGetServiceLevelObjectiveBudgetReportInput {
 
     static func urlPathProvider(_ value: BatchGetServiceLevelObjectiveBudgetReportInput) -> Swift.String? {
         return "/budget-report"
+    }
+}
+
+extension BatchUpdateExclusionWindowsInput {
+
+    static func urlPathProvider(_ value: BatchUpdateExclusionWindowsInput) -> Swift.String? {
+        return "/exclusion-windows"
     }
 }
 
@@ -2190,6 +2503,32 @@ extension ListServiceDependentsInput {
     }
 }
 
+extension ListServiceLevelObjectiveExclusionWindowsInput {
+
+    static func urlPathProvider(_ value: ListServiceLevelObjectiveExclusionWindowsInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/slo/\(id.urlPercentEncoding())/exclusion-windows"
+    }
+}
+
+extension ListServiceLevelObjectiveExclusionWindowsInput {
+
+    static func queryItemProvider(_ value: ListServiceLevelObjectiveExclusionWindowsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListServiceLevelObjectivesInput {
 
     static func urlPathProvider(_ value: ListServiceLevelObjectivesInput) -> Swift.String? {
@@ -2201,9 +2540,17 @@ extension ListServiceLevelObjectivesInput {
 
     static func queryItemProvider(_ value: ListServiceLevelObjectivesInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let sloOwnerAwsAccountId = value.sloOwnerAwsAccountId {
+            let sloOwnerAwsAccountIdQueryItem = Smithy.URIQueryItem(name: "SloOwnerAwsAccountId".urlPercentEncoding(), value: Swift.String(sloOwnerAwsAccountId).urlPercentEncoding())
+            items.append(sloOwnerAwsAccountIdQueryItem)
+        }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
+        }
+        if let includeLinkedAccounts = value.includeLinkedAccounts {
+            let includeLinkedAccountsQueryItem = Smithy.URIQueryItem(name: "IncludeLinkedAccounts".urlPercentEncoding(), value: Swift.String(includeLinkedAccounts).urlPercentEncoding())
+            items.append(includeLinkedAccountsQueryItem)
         }
         if let operationName = value.operationName {
             let operationNameQueryItem = Smithy.URIQueryItem(name: "OperationName".urlPercentEncoding(), value: Swift.String(operationName).urlPercentEncoding())
@@ -2273,6 +2620,10 @@ extension ListServicesInput {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
+        if let includeLinkedAccounts = value.includeLinkedAccounts {
+            let includeLinkedAccountsQueryItem = Smithy.URIQueryItem(name: "IncludeLinkedAccounts".urlPercentEncoding(), value: Swift.String(includeLinkedAccounts).urlPercentEncoding())
+            items.append(includeLinkedAccountsQueryItem)
+        }
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
@@ -2283,6 +2634,10 @@ extension ListServicesInput {
         }
         let startTimeQueryItem = Smithy.URIQueryItem(name: "StartTime".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
         items.append(startTimeQueryItem)
+        if let awsAccountId = value.awsAccountId {
+            let awsAccountIdQueryItem = Smithy.URIQueryItem(name: "AwsAccountId".urlPercentEncoding(), value: Swift.String(awsAccountId).urlPercentEncoding())
+            items.append(awsAccountIdQueryItem)
+        }
         return items
     }
 }
@@ -2348,6 +2703,16 @@ extension BatchGetServiceLevelObjectiveBudgetReportInput {
     }
 }
 
+extension BatchUpdateExclusionWindowsInput {
+
+    static func write(value: BatchUpdateExclusionWindowsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddExclusionWindows"].writeList(value.addExclusionWindows, memberWritingClosure: ApplicationSignalsClientTypes.ExclusionWindow.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RemoveExclusionWindows"].writeList(value.removeExclusionWindows, memberWritingClosure: ApplicationSignalsClientTypes.ExclusionWindow.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SloIds"].writeList(value.sloIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateServiceLevelObjectiveInput {
 
     static func write(value: CreateServiceLevelObjectiveInput?, to writer: SmithyJSON.Writer) throws {
@@ -2390,7 +2755,9 @@ extension ListServiceLevelObjectivesInput {
 
     static func write(value: ListServiceLevelObjectivesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DependencyConfig"].write(value.dependencyConfig, with: ApplicationSignalsClientTypes.DependencyConfig.write(value:to:))
         try writer["KeyAttributes"].writeMap(value.keyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["MetricSourceTypes"].writeList(value.metricSourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ApplicationSignalsClientTypes.MetricSourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -2442,6 +2809,19 @@ extension BatchGetServiceLevelObjectiveBudgetReportOutput {
         value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReportError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.reports = try reader["Reports"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReport.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BatchUpdateExclusionWindowsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchUpdateExclusionWindowsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchUpdateExclusionWindowsOutput()
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.BatchUpdateExclusionWindowsError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sloIds = try reader["SloIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2518,6 +2898,19 @@ extension ListServiceDependentsOutput {
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.serviceDependents = try reader["ServiceDependents"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceDependent.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension ListServiceLevelObjectiveExclusionWindowsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListServiceLevelObjectiveExclusionWindowsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListServiceLevelObjectiveExclusionWindowsOutput()
+        value.exclusionWindows = try reader["ExclusionWindows"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ExclusionWindow.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -2625,6 +3018,22 @@ enum BatchGetServiceLevelObjectiveBudgetReportOutputError {
     }
 }
 
+enum BatchUpdateExclusionWindowsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateServiceLevelObjectiveOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2713,6 +3122,22 @@ enum ListServiceDependentsOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationError": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListServiceLevelObjectiveExclusionWindowsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationError": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -2869,12 +3294,14 @@ extension ValidationException {
     }
 }
 
-extension ServiceQuotaExceededException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2908,14 +3335,12 @@ extension ConflictException {
     }
 }
 
-extension ResourceNotFoundException {
+extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3049,6 +3474,24 @@ extension ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetric 
         value.metricType = try reader["MetricType"].readIfPresent()
         value.totalRequestCountMetric = try reader["TotalRequestCountMetric"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.monitoredRequestCountMetric = try reader["MonitoredRequestCountMetric"].readIfPresent(with: ApplicationSignalsClientTypes.MonitoredRequestCountMetricDataQueries.read(from:))
+        value.dependencyConfig = try reader["DependencyConfig"].readIfPresent(with: ApplicationSignalsClientTypes.DependencyConfig.read(from:))
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.DependencyConfig {
+
+    static func write(value: ApplicationSignalsClientTypes.DependencyConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DependencyKeyAttributes"].writeMap(value.dependencyKeyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["DependencyOperationName"].write(value.dependencyOperationName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.DependencyConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.DependencyConfig()
+        value.dependencyKeyAttributes = try reader["DependencyKeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.dependencyOperationName = try reader["DependencyOperationName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3186,6 +3629,7 @@ extension ApplicationSignalsClientTypes.ServiceLevelIndicatorMetric {
         value.operationName = try reader["OperationName"].readIfPresent()
         value.metricType = try reader["MetricType"].readIfPresent()
         value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.dependencyConfig = try reader["DependencyConfig"].readIfPresent(with: ApplicationSignalsClientTypes.DependencyConfig.read(from:))
         return value
     }
 }
@@ -3197,6 +3641,18 @@ extension ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReportError {
         var value = ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReportError()
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.BatchUpdateExclusionWindowsError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.BatchUpdateExclusionWindowsError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.BatchUpdateExclusionWindowsError()
+        value.sloId = try reader["SloId"].readIfPresent() ?? ""
         value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
         return value
@@ -3218,6 +3674,7 @@ extension ApplicationSignalsClientTypes.ServiceLevelObjective {
         value.evaluationType = try reader["EvaluationType"].readIfPresent()
         value.goal = try reader["Goal"].readIfPresent(with: ApplicationSignalsClientTypes.Goal.read(from:))
         value.burnRateConfigurations = try reader["BurnRateConfigurations"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.BurnRateConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metricSourceType = try reader["MetricSourceType"].readIfPresent()
         return value
     }
 }
@@ -3259,6 +3716,7 @@ extension ApplicationSignalsClientTypes.MetricReference {
         value.metricType = try reader["MetricType"].readIfPresent() ?? ""
         value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.metricName = try reader["MetricName"].readIfPresent() ?? ""
+        value.accountId = try reader["AccountId"].readIfPresent()
         return value
     }
 }
@@ -3289,6 +3747,59 @@ extension ApplicationSignalsClientTypes.ServiceDependent {
     }
 }
 
+extension ApplicationSignalsClientTypes.ExclusionWindow {
+
+    static func write(value: ApplicationSignalsClientTypes.ExclusionWindow?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Reason"].write(value.reason)
+        try writer["RecurrenceRule"].write(value.recurrenceRule, with: ApplicationSignalsClientTypes.RecurrenceRule.write(value:to:))
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Window"].write(value.window, with: ApplicationSignalsClientTypes.Window.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ExclusionWindow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.ExclusionWindow()
+        value.window = try reader["Window"].readIfPresent(with: ApplicationSignalsClientTypes.Window.read(from:))
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.recurrenceRule = try reader["RecurrenceRule"].readIfPresent(with: ApplicationSignalsClientTypes.RecurrenceRule.read(from:))
+        value.reason = try reader["Reason"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.RecurrenceRule {
+
+    static func write(value: ApplicationSignalsClientTypes.RecurrenceRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Expression"].write(value.expression)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.RecurrenceRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.RecurrenceRule()
+        value.expression = try reader["Expression"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.Window {
+
+    static func write(value: ApplicationSignalsClientTypes.Window?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Duration"].write(value.duration)
+        try writer["DurationUnit"].write(value.durationUnit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.Window {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.Window()
+        value.durationUnit = try reader["DurationUnit"].readIfPresent() ?? .sdkUnknown("")
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension ApplicationSignalsClientTypes.ServiceLevelObjectiveSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceLevelObjectiveSummary {
@@ -3298,7 +3809,10 @@ extension ApplicationSignalsClientTypes.ServiceLevelObjectiveSummary {
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.operationName = try reader["OperationName"].readIfPresent()
+        value.dependencyConfig = try reader["DependencyConfig"].readIfPresent(with: ApplicationSignalsClientTypes.DependencyConfig.read(from:))
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.evaluationType = try reader["EvaluationType"].readIfPresent()
+        value.metricSourceType = try reader["MetricSourceType"].readIfPresent()
         return value
     }
 }
@@ -3357,6 +3871,7 @@ extension ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricConfig {
 
     static func write(value: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DependencyConfig"].write(value.dependencyConfig, with: ApplicationSignalsClientTypes.DependencyConfig.write(value:to:))
         try writer["KeyAttributes"].writeMap(value.keyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["MetricDataQueries"].writeList(value.metricDataQueries, memberWritingClosure: ApplicationSignalsClientTypes.MetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MetricType"].write(value.metricType)
@@ -3380,6 +3895,7 @@ extension ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetricC
 
     static func write(value: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetricConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DependencyConfig"].write(value.dependencyConfig, with: ApplicationSignalsClientTypes.DependencyConfig.write(value:to:))
         try writer["KeyAttributes"].writeMap(value.keyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["MetricType"].write(value.metricType)
         try writer["MonitoredRequestCountMetric"].write(value.monitoredRequestCountMetric, with: ApplicationSignalsClientTypes.MonitoredRequestCountMetricDataQueries.write(value:to:))

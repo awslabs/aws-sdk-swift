@@ -1130,18 +1130,43 @@ public struct CreateProjectOutput: Swift.Sendable {
 
 extension DeviceFarmClientTypes {
 
+    /// Represents the http/s proxy configuration that will be applied to a device during a run.
+    public struct DeviceProxy: Swift.Sendable {
+        /// Hostname or IPv4 address of the proxy.
+        /// This member is required.
+        public var host: Swift.String?
+        /// The port number on which the http/s proxy is listening.
+        /// This member is required.
+        public var port: Swift.Int?
+
+        public init(
+            host: Swift.String? = nil,
+            port: Swift.Int? = 3128
+        ) {
+            self.host = host
+            self.port = port
+        }
+    }
+}
+
+extension DeviceFarmClientTypes {
+
     /// Configuration settings for a remote access session, including billing method.
     public struct CreateRemoteAccessSessionConfiguration: Swift.Sendable {
         /// The billing method for the remote access session.
         public var billingMethod: DeviceFarmClientTypes.BillingMethod?
+        /// The device proxy to be configured on the device for the remote access session.
+        public var deviceProxy: DeviceFarmClientTypes.DeviceProxy?
         /// An array of ARNs included in the VPC endpoint configuration.
         public var vpceConfigurationArns: [Swift.String]?
 
         public init(
             billingMethod: DeviceFarmClientTypes.BillingMethod? = nil,
+            deviceProxy: DeviceFarmClientTypes.DeviceProxy? = nil,
             vpceConfigurationArns: [Swift.String]? = nil
         ) {
             self.billingMethod = billingMethod
+            self.deviceProxy = deviceProxy
             self.vpceConfigurationArns = vpceConfigurationArns
         }
     }
@@ -1632,6 +1657,8 @@ extension DeviceFarmClientTypes {
         public var device: DeviceFarmClientTypes.Device?
         /// The number of minutes a device is used in a remote access session (including setup and teardown minutes).
         public var deviceMinutes: DeviceFarmClientTypes.DeviceMinutes?
+        /// The device proxy configured for the remote access session.
+        public var deviceProxy: DeviceFarmClientTypes.DeviceProxy?
         /// Unique device identifier for the remote device. Only returned if remote debugging is enabled for the remote access session. Remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html).
         public var deviceUdid: Swift.String?
         /// The endpoint for the remote access sesssion.
@@ -1710,6 +1737,7 @@ extension DeviceFarmClientTypes {
             created: Foundation.Date? = nil,
             device: DeviceFarmClientTypes.Device? = nil,
             deviceMinutes: DeviceFarmClientTypes.DeviceMinutes? = nil,
+            deviceProxy: DeviceFarmClientTypes.DeviceProxy? = nil,
             deviceUdid: Swift.String? = nil,
             endpoint: Swift.String? = nil,
             hostAddress: Swift.String? = nil,
@@ -1733,6 +1761,7 @@ extension DeviceFarmClientTypes {
             self.created = created
             self.device = device
             self.deviceMinutes = deviceMinutes
+            self.deviceProxy = deviceProxy
             self.deviceUdid = deviceUdid
             self.endpoint = endpoint
             self.hostAddress = hostAddress
@@ -2774,6 +2803,8 @@ extension DeviceFarmClientTypes {
         public var billingMethod: DeviceFarmClientTypes.BillingMethod?
         /// Input CustomerArtifactPaths object for the scheduled run configuration.
         public var customerArtifactPaths: DeviceFarmClientTypes.CustomerArtifactPaths?
+        /// The device proxy to be configured on the device for the run.
+        public var deviceProxy: DeviceFarmClientTypes.DeviceProxy?
         /// The ARN of the extra data for the run. The extra data is a .zip file that AWS Device Farm extracts to external data for Android or the app's sandbox for iOS.
         public var extraDataPackageArn: Swift.String?
         /// Information about the locale that is used for the run.
@@ -2791,6 +2822,7 @@ extension DeviceFarmClientTypes {
             auxiliaryApps: [Swift.String]? = nil,
             billingMethod: DeviceFarmClientTypes.BillingMethod? = nil,
             customerArtifactPaths: DeviceFarmClientTypes.CustomerArtifactPaths? = nil,
+            deviceProxy: DeviceFarmClientTypes.DeviceProxy? = nil,
             extraDataPackageArn: Swift.String? = nil,
             locale: Swift.String? = nil,
             location: DeviceFarmClientTypes.Location? = nil,
@@ -2801,6 +2833,7 @@ extension DeviceFarmClientTypes {
             self.auxiliaryApps = auxiliaryApps
             self.billingMethod = billingMethod
             self.customerArtifactPaths = customerArtifactPaths
+            self.deviceProxy = deviceProxy
             self.extraDataPackageArn = extraDataPackageArn
             self.locale = locale
             self.location = location
@@ -2997,6 +3030,8 @@ public struct GetDevicePoolCompatibilityInput: Swift.Sendable {
     /// The device pool's ARN.
     /// This member is required.
     public var devicePoolArn: Swift.String?
+    /// The ARN of the project for which you want to check device pool compatibility.
+    public var projectArn: Swift.String?
     /// Information about the uploaded test to be run against the device pool.
     public var test: DeviceFarmClientTypes.ScheduleRunTest?
     /// The test type for the specified device pool. Allowed values include the following:
@@ -3034,12 +3069,14 @@ public struct GetDevicePoolCompatibilityInput: Swift.Sendable {
         appArn: Swift.String? = nil,
         configuration: DeviceFarmClientTypes.ScheduleRunConfiguration? = nil,
         devicePoolArn: Swift.String? = nil,
+        projectArn: Swift.String? = nil,
         test: DeviceFarmClientTypes.ScheduleRunTest? = nil,
         testType: DeviceFarmClientTypes.TestType? = nil
     ) {
         self.appArn = appArn
         self.configuration = configuration
         self.devicePoolArn = devicePoolArn
+        self.projectArn = projectArn
         self.test = test
         self.testType = testType
     }
@@ -3790,6 +3827,8 @@ extension DeviceFarmClientTypes {
         public var deviceMinutes: DeviceFarmClientTypes.DeviceMinutes?
         /// The ARN of the device pool for the run.
         public var devicePoolArn: Swift.String?
+        /// The device proxy configured for the devices in the run.
+        public var deviceProxy: DeviceFarmClientTypes.DeviceProxy?
         /// The results of a device filter used to select the devices for a test run.
         public var deviceSelectionResult: DeviceFarmClientTypes.DeviceSelectionResult?
         /// For fuzz tests, this is the number of events, between 1 and 10000, that the UI fuzz test should perform.
@@ -3911,6 +3950,7 @@ extension DeviceFarmClientTypes {
             customerArtifactPaths: DeviceFarmClientTypes.CustomerArtifactPaths? = nil,
             deviceMinutes: DeviceFarmClientTypes.DeviceMinutes? = nil,
             devicePoolArn: Swift.String? = nil,
+            deviceProxy: DeviceFarmClientTypes.DeviceProxy? = nil,
             deviceSelectionResult: DeviceFarmClientTypes.DeviceSelectionResult? = nil,
             eventCount: Swift.Int? = nil,
             jobTimeoutMinutes: Swift.Int? = nil,
@@ -3944,6 +3984,7 @@ extension DeviceFarmClientTypes {
             self.customerArtifactPaths = customerArtifactPaths
             self.deviceMinutes = deviceMinutes
             self.devicePoolArn = devicePoolArn
+            self.deviceProxy = deviceProxy
             self.deviceSelectionResult = deviceSelectionResult
             self.eventCount = eventCount
             self.jobTimeoutMinutes = jobTimeoutMinutes
@@ -7323,6 +7364,7 @@ extension GetDevicePoolCompatibilityInput {
         try writer["appArn"].write(value.appArn)
         try writer["configuration"].write(value.configuration, with: DeviceFarmClientTypes.ScheduleRunConfiguration.write(value:to:))
         try writer["devicePoolArn"].write(value.devicePoolArn)
+        try writer["projectArn"].write(value.projectArn)
         try writer["test"].write(value.test, with: DeviceFarmClientTypes.ScheduleRunTest.write(value:to:))
         try writer["testType"].write(value.testType)
     }
@@ -10044,19 +10086,6 @@ enum UpdateVPCEConfigurationOutputError {
     }
 }
 
-extension NotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = NotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ArgumentException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ArgumentException {
@@ -10070,11 +10099,11 @@ extension ArgumentException {
     }
 }
 
-extension ServiceAccountException {
+extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceAccountException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = ServiceAccountException()
+        var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10083,11 +10112,24 @@ extension ServiceAccountException {
     }
 }
 
-extension LimitExceededException {
+extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = NotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceAccountException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceAccountException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceAccountException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10175,11 +10217,11 @@ extension IdempotencyException {
     }
 }
 
-extension TooManyTagsException {
+extension TagPolicyException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagPolicyException {
         let reader = baseError.errorBodyReader
-        var value = TooManyTagsException()
+        var value = TagPolicyException()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.resourceName = try reader["resourceName"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -10189,11 +10231,11 @@ extension TooManyTagsException {
     }
 }
 
-extension TagPolicyException {
+extension TooManyTagsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagPolicyException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
         let reader = baseError.errorBodyReader
-        var value = TagPolicyException()
+        var value = TooManyTagsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.properties.resourceName = try reader["resourceName"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -10333,6 +10375,24 @@ extension DeviceFarmClientTypes.RemoteAccessSession {
         value.interactionMode = try reader["interactionMode"].readIfPresent()
         value.skipAppResign = try reader["skipAppResign"].readIfPresent()
         value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: DeviceFarmClientTypes.VpcConfig.read(from:))
+        value.deviceProxy = try reader["deviceProxy"].readIfPresent(with: DeviceFarmClientTypes.DeviceProxy.read(from:))
+        return value
+    }
+}
+
+extension DeviceFarmClientTypes.DeviceProxy {
+
+    static func write(value: DeviceFarmClientTypes.DeviceProxy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["host"].write(value.host)
+        try writer["port"].write(value.port)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeviceFarmClientTypes.DeviceProxy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeviceFarmClientTypes.DeviceProxy()
+        value.host = try reader["host"].readIfPresent() ?? ""
+        value.port = try reader["port"].readIfPresent() ?? 3128
         return value
     }
 }
@@ -10644,6 +10704,7 @@ extension DeviceFarmClientTypes.Run {
         value.billingMethod = try reader["billingMethod"].readIfPresent()
         value.deviceMinutes = try reader["deviceMinutes"].readIfPresent(with: DeviceFarmClientTypes.DeviceMinutes.read(from:))
         value.networkProfile = try reader["networkProfile"].readIfPresent(with: DeviceFarmClientTypes.NetworkProfile.read(from:))
+        value.deviceProxy = try reader["deviceProxy"].readIfPresent(with: DeviceFarmClientTypes.DeviceProxy.read(from:))
         value.parsingResultUrl = try reader["parsingResultUrl"].readIfPresent()
         value.resultCode = try reader["resultCode"].readIfPresent()
         value.seed = try reader["seed"].readIfPresent()
@@ -10944,6 +11005,7 @@ extension DeviceFarmClientTypes.CreateRemoteAccessSessionConfiguration {
     static func write(value: DeviceFarmClientTypes.CreateRemoteAccessSessionConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["billingMethod"].write(value.billingMethod)
+        try writer["deviceProxy"].write(value.deviceProxy, with: DeviceFarmClientTypes.DeviceProxy.write(value:to:))
         try writer["vpceConfigurationArns"].writeList(value.vpceConfigurationArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -10967,6 +11029,7 @@ extension DeviceFarmClientTypes.ScheduleRunConfiguration {
         try writer["auxiliaryApps"].writeList(value.auxiliaryApps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["billingMethod"].write(value.billingMethod)
         try writer["customerArtifactPaths"].write(value.customerArtifactPaths, with: DeviceFarmClientTypes.CustomerArtifactPaths.write(value:to:))
+        try writer["deviceProxy"].write(value.deviceProxy, with: DeviceFarmClientTypes.DeviceProxy.write(value:to:))
         try writer["extraDataPackageArn"].write(value.extraDataPackageArn)
         try writer["locale"].write(value.locale)
         try writer["location"].write(value.location, with: DeviceFarmClientTypes.Location.write(value:to:))

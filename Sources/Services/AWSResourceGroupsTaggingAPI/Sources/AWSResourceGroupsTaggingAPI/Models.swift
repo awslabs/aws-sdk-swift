@@ -1086,11 +1086,11 @@ enum UntagResourcesOutputError {
     }
 }
 
-extension InternalServiceException {
+extension ConstraintViolationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConstraintViolationException {
         let reader = baseError.errorBodyReader
-        var value = InternalServiceException()
+        var value = ConstraintViolationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1099,11 +1099,11 @@ extension InternalServiceException {
     }
 }
 
-extension ConstraintViolationException {
+extension InternalServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConstraintViolationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceException {
         let reader = baseError.errorBodyReader
-        var value = ConstraintViolationException()
+        var value = InternalServiceException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

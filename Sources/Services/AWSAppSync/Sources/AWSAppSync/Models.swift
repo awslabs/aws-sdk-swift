@@ -476,12 +476,14 @@ extension AppSyncClientTypes {
 
     public enum ApiCachingBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fullRequestCaching
+        case operationLevelCaching
         case perResolverCaching
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ApiCachingBehavior] {
             return [
                 .fullRequestCaching,
+                .operationLevelCaching,
                 .perResolverCaching
             ]
         }
@@ -494,6 +496,7 @@ extension AppSyncClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .fullRequestCaching: return "FULL_REQUEST_CACHING"
+            case .operationLevelCaching: return "OPERATION_LEVEL_CACHING"
             case .perResolverCaching: return "PER_RESOLVER_CACHING"
             case let .sdkUnknown(s): return s
             }
@@ -642,9 +645,11 @@ extension AppSyncClientTypes {
     public struct ApiCache: Swift.Sendable {
         /// Caching behavior.
         ///
-        /// * FULL_REQUEST_CACHING: All requests are fully cached.
+        /// * FULL_REQUEST_CACHING: All requests from the same user are cached. Individual resolvers are automatically cached. All API calls will try to return responses from the cache.
         ///
         /// * PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.
+        ///
+        /// * OPERATION_LEVEL_CACHING: Full requests are cached together and returned without executing resolvers.
         public var apiCachingBehavior: AppSyncClientTypes.ApiCachingBehavior?
         /// At-rest encryption flag for cache. You cannot update this setting after creation.
         public var atRestEncryptionEnabled: Swift.Bool
@@ -1506,15 +1511,18 @@ public struct CreateApiOutput: Swift.Sendable {
 public struct CreateApiCacheInput: Swift.Sendable {
     /// Caching behavior.
     ///
-    /// * FULL_REQUEST_CACHING: All requests are fully cached.
+    /// * FULL_REQUEST_CACHING: All requests from the same user are cached. Individual resolvers are automatically cached. All API calls will try to return responses from the cache.
     ///
     /// * PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.
+    ///
+    /// * OPERATION_LEVEL_CACHING: Full requests are cached together and returned without executing resolvers.
     /// This member is required.
     public var apiCachingBehavior: AppSyncClientTypes.ApiCachingBehavior?
     /// The GraphQL API ID.
     /// This member is required.
     public var apiId: Swift.String?
     /// At-rest encryption flag for cache. You cannot update this setting after creation.
+    @available(*, deprecated, message: "atRestEncryptionEnabled attribute is deprecated. Encryption at rest is always enabled. API deprecated since 5/15/2025")
     public var atRestEncryptionEnabled: Swift.Bool?
     /// Controls how cache health metrics will be emitted to CloudWatch. Cache health metrics include:
     ///
@@ -1526,6 +1534,7 @@ public struct CreateApiCacheInput: Swift.Sendable {
     /// Metrics will be recorded by API ID. You can set the value to ENABLED or DISABLED.
     public var healthMetricsConfig: AppSyncClientTypes.CacheHealthMetricsConfig?
     /// Transit encryption flag when connecting to cache. You cannot update this setting after creation.
+    @available(*, deprecated, message: "transitEncryptionEnabled attribute is deprecated. Encryption in transit is always enabled. API deprecated since 5/15/2025")
     public var transitEncryptionEnabled: Swift.Bool?
     /// TTL in seconds for cache entries. Valid values are 1–3,600 seconds.
     /// This member is required.
@@ -1652,12 +1661,147 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
+extension AppSyncClientTypes {
+
+    public enum HandlerBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case code
+        case direct
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HandlerBehavior] {
+            return [
+                .code,
+                .direct
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .code: return "CODE"
+            case .direct: return "DIRECT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppSyncClientTypes {
+
+    public enum InvokeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case event
+        case requestResponse
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InvokeType] {
+            return [
+                .event,
+                .requestResponse
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .event: return "EVENT"
+            case .requestResponse: return "REQUEST_RESPONSE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppSyncClientTypes {
+
+    /// The configuration for a Lambda data source.
+    public struct LambdaConfig: Swift.Sendable {
+        /// The invocation type for a Lambda data source.
+        public var invokeType: AppSyncClientTypes.InvokeType?
+
+        public init(
+            invokeType: AppSyncClientTypes.InvokeType? = nil
+        ) {
+            self.invokeType = invokeType
+        }
+    }
+}
+
+extension AppSyncClientTypes {
+
+    /// The integration data source configuration for the handler.
+    public struct Integration: Swift.Sendable {
+        /// The unique name of the data source that has been configured on the API.
+        /// This member is required.
+        public var dataSourceName: Swift.String?
+        /// The configuration for a Lambda data source.
+        public var lambdaConfig: AppSyncClientTypes.LambdaConfig?
+
+        public init(
+            dataSourceName: Swift.String? = nil,
+            lambdaConfig: AppSyncClientTypes.LambdaConfig? = nil
+        ) {
+            self.dataSourceName = dataSourceName
+            self.lambdaConfig = lambdaConfig
+        }
+    }
+}
+
+extension AppSyncClientTypes {
+
+    /// The configuration for a handler.
+    public struct HandlerConfig: Swift.Sendable {
+        /// The behavior for the handler.
+        /// This member is required.
+        public var behavior: AppSyncClientTypes.HandlerBehavior?
+        /// The integration data source configuration for the handler.
+        /// This member is required.
+        public var integration: AppSyncClientTypes.Integration?
+
+        public init(
+            behavior: AppSyncClientTypes.HandlerBehavior? = nil,
+            integration: AppSyncClientTypes.Integration? = nil
+        ) {
+            self.behavior = behavior
+            self.integration = integration
+        }
+    }
+}
+
+extension AppSyncClientTypes {
+
+    /// The configuration for the OnPublish and OnSubscribe handlers.
+    public struct HandlerConfigs: Swift.Sendable {
+        /// The configuration for the OnPublish handler.
+        public var onPublish: AppSyncClientTypes.HandlerConfig?
+        /// The configuration for the OnSubscribe handler.
+        public var onSubscribe: AppSyncClientTypes.HandlerConfig?
+
+        public init(
+            onPublish: AppSyncClientTypes.HandlerConfig? = nil,
+            onSubscribe: AppSyncClientTypes.HandlerConfig? = nil
+        ) {
+            self.onPublish = onPublish
+            self.onSubscribe = onSubscribe
+        }
+    }
+}
+
 public struct CreateChannelNamespaceInput: Swift.Sendable {
     /// The Api ID.
     /// This member is required.
     public var apiId: Swift.String?
     /// The event handler functions that run custom business logic to process published events and subscribe requests.
     public var codeHandlers: Swift.String?
+    /// The configuration for the OnPublish and OnSubscribe handlers.
+    public var handlerConfigs: AppSyncClientTypes.HandlerConfigs?
     /// The name of the ChannelNamespace. This name must be unique within the Api
     /// This member is required.
     public var name: Swift.String?
@@ -1671,6 +1815,7 @@ public struct CreateChannelNamespaceInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         codeHandlers: Swift.String? = nil,
+        handlerConfigs: AppSyncClientTypes.HandlerConfigs? = nil,
         name: Swift.String? = nil,
         publishAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
         subscribeAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
@@ -1678,6 +1823,7 @@ public struct CreateChannelNamespaceInput: Swift.Sendable {
     ) {
         self.apiId = apiId
         self.codeHandlers = codeHandlers
+        self.handlerConfigs = handlerConfigs
         self.name = name
         self.publishAuthModes = publishAuthModes
         self.subscribeAuthModes = subscribeAuthModes
@@ -1697,6 +1843,8 @@ extension AppSyncClientTypes {
         public var codeHandlers: Swift.String?
         /// The date and time that the ChannelNamespace was created.
         public var created: Foundation.Date?
+        /// The configuration for the OnPublish and OnSubscribe handlers.
+        public var handlerConfigs: AppSyncClientTypes.HandlerConfigs?
         /// The date and time that the ChannelNamespace was last changed.
         public var lastModified: Foundation.Date?
         /// The name of the channel namespace. This name must be unique within the Api.
@@ -1713,6 +1861,7 @@ extension AppSyncClientTypes {
             channelNamespaceArn: Swift.String? = nil,
             codeHandlers: Swift.String? = nil,
             created: Foundation.Date? = nil,
+            handlerConfigs: AppSyncClientTypes.HandlerConfigs? = nil,
             lastModified: Foundation.Date? = nil,
             name: Swift.String? = nil,
             publishAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
@@ -1723,6 +1872,7 @@ extension AppSyncClientTypes {
             self.channelNamespaceArn = channelNamespaceArn
             self.codeHandlers = codeHandlers
             self.created = created
+            self.handlerConfigs = handlerConfigs
             self.lastModified = lastModified
             self.name = name
             self.publishAuthModes = publishAuthModes
@@ -2212,15 +2362,19 @@ public struct CreateDomainNameInput: Swift.Sendable {
     /// The domain name.
     /// This member is required.
     public var domainName: Swift.String?
+    /// A map with keys of TagKey objects and values of TagValue objects.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         certificateArn: Swift.String? = nil,
         description: Swift.String? = nil,
-        domainName: Swift.String? = nil
+        domainName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.certificateArn = certificateArn
         self.description = description
         self.domainName = domainName
+        self.tags = tags
     }
 }
 
@@ -2236,21 +2390,29 @@ extension AppSyncClientTypes {
         public var description: Swift.String?
         /// The domain name.
         public var domainName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the domain name.
+        public var domainNameArn: Swift.String?
         /// The ID of your Amazon Route 53 hosted zone.
         public var hostedZoneId: Swift.String?
+        /// A map with keys of TagKey objects and values of TagValue objects.
+        public var tags: [Swift.String: Swift.String]?
 
         public init(
             appsyncDomainName: Swift.String? = nil,
             certificateArn: Swift.String? = nil,
             description: Swift.String? = nil,
             domainName: Swift.String? = nil,
-            hostedZoneId: Swift.String? = nil
+            domainNameArn: Swift.String? = nil,
+            hostedZoneId: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil
         ) {
             self.appsyncDomainName = appsyncDomainName
             self.certificateArn = certificateArn
             self.description = description
             self.domainName = domainName
+            self.domainNameArn = domainNameArn
             self.hostedZoneId = hostedZoneId
+            self.tags = tags
         }
     }
 }
@@ -5199,9 +5361,11 @@ public struct UpdateApiOutput: Swift.Sendable {
 public struct UpdateApiCacheInput: Swift.Sendable {
     /// Caching behavior.
     ///
-    /// * FULL_REQUEST_CACHING: All requests are fully cached.
+    /// * FULL_REQUEST_CACHING: All requests from the same user are cached. Individual resolvers are automatically cached. All API calls will try to return responses from the cache.
     ///
     /// * PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.
+    ///
+    /// * OPERATION_LEVEL_CACHING: Full requests are cached together and returned without executing resolvers.
     /// This member is required.
     public var apiCachingBehavior: AppSyncClientTypes.ApiCachingBehavior?
     /// The GraphQL API ID.
@@ -5325,6 +5489,8 @@ public struct UpdateChannelNamespaceInput: Swift.Sendable {
     public var apiId: Swift.String?
     /// The event handler functions that run custom business logic to process published events and subscribe requests.
     public var codeHandlers: Swift.String?
+    /// The configuration for the OnPublish and OnSubscribe handlers.
+    public var handlerConfigs: AppSyncClientTypes.HandlerConfigs?
     /// The name of the ChannelNamespace.
     /// This member is required.
     public var name: Swift.String?
@@ -5336,12 +5502,14 @@ public struct UpdateChannelNamespaceInput: Swift.Sendable {
     public init(
         apiId: Swift.String? = nil,
         codeHandlers: Swift.String? = nil,
+        handlerConfigs: AppSyncClientTypes.HandlerConfigs? = nil,
         name: Swift.String? = nil,
         publishAuthModes: [AppSyncClientTypes.AuthMode]? = nil,
         subscribeAuthModes: [AppSyncClientTypes.AuthMode]? = nil
     ) {
         self.apiId = apiId
         self.codeHandlers = codeHandlers
+        self.handlerConfigs = handlerConfigs
         self.name = name
         self.publishAuthModes = publishAuthModes
         self.subscribeAuthModes = subscribeAuthModes
@@ -7039,6 +7207,7 @@ extension CreateChannelNamespaceInput {
     static func write(value: CreateChannelNamespaceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["codeHandlers"].write(value.codeHandlers)
+        try writer["handlerConfigs"].write(value.handlerConfigs, with: AppSyncClientTypes.HandlerConfigs.write(value:to:))
         try writer["name"].write(value.name)
         try writer["publishAuthModes"].writeList(value.publishAuthModes, memberWritingClosure: AppSyncClientTypes.AuthMode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["subscribeAuthModes"].writeList(value.subscribeAuthModes, memberWritingClosure: AppSyncClientTypes.AuthMode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -7072,6 +7241,7 @@ extension CreateDomainNameInput {
         try writer["certificateArn"].write(value.certificateArn)
         try writer["description"].write(value.description)
         try writer["domainName"].write(value.domainName)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -7231,6 +7401,7 @@ extension UpdateChannelNamespaceInput {
     static func write(value: UpdateChannelNamespaceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["codeHandlers"].write(value.codeHandlers)
+        try writer["handlerConfigs"].write(value.handlerConfigs, with: AppSyncClientTypes.HandlerConfigs.write(value:to:))
         try writer["publishAuthModes"].writeList(value.publishAuthModes, memberWritingClosure: AppSyncClientTypes.AuthMode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["subscribeAuthModes"].writeList(value.subscribeAuthModes, memberWritingClosure: AppSyncClientTypes.AuthMode.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -9501,24 +9672,11 @@ enum UpdateTypeOutputError {
     }
 }
 
-extension NotFoundException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = NotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalFailureException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
-        let reader = baseError.errorBodyReader
-        var value = InternalFailureException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9542,11 +9700,11 @@ extension BadRequestException {
     }
 }
 
-extension AccessDeniedException {
+extension InternalFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = InternalFailureException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9555,11 +9713,11 @@ extension AccessDeniedException {
     }
 }
 
-extension LimitExceededException {
+extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = NotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9573,6 +9731,19 @@ extension ConcurrentModificationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConcurrentModificationException {
         let reader = baseError.errorBodyReader
         var value = ConcurrentModificationException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension LimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9917,6 +10088,73 @@ extension AppSyncClientTypes.ChannelNamespace {
         value.channelNamespaceArn = try reader["channelNamespaceArn"].readIfPresent()
         value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModified = try reader["lastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.handlerConfigs = try reader["handlerConfigs"].readIfPresent(with: AppSyncClientTypes.HandlerConfigs.read(from:))
+        return value
+    }
+}
+
+extension AppSyncClientTypes.HandlerConfigs {
+
+    static func write(value: AppSyncClientTypes.HandlerConfigs?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["onPublish"].write(value.onPublish, with: AppSyncClientTypes.HandlerConfig.write(value:to:))
+        try writer["onSubscribe"].write(value.onSubscribe, with: AppSyncClientTypes.HandlerConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.HandlerConfigs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppSyncClientTypes.HandlerConfigs()
+        value.onPublish = try reader["onPublish"].readIfPresent(with: AppSyncClientTypes.HandlerConfig.read(from:))
+        value.onSubscribe = try reader["onSubscribe"].readIfPresent(with: AppSyncClientTypes.HandlerConfig.read(from:))
+        return value
+    }
+}
+
+extension AppSyncClientTypes.HandlerConfig {
+
+    static func write(value: AppSyncClientTypes.HandlerConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["behavior"].write(value.behavior)
+        try writer["integration"].write(value.integration, with: AppSyncClientTypes.Integration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.HandlerConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppSyncClientTypes.HandlerConfig()
+        value.behavior = try reader["behavior"].readIfPresent() ?? .sdkUnknown("")
+        value.integration = try reader["integration"].readIfPresent(with: AppSyncClientTypes.Integration.read(from:))
+        return value
+    }
+}
+
+extension AppSyncClientTypes.Integration {
+
+    static func write(value: AppSyncClientTypes.Integration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataSourceName"].write(value.dataSourceName)
+        try writer["lambdaConfig"].write(value.lambdaConfig, with: AppSyncClientTypes.LambdaConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.Integration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppSyncClientTypes.Integration()
+        value.dataSourceName = try reader["dataSourceName"].readIfPresent() ?? ""
+        value.lambdaConfig = try reader["lambdaConfig"].readIfPresent(with: AppSyncClientTypes.LambdaConfig.read(from:))
+        return value
+    }
+}
+
+extension AppSyncClientTypes.LambdaConfig {
+
+    static func write(value: AppSyncClientTypes.LambdaConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["invokeType"].write(value.invokeType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppSyncClientTypes.LambdaConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppSyncClientTypes.LambdaConfig()
+        value.invokeType = try reader["invokeType"].readIfPresent()
         return value
     }
 }
@@ -10150,6 +10388,8 @@ extension AppSyncClientTypes.DomainNameConfig {
         value.certificateArn = try reader["certificateArn"].readIfPresent()
         value.appsyncDomainName = try reader["appsyncDomainName"].readIfPresent()
         value.hostedZoneId = try reader["hostedZoneId"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.domainNameArn = try reader["domainNameArn"].readIfPresent()
         return value
     }
 }

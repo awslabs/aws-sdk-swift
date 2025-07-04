@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "AWSCodeCatalyst",
     platforms: [
-        .macOS(.v10_15), .iOS(.v13)
+        .macOS(.v12), .iOS(.v13)
     ],
     products: [
         .library(name: "AWSCodeCatalyst", targets: ["AWSCodeCatalyst"])
@@ -21,6 +21,18 @@ let package = Package(
         ),
         .package(
             id: "aws-sdk-swift.AWSSDKIdentity",
+            exact: "0.0.1"
+        ),
+        .package(
+            id: "aws-sdk-swift.InternalAWSSSO",
+            exact: "0.0.1"
+        ),
+        .package(
+            id: "aws-sdk-swift.InternalAWSSSOOIDC",
+            exact: "0.0.1"
+        ),
+        .package(
+            id: "aws-sdk-swift.InternalAWSSTS",
             exact: "0.0.1"
         ),
         .package(
@@ -47,6 +59,18 @@ let package = Package(
                 .product(
                     name: "ClientRuntime",
                     package: "smithy-swift"
+                ),
+                .product(
+                    name: "InternalAWSSSO",
+                    package: "aws-sdk-swift.InternalAWSSSO"
+                ),
+                .product(
+                    name: "InternalAWSSSOOIDC",
+                    package: "aws-sdk-swift.InternalAWSSSOOIDC"
+                ),
+                .product(
+                    name: "InternalAWSSTS",
+                    package: "aws-sdk-swift.InternalAWSSTS"
                 ),
                 .product(
                     name: "Smithy",

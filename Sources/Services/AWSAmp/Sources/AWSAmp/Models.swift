@@ -39,6 +39,11 @@ public struct DeleteLoggingConfigurationOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteQueryLoggingConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteRuleGroupsNamespaceOutput: Swift.Sendable {
 
     public init() { }
@@ -633,11 +638,11 @@ extension AmpClientTypes {
 
 extension AmpClientTypes {
 
-    /// To configure roles that allows users to write to an Amazon Managed Service for Prometheus workspace in a different account.
+    /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
     public struct RoleConfiguration: Swift.Sendable {
-        /// A ARN identifying the source role configuration.
+        /// The Amazon Resource Name (ARN) of the role used in the source account to enable cross-account scraping. For information about the contents of this policy, see [Cross-account setup](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#cross-account-remote-write).
         public var sourceRoleArn: Swift.String?
-        /// A ARN identifying the target role configuration.
+        /// The Amazon Resource Name (ARN) of the role used in the target account to enable cross-account scraping. For information about the contents of this policy, see [Cross-account setup](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#cross-account-remote-write).
         public var targetRoleArn: Swift.String?
 
         public init(
@@ -704,7 +709,7 @@ public struct CreateScraperInput: Swift.Sendable {
     /// The Amazon Managed Service for Prometheus workspace to send metrics to.
     /// This member is required.
     public var destination: AmpClientTypes.Destination?
-    /// The scraper role configuration for the workspace.
+    /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
     public var roleConfiguration: AmpClientTypes.RoleConfiguration?
     /// The configuration file to use in the new scraper. For more information, see [Scraper configuration](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-configuration) in the Amazon Managed Service for Prometheus User Guide.
     /// This member is required.
@@ -898,7 +903,7 @@ extension AmpClientTypes {
         /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the scraper to discover and collect metrics on your behalf. For example, arn:aws:iam::123456789012:role/service-role/AmazonGrafanaServiceRole-12example.
         /// This member is required.
         public var roleArn: Swift.String?
-        /// To configure roles that allows users to write to an Amazon Managed Service for Prometheus workspace in a different account.
+        /// This structure displays information about the IAM roles used for cross-account scraping configuration.
         public var roleConfiguration: AmpClientTypes.RoleConfiguration?
         /// The configuration in use by the scraper.
         /// This member is required.
@@ -1003,7 +1008,7 @@ extension AmpClientTypes {
         /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the scraper to discover and collect metrics on your behalf.
         /// This member is required.
         public var roleArn: Swift.String?
-        /// To configure roles that allows users to write to an Amazon Managed Service for Prometheus workspace in a different account.
+        /// This structure displays information about the IAM roles used for cross-account scraping configuration.
         public var roleConfiguration: AmpClientTypes.RoleConfiguration?
         /// The ID of the scraper.
         /// This member is required.
@@ -1073,7 +1078,7 @@ public struct UpdateScraperInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The new Amazon Managed Service for Prometheus workspace to send metrics to.
     public var destination: AmpClientTypes.Destination?
-    /// The scraper role configuration for the workspace.
+    /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
     public var roleConfiguration: AmpClientTypes.RoleConfiguration?
     /// Contains the base-64 encoded YAML configuration for the scraper. For more information about configuring a scraper, see [Using an Amazon Web Services managed collector](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html) in the Amazon Managed Service for Prometheus User Guide.
     public var scrapeConfiguration: AmpClientTypes.ScrapeConfiguration?
@@ -1527,7 +1532,7 @@ extension AmpClientTypes {
 
     /// The status of the logging configuration.
     public struct LoggingConfigurationStatus: Swift.Sendable {
-        /// The current status of the logging configuration.
+        /// The current status of the current rules and alerting logging configuration. These logging configurations are only for rules and alerting logs.
         /// This member is required.
         public var statusCode: AmpClientTypes.LoggingConfigurationStatusCode?
         /// If failed, the reason for the failure.
@@ -1588,7 +1593,7 @@ public struct DescribeLoggingConfigurationInput: Swift.Sendable {
 
 extension AmpClientTypes {
 
-    /// Contains information about the logging configuration for the workspace.
+    /// Contains information about the current rules and alerting logging configuration for the workspace. These logging configurations are only for rules and alerting logs.
     public struct LoggingConfigurationMetadata: Swift.Sendable {
         /// The date and time that the logging configuration was created.
         /// This member is required.
@@ -1665,6 +1670,268 @@ public struct UpdateLoggingConfigurationOutput: Swift.Sendable {
 
     public init(
         status: AmpClientTypes.LoggingConfigurationStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
+extension AmpClientTypes {
+
+    /// Configuration details for logging to CloudWatch Logs.
+    public struct CloudWatchLogDestination: Swift.Sendable {
+        /// The ARN of the CloudWatch log group to which the vended log data will be published. This log group must exist prior to calling this operation.
+        /// This member is required.
+        public var logGroupArn: Swift.String?
+
+        public init(
+            logGroupArn: Swift.String? = nil
+        ) {
+            self.logGroupArn = logGroupArn
+        }
+    }
+}
+
+extension AmpClientTypes {
+
+    /// Filtering criteria that determine which queries are logged.
+    public struct LoggingFilter: Swift.Sendable {
+        /// The Query Samples Processed (QSP) threshold above which queries will be logged. Queries processing more samples than this threshold will be captured in logs.
+        /// This member is required.
+        public var qspThreshold: Swift.Int?
+
+        public init(
+            qspThreshold: Swift.Int? = nil
+        ) {
+            self.qspThreshold = qspThreshold
+        }
+    }
+}
+
+extension AmpClientTypes {
+
+    /// Defines a destination and its associated filtering criteria for query logging.
+    public struct LoggingDestination: Swift.Sendable {
+        /// Configuration details for logging to CloudWatch Logs.
+        /// This member is required.
+        public var cloudWatchLogs: AmpClientTypes.CloudWatchLogDestination?
+        /// Filtering criteria that determine which queries are logged.
+        /// This member is required.
+        public var filters: AmpClientTypes.LoggingFilter?
+
+        public init(
+            cloudWatchLogs: AmpClientTypes.CloudWatchLogDestination? = nil,
+            filters: AmpClientTypes.LoggingFilter? = nil
+        ) {
+            self.cloudWatchLogs = cloudWatchLogs
+            self.filters = filters
+        }
+    }
+}
+
+public struct CreateQueryLoggingConfigurationInput: Swift.Sendable {
+    /// (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The destinations where query logs will be sent. Only CloudWatch Logs destination is supported. The list must contain exactly one element.
+    /// This member is required.
+    public var destinations: [AmpClientTypes.LoggingDestination]?
+    /// The ID of the workspace for which to create the query logging configuration.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        destinations: [AmpClientTypes.LoggingDestination]? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.destinations = destinations
+        self.workspaceId = workspaceId
+    }
+}
+
+extension AmpClientTypes {
+
+    public enum QueryLoggingConfigurationStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Query logging configuration is active.
+        case active
+        /// Query logging configuration is being created.
+        case creating
+        /// Query logging configuration creation failed.
+        case creationFailed
+        /// Query logging configuration is being deleted.
+        case deleting
+        /// Query logging configuration update failed.
+        case updateFailed
+        /// Query logging configuration is being updated.
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueryLoggingConfigurationStatusCode] {
+            return [
+                .active,
+                .creating,
+                .creationFailed,
+                .deleting,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .creationFailed: return "CREATION_FAILED"
+            case .deleting: return "DELETING"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AmpClientTypes {
+
+    /// The status information for a query logging configuration.
+    public struct QueryLoggingConfigurationStatus: Swift.Sendable {
+        /// The current status of the query logging configuration.
+        /// This member is required.
+        public var statusCode: AmpClientTypes.QueryLoggingConfigurationStatusCode?
+        /// If there is a failure, the reason for the failure.
+        public var statusReason: Swift.String?
+
+        public init(
+            statusCode: AmpClientTypes.QueryLoggingConfigurationStatusCode? = nil,
+            statusReason: Swift.String? = nil
+        ) {
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+        }
+    }
+}
+
+public struct CreateQueryLoggingConfigurationOutput: Swift.Sendable {
+    /// The current status of the query logging configuration.
+    /// This member is required.
+    public var status: AmpClientTypes.QueryLoggingConfigurationStatus?
+
+    public init(
+        status: AmpClientTypes.QueryLoggingConfigurationStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
+public struct DeleteQueryLoggingConfigurationInput: Swift.Sendable {
+    /// (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The ID of the workspace from which to delete the query logging configuration.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.workspaceId = workspaceId
+    }
+}
+
+public struct DescribeQueryLoggingConfigurationInput: Swift.Sendable {
+    /// The ID of the workspace for which to retrieve the query logging configuration.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        workspaceId: Swift.String? = nil
+    ) {
+        self.workspaceId = workspaceId
+    }
+}
+
+extension AmpClientTypes {
+
+    /// The metadata for a query logging configuration.
+    public struct QueryLoggingConfigurationMetadata: Swift.Sendable {
+        /// The date and time when the query logging configuration was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The configured destinations for the query logging configuration.
+        /// This member is required.
+        public var destinations: [AmpClientTypes.LoggingDestination]?
+        /// The date and time when the query logging configuration was last modified.
+        /// This member is required.
+        public var modifiedAt: Foundation.Date?
+        /// The current status of the query logging configuration.
+        /// This member is required.
+        public var status: AmpClientTypes.QueryLoggingConfigurationStatus?
+        /// The ID of the workspace associated with this query logging configuration.
+        /// This member is required.
+        public var workspace: Swift.String?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            destinations: [AmpClientTypes.LoggingDestination]? = nil,
+            modifiedAt: Foundation.Date? = nil,
+            status: AmpClientTypes.QueryLoggingConfigurationStatus? = nil,
+            workspace: Swift.String? = nil
+        ) {
+            self.createdAt = createdAt
+            self.destinations = destinations
+            self.modifiedAt = modifiedAt
+            self.status = status
+            self.workspace = workspace
+        }
+    }
+}
+
+public struct DescribeQueryLoggingConfigurationOutput: Swift.Sendable {
+    /// The detailed information about the query logging configuration for the specified workspace.
+    /// This member is required.
+    public var queryLoggingConfiguration: AmpClientTypes.QueryLoggingConfigurationMetadata?
+
+    public init(
+        queryLoggingConfiguration: AmpClientTypes.QueryLoggingConfigurationMetadata? = nil
+    ) {
+        self.queryLoggingConfiguration = queryLoggingConfiguration
+    }
+}
+
+public struct UpdateQueryLoggingConfigurationInput: Swift.Sendable {
+    /// (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The destinations where query logs will be sent. Only CloudWatch Logs destination is supported. The list must contain exactly one element.
+    /// This member is required.
+    public var destinations: [AmpClientTypes.LoggingDestination]?
+    /// The ID of the workspace for which to update the query logging configuration.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        destinations: [AmpClientTypes.LoggingDestination]? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.destinations = destinations
+        self.workspaceId = workspaceId
+    }
+}
+
+public struct UpdateQueryLoggingConfigurationOutput: Swift.Sendable {
+    /// The current status of the query logging configuration.
+    /// This member is required.
+    public var status: AmpClientTypes.QueryLoggingConfigurationStatus?
+
+    public init(
+        status: AmpClientTypes.QueryLoggingConfigurationStatus? = nil
     ) {
         self.status = status
     }
@@ -2051,6 +2318,181 @@ public struct UpdateWorkspaceAliasInput: Swift.Sendable {
     }
 }
 
+public struct DescribeWorkspaceConfigurationInput: Swift.Sendable {
+    /// The ID of the workspace that you want to retrieve information for. To find the IDs of your workspaces, use the [ListWorkspaces](https://docs.aws.amazon.com/prometheus/latest/APIReference/API_ListWorkspaces.htm) operation.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        workspaceId: Swift.String? = nil
+    ) {
+        self.workspaceId = workspaceId
+    }
+}
+
+extension AmpClientTypes {
+
+    /// This structure contains the information about the limits that apply to time series that match one label set.
+    public struct LimitsPerLabelSetEntry: Swift.Sendable {
+        /// The maximum number of active series that can be ingested that match this label set. Setting this to 0 causes no label set limit to be enforced, but it does cause Amazon Managed Service for Prometheus to vend label set metrics to CloudWatch
+        public var maxSeries: Swift.Int?
+
+        public init(
+            maxSeries: Swift.Int? = nil
+        ) {
+            self.maxSeries = maxSeries
+        }
+    }
+}
+
+extension AmpClientTypes {
+
+    /// This structure defines one label set used to enforce active time series limits for the workspace, and defines the limit for that label set. A label set is a unique combination of label-value pairs. Use them to control time series limits and to monitor usage by specific label groups. Example label sets might be team:finance or env:prod
+    public struct LimitsPerLabelSet: Swift.Sendable {
+        /// This defines one label set that will have an enforced active time series limit. Label values accept ASCII characters and must contain at least one character that isn't whitespace. ASCII control characters are not accepted. If the label name is metric name label __name__, then the metric part of the name must conform to the following pattern: [a-zA-Z_:][a-zA-Z0-9_:]*
+        /// This member is required.
+        public var labelSet: [Swift.String: Swift.String]?
+        /// This structure contains the information about the limits that apply to time series that match this label set.
+        /// This member is required.
+        public var limits: AmpClientTypes.LimitsPerLabelSetEntry?
+
+        public init(
+            labelSet: [Swift.String: Swift.String]? = nil,
+            limits: AmpClientTypes.LimitsPerLabelSetEntry? = nil
+        ) {
+            self.labelSet = labelSet
+            self.limits = limits
+        }
+    }
+}
+
+extension AmpClientTypes {
+
+    public enum WorkspaceConfigurationStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Workspace configuration has been updated. Update is disallowed until workspace configuration is ACTIVE and workspace status is ACTIVE.
+        case active
+        /// Workspace configuration update failed.
+        case updateFailed
+        /// Workspace configuration is being updated. Update is disallowed until workspace configuration is ACTIVE and workspace status is ACTIVE.
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkspaceConfigurationStatusCode] {
+            return [
+                .active,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AmpClientTypes {
+
+    /// This structure displays the current status of the workspace configuration, and might also contain a reason for that status.
+    public struct WorkspaceConfigurationStatus: Swift.Sendable {
+        /// The current status of the workspace configuration.
+        /// This member is required.
+        public var statusCode: AmpClientTypes.WorkspaceConfigurationStatusCode?
+        /// The reason for the current status, if a reason is available.
+        public var statusReason: Swift.String?
+
+        public init(
+            statusCode: AmpClientTypes.WorkspaceConfigurationStatusCode? = nil,
+            statusReason: Swift.String? = nil
+        ) {
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+        }
+    }
+}
+
+extension AmpClientTypes {
+
+    /// This structure contains the description of the workspace configuration.
+    public struct WorkspaceConfigurationDescription: Swift.Sendable {
+        /// This is an array of structures, where each structure displays one label sets for the workspace and the limits for that label set.
+        public var limitsPerLabelSet: [AmpClientTypes.LimitsPerLabelSet]?
+        /// This field displays how many days that metrics are retained in the workspace.
+        public var retentionPeriodInDays: Swift.Int?
+        /// This structure displays the current status of the workspace configuration, and might also contain a reason for that status.
+        /// This member is required.
+        public var status: AmpClientTypes.WorkspaceConfigurationStatus?
+
+        public init(
+            limitsPerLabelSet: [AmpClientTypes.LimitsPerLabelSet]? = nil,
+            retentionPeriodInDays: Swift.Int? = nil,
+            status: AmpClientTypes.WorkspaceConfigurationStatus? = nil
+        ) {
+            self.limitsPerLabelSet = limitsPerLabelSet
+            self.retentionPeriodInDays = retentionPeriodInDays
+            self.status = status
+        }
+    }
+}
+
+public struct DescribeWorkspaceConfigurationOutput: Swift.Sendable {
+    /// This structure contains the information about the workspace configuration.
+    /// This member is required.
+    public var workspaceConfiguration: AmpClientTypes.WorkspaceConfigurationDescription?
+
+    public init(
+        workspaceConfiguration: AmpClientTypes.WorkspaceConfigurationDescription? = nil
+    ) {
+        self.workspaceConfiguration = workspaceConfiguration
+    }
+}
+
+public struct UpdateWorkspaceConfigurationInput: Swift.Sendable {
+    /// You can include a token in your operation to make it an idempotent opeartion.
+    public var clientToken: Swift.String?
+    /// This is an array of structures, where each structure defines a label set for the workspace, and defines the active time series limit for each of those label sets. Each label name in a label set must be unique.
+    public var limitsPerLabelSet: [AmpClientTypes.LimitsPerLabelSet]?
+    /// Specifies how many days that metrics will be retained in the workspace.
+    public var retentionPeriodInDays: Swift.Int?
+    /// The ID of the workspace that you want to update. To find the IDs of your workspaces, use the [ListWorkspaces](https://docs.aws.amazon.com/prometheus/latest/APIReference/API_ListWorkspaces.htm) operation.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        limitsPerLabelSet: [AmpClientTypes.LimitsPerLabelSet]? = nil,
+        retentionPeriodInDays: Swift.Int? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.limitsPerLabelSet = limitsPerLabelSet
+        self.retentionPeriodInDays = retentionPeriodInDays
+        self.workspaceId = workspaceId
+    }
+}
+
+public struct UpdateWorkspaceConfigurationOutput: Swift.Sendable {
+    /// The status of the workspace configuration.
+    /// This member is required.
+    public var status: AmpClientTypes.WorkspaceConfigurationStatus?
+
+    public init(
+        status: AmpClientTypes.WorkspaceConfigurationStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
 extension CreateAlertManagerDefinitionInput {
 
     static func urlPathProvider(_ value: CreateAlertManagerDefinitionInput) -> Swift.String? {
@@ -2068,6 +2510,16 @@ extension CreateLoggingConfigurationInput {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/logging"
+    }
+}
+
+extension CreateQueryLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateQueryLoggingConfigurationInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/logging/query"
     }
 }
 
@@ -2130,6 +2582,28 @@ extension DeleteLoggingConfigurationInput {
 extension DeleteLoggingConfigurationInput {
 
     static func queryItemProvider(_ value: DeleteLoggingConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension DeleteQueryLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteQueryLoggingConfigurationInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/logging/query"
+    }
+}
+
+extension DeleteQueryLoggingConfigurationInput {
+
+    static func queryItemProvider(_ value: DeleteQueryLoggingConfigurationInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
             let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
@@ -2228,6 +2702,16 @@ extension DescribeLoggingConfigurationInput {
     }
 }
 
+extension DescribeQueryLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeQueryLoggingConfigurationInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/logging/query"
+    }
+}
+
 extension DescribeRuleGroupsNamespaceInput {
 
     static func urlPathProvider(_ value: DescribeRuleGroupsNamespaceInput) -> Swift.String? {
@@ -2258,6 +2742,16 @@ extension DescribeWorkspaceInput {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeWorkspaceConfigurationInput {
+
+    static func urlPathProvider(_ value: DescribeWorkspaceConfigurationInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/configuration"
     }
 }
 
@@ -2438,6 +2932,16 @@ extension UpdateLoggingConfigurationInput {
     }
 }
 
+extension UpdateQueryLoggingConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateQueryLoggingConfigurationInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/logging/query"
+    }
+}
+
 extension UpdateScraperInput {
 
     static func urlPathProvider(_ value: UpdateScraperInput) -> Swift.String? {
@@ -2458,6 +2962,16 @@ extension UpdateWorkspaceAliasInput {
     }
 }
 
+extension UpdateWorkspaceConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateWorkspaceConfigurationInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/configuration"
+    }
+}
+
 extension CreateAlertManagerDefinitionInput {
 
     static func write(value: CreateAlertManagerDefinitionInput?, to writer: SmithyJSON.Writer) throws {
@@ -2473,6 +2987,15 @@ extension CreateLoggingConfigurationInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["logGroupArn"].write(value.logGroupArn)
+    }
+}
+
+extension CreateQueryLoggingConfigurationInput {
+
+    static func write(value: CreateQueryLoggingConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["destinations"].writeList(value.destinations, memberWritingClosure: AmpClientTypes.LoggingDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -2547,6 +3070,15 @@ extension UpdateLoggingConfigurationInput {
     }
 }
 
+extension UpdateQueryLoggingConfigurationInput {
+
+    static func write(value: UpdateQueryLoggingConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["destinations"].writeList(value.destinations, memberWritingClosure: AmpClientTypes.LoggingDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension UpdateScraperInput {
 
     static func write(value: UpdateScraperInput?, to writer: SmithyJSON.Writer) throws {
@@ -2565,6 +3097,16 @@ extension UpdateWorkspaceAliasInput {
         guard let value else { return }
         try writer["alias"].write(value.alias)
         try writer["clientToken"].write(value.clientToken)
+    }
+}
+
+extension UpdateWorkspaceConfigurationInput {
+
+    static func write(value: UpdateWorkspaceConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["limitsPerLabelSet"].writeList(value.limitsPerLabelSet, memberWritingClosure: AmpClientTypes.LimitsPerLabelSet.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["retentionPeriodInDays"].write(value.retentionPeriodInDays)
     }
 }
 
@@ -2588,6 +3130,18 @@ extension CreateLoggingConfigurationOutput {
         let reader = responseReader
         var value = CreateLoggingConfigurationOutput()
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.LoggingConfigurationStatus.read(from:))
+        return value
+    }
+}
+
+extension CreateQueryLoggingConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateQueryLoggingConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateQueryLoggingConfigurationOutput()
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.QueryLoggingConfigurationStatus.read(from:))
         return value
     }
 }
@@ -2652,6 +3206,13 @@ extension DeleteLoggingConfigurationOutput {
     }
 }
 
+extension DeleteQueryLoggingConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteQueryLoggingConfigurationOutput {
+        return DeleteQueryLoggingConfigurationOutput()
+    }
+}
+
 extension DeleteRuleGroupsNamespaceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRuleGroupsNamespaceOutput {
@@ -2703,6 +3264,18 @@ extension DescribeLoggingConfigurationOutput {
     }
 }
 
+extension DescribeQueryLoggingConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeQueryLoggingConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeQueryLoggingConfigurationOutput()
+        value.queryLoggingConfiguration = try reader["queryLoggingConfiguration"].readIfPresent(with: AmpClientTypes.QueryLoggingConfigurationMetadata.read(from:))
+        return value
+    }
+}
+
 extension DescribeRuleGroupsNamespaceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeRuleGroupsNamespaceOutput {
@@ -2735,6 +3308,18 @@ extension DescribeWorkspaceOutput {
         let reader = responseReader
         var value = DescribeWorkspaceOutput()
         value.workspace = try reader["workspace"].readIfPresent(with: AmpClientTypes.WorkspaceDescription.read(from:))
+        return value
+    }
+}
+
+extension DescribeWorkspaceConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeWorkspaceConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeWorkspaceConfigurationOutput()
+        value.workspaceConfiguration = try reader["workspaceConfiguration"].readIfPresent(with: AmpClientTypes.WorkspaceConfigurationDescription.read(from:))
         return value
     }
 }
@@ -2855,6 +3440,18 @@ extension UpdateLoggingConfigurationOutput {
     }
 }
 
+extension UpdateQueryLoggingConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateQueryLoggingConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateQueryLoggingConfigurationOutput()
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.QueryLoggingConfigurationStatus.read(from:))
+        return value
+    }
+}
+
 extension UpdateScraperOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateScraperOutput {
@@ -2874,6 +3471,18 @@ extension UpdateWorkspaceAliasOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateWorkspaceAliasOutput {
         return UpdateWorkspaceAliasOutput()
+    }
+}
+
+extension UpdateWorkspaceConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateWorkspaceConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateWorkspaceConfigurationOutput()
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.WorkspaceConfigurationStatus.read(from:))
+        return value
     }
 }
 
@@ -2898,6 +3507,23 @@ enum CreateAlertManagerDefinitionOutputError {
 }
 
 enum CreateLoggingConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateQueryLoggingConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -3010,6 +3636,24 @@ enum DeleteLoggingConfigurationOutputError {
     }
 }
 
+enum DeleteQueryLoggingConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteRuleGroupsNamespaceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3102,6 +3746,23 @@ enum DescribeLoggingConfigurationOutputError {
     }
 }
 
+enum DescribeQueryLoggingConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeRuleGroupsNamespaceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3139,6 +3800,24 @@ enum DescribeScraperOutputError {
 }
 
 enum DescribeWorkspaceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeWorkspaceConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -3336,6 +4015,24 @@ enum UpdateLoggingConfigurationOutputError {
     }
 }
 
+enum UpdateQueryLoggingConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateScraperOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3376,14 +4073,32 @@ enum UpdateWorkspaceAliasOutputError {
     }
 }
 
-extension ConflictException {
+enum UpdateWorkspaceConfigurationOutputError {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3391,11 +4106,11 @@ extension ConflictException {
     }
 }
 
-extension ResourceNotFoundException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
@@ -3423,14 +4138,31 @@ extension InternalServerException {
     }
 }
 
-extension ValidationException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: AmpClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3457,29 +4189,14 @@ extension ThrottlingException {
     }
 }
 
-extension AccessDeniedException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ValidationException()
+        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: AmpClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -3503,6 +4220,17 @@ extension AmpClientTypes.LoggingConfigurationStatus {
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.LoggingConfigurationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AmpClientTypes.LoggingConfigurationStatus()
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension AmpClientTypes.QueryLoggingConfigurationStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.QueryLoggingConfigurationStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.QueryLoggingConfigurationStatus()
         value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent()
         return value
@@ -3563,6 +4291,67 @@ extension AmpClientTypes.LoggingConfigurationMetadata {
         value.logGroupArn = try reader["logGroupArn"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension AmpClientTypes.QueryLoggingConfigurationMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.QueryLoggingConfigurationMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.QueryLoggingConfigurationMetadata()
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.QueryLoggingConfigurationStatus.read(from:))
+        value.workspace = try reader["workspace"].readIfPresent() ?? ""
+        value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: AmpClientTypes.LoggingDestination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension AmpClientTypes.LoggingDestination {
+
+    static func write(value: AmpClientTypes.LoggingDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cloudWatchLogs"].write(value.cloudWatchLogs, with: AmpClientTypes.CloudWatchLogDestination.write(value:to:))
+        try writer["filters"].write(value.filters, with: AmpClientTypes.LoggingFilter.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.LoggingDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.LoggingDestination()
+        value.cloudWatchLogs = try reader["cloudWatchLogs"].readIfPresent(with: AmpClientTypes.CloudWatchLogDestination.read(from:))
+        value.filters = try reader["filters"].readIfPresent(with: AmpClientTypes.LoggingFilter.read(from:))
+        return value
+    }
+}
+
+extension AmpClientTypes.LoggingFilter {
+
+    static func write(value: AmpClientTypes.LoggingFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["qspThreshold"].write(value.qspThreshold)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.LoggingFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.LoggingFilter()
+        value.qspThreshold = try reader["qspThreshold"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension AmpClientTypes.CloudWatchLogDestination {
+
+    static func write(value: AmpClientTypes.CloudWatchLogDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["logGroupArn"].write(value.logGroupArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.CloudWatchLogDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.CloudWatchLogDestination()
+        value.logGroupArn = try reader["logGroupArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3741,6 +4530,61 @@ extension AmpClientTypes.WorkspaceDescription {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension AmpClientTypes.WorkspaceConfigurationDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.WorkspaceConfigurationDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.WorkspaceConfigurationDescription()
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.WorkspaceConfigurationStatus.read(from:))
+        value.limitsPerLabelSet = try reader["limitsPerLabelSet"].readListIfPresent(memberReadingClosure: AmpClientTypes.LimitsPerLabelSet.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.retentionPeriodInDays = try reader["retentionPeriodInDays"].readIfPresent()
+        return value
+    }
+}
+
+extension AmpClientTypes.LimitsPerLabelSet {
+
+    static func write(value: AmpClientTypes.LimitsPerLabelSet?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["labelSet"].writeMap(value.labelSet, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["limits"].write(value.limits, with: AmpClientTypes.LimitsPerLabelSetEntry.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.LimitsPerLabelSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.LimitsPerLabelSet()
+        value.limits = try reader["limits"].readIfPresent(with: AmpClientTypes.LimitsPerLabelSetEntry.read(from:))
+        value.labelSet = try reader["labelSet"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension AmpClientTypes.LimitsPerLabelSetEntry {
+
+    static func write(value: AmpClientTypes.LimitsPerLabelSetEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxSeries"].write(value.maxSeries)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.LimitsPerLabelSetEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.LimitsPerLabelSetEntry()
+        value.maxSeries = try reader["maxSeries"].readIfPresent()
+        return value
+    }
+}
+
+extension AmpClientTypes.WorkspaceConfigurationStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.WorkspaceConfigurationStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.WorkspaceConfigurationStatus()
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
         return value
     }
 }

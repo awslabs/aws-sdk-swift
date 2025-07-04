@@ -1,5 +1,8 @@
 package software.amazon.smithy.aws.swift.codegen.customization
 
+import software.amazon.smithy.aws.swift.codegen.customization.s3.isS3
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.InternalClientTypes
 import software.amazon.smithy.aws.traits.auth.SigV4ATrait
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
@@ -14,7 +17,9 @@ import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
 class RulesBasedAuthSchemeResolverGenerator {
+    @Suppress("ktlint:standard:property-naming")
     private val AUTH_SCHEME_RESOLVER = "AuthSchemeResolver"
+
     fun render(ctx: ProtocolGenerator.GenerationContext) {
         ctx.delegator.useFileWriter("Sources/${ctx.settings.moduleName}/$AUTH_SCHEME_RESOLVER.swift") {
             renderServiceSpecificDefaultResolver(ctx, it)
@@ -22,7 +27,10 @@ class RulesBasedAuthSchemeResolverGenerator {
         }
     }
 
-    private fun renderServiceSpecificDefaultResolver(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter) {
+    private fun renderServiceSpecificDefaultResolver(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+    ) {
         val sdkId = AuthSchemeResolverGenerator.getSdkId(ctx)
         val serviceSpecificDefaultResolverName = "Default$sdkId$AUTH_SCHEME_RESOLVER"
         val serviceSpecificAuthResolverProtocol = sdkId + AUTH_SCHEME_RESOLVER
@@ -32,7 +40,7 @@ class RulesBasedAuthSchemeResolverGenerator {
                 "public struct \$L: \$L {",
                 "}",
                 serviceSpecificDefaultResolverName,
-                serviceSpecificAuthResolverProtocol
+                serviceSpecificAuthResolverProtocol,
             ) {
                 write("")
                 renderResolveAuthSchemeMethod(ctx, writer)
@@ -40,13 +48,16 @@ class RulesBasedAuthSchemeResolverGenerator {
                 renderConstructParametersMethod(
                     ctx,
                     sdkId + SmithyHTTPAuthAPITypes.AuthSchemeResolverParams.name,
-                    writer
+                    writer,
                 )
             }
         }
     }
 
-    private fun renderResolveAuthSchemeMethod(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter) {
+    private fun renderResolveAuthSchemeMethod(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+    ) {
         val sdkId = AuthSchemeResolverGenerator.getSdkId(ctx)
         val serviceParamsName = sdkId + SmithyHTTPAuthAPITypes.AuthSchemeResolverParams.name
 
@@ -64,7 +75,7 @@ class RulesBasedAuthSchemeResolverGenerator {
                 openBlock(
                     "guard let serviceParams = params as? \$L else {",
                     "}",
-                    serviceParamsName
+                    serviceParamsName,
                 ) {
                     write(
                         "throw \$N.authError(\"Service specific auth scheme parameters type must be passed to auth scheme resolver.\")",
@@ -84,7 +95,7 @@ class RulesBasedAuthSchemeResolverGenerator {
                 writer.write(
                     "let schemes = try authSchemes.map { (input) -> \$N in try \$N(from: input) }",
                     ClientRuntimeTypes.Core.EndpointsAuthScheme,
-                    ClientRuntimeTypes.Core.EndpointsAuthScheme
+                    ClientRuntimeTypes.Core.EndpointsAuthScheme,
                 )
                 // If endpoint resolver returned auth schemes, iterate over them and save each as valid auth option to return
                 openBlock("for scheme in schemes {", "}") {
@@ -93,18 +104,60 @@ class RulesBasedAuthSchemeResolverGenerator {
                         write("case .sigV4(let param):")
                         indent()
                         write("var sigV4Option = \$N(schemeID: \$S)", SmithyHTTPAuthAPITypes.AuthOption, SigV4Trait.ID)
-                        write("sigV4Option.signingProperties.set(key: \$N.signingName, value: param.signingName)", SmithyHTTPAuthAPITypes.SigningPropertyKeys)
-                        write("sigV4Option.signingProperties.set(key: \$N.signingRegion, value: param.signingRegion)", SmithyHTTPAuthAPITypes.SigningPropertyKeys)
+                        write(
+                            "sigV4Option.signingProperties.set(key: \$N.signingName, value: param.signingName)",
+                            SmithyHTTPAuthAPITypes.SigningPropertyKeys,
+                        )
+                        write(
+                            "sigV4Option.signingProperties.set(key: \$N.signingRegion, value: param.signingRegion)",
+                            SmithyHTTPAuthAPITypes.SigningPropertyKeys,
+                        )
+                        renderInternalClientInits(writer)
                         write("validAuthOptions.append(sigV4Option)")
                         dedent()
                         // SigV4A case
                         write("case .sigV4A(let param):")
                         indent()
                         write("var sigV4Option = \$N(schemeID: \$S)", SmithyHTTPAuthAPITypes.AuthOption, SigV4ATrait.ID)
-                        write("sigV4Option.signingProperties.set(key: \$N.signingName, value: param.signingName)", SmithyHTTPAuthAPITypes.SigningPropertyKeys)
-                        write("sigV4Option.signingProperties.set(key: \$N.signingRegion, value: param.signingRegionSet?[0])", SmithyHTTPAuthAPITypes.SigningPropertyKeys)
+                        write(
+                            "sigV4Option.signingProperties.set(key: \$N.signingName, value: param.signingName)",
+                            SmithyHTTPAuthAPITypes.SigningPropertyKeys,
+                        )
+                        write(
+                            "sigV4Option.signingProperties.set(key: \$N.signingRegion, value: param.signingRegionSet?[0])",
+                            SmithyHTTPAuthAPITypes.SigningPropertyKeys,
+                        )
+                        renderInternalClientInits(writer)
                         write("validAuthOptions.append(sigV4Option)")
                         dedent()
+                        // sigv4-s3express case
+                        if (ctx.service.isS3) {
+                            write("case .sigV4S3Express(let param):")
+                            indent()
+                            write(
+                                "var authOption = \$N(schemeID: \$S)",
+                                SmithyHTTPAuthAPITypes.AuthOption,
+                                "aws.auth#sigv4-s3express",
+                            )
+                            write(
+                                "authOption.signingProperties.set(key: \$N.signingName, value: param.signingName)",
+                                SmithyHTTPAuthAPITypes.SigningPropertyKeys,
+                            )
+                            write(
+                                "authOption.signingProperties.set(key: \$N.signingRegion, value: param.signingRegion)",
+                                SmithyHTTPAuthAPITypes.SigningPropertyKeys,
+                            )
+                            write(
+                                "authOption.identityProperties.set(key: \$N.bucket, value: serviceParams.bucket)",
+                                AWSSDKIdentityTypes.AWSIdentityPropertyKeys,
+                            )
+                            write(
+                                "authOption.identityProperties.set(key: \$N.s3ExpressClient, value: S3ExpressCreateSessionClient())",
+                                AWSSDKIdentityTypes.AWSIdentityPropertyKeys,
+                            )
+                            write("validAuthOptions.append(authOption)")
+                            dedent()
+                        }
                         // Default case: throw error if returned auth scheme is neither SigV4 nor SigV4A
                         write("default:")
                         indent()
@@ -118,21 +171,55 @@ class RulesBasedAuthSchemeResolverGenerator {
         }
     }
 
-    private fun renderConstructParametersMethod(ctx: ProtocolGenerator.GenerationContext, returnTypeName: String, writer: SwiftWriter) {
+    private fun renderInternalClientInits(writer: SwiftWriter) {
+        writer.apply {
+            write(
+                "sigV4Option.identityProperties.set(key: \$N.internalSTSClientKey, value: \$N())",
+                AWSSDKIdentityTypes.InternalClientKeys,
+                InternalClientTypes.IdentityProvidingSTSClient,
+            )
+            write(
+                "sigV4Option.identityProperties.set(key: \$N.internalSSOClientKey, value: \$N())",
+                AWSSDKIdentityTypes.InternalClientKeys,
+                InternalClientTypes.IdentityProvidingSSOClient,
+            )
+            write(
+                "sigV4Option.identityProperties.set(key: \$N.internalSSOOIDCClientKey, value: \$N())",
+                AWSSDKIdentityTypes.InternalClientKeys,
+                InternalClientTypes.IdentityProvidingSSOOIDCClient,
+            )
+        }
+    }
+
+    private fun renderConstructParametersMethod(
+        ctx: ProtocolGenerator.GenerationContext,
+        returnTypeName: String,
+        writer: SwiftWriter,
+    ) {
         writer.apply {
             openBlock(
                 "public func constructParameters(context: \$N) throws -> \$N {",
                 "}",
                 SmithyTypes.Context,
-                SmithyHTTPAuthAPITypes.AuthSchemeResolverParams
+                SmithyHTTPAuthAPITypes.AuthSchemeResolverParams,
             ) {
                 openBlock("guard let opName = context.getOperation() else {", "}") {
-                    write("throw \$N.dataNotFound(\"Operation name not configured in middleware context for auth scheme resolver params construction.\")", SmithyTypes.ClientError)
+                    write(
+                        "throw \$N.dataNotFound(\"Operation name not configured in middleware context for auth scheme resolver params construction.\")",
+                        SmithyTypes.ClientError,
+                    )
                 }
 
                 // Get endpoint param from middleware context
-                openBlock("guard let endpointParam = context.get(key: \$N<EndpointParams>(name: \"EndpointParams\")) else {", "}", SmithyTypes.AttributeKey) {
-                    write("throw \$N.dataNotFound(\"Endpoint param not configured in middleware context for rules-based auth scheme resolver params construction.\")", SmithyTypes.ClientError)
+                openBlock(
+                    "guard let endpointParam = context.get(key: \$N<EndpointParams>(name: \"EndpointParams\")) else {",
+                    "}",
+                    SmithyTypes.AttributeKey,
+                ) {
+                    write(
+                        "throw \$N.dataNotFound(\"Endpoint param not configured in middleware context for rules-based auth scheme resolver params construction.\")",
+                        SmithyTypes.ClientError,
+                    )
                 }
 
                 // Copy over endpoint param fields to auth param fields
