@@ -1,0 +1,7 @@
+# Expand or modify this as needed for ConfigFileReaderTests
+
+[default]
+region = us-east-1
+
+[profile business-casual]
+region = ap-southeast-2
