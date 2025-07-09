@@ -13,6 +13,7 @@ import struct SmithyHTTPAPI.Headers
 import class SmithyHTTPAPI.HTTPRequestBuilder
 import enum SmithyChecksumsAPI.ChecksumAlgorithm
 import class SmithyChecksums.ChunkedStream
+import class Smithy.Context
 import AwsCommonRuntimeKit
 
 extension HTTPRequestBuilder {
@@ -36,7 +37,8 @@ extension HTTPRequestBuilder {
         signingConfig: SigningConfig,
         signature: String,
         trailingHeaders: Headers,
-        checksumString: String? = nil
+        checksumString: String? = nil,
+        context: Smithy.Context
     ) throws {
         switch self.body {
         case .stream(let stream):
@@ -46,7 +48,8 @@ extension HTTPRequestBuilder {
                 signingConfig: signingConfig,
                 previousSignature: signature,
                 trailingHeaders: trailingHeaders,
-                checksumString: checksumString
+                checksumString: checksumString,
+                context: context
             )
             self.withBody(ByteStream.stream(chunkedStream))
         default:
