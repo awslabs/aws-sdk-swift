@@ -116,8 +116,12 @@ private class MockHTTPClientEngine: HTTPClient {
     func modifyPayloadFile() throws {
         let fileHandle = try FileHandle(forWritingTo: payloadFileURL)
         defer { try? fileHandle.close() }
-        try fileHandle.seekToEnd()
-        try fileHandle.write(contentsOf: "abc".data(using: .utf8)!)
+        fileHandle.seekToEndOfFile()
+        if let data = "abc".data(using: .utf8) {
+            fileHandle.write(data)
+        } else {
+            throw NSError(domain: "EncodingError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to encode string"])
+        }
     }
 
     func extractChecksumValueFromFinalChunk(request: SmithyHTTPAPI.HTTPRequest) async throws -> String {
