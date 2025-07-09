@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppSyncClient: ClientRuntime.Client {
     public static let clientName = "AppSyncClient"
-    public static let version = "1.3.50"
+    public static let version = "1.3.51"
     let client: ClientRuntime.SdkHttpClient
     let config: AppSyncClient.AppSyncClientConfiguration
     let serviceName = "AppSync"

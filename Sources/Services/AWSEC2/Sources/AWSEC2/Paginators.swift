@@ -229,7 +229,9 @@ extension DescribeCapacityBlockOfferingsInput: ClientRuntime.PaginateToken {
             instanceType: self.instanceType,
             maxResults: self.maxResults,
             nextToken: token,
-            startDateRange: self.startDateRange
+            startDateRange: self.startDateRange,
+            ultraserverCount: self.ultraserverCount,
+            ultraserverType: self.ultraserverType
         )}
 }
 
@@ -239,6 +241,72 @@ extension PaginatorSequence where OperationStackInput == DescribeCapacityBlockOf
     /// - Returns: `[EC2ClientTypes.CapacityBlockOffering]`
     public func capacityBlockOfferings() async throws -> [EC2ClientTypes.CapacityBlockOffering] {
         return try await self.asyncCompactMap { item in item.capacityBlockOfferings }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[DescribeCapacityBlocksOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeCapacityBlocksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCapacityBlocksOutput`
+    public func describeCapacityBlocksPaginated(input: DescribeCapacityBlocksInput) -> ClientRuntime.PaginatorSequence<DescribeCapacityBlocksInput, DescribeCapacityBlocksOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeCapacityBlocksInput, DescribeCapacityBlocksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeCapacityBlocks(input:))
+    }
+}
+
+extension DescribeCapacityBlocksInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeCapacityBlocksInput {
+        return DescribeCapacityBlocksInput(
+            capacityBlockIds: self.capacityBlockIds,
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeCapacityBlocksInput, OperationStackOutput == DescribeCapacityBlocksOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeCapacityBlocksPaginated`
+    /// to access the nested member `[EC2ClientTypes.CapacityBlock]`
+    /// - Returns: `[EC2ClientTypes.CapacityBlock]`
+    public func capacityBlocks() async throws -> [EC2ClientTypes.CapacityBlock] {
+        return try await self.asyncCompactMap { item in item.capacityBlocks }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[DescribeCapacityBlockStatusOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeCapacityBlockStatusInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCapacityBlockStatusOutput`
+    public func describeCapacityBlockStatusPaginated(input: DescribeCapacityBlockStatusInput) -> ClientRuntime.PaginatorSequence<DescribeCapacityBlockStatusInput, DescribeCapacityBlockStatusOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeCapacityBlockStatusInput, DescribeCapacityBlockStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeCapacityBlockStatus(input:))
+    }
+}
+
+extension DescribeCapacityBlockStatusInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeCapacityBlockStatusInput {
+        return DescribeCapacityBlockStatusInput(
+            capacityBlockIds: self.capacityBlockIds,
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeCapacityBlockStatusInput, OperationStackOutput == DescribeCapacityBlockStatusOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeCapacityBlockStatusPaginated`
+    /// to access the nested member `[EC2ClientTypes.CapacityBlockStatus]`
+    /// - Returns: `[EC2ClientTypes.CapacityBlockStatus]`
+    public func capacityBlockStatuses() async throws -> [EC2ClientTypes.CapacityBlockStatus] {
+        return try await self.asyncCompactMap { item in item.capacityBlockStatuses }
     }
 }
 extension EC2Client {

@@ -65,7 +65,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 internal class SSOOIDCClient: ClientRuntime.Client {
     public static let clientName = "SSOOIDCClient"
-    public static let version = "1.3.50"
+    public static let version = "1.3.51"
     let client: ClientRuntime.SdkHttpClient
     let config: SSOOIDCClient.SSOOIDCClientConfiguration
     let serviceName = "SSO OIDC"
