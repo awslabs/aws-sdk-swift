@@ -226,7 +226,35 @@ class OutputMatcherTests: XCTestCase {
     // JMESPath comparator: "allStringEquals"
     // JMESPath expected value: "abc"
 
-    func test_projection_acceptorMatchesWhenProjectedValuesMatchExpectation() async throws {
+    func test_projection_acceptorDoesNotMatchWhenProjectedValueIsNil() async throws {
+        let output = GetWidgetOutput(dataMap: nil)
+        let subject = try WaitersClient.projectionMatcherWaiterConfig().acceptors[0]
+        let match = subject.evaluate(input: anInput, result: .success(output))
+        XCTAssertNil(match)
+    }
+
+    func test_projection_acceptorDoesNotMatchWhenProjectedValueIsEmpty() async throws {
+        let output = GetWidgetOutput(dataMap: [:])
+        let subject = try WaitersClient.projectionMatcherWaiterConfig().acceptors[0]
+        let match = subject.evaluate(input: anInput, result: .success(output))
+        XCTAssertNil(match)
+    }
+
+    func test_projection_acceptorMatchesWhenSingleProjectedValueMatchesExpectation() async throws {
+        let output = GetWidgetOutput(dataMap: ["x": "abc"])
+        let subject = try WaitersClient.projectionMatcherWaiterConfig().acceptors[0]
+        let match = subject.evaluate(input: anInput, result: .success(output))
+        XCTAssertEqual(match, .success(.success(output)))
+    }
+
+    func test_projection_acceptorMatchesWhenSingleProjectedValueDoesNotMatchExpectation() async throws {
+        let output = GetWidgetOutput(dataMap: ["x": "def"])
+        let subject = try WaitersClient.projectionMatcherWaiterConfig().acceptors[0]
+        let match = subject.evaluate(input: anInput, result: .success(output))
+        XCTAssertNil(match)
+    }
+
+    func test_projection_acceptorMatchesWhenMultipleProjectedValuesMatchExpectation() async throws {
         let output = GetWidgetOutput(dataMap: ["x": "abc", "y": "abc", "z": "abc"])
         let subject = try WaitersClient.projectionMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
