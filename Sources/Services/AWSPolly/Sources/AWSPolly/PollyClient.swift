@@ -72,7 +72,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PollyClient: ClientRuntime.Client {
     public static let clientName = "PollyClient"
-    public static let version = "1.3.51"
+    public static let version = "1.3.52"
     let client: ClientRuntime.SdkHttpClient
     let config: PollyClient.PollyClientConfiguration
     let serviceName = "Polly"
@@ -227,7 +227,7 @@ extension PollyClient {
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultPollyAuthSchemeResolver(),
+                authSchemeResolver ?? DefaultPollyAuthSchemeResolver(authSchemePreference: authSchemePreference ?? []),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
@@ -283,7 +283,7 @@ extension PollyClient {
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultPollyAuthSchemeResolver(),
+                authSchemeResolver ?? DefaultPollyAuthSchemeResolver(authSchemePreference: authSchemePreference ?? []),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
@@ -343,7 +343,7 @@ extension PollyClient {
                 AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 nil,
-                DefaultPollyAuthSchemeResolver(),
+                DefaultPollyAuthSchemeResolver(authSchemePreference: []),
                 SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 [],
                 []

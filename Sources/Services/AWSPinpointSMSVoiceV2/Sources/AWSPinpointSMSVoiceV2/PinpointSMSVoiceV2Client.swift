@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PinpointSMSVoiceV2Client: ClientRuntime.Client {
     public static let clientName = "PinpointSMSVoiceV2Client"
-    public static let version = "1.3.51"
+    public static let version = "1.3.52"
     let client: ClientRuntime.SdkHttpClient
     let config: PinpointSMSVoiceV2Client.PinpointSMSVoiceV2ClientConfiguration
     let serviceName = "Pinpoint SMS Voice V2"
@@ -223,7 +223,7 @@ extension PinpointSMSVoiceV2Client {
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultPinpointSMSVoiceV2AuthSchemeResolver(),
+                authSchemeResolver ?? DefaultPinpointSMSVoiceV2AuthSchemeResolver(authSchemePreference: authSchemePreference ?? []),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
@@ -279,7 +279,7 @@ extension PinpointSMSVoiceV2Client {
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultPinpointSMSVoiceV2AuthSchemeResolver(),
+                authSchemeResolver ?? DefaultPinpointSMSVoiceV2AuthSchemeResolver(authSchemePreference: authSchemePreference ?? []),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
@@ -339,7 +339,7 @@ extension PinpointSMSVoiceV2Client {
                 AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 nil,
-                DefaultPinpointSMSVoiceV2AuthSchemeResolver(),
+                DefaultPinpointSMSVoiceV2AuthSchemeResolver(authSchemePreference: []),
                 SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 [],
                 []

@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DynamoDBStreamsClient: ClientRuntime.Client {
     public static let clientName = "DynamoDBStreamsClient"
-    public static let version = "1.3.51"
+    public static let version = "1.3.52"
     let client: ClientRuntime.SdkHttpClient
     let config: DynamoDBStreamsClient.DynamoDBStreamsClientConfiguration
     let serviceName = "DynamoDB Streams"
@@ -221,7 +221,7 @@ extension DynamoDBStreamsClient {
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultDynamoDBStreamsAuthSchemeResolver(),
+                authSchemeResolver ?? DefaultDynamoDBStreamsAuthSchemeResolver(authSchemePreference: authSchemePreference ?? []),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
@@ -277,7 +277,7 @@ extension DynamoDBStreamsClient {
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultDynamoDBStreamsAuthSchemeResolver(),
+                authSchemeResolver ?? DefaultDynamoDBStreamsAuthSchemeResolver(authSchemePreference: authSchemePreference ?? []),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
@@ -337,7 +337,7 @@ extension DynamoDBStreamsClient {
                 AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 nil,
-                DefaultDynamoDBStreamsAuthSchemeResolver(),
+                DefaultDynamoDBStreamsAuthSchemeResolver(authSchemePreference: []),
                 SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 [],
                 []

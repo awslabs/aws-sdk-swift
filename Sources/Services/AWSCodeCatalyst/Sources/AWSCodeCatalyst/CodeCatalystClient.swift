@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeCatalystClient: ClientRuntime.Client {
     public static let clientName = "CodeCatalystClient"
-    public static let version = "1.3.51"
+    public static let version = "1.3.52"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeCatalystClient.CodeCatalystClientConfiguration
     let serviceName = "CodeCatalyst"
@@ -222,7 +222,7 @@ extension CodeCatalystClient {
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [SmithyHTTPAuth.BearerTokenAuthScheme()],
                 authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultCodeCatalystAuthSchemeResolver(),
+                authSchemeResolver ?? DefaultCodeCatalystAuthSchemeResolver(authSchemePreference: authSchemePreference ?? []),
                 try bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
@@ -278,7 +278,7 @@ extension CodeCatalystClient {
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [SmithyHTTPAuth.BearerTokenAuthScheme()],
                 authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultCodeCatalystAuthSchemeResolver(),
+                authSchemeResolver ?? DefaultCodeCatalystAuthSchemeResolver(authSchemePreference: authSchemePreference ?? []),
                 try bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
@@ -338,7 +338,7 @@ extension CodeCatalystClient {
                 AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 [SmithyHTTPAuth.BearerTokenAuthScheme()],
                 nil,
-                DefaultCodeCatalystAuthSchemeResolver(),
+                DefaultCodeCatalystAuthSchemeResolver(authSchemePreference: []),
                 try AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 [],
                 []
