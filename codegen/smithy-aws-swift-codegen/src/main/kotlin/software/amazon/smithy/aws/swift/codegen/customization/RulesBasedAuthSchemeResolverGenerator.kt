@@ -222,6 +222,8 @@ class RulesBasedAuthSchemeResolverGenerator {
                     )
                 }
 
+                writer.write("let authSchemePreference = context.getAuthSchemePreference()")
+
                 // Copy over endpoint param fields to auth param fields
                 val ruleSetNode = ctx.service.getTrait<EndpointRuleSetTrait>()?.ruleSet
                 val ruleSet = if (ruleSetNode != null) EndpointRuleSet.fromNode(ruleSetNode) else null
@@ -234,7 +236,7 @@ class RulesBasedAuthSchemeResolverGenerator {
                 }
 
                 val argStringToAppend = if (paramList.isEmpty()) "" else ", " + paramList.joinToString()
-                write("return $returnTypeName(operation: opName$argStringToAppend)")
+                write("return $returnTypeName(authSchemePreference: authSchemePreference, operation: opName$argStringToAppend)")
             }
         }
     }

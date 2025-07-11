@@ -57,6 +57,7 @@ extension ExplicitBlobInput {
         val context = setupTests("http-binding-protocol-generator-test.smithy", "com.test#Example")
         val contents = getClientFileContents("Sources/Example", "ExampleClient.swift", context.manifest)
         contents.shouldSyntacticSanityCheck()
+        print(contents)
         val expectedContents = """
 public class ExampleClient: ClientRuntime.Client {
     public static let clientName = "ExampleClient"

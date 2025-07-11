@@ -21,6 +21,7 @@ class RulesBasedAuthSchemeResolverGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 public struct S3AuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
+    public let authSchemePreference: [String]?
     public let operation: Swift.String
 }
 
@@ -31,12 +32,6 @@ public protocol S3AuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
 }
 
 private struct InternalModeledS3AuthSchemeResolver: S3AuthSchemeResolver {
-
-    public let authSchemePreference: [String]
-
-    public init(authSchemePreference: [String] = []) {
-        self.authSchemePreference = authSchemePreference
-    }
 
     public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [SmithyHTTPAuthAPI.AuthOption] {
         var validAuthOptions = [SmithyHTTPAuthAPI.AuthOption]()
@@ -200,7 +195,8 @@ public struct DefaultS3AuthSchemeResolver: S3AuthSchemeResolver {
         guard let endpointParam = context.get(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams")) else {
             throw Smithy.ClientError.dataNotFound("Endpoint param not configured in middleware context for rules-based auth scheme resolver params construction.")
         }
-        return S3AuthSchemeResolverParameters(operation: opName)
+        let authSchemePreference = context.getAuthSchemePreference()
+        return S3AuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName)
     }
 }
 """
