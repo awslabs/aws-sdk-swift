@@ -74,7 +74,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockRuntimeClient: ClientRuntime.Client {
     public static let clientName = "BedrockRuntimeClient"
-    public static let version = "1.3.51"
+    public static let version = "1.3.52"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockRuntimeClient.BedrockRuntimeClientConfiguration
     let serviceName = "Bedrock Runtime"
@@ -229,7 +229,7 @@ extension BedrockRuntimeClient {
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [SmithyHTTPAuth.BearerTokenAuthScheme(), AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultBedrockRuntimeAuthSchemeResolver(),
+                authSchemeResolver ?? DefaultBedrockRuntimeAuthSchemeResolver(authSchemePreference: authSchemePreference ?? []),
                 try bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
@@ -285,7 +285,7 @@ extension BedrockRuntimeClient {
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [SmithyHTTPAuth.BearerTokenAuthScheme(), AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultBedrockRuntimeAuthSchemeResolver(),
+                authSchemeResolver ?? DefaultBedrockRuntimeAuthSchemeResolver(authSchemePreference: authSchemePreference ?? []),
                 try bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
@@ -345,7 +345,7 @@ extension BedrockRuntimeClient {
                 AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 [SmithyHTTPAuth.BearerTokenAuthScheme(), AWSSDKHTTPAuth.SigV4AuthScheme()],
                 nil,
-                DefaultBedrockRuntimeAuthSchemeResolver(),
+                DefaultBedrockRuntimeAuthSchemeResolver(authSchemePreference: []),
                 try AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 [],
                 []

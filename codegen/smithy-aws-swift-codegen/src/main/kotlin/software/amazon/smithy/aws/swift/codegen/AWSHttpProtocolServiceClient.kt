@@ -170,6 +170,11 @@ class AWSHttpProtocolServiceClient(
                         "httpClientEngine" -> {
                             writer.write("AWSClientConfigDefaultsProvider.httpClientEngine(),")
                         }
+                        "authSchemeResolver" -> {
+                            // In this context, no authSchemePreference exists, so use empty array
+                            val className = "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver"
+                            writer.write("$className(authSchemePreference: []),")
+                        }
                         else -> {
                             writer.write("\$L,", property.default?.render(writer) ?: "nil")
                         }
@@ -194,7 +199,7 @@ class AWSHttpProtocolServiceClient(
 
     private val authSchemeResolverDefaultProvider =
         DefaultProvider(
-            { writer.format("Default\$LAuthSchemeResolver()", AuthSchemeResolverGenerator.getSdkId(ctx)) },
+            { writer.format("Default\$LAuthSchemeResolver(authSchemePreference: authSchemePreference ?? [])", AuthSchemeResolverGenerator.getSdkId(ctx)) },
             false,
             false,
         )
