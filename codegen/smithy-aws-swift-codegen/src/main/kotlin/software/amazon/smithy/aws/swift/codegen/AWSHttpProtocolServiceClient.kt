@@ -199,7 +199,12 @@ class AWSHttpProtocolServiceClient(
 
     private val authSchemeResolverDefaultProvider =
         DefaultProvider(
-            { writer.format("Default\$LAuthSchemeResolver(authSchemePreference: authSchemePreference ?? [])", AuthSchemeResolverGenerator.getSdkId(ctx)) },
+            {
+                writer.format(
+                    "Default\$LAuthSchemeResolver(authSchemePreference: authSchemePreference ?? [])",
+                    AuthSchemeResolverGenerator.getSdkId(ctx),
+                )
+            },
             false,
             false,
         )
