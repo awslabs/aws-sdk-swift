@@ -139,10 +139,11 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
             visitedProfiles.count == 1 &&
             profile.val(for: "source_profile") == profile.name {
             resolvers.append { identityProperties in
-                let access = profile.string(for: .init(stringLiteral: "aws_access_key_id"))!
-                let secret = profile.string(for: .init(stringLiteral: "aws_secret_access_key"))!
-                let accountID = profile.string(for: .init(stringLiteral: "aws_account_id"))
-                let sourceCreds = AWSCredentialIdentity(accessKey: access, secret: secret, accountID: accountID)
+                let sourceCreds = try await SharedConfigStaticAWSCredentialIdentityResolver(
+                    profileName: profile.name,
+                    configFilePath: configFilePath,
+                    credentialsFilePath: credentialsFilePath
+                ).getIdentity(identityProperties: identityProperties)
                 return try await STSAssumeRoleAWSCredentialIdentityResolver(
                     awsCredentialIdentityResolver: StaticAWSCredentialIdentityResolver(sourceCreds),
                     roleArn: profile.string(for: .init(stringLiteral: "role_arn"))!,
@@ -156,11 +157,12 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
         //    This means static credentials in a profile gets ignored if it's the first one in a chain;
         //      that's the intended behavior as per SEP.
         if profile.hasStaticCredentials() && (!profile.hasSourceProfile() || visitedProfiles.count > 1) {
-            resolvers.append { _ in
-                let access = profile.string(for: .init(stringLiteral: "aws_access_key_id"))!
-                let secret = profile.string(for: .init(stringLiteral: "aws_secret_access_key"))!
-                let accountID = profile.string(for: .init(stringLiteral: "aws_account_id"))
-                return AWSCredentialIdentity(accessKey: access, secret: secret, accountID: accountID)
+            resolvers.append { identityProperties in
+                return try await SharedConfigStaticAWSCredentialIdentityResolver(
+                    profileName: profile.name,
+                    configFilePath: configFilePath,
+                    credentialsFilePath: credentialsFilePath
+                ).getIdentity(identityProperties: identityProperties)
             }
         }
 

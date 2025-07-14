@@ -67,10 +67,13 @@ public struct SharedConfigStaticAWSCredentialIdentityResolver: AWSCredentialIden
 
         // Take session token if available.
         let sessionToken = profileSection.string(for: "aws_session_token")
+        // Take account ID if available.
+        let accountID = profileSection.string(for: "aws_account_id")
 
         return AWSCredentialIdentity(
             accessKey: accessKey,
             secret: secretKey,
+            accountID: accountID,
             sessionToken: sessionToken
         )
     }
