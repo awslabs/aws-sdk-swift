@@ -187,7 +187,6 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
             resolvers.append { identityProperties in
                 let credSource = profile.string(for: .init(stringLiteral: "credential_source"))!
                 let sourceCreds = try await resolveFromCredentialSource(
-                    profileName: profile.name,
                     source: credSource,
                     identityProperties: identityProperties
                 )
@@ -236,7 +235,6 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
     }
 
     private func resolveFromCredentialSource(
-        profileName: String,
         source: String,
         identityProperties: Attributes?
     ) async throws -> AWSCredentialIdentity {
@@ -247,7 +245,7 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
             )
         case "Ec2InstanceMetadata":
             return try await IMDSAWSCredentialIdentityResolver(
-                ec2InstanceProfileName: profileName
+                ec2InstanceProfileName: self.profileName
             ).getIdentity(
                 identityProperties: identityProperties
             )
