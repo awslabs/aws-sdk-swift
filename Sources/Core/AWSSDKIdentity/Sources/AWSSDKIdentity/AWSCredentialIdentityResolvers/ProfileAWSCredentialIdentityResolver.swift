@@ -244,9 +244,7 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
                 identityProperties: identityProperties
             )
         case "Ec2InstanceMetadata":
-            return try await IMDSAWSCredentialIdentityResolver(
-                ec2InstanceProfileName: self.profileName
-            ).getIdentity(
+            return try await IMDSAWSCredentialIdentityResolver().getIdentity(
                 identityProperties: identityProperties
             )
         case "EcsContainer":
