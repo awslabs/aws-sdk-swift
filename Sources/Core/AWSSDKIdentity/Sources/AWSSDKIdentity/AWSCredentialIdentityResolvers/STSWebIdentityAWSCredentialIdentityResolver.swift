@@ -26,7 +26,6 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
     private let credentialsFilePath: String?
     private let source: STSWebIdentitySource
     private let maxRetries = 3
-    private var profileName: String?
 
     public init(
         configFilePath: String? = nil,
@@ -64,17 +63,6 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
         self.inlineRoleSessionName = roleSessionName
         self.inlineTokenFilePath = tokenFilePath
         self.source = .mixed
-    }
-
-    public init(
-        configFilePath: String? = nil,
-        credentialsFilePath: String? = nil,
-        profileName: String
-    ) {
-        self.configFilePath = configFilePath
-        self.credentialsFilePath = credentialsFilePath
-        self.profileName = profileName
-        self.source = .configFile
     }
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
@@ -209,7 +197,6 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
         guard let value = FieldResolver(
             configFieldName: name,
             fileBasedConfig: config,
-            profileName: profileName,
             converter: { String($0) }
         ).value else {
             throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
@@ -223,7 +210,6 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
         FieldResolver(
             configFieldName: name,
             fileBasedConfig: config,
-            profileName: profileName,
             converter: { String($0) }
         ).value
     }
