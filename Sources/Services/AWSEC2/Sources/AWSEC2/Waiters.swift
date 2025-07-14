@@ -1079,6 +1079,133 @@ extension EC2Client {
         return try await waiter.waitUntil(options: options, input: input)
     }
 
+    static func securityGroupVpcAssociationAssociatedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeSecurityGroupVpcAssociationsInput, DescribeSecurityGroupVpcAssociationsOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeSecurityGroupVpcAssociationsInput, DescribeSecurityGroupVpcAssociationsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeSecurityGroupVpcAssociationsInput, result: Swift.Result<DescribeSecurityGroupVpcAssociationsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "SecurityGroupVpcAssociations[].State"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "associated"
+                guard case .success(let output) = result else { return false }
+                let securityGroupVpcAssociations = output.securityGroupVpcAssociations
+                let projection: [EC2ClientTypes.SecurityGroupVpcAssociationState]? = securityGroupVpcAssociations?.compactMap { original in
+                    let state = original.state
+                    return state
+                }
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "associated") } ?? false)
+            }),
+            .init(state: .retry, matcher: { (input: DescribeSecurityGroupVpcAssociationsInput, result: Swift.Result<DescribeSecurityGroupVpcAssociationsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "SecurityGroupVpcAssociations[].State"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "associating"
+                guard case .success(let output) = result else { return false }
+                let securityGroupVpcAssociations = output.securityGroupVpcAssociations
+                let projection: [EC2ClientTypes.SecurityGroupVpcAssociationState]? = securityGroupVpcAssociations?.compactMap { original in
+                    let state = original.state
+                    return state
+                }
+                return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "associating") }) ?? false
+            }),
+            .init(state: .failure, matcher: { (input: DescribeSecurityGroupVpcAssociationsInput, result: Swift.Result<DescribeSecurityGroupVpcAssociationsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "SecurityGroupVpcAssociations[].State"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "association-failed"
+                guard case .success(let output) = result else { return false }
+                let securityGroupVpcAssociations = output.securityGroupVpcAssociations
+                let projection: [EC2ClientTypes.SecurityGroupVpcAssociationState]? = securityGroupVpcAssociations?.compactMap { original in
+                    let state = original.state
+                    return state
+                }
+                return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "association-failed") }) ?? false
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeSecurityGroupVpcAssociationsInput, DescribeSecurityGroupVpcAssociationsOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the SecurityGroupVpcAssociationAssociated event on the describeSecurityGroupVpcAssociations operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeSecurityGroupVpcAssociationsInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilSecurityGroupVpcAssociationAssociated(options: SmithyWaitersAPI.WaiterOptions, input: DescribeSecurityGroupVpcAssociationsInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeSecurityGroupVpcAssociationsOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.securityGroupVpcAssociationAssociatedWaiterConfig(), operation: self.describeSecurityGroupVpcAssociations(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func securityGroupVpcAssociationDisassociatedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeSecurityGroupVpcAssociationsInput, DescribeSecurityGroupVpcAssociationsOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeSecurityGroupVpcAssociationsInput, DescribeSecurityGroupVpcAssociationsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeSecurityGroupVpcAssociationsInput, result: Swift.Result<DescribeSecurityGroupVpcAssociationsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "SecurityGroupVpcAssociations[].State"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "disassociated"
+                guard case .success(let output) = result else { return false }
+                let securityGroupVpcAssociations = output.securityGroupVpcAssociations
+                let projection: [EC2ClientTypes.SecurityGroupVpcAssociationState]? = securityGroupVpcAssociations?.compactMap { original in
+                    let state = original.state
+                    return state
+                }
+                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "disassociated") } ?? false)
+            }),
+            .init(state: .retry, matcher: { (input: DescribeSecurityGroupVpcAssociationsInput, result: Swift.Result<DescribeSecurityGroupVpcAssociationsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "SecurityGroupVpcAssociations[].State"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "disassociating"
+                guard case .success(let output) = result else { return false }
+                let securityGroupVpcAssociations = output.securityGroupVpcAssociations
+                let projection: [EC2ClientTypes.SecurityGroupVpcAssociationState]? = securityGroupVpcAssociations?.compactMap { original in
+                    let state = original.state
+                    return state
+                }
+                return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "disassociating") }) ?? false
+            }),
+            .init(state: .failure, matcher: { (input: DescribeSecurityGroupVpcAssociationsInput, result: Swift.Result<DescribeSecurityGroupVpcAssociationsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "SecurityGroupVpcAssociations[].State"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "disassociation-failed"
+                guard case .success(let output) = result else { return false }
+                let securityGroupVpcAssociations = output.securityGroupVpcAssociations
+                let projection: [EC2ClientTypes.SecurityGroupVpcAssociationState]? = securityGroupVpcAssociations?.compactMap { original in
+                    let state = original.state
+                    return state
+                }
+                return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "disassociation-failed") }) ?? false
+            }),
+            .init(state: .success, matcher: { (input: DescribeSecurityGroupVpcAssociationsInput, result: Swift.Result<DescribeSecurityGroupVpcAssociationsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "length(SecurityGroupVpcAssociations[]) == `0`"
+                // JMESPath comparator: "booleanEquals"
+                // JMESPath expected value: "true"
+                guard case .success(let output) = result else { return false }
+                let securityGroupVpcAssociations = output.securityGroupVpcAssociations
+                let count = Double(securityGroupVpcAssociations?.count ?? 0)
+                let number = Double(0.0)
+                let comparison = SmithyWaitersAPI.JMESUtils.compare(count, ==, number)
+                return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, true)
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeSecurityGroupVpcAssociationsInput, DescribeSecurityGroupVpcAssociationsOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the SecurityGroupVpcAssociationDisassociated event on the describeSecurityGroupVpcAssociations operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeSecurityGroupVpcAssociationsInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilSecurityGroupVpcAssociationDisassociated(options: SmithyWaitersAPI.WaiterOptions, input: DescribeSecurityGroupVpcAssociationsInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeSecurityGroupVpcAssociationsOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.securityGroupVpcAssociationDisassociatedWaiterConfig(), operation: self.describeSecurityGroupVpcAssociations(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
     static func snapshotCompletedWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeSnapshotsInput, DescribeSnapshotsOutput> {
         let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeSnapshotsInput, DescribeSnapshotsOutput>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeSnapshotsInput, result: Swift.Result<DescribeSnapshotsOutput, Swift.Error>) -> Bool in

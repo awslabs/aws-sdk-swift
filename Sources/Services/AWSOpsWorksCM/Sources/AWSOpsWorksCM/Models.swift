@@ -153,7 +153,7 @@ public struct AssociateNodeInput: Swift.Sendable {
     ///
     /// * CHEF_ORGANIZATION: The Chef organization with which the node is associated. By default only one organization named default can exist.
     ///
-    /// * CHEF_NODE_PUBLIC_KEY: A PEM-formatted public key. This key is required for the chef-client agent to access the Chef API.
+    /// * CHEF_AUTOMATE_NODE_PUBLIC_KEY: A PEM-formatted public key. This key is required for the chef-client agent to access the Chef API.
     ///
     ///
     /// Attributes accepted in a AssociateNode request for Puppet
@@ -304,9 +304,9 @@ extension OpsWorksCMClientTypes {
         public var statusDescription: Swift.String?
         /// The subnet IDs that are obtained from the server when the backup is created.
         public var subnetIds: [Swift.String]?
-        /// The version of AWS OpsWorks CM-specific tools that is obtained from the server when the backup is created.
+        /// The version of OpsWorks CM-specific tools that is obtained from the server when the backup is created.
         public var toolsVersion: Swift.String?
-        /// The IAM user ARN of the requester for manual backups. This field is empty for automated backups.
+        /// The user ARN of the requester for manual backups. This field is empty for automated backups.
         public var userArn: Swift.String?
 
         public init(
@@ -389,7 +389,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension OpsWorksCMClientTypes {
 
-    /// A map that contains tag keys and tag values to attach to an AWS OpsWorks for Chef Automate or AWS OpsWorks for Puppet Enterprise server. Leading and trailing white spaces are trimmed from both the key and value. A maximum of 50 user-applied tags is allowed for tag-supported AWS OpsWorks-CM resources.
+    /// A map that contains tag keys and tag values to attach to an OpsWorks for Chef Automate or OpsWorks for Puppet Enterprise server. Leading and trailing spaces are trimmed from both the key and value. A maximum of 50 user-applied tags is allowed for tag-supported OpsWorks CM resources.
     public struct Tag: Swift.Sendable {
         /// A tag key, such as Stage or Name. A tag key cannot be empty. The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /
         /// This member is required.
@@ -414,7 +414,7 @@ public struct CreateBackupInput: Swift.Sendable {
     /// The name of the server that you want to back up.
     /// This member is required.
     public var serverName: Swift.String?
-    /// A map that contains tag keys and tag values to attach to an AWS OpsWorks-CM server backup.
+    /// A map that contains tag keys and tag values to attach to an OpsWorks CM server backup.
     ///
     /// * The key cannot be empty.
     ///
@@ -424,7 +424,7 @@ public struct CreateBackupInput: Swift.Sendable {
     ///
     /// * Leading and trailing white spaces are trimmed from both the key and value.
     ///
-    /// * A maximum of 50 user-applied tags is allowed for tag-supported AWS OpsWorks-CM resources.
+    /// * A maximum of 50 user-applied tags is allowed for tag-supported OpsWorks CM resources.
     public var tags: [OpsWorksCMClientTypes.Tag]?
 
     public init(
@@ -476,9 +476,9 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
 public struct CreateServerInput: Swift.Sendable {
     /// Associate a public IP address with a server that you are launching. Valid values are true or false. The default value is true.
     public var associatePublicIpAddress: Swift.Bool?
-    /// If you specify this field, AWS OpsWorks CM creates the server by using the backup represented by BackupId.
+    /// If you specify this field, OpsWorks CM creates the server by using the backup represented by BackupId.
     public var backupId: Swift.String?
-    /// The number of automated backups that you want to keep. Whenever a new backup is created, AWS OpsWorks CM deletes the oldest backups if this number is exceeded. The default value is 1.
+    /// The number of automated backups that you want to keep. Whenever a new backup is created, OpsWorks CM deletes the oldest backups if this number is exceeded. The default value is 1.
     public var backupRetentionCount: Swift.Int?
     /// A PEM-formatted HTTPS certificate. The value can be be a single, self-signed certificate, or a certificate chain. If you specify a custom certificate, you must also specify values for CustomDomain and CustomPrivateKey. The following are requirements for the CustomCertificate value:
     ///
@@ -520,7 +520,7 @@ public struct CreateServerInput: Swift.Sendable {
     public var engineModel: Swift.String?
     /// The major release version of the engine that you want to use. For a Chef server, the valid value for EngineVersion is currently 2. For a Puppet server, valid values are 2019 or 2017.
     public var engineVersion: Swift.String?
-    /// The ARN of the instance profile that your Amazon EC2 instances use. Although the AWS OpsWorks console typically creates the instance profile for you, if you are using API commands instead, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml. This template creates a CloudFormation stack that includes the instance profile you need.
+    /// The ARN of the instance profile that your Amazon EC2 instances use. The OpsWorks console typically creates the instance profile for you
     /// This member is required.
     public var instanceProfileArn: Swift.String?
     /// The Amazon EC2 instance type to use. For example, m5.large.
@@ -528,7 +528,7 @@ public struct CreateServerInput: Swift.Sendable {
     public var instanceType: Swift.String?
     /// The Amazon EC2 key pair to set for the instance. This parameter is optional; if desired, you may specify this parameter to connect to your instances by using SSH.
     public var keyPair: Swift.String?
-    /// The start time for a one-hour period during which AWS OpsWorks CM backs up application-level data on your server if automated backups are enabled. Valid values must be specified in one of the following formats:
+    /// The start time for a one-hour period during which OpsWorks CM backs up application-level data on your server if automated backups are enabled. Valid values must be specified in one of the following formats:
     ///
     /// * HH:MM for daily backups
     ///
@@ -537,19 +537,19 @@ public struct CreateServerInput: Swift.Sendable {
     ///
     /// MM must be specified as 00. The specified time is in coordinated universal time (UTC). The default value is a random, daily start time. Example: 08:00, which represents a daily start time of 08:00 UTC. Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
     public var preferredBackupWindow: Swift.String?
-    /// The start time for a one-hour period each week during which AWS OpsWorks CM performs maintenance on the instance. Valid values must be specified in the following format: DDD:HH:MM. MM must be specified as 00. The specified time is in coordinated universal time (UTC). The default value is a random one-hour period on Tuesday, Wednesday, or Friday. See TimeWindowDefinition for more information. Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
+    /// The start time for a one-hour period each week during which OpsWorks CM performs maintenance on the instance. Valid values must be specified in the following format: DDD:HH:MM. MM must be specified as 00. The specified time is in coordinated universal time (UTC). The default value is a random one-hour period on Tuesday, Wednesday, or Friday. See TimeWindowDefinition for more information. Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
     public var preferredMaintenanceWindow: Swift.String?
-    /// A list of security group IDs to attach to the Amazon EC2 instance. If you add this parameter, the specified security groups must be within the VPC that is specified by SubnetIds. If you do not specify this parameter, AWS OpsWorks CM creates one new security group that uses TCP ports 22 and 443, open to 0.0.0.0/0 (everyone).
+    /// A list of security group IDs to attach to the Amazon EC2 instance. If you add this parameter, the specified security groups must be within the VPC that is specified by SubnetIds. If you do not specify this parameter, OpsWorks CM creates one new security group that uses TCP ports 22 and 443, open to 0.0.0.0/0 (everyone).
     public var securityGroupIds: [Swift.String]?
-    /// The name of the server. The server name must be unique within your AWS account, within each region. Server names must start with a letter; then letters, numbers, or hyphens (-) are allowed, up to a maximum of 40 characters.
+    /// The name of the server. The server name must be unique within your Amazon Web Services account, within each region. Server names must start with a letter; then letters, numbers, or hyphens (-) are allowed, up to a maximum of 40 characters.
     /// This member is required.
     public var serverName: Swift.String?
-    /// The service role that the AWS OpsWorks CM service backend uses to work with your account. Although the AWS OpsWorks management console typically creates the service role for you, if you are using the AWS CLI or API commands, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml. This template creates a CloudFormation stack that includes the service role and instance profile that you need.
+    /// The service role that the OpsWorks CM service backend uses to work with your account.
     /// This member is required.
     public var serviceRoleArn: Swift.String?
     /// The IDs of subnets in which to launch the server EC2 instance. Amazon EC2-Classic customers: This field is required. All servers must run within a VPC. The VPC must have "Auto Assign Public IP" enabled. EC2-VPC customers: This field is optional. If you do not specify subnet IDs, your EC2 instances are created in a default subnet that is selected by Amazon EC2. If you specify subnet IDs, the VPC must have "Auto Assign Public IP" enabled. For more information about supported Amazon EC2 platforms, see [Supported Platforms](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-supported-platforms.html).
     public var subnetIds: [Swift.String]?
-    /// A map that contains tag keys and tag values to attach to an AWS OpsWorks for Chef Automate or AWS OpsWorks for Puppet Enterprise server.
+    /// A map that contains tag keys and tag values to attach to an OpsWorks for Chef Automate or OpsWorks for Puppet Enterprise server.
     ///
     /// * The key cannot be empty.
     ///
@@ -557,9 +557,9 @@ public struct CreateServerInput: Swift.Sendable {
     ///
     /// * The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / @
     ///
-    /// * Leading and trailing white spaces are trimmed from both the key and value.
+    /// * Leading and trailing spaces are trimmed from both the key and value.
     ///
-    /// * A maximum of 50 user-applied tags is allowed for any AWS OpsWorks-CM server.
+    /// * A maximum of 50 user-applied tags is allowed for any OpsWorks CM server.
     public var tags: [OpsWorksCMClientTypes.Tag]?
 
     public init(
@@ -725,9 +725,9 @@ extension OpsWorksCMClientTypes {
         public var endpoint: Swift.String?
         /// The engine type of the server. Valid values in this release include ChefAutomate and Puppet.
         public var engine: Swift.String?
-        /// The response of a createServer() request returns the master credential to access the server in EngineAttributes. These credentials are not stored by AWS OpsWorks CM; they are returned only as part of the result of createServer(). Attributes returned in a createServer response for Chef
+        /// The response of a createServer() request returns the master credential to access the server in EngineAttributes. These credentials are not stored by OpsWorks CM; they are returned only as part of the result of createServer(). Attributes returned in a createServer response for Chef
         ///
-        /// * CHEF_AUTOMATE_PIVOTAL_KEY: A base64-encoded RSA private key that is generated by AWS OpsWorks for Chef Automate. This private key is required to access the Chef API.
+        /// * CHEF_AUTOMATE_PIVOTAL_KEY: A base64-encoded RSA private key that is generated by OpsWorks for Chef Automate. This private key is required to access the Chef API.
         ///
         /// * CHEF_STARTER_KIT: A base64-encoded ZIP file. The ZIP file contains a Chef starter kit, which includes a README, a configuration file, and the required RSA private key. Save this file, unzip it, and then change to the directory where you've unzipped the file contents. From this directory, you can run Knife commands.
         ///
@@ -1065,7 +1065,7 @@ extension OpsWorksCMClientTypes {
 }
 
 public struct DescribeNodeAssociationStatusOutput: Swift.Sendable {
-    /// Attributes specific to the node association. In Puppet, the attibute PUPPET_NODE_CERT contains the signed certificate (the result of the CSR).
+    /// Attributes specific to the node association. In Puppet, the attribute PUPPET_NODE_CERT contains the signed certificate (the result of the CSR).
     public var engineAttributes: [OpsWorksCMClientTypes.EngineAttribute]?
     /// The status of the association or disassociation request. Possible values:
     ///
@@ -1165,7 +1165,7 @@ public struct ExportServerEngineAttributeInput: Swift.Sendable {
     ///
     /// * RunList In Chef, a list of roles or recipes that are run in the specified order. In Puppet, this parameter is ignored.
     ///
-    /// * OrganizationName In Chef, an organization name. AWS OpsWorks for Chef Automate always creates the organization default. In Puppet, this parameter is ignored.
+    /// * OrganizationName In Chef, an organization name. OpsWorks for Chef Automate always creates the organization default. In Puppet, this parameter is ignored.
     ///
     /// * NodeEnvironment In Chef, a node environment (for example, development, staging, or one-box). In Puppet, this parameter is ignored.
     ///
@@ -1206,7 +1206,7 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call ListTagsForResource again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur.
     public var nextToken: Swift.String?
-    /// The Amazon Resource Number (ARN) of an AWS OpsWorks for Chef Automate or AWS OpsWorks for Puppet Enterprise server for which you want to show applied tags. For example, arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1a2bEXAMPLE.
+    /// The Amazon Resource Number (ARN) of an OpsWorks for Chef Automate or OpsWorks for Puppet Enterprise server for which you want to show applied tags. For example, arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1a2bEXAMPLE.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -1275,7 +1275,7 @@ public struct RestoreServerOutput: Swift.Sendable {
 public struct StartMaintenanceInput: Swift.Sendable {
     /// Engine attributes that are specific to the server on which you want to run maintenance. Attributes accepted in a StartMaintenance request for Chef
     ///
-    /// * CHEF_MAJOR_UPGRADE: If a Chef Automate server is eligible for upgrade to Chef Automate 2, add this engine attribute to a StartMaintenance request and set the value to true to upgrade the server to Chef Automate 2. For more information, see [Upgrade an AWS OpsWorks for Chef Automate Server to Chef Automate 2](https://docs.aws.amazon.com/opsworks/latest/userguide/opscm-a2upgrade.html).
+    /// * CHEF_MAJOR_UPGRADE: If a Chef Automate server is eligible for upgrade to Chef Automate 2, add this engine attribute to a StartMaintenance request and set the value to true to upgrade the server to Chef Automate 2. For more information, see [Upgrade an OpsWorks for Chef Automate Server to Chef Automate 2](https://docs.aws.amazon.com/opsworks/latest/userguide/opscm-a2upgrade.html).
     public var engineAttributes: [OpsWorksCMClientTypes.EngineAttribute]?
     /// The name of the server on which to run maintenance.
     /// This member is required.
@@ -1305,7 +1305,7 @@ public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Number (ARN) of a resource to which you want to apply tags. For example, arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1a2bEXAMPLE.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// A map that contains tag keys and tag values to attach to AWS OpsWorks-CM servers or backups.
+    /// A map that contains tag keys and tag values to attach to OpsWorks CM servers or backups.
     ///
     /// * The key cannot be empty.
     ///
@@ -1315,7 +1315,7 @@ public struct TagResourceInput: Swift.Sendable {
     ///
     /// * Leading and trailing white spaces are trimmed from both the key and value.
     ///
-    /// * A maximum of 50 user-applied tags is allowed for any AWS OpsWorks-CM server or backup.
+    /// * A maximum of 50 user-applied tags is allowed for any OpsWorks CM server or backup.
     /// This member is required.
     public var tags: [OpsWorksCMClientTypes.Tag]?
 

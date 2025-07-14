@@ -41,3 +41,35 @@ extension PaginatorSequence where OperationStackInput == GetFreeTierUsageInput, 
         return try await self.asyncCompactMap { item in item.freeTierUsages }
     }
 }
+extension FreeTierClient {
+    /// Paginate over `[ListAccountActivitiesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAccountActivitiesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAccountActivitiesOutput`
+    public func listAccountActivitiesPaginated(input: ListAccountActivitiesInput) -> ClientRuntime.PaginatorSequence<ListAccountActivitiesInput, ListAccountActivitiesOutput> {
+        return ClientRuntime.PaginatorSequence<ListAccountActivitiesInput, ListAccountActivitiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccountActivities(input:))
+    }
+}
+
+extension ListAccountActivitiesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAccountActivitiesInput {
+        return ListAccountActivitiesInput(
+            filterActivityStatuses: self.filterActivityStatuses,
+            languageCode: self.languageCode,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAccountActivitiesInput, OperationStackOutput == ListAccountActivitiesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAccountActivitiesPaginated`
+    /// to access the nested member `[FreeTierClientTypes.ActivitySummary]`
+    /// - Returns: `[FreeTierClientTypes.ActivitySummary]`
+    public func activities() async throws -> [FreeTierClientTypes.ActivitySummary] {
+        return try await self.asyncCompactMap { item in item.activities }
+    }
+}

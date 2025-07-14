@@ -350,6 +350,7 @@ extension Route53ClientTypes {
         case cnNorthwest1
         case euCentral1
         case euCentral2
+        case euIsoeWest1
         case euNorth1
         case euSouth1
         case euSouth2
@@ -396,6 +397,7 @@ extension Route53ClientTypes {
                 .cnNorthwest1,
                 .euCentral1,
                 .euCentral2,
+                .euIsoeWest1,
                 .euNorth1,
                 .euSouth1,
                 .euSouth2,
@@ -448,6 +450,7 @@ extension Route53ClientTypes {
             case .cnNorthwest1: return "cn-northwest-1"
             case .euCentral1: return "eu-central-1"
             case .euCentral2: return "eu-central-2"
+            case .euIsoeWest1: return "eu-isoe-west-1"
             case .euNorth1: return "eu-north-1"
             case .euSouth1: return "eu-south-1"
             case .euSouth2: return "eu-south-2"
@@ -816,6 +819,7 @@ extension Route53ClientTypes {
         case cnNorthwest1
         case euCentral1
         case euCentral2
+        case euIsoeWest1
         case euNorth1
         case euSouth1
         case euSouth2
@@ -862,6 +866,7 @@ extension Route53ClientTypes {
                 .cnNorthwest1,
                 .euCentral1,
                 .euCentral2,
+                .euIsoeWest1,
                 .euNorth1,
                 .euSouth1,
                 .euSouth2,
@@ -914,6 +919,7 @@ extension Route53ClientTypes {
             case .cnNorthwest1: return "cn-northwest-1"
             case .euCentral1: return "eu-central-1"
             case .euCentral2: return "eu-central-2"
+            case .euIsoeWest1: return "eu-isoe-west-1"
             case .euNorth1: return "eu-north-1"
             case .euSouth1: return "eu-south-1"
             case .euSouth2: return "eu-south-2"

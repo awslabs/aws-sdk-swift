@@ -330,6 +330,8 @@ extension DeadlineClientTypes {
         case string(Swift.String)
         /// A file system path represented as a string.
         case path(Swift.String)
+        /// A range (for example 1-10) or selection of specific (for example 1,3,7,8,10) integers represented as a string.
+        case chunkint(Swift.String)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5318,12 +5320,33 @@ public struct UpdateWorkerOutput: Swift.Sendable {
 
 extension DeadlineClientTypes {
 
+    /// The output manifest properties reported by the worker agent for a completed task run.
+    public struct TaskRunManifestPropertiesRequest: Swift.Sendable {
+        /// The hash value of the file.
+        public var outputManifestHash: Swift.String?
+        /// The manifest file path.
+        public var outputManifestPath: Swift.String?
+
+        public init(
+            outputManifestHash: Swift.String? = nil,
+            outputManifestPath: Swift.String? = nil
+        ) {
+            self.outputManifestHash = outputManifestHash
+            self.outputManifestPath = outputManifestPath
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
     /// The updated session action information as it relates to completion and progress of the session.
     public struct UpdatedSessionActionInfo: Swift.Sendable {
         /// The status of the session upon completion.
         public var completedStatus: DeadlineClientTypes.CompletedStatus?
         /// The date and time the resource ended running.
         public var endedAt: Foundation.Date?
+        /// A list of output manifest properties reported by the worker agent, with each entry corresponding to a manifest property in the job.
+        public var manifests: [DeadlineClientTypes.TaskRunManifestPropertiesRequest]?
         /// The process exit code. The default Deadline Cloud worker agent converts unsigned 32-bit exit codes to signed 32-bit exit codes.
         public var processExitCode: Swift.Int?
         /// A message to indicate the progress of the updated session action.
@@ -5338,6 +5361,7 @@ extension DeadlineClientTypes {
         public init(
             completedStatus: DeadlineClientTypes.CompletedStatus? = nil,
             endedAt: Foundation.Date? = nil,
+            manifests: [DeadlineClientTypes.TaskRunManifestPropertiesRequest]? = nil,
             processExitCode: Swift.Int? = nil,
             progressMessage: Swift.String? = nil,
             progressPercent: Swift.Float? = nil,
@@ -5346,6 +5370,7 @@ extension DeadlineClientTypes {
         ) {
             self.completedStatus = completedStatus
             self.endedAt = endedAt
+            self.manifests = manifests
             self.processExitCode = processExitCode
             self.progressMessage = progressMessage
             self.progressPercent = progressPercent
@@ -5357,7 +5382,7 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes.UpdatedSessionActionInfo: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdatedSessionActionInfo(completedStatus: \(Swift.String(describing: completedStatus)), endedAt: \(Swift.String(describing: endedAt)), processExitCode: \(Swift.String(describing: processExitCode)), progressPercent: \(Swift.String(describing: progressPercent)), startedAt: \(Swift.String(describing: startedAt)), updatedAt: \(Swift.String(describing: updatedAt)), progressMessage: \"CONTENT_REDACTED\")"}
+        "UpdatedSessionActionInfo(completedStatus: \(Swift.String(describing: completedStatus)), endedAt: \(Swift.String(describing: endedAt)), manifests: \(Swift.String(describing: manifests)), processExitCode: \(Swift.String(describing: processExitCode)), progressPercent: \(Swift.String(describing: progressPercent)), startedAt: \(Swift.String(describing: startedAt)), updatedAt: \(Swift.String(describing: updatedAt)), progressMessage: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateWorkerScheduleInput: Swift.Sendable {
@@ -6851,6 +6876,25 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
+    /// The manifest properties for a task run, corresponding to the manifest properties in the job.
+    public struct TaskRunManifestPropertiesResponse: Swift.Sendable {
+        /// The hash value of the file.
+        public var outputManifestHash: Swift.String?
+        /// The manifest file path.
+        public var outputManifestPath: Swift.String?
+
+        public init(
+            outputManifestHash: Swift.String? = nil,
+            outputManifestPath: Swift.String? = nil
+        ) {
+            self.outputManifestHash = outputManifestHash
+            self.outputManifestPath = outputManifestPath
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
     public enum SessionActionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case assigned
         case canceled
@@ -6913,6 +6957,8 @@ public struct GetSessionActionOutput: Swift.Sendable {
     public var definition: DeadlineClientTypes.SessionActionDefinition?
     /// The date and time the resource ended running.
     public var endedAt: Foundation.Date?
+    /// The list of manifest properties that describe file attachments for the task run.
+    public var manifests: [DeadlineClientTypes.TaskRunManifestPropertiesResponse]?
     /// The process exit code. The default Deadline Cloud worker agent converts unsigned 32-bit exit codes to signed 32-bit exit codes.
     public var processExitCode: Swift.Int?
     /// The message that communicates the progress of the session action.
@@ -6937,6 +6983,7 @@ public struct GetSessionActionOutput: Swift.Sendable {
         acquiredLimits: [DeadlineClientTypes.AcquiredLimit]? = nil,
         definition: DeadlineClientTypes.SessionActionDefinition? = nil,
         endedAt: Foundation.Date? = nil,
+        manifests: [DeadlineClientTypes.TaskRunManifestPropertiesResponse]? = nil,
         processExitCode: Swift.Int? = nil,
         progressMessage: Swift.String? = nil,
         progressPercent: Swift.Float? = nil,
@@ -6949,6 +6996,7 @@ public struct GetSessionActionOutput: Swift.Sendable {
         self.acquiredLimits = acquiredLimits
         self.definition = definition
         self.endedAt = endedAt
+        self.manifests = manifests
         self.processExitCode = processExitCode
         self.progressMessage = progressMessage
         self.progressPercent = progressPercent
@@ -6962,7 +7010,7 @@ public struct GetSessionActionOutput: Swift.Sendable {
 
 extension GetSessionActionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetSessionActionOutput(acquiredLimits: \(Swift.String(describing: acquiredLimits)), definition: \(Swift.String(describing: definition)), endedAt: \(Swift.String(describing: endedAt)), processExitCode: \(Swift.String(describing: processExitCode)), progressPercent: \(Swift.String(describing: progressPercent)), sessionActionId: \(Swift.String(describing: sessionActionId)), sessionId: \(Swift.String(describing: sessionId)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), workerUpdatedAt: \(Swift.String(describing: workerUpdatedAt)), progressMessage: \"CONTENT_REDACTED\")"}
+        "GetSessionActionOutput(acquiredLimits: \(Swift.String(describing: acquiredLimits)), definition: \(Swift.String(describing: definition)), endedAt: \(Swift.String(describing: endedAt)), manifests: \(Swift.String(describing: manifests)), processExitCode: \(Swift.String(describing: processExitCode)), progressPercent: \(Swift.String(describing: progressPercent)), sessionActionId: \(Swift.String(describing: sessionActionId)), sessionId: \(Swift.String(describing: sessionId)), startedAt: \(Swift.String(describing: startedAt)), status: \(Swift.String(describing: status)), workerUpdatedAt: \(Swift.String(describing: workerUpdatedAt)), progressMessage: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetStepInput: Swift.Sendable {
@@ -7061,6 +7109,7 @@ extension DeadlineClientTypes {
 extension DeadlineClientTypes {
 
     public enum StepParameterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case chunkInt
         case float
         case int
         case path
@@ -7069,6 +7118,7 @@ extension DeadlineClientTypes {
 
         public static var allCases: [StepParameterType] {
             return [
+                .chunkInt,
                 .float,
                 .int,
                 .path,
@@ -7083,6 +7133,7 @@ extension DeadlineClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .chunkInt: return "CHUNK_INT"
             case .float: return "FLOAT"
             case .int: return "INT"
             case .path: return "PATH"
@@ -7862,6 +7913,8 @@ extension DeadlineClientTypes {
 
     /// The details of a task run in a session action.
     public struct TaskRunSessionActionDefinitionSummary: Swift.Sendable {
+        /// The parameters of a task run in a session action.
+        public var parameters: [Swift.String: DeadlineClientTypes.TaskParameterValue]?
         /// The step ID.
         /// This member is required.
         public var stepId: Swift.String?
@@ -7869,13 +7922,20 @@ extension DeadlineClientTypes {
         public var taskId: Swift.String?
 
         public init(
+            parameters: [Swift.String: DeadlineClientTypes.TaskParameterValue]? = nil,
             stepId: Swift.String? = nil,
             taskId: Swift.String? = nil
         ) {
+            self.parameters = parameters
             self.stepId = stepId
             self.taskId = taskId
         }
     }
+}
+
+extension DeadlineClientTypes.TaskRunSessionActionDefinitionSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TaskRunSessionActionDefinitionSummary(stepId: \(Swift.String(describing: stepId)), taskId: \(Swift.String(describing: taskId)), parameters: \"CONTENT_REDACTED\")"}
 }
 
 extension DeadlineClientTypes {
@@ -7903,6 +7963,8 @@ extension DeadlineClientTypes {
         public var definition: DeadlineClientTypes.SessionActionDefinitionSummary?
         /// The date and time the resource ended running.
         public var endedAt: Foundation.Date?
+        /// The list of manifest properties that describe file attachments for the task run.
+        public var manifests: [DeadlineClientTypes.TaskRunManifestPropertiesResponse]?
         /// The completion percentage for the session action.
         public var progressPercent: Swift.Float?
         /// The session action ID.
@@ -7919,6 +7981,7 @@ extension DeadlineClientTypes {
         public init(
             definition: DeadlineClientTypes.SessionActionDefinitionSummary? = nil,
             endedAt: Foundation.Date? = nil,
+            manifests: [DeadlineClientTypes.TaskRunManifestPropertiesResponse]? = nil,
             progressPercent: Swift.Float? = nil,
             sessionActionId: Swift.String? = nil,
             startedAt: Foundation.Date? = nil,
@@ -7927,6 +7990,7 @@ extension DeadlineClientTypes {
         ) {
             self.definition = definition
             self.endedAt = endedAt
+            self.manifests = manifests
             self.progressPercent = progressPercent
             self.sessionActionId = sessionActionId
             self.startedAt = startedAt
@@ -14906,6 +14970,7 @@ extension GetSessionActionOutput {
         value.acquiredLimits = try reader["acquiredLimits"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.AcquiredLimit.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.definition = try reader["definition"].readIfPresent(with: DeadlineClientTypes.SessionActionDefinition.read(from:))
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.manifests = try reader["manifests"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.TaskRunManifestPropertiesResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.processExitCode = try reader["processExitCode"].readIfPresent()
         value.progressMessage = try reader["progressMessage"].readIfPresent()
         value.progressPercent = try reader["progressPercent"].readIfPresent()
@@ -18643,6 +18708,8 @@ extension DeadlineClientTypes.TaskParameterValue {
                 return .string(try reader["string"].read())
             case "path":
                 return .path(try reader["path"].read())
+            case "chunkInt":
+                return .chunkint(try reader["chunkInt"].read())
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -18676,6 +18743,17 @@ extension DeadlineClientTypes.AcquiredLimit {
         var value = DeadlineClientTypes.AcquiredLimit()
         value.limitId = try reader["limitId"].readIfPresent() ?? ""
         value.count = try reader["count"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension DeadlineClientTypes.TaskRunManifestPropertiesResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.TaskRunManifestPropertiesResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.TaskRunManifestPropertiesResponse()
+        value.outputManifestPath = try reader["outputManifestPath"].readIfPresent()
+        value.outputManifestHash = try reader["outputManifestHash"].readIfPresent()
         return value
     }
 }
@@ -19092,6 +19170,7 @@ extension DeadlineClientTypes.SessionActionSummary {
         value.workerUpdatedAt = try reader["workerUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.progressPercent = try reader["progressPercent"].readIfPresent()
         value.definition = try reader["definition"].readIfPresent(with: DeadlineClientTypes.SessionActionDefinitionSummary.read(from:))
+        value.manifests = try reader["manifests"].readListIfPresent(memberReadingClosure: DeadlineClientTypes.TaskRunManifestPropertiesResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -19133,6 +19212,7 @@ extension DeadlineClientTypes.TaskRunSessionActionDefinitionSummary {
         var value = DeadlineClientTypes.TaskRunSessionActionDefinitionSummary()
         value.taskId = try reader["taskId"].readIfPresent()
         value.stepId = try reader["stepId"].readIfPresent() ?? ""
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.TaskParameterValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -19723,11 +19803,21 @@ extension DeadlineClientTypes.UpdatedSessionActionInfo {
         guard let value else { return }
         try writer["completedStatus"].write(value.completedStatus)
         try writer["endedAt"].writeTimestamp(value.endedAt, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["manifests"].writeList(value.manifests, memberWritingClosure: DeadlineClientTypes.TaskRunManifestPropertiesRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["processExitCode"].write(value.processExitCode)
         try writer["progressMessage"].write(value.progressMessage)
         try writer["progressPercent"].write(value.progressPercent)
         try writer["startedAt"].writeTimestamp(value.startedAt, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["updatedAt"].writeTimestamp(value.updatedAt, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+}
+
+extension DeadlineClientTypes.TaskRunManifestPropertiesRequest {
+
+    static func write(value: DeadlineClientTypes.TaskRunManifestPropertiesRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["outputManifestHash"].write(value.outputManifestHash)
+        try writer["outputManifestPath"].write(value.outputManifestPath)
     }
 }
 
