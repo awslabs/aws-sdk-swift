@@ -95,6 +95,17 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
         self.credentialFeatureIDs = credentialFeatureIDs
     }
 
+    public init(
+        configFilePath: String? = nil,
+        credentialsFilePath: String? = nil,
+        profileName: String
+    ) {
+        self.configFilePath = configFilePath
+        self.credentialsFilePath = credentialsFilePath
+        self.profileName = profileName
+        self.source = .configFile
+    }
+
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
         guard let identityProperties, let internalSTSClient = identityProperties.get(
             key: InternalClientKeys.internalSTSClientKey

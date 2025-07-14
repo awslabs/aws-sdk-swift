@@ -6145,6 +6145,25 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// Contains a presigned URL and its associated local file path for downloading hub content artifacts.
+    public struct AuthorizedUrl: Swift.Sendable {
+        /// The recommended local file path where the downloaded file should be stored to maintain proper directory structure and file organization.
+        public var localPath: Swift.String?
+        /// The presigned S3 URL that provides temporary, secure access to download the file. URLs expire within 15 minutes for security purposes.
+        public var url: Swift.String?
+
+        public init(
+            localPath: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.localPath = localPath
+            self.url = url
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum AutoMLAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case arima
         case catboost
@@ -16017,14 +16036,12 @@ public struct CreateDomainInput: Swift.Sendable {
     /// SageMaker AI uses Amazon Web Services KMS to encrypt EFS and EBS volumes attached to the domain with an Amazon Web Services managed key by default. For more control, specify a customer managed key.
     public var kmsKeyId: Swift.String?
     /// The VPC subnets that the domain uses for communication.
-    /// This member is required.
     public var subnetIds: [Swift.String]?
     /// Indicates whether custom tag propagation is supported for the domain. Defaults to DISABLED.
     public var tagPropagation: SageMakerClientTypes.TagPropagation?
     /// Tags to associated with the Domain. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API. Tags that you specify for the Domain are also added to all Apps that the Domain launches.
     public var tags: [SageMakerClientTypes.Tag]?
     /// The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for communication.
-    /// This member is required.
     public var vpcId: Swift.String?
 
     public init(
@@ -18100,6 +18117,111 @@ public struct CreateHubOutput: Swift.Sendable {
         hubArn: Swift.String? = nil
     ) {
         self.hubArn = hubArn
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Configuration for accessing hub content through presigned URLs, including license agreement acceptance and URL validation settings.
+    public struct PresignedUrlAccessConfig: Swift.Sendable {
+        /// Indicates acceptance of the End User License Agreement (EULA) for gated models. Set to true to acknowledge acceptance of the license terms required for accessing gated content.
+        public var acceptEula: Swift.Bool?
+        /// The expected S3 URL prefix for validation purposes. This parameter helps ensure consistency between the resolved S3 URIs and the deployment configuration, reducing potential compatibility issues.
+        public var expectedS3Url: Swift.String?
+
+        public init(
+            acceptEula: Swift.Bool? = nil,
+            expectedS3Url: Swift.String? = nil
+        ) {
+            self.acceptEula = acceptEula
+            self.expectedS3Url = expectedS3Url
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum HubContentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case model
+        case modelReference
+        case notebook
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HubContentType] {
+            return [
+                .model,
+                .modelReference,
+                .notebook
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .model: return "Model"
+            case .modelReference: return "ModelReference"
+            case .notebook: return "Notebook"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateHubContentPresignedUrlsInput: Swift.Sendable {
+    /// Configuration settings for accessing the hub content, including end-user license agreement acceptance for gated models and expected S3 URL validation.
+    public var accessConfig: SageMakerClientTypes.PresignedUrlAccessConfig?
+    /// The name of the hub content for which to generate presigned URLs. This identifies the specific model or content within the hub.
+    /// This member is required.
+    public var hubContentName: Swift.String?
+    /// The type of hub content to access. Valid values include Model, Notebook, and ModelReference.
+    /// This member is required.
+    public var hubContentType: SageMakerClientTypes.HubContentType?
+    /// The version of the hub content. If not specified, the latest version is used.
+    public var hubContentVersion: Swift.String?
+    /// The name or Amazon Resource Name (ARN) of the hub that contains the content. For public content, use SageMakerPublicHub.
+    /// This member is required.
+    public var hubName: Swift.String?
+    /// The maximum number of presigned URLs to return in the response. Default value is 100. Large models may contain hundreds of files, requiring pagination to retrieve all URLs.
+    public var maxResults: Swift.Int?
+    /// A token for pagination. Use this token to retrieve the next set of presigned URLs when the response is truncated.
+    public var nextToken: Swift.String?
+
+    public init(
+        accessConfig: SageMakerClientTypes.PresignedUrlAccessConfig? = nil,
+        hubContentName: Swift.String? = nil,
+        hubContentType: SageMakerClientTypes.HubContentType? = nil,
+        hubContentVersion: Swift.String? = nil,
+        hubName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.accessConfig = accessConfig
+        self.hubContentName = hubContentName
+        self.hubContentType = hubContentType
+        self.hubContentVersion = hubContentVersion
+        self.hubName = hubName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct CreateHubContentPresignedUrlsOutput: Swift.Sendable {
+    /// An array of authorized URL configurations, each containing a presigned URL and its corresponding local file path for proper file organization during download.
+    /// This member is required.
+    public var authorizedUrlConfigs: [SageMakerClientTypes.AuthorizedUrl]?
+    /// A token for pagination. If present, indicates that more presigned URLs are available. Use this token in a subsequent request to retrieve additional URLs.
+    public var nextToken: Swift.String?
+
+    public init(
+        authorizedUrlConfigs: [SageMakerClientTypes.AuthorizedUrl]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.authorizedUrlConfigs = authorizedUrlConfigs
+        self.nextToken = nextToken
     }
 }
 
@@ -25113,6 +25235,8 @@ extension SageMakerClientTypes {
         public var jupyterServerAppSettings: SageMakerClientTypes.JupyterServerAppSettings?
         /// The KernelGateway app settings.
         public var kernelGatewayAppSettings: SageMakerClientTypes.KernelGatewayAppSettings?
+        /// A setting that enables or disables remote access for a SageMaker space. When enabled, this allows you to connect to the remote space from your local IDE.
+        public var remoteAccess: SageMakerClientTypes.FeatureStatus?
         /// If you enable this option, SageMaker AI creates the following resources on your behalf when you create the space:
         ///
         /// * The user profile that possesses the space.
@@ -25129,6 +25253,7 @@ extension SageMakerClientTypes {
             jupyterLabAppSettings: SageMakerClientTypes.SpaceJupyterLabAppSettings? = nil,
             jupyterServerAppSettings: SageMakerClientTypes.JupyterServerAppSettings? = nil,
             kernelGatewayAppSettings: SageMakerClientTypes.KernelGatewayAppSettings? = nil,
+            remoteAccess: SageMakerClientTypes.FeatureStatus? = nil,
             spaceManagedResources: SageMakerClientTypes.FeatureStatus? = nil,
             spaceStorageSettings: SageMakerClientTypes.SpaceStorageSettings? = nil
         ) {
@@ -25138,6 +25263,7 @@ extension SageMakerClientTypes {
             self.jupyterLabAppSettings = jupyterLabAppSettings
             self.jupyterServerAppSettings = jupyterServerAppSettings
             self.kernelGatewayAppSettings = kernelGatewayAppSettings
+            self.remoteAccess = remoteAccess
             self.spaceManagedResources = spaceManagedResources
             self.spaceStorageSettings = spaceStorageSettings
         }
@@ -27019,38 +27145,6 @@ public struct DeleteHubInput: Swift.Sendable {
         hubName: Swift.String? = nil
     ) {
         self.hubName = hubName
-    }
-}
-
-extension SageMakerClientTypes {
-
-    public enum HubContentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case model
-        case modelReference
-        case notebook
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [HubContentType] {
-            return [
-                .model,
-                .modelReference,
-                .notebook
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .model: return "Model"
-            case .modelReference: return "ModelReference"
-            case .notebook: return "Notebook"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -46763,14 +46857,18 @@ extension SageMakerClientTypes {
     public struct SpaceSettingsSummary: Swift.Sendable {
         /// The type of app created within the space.
         public var appType: SageMakerClientTypes.AppType?
+        /// A setting that enables or disables remote access for a SageMaker space. When enabled, this allows you to connect to the remote space from your local IDE.
+        public var remoteAccess: SageMakerClientTypes.FeatureStatus?
         /// The storage settings for a space.
         public var spaceStorageSettings: SageMakerClientTypes.SpaceStorageSettings?
 
         public init(
             appType: SageMakerClientTypes.AppType? = nil,
+            remoteAccess: SageMakerClientTypes.FeatureStatus? = nil,
             spaceStorageSettings: SageMakerClientTypes.SpaceStorageSettings? = nil
         ) {
             self.appType = appType
+            self.remoteAccess = remoteAccess
             self.spaceStorageSettings = spaceStorageSettings
         }
     }
@@ -50510,6 +50608,37 @@ public struct StartPipelineExecutionOutput: Swift.Sendable {
     }
 }
 
+public struct StartSessionInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource to which the remote connection will be established. For example, this identifies the specific ARN space application you want to connect to from your local IDE.
+    /// This member is required.
+    public var resourceIdentifier: Swift.String?
+
+    public init(
+        resourceIdentifier: Swift.String? = nil
+    ) {
+        self.resourceIdentifier = resourceIdentifier
+    }
+}
+
+public struct StartSessionOutput: Swift.Sendable {
+    /// A unique identifier for the established remote connection session.
+    public var sessionId: Swift.String?
+    /// A WebSocket URL used to establish a SSH connection between the local IDE and remote SageMaker space.
+    public var streamUrl: Swift.String?
+    /// An encrypted token value containing session and caller information.
+    public var tokenValue: Swift.String?
+
+    public init(
+        sessionId: Swift.String? = nil,
+        streamUrl: Swift.String? = nil,
+        tokenValue: Swift.String? = nil
+    ) {
+        self.sessionId = sessionId
+        self.streamUrl = streamUrl
+        self.tokenValue = tokenValue
+    }
+}
+
 public struct StopAutoMLJobInput: Swift.Sendable {
     /// The name of the object you are requesting.
     /// This member is required.
@@ -52930,6 +53059,13 @@ extension CreateHubInput {
     }
 }
 
+extension CreateHubContentPresignedUrlsInput {
+
+    static func urlPathProvider(_ value: CreateHubContentPresignedUrlsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateHubContentReferenceInput {
 
     static func urlPathProvider(_ value: CreateHubContentReferenceInput) -> Swift.String? {
@@ -54813,6 +54949,13 @@ extension StartPipelineExecutionInput {
     }
 }
 
+extension StartSessionInput {
+
+    static func urlPathProvider(_ value: StartSessionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StopAutoMLJobInput {
 
     static func urlPathProvider(_ value: StopAutoMLJobInput) -> Swift.String? {
@@ -55619,6 +55762,20 @@ extension CreateHubInput {
         try writer["HubSearchKeywords"].writeList(value.hubSearchKeywords, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["S3StorageConfig"].write(value.s3StorageConfig, with: SageMakerClientTypes.HubS3StorageConfig.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateHubContentPresignedUrlsInput {
+
+    static func write(value: CreateHubContentPresignedUrlsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessConfig"].write(value.accessConfig, with: SageMakerClientTypes.PresignedUrlAccessConfig.write(value:to:))
+        try writer["HubContentName"].write(value.hubContentName)
+        try writer["HubContentType"].write(value.hubContentType)
+        try writer["HubContentVersion"].write(value.hubContentVersion)
+        try writer["HubName"].write(value.hubName)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
     }
 }
 
@@ -58709,6 +58866,14 @@ extension StartPipelineExecutionInput {
     }
 }
 
+extension StartSessionInput {
+
+    static func write(value: StartSessionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceIdentifier"].write(value.resourceIdentifier)
+    }
+}
+
 extension StopAutoMLJobInput {
 
     static func write(value: StopAutoMLJobInput?, to writer: SmithyJSON.Writer) throws {
@@ -59709,6 +59874,19 @@ extension CreateHubOutput {
         let reader = responseReader
         var value = CreateHubOutput()
         value.hubArn = try reader["HubArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateHubContentPresignedUrlsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateHubContentPresignedUrlsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateHubContentPresignedUrlsOutput()
+        value.authorizedUrlConfigs = try reader["AuthorizedUrlConfigs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AuthorizedUrl.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -63590,6 +63768,20 @@ extension StartPipelineExecutionOutput {
     }
 }
 
+extension StartSessionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartSessionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartSessionOutput()
+        value.sessionId = try reader["SessionId"].readIfPresent()
+        value.streamUrl = try reader["StreamUrl"].readIfPresent()
+        value.tokenValue = try reader["TokenValue"].readIfPresent()
+        return value
+    }
+}
+
 extension StopAutoMLJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopAutoMLJobOutput {
@@ -64639,6 +64831,19 @@ enum CreateHubOutputError {
         switch baseError.code {
             case "ResourceInUse": return try ResourceInUse.makeError(baseError: baseError)
             case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateHubContentPresignedUrlsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -68377,6 +68582,21 @@ enum StartPipelineExecutionOutputError {
     }
 }
 
+enum StartSessionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StopAutoMLJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -69514,6 +69734,17 @@ extension SageMakerClientTypes.BatchDescribeModelPackageError {
         var value = SageMakerClientTypes.BatchDescribeModelPackageError()
         value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
         value.errorResponse = try reader["ErrorResponse"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SageMakerClientTypes.AuthorizedUrl {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AuthorizedUrl {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.AuthorizedUrl()
+        value.url = try reader["Url"].readIfPresent()
+        value.localPath = try reader["LocalPath"].readIfPresent()
         return value
     }
 }
@@ -76770,6 +77001,7 @@ extension SageMakerClientTypes.SpaceSettings {
         try writer["JupyterLabAppSettings"].write(value.jupyterLabAppSettings, with: SageMakerClientTypes.SpaceJupyterLabAppSettings.write(value:to:))
         try writer["JupyterServerAppSettings"].write(value.jupyterServerAppSettings, with: SageMakerClientTypes.JupyterServerAppSettings.write(value:to:))
         try writer["KernelGatewayAppSettings"].write(value.kernelGatewayAppSettings, with: SageMakerClientTypes.KernelGatewayAppSettings.write(value:to:))
+        try writer["RemoteAccess"].write(value.remoteAccess)
         try writer["SpaceManagedResources"].write(value.spaceManagedResources)
         try writer["SpaceStorageSettings"].write(value.spaceStorageSettings, with: SageMakerClientTypes.SpaceStorageSettings.write(value:to:))
     }
@@ -76785,6 +77017,7 @@ extension SageMakerClientTypes.SpaceSettings {
         value.spaceStorageSettings = try reader["SpaceStorageSettings"].readIfPresent(with: SageMakerClientTypes.SpaceStorageSettings.read(from:))
         value.spaceManagedResources = try reader["SpaceManagedResources"].readIfPresent()
         value.customFileSystems = try reader["CustomFileSystems"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.CustomFileSystem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.remoteAccess = try reader["RemoteAccess"].readIfPresent()
         return value
     }
 }
@@ -79122,6 +79355,7 @@ extension SageMakerClientTypes.SpaceSettingsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.SpaceSettingsSummary()
         value.appType = try reader["AppType"].readIfPresent()
+        value.remoteAccess = try reader["RemoteAccess"].readIfPresent()
         value.spaceStorageSettings = try reader["SpaceStorageSettings"].readIfPresent(with: SageMakerClientTypes.SpaceStorageSettings.read(from:))
         return value
     }
@@ -79970,6 +80204,15 @@ extension SageMakerClientTypes.ThroughputConfig {
         try writer["ProvisionedReadCapacityUnits"].write(value.provisionedReadCapacityUnits)
         try writer["ProvisionedWriteCapacityUnits"].write(value.provisionedWriteCapacityUnits)
         try writer["ThroughputMode"].write(value.throughputMode)
+    }
+}
+
+extension SageMakerClientTypes.PresignedUrlAccessConfig {
+
+    static func write(value: SageMakerClientTypes.PresignedUrlAccessConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AcceptEula"].write(value.acceptEula)
+        try writer["ExpectedS3Url"].write(value.expectedS3Url)
     }
 }
 
