@@ -76,6 +76,10 @@ class STSWebIdentityAWSCredentialIdentityResolverTests: XCTestCase {
     "Action": "sts:GetCallerIdentity","Resource": "*"}]}
     """
 
+    // The value of AWS_REGION before this test worked with it. Must restore it as it's used by other tests
+    //  in Mac EC2s in internal build.
+    private var regionToRestore: String?
+
     // MARK: - SETUP & TEARDOWN
 
     override func setUp() async throws {
@@ -115,8 +119,12 @@ class STSWebIdentityAWSCredentialIdentityResolverTests: XCTestCase {
         // Delete token file
         try? deleteTokenFile()
 
-        // Unset env variables set for the test.
-        unsetenv("AWS_REGION")
+        // Rrestore / unset env variables set for the test.
+        if let regionToRestore {
+            setenv("AWS_REGION", regionToRestore, 1)
+        } else {
+            unsetenv("AWS_REGION")
+        }
         unsetenv("AWS_ROLE_ARN")
         unsetenv("AWS_ROLE_SESSION_NAME")
         unsetenv("AWS_WEB_IDENTITY_TOKEN_FILE")
@@ -202,6 +210,8 @@ class STSWebIdentityAWSCredentialIdentityResolverTests: XCTestCase {
     }
 
     private func constructSTSConfigWithWebIdentityAWSCredentialIdentityResolver() async throws {
+        // Save current value of AWS_REGION.
+        regionToRestore = ProcessInfo.processInfo.environment["AWS_REGION"]
         setenv("AWS_REGION", region, 1)
         setenv("AWS_ROLE_ARN", roleArn, 1)
         setenv("AWS_ROLE_SESSION_NAME", roleSessionName, 1)
