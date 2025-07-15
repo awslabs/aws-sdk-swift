@@ -29,7 +29,7 @@ extension ElasticLoadBalancingv2Client {
                     let code = state?.code
                     return code
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "active") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "active") } ?? false)
             }),
             .init(state: .retry, matcher: { (input: DescribeLoadBalancersInput, result: Swift.Result<DescribeLoadBalancersOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "LoadBalancers[].State.Code"
@@ -113,7 +113,7 @@ extension ElasticLoadBalancingv2Client {
                     let code = state?.code
                     return code
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "active") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "active") } ?? false)
             }),
             .init(state: .success, matcher: { (input: DescribeLoadBalancersInput, result: Swift.Result<DescribeLoadBalancersOutput, Swift.Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
@@ -156,7 +156,7 @@ extension ElasticLoadBalancingv2Client {
                     let state = targetHealth?.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "unused") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "unused") } ?? false)
             }),
         ]
         return try SmithyWaitersAPI.WaiterConfiguration<DescribeTargetHealthInput, DescribeTargetHealthOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -191,7 +191,7 @@ extension ElasticLoadBalancingv2Client {
                     let state = targetHealth?.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "healthy") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "healthy") } ?? false)
             }),
             .init(state: .retry, matcher: { (input: DescribeTargetHealthInput, result: Swift.Result<DescribeTargetHealthOutput, Swift.Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }

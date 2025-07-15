@@ -2249,6 +2249,40 @@ extension PaginatorSequence where OperationStackInput == ListPipelinesInput, Ope
     }
 }
 extension SageMakerClient {
+    /// Paginate over `[ListPipelineVersionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPipelineVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPipelineVersionsOutput`
+    public func listPipelineVersionsPaginated(input: ListPipelineVersionsInput) -> ClientRuntime.PaginatorSequence<ListPipelineVersionsInput, ListPipelineVersionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListPipelineVersionsInput, ListPipelineVersionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPipelineVersions(input:))
+    }
+}
+
+extension ListPipelineVersionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPipelineVersionsInput {
+        return ListPipelineVersionsInput(
+            createdAfter: self.createdAfter,
+            createdBefore: self.createdBefore,
+            maxResults: self.maxResults,
+            nextToken: token,
+            pipelineName: self.pipelineName,
+            sortOrder: self.sortOrder
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListPipelineVersionsInput, OperationStackOutput == ListPipelineVersionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listPipelineVersionsPaginated`
+    /// to access the nested member `[SageMakerClientTypes.PipelineVersionSummary]`
+    /// - Returns: `[SageMakerClientTypes.PipelineVersionSummary]`
+    public func pipelineVersionSummaries() async throws -> [SageMakerClientTypes.PipelineVersionSummary] {
+        return try await self.asyncCompactMap { item in item.pipelineVersionSummaries }
+    }
+}
+extension SageMakerClient {
     /// Paginate over `[ListProcessingJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

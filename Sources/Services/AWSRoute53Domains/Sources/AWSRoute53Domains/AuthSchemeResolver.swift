@@ -19,6 +19,7 @@ import struct InternalAWSSTS.IdentityProvidingSTSClient
 import struct SmithyHTTPAuthAPI.AuthOption
 
 public struct Route53DomainsAuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
+    public let authSchemePreference: [String]?
     public let operation: Swift.String
     // Region is used for SigV4 auth scheme
     public let region: Swift.String?
@@ -31,12 +32,6 @@ public protocol Route53DomainsAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeRe
 }
 
 public struct DefaultRoute53DomainsAuthSchemeResolver: Route53DomainsAuthSchemeResolver {
-
-    public let authSchemePreference: [String]
-
-    public init(authSchemePreference: [String] = []) {
-        self.authSchemePreference = authSchemePreference
-    }
 
     public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [SmithyHTTPAuthAPI.AuthOption] {
         var validAuthOptions = [SmithyHTTPAuthAPI.AuthOption]()
@@ -56,14 +51,15 @@ public struct DefaultRoute53DomainsAuthSchemeResolver: Route53DomainsAuthSchemeR
                 sigv4Option.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSSOOIDCClientKey, value: InternalAWSSSOOIDC.IdentityProvidingSSOOIDCClient())
                 validAuthOptions.append(sigv4Option)
         }
-        return self.reprioritizeAuthOptions(authSchemePreference: authSchemePreference, authOptions: validAuthOptions)
+        return self.reprioritizeAuthOptions(authSchemePreference: serviceParams.authSchemePreference, authOptions: validAuthOptions)
     }
 
     public func constructParameters(context: Smithy.Context) throws -> SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
         guard let opName = context.getOperation() else {
             throw Smithy.ClientError.dataNotFound("Operation name not configured in middleware context for auth scheme resolver params construction.")
         }
+        let authSchemePreference = context.getAuthSchemePreference()
         let opRegion = context.getRegion()
-        return Route53DomainsAuthSchemeResolverParameters(operation: opName, region: opRegion)
+        return Route53DomainsAuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName, region: opRegion)
     }
 }

@@ -62,7 +62,7 @@ extension ElasticLoadBalancingClient {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "OutOfService") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "OutOfService") } ?? false)
             }),
             .init(state: .success, matcher: { (input: DescribeInstanceHealthInput, result: Swift.Result<DescribeInstanceHealthOutput, Swift.Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
@@ -100,7 +100,7 @@ extension ElasticLoadBalancingClient {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "InService") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "InService") } ?? false)
             }),
             .init(state: .retry, matcher: { (input: DescribeInstanceHealthInput, result: Swift.Result<DescribeInstanceHealthOutput, Swift.Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }

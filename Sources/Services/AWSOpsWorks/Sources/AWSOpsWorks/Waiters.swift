@@ -62,7 +62,7 @@ extension OpsWorksClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "successful") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "successful") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeDeploymentsInput, result: Swift.Result<DescribeDeploymentsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Deployments[].Status"
@@ -108,7 +108,7 @@ extension OpsWorksClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "online") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "online") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Swift.Result<DescribeInstancesOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
@@ -238,7 +238,7 @@ extension OpsWorksClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "registered") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "registered") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Swift.Result<DescribeInstancesOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
@@ -356,7 +356,7 @@ extension OpsWorksClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "stopped") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "stopped") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Swift.Result<DescribeInstancesOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Instances[].Status"
@@ -486,7 +486,7 @@ extension OpsWorksClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "terminated") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "terminated") } ?? false)
             }),
             .init(state: .success, matcher: { (input: DescribeInstancesInput, result: Swift.Result<DescribeInstancesOutput, Swift.Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }

@@ -29,7 +29,7 @@ extension ACMClient {
                     let validationStatus = original.validationStatus
                     return validationStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "SUCCESS") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "SUCCESS") } ?? false)
             }),
             .init(state: .retry, matcher: { (input: DescribeCertificateInput, result: Swift.Result<DescribeCertificateOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Certificate.DomainValidationOptions[].ValidationStatus"

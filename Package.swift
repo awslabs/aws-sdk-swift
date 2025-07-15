@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.145.0"
+let clientRuntimeVersion: Version = "0.146.0"
 let crtVersion: Version = "0.52.1"
 
 let excludeRuntimeUnitTests = false
@@ -358,6 +358,7 @@ let serviceTargets: [String] = [
     "AWSS3Control",
     "AWSS3Outposts",
     "AWSS3Tables",
+    "AWSS3Vectors",
     "AWSSES",
     "AWSSESv2",
     "AWSSFN",

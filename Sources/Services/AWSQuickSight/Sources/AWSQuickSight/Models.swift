@@ -29603,6 +29603,27 @@ public struct CreateThemeAliasOutput: Swift.Sendable {
 
 extension QuickSightClientTypes {
 
+    /// Instructions that provide additional guidance and context for response generation.
+    public struct CustomInstructions: Swift.Sendable {
+        /// A text field for providing additional guidance or context for response generation.
+        /// This member is required.
+        public var customInstructionsString: Swift.String?
+
+        public init(
+            customInstructionsString: Swift.String? = nil
+        ) {
+            self.customInstructionsString = customInstructionsString
+        }
+    }
+}
+
+extension QuickSightClientTypes.CustomInstructions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CustomInstructions(customInstructionsString: \"CONTENT_REDACTED\")"}
+}
+
+extension QuickSightClientTypes {
+
     /// Configuration options for a Topic.
     public struct TopicConfigOptions: Swift.Sendable {
         /// Enables Amazon Q Business Insights for a Topic.
@@ -30682,6 +30703,8 @@ public struct CreateTopicInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that you want to create a topic in.
     /// This member is required.
     public var awsAccountId: Swift.String?
+    /// Custom instructions for the topic.
+    public var customInstructions: QuickSightClientTypes.CustomInstructions?
     /// The Folder ARN of the folder that you want the topic to reside in.
     public var folderArns: [Swift.String]?
     /// Contains a map of the key-value pairs for the resource tag or tags that are assigned to the dataset.
@@ -30695,12 +30718,14 @@ public struct CreateTopicInput: Swift.Sendable {
 
     public init(
         awsAccountId: Swift.String? = nil,
+        customInstructions: QuickSightClientTypes.CustomInstructions? = nil,
         folderArns: [Swift.String]? = nil,
         tags: [QuickSightClientTypes.Tag]? = nil,
         topic: QuickSightClientTypes.TopicDetails? = nil,
         topicId: Swift.String? = nil
     ) {
         self.awsAccountId = awsAccountId
+        self.customInstructions = customInstructions
         self.folderArns = folderArns
         self.tags = tags
         self.topic = topic
@@ -36400,6 +36425,8 @@ public struct DescribeTopicInput: Swift.Sendable {
 public struct DescribeTopicOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the topic.
     public var arn: Swift.String?
+    /// Custom instructions for the topic.
+    public var customInstructions: QuickSightClientTypes.CustomInstructions?
     /// The Amazon Web Services request ID for this operation.
     public var requestId: Swift.String?
     /// The HTTP status of the request.
@@ -36411,12 +36438,14 @@ public struct DescribeTopicOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
+        customInstructions: QuickSightClientTypes.CustomInstructions? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0,
         topic: QuickSightClientTypes.TopicDetails? = nil,
         topicId: Swift.String? = nil
     ) {
         self.arn = arn
+        self.customInstructions = customInstructions
         self.requestId = requestId
         self.status = status
         self.topic = topic
@@ -42988,6 +43017,8 @@ public struct UpdateTopicInput: Swift.Sendable {
     /// The ID of the Amazon Web Services account that contains the topic that you want to update.
     /// This member is required.
     public var awsAccountId: Swift.String?
+    /// Custom instructions for the topic.
+    public var customInstructions: QuickSightClientTypes.CustomInstructions?
     /// The definition of the topic that you want to update.
     /// This member is required.
     public var topic: QuickSightClientTypes.TopicDetails?
@@ -42997,10 +43028,12 @@ public struct UpdateTopicInput: Swift.Sendable {
 
     public init(
         awsAccountId: Swift.String? = nil,
+        customInstructions: QuickSightClientTypes.CustomInstructions? = nil,
         topic: QuickSightClientTypes.TopicDetails? = nil,
         topicId: Swift.String? = nil
     ) {
         self.awsAccountId = awsAccountId
+        self.customInstructions = customInstructions
         self.topic = topic
         self.topicId = topicId
     }
@@ -47342,6 +47375,7 @@ extension CreateTopicInput {
 
     static func write(value: CreateTopicInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CustomInstructions"].write(value.customInstructions, with: QuickSightClientTypes.CustomInstructions.write(value:to:))
         try writer["FolderArns"].writeList(value.folderArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: QuickSightClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Topic"].write(value.topic, with: QuickSightClientTypes.TopicDetails.write(value:to:))
@@ -47903,6 +47937,7 @@ extension UpdateTopicInput {
 
     static func write(value: UpdateTopicInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CustomInstructions"].write(value.customInstructions, with: QuickSightClientTypes.CustomInstructions.write(value:to:))
         try writer["Topic"].write(value.topic, with: QuickSightClientTypes.TopicDetails.write(value:to:))
     }
 }
@@ -49538,6 +49573,7 @@ extension DescribeTopicOutput {
         let reader = responseReader
         var value = DescribeTopicOutput()
         value.arn = try reader["Arn"].readIfPresent()
+        value.customInstructions = try reader["CustomInstructions"].readIfPresent(with: QuickSightClientTypes.CustomInstructions.read(from:))
         value.requestId = try reader["RequestId"].readIfPresent()
         value.topic = try reader["Topic"].readIfPresent(with: QuickSightClientTypes.TopicDetails.read(from:))
         value.topicId = try reader["TopicId"].readIfPresent()
@@ -71171,6 +71207,21 @@ extension QuickSightClientTypes.DataAggregation {
         var value = QuickSightClientTypes.DataAggregation()
         value.datasetRowDateGranularity = try reader["DatasetRowDateGranularity"].readIfPresent()
         value.defaultDateColumnName = try reader["DefaultDateColumnName"].readIfPresent()
+        return value
+    }
+}
+
+extension QuickSightClientTypes.CustomInstructions {
+
+    static func write(value: QuickSightClientTypes.CustomInstructions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomInstructionsString"].write(value.customInstructionsString)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.CustomInstructions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.CustomInstructions()
+        value.customInstructionsString = try reader["CustomInstructionsString"].readIfPresent() ?? ""
         return value
     }
 }

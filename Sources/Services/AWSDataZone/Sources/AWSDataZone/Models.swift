@@ -4191,6 +4191,26 @@ extension DataZoneClientTypes.RedshiftPropertiesInput: Swift.CustomDebugStringCo
 
 extension DataZoneClientTypes {
 
+    /// The Amazon S3 properties of a connection.
+    public struct S3PropertiesInput: Swift.Sendable {
+        /// The Amazon S3 Access Grant location ID that's part of the Amazon S3 properties of a connection.
+        public var s3AccessGrantLocationId: Swift.String?
+        /// The Amazon S3 URI that's part of the Amazon S3 properties of a connection.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+
+        public init(
+            s3AccessGrantLocationId: Swift.String? = nil,
+            s3Uri: Swift.String? = nil
+        ) {
+            self.s3AccessGrantLocationId = s3AccessGrantLocationId
+            self.s3Uri = s3Uri
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The Spark EMR properties.
     public struct SparkEmrPropertiesInput: Swift.Sendable {
         /// The compute ARN of Spark EMR.
@@ -4304,6 +4324,8 @@ extension DataZoneClientTypes {
         case sparkemrproperties(DataZoneClientTypes.SparkEmrPropertiesInput)
         /// The Spark Amazon Web Services Glue properties of a connection.
         case sparkglueproperties(DataZoneClientTypes.SparkGluePropertiesInput)
+        /// The Amazon S3 properties of a connection.
+        case s3properties(DataZoneClientTypes.S3PropertiesInput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4523,6 +4545,34 @@ extension DataZoneClientTypes.RedshiftPropertiesOutput: Swift.CustomDebugStringC
 
 extension DataZoneClientTypes {
 
+    /// The Amazon S3 properties of a connection.
+    public struct S3PropertiesOutput: Swift.Sendable {
+        /// The error message that gets displayed.
+        public var errorMessage: Swift.String?
+        /// The Amazon S3 Access Grant location ID that's part of the Amazon S3 properties of a connection.
+        public var s3AccessGrantLocationId: Swift.String?
+        /// The Amazon S3 URI that's part of the Amazon S3 properties of a connection.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+        /// The status of the Amazon S3 connection.
+        public var status: DataZoneClientTypes.ConnectionStatus?
+
+        public init(
+            errorMessage: Swift.String? = nil,
+            s3AccessGrantLocationId: Swift.String? = nil,
+            s3Uri: Swift.String? = nil,
+            status: DataZoneClientTypes.ConnectionStatus? = nil
+        ) {
+            self.errorMessage = errorMessage
+            self.s3AccessGrantLocationId = s3AccessGrantLocationId
+            self.s3Uri = s3Uri
+            self.status = status
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     public enum GovernanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsManaged
         case userManaged
@@ -4671,6 +4721,8 @@ extension DataZoneClientTypes {
         case sparkemrproperties(DataZoneClientTypes.SparkEmrPropertiesOutput)
         /// The Spark Amazon Web Services Glue properties of a connection.
         case sparkglueproperties(DataZoneClientTypes.SparkGluePropertiesOutput)
+        /// The Amazon S3 properties of a connection.
+        case s3properties(DataZoneClientTypes.S3PropertiesOutput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4770,6 +4822,26 @@ extension DataZoneClientTypes.RedshiftPropertiesPatch: Swift.CustomDebugStringCo
 
 extension DataZoneClientTypes {
 
+    /// The Amazon S3 properties patch of a connection.
+    public struct S3PropertiesPatch: Swift.Sendable {
+        /// The Amazon S3 Access Grant location ID that's part of the Amazon S3 properties patch of a connection.
+        public var s3AccessGrantLocationId: Swift.String?
+        /// The Amazon S3 URI that's part of the Amazon S3 properties patch of a connection.
+        /// This member is required.
+        public var s3Uri: Swift.String?
+
+        public init(
+            s3AccessGrantLocationId: Swift.String? = nil,
+            s3Uri: Swift.String? = nil
+        ) {
+            self.s3AccessGrantLocationId = s3AccessGrantLocationId
+            self.s3Uri = s3Uri
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The Spark EMR properties patch.
     public struct SparkEmrPropertiesPatch: Swift.Sendable {
         /// The compute ARN in the Spark EMR properties patch.
@@ -4821,6 +4893,8 @@ extension DataZoneClientTypes {
         case redshiftproperties(DataZoneClientTypes.RedshiftPropertiesPatch)
         /// The Spark EMR properties of a connection properties patch.
         case sparkemrproperties(DataZoneClientTypes.SparkEmrPropertiesPatch)
+        /// The Amazon S3 properties of a connection properties patch.
+        case s3properties(DataZoneClientTypes.S3PropertiesPatch)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4840,6 +4914,7 @@ extension DataZoneClientTypes {
         case oracle
         case postgresql
         case redshift
+        case s3
         case saphana
         case snowflake
         case spark
@@ -4863,6 +4938,7 @@ extension DataZoneClientTypes {
                 .oracle,
                 .postgresql,
                 .redshift,
+                .s3,
                 .saphana,
                 .snowflake,
                 .spark,
@@ -4892,6 +4968,7 @@ extension DataZoneClientTypes {
             case .oracle: return "ORACLE"
             case .postgresql: return "POSTGRESQL"
             case .redshift: return "REDSHIFT"
+            case .s3: return "S3"
             case .saphana: return "SAPHANA"
             case .snowflake: return "SNOWFLAKE"
             case .spark: return "SPARK"
@@ -6883,7 +6960,6 @@ public struct CreateEnvironmentInput: Swift.Sendable {
     /// The configuration ID of the environment.
     public var environmentConfigurationId: Swift.String?
     /// The identifier of the environment profile that is used to create this Amazon DataZone environment.
-    /// This member is required.
     public var environmentProfileIdentifier: Swift.String?
     /// The glossary terms that can be used in this Amazon DataZone environment.
     public var glossaryTerms: [Swift.String]?
@@ -31577,9 +31653,24 @@ extension DataZoneClientTypes.ConnectionPropertiesOutput {
                 return .sparkemrproperties(try reader["sparkEmrProperties"].read(with: DataZoneClientTypes.SparkEmrPropertiesOutput.read(from:)))
             case "sparkGlueProperties":
                 return .sparkglueproperties(try reader["sparkGlueProperties"].read(with: DataZoneClientTypes.SparkGluePropertiesOutput.read(from:)))
+            case "s3Properties":
+                return .s3properties(try reader["s3Properties"].read(with: DataZoneClientTypes.S3PropertiesOutput.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension DataZoneClientTypes.S3PropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.S3PropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.S3PropertiesOutput()
+        value.s3Uri = try reader["s3Uri"].readIfPresent() ?? ""
+        value.s3AccessGrantLocationId = try reader["s3AccessGrantLocationId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
     }
 }
 
@@ -34580,6 +34671,8 @@ extension DataZoneClientTypes.ConnectionPropertiesInput {
                 try writer["iamProperties"].write(iamproperties, with: DataZoneClientTypes.IamPropertiesInput.write(value:to:))
             case let .redshiftproperties(redshiftproperties):
                 try writer["redshiftProperties"].write(redshiftproperties, with: DataZoneClientTypes.RedshiftPropertiesInput.write(value:to:))
+            case let .s3properties(s3properties):
+                try writer["s3Properties"].write(s3properties, with: DataZoneClientTypes.S3PropertiesInput.write(value:to:))
             case let .sparkemrproperties(sparkemrproperties):
                 try writer["sparkEmrProperties"].write(sparkemrproperties, with: DataZoneClientTypes.SparkEmrPropertiesInput.write(value:to:))
             case let .sparkglueproperties(sparkglueproperties):
@@ -34587,6 +34680,15 @@ extension DataZoneClientTypes.ConnectionPropertiesInput {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension DataZoneClientTypes.S3PropertiesInput {
+
+    static func write(value: DataZoneClientTypes.S3PropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3AccessGrantLocationId"].write(value.s3AccessGrantLocationId)
+        try writer["s3Uri"].write(value.s3Uri)
     }
 }
 
@@ -34922,11 +35024,22 @@ extension DataZoneClientTypes.ConnectionPropertiesPatch {
                 try writer["iamProperties"].write(iamproperties, with: DataZoneClientTypes.IamPropertiesPatch.write(value:to:))
             case let .redshiftproperties(redshiftproperties):
                 try writer["redshiftProperties"].write(redshiftproperties, with: DataZoneClientTypes.RedshiftPropertiesPatch.write(value:to:))
+            case let .s3properties(s3properties):
+                try writer["s3Properties"].write(s3properties, with: DataZoneClientTypes.S3PropertiesPatch.write(value:to:))
             case let .sparkemrproperties(sparkemrproperties):
                 try writer["sparkEmrProperties"].write(sparkemrproperties, with: DataZoneClientTypes.SparkEmrPropertiesPatch.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension DataZoneClientTypes.S3PropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.S3PropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3AccessGrantLocationId"].write(value.s3AccessGrantLocationId)
+        try writer["s3Uri"].write(value.s3Uri)
     }
 }
 

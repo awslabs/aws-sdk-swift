@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MachineLearningClient: ClientRuntime.Client {
     public static let clientName = "MachineLearningClient"
-    public static let version = "1.3.51"
+    public static let version = "1.4.0"
     let client: ClientRuntime.SdkHttpClient
     let config: MachineLearningClient.MachineLearningClientConfiguration
     let serviceName = "Machine Learning"

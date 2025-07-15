@@ -21,6 +21,7 @@ import struct Smithy.AttributeKey
 import struct SmithyHTTPAuthAPI.AuthOption
 
 public struct CloudFrontKeyValueStoreAuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
+    public let authSchemePreference: [String]?
     public let operation: Swift.String
     /// Override the endpoint used to send this request
     public let endpoint: Swift.String?
@@ -40,12 +41,6 @@ public protocol CloudFrontKeyValueStoreAuthSchemeResolver: SmithyHTTPAuthAPI.Aut
 
 private struct InternalModeledCloudFrontKeyValueStoreAuthSchemeResolver: CloudFrontKeyValueStoreAuthSchemeResolver {
 
-    public let authSchemePreference: [String]
-
-    public init(authSchemePreference: [String] = []) {
-        self.authSchemePreference = authSchemePreference
-    }
-
     public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [SmithyHTTPAuthAPI.AuthOption] {
         var validAuthOptions = [SmithyHTTPAuthAPI.AuthOption]()
         guard let serviceParams = params as? CloudFrontKeyValueStoreAuthSchemeResolverParameters else {
@@ -64,7 +59,7 @@ private struct InternalModeledCloudFrontKeyValueStoreAuthSchemeResolver: CloudFr
                 sigv4Option.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSSOOIDCClientKey, value: InternalAWSSSOOIDC.IdentityProvidingSSOOIDCClient())
                 validAuthOptions.append(sigv4Option)
         }
-        return self.reprioritizeAuthOptions(authSchemePreference: authSchemePreference, authOptions: validAuthOptions)
+        return self.reprioritizeAuthOptions(authSchemePreference: serviceParams.authSchemePreference, authOptions: validAuthOptions)
     }
 
     public func constructParameters(context: Smithy.Context) throws -> SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
@@ -117,6 +112,7 @@ public struct DefaultCloudFrontKeyValueStoreAuthSchemeResolver: CloudFrontKeyVal
         guard let endpointParam = context.get(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams")) else {
             throw Smithy.ClientError.dataNotFound("Endpoint param not configured in middleware context for rules-based auth scheme resolver params construction.")
         }
-        return CloudFrontKeyValueStoreAuthSchemeResolverParameters(operation: opName, endpoint: endpointParam.endpoint, kvsARN: endpointParam.kvsARN, region: endpointParam.region, useFIPS: endpointParam.useFIPS)
+        let authSchemePreference = context.getAuthSchemePreference()
+        return CloudFrontKeyValueStoreAuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName, endpoint: endpointParam.endpoint, kvsARN: endpointParam.kvsARN, region: endpointParam.region, useFIPS: endpointParam.useFIPS)
     }
 }

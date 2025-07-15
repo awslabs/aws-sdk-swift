@@ -5808,7 +5808,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public struct UserContext: Swift.Sendable {
         /// The domain associated with the user.
         public var domainId: Swift.String?
@@ -5839,7 +5839,7 @@ extension SageMakerClientTypes {
     public struct AssociationSummary: Swift.Sendable {
         /// The type of the association.
         public var associationType: SageMakerClientTypes.AssociationEdgeType?
-        /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+        /// Information about the user who created or modified a SageMaker resource.
         public var createdBy: SageMakerClientTypes.UserContext?
         /// When the association was created.
         public var creationTime: Foundation.Date?
@@ -8313,7 +8313,6 @@ public struct BatchDeleteClusterNodesInput: Swift.Sendable {
     /// * For SageMaker HyperPod clusters using the Slurm workload manager, you cannot remove instances that are configured as Slurm controller nodes.
     ///
     /// * If you need to delete more than 99 instances, contact [Support](http://aws.amazon.com/contact-us/) for assistance.
-    /// This member is required.
     public var nodeIds: [Swift.String]?
 
     public init(
@@ -11194,6 +11193,200 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// Configuration settings for an Amazon FSx for Lustre file system to be used with the cluster.
+    public struct FSxLustreConfig: Swift.Sendable {
+        /// The throughput capacity of the Amazon FSx for Lustre file system, measured in MB/s per TiB of storage.
+        /// This member is required.
+        public var perUnitStorageThroughput: Swift.Int?
+        /// The storage capacity of the Amazon FSx for Lustre file system, specified in gibibytes (GiB).
+        /// This member is required.
+        public var sizeInGiB: Swift.Int?
+
+        public init(
+            perUnitStorageThroughput: Swift.Int? = nil,
+            sizeInGiB: Swift.Int? = nil
+        ) {
+            self.perUnitStorageThroughput = perUnitStorageThroughput
+            self.sizeInGiB = sizeInGiB
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The configuration details for the restricted instance groups (RIG) environment.
+    public struct EnvironmentConfigDetails: Swift.Sendable {
+        /// Configuration settings for an Amazon FSx for Lustre file system to be used with the cluster.
+        public var fSxLustreConfig: SageMakerClientTypes.FSxLustreConfig?
+        /// The Amazon S3 path where output data from the restricted instance group (RIG) environment will be stored.
+        public var s3OutputPath: Swift.String?
+
+        public init(
+            fSxLustreConfig: SageMakerClientTypes.FSxLustreConfig? = nil,
+            s3OutputPath: Swift.String? = nil
+        ) {
+            self.fSxLustreConfig = fSxLustreConfig
+            self.s3OutputPath = s3OutputPath
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The instance group details of the restricted instance group (RIG).
+    public struct ClusterRestrictedInstanceGroupDetails: Swift.Sendable {
+        /// The number of instances that are currently in the restricted instance group of a SageMaker HyperPod cluster.
+        public var currentCount: Swift.Int?
+        /// The configuration for the restricted instance groups (RIG) environment.
+        public var environmentConfig: SageMakerClientTypes.EnvironmentConfigDetails?
+        /// The execution role for the restricted instance group to assume.
+        public var executionRole: Swift.String?
+        /// The name of the restricted instance group of a SageMaker HyperPod cluster.
+        public var instanceGroupName: Swift.String?
+        /// The additional storage configurations for the instances in the SageMaker HyperPod cluster restricted instance group.
+        public var instanceStorageConfigs: [SageMakerClientTypes.ClusterInstanceStorageConfig]?
+        /// The instance type of the restricted instance group of a SageMaker HyperPod cluster.
+        public var instanceType: SageMakerClientTypes.ClusterInstanceType?
+        /// A flag indicating whether deep health checks should be performed when the cluster's restricted instance group is created or updated.
+        public var onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]?
+        /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
+        public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
+        /// The configuration object of the schedule that SageMaker follows when updating the AMI.
+        public var scheduledUpdateConfig: SageMakerClientTypes.ScheduledUpdateConfig?
+        /// The current status of the cluster's restricted instance group.
+        ///
+        /// * InService: The restricted instance group is active and healthy.
+        ///
+        /// * Creating: The restricted instance group is being provisioned.
+        ///
+        /// * Updating: The restricted instance group is being updated.
+        ///
+        /// * Failed: The restricted instance group has failed to provision or is no longer healthy.
+        ///
+        /// * Degraded: The restricted instance group is degraded, meaning that some instances have failed to provision or are no longer healthy.
+        ///
+        /// * Deleting: The restricted instance group is being deleted.
+        public var status: SageMakerClientTypes.InstanceGroupStatus?
+        /// The number of instances you specified to add to the restricted instance group of a SageMaker HyperPod cluster.
+        public var targetCount: Swift.Int?
+        /// The number you specified to TreadsPerCore in CreateCluster for enabling or disabling multithreading. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For more information, see the reference table of [CPU cores and threads per CPU core per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cpu-options-supported-instances-values.html) in the Amazon Elastic Compute Cloud User Guide.
+        public var threadsPerCore: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the training plan to filter clusters by. For more information about reserving GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+        public var trainingPlanArn: Swift.String?
+        /// The current status of the training plan associated with this cluster restricted instance group.
+        public var trainingPlanStatus: Swift.String?
+
+        public init(
+            currentCount: Swift.Int? = nil,
+            environmentConfig: SageMakerClientTypes.EnvironmentConfigDetails? = nil,
+            executionRole: Swift.String? = nil,
+            instanceGroupName: Swift.String? = nil,
+            instanceStorageConfigs: [SageMakerClientTypes.ClusterInstanceStorageConfig]? = nil,
+            instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
+            onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]? = nil,
+            overrideVpcConfig: SageMakerClientTypes.VpcConfig? = nil,
+            scheduledUpdateConfig: SageMakerClientTypes.ScheduledUpdateConfig? = nil,
+            status: SageMakerClientTypes.InstanceGroupStatus? = nil,
+            targetCount: Swift.Int? = nil,
+            threadsPerCore: Swift.Int? = nil,
+            trainingPlanArn: Swift.String? = nil,
+            trainingPlanStatus: Swift.String? = nil
+        ) {
+            self.currentCount = currentCount
+            self.environmentConfig = environmentConfig
+            self.executionRole = executionRole
+            self.instanceGroupName = instanceGroupName
+            self.instanceStorageConfigs = instanceStorageConfigs
+            self.instanceType = instanceType
+            self.onStartDeepHealthChecks = onStartDeepHealthChecks
+            self.overrideVpcConfig = overrideVpcConfig
+            self.scheduledUpdateConfig = scheduledUpdateConfig
+            self.status = status
+            self.targetCount = targetCount
+            self.threadsPerCore = threadsPerCore
+            self.trainingPlanArn = trainingPlanArn
+            self.trainingPlanStatus = trainingPlanStatus
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The configuration for the restricted instance groups (RIG) environment.
+    public struct EnvironmentConfig: Swift.Sendable {
+        /// Configuration settings for an Amazon FSx for Lustre file system to be used with the cluster.
+        public var fSxLustreConfig: SageMakerClientTypes.FSxLustreConfig?
+
+        public init(
+            fSxLustreConfig: SageMakerClientTypes.FSxLustreConfig? = nil
+        ) {
+            self.fSxLustreConfig = fSxLustreConfig
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The specifications of a restricted instance group that you need to define.
+    public struct ClusterRestrictedInstanceGroupSpecification: Swift.Sendable {
+        /// The configuration for the restricted instance groups (RIG) environment.
+        /// This member is required.
+        public var environmentConfig: SageMakerClientTypes.EnvironmentConfig?
+        /// Specifies an IAM execution role to be assumed by the restricted instance group.
+        /// This member is required.
+        public var executionRole: Swift.String?
+        /// Specifies the number of instances to add to the restricted instance group of a SageMaker HyperPod cluster.
+        /// This member is required.
+        public var instanceCount: Swift.Int?
+        /// Specifies the name of the restricted instance group.
+        /// This member is required.
+        public var instanceGroupName: Swift.String?
+        /// Specifies the additional storage configurations for the instances in the SageMaker HyperPod cluster restricted instance group.
+        public var instanceStorageConfigs: [SageMakerClientTypes.ClusterInstanceStorageConfig]?
+        /// Specifies the instance type of the restricted instance group.
+        /// This member is required.
+        public var instanceType: SageMakerClientTypes.ClusterInstanceType?
+        /// A flag indicating whether deep health checks should be performed when the cluster restricted instance group is created or updated.
+        public var onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]?
+        /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
+        public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
+        /// The configuration object of the schedule that SageMaker follows when updating the AMI.
+        public var scheduledUpdateConfig: SageMakerClientTypes.ScheduledUpdateConfig?
+        /// The number you specified to TreadsPerCore in CreateCluster for enabling or disabling multithreading. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For more information, see the reference table of [CPU cores and threads per CPU core per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cpu-options-supported-instances-values.html) in the Amazon Elastic Compute Cloud User Guide.
+        public var threadsPerCore: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the training plan to filter clusters by. For more information about reserving GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
+        public var trainingPlanArn: Swift.String?
+
+        public init(
+            environmentConfig: SageMakerClientTypes.EnvironmentConfig? = nil,
+            executionRole: Swift.String? = nil,
+            instanceCount: Swift.Int? = nil,
+            instanceGroupName: Swift.String? = nil,
+            instanceStorageConfigs: [SageMakerClientTypes.ClusterInstanceStorageConfig]? = nil,
+            instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
+            onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]? = nil,
+            overrideVpcConfig: SageMakerClientTypes.VpcConfig? = nil,
+            scheduledUpdateConfig: SageMakerClientTypes.ScheduledUpdateConfig? = nil,
+            threadsPerCore: Swift.Int? = nil,
+            trainingPlanArn: Swift.String? = nil
+        ) {
+            self.environmentConfig = environmentConfig
+            self.executionRole = executionRole
+            self.instanceCount = instanceCount
+            self.instanceGroupName = instanceGroupName
+            self.instanceStorageConfigs = instanceStorageConfigs
+            self.instanceType = instanceType
+            self.onStartDeepHealthChecks = onStartDeepHealthChecks
+            self.overrideVpcConfig = overrideVpcConfig
+            self.scheduledUpdateConfig = scheduledUpdateConfig
+            self.threadsPerCore = threadsPerCore
+            self.trainingPlanArn = trainingPlanArn
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum SchedulerResourceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case created
         case createFailed
@@ -13460,6 +13653,8 @@ public struct CreateClusterInput: Swift.Sendable {
     public var nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery?
     /// The type of orchestrator to use for the SageMaker HyperPod cluster. Currently, the only supported value is "eks", which is to use an Amazon Elastic Kubernetes Service (EKS) cluster as the orchestrator.
     public var orchestrator: SageMakerClientTypes.ClusterOrchestrator?
+    /// The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
+    public var restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]?
     /// Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web Services resource. You can add tags to your cluster in the same way you add them in other Amazon Web Services services that support tagging. To learn more about tagging Amazon Web Services resources in general, see [Tagging Amazon Web Services Resources User Guide](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html).
     public var tags: [SageMakerClientTypes.Tag]?
     /// Specifies the Amazon Virtual Private Cloud (VPC) that is associated with the Amazon SageMaker HyperPod cluster. You can control access to and from your resources by configuring your VPC. For more information, see [Give SageMaker access to resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html). When your Amazon VPC and subnets support IPv6, network communications differ based on the cluster orchestration platform:
@@ -13483,6 +13678,7 @@ public struct CreateClusterInput: Swift.Sendable {
         instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]? = nil,
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
         orchestrator: SageMakerClientTypes.ClusterOrchestrator? = nil,
+        restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
     ) {
@@ -13490,6 +13686,7 @@ public struct CreateClusterInput: Swift.Sendable {
         self.instanceGroups = instanceGroups
         self.nodeRecovery = nodeRecovery
         self.orchestrator = orchestrator
+        self.restrictedInstanceGroups = restrictedInstanceGroups
         self.tags = tags
         self.vpcConfig = vpcConfig
     }
@@ -27964,13 +28161,13 @@ public struct DescribeActionOutput: Swift.Sendable {
     public var actionName: Swift.String?
     /// The type of the action.
     public var actionType: Swift.String?
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// When the action was created.
     public var creationTime: Foundation.Date?
     /// The description of the action.
     public var description: Swift.String?
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// When the action was last modified.
     public var lastModifiedTime: Foundation.Date?
@@ -28244,11 +28441,11 @@ public struct DescribeArtifactOutput: Swift.Sendable {
     public var artifactName: Swift.String?
     /// The type of the artifact.
     public var artifactType: Swift.String?
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// When the artifact was created.
     public var creationTime: Foundation.Date?
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// When the artifact was last modified.
     public var lastModifiedTime: Foundation.Date?
@@ -28590,6 +28787,8 @@ public struct DescribeClusterOutput: Swift.Sendable {
     public var nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery?
     /// The type of orchestrator used for the SageMaker HyperPod cluster.
     public var orchestrator: SageMakerClientTypes.ClusterOrchestrator?
+    /// The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
+    public var restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupDetails]?
     /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
     public var vpcConfig: SageMakerClientTypes.VpcConfig?
 
@@ -28602,6 +28801,7 @@ public struct DescribeClusterOutput: Swift.Sendable {
         instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupDetails]? = nil,
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
         orchestrator: SageMakerClientTypes.ClusterOrchestrator? = nil,
+        restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupDetails]? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
     ) {
         self.clusterArn = clusterArn
@@ -28612,6 +28812,7 @@ public struct DescribeClusterOutput: Swift.Sendable {
         self.instanceGroups = instanceGroups
         self.nodeRecovery = nodeRecovery
         self.orchestrator = orchestrator
+        self.restrictedInstanceGroups = restrictedInstanceGroups
         self.vpcConfig = vpcConfig
     }
 }
@@ -28621,7 +28822,6 @@ public struct DescribeClusterNodeInput: Swift.Sendable {
     /// This member is required.
     public var clusterName: Swift.String?
     /// The ID of the SageMaker HyperPod cluster node.
-    /// This member is required.
     public var nodeId: Swift.String?
 
     public init(
@@ -28673,7 +28873,7 @@ public struct DescribeClusterSchedulerConfigOutput: Swift.Sendable {
     /// Version of the cluster policy.
     /// This member is required.
     public var clusterSchedulerConfigVersion: Swift.Int?
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// Creation time of the cluster policy.
     /// This member is required.
@@ -28682,7 +28882,7 @@ public struct DescribeClusterSchedulerConfigOutput: Swift.Sendable {
     public var description: Swift.String?
     /// Failure reason of the cluster policy.
     public var failureReason: Swift.String?
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// Last modified time of the cluster policy.
     public var lastModifiedTime: Foundation.Date?
@@ -28937,7 +29137,7 @@ public struct DescribeComputeQuotaOutput: Swift.Sendable {
     /// Version of the compute allocation definition.
     /// This member is required.
     public var computeQuotaVersion: Swift.Int?
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// Creation time of the compute allocation configuration.
     /// This member is required.
@@ -28946,7 +29146,7 @@ public struct DescribeComputeQuotaOutput: Swift.Sendable {
     public var description: Swift.String?
     /// Failure reason of the compute allocation definition.
     public var failureReason: Swift.String?
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// Last modified time of the compute allocation configuration.
     public var lastModifiedTime: Foundation.Date?
@@ -29011,13 +29211,13 @@ public struct DescribeContextOutput: Swift.Sendable {
     public var contextName: Swift.String?
     /// The type of the context.
     public var contextType: Swift.String?
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// When the context was created.
     public var creationTime: Foundation.Date?
     /// The description of the context.
     public var description: Swift.String?
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// When the context was last modified.
     public var lastModifiedTime: Foundation.Date?
@@ -32904,7 +33104,7 @@ public struct DescribeLineageGroupInput: Swift.Sendable {
 }
 
 public struct DescribeLineageGroupOutput: Swift.Sendable {
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// The creation time of lineage group.
     public var creationTime: Foundation.Date?
@@ -32912,7 +33112,7 @@ public struct DescribeLineageGroupOutput: Swift.Sendable {
     public var description: Swift.String?
     /// The display name of the lineage group.
     public var displayName: Swift.String?
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// The last modified time of the lineage group.
     public var lastModifiedTime: Foundation.Date?
@@ -33094,13 +33294,13 @@ public struct DescribeMlflowTrackingServerOutput: Swift.Sendable {
     public var artifactStoreUri: Swift.String?
     /// Whether automatic registration of new MLflow models to the SageMaker Model Registry is enabled.
     public var automaticModelRegistration: Swift.Bool?
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// The timestamp of when the described MLflow Tracking Server was created.
     public var creationTime: Foundation.Date?
     /// Whether the described MLflow Tracking Server is currently active.
     public var isActive: SageMakerClientTypes.IsTrackingServerActive?
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// The timestamp of when the described MLflow Tracking Server was last modified.
     public var lastModifiedTime: Foundation.Date?
@@ -33354,13 +33554,13 @@ public struct DescribeModelCardOutput: Swift.Sendable {
     /// The content of the model card.
     /// This member is required.
     public var content: Swift.String?
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     /// This member is required.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// The date and time the model card was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// The date and time the model card was last modified.
     public var lastModifiedTime: Foundation.Date?
@@ -33724,7 +33924,7 @@ public struct DescribeModelPackageOutput: Swift.Sendable {
     public var approvalDescription: Swift.String?
     /// Whether the model package is certified for listing on Amazon Web Services Marketplace.
     public var certifyForMarketplace: Swift.Bool?
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// A timestamp specifying when the model package was created.
     /// This member is required.
@@ -33737,7 +33937,7 @@ public struct DescribeModelPackageOutput: Swift.Sendable {
     public var driftCheckBaselines: SageMakerClientTypes.DriftCheckBaselines?
     /// Details about inference jobs that you can run with models based on this model package.
     public var inferenceSpecification: SageMakerClientTypes.InferenceSpecification?
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// The last time that the model package was modified.
     public var lastModifiedTime: Foundation.Date?
@@ -33903,7 +34103,7 @@ extension SageMakerClientTypes {
 }
 
 public struct DescribeModelPackageGroupOutput: Swift.Sendable {
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     /// This member is required.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// The time that the model group was created.
@@ -34715,11 +34915,15 @@ public struct DescribePipelineInput: Swift.Sendable {
     /// The name or Amazon Resource Name (ARN) of the pipeline to describe.
     /// This member is required.
     public var pipelineName: Swift.String?
+    /// The ID of the pipeline version to describe.
+    public var pipelineVersionId: Swift.Int?
 
     public init(
-        pipelineName: Swift.String? = nil
+        pipelineName: Swift.String? = nil,
+        pipelineVersionId: Swift.Int? = nil
     ) {
         self.pipelineName = pipelineName
+        self.pipelineVersionId = pipelineVersionId
     }
 }
 
@@ -34753,11 +34957,11 @@ extension SageMakerClientTypes {
 }
 
 public struct DescribePipelineOutput: Swift.Sendable {
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// The time when the pipeline was created.
     public var creationTime: Foundation.Date?
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// The time when the pipeline was last modified.
     public var lastModifiedTime: Foundation.Date?
@@ -34777,6 +34981,10 @@ public struct DescribePipelineOutput: Swift.Sendable {
     public var pipelineName: Swift.String?
     /// The status of the pipeline execution.
     public var pipelineStatus: SageMakerClientTypes.PipelineStatus?
+    /// The description of the pipeline version.
+    public var pipelineVersionDescription: Swift.String?
+    /// The display name of the pipeline version.
+    public var pipelineVersionDisplayName: Swift.String?
     /// The Amazon Resource Name (ARN) that the pipeline uses to execute.
     public var roleArn: Swift.String?
 
@@ -34793,6 +35001,8 @@ public struct DescribePipelineOutput: Swift.Sendable {
         pipelineDisplayName: Swift.String? = nil,
         pipelineName: Swift.String? = nil,
         pipelineStatus: SageMakerClientTypes.PipelineStatus? = nil,
+        pipelineVersionDescription: Swift.String? = nil,
+        pipelineVersionDisplayName: Swift.String? = nil,
         roleArn: Swift.String? = nil
     ) {
         self.createdBy = createdBy
@@ -34807,6 +35017,8 @@ public struct DescribePipelineOutput: Swift.Sendable {
         self.pipelineDisplayName = pipelineDisplayName
         self.pipelineName = pipelineName
         self.pipelineStatus = pipelineStatus
+        self.pipelineVersionDescription = pipelineVersionDescription
+        self.pipelineVersionDisplayName = pipelineVersionDisplayName
         self.roleArn = roleArn
     }
 }
@@ -34944,13 +35156,13 @@ extension SageMakerClientTypes {
 }
 
 public struct DescribePipelineExecutionOutput: Swift.Sendable {
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// The time when the pipeline execution was created.
     public var creationTime: Foundation.Date?
     /// If the execution failed, a message describing why.
     public var failureReason: Swift.String?
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// The time when the pipeline execution was modified last.
     public var lastModifiedTime: Foundation.Date?
@@ -34968,6 +35180,8 @@ public struct DescribePipelineExecutionOutput: Swift.Sendable {
     public var pipelineExecutionStatus: SageMakerClientTypes.PipelineExecutionStatus?
     /// Specifies the names of the experiment and trial created by a pipeline.
     public var pipelineExperimentConfig: SageMakerClientTypes.PipelineExperimentConfig?
+    /// The ID of the pipeline version.
+    public var pipelineVersionId: Swift.Int?
     /// The selective execution configuration applied to the pipeline run.
     public var selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig?
 
@@ -34984,6 +35198,7 @@ public struct DescribePipelineExecutionOutput: Swift.Sendable {
         pipelineExecutionDisplayName: Swift.String? = nil,
         pipelineExecutionStatus: SageMakerClientTypes.PipelineExecutionStatus? = nil,
         pipelineExperimentConfig: SageMakerClientTypes.PipelineExperimentConfig? = nil,
+        pipelineVersionId: Swift.Int? = nil,
         selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig? = nil
     ) {
         self.createdBy = createdBy
@@ -34998,6 +35213,7 @@ public struct DescribePipelineExecutionOutput: Swift.Sendable {
         self.pipelineExecutionDisplayName = pipelineExecutionDisplayName
         self.pipelineExecutionStatus = pipelineExecutionStatus
         self.pipelineExperimentConfig = pipelineExperimentConfig
+        self.pipelineVersionId = pipelineVersionId
         self.selectiveExecutionConfig = selectiveExecutionConfig
     }
 }
@@ -35259,12 +35475,12 @@ extension SageMakerClientTypes {
 }
 
 public struct DescribeProjectOutput: Swift.Sendable {
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var createdBy: SageMakerClientTypes.UserContext?
     /// The time when the project was created.
     /// This member is required.
     public var creationTime: Foundation.Date?
-    /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+    /// Information about the user who created or modified a SageMaker resource.
     public var lastModifiedBy: SageMakerClientTypes.UserContext?
     /// The timestamp when project was last modified.
     public var lastModifiedTime: Foundation.Date?
@@ -38262,7 +38478,7 @@ extension SageMakerClientTypes {
         public var experimentArn: Swift.String?
         /// The name of the experiment.
         public var experimentName: Swift.String?
-        /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+        /// Information about the user who created or modified a SageMaker resource.
         public var lastModifiedBy: SageMakerClientTypes.UserContext?
         /// When the experiment was last modified.
         public var lastModifiedTime: Foundation.Date?
@@ -38986,6 +39202,7 @@ extension SageMakerClientTypes {
         case modelPackageGroup
         case pipeline
         case pipelineExecution
+        case pipelineVersion
         case project
         case trainingJob
         case sdkUnknown(Swift.String)
@@ -39007,6 +39224,7 @@ extension SageMakerClientTypes {
                 .modelPackageGroup,
                 .pipeline,
                 .pipelineExecution,
+                .pipelineVersion,
                 .project,
                 .trainingJob
             ]
@@ -39034,6 +39252,7 @@ extension SageMakerClientTypes {
             case .modelPackageGroup: return "ModelPackageGroup"
             case .pipeline: return "Pipeline"
             case .pipelineExecution: return "PipelineExecution"
+            case .pipelineVersion: return "PipelineVersion"
             case .project: return "Project"
             case .trainingJob: return "TrainingJob"
             case let .sdkUnknown(s): return s
@@ -46381,6 +46600,88 @@ public struct ListPipelinesOutput: Swift.Sendable {
     }
 }
 
+public struct ListPipelineVersionsInput: Swift.Sendable {
+    /// A filter that returns the pipeline versions that were created after a specified time.
+    public var createdAfter: Foundation.Date?
+    /// A filter that returns the pipeline versions that were created before a specified time.
+    public var createdBefore: Foundation.Date?
+    /// The maximum number of pipeline versions to return in the response.
+    public var maxResults: Swift.Int?
+    /// If the result of the previous ListPipelineVersions request was truncated, the response includes a NextToken. To retrieve the next set of pipeline versions, use this token in your next request.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the pipeline.
+    /// This member is required.
+    public var pipelineName: Swift.String?
+    /// The sort order for the results.
+    public var sortOrder: SageMakerClientTypes.SortOrder?
+
+    public init(
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        pipelineName: Swift.String? = nil,
+        sortOrder: SageMakerClientTypes.SortOrder? = nil
+    ) {
+        self.createdAfter = createdAfter
+        self.createdBefore = createdBefore
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.pipelineName = pipelineName
+        self.sortOrder = sortOrder
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The summary of the pipeline version.
+    public struct PipelineVersionSummary: Swift.Sendable {
+        /// The creation time of the pipeline version.
+        public var creationTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the most recent pipeline execution created from this pipeline version.
+        public var lastExecutionPipelineExecutionArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the pipeline.
+        public var pipelineArn: Swift.String?
+        /// The description of the pipeline version.
+        public var pipelineVersionDescription: Swift.String?
+        /// The display name of the pipeline version.
+        public var pipelineVersionDisplayName: Swift.String?
+        /// The ID of the pipeline version.
+        public var pipelineVersionId: Swift.Int?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            lastExecutionPipelineExecutionArn: Swift.String? = nil,
+            pipelineArn: Swift.String? = nil,
+            pipelineVersionDescription: Swift.String? = nil,
+            pipelineVersionDisplayName: Swift.String? = nil,
+            pipelineVersionId: Swift.Int? = nil
+        ) {
+            self.creationTime = creationTime
+            self.lastExecutionPipelineExecutionArn = lastExecutionPipelineExecutionArn
+            self.pipelineArn = pipelineArn
+            self.pipelineVersionDescription = pipelineVersionDescription
+            self.pipelineVersionDisplayName = pipelineVersionDisplayName
+            self.pipelineVersionId = pipelineVersionId
+        }
+    }
+}
+
+public struct ListPipelineVersionsOutput: Swift.Sendable {
+    /// If the result of the previous ListPipelineVersions request was truncated, the response includes a NextToken. To retrieve the next set of pipeline versions, use this token in your next request.
+    public var nextToken: Swift.String?
+    /// Contains a sorted list of pipeline version summary objects matching the specified filters. Each version summary includes the pipeline version ID, the creation date, and the last pipeline execution created from that version. This list can be empty.
+    public var pipelineVersionSummaries: [SageMakerClientTypes.PipelineVersionSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        pipelineVersionSummaries: [SageMakerClientTypes.PipelineVersionSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.pipelineVersionSummaries = pipelineVersionSummaries
+    }
+}
+
 public struct ListProcessingJobsInput: Swift.Sendable {
     /// A filter that returns only processing jobs created after the specified time.
     public var creationTimeAfter: Foundation.Date?
@@ -48316,11 +48617,11 @@ extension SageMakerClientTypes {
     public struct ModelCard: Swift.Sendable {
         /// The content of the model card. Content uses the [model card JSON schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-cards.html#model-cards-json-schema) and provided as a string.
         public var content: Swift.String?
-        /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+        /// Information about the user who created or modified a SageMaker resource.
         public var createdBy: SageMakerClientTypes.UserContext?
         /// The date and time that the model card was created.
         public var creationTime: Foundation.Date?
-        /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+        /// Information about the user who created or modified a SageMaker resource.
         public var lastModifiedBy: SageMakerClientTypes.UserContext?
         /// The date and time that the model card was last modified.
         public var lastModifiedTime: Foundation.Date?
@@ -48545,11 +48846,11 @@ extension SageMakerClientTypes {
 
     /// The model card for a model displayed in the Amazon SageMaker Model Dashboard.
     public struct ModelDashboardModelCard: Swift.Sendable {
-        /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+        /// Information about the user who created or modified a SageMaker resource.
         public var createdBy: SageMakerClientTypes.UserContext?
         /// A timestamp that indicates when the model card was created.
         public var creationTime: Foundation.Date?
-        /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+        /// Information about the user who created or modified a SageMaker resource.
         public var lastModifiedBy: SageMakerClientTypes.UserContext?
         /// A timestamp that indicates when the model card was last updated.
         public var lastModifiedTime: Foundation.Date?
@@ -48856,7 +49157,7 @@ extension SageMakerClientTypes {
 
     /// A group of versioned models in the Model Registry.
     public struct ModelPackageGroup: Swift.Sendable {
-        /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+        /// Information about the user who created or modified a SageMaker resource.
         public var createdBy: SageMakerClientTypes.UserContext?
         /// The time that the model group was created.
         public var creationTime: Foundation.Date?
@@ -48998,11 +49299,11 @@ extension SageMakerClientTypes {
 
     /// A SageMaker Model Building Pipeline instance.
     public struct Pipeline: Swift.Sendable {
-        /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+        /// Information about the user who created or modified a SageMaker resource.
         public var createdBy: SageMakerClientTypes.UserContext?
         /// The creation time of the pipeline.
         public var creationTime: Foundation.Date?
-        /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+        /// Information about the user who created or modified a SageMaker resource.
         public var lastModifiedBy: SageMakerClientTypes.UserContext?
         /// The time that the pipeline was last modified.
         public var lastModifiedTime: Foundation.Date?
@@ -49061,13 +49362,13 @@ extension SageMakerClientTypes {
 
     /// An execution of a pipeline.
     public struct PipelineExecution: Swift.Sendable {
-        /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+        /// Information about the user who created or modified a SageMaker resource.
         public var createdBy: SageMakerClientTypes.UserContext?
         /// The creation time of the pipeline execution.
         public var creationTime: Foundation.Date?
         /// If the execution failed, a message describing why.
         public var failureReason: Swift.String?
-        /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+        /// Information about the user who created or modified a SageMaker resource.
         public var lastModifiedBy: SageMakerClientTypes.UserContext?
         /// The time that the pipeline execution was last modified.
         public var lastModifiedTime: Foundation.Date?
@@ -49087,6 +49388,10 @@ extension SageMakerClientTypes {
         public var pipelineExperimentConfig: SageMakerClientTypes.PipelineExperimentConfig?
         /// Contains a list of pipeline parameters. This list can be empty.
         public var pipelineParameters: [SageMakerClientTypes.Parameter]?
+        /// The display name of the pipeline version that started this execution.
+        public var pipelineVersionDisplayName: Swift.String?
+        /// The ID of the pipeline version that started this execution.
+        public var pipelineVersionId: Swift.Int?
         /// The selective execution configuration applied to the pipeline run.
         public var selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig?
 
@@ -49104,6 +49409,8 @@ extension SageMakerClientTypes {
             pipelineExecutionStatus: SageMakerClientTypes.PipelineExecutionStatus? = nil,
             pipelineExperimentConfig: SageMakerClientTypes.PipelineExperimentConfig? = nil,
             pipelineParameters: [SageMakerClientTypes.Parameter]? = nil,
+            pipelineVersionDisplayName: Swift.String? = nil,
+            pipelineVersionId: Swift.Int? = nil,
             selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig? = nil
         ) {
             self.createdBy = createdBy
@@ -49119,7 +49426,64 @@ extension SageMakerClientTypes {
             self.pipelineExecutionStatus = pipelineExecutionStatus
             self.pipelineExperimentConfig = pipelineExperimentConfig
             self.pipelineParameters = pipelineParameters
+            self.pipelineVersionDisplayName = pipelineVersionDisplayName
+            self.pipelineVersionId = pipelineVersionId
             self.selectiveExecutionConfig = selectiveExecutionConfig
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The version of the pipeline.
+    public struct PipelineVersion: Swift.Sendable {
+        /// Information about the user who created or modified a SageMaker resource.
+        public var createdBy: SageMakerClientTypes.UserContext?
+        /// The creation time of the pipeline version.
+        public var creationTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the most recent pipeline execution created from this pipeline version.
+        public var lastExecutedPipelineExecutionArn: Swift.String?
+        /// The display name of the most recent pipeline execution created from this pipeline version.
+        public var lastExecutedPipelineExecutionDisplayName: Swift.String?
+        /// The status of the most recent pipeline execution created from this pipeline version.
+        public var lastExecutedPipelineExecutionStatus: SageMakerClientTypes.PipelineExecutionStatus?
+        /// Information about the user who created or modified a SageMaker resource.
+        public var lastModifiedBy: SageMakerClientTypes.UserContext?
+        /// The time when the pipeline version was last modified.
+        public var lastModifiedTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the pipeline.
+        public var pipelineArn: Swift.String?
+        /// The description of the pipeline version.
+        public var pipelineVersionDescription: Swift.String?
+        /// The display name of the pipeline version.
+        public var pipelineVersionDisplayName: Swift.String?
+        /// The ID of the pipeline version.
+        public var pipelineVersionId: Swift.Int?
+
+        public init(
+            createdBy: SageMakerClientTypes.UserContext? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastExecutedPipelineExecutionArn: Swift.String? = nil,
+            lastExecutedPipelineExecutionDisplayName: Swift.String? = nil,
+            lastExecutedPipelineExecutionStatus: SageMakerClientTypes.PipelineExecutionStatus? = nil,
+            lastModifiedBy: SageMakerClientTypes.UserContext? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            pipelineArn: Swift.String? = nil,
+            pipelineVersionDescription: Swift.String? = nil,
+            pipelineVersionDisplayName: Swift.String? = nil,
+            pipelineVersionId: Swift.Int? = nil
+        ) {
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.lastExecutedPipelineExecutionArn = lastExecutedPipelineExecutionArn
+            self.lastExecutedPipelineExecutionDisplayName = lastExecutedPipelineExecutionDisplayName
+            self.lastExecutedPipelineExecutionStatus = lastExecutedPipelineExecutionStatus
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.pipelineArn = pipelineArn
+            self.pipelineVersionDescription = pipelineVersionDescription
+            self.pipelineVersionDisplayName = pipelineVersionDisplayName
+            self.pipelineVersionId = pipelineVersionId
         }
     }
 }
@@ -49264,7 +49628,7 @@ extension SageMakerClientTypes {
         public var createdBy: SageMakerClientTypes.UserContext?
         /// A timestamp specifying when the project was created.
         public var creationTime: Foundation.Date?
-        /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+        /// Information about the user who created or modified a SageMaker resource.
         public var lastModifiedBy: SageMakerClientTypes.UserContext?
         /// A timestamp container for when the project was last modified.
         public var lastModifiedTime: Foundation.Date?
@@ -49980,7 +50344,7 @@ extension SageMakerClientTypes {
 
     /// A short summary of a trial component.
     public struct TrialComponentSimpleSummary: Swift.Sendable {
-        /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+        /// Information about the user who created or modified a SageMaker resource.
         public var createdBy: SageMakerClientTypes.UserContext?
         /// When the component was created.
         public var creationTime: Foundation.Date?
@@ -50019,7 +50383,7 @@ extension SageMakerClientTypes {
         public var displayName: Swift.String?
         /// The name of the experiment the trial is part of.
         public var experimentName: Swift.String?
-        /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+        /// Information about the user who created or modified a SageMaker resource.
         public var lastModifiedBy: SageMakerClientTypes.UserContext?
         /// Who last modified the trial.
         public var lastModifiedTime: Foundation.Date?
@@ -50107,7 +50471,7 @@ extension SageMakerClientTypes {
         public var endTime: Foundation.Date?
         /// The input artifacts of the component.
         public var inputArtifacts: [Swift.String: SageMakerClientTypes.TrialComponentArtifact]?
-        /// Information about the user who created or modified an experiment, trial, trial component, lineage group, project, or model card.
+        /// Information about the user who created or modified a SageMaker resource.
         public var lastModifiedBy: SageMakerClientTypes.UserContext?
         /// When the component was last modified.
         public var lastModifiedTime: Foundation.Date?
@@ -50221,6 +50585,8 @@ extension SageMakerClientTypes {
         public var pipeline: SageMakerClientTypes.Pipeline?
         /// An execution of a pipeline.
         public var pipelineExecution: SageMakerClientTypes.PipelineExecution?
+        /// The version of the pipeline.
+        public var pipelineVersion: SageMakerClientTypes.PipelineVersion?
         /// The properties of a project.
         public var project: SageMakerClientTypes.Project?
         /// The properties of a training job.
@@ -50242,6 +50608,7 @@ extension SageMakerClientTypes {
             modelPackageGroup: SageMakerClientTypes.ModelPackageGroup? = nil,
             pipeline: SageMakerClientTypes.Pipeline? = nil,
             pipelineExecution: SageMakerClientTypes.PipelineExecution? = nil,
+            pipelineVersion: SageMakerClientTypes.PipelineVersion? = nil,
             project: SageMakerClientTypes.Project? = nil,
             trainingJob: SageMakerClientTypes.TrainingJob? = nil,
             trial: SageMakerClientTypes.Trial? = nil,
@@ -50258,6 +50625,7 @@ extension SageMakerClientTypes {
             self.modelPackageGroup = modelPackageGroup
             self.pipeline = pipeline
             self.pipelineExecution = pipelineExecution
+            self.pipelineVersion = pipelineVersion
             self.project = project
             self.trainingJob = trainingJob
             self.trial = trial
@@ -50575,6 +50943,8 @@ public struct StartPipelineExecutionInput: Swift.Sendable {
     public var pipelineName: Swift.String?
     /// Contains a list of pipeline parameters. This list can be empty.
     public var pipelineParameters: [SageMakerClientTypes.Parameter]?
+    /// The ID of the pipeline version to start execution from.
+    public var pipelineVersionId: Swift.Int?
     /// The selective execution configuration applied to the pipeline run.
     public var selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig?
 
@@ -50585,6 +50955,7 @@ public struct StartPipelineExecutionInput: Swift.Sendable {
         pipelineExecutionDisplayName: Swift.String? = nil,
         pipelineName: Swift.String? = nil,
         pipelineParameters: [SageMakerClientTypes.Parameter]? = nil,
+        pipelineVersionId: Swift.Int? = nil,
         selectiveExecutionConfig: SageMakerClientTypes.SelectiveExecutionConfig? = nil
     ) {
         self.clientRequestToken = clientRequestToken
@@ -50593,6 +50964,7 @@ public struct StartPipelineExecutionInput: Swift.Sendable {
         self.pipelineExecutionDisplayName = pipelineExecutionDisplayName
         self.pipelineName = pipelineName
         self.pipelineParameters = pipelineParameters
+        self.pipelineVersionId = pipelineVersionId
         self.selectiveExecutionConfig = selectiveExecutionConfig
     }
 }
@@ -51021,17 +51393,21 @@ public struct UpdateClusterInput: Swift.Sendable {
     public var instanceGroupsToDelete: [Swift.String]?
     /// The node recovery mode to be applied to the SageMaker HyperPod cluster.
     public var nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery?
+    /// The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
+    public var restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]?
 
     public init(
         clusterName: Swift.String? = nil,
         instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]? = nil,
         instanceGroupsToDelete: [Swift.String]? = nil,
-        nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil
+        nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
+        restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]? = nil
     ) {
         self.clusterName = clusterName
         self.instanceGroups = instanceGroups
         self.instanceGroupsToDelete = instanceGroupsToDelete
         self.nodeRecovery = nodeRecovery
+        self.restrictedInstanceGroups = restrictedInstanceGroups
     }
 }
 
@@ -52383,11 +52759,15 @@ public struct UpdatePipelineInput: Swift.Sendable {
 public struct UpdatePipelineOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the updated pipeline.
     public var pipelineArn: Swift.String?
+    /// The ID of the pipeline version.
+    public var pipelineVersionId: Swift.Int?
 
     public init(
-        pipelineArn: Swift.String? = nil
+        pipelineArn: Swift.String? = nil,
+        pipelineVersionId: Swift.Int? = nil
     ) {
         self.pipelineArn = pipelineArn
+        self.pipelineVersionId = pipelineVersionId
     }
 }
 
@@ -52423,6 +52803,46 @@ public struct UpdatePipelineExecutionOutput: Swift.Sendable {
         pipelineExecutionArn: Swift.String? = nil
     ) {
         self.pipelineExecutionArn = pipelineExecutionArn
+    }
+}
+
+public struct UpdatePipelineVersionInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the pipeline.
+    /// This member is required.
+    public var pipelineArn: Swift.String?
+    /// The description of the pipeline version.
+    public var pipelineVersionDescription: Swift.String?
+    /// The display name of the pipeline version.
+    public var pipelineVersionDisplayName: Swift.String?
+    /// The pipeline version ID to update.
+    /// This member is required.
+    public var pipelineVersionId: Swift.Int?
+
+    public init(
+        pipelineArn: Swift.String? = nil,
+        pipelineVersionDescription: Swift.String? = nil,
+        pipelineVersionDisplayName: Swift.String? = nil,
+        pipelineVersionId: Swift.Int? = nil
+    ) {
+        self.pipelineArn = pipelineArn
+        self.pipelineVersionDescription = pipelineVersionDescription
+        self.pipelineVersionDisplayName = pipelineVersionDisplayName
+        self.pipelineVersionId = pipelineVersionId
+    }
+}
+
+public struct UpdatePipelineVersionOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the pipeline.
+    public var pipelineArn: Swift.String?
+    /// The ID of the pipeline version.
+    public var pipelineVersionId: Swift.Int?
+
+    public init(
+        pipelineArn: Swift.String? = nil,
+        pipelineVersionId: Swift.Int? = nil
+    ) {
+        self.pipelineArn = pipelineArn
+        self.pipelineVersionId = pipelineVersionId
     }
 }
 
@@ -54725,6 +55145,13 @@ extension ListPipelinesInput {
     }
 }
 
+extension ListPipelineVersionsInput {
+
+    static func urlPathProvider(_ value: ListPipelineVersionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListProcessingJobsInput {
 
     static func urlPathProvider(_ value: ListProcessingJobsInput) -> Swift.String? {
@@ -55313,6 +55740,13 @@ extension UpdatePipelineExecutionInput {
     }
 }
 
+extension UpdatePipelineVersionInput {
+
+    static func urlPathProvider(_ value: UpdatePipelineVersionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateProjectInput {
 
     static func urlPathProvider(_ value: UpdateProjectInput) -> Swift.String? {
@@ -55526,6 +55960,7 @@ extension CreateClusterInput {
         try writer["InstanceGroups"].writeList(value.instanceGroups, memberWritingClosure: SageMakerClientTypes.ClusterInstanceGroupSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["NodeRecovery"].write(value.nodeRecovery)
         try writer["Orchestrator"].write(value.orchestrator, with: SageMakerClientTypes.ClusterOrchestrator.write(value:to:))
+        try writer["RestrictedInstanceGroups"].writeList(value.restrictedInstanceGroups, memberWritingClosure: SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VpcConfig"].write(value.vpcConfig, with: SageMakerClientTypes.VpcConfig.write(value:to:))
     }
@@ -57277,6 +57712,7 @@ extension DescribePipelineInput {
     static func write(value: DescribePipelineInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["PipelineName"].write(value.pipelineName)
+        try writer["PipelineVersionId"].write(value.pipelineVersionId)
     }
 }
 
@@ -58471,6 +58907,19 @@ extension ListPipelinesInput {
     }
 }
 
+extension ListPipelineVersionsInput {
+
+    static func write(value: ListPipelineVersionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CreatedAfter"].writeTimestamp(value.createdAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["CreatedBefore"].writeTimestamp(value.createdBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["PipelineName"].write(value.pipelineName)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
 extension ListProcessingJobsInput {
 
     static func write(value: ListProcessingJobsInput?, to writer: SmithyJSON.Writer) throws {
@@ -58862,6 +59311,7 @@ extension StartPipelineExecutionInput {
         try writer["PipelineExecutionDisplayName"].write(value.pipelineExecutionDisplayName)
         try writer["PipelineName"].write(value.pipelineName)
         try writer["PipelineParameters"].writeList(value.pipelineParameters, memberWritingClosure: SageMakerClientTypes.Parameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PipelineVersionId"].write(value.pipelineVersionId)
         try writer["SelectiveExecutionConfig"].write(value.selectiveExecutionConfig, with: SageMakerClientTypes.SelectiveExecutionConfig.write(value:to:))
     }
 }
@@ -59050,6 +59500,7 @@ extension UpdateClusterInput {
         try writer["InstanceGroups"].writeList(value.instanceGroups, memberWritingClosure: SageMakerClientTypes.ClusterInstanceGroupSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["InstanceGroupsToDelete"].writeList(value.instanceGroupsToDelete, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["NodeRecovery"].write(value.nodeRecovery)
+        try writer["RestrictedInstanceGroups"].writeList(value.restrictedInstanceGroups, memberWritingClosure: SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -59427,6 +59878,17 @@ extension UpdatePipelineExecutionInput {
         try writer["PipelineExecutionArn"].write(value.pipelineExecutionArn)
         try writer["PipelineExecutionDescription"].write(value.pipelineExecutionDescription)
         try writer["PipelineExecutionDisplayName"].write(value.pipelineExecutionDisplayName)
+    }
+}
+
+extension UpdatePipelineVersionInput {
+
+    static func write(value: UpdatePipelineVersionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PipelineArn"].write(value.pipelineArn)
+        try writer["PipelineVersionDescription"].write(value.pipelineVersionDescription)
+        try writer["PipelineVersionDisplayName"].write(value.pipelineVersionDisplayName)
+        try writer["PipelineVersionId"].write(value.pipelineVersionId)
     }
 }
 
@@ -61023,6 +61485,7 @@ extension DescribeClusterOutput {
         value.instanceGroups = try reader["InstanceGroups"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterInstanceGroupDetails.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nodeRecovery = try reader["NodeRecovery"].readIfPresent()
         value.orchestrator = try reader["Orchestrator"].readIfPresent(with: SageMakerClientTypes.ClusterOrchestrator.read(from:))
+        value.restrictedInstanceGroups = try reader["RestrictedInstanceGroups"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterRestrictedInstanceGroupDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: SageMakerClientTypes.VpcConfig.read(from:))
         return value
     }
@@ -62066,6 +62529,8 @@ extension DescribePipelineOutput {
         value.pipelineDisplayName = try reader["PipelineDisplayName"].readIfPresent()
         value.pipelineName = try reader["PipelineName"].readIfPresent()
         value.pipelineStatus = try reader["PipelineStatus"].readIfPresent()
+        value.pipelineVersionDescription = try reader["PipelineVersionDescription"].readIfPresent()
+        value.pipelineVersionDisplayName = try reader["PipelineVersionDisplayName"].readIfPresent()
         value.roleArn = try reader["RoleArn"].readIfPresent()
         return value
     }
@@ -62103,6 +62568,7 @@ extension DescribePipelineExecutionOutput {
         value.pipelineExecutionDisplayName = try reader["PipelineExecutionDisplayName"].readIfPresent()
         value.pipelineExecutionStatus = try reader["PipelineExecutionStatus"].readIfPresent()
         value.pipelineExperimentConfig = try reader["PipelineExperimentConfig"].readIfPresent(with: SageMakerClientTypes.PipelineExperimentConfig.read(from:))
+        value.pipelineVersionId = try reader["PipelineVersionId"].readIfPresent()
         value.selectiveExecutionConfig = try reader["SelectiveExecutionConfig"].readIfPresent(with: SageMakerClientTypes.SelectiveExecutionConfig.read(from:))
         return value
     }
@@ -63382,6 +63848,19 @@ extension ListPipelinesOutput {
     }
 }
 
+extension ListPipelineVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPipelineVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListPipelineVersionsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.pipelineVersionSummaries = try reader["PipelineVersionSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.PipelineVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListProcessingJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListProcessingJobsOutput {
@@ -64293,6 +64772,7 @@ extension UpdatePipelineOutput {
         let reader = responseReader
         var value = UpdatePipelineOutput()
         value.pipelineArn = try reader["PipelineArn"].readIfPresent()
+        value.pipelineVersionId = try reader["PipelineVersionId"].readIfPresent()
         return value
     }
 }
@@ -64305,6 +64785,19 @@ extension UpdatePipelineExecutionOutput {
         let reader = responseReader
         var value = UpdatePipelineExecutionOutput()
         value.pipelineExecutionArn = try reader["PipelineExecutionArn"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdatePipelineVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdatePipelineVersionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdatePipelineVersionOutput()
+        value.pipelineArn = try reader["PipelineArn"].readIfPresent()
+        value.pipelineVersionId = try reader["PipelineVersionId"].readIfPresent()
         return value
     }
 }
@@ -68139,6 +68632,20 @@ enum ListPipelinesOutputError {
     }
 }
 
+enum ListPipelineVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListProcessingJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -69324,6 +69831,21 @@ enum UpdatePipelineOutputError {
 }
 
 enum UpdatePipelineExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdatePipelineVersionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -71424,6 +71946,57 @@ extension SageMakerClientTypes.ClusterLifeCycleConfig {
         var value = SageMakerClientTypes.ClusterLifeCycleConfig()
         value.sourceS3Uri = try reader["SourceS3Uri"].readIfPresent() ?? ""
         value.onCreate = try reader["OnCreate"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ClusterRestrictedInstanceGroupDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterRestrictedInstanceGroupDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ClusterRestrictedInstanceGroupDetails()
+        value.currentCount = try reader["CurrentCount"].readIfPresent()
+        value.targetCount = try reader["TargetCount"].readIfPresent()
+        value.instanceGroupName = try reader["InstanceGroupName"].readIfPresent()
+        value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.executionRole = try reader["ExecutionRole"].readIfPresent()
+        value.threadsPerCore = try reader["ThreadsPerCore"].readIfPresent()
+        value.instanceStorageConfigs = try reader["InstanceStorageConfigs"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterInstanceStorageConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.onStartDeepHealthChecks = try reader["OnStartDeepHealthChecks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.DeepHealthCheckType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["Status"].readIfPresent()
+        value.trainingPlanArn = try reader["TrainingPlanArn"].readIfPresent()
+        value.trainingPlanStatus = try reader["TrainingPlanStatus"].readIfPresent()
+        value.overrideVpcConfig = try reader["OverrideVpcConfig"].readIfPresent(with: SageMakerClientTypes.VpcConfig.read(from:))
+        value.scheduledUpdateConfig = try reader["ScheduledUpdateConfig"].readIfPresent(with: SageMakerClientTypes.ScheduledUpdateConfig.read(from:))
+        value.environmentConfig = try reader["EnvironmentConfig"].readIfPresent(with: SageMakerClientTypes.EnvironmentConfigDetails.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.EnvironmentConfigDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EnvironmentConfigDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.EnvironmentConfigDetails()
+        value.fSxLustreConfig = try reader["FSxLustreConfig"].readIfPresent(with: SageMakerClientTypes.FSxLustreConfig.read(from:))
+        value.s3OutputPath = try reader["S3OutputPath"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.FSxLustreConfig {
+
+    static func write(value: SageMakerClientTypes.FSxLustreConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PerUnitStorageThroughput"].write(value.perUnitStorageThroughput)
+        try writer["SizeInGiB"].write(value.sizeInGiB)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.FSxLustreConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.FSxLustreConfig()
+        value.sizeInGiB = try reader["SizeInGiB"].readIfPresent() ?? 0
+        value.perUnitStorageThroughput = try reader["PerUnitStorageThroughput"].readIfPresent() ?? 0
         return value
     }
 }
@@ -79266,6 +79839,21 @@ extension SageMakerClientTypes.PipelineSummary {
     }
 }
 
+extension SageMakerClientTypes.PipelineVersionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PipelineVersionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.PipelineVersionSummary()
+        value.pipelineArn = try reader["PipelineArn"].readIfPresent()
+        value.pipelineVersionId = try reader["PipelineVersionId"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.pipelineVersionDescription = try reader["PipelineVersionDescription"].readIfPresent()
+        value.pipelineVersionDisplayName = try reader["PipelineVersionDisplayName"].readIfPresent()
+        value.lastExecutionPipelineExecutionArn = try reader["LastExecutionPipelineExecutionArn"].readIfPresent()
+        return value
+    }
+}
+
 extension SageMakerClientTypes.ProcessingJobSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ProcessingJobSummary {
@@ -79551,6 +80139,7 @@ extension SageMakerClientTypes.SearchRecord {
         value.modelPackageGroup = try reader["ModelPackageGroup"].readIfPresent(with: SageMakerClientTypes.ModelPackageGroup.read(from:))
         value.pipeline = try reader["Pipeline"].readIfPresent(with: SageMakerClientTypes.Pipeline.read(from:))
         value.pipelineExecution = try reader["PipelineExecution"].readIfPresent(with: SageMakerClientTypes.PipelineExecution.read(from:))
+        value.pipelineVersion = try reader["PipelineVersion"].readIfPresent(with: SageMakerClientTypes.PipelineVersion.read(from:))
         value.featureGroup = try reader["FeatureGroup"].readIfPresent(with: SageMakerClientTypes.FeatureGroup.read(from:))
         value.featureMetadata = try reader["FeatureMetadata"].readIfPresent(with: SageMakerClientTypes.FeatureMetadata.read(from:))
         value.project = try reader["Project"].readIfPresent(with: SageMakerClientTypes.Project.read(from:))
@@ -79796,6 +80385,26 @@ extension SageMakerClientTypes.FeatureGroup {
     }
 }
 
+extension SageMakerClientTypes.PipelineVersion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PipelineVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.PipelineVersion()
+        value.pipelineArn = try reader["PipelineArn"].readIfPresent()
+        value.pipelineVersionId = try reader["PipelineVersionId"].readIfPresent()
+        value.pipelineVersionDisplayName = try reader["PipelineVersionDisplayName"].readIfPresent()
+        value.pipelineVersionDescription = try reader["PipelineVersionDescription"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["CreatedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
+        value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent(with: SageMakerClientTypes.UserContext.read(from:))
+        value.lastExecutedPipelineExecutionArn = try reader["LastExecutedPipelineExecutionArn"].readIfPresent()
+        value.lastExecutedPipelineExecutionDisplayName = try reader["LastExecutedPipelineExecutionDisplayName"].readIfPresent()
+        value.lastExecutedPipelineExecutionStatus = try reader["LastExecutedPipelineExecutionStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension SageMakerClientTypes.PipelineExecution {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PipelineExecution {
@@ -79815,6 +80424,8 @@ extension SageMakerClientTypes.PipelineExecution {
         value.parallelismConfiguration = try reader["ParallelismConfiguration"].readIfPresent(with: SageMakerClientTypes.ParallelismConfiguration.read(from:))
         value.selectiveExecutionConfig = try reader["SelectiveExecutionConfig"].readIfPresent(with: SageMakerClientTypes.SelectiveExecutionConfig.read(from:))
         value.pipelineParameters = try reader["PipelineParameters"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.Parameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.pipelineVersionId = try reader["PipelineVersionId"].readIfPresent()
+        value.pipelineVersionDisplayName = try reader["PipelineVersionDisplayName"].readIfPresent()
         return value
     }
 }
@@ -80184,6 +80795,32 @@ extension SageMakerClientTypes.ClusterInstanceGroupSpecification {
         try writer["ScheduledUpdateConfig"].write(value.scheduledUpdateConfig, with: SageMakerClientTypes.ScheduledUpdateConfig.write(value:to:))
         try writer["ThreadsPerCore"].write(value.threadsPerCore)
         try writer["TrainingPlanArn"].write(value.trainingPlanArn)
+    }
+}
+
+extension SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification {
+
+    static func write(value: SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnvironmentConfig"].write(value.environmentConfig, with: SageMakerClientTypes.EnvironmentConfig.write(value:to:))
+        try writer["ExecutionRole"].write(value.executionRole)
+        try writer["InstanceCount"].write(value.instanceCount)
+        try writer["InstanceGroupName"].write(value.instanceGroupName)
+        try writer["InstanceStorageConfigs"].writeList(value.instanceStorageConfigs, memberWritingClosure: SageMakerClientTypes.ClusterInstanceStorageConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InstanceType"].write(value.instanceType)
+        try writer["OnStartDeepHealthChecks"].writeList(value.onStartDeepHealthChecks, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerClientTypes.DeepHealthCheckType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OverrideVpcConfig"].write(value.overrideVpcConfig, with: SageMakerClientTypes.VpcConfig.write(value:to:))
+        try writer["ScheduledUpdateConfig"].write(value.scheduledUpdateConfig, with: SageMakerClientTypes.ScheduledUpdateConfig.write(value:to:))
+        try writer["ThreadsPerCore"].write(value.threadsPerCore)
+        try writer["TrainingPlanArn"].write(value.trainingPlanArn)
+    }
+}
+
+extension SageMakerClientTypes.EnvironmentConfig {
+
+    static func write(value: SageMakerClientTypes.EnvironmentConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FSxLustreConfig"].write(value.fSxLustreConfig, with: SageMakerClientTypes.FSxLustreConfig.write(value:to:))
     }
 }
 
