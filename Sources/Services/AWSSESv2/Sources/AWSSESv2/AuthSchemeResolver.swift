@@ -21,6 +21,7 @@ import struct Smithy.AttributeKey
 import struct SmithyHTTPAuthAPI.AuthOption
 
 public struct SESv2AuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
+    public let authSchemePreference: [String]?
     public let operation: Swift.String
     /// Override the endpoint used to send this request
     public let endpoint: Swift.String?
@@ -42,12 +43,6 @@ public protocol SESv2AuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
 
 private struct InternalModeledSESv2AuthSchemeResolver: SESv2AuthSchemeResolver {
 
-    public let authSchemePreference: [String]
-
-    public init(authSchemePreference: [String] = []) {
-        self.authSchemePreference = authSchemePreference
-    }
-
     public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [SmithyHTTPAuthAPI.AuthOption] {
         var validAuthOptions = [SmithyHTTPAuthAPI.AuthOption]()
         guard let serviceParams = params as? SESv2AuthSchemeResolverParameters else {
@@ -66,7 +61,7 @@ private struct InternalModeledSESv2AuthSchemeResolver: SESv2AuthSchemeResolver {
                 sigv4Option.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSSOOIDCClientKey, value: InternalAWSSSOOIDC.IdentityProvidingSSOOIDCClient())
                 validAuthOptions.append(sigv4Option)
         }
-        return self.reprioritizeAuthOptions(authSchemePreference: authSchemePreference, authOptions: validAuthOptions)
+        return self.reprioritizeAuthOptions(authSchemePreference: serviceParams.authSchemePreference, authOptions: validAuthOptions)
     }
 
     public func constructParameters(context: Smithy.Context) throws -> SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
@@ -119,6 +114,7 @@ public struct DefaultSESv2AuthSchemeResolver: SESv2AuthSchemeResolver {
         guard let endpointParam = context.get(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams")) else {
             throw Smithy.ClientError.dataNotFound("Endpoint param not configured in middleware context for rules-based auth scheme resolver params construction.")
         }
-        return SESv2AuthSchemeResolverParameters(operation: opName, endpoint: endpointParam.endpoint, endpointId: endpointParam.endpointId, region: endpointParam.region, useDualStack: endpointParam.useDualStack, useFIPS: endpointParam.useFIPS)
+        let authSchemePreference = context.getAuthSchemePreference()
+        return SESv2AuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName, endpoint: endpointParam.endpoint, endpointId: endpointParam.endpointId, region: endpointParam.region, useDualStack: endpointParam.useDualStack, useFIPS: endpointParam.useFIPS)
     }
 }

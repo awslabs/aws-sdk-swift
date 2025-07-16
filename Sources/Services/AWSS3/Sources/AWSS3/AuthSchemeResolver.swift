@@ -22,6 +22,7 @@ import struct Smithy.AttributeKey
 import struct SmithyHTTPAuthAPI.AuthOption
 
 public struct S3AuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
+    public let authSchemePreference: [String]?
     public let operation: Swift.String
     /// When true, use S3 Accelerate. NOTE: Not all regions support S3 accelerate.
     public let accelerate: Swift.Bool
@@ -67,12 +68,6 @@ public protocol S3AuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
 
 private struct InternalModeledS3AuthSchemeResolver: S3AuthSchemeResolver {
 
-    public let authSchemePreference: [String]
-
-    public init(authSchemePreference: [String] = []) {
-        self.authSchemePreference = authSchemePreference
-    }
-
     public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [SmithyHTTPAuthAPI.AuthOption] {
         var validAuthOptions = [SmithyHTTPAuthAPI.AuthOption]()
         guard let serviceParams = params as? S3AuthSchemeResolverParameters else {
@@ -102,7 +97,7 @@ private struct InternalModeledS3AuthSchemeResolver: S3AuthSchemeResolver {
                 sigv4Option.identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSSOOIDCClientKey, value: InternalAWSSSOOIDC.IdentityProvidingSSOOIDCClient())
                 validAuthOptions.append(sigv4Option)
         }
-        return self.reprioritizeAuthOptions(authSchemePreference: authSchemePreference, authOptions: validAuthOptions)
+        return self.reprioritizeAuthOptions(authSchemePreference: serviceParams.authSchemePreference, authOptions: validAuthOptions)
     }
 
     public func constructParameters(context: Smithy.Context) throws -> SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
@@ -162,6 +157,7 @@ public struct DefaultS3AuthSchemeResolver: S3AuthSchemeResolver {
         guard let endpointParam = context.get(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams")) else {
             throw Smithy.ClientError.dataNotFound("Endpoint param not configured in middleware context for rules-based auth scheme resolver params construction.")
         }
-        return S3AuthSchemeResolverParameters(operation: opName, accelerate: endpointParam.accelerate, bucket: endpointParam.bucket, copySource: endpointParam.copySource, disableAccessPoints: endpointParam.disableAccessPoints, disableMultiRegionAccessPoints: endpointParam.disableMultiRegionAccessPoints, disableS3ExpressSessionAuth: endpointParam.disableS3ExpressSessionAuth, endpoint: endpointParam.endpoint, forcePathStyle: endpointParam.forcePathStyle, key: endpointParam.key, prefix: endpointParam.prefix, region: endpointParam.region, useArnRegion: endpointParam.useArnRegion, useDualStack: endpointParam.useDualStack, useFIPS: endpointParam.useFIPS, useGlobalEndpoint: endpointParam.useGlobalEndpoint, useObjectLambdaEndpoint: endpointParam.useObjectLambdaEndpoint, useS3ExpressControlEndpoint: endpointParam.useS3ExpressControlEndpoint)
+        let authSchemePreference = context.getAuthSchemePreference()
+        return S3AuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName, accelerate: endpointParam.accelerate, bucket: endpointParam.bucket, copySource: endpointParam.copySource, disableAccessPoints: endpointParam.disableAccessPoints, disableMultiRegionAccessPoints: endpointParam.disableMultiRegionAccessPoints, disableS3ExpressSessionAuth: endpointParam.disableS3ExpressSessionAuth, endpoint: endpointParam.endpoint, forcePathStyle: endpointParam.forcePathStyle, key: endpointParam.key, prefix: endpointParam.prefix, region: endpointParam.region, useArnRegion: endpointParam.useArnRegion, useDualStack: endpointParam.useDualStack, useFIPS: endpointParam.useFIPS, useGlobalEndpoint: endpointParam.useGlobalEndpoint, useObjectLambdaEndpoint: endpointParam.useObjectLambdaEndpoint, useS3ExpressControlEndpoint: endpointParam.useS3ExpressControlEndpoint)
     }
 }

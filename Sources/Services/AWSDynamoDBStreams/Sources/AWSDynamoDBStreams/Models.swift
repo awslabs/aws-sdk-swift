@@ -72,12 +72,59 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+extension DynamoDBStreamsClientTypes {
+
+    public enum ShardFilterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case childShards
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ShardFilterType] {
+            return [
+                .childShards
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .childShards: return "CHILD_SHARDS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DynamoDBStreamsClientTypes {
+
+    /// This optional field contains the filter definition for the DescribeStream API.
+    public struct ShardFilter: Swift.Sendable {
+        /// Contains the shardId of the parent shard for which you are requesting child shards. Sample request:
+        public var shardId: Swift.String?
+        /// Contains the type of filter to be applied on the DescribeStream API. Currently, the only value this parameter accepts is CHILD_SHARDS.
+        public var type: DynamoDBStreamsClientTypes.ShardFilterType?
+
+        public init(
+            shardId: Swift.String? = nil,
+            type: DynamoDBStreamsClientTypes.ShardFilterType? = nil
+        ) {
+            self.shardId = shardId
+            self.type = type
+        }
+    }
+}
+
 /// Represents the input of a DescribeStream operation.
 public struct DescribeStreamInput: Swift.Sendable {
     /// The shard ID of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedShardId in the previous operation.
     public var exclusiveStartShardId: Swift.String?
     /// The maximum number of shard objects to return. The upper limit is 100.
     public var limit: Swift.Int?
+    /// This optional field contains the filter definition for the DescribeStream API.
+    public var shardFilter: DynamoDBStreamsClientTypes.ShardFilter?
     /// The Amazon Resource Name (ARN) for the stream.
     /// This member is required.
     public var streamArn: Swift.String?
@@ -85,10 +132,12 @@ public struct DescribeStreamInput: Swift.Sendable {
     public init(
         exclusiveStartShardId: Swift.String? = nil,
         limit: Swift.Int? = nil,
+        shardFilter: DynamoDBStreamsClientTypes.ShardFilter? = nil,
         streamArn: Swift.String? = nil
     ) {
         self.exclusiveStartShardId = exclusiveStartShardId
         self.limit = limit
+        self.shardFilter = shardFilter
         self.streamArn = streamArn
     }
 }
@@ -666,7 +715,7 @@ extension DynamoDBStreamsClientTypes {
 
     /// A description of a single data modification that was performed on an item in a DynamoDB table.
     public struct StreamRecord: Swift.Sendable {
-        /// The approximate date and time when the stream record was created, in [UNIX epoch time](http://www.epochconverter.com/) format and rounded down to the closest second.
+        /// The approximate date and time when the stream record was created, in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format and rounded down to the closest second.
         public var approximateCreationDateTime: Foundation.Date?
         /// The primary key attribute(s) for the DynamoDB item that was modified.
         public var keys: [Swift.String: DynamoDBStreamsClientTypes.AttributeValue]?
@@ -808,6 +857,7 @@ extension DescribeStreamInput {
         guard let value else { return }
         try writer["ExclusiveStartShardId"].write(value.exclusiveStartShardId)
         try writer["Limit"].write(value.limit)
+        try writer["ShardFilter"].write(value.shardFilter, with: DynamoDBStreamsClientTypes.ShardFilter.write(value:to:))
         try writer["StreamArn"].write(value.streamArn)
     }
 }
@@ -1157,6 +1207,15 @@ extension DynamoDBStreamsClientTypes.Stream {
         value.tableName = try reader["TableName"].readIfPresent()
         value.streamLabel = try reader["StreamLabel"].readIfPresent()
         return value
+    }
+}
+
+extension DynamoDBStreamsClientTypes.ShardFilter {
+
+    static func write(value: DynamoDBStreamsClientTypes.ShardFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ShardId"].write(value.shardId)
+        try writer["Type"].write(value.type)
     }
 }
 

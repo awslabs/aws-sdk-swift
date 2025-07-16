@@ -28,7 +28,7 @@ extension DatabaseMigrationClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "successful") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "successful") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeConnectionsInput, result: Swift.Result<DescribeConnectionsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Connections[].Status"
@@ -124,7 +124,7 @@ extension DatabaseMigrationClient {
                     let replicationInstanceStatus = original.replicationInstanceStatus
                     return replicationInstanceStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeReplicationInstancesInput, result: Swift.Result<DescribeReplicationInstancesOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "ReplicationInstances[].ReplicationInstanceStatus"
@@ -330,7 +330,7 @@ extension DatabaseMigrationClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "ready") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "ready") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Swift.Result<DescribeReplicationTasksOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
@@ -460,7 +460,7 @@ extension DatabaseMigrationClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "running") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "running") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Swift.Result<DescribeReplicationTasksOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"
@@ -590,7 +590,7 @@ extension DatabaseMigrationClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "stopped") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "stopped") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeReplicationTasksInput, result: Swift.Result<DescribeReplicationTasksOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "ReplicationTasks[].Status"

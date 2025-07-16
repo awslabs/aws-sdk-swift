@@ -1200,15 +1200,34 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// Options for enabling S3 vectors engine features on the specified domain.
+    public struct S3VectorsEngine: Swift.Sendable {
+        /// Enables S3 vectors engine features.
+        public var enabled: Swift.Bool?
+
+        public init(
+            enabled: Swift.Bool? = nil
+        ) {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// Container for parameters required to enable all machine learning features.
     public struct AIMLOptionsInput: Swift.Sendable {
         /// Container for parameters required for natural language query generation on the specified domain.
         public var naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsInput?
+        /// Container for parameters required to enable S3 vectors engine features on the specified domain.
+        public var s3VectorsEngine: OpenSearchClientTypes.S3VectorsEngine?
 
         public init(
-            naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsInput? = nil
+            naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsInput? = nil,
+            s3VectorsEngine: OpenSearchClientTypes.S3VectorsEngine? = nil
         ) {
             self.naturalLanguageQueryGenerationOptions = naturalLanguageQueryGenerationOptions
+            self.s3VectorsEngine = s3VectorsEngine
         }
     }
 }
@@ -1282,11 +1301,15 @@ extension OpenSearchClientTypes {
     public struct AIMLOptionsOutput: Swift.Sendable {
         /// Container for parameters required for natural language query generation on the specified domain.
         public var naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsOutput?
+        /// Container for parameters representing the state of S3 vectors engine features on the specified domain.
+        public var s3VectorsEngine: OpenSearchClientTypes.S3VectorsEngine?
 
         public init(
-            naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsOutput? = nil
+            naturalLanguageQueryGenerationOptions: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsOutput? = nil,
+            s3VectorsEngine: OpenSearchClientTypes.S3VectorsEngine? = nil
         ) {
             self.naturalLanguageQueryGenerationOptions = naturalLanguageQueryGenerationOptions
+            self.s3VectorsEngine = s3VectorsEngine
         }
     }
 }
@@ -1926,7 +1949,7 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    /// Data sources that are associated with an OpenSearch Application.
+    /// Data sources that are associated with an OpenSearch application.
     public struct DataSource: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
         public var dataSourceArn: Swift.String?
@@ -2000,15 +2023,15 @@ public struct CreateApplicationInput: Swift.Sendable {
 
 extension OpenSearchClientTypes {
 
-    /// Configuration settings for IAM Identity Center in an OpenSearch Application.
+    /// Configuration settings for IAM Identity Center in an OpenSearch application.
     public struct IamIdentityCenterOptions: Swift.Sendable {
-        /// Indicates whether IAM Identity Center is enabled for the OpenSearch Application.
+        /// Indicates whether IAM Identity Center is enabled for the OpenSearch application.
         public var enabled: Swift.Bool?
         /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
         public var iamIdentityCenterApplicationArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
         public var iamIdentityCenterInstanceArn: Swift.String?
-        /// The Amazon Resource Name (ARN) of the IAM role assigned to the IAM Identity Center application for the OpenSearch Application.
+        /// The Amazon Resource Name (ARN) of the IAM role assigned to the IAM Identity Center application for the OpenSearch application.
         public var iamRoleForIdentityCenterApplicationArn: Swift.String?
 
         public init(
@@ -13343,6 +13366,22 @@ extension OpenSearchClientTypes.AIMLOptionsOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchClientTypes.AIMLOptionsOutput()
         value.naturalLanguageQueryGenerationOptions = try reader["NaturalLanguageQueryGenerationOptions"].readIfPresent(with: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsOutput.read(from:))
+        value.s3VectorsEngine = try reader["S3VectorsEngine"].readIfPresent(with: OpenSearchClientTypes.S3VectorsEngine.read(from:))
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.S3VectorsEngine {
+
+    static func write(value: OpenSearchClientTypes.S3VectorsEngine?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.S3VectorsEngine {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.S3VectorsEngine()
+        value.enabled = try reader["Enabled"].readIfPresent()
         return value
     }
 }
@@ -14921,6 +14960,7 @@ extension OpenSearchClientTypes.AIMLOptionsInput {
     static func write(value: OpenSearchClientTypes.AIMLOptionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["NaturalLanguageQueryGenerationOptions"].write(value.naturalLanguageQueryGenerationOptions, with: OpenSearchClientTypes.NaturalLanguageQueryGenerationOptionsInput.write(value:to:))
+        try writer["S3VectorsEngine"].write(value.s3VectorsEngine, with: OpenSearchClientTypes.S3VectorsEngine.write(value:to:))
     }
 }
 

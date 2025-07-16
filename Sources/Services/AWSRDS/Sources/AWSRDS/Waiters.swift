@@ -28,7 +28,7 @@ extension RDSClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeDBClustersInput, result: Swift.Result<DescribeDBClustersOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "DBClusters[].Status"
@@ -207,7 +207,7 @@ extension RDSClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeDBClusterSnapshotsInput, result: Swift.Result<DescribeDBClusterSnapshotsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "DBClusterSnapshots[].Status"
@@ -386,7 +386,7 @@ extension RDSClient {
                     let dbInstanceStatus = original.dbInstanceStatus
                     return dbInstanceStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeDBInstancesInput, result: Swift.Result<DescribeDBInstancesOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "DBInstances[].DBInstanceStatus"
@@ -565,7 +565,7 @@ extension RDSClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeDBSnapshotsInput, result: Swift.Result<DescribeDBSnapshotsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "DBSnapshots[].Status"
@@ -744,7 +744,7 @@ extension RDSClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeTenantDatabasesInput, result: Swift.Result<DescribeTenantDatabasesOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "TenantDatabases[].Status"

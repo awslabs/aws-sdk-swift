@@ -1483,6 +1483,89 @@ extension EventBridgeClientTypes {
 
 extension EventBridgeClientTypes {
 
+    public enum IncludeDetail: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case full
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IncludeDetail] {
+            return [
+                .full,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .full: return "FULL"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EventBridgeClientTypes {
+
+    public enum Level: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case error
+        case info
+        case off
+        case trace
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Level] {
+            return [
+                .error,
+                .info,
+                .off,
+                .trace
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .error: return "ERROR"
+            case .info: return "INFO"
+            case .off: return "OFF"
+            case .trace: return "TRACE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension EventBridgeClientTypes {
+
+    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eb-event-bus-logs.html) in the EventBridge User Guide.
+    public struct LogConfig: Swift.Sendable {
+        /// Whether EventBridge include detailed event information in the records it generates. Detailed data can be useful for troubleshooting and debugging. This information includes details of the event itself, as well as target details. For more information, see [Including detail data in event bus logs](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-bus-logs.html#eb-event-logs-data) in the EventBridge User Guide.
+        public var includeDetail: EventBridgeClientTypes.IncludeDetail?
+        /// The level of logging detail to include. This applies to all log destinations for the event bus. For more information, see [Specifying event bus log level](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-bus-logs.html#eb-event-bus-logs-level) in the EventBridge User Guide.
+        public var level: EventBridgeClientTypes.Level?
+
+        public init(
+            includeDetail: EventBridgeClientTypes.IncludeDetail? = nil,
+            level: EventBridgeClientTypes.Level? = nil
+        ) {
+            self.includeDetail = includeDetail
+            self.level = level
+        }
+    }
+}
+
+extension EventBridgeClientTypes {
+
     /// A key-value pair associated with an Amazon Web Services resource. In EventBridge, rules and event buses support tagging.
     public struct Tag: Swift.Sendable {
         /// A string you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources.
@@ -1518,6 +1601,8 @@ public struct CreateEventBusInput: Swift.Sendable {
     ///
     /// To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see [Encrypting events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption-event-bus-cmkey.html) in the Amazon EventBridge User Guide. If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a customer managed key for any archives for the event bus as well. For more information, see [Encrypting archives](https://docs.aws.amazon.com/eventbridge/latest/userguide/encryption-archives.html) in the Amazon EventBridge User Guide.
     public var kmsKeyIdentifier: Swift.String?
+    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eb-event-bus-logs.html) in the EventBridge User Guide.
+    public var logConfig: EventBridgeClientTypes.LogConfig?
     /// The name of the new event bus. Custom event bus names can't contain the / character, but you can use the / character in partner event bus names. In addition, for partner event buses, the name must exactly match the name of the partner event source that this event bus is matched to. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus.
     /// This member is required.
     public var name: Swift.String?
@@ -1529,6 +1614,7 @@ public struct CreateEventBusInput: Swift.Sendable {
         description: Swift.String? = nil,
         eventSourceName: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
+        logConfig: EventBridgeClientTypes.LogConfig? = nil,
         name: Swift.String? = nil,
         tags: [EventBridgeClientTypes.Tag]? = nil
     ) {
@@ -1536,6 +1622,7 @@ public struct CreateEventBusInput: Swift.Sendable {
         self.description = description
         self.eventSourceName = eventSourceName
         self.kmsKeyIdentifier = kmsKeyIdentifier
+        self.logConfig = logConfig
         self.name = name
         self.tags = tags
     }
@@ -1550,17 +1637,21 @@ public struct CreateEventBusOutput: Swift.Sendable {
     public var eventBusArn: Swift.String?
     /// The identifier of the KMS customer managed key for EventBridge to use to encrypt events on this event bus, if one has been specified. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html) in the Amazon EventBridge User Guide.
     public var kmsKeyIdentifier: Swift.String?
+    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eb-event-bus-logs.html) in the EventBridge User Guide.
+    public var logConfig: EventBridgeClientTypes.LogConfig?
 
     public init(
         deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
         eventBusArn: Swift.String? = nil,
-        kmsKeyIdentifier: Swift.String? = nil
+        kmsKeyIdentifier: Swift.String? = nil,
+        logConfig: EventBridgeClientTypes.LogConfig? = nil
     ) {
         self.deadLetterConfig = deadLetterConfig
         self.description = description
         self.eventBusArn = eventBusArn
         self.kmsKeyIdentifier = kmsKeyIdentifier
+        self.logConfig = logConfig
     }
 }
 
@@ -2241,6 +2332,8 @@ public struct DescribeEventBusOutput: Swift.Sendable {
     public var kmsKeyIdentifier: Swift.String?
     /// The time the event bus was last modified.
     public var lastModifiedTime: Foundation.Date?
+    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eb-event-bus-logs.html) in the EventBridge User Guide.
+    public var logConfig: EventBridgeClientTypes.LogConfig?
     /// The name of the event bus. Currently, this is always default.
     public var name: Swift.String?
     /// The policy that enables the external account to send events to your account.
@@ -2253,6 +2346,7 @@ public struct DescribeEventBusOutput: Swift.Sendable {
         description: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
         lastModifiedTime: Foundation.Date? = nil,
+        logConfig: EventBridgeClientTypes.LogConfig? = nil,
         name: Swift.String? = nil,
         policy: Swift.String? = nil
     ) {
@@ -2262,6 +2356,7 @@ public struct DescribeEventBusOutput: Swift.Sendable {
         self.description = description
         self.kmsKeyIdentifier = kmsKeyIdentifier
         self.lastModifiedTime = lastModifiedTime
+        self.logConfig = logConfig
         self.name = name
         self.policy = policy
     }
@@ -5054,6 +5149,8 @@ public struct UpdateEventBusInput: Swift.Sendable {
     ///
     /// To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see [Encrypting events](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption-event-bus-cmkey.html) in the Amazon EventBridge User Guide. If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a customer managed key for any archives for the event bus as well. For more information, see [Encrypting archives](https://docs.aws.amazon.com/eventbridge/latest/userguide/encryption-archives.html) in the Amazon EventBridge User Guide.
     public var kmsKeyIdentifier: Swift.String?
+    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eb-event-bus-logs.html) in the EventBridge User Guide.
+    public var logConfig: EventBridgeClientTypes.LogConfig?
     /// The name of the event bus.
     public var name: Swift.String?
 
@@ -5061,11 +5158,13 @@ public struct UpdateEventBusInput: Swift.Sendable {
         deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
+        logConfig: EventBridgeClientTypes.LogConfig? = nil,
         name: Swift.String? = nil
     ) {
         self.deadLetterConfig = deadLetterConfig
         self.description = description
         self.kmsKeyIdentifier = kmsKeyIdentifier
+        self.logConfig = logConfig
         self.name = name
     }
 }
@@ -5079,6 +5178,8 @@ public struct UpdateEventBusOutput: Swift.Sendable {
     public var description: Swift.String?
     /// The identifier of the KMS customer managed key for EventBridge to use to encrypt events on this event bus, if one has been specified. For more information, see [Data encryption in EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html) in the Amazon EventBridge User Guide.
     public var kmsKeyIdentifier: Swift.String?
+    /// The logging configuration settings for the event bus. For more information, see [Configuring logs for event buses](https://docs.aws.amazon.com/eb-event-bus-logs.html) in the EventBridge User Guide.
+    public var logConfig: EventBridgeClientTypes.LogConfig?
     /// The event bus name.
     public var name: Swift.String?
 
@@ -5087,12 +5188,14 @@ public struct UpdateEventBusOutput: Swift.Sendable {
         deadLetterConfig: EventBridgeClientTypes.DeadLetterConfig? = nil,
         description: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
+        logConfig: EventBridgeClientTypes.LogConfig? = nil,
         name: Swift.String? = nil
     ) {
         self.arn = arn
         self.deadLetterConfig = deadLetterConfig
         self.description = description
         self.kmsKeyIdentifier = kmsKeyIdentifier
+        self.logConfig = logConfig
         self.name = name
     }
 }
@@ -5572,6 +5675,7 @@ extension CreateEventBusInput {
         try writer["Description"].write(value.description)
         try writer["EventSourceName"].write(value.eventSourceName)
         try writer["KmsKeyIdentifier"].write(value.kmsKeyIdentifier)
+        try writer["LogConfig"].write(value.logConfig, with: EventBridgeClientTypes.LogConfig.write(value:to:))
         try writer["Name"].write(value.name)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: EventBridgeClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -6065,6 +6169,7 @@ extension UpdateEventBusInput {
         try writer["DeadLetterConfig"].write(value.deadLetterConfig, with: EventBridgeClientTypes.DeadLetterConfig.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["KmsKeyIdentifier"].write(value.kmsKeyIdentifier)
+        try writer["LogConfig"].write(value.logConfig, with: EventBridgeClientTypes.LogConfig.write(value:to:))
         try writer["Name"].write(value.name)
     }
 }
@@ -6164,6 +6269,7 @@ extension CreateEventBusOutput {
         value.description = try reader["Description"].readIfPresent()
         value.eventBusArn = try reader["EventBusArn"].readIfPresent()
         value.kmsKeyIdentifier = try reader["KmsKeyIdentifier"].readIfPresent()
+        value.logConfig = try reader["LogConfig"].readIfPresent(with: EventBridgeClientTypes.LogConfig.read(from:))
         return value
     }
 }
@@ -6366,6 +6472,7 @@ extension DescribeEventBusOutput {
         value.description = try reader["Description"].readIfPresent()
         value.kmsKeyIdentifier = try reader["KmsKeyIdentifier"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.logConfig = try reader["LogConfig"].readIfPresent(with: EventBridgeClientTypes.LogConfig.read(from:))
         value.name = try reader["Name"].readIfPresent()
         value.policy = try reader["Policy"].readIfPresent()
         return value
@@ -6824,6 +6931,7 @@ extension UpdateEventBusOutput {
         value.deadLetterConfig = try reader["DeadLetterConfig"].readIfPresent(with: EventBridgeClientTypes.DeadLetterConfig.read(from:))
         value.description = try reader["Description"].readIfPresent()
         value.kmsKeyIdentifier = try reader["KmsKeyIdentifier"].readIfPresent()
+        value.logConfig = try reader["LogConfig"].readIfPresent(with: EventBridgeClientTypes.LogConfig.read(from:))
         value.name = try reader["Name"].readIfPresent()
         return value
     }
@@ -8026,6 +8134,23 @@ extension EventBridgeClientTypes.DeadLetterConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EventBridgeClientTypes.DeadLetterConfig()
         value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension EventBridgeClientTypes.LogConfig {
+
+    static func write(value: EventBridgeClientTypes.LogConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IncludeDetail"].write(value.includeDetail)
+        try writer["Level"].write(value.level)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EventBridgeClientTypes.LogConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventBridgeClientTypes.LogConfig()
+        value.includeDetail = try reader["IncludeDetail"].readIfPresent()
+        value.level = try reader["Level"].readIfPresent()
         return value
     }
 }

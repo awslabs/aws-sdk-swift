@@ -805,6 +805,35 @@ public struct GetTableBucketInput: Swift.Sendable {
     }
 }
 
+extension S3TablesClientTypes {
+
+    public enum TableBucketType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aws
+        case customer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TableBucketType] {
+            return [
+                .aws,
+                .customer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aws: return "aws"
+            case .customer: return "customer"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetTableBucketOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the table bucket.
     /// This member is required.
@@ -820,19 +849,23 @@ public struct GetTableBucketOutput: Swift.Sendable {
     public var ownerAccountId: Swift.String?
     /// The unique identifier of the table bucket.
     public var tableBucketId: Swift.String?
+    /// The type of the table bucket.
+    public var type: S3TablesClientTypes.TableBucketType?
 
     public init(
         arn: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         ownerAccountId: Swift.String? = nil,
-        tableBucketId: Swift.String? = nil
+        tableBucketId: Swift.String? = nil,
+        type: S3TablesClientTypes.TableBucketType? = nil
     ) {
         self.arn = arn
         self.createdAt = createdAt
         self.name = name
         self.ownerAccountId = ownerAccountId
         self.tableBucketId = tableBucketId
+        self.type = type
     }
 }
 
@@ -1515,15 +1548,19 @@ public struct ListTableBucketsInput: Swift.Sendable {
     public var maxBuckets: Swift.Int?
     /// The prefix of the table buckets.
     public var `prefix`: Swift.String?
+    /// The type of table buckets to filter by in the list.
+    public var type: S3TablesClientTypes.TableBucketType?
 
     public init(
         continuationToken: Swift.String? = nil,
         maxBuckets: Swift.Int? = nil,
-        `prefix`: Swift.String? = nil
+        `prefix`: Swift.String? = nil,
+        type: S3TablesClientTypes.TableBucketType? = nil
     ) {
         self.continuationToken = continuationToken
         self.maxBuckets = maxBuckets
         self.`prefix` = `prefix`
+        self.type = type
     }
 }
 
@@ -1545,19 +1582,23 @@ extension S3TablesClientTypes {
         public var ownerAccountId: Swift.String?
         /// The system-assigned unique identifier for the table bucket.
         public var tableBucketId: Swift.String?
+        /// The type of the table bucket.
+        public var type: S3TablesClientTypes.TableBucketType?
 
         public init(
             arn: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             ownerAccountId: Swift.String? = nil,
-            tableBucketId: Swift.String? = nil
+            tableBucketId: Swift.String? = nil,
+            type: S3TablesClientTypes.TableBucketType? = nil
         ) {
             self.arn = arn
             self.createdAt = createdAt
             self.name = name
             self.ownerAccountId = ownerAccountId
             self.tableBucketId = tableBucketId
+            self.type = type
         }
     }
 }
@@ -2214,6 +2255,10 @@ extension ListTableBucketsInput {
             let prefixQueryItem = Smithy.URIQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
             items.append(prefixQueryItem)
         }
+        if let type = value.type {
+            let typeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
+        }
         if let continuationToken = value.continuationToken {
             let continuationTokenQueryItem = Smithy.URIQueryItem(name: "continuationToken".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
             items.append(continuationTokenQueryItem)
@@ -2579,6 +2624,7 @@ extension GetTableBucketOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.ownerAccountId = try reader["ownerAccountId"].readIfPresent() ?? ""
         value.tableBucketId = try reader["tableBucketId"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }
@@ -3638,6 +3684,7 @@ extension S3TablesClientTypes.TableBucketSummary {
         value.ownerAccountId = try reader["ownerAccountId"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tableBucketId = try reader["tableBucketId"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }

@@ -27,7 +27,7 @@ extension ElasticBeanstalkClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "Ready") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "Ready") } ?? false)
             }),
             .init(state: .retry, matcher: { (input: DescribeEnvironmentsInput, result: Swift.Result<DescribeEnvironmentsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Environments[].Status"
@@ -39,7 +39,7 @@ extension ElasticBeanstalkClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "Launching") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "Launching") } ?? false)
             }),
         ]
         return try SmithyWaitersAPI.WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)
@@ -73,7 +73,7 @@ extension ElasticBeanstalkClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "Terminated") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "Terminated") } ?? false)
             }),
             .init(state: .retry, matcher: { (input: DescribeEnvironmentsInput, result: Swift.Result<DescribeEnvironmentsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Environments[].Status"
@@ -85,7 +85,7 @@ extension ElasticBeanstalkClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "Terminating") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "Terminating") } ?? false)
             }),
         ]
         return try SmithyWaitersAPI.WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)
@@ -119,7 +119,7 @@ extension ElasticBeanstalkClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "Ready") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "Ready") } ?? false)
             }),
             .init(state: .retry, matcher: { (input: DescribeEnvironmentsInput, result: Swift.Result<DescribeEnvironmentsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Environments[].Status"
@@ -131,7 +131,7 @@ extension ElasticBeanstalkClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "Updating") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "Updating") } ?? false)
             }),
         ]
         return try SmithyWaitersAPI.WaiterConfiguration<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>(acceptors: acceptors, minDelay: 20.0, maxDelay: 120.0)

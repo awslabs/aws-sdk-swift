@@ -28,7 +28,7 @@ extension EC2Client {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "complete") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "complete") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeBundleTasksInput, result: Swift.Result<DescribeBundleTasksOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "BundleTasks[].State"
@@ -74,7 +74,7 @@ extension EC2Client {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "cancelled") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "cancelled") } ?? false)
             }),
         ]
         return try SmithyWaitersAPI.WaiterConfiguration<DescribeConversionTasksInput, DescribeConversionTasksOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -108,7 +108,7 @@ extension EC2Client {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "completed") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "completed") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeConversionTasksInput, result: Swift.Result<DescribeConversionTasksOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "ConversionTasks[].State"
@@ -166,7 +166,7 @@ extension EC2Client {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "deleted") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "deleted") } ?? false)
             }),
         ]
         return try SmithyWaitersAPI.WaiterConfiguration<DescribeConversionTasksInput, DescribeConversionTasksOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -200,7 +200,7 @@ extension EC2Client {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeCustomerGatewaysInput, result: Swift.Result<DescribeCustomerGatewaysOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "CustomerGateways[].State"
@@ -258,7 +258,7 @@ extension EC2Client {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "cancelled") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "cancelled") } ?? false)
             }),
         ]
         return try SmithyWaitersAPI.WaiterConfiguration<DescribeExportTasksInput, DescribeExportTasksOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -292,7 +292,7 @@ extension EC2Client {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "completed") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "completed") } ?? false)
             }),
         ]
         return try SmithyWaitersAPI.WaiterConfiguration<DescribeExportTasksInput, DescribeExportTasksOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -326,7 +326,7 @@ extension EC2Client {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeImagesInput, result: Swift.Result<DescribeImagesOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Images[].State"
@@ -410,7 +410,7 @@ extension EC2Client {
                     let status = snapshotTaskDetail?.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "completed") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "completed") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeImportSnapshotTasksInput, result: Swift.Result<DescribeImportSnapshotTasksOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "ImportSnapshotTasks[].SnapshotTaskDetail.Status"
@@ -500,7 +500,7 @@ extension EC2Client {
                     let name = state?.name
                     return name
                 }
-                return (projection2?.count ?? 0) > 1 && (projection2?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "running") } ?? false)
+                return (projection2?.count ?? 0) >= 1 && (projection2?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "running") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Swift.Result<DescribeInstancesOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Reservations[].Instances[].State.Name"
@@ -598,7 +598,7 @@ extension EC2Client {
                     let name = state?.name
                     return name
                 }
-                return (projection2?.count ?? 0) > 1 && (projection2?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "stopped") } ?? false)
+                return (projection2?.count ?? 0) >= 1 && (projection2?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "stopped") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Swift.Result<DescribeInstancesOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Reservations[].Instances[].State.Name"
@@ -674,7 +674,7 @@ extension EC2Client {
                     let name = state?.name
                     return name
                 }
-                return (projection2?.count ?? 0) > 1 && (projection2?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "terminated") } ?? false)
+                return (projection2?.count ?? 0) >= 1 && (projection2?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "terminated") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeInstancesInput, result: Swift.Result<DescribeInstancesOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Reservations[].Instances[].State.Name"
@@ -745,7 +745,7 @@ extension EC2Client {
                     let status = instanceStatus?.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "ok") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "ok") } ?? false)
             }),
             .init(state: .retry, matcher: { (input: DescribeInstanceStatusInput, result: Swift.Result<DescribeInstanceStatusOutput, Swift.Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
@@ -784,7 +784,7 @@ extension EC2Client {
                     let status = systemStatus?.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "ok") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "ok") } ?? false)
             }),
         ]
         return try SmithyWaitersAPI.WaiterConfiguration<DescribeInstanceStatusInput, DescribeInstanceStatusOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -900,7 +900,7 @@ extension EC2Client {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeNatGatewaysInput, result: Swift.Result<DescribeNatGatewaysOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "NatGateways[].State"
@@ -974,7 +974,7 @@ extension EC2Client {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "deleted") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "deleted") } ?? false)
             }),
             .init(state: .success, matcher: { (input: DescribeNatGatewaysInput, result: Swift.Result<DescribeNatGatewaysOutput, Swift.Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
@@ -1012,7 +1012,7 @@ extension EC2Client {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeNetworkInterfacesInput, result: Swift.Result<DescribeNetworkInterfacesOutput, Swift.Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
@@ -1091,7 +1091,7 @@ extension EC2Client {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "associated") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "associated") } ?? false)
             }),
             .init(state: .retry, matcher: { (input: DescribeSecurityGroupVpcAssociationsInput, result: Swift.Result<DescribeSecurityGroupVpcAssociationsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "SecurityGroupVpcAssociations[].State"
@@ -1149,7 +1149,7 @@ extension EC2Client {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "disassociated") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "disassociated") } ?? false)
             }),
             .init(state: .retry, matcher: { (input: DescribeSecurityGroupVpcAssociationsInput, result: Swift.Result<DescribeSecurityGroupVpcAssociationsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "SecurityGroupVpcAssociations[].State"
@@ -1218,7 +1218,7 @@ extension EC2Client {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "completed") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "completed") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeSnapshotsInput, result: Swift.Result<DescribeSnapshotsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Snapshots[].State"
@@ -1265,7 +1265,7 @@ extension EC2Client {
                     let code = status?.code
                     return code
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "fulfilled") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "fulfilled") } ?? false)
             }),
             .init(state: .success, matcher: { (input: DescribeSpotInstanceRequestsInput, result: Swift.Result<DescribeSpotInstanceRequestsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "SpotInstanceRequests[].Status.Code"
@@ -1278,7 +1278,7 @@ extension EC2Client {
                     let code = status?.code
                     return code
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "request-canceled-and-instance-running") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "request-canceled-and-instance-running") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeSpotInstanceRequestsInput, result: Swift.Result<DescribeSpotInstanceRequestsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "SpotInstanceRequests[].Status.Code"
@@ -1368,7 +1368,7 @@ extension EC2Client {
                     let storeTaskState = original.storeTaskState
                     return storeTaskState
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "Completed") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "Completed") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeStoreImageTasksInput, result: Swift.Result<DescribeStoreImageTasksOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "StoreImageTaskResults[].StoreTaskState"
@@ -1426,7 +1426,7 @@ extension EC2Client {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
             }),
         ]
         return try SmithyWaitersAPI.WaiterConfiguration<DescribeSubnetsInput, DescribeSubnetsOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -1460,7 +1460,7 @@ extension EC2Client {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeVolumesInput, result: Swift.Result<DescribeVolumesOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Volumes[].State"
@@ -1506,7 +1506,7 @@ extension EC2Client {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "deleted") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "deleted") } ?? false)
             }),
             .init(state: .success, matcher: { (input: DescribeVolumesInput, result: Swift.Result<DescribeVolumesOutput, Swift.Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
@@ -1544,7 +1544,7 @@ extension EC2Client {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "in-use") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "in-use") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeVolumesInput, result: Swift.Result<DescribeVolumesOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Volumes[].State"
@@ -1591,7 +1591,7 @@ extension EC2Client {
                     let code = status?.code
                     return code
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "deleted") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "deleted") } ?? false)
             }),
             .init(state: .success, matcher: { (input: DescribeVpcPeeringConnectionsInput, result: Swift.Result<DescribeVpcPeeringConnectionsOutput, Swift.Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
@@ -1661,7 +1661,7 @@ extension EC2Client {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
             }),
         ]
         return try SmithyWaitersAPI.WaiterConfiguration<DescribeVpcsInput, DescribeVpcsOutput>(acceptors: acceptors, minDelay: 15.0, maxDelay: 120.0)
@@ -1727,7 +1727,7 @@ extension EC2Client {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeVpnConnectionsInput, result: Swift.Result<DescribeVpnConnectionsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "VpnConnections[].State"
@@ -1785,7 +1785,7 @@ extension EC2Client {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "deleted") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "deleted") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeVpnConnectionsInput, result: Swift.Result<DescribeVpnConnectionsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "VpnConnections[].State"

@@ -28,7 +28,7 @@ extension SESClient {
                     let verificationStatus = original.verificationStatus
                     return verificationStatus
                 }
-                return (projection2?.count ?? 0) > 1 && (projection2?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "Success") } ?? false)
+                return (projection2?.count ?? 0) >= 1 && (projection2?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "Success") } ?? false)
             }),
         ]
         return try SmithyWaitersAPI.WaiterConfiguration<GetIdentityVerificationAttributesInput, GetIdentityVerificationAttributesOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
