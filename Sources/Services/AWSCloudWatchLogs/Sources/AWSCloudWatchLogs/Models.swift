@@ -926,13 +926,15 @@ extension CloudWatchLogsClientTypes {
         case cwl
         case fh
         case s3
+        case xray
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DeliveryDestinationType] {
             return [
                 .cwl,
                 .fh,
-                .s3
+                .s3,
+                .xray
             ]
         }
 
@@ -946,6 +948,7 @@ extension CloudWatchLogsClientTypes {
             case .cwl: return "CWL"
             case .fh: return "FH"
             case .s3: return "S3"
+            case .xray: return "XRAY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1177,7 +1180,7 @@ extension CloudWatchLogsClientTypes {
         public var arn: Swift.String?
         /// The ARN of the delivery destination that is associated with this delivery.
         public var deliveryDestinationArn: Swift.String?
-        /// Displays whether the delivery destination associated with this delivery is CloudWatch Logs, Amazon S3, or Firehose.
+        /// Displays whether the delivery destination associated with this delivery is CloudWatch Logs, Amazon S3, Firehose, or X-Ray.
         public var deliveryDestinationType: CloudWatchLogsClientTypes.DeliveryDestinationType?
         /// The name of the delivery source that is associated with this delivery.
         public var deliverySourceName: Swift.String?
@@ -1624,7 +1627,7 @@ public struct DeleteDeliveryInput: Swift.Sendable {
 }
 
 public struct DeleteDeliveryDestinationInput: Swift.Sendable {
-    /// The name of the delivery destination that you want to delete. You can find a list of delivery destionation names by using the [DescribeDeliveryDestinations](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeDeliveryDestinations.html) operation.
+    /// The name of the delivery destination that you want to delete. You can find a list of delivery destination names by using the [DescribeDeliveryDestinations](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeDeliveryDestinations.html) operation.
     /// This member is required.
     public var name: Swift.String?
 
@@ -1807,13 +1810,21 @@ public struct DeleteQueryDefinitionOutput: Swift.Sendable {
 }
 
 public struct DeleteResourcePolicyInput: Swift.Sendable {
+    /// The expected revision ID of the resource policy. Required when deleting a resource-scoped policy to prevent concurrent modifications.
+    public var expectedRevisionId: Swift.String?
     /// The name of the policy to be revoked. This parameter is required.
     public var policyName: Swift.String?
+    /// The ARN of the CloudWatch Logs resource for which the resource policy needs to be deleted
+    public var resourceArn: Swift.String?
 
     public init(
-        policyName: Swift.String? = nil
+        expectedRevisionId: Swift.String? = nil,
+        policyName: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
     ) {
+        self.expectedRevisionId = expectedRevisionId
         self.policyName = policyName
+        self.resourceArn = resourceArn
     }
 }
 
@@ -1876,7 +1887,7 @@ extension CloudWatchLogsClientTypes {
 
 extension CloudWatchLogsClientTypes {
 
-    /// This structure contains information about one delivery destination in your account. A delivery destination is an Amazon Web Services resource that represents an Amazon Web Services service that logs can be sent to. CloudWatch Logs, Amazon S3, are supported as Firehose delivery destinations. To configure logs delivery between a supported Amazon Web Services service and a destination, you must do the following:
+    /// This structure contains information about one delivery destination in your account. A delivery destination is an Amazon Web Services resource that represents an Amazon Web Services service that logs can be sent to. CloudWatch Logs, Amazon S3, Firehose, and X-Ray are supported as delivery destinations. To configure logs delivery between a supported Amazon Web Services service and a destination, you must do the following:
     ///
     /// * Create a delivery source, which is a logical object that represents the resource that is actually sending the logs. For more information, see [PutDeliverySource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html).
     ///
@@ -1893,7 +1904,7 @@ extension CloudWatchLogsClientTypes {
         public var arn: Swift.String?
         /// A structure that contains the ARN of the Amazon Web Services resource that will receive the logs.
         public var deliveryDestinationConfiguration: CloudWatchLogsClientTypes.DeliveryDestinationConfiguration?
-        /// Displays whether this delivery destination is CloudWatch Logs, Amazon S3, or Firehose.
+        /// Displays whether this delivery destination is CloudWatch Logs, Amazon S3, Firehose, or X-Ray.
         public var deliveryDestinationType: CloudWatchLogsClientTypes.DeliveryDestinationType?
         /// The name of this delivery destination.
         public var name: Swift.String?
@@ -2547,7 +2558,7 @@ public struct DescribeLogGroupsInput: Swift.Sendable {
     public var logGroupClass: CloudWatchLogsClientTypes.LogGroupClass?
     /// Use this array to filter the list of log groups returned. If you specify this parameter, the only other filter that you can choose to specify is includeLinkedAccounts. If you are using this operation in a monitoring account, you can specify the ARNs of log groups in source accounts and in the monitoring account itself. If you are using this operation in an account that is not a cross-account monitoring account, you can specify only log group names in the same account as the operation.
     public var logGroupIdentifiers: [Swift.String]?
-    /// If you specify a string for this parameter, the operation returns only log groups that have names that match the string based on a case-sensitive substring search. For example, if you specify Foo, log groups named FooBar, aws/Foo, and GroupFoo would match, but foo, F/o/o and Froo would not match. If you specify logGroupNamePattern in your request, then only arn, creationTime, and logGroupName are included in the response. logGroupNamePattern and logGroupNamePrefix are mutually exclusive. Only one of these parameters can be passed.
+    /// If you specify a string for this parameter, the operation returns only log groups that have names that match the string based on a case-sensitive substring search. For example, if you specify DataLogs, log groups named DataLogs, aws/DataLogs, and GroupDataLogs would match, but datalogs, Data/log/s and Groupdata would not match. If you specify logGroupNamePattern in your request, then only arn, creationTime, and logGroupName are included in the response. logGroupNamePattern and logGroupNamePrefix are mutually exclusive. Only one of these parameters can be passed.
     public var logGroupNamePattern: Swift.String?
     /// The prefix to match. logGroupNamePrefix and logGroupNamePattern are mutually exclusive. Only one of these parameters can be passed.
     public var logGroupNamePrefix: Swift.String?
@@ -3258,18 +3269,55 @@ public struct DescribeQueryDefinitionsOutput: Swift.Sendable {
     }
 }
 
+extension CloudWatchLogsClientTypes {
+
+    public enum PolicyScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case account
+        case resource
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PolicyScope] {
+            return [
+                .account,
+                .resource
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "ACCOUNT"
+            case .resource: return "RESOURCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct DescribeResourcePoliciesInput: Swift.Sendable {
     /// The maximum number of resource policies to be displayed with one call of this API.
     public var limit: Swift.Int?
     /// The token for the next set of items to return. The token expires after 24 hours.
     public var nextToken: Swift.String?
+    /// Specifies the scope of the resource policy. Valid values are ACCOUNT or RESOURCE. When not specified, defaults to ACCOUNT.
+    public var policyScope: CloudWatchLogsClientTypes.PolicyScope?
+    /// The ARN of the CloudWatch Logs resource for which to query the resource policy.
+    public var resourceArn: Swift.String?
 
     public init(
         limit: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        policyScope: CloudWatchLogsClientTypes.PolicyScope? = nil,
+        resourceArn: Swift.String? = nil
     ) {
         self.limit = limit
         self.nextToken = nextToken
+        self.policyScope = policyScope
+        self.resourceArn = resourceArn
     }
 }
 
@@ -3283,15 +3331,27 @@ extension CloudWatchLogsClientTypes {
         public var policyDocument: Swift.String?
         /// The name of the resource policy.
         public var policyName: Swift.String?
+        /// Specifies scope of the resource policy. Valid values are ACCOUNT or RESOURCE.
+        public var policyScope: CloudWatchLogsClientTypes.PolicyScope?
+        /// The ARN of the CloudWatch Logs resource to which the resource policy is attached. Only populated for resource-scoped policies.
+        public var resourceArn: Swift.String?
+        /// The revision ID of the resource policy. Only populated for resource-scoped policies.
+        public var revisionId: Swift.String?
 
         public init(
             lastUpdatedTime: Swift.Int? = nil,
             policyDocument: Swift.String? = nil,
-            policyName: Swift.String? = nil
+            policyName: Swift.String? = nil,
+            policyScope: CloudWatchLogsClientTypes.PolicyScope? = nil,
+            resourceArn: Swift.String? = nil,
+            revisionId: Swift.String? = nil
         ) {
             self.lastUpdatedTime = lastUpdatedTime
             self.policyDocument = policyDocument
             self.policyName = policyName
+            self.policyScope = policyScope
+            self.resourceArn = resourceArn
+            self.revisionId = revisionId
         }
     }
 }
@@ -5071,7 +5131,7 @@ extension CloudWatchLogsClientTypes {
         public var parsePostgres: CloudWatchLogsClientTypes.ParsePostgres?
         /// Use this parameter to include the [ parseRoute53](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-parseRoute53) processor in your transformer. If you use this processor, it must be the first processor in your transformer.
         public var parseRoute53: CloudWatchLogsClientTypes.ParseRoute53?
-        /// Use this processor to convert logs into Open Cybersecurity Schema Framework (OCSF) format
+        /// Use this parameter to convert logs into Open Cybersecurity Schema (OCSF) format.
         public var parseToOCSF: CloudWatchLogsClientTypes.ParseToOCSF?
         /// Use this parameter to include the [ parseVPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-parseVPC) processor in your transformer. If you use this processor, it must be the first processor in your transformer.
         public var parseVPC: CloudWatchLogsClientTypes.ParseVPC?
@@ -5746,9 +5806,21 @@ public struct PutDataProtectionPolicyOutput: Swift.Sendable {
 }
 
 public struct PutDeliveryDestinationInput: Swift.Sendable {
-    /// A structure that contains the ARN of the Amazon Web Services resource that will receive the logs.
-    /// This member is required.
+    /// A structure that contains the ARN of the Amazon Web Services resource that will receive the logs. deliveryDestinationConfiguration is required for CloudWatch Logs, Amazon S3, Firehose log delivery destinations and not required for X-Ray trace delivery destinations. deliveryDestinationType is needed for X-Ray trace delivery destinations but not required for other logs delivery destinations.
     public var deliveryDestinationConfiguration: CloudWatchLogsClientTypes.DeliveryDestinationConfiguration?
+    /// The type of delivery destination. This parameter specifies the target service where log data will be delivered. Valid values include:
+    ///
+    /// * S3 - Amazon S3 for long-term storage and analytics
+    ///
+    /// * CWL - CloudWatch Logs for centralized log management
+    ///
+    /// * FH - Amazon Kinesis Data Firehose for real-time data streaming
+    ///
+    /// * XRAY - Amazon Web Services X-Ray for distributed tracing and application monitoring
+    ///
+    ///
+    /// The delivery destination type determines the format and configuration options available for log delivery.
+    public var deliveryDestinationType: CloudWatchLogsClientTypes.DeliveryDestinationType?
     /// A name for this delivery destination. This name must be unique for all delivery destinations in your account.
     /// This member is required.
     public var name: Swift.String?
@@ -5759,11 +5831,13 @@ public struct PutDeliveryDestinationInput: Swift.Sendable {
 
     public init(
         deliveryDestinationConfiguration: CloudWatchLogsClientTypes.DeliveryDestinationConfiguration? = nil,
+        deliveryDestinationType: CloudWatchLogsClientTypes.DeliveryDestinationType? = nil,
         name: Swift.String? = nil,
         outputFormat: CloudWatchLogsClientTypes.OutputFormat? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.deliveryDestinationConfiguration = deliveryDestinationConfiguration
+        self.deliveryDestinationType = deliveryDestinationType
         self.name = name
         self.outputFormat = outputFormat
         self.tags = tags
@@ -5812,7 +5886,7 @@ public struct PutDeliveryDestinationPolicyOutput: Swift.Sendable {
 public struct PutDeliverySourceInput: Swift.Sendable {
     /// Defines the type of log that the source is sending.
     ///
-    /// * For Amazon Bedrock, the valid value is APPLICATION_LOGS.
+    /// * For Amazon Bedrock, the valid value is APPLICATION_LOGS and TRACES.
     ///
     /// * For CloudFront, the valid value is ACCESS_LOGS.
     ///
@@ -5826,11 +5900,15 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For IAM Identity Center, the valid value is ERROR_LOGS.
     ///
+    /// * For PCS, the valid values are PCS_SCHEDULER_LOGS and PCS_JOBCOMP_LOGS.
+    ///
     /// * For Amazon Q, the valid value is EVENT_LOGS.
     ///
     /// * For Amazon SES mail manager, the valid values are APPLICATION_LOG and TRAFFIC_POLICY_DEBUG_LOGS.
     ///
     /// * For Amazon WorkMail, the valid values are ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, WORKMAIL_MAILBOX_ACCESS_LOGS, and WORKMAIL_PERSONAL_ACCESS_TOKEN_LOGS.
+    ///
+    /// * For Amazon VPC Route Server, the valid value is EVENT_LOGS.
     /// This member is required.
     public var logType: Swift.String?
     /// A name for this delivery source. This name must be unique for all delivery sources in your account.
@@ -6220,28 +6298,40 @@ public struct PutQueryDefinitionOutput: Swift.Sendable {
 }
 
 public struct PutResourcePolicyInput: Swift.Sendable {
+    /// The expected revision ID of the resource policy. Required when resourceArn is provided to prevent concurrent modifications. Use null when creating a resource policy for the first time.
+    public var expectedRevisionId: Swift.String?
     /// Details of the new policy, including the identity of the principal that is enabled to put logs to this account. This is formatted as a JSON string. This parameter is required. The following example creates a resource policy enabling the Route 53 service to put DNS query logs in to the specified log group. Replace "logArn" with the ARN of your CloudWatch Logs resource, such as a log group or log stream. CloudWatch Logs also supports [aws:SourceArn](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourcearn) and [aws:SourceAccount](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourceaccount) condition context keys. In the example resource policy, you would replace the value of SourceArn with the resource making the call from Route 53 to CloudWatch Logs. You would also replace the value of SourceAccount with the Amazon Web Services account ID making that call. { "Version": "2012-10-17", "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action": "logs:PutLogEvents", "Resource": "logArn", "Condition": { "ArnLike": { "aws:SourceArn": "myRoute53ResourceArn" }, "StringEquals": { "aws:SourceAccount": "myAwsAccountId" } } } ] }
     public var policyDocument: Swift.String?
     /// Name of the new policy. This parameter is required.
     public var policyName: Swift.String?
+    /// The ARN of the CloudWatch Logs resource to which the resource policy needs to be added or attached. Currently only supports LogGroup ARN.
+    public var resourceArn: Swift.String?
 
     public init(
+        expectedRevisionId: Swift.String? = nil,
         policyDocument: Swift.String? = nil,
-        policyName: Swift.String? = nil
+        policyName: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
     ) {
+        self.expectedRevisionId = expectedRevisionId
         self.policyDocument = policyDocument
         self.policyName = policyName
+        self.resourceArn = resourceArn
     }
 }
 
 public struct PutResourcePolicyOutput: Swift.Sendable {
     /// The new policy.
     public var resourcePolicy: CloudWatchLogsClientTypes.ResourcePolicy?
+    /// The revision ID of the created or updated resource policy. Only returned for resource-scoped policies.
+    public var revisionId: Swift.String?
 
     public init(
-        resourcePolicy: CloudWatchLogsClientTypes.ResourcePolicy? = nil
+        resourcePolicy: CloudWatchLogsClientTypes.ResourcePolicy? = nil,
+        revisionId: Swift.String? = nil
     ) {
         self.resourcePolicy = resourcePolicy
+        self.revisionId = revisionId
     }
 }
 
@@ -7758,7 +7848,9 @@ extension DeleteResourcePolicyInput {
 
     static func write(value: DeleteResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["expectedRevisionId"].write(value.expectedRevisionId)
         try writer["policyName"].write(value.policyName)
+        try writer["resourceArn"].write(value.resourceArn)
     }
 }
 
@@ -7948,6 +8040,8 @@ extension DescribeResourcePoliciesInput {
         guard let value else { return }
         try writer["limit"].write(value.limit)
         try writer["nextToken"].write(value.nextToken)
+        try writer["policyScope"].write(value.policyScope)
+        try writer["resourceArn"].write(value.resourceArn)
     }
 }
 
@@ -8192,6 +8286,7 @@ extension PutDeliveryDestinationInput {
     static func write(value: PutDeliveryDestinationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["deliveryDestinationConfiguration"].write(value.deliveryDestinationConfiguration, with: CloudWatchLogsClientTypes.DeliveryDestinationConfiguration.write(value:to:))
+        try writer["deliveryDestinationType"].write(value.deliveryDestinationType)
         try writer["name"].write(value.name)
         try writer["outputFormat"].write(value.outputFormat)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -8299,8 +8394,10 @@ extension PutResourcePolicyInput {
 
     static func write(value: PutResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["expectedRevisionId"].write(value.expectedRevisionId)
         try writer["policyDocument"].write(value.policyDocument)
         try writer["policyName"].write(value.policyName)
+        try writer["resourceArn"].write(value.resourceArn)
     }
 }
 
@@ -9285,6 +9382,7 @@ extension PutResourcePolicyOutput {
         let reader = responseReader
         var value = PutResourcePolicyOutput()
         value.resourcePolicy = try reader["resourcePolicy"].readIfPresent(with: CloudWatchLogsClientTypes.ResourcePolicy.read(from:))
+        value.revisionId = try reader["revisionId"].readIfPresent()
         return value
     }
 }
@@ -9799,6 +9897,7 @@ enum DeleteResourcePolicyOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "OperationAbortedException": return try OperationAbortedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -10688,6 +10787,8 @@ enum PutResourcePolicyOutputError {
         switch baseError.code {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "OperationAbortedException": return try OperationAbortedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11549,6 +11650,9 @@ extension CloudWatchLogsClientTypes.ResourcePolicy {
         value.policyName = try reader["policyName"].readIfPresent()
         value.policyDocument = try reader["policyDocument"].readIfPresent()
         value.lastUpdatedTime = try reader["lastUpdatedTime"].readIfPresent()
+        value.policyScope = try reader["policyScope"].readIfPresent()
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        value.revisionId = try reader["revisionId"].readIfPresent()
         return value
     }
 }

@@ -1582,7 +1582,7 @@ public struct CreateDeviceProfileInput: Swift.Sendable {
     public var clientRequestToken: Swift.String?
     /// The device profile information to use to create the device profile.
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANDeviceProfile?
-    /// The name of the new resource.
+    /// The name of the new resource. The following special characters aren't accepted: <>^#~$
     public var name: Swift.String?
     /// The Sidewalk-related information for creating the Sidewalk device profile.
     public var sidewalk: IoTWirelessClientTypes.SidewalkCreateDeviceProfile?
@@ -2087,7 +2087,7 @@ public struct CreateServiceProfileInput: Swift.Sendable {
     public var clientRequestToken: Swift.String?
     /// The service profile information to use to create the service profile.
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANServiceProfile?
-    /// The name of the new resource.
+    /// The name of the new resource. The following special characters aren't accepted: <>^#~$
     public var name: Swift.String?
     /// The tags to attach to the new service profile. Tags are metadata that you can use to manage a resource.
     public var tags: [IoTWirelessClientTypes.Tag]?
@@ -2350,7 +2350,7 @@ public struct CreateWirelessDeviceInput: Swift.Sendable {
     public var destinationName: Swift.String?
     /// The device configuration information to use to create the wireless device.
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANDevice?
-    /// The name of the new resource.
+    /// The name of the new resource. The following special characters aren't accepted: <>^#~$
     public var name: Swift.String?
     /// FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
     public var positioning: IoTWirelessClientTypes.PositioningConfigStatus?
@@ -2447,7 +2447,7 @@ public struct CreateWirelessGatewayInput: Swift.Sendable {
     /// The gateway configuration information to use to create the wireless gateway.
     /// This member is required.
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANGateway?
-    /// The name of the new resource.
+    /// The name of the new resource. The following special characters aren't accepted: <>^#~$
     public var name: Swift.String?
     /// The tags to attach to the new wireless gateway. Tags are metadata that you can use to manage a resource.
     public var tags: [IoTWirelessClientTypes.Tag]?
@@ -3608,7 +3608,6 @@ extension IoTWirelessClientTypes {
 
     public enum IdentifierType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deveui
-        case fuotataskid
         case gatewayeui
         case partneraccountid
         case wirelessdeviceid
@@ -3618,7 +3617,6 @@ extension IoTWirelessClientTypes {
         public static var allCases: [IdentifierType] {
             return [
                 .deveui,
-                .fuotataskid,
                 .gatewayeui,
                 .partneraccountid,
                 .wirelessdeviceid,
@@ -3634,7 +3632,6 @@ extension IoTWirelessClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .deveui: return "DevEui"
-            case .fuotataskid: return "FuotaTaskId"
             case .gatewayeui: return "GatewayEui"
             case .partneraccountid: return "PartnerAccountId"
             case .wirelessdeviceid: return "WirelessDeviceId"
@@ -3701,7 +3698,6 @@ extension IoTWirelessClientTypes {
 extension IoTWirelessClientTypes {
 
     public enum EventNotificationResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case fuotatask
         case sidewalkaccount
         case wirelessdevice
         case wirelessgateway
@@ -3709,7 +3705,6 @@ extension IoTWirelessClientTypes {
 
         public static var allCases: [EventNotificationResourceType] {
             return [
-                .fuotatask,
                 .sidewalkaccount,
                 .wirelessdevice,
                 .wirelessgateway
@@ -3723,7 +3718,6 @@ extension IoTWirelessClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .fuotatask: return "FuotaTask"
             case .sidewalkaccount: return "SidewalkAccount"
             case .wirelessdevice: return "WirelessDevice"
             case .wirelessgateway: return "WirelessGateway"
@@ -4920,7 +4914,7 @@ extension IoTWirelessClientTypes {
         public var pingSlotPeriod: Swift.Int?
         /// Timestamp of when the multicast group session is to start.
         public var sessionStartTime: Foundation.Date?
-        /// How long before a multicast group session is to timeout.
+        /// How long before a multicast group session is to timeout. We recommend that you provide a timeout value that is a power-of-two (such as 64, 128, 256). If a non-power-of-two value is provided, it will automatically be rounded up to the next supported power-of-two within the allowed range.
         public var sessionTimeout: Swift.Int?
 
         public init(
@@ -8558,7 +8552,7 @@ public struct UpdateWirelessDeviceInput: Swift.Sendable {
     public var id: Swift.String?
     /// The updated wireless device's configuration.
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANUpdateDevice?
-    /// The new name of the resource.
+    /// The new name of the resource. The following special characters aren't accepted: <>^#~$
     public var name: Swift.String?
     /// FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
     public var positioning: IoTWirelessClientTypes.PositioningConfigStatus?
@@ -8632,7 +8626,7 @@ public struct UpdateWirelessGatewayInput: Swift.Sendable {
     public var joinEuiFilters: [[Swift.String]]?
     /// The MaxEIRP value.
     public var maxEirp: Swift.Float?
-    /// The new name of the resource.
+    /// The new name of the resource. The following special characters aren't accepted: <>^#~$
     public var name: Swift.String?
     /// A list of NetId values that are used by LoRa gateways to filter the uplink frames.
     public var netIdFilters: [Swift.String]?

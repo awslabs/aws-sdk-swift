@@ -737,6 +737,315 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
+public struct CreateCustomModelDeploymentInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-idempotency.html).
+    public var clientRequestToken: Swift.String?
+    /// A description for the custom model deployment to help you identify its purpose.
+    public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the custom model to deploy for on-demand inference. The custom model must be in the Active state.
+    /// This member is required.
+    public var modelArn: Swift.String?
+    /// The name for the custom model deployment. The name must be unique within your Amazon Web Services account and Region.
+    /// This member is required.
+    public var modelDeploymentName: Swift.String?
+    /// Tags to assign to the custom model deployment. You can use tags to organize and track your Amazon Web Services resources for cost allocation and management purposes.
+    public var tags: [BedrockClientTypes.Tag]?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        modelArn: Swift.String? = nil,
+        modelDeploymentName: Swift.String? = nil,
+        tags: [BedrockClientTypes.Tag]? = nil
+    ) {
+        self.clientRequestToken = clientRequestToken
+        self.description = description
+        self.modelArn = modelArn
+        self.modelDeploymentName = modelDeploymentName
+        self.tags = tags
+    }
+}
+
+public struct CreateCustomModelDeploymentOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the custom model deployment. Use this ARN as the modelId parameter when invoking the model with the InvokeModel or Converse operations.
+    /// This member is required.
+    public var customModelDeploymentArn: Swift.String?
+
+    public init(
+        customModelDeploymentArn: Swift.String? = nil
+    ) {
+        self.customModelDeploymentArn = customModelDeploymentArn
+    }
+}
+
+public struct DeleteCustomModelDeploymentInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) or name of the custom model deployment to delete.
+    /// This member is required.
+    public var customModelDeploymentIdentifier: Swift.String?
+
+    public init(
+        customModelDeploymentIdentifier: Swift.String? = nil
+    ) {
+        self.customModelDeploymentIdentifier = customModelDeploymentIdentifier
+    }
+}
+
+public struct DeleteCustomModelDeploymentOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetCustomModelDeploymentInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) or name of the custom model deployment to retrieve information about.
+    /// This member is required.
+    public var customModelDeploymentIdentifier: Swift.String?
+
+    public init(
+        customModelDeploymentIdentifier: Swift.String? = nil
+    ) {
+        self.customModelDeploymentIdentifier = customModelDeploymentIdentifier
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum CustomModelDeploymentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomModelDeploymentStatus] {
+            return [
+                .active,
+                .creating,
+                .failed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .creating: return "Creating"
+            case .failed: return "Failed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetCustomModelDeploymentOutput: Swift.Sendable {
+    /// The date and time when the custom model deployment was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the custom model deployment.
+    /// This member is required.
+    public var customModelDeploymentArn: Swift.String?
+    /// The description of the custom model deployment.
+    public var description: Swift.String?
+    /// If the deployment status is FAILED, this field contains a message describing the failure reason.
+    public var failureMessage: Swift.String?
+    /// The date and time when the custom model deployment was last updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the custom model associated with this deployment.
+    /// This member is required.
+    public var modelArn: Swift.String?
+    /// The name of the custom model deployment.
+    /// This member is required.
+    public var modelDeploymentName: Swift.String?
+    /// The status of the custom model deployment. Possible values are:
+    ///
+    /// * CREATING - The deployment is being set up and prepared for inference.
+    ///
+    /// * ACTIVE - The deployment is ready and available for inference requests.
+    ///
+    /// * FAILED - The deployment failed to be created or became unavailable.
+    /// This member is required.
+    public var status: BedrockClientTypes.CustomModelDeploymentStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        customModelDeploymentArn: Swift.String? = nil,
+        description: Swift.String? = nil,
+        failureMessage: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        modelArn: Swift.String? = nil,
+        modelDeploymentName: Swift.String? = nil,
+        status: BedrockClientTypes.CustomModelDeploymentStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.customModelDeploymentArn = customModelDeploymentArn
+        self.description = description
+        self.failureMessage = failureMessage
+        self.lastUpdatedAt = lastUpdatedAt
+        self.modelArn = modelArn
+        self.modelDeploymentName = modelDeploymentName
+        self.status = status
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum SortModelsBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creationTime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortModelsBy] {
+            return [
+                .creationTime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creationTime: return "CreationTime"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockClientTypes {
+
+    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ascending
+        case descending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortOrder] {
+            return [
+                .ascending,
+                .descending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ascending: return "Ascending"
+            case .descending: return "Descending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListCustomModelDeploymentsInput: Swift.Sendable {
+    /// Filters deployments created after the specified date and time.
+    public var createdAfter: Foundation.Date?
+    /// Filters deployments created before the specified date and time.
+    public var createdBefore: Foundation.Date?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// Filters deployments by the Amazon Resource Name (ARN) of the associated custom model.
+    public var modelArnEquals: Swift.String?
+    /// Filters deployments whose names contain the specified string.
+    public var nameContains: Swift.String?
+    /// The token for the next set of results. Use this token to retrieve additional results when the response is truncated.
+    public var nextToken: Swift.String?
+    /// The field to sort the results by. The only supported value is CreationTime.
+    public var sortBy: BedrockClientTypes.SortModelsBy?
+    /// The sort order for the results. Valid values are Ascending and Descending. Default is Descending.
+    public var sortOrder: BedrockClientTypes.SortOrder?
+    /// Filters deployments by status. Valid values are CREATING, ACTIVE, and FAILED.
+    public var statusEquals: BedrockClientTypes.CustomModelDeploymentStatus?
+
+    public init(
+        createdAfter: Foundation.Date? = nil,
+        createdBefore: Foundation.Date? = nil,
+        maxResults: Swift.Int? = nil,
+        modelArnEquals: Swift.String? = nil,
+        nameContains: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: BedrockClientTypes.SortModelsBy? = nil,
+        sortOrder: BedrockClientTypes.SortOrder? = nil,
+        statusEquals: BedrockClientTypes.CustomModelDeploymentStatus? = nil
+    ) {
+        self.createdAfter = createdAfter
+        self.createdBefore = createdBefore
+        self.maxResults = maxResults
+        self.modelArnEquals = modelArnEquals
+        self.nameContains = nameContains
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+        self.statusEquals = statusEquals
+    }
+}
+
+extension BedrockClientTypes {
+
+    /// Contains summary information about a custom model deployment, including its ARN, name, status, and associated custom model.
+    public struct CustomModelDeploymentSummary: Swift.Sendable {
+        /// The date and time when the custom model deployment was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the custom model deployment.
+        /// This member is required.
+        public var customModelDeploymentArn: Swift.String?
+        /// The name of the custom model deployment.
+        /// This member is required.
+        public var customModelDeploymentName: Swift.String?
+        /// If the deployment status is FAILED, this field contains a message describing the failure reason.
+        public var failureMessage: Swift.String?
+        /// The date and time when the custom model deployment was last modified.
+        public var lastUpdatedAt: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the custom model associated with this deployment.
+        /// This member is required.
+        public var modelArn: Swift.String?
+        /// The status of the custom model deployment. Possible values are CREATING, ACTIVE, and FAILED.
+        /// This member is required.
+        public var status: BedrockClientTypes.CustomModelDeploymentStatus?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            customModelDeploymentArn: Swift.String? = nil,
+            customModelDeploymentName: Swift.String? = nil,
+            failureMessage: Swift.String? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            modelArn: Swift.String? = nil,
+            status: BedrockClientTypes.CustomModelDeploymentStatus? = nil
+        ) {
+            self.createdAt = createdAt
+            self.customModelDeploymentArn = customModelDeploymentArn
+            self.customModelDeploymentName = customModelDeploymentName
+            self.failureMessage = failureMessage
+            self.lastUpdatedAt = lastUpdatedAt
+            self.modelArn = modelArn
+            self.status = status
+        }
+    }
+}
+
+public struct ListCustomModelDeploymentsOutput: Swift.Sendable {
+    /// A list of custom model deployment summaries.
+    public var modelDeploymentSummaries: [BedrockClientTypes.CustomModelDeploymentSummary]?
+    /// The token for the next set of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        modelDeploymentSummaries: [BedrockClientTypes.CustomModelDeploymentSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.modelDeploymentSummaries = modelDeploymentSummaries
+        self.nextToken = nextToken
+    }
+}
+
 extension BedrockClientTypes {
 
     /// The Amazon S3 data source of the model to import.
@@ -1202,61 +1511,6 @@ public struct GetCustomModelOutput: Swift.Sendable {
         self.trainingMetrics = trainingMetrics
         self.validationDataConfig = validationDataConfig
         self.validationMetrics = validationMetrics
-    }
-}
-
-extension BedrockClientTypes {
-
-    public enum SortModelsBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case creationTime
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SortModelsBy] {
-            return [
-                .creationTime
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .creationTime: return "CreationTime"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension BedrockClientTypes {
-
-    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case ascending
-        case descending
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SortOrder] {
-            return [
-                .ascending,
-                .descending
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .ascending: return "Ascending"
-            case .descending: return "Descending"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -9249,6 +9503,13 @@ extension CreateCustomModelInput {
     }
 }
 
+extension CreateCustomModelDeploymentInput {
+
+    static func urlPathProvider(_ value: CreateCustomModelDeploymentInput) -> Swift.String? {
+        return "/model-customization/custom-model-deployments"
+    }
+}
+
 extension CreateEvaluationJobInput {
 
     static func urlPathProvider(_ value: CreateEvaluationJobInput) -> Swift.String? {
@@ -9343,6 +9604,16 @@ extension DeleteCustomModelInput {
             return nil
         }
         return "/custom-models/\(modelIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension DeleteCustomModelDeploymentInput {
+
+    static func urlPathProvider(_ value: DeleteCustomModelDeploymentInput) -> Swift.String? {
+        guard let customModelDeploymentIdentifier = value.customModelDeploymentIdentifier else {
+            return nil
+        }
+        return "/model-customization/custom-model-deployments/\(customModelDeploymentIdentifier.urlPercentEncoding())"
     }
 }
 
@@ -9449,6 +9720,16 @@ extension GetCustomModelInput {
             return nil
         }
         return "/custom-models/\(modelIdentifier.urlPercentEncoding())"
+    }
+}
+
+extension GetCustomModelDeploymentInput {
+
+    static func urlPathProvider(_ value: GetCustomModelDeploymentInput) -> Swift.String? {
+        guard let customModelDeploymentIdentifier = value.customModelDeploymentIdentifier else {
+            return nil
+        }
+        return "/model-customization/custom-model-deployments/\(customModelDeploymentIdentifier.urlPercentEncoding())"
     }
 }
 
@@ -9605,6 +9886,57 @@ extension GetUseCaseForModelAccessInput {
 
     static func urlPathProvider(_ value: GetUseCaseForModelAccessInput) -> Swift.String? {
         return "/use-case-for-model-access"
+    }
+}
+
+extension ListCustomModelDeploymentsInput {
+
+    static func urlPathProvider(_ value: ListCustomModelDeploymentsInput) -> Swift.String? {
+        return "/model-customization/custom-model-deployments"
+    }
+}
+
+extension ListCustomModelDeploymentsInput {
+
+    static func queryItemProvider(_ value: ListCustomModelDeploymentsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nameContains = value.nameContains {
+            let nameContainsQueryItem = Smithy.URIQueryItem(name: "nameContains".urlPercentEncoding(), value: Swift.String(nameContains).urlPercentEncoding())
+            items.append(nameContainsQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let statusEquals = value.statusEquals {
+            let statusEqualsQueryItem = Smithy.URIQueryItem(name: "statusEquals".urlPercentEncoding(), value: Swift.String(statusEquals.rawValue).urlPercentEncoding())
+            items.append(statusEqualsQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
+        if let modelArnEquals = value.modelArnEquals {
+            let modelArnEqualsQueryItem = Smithy.URIQueryItem(name: "modelArnEquals".urlPercentEncoding(), value: Swift.String(modelArnEquals).urlPercentEncoding())
+            items.append(modelArnEqualsQueryItem)
+        }
+        if let sortBy = value.sortBy {
+            let sortByQueryItem = Smithy.URIQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
+            items.append(sortByQueryItem)
+        }
+        if let createdBefore = value.createdBefore {
+            let createdBeforeQueryItem = Smithy.URIQueryItem(name: "createdBefore".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: createdBefore)).urlPercentEncoding())
+            items.append(createdBeforeQueryItem)
+        }
+        if let createdAfter = value.createdAfter {
+            let createdAfterQueryItem = Smithy.URIQueryItem(name: "createdAfter".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: createdAfter)).urlPercentEncoding())
+            items.append(createdAfterQueryItem)
+        }
+        return items
     }
 }
 
@@ -10295,6 +10627,18 @@ extension CreateCustomModelInput {
     }
 }
 
+extension CreateCustomModelDeploymentInput {
+
+    static func write(value: CreateCustomModelDeploymentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientRequestToken"].write(value.clientRequestToken)
+        try writer["description"].write(value.description)
+        try writer["modelArn"].write(value.modelArn)
+        try writer["modelDeploymentName"].write(value.modelDeploymentName)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: BedrockClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateEvaluationJobInput {
 
     static func write(value: CreateEvaluationJobInput?, to writer: SmithyJSON.Writer) throws {
@@ -10587,6 +10931,18 @@ extension CreateCustomModelOutput {
     }
 }
 
+extension CreateCustomModelDeploymentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCustomModelDeploymentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCustomModelDeploymentOutput()
+        value.customModelDeploymentArn = try reader["customModelDeploymentArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateEvaluationJobOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateEvaluationJobOutput {
@@ -10743,6 +11099,13 @@ extension DeleteCustomModelOutput {
     }
 }
 
+extension DeleteCustomModelDeploymentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCustomModelDeploymentOutput {
+        return DeleteCustomModelDeploymentOutput()
+    }
+}
+
 extension DeleteFoundationModelAgreementOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteFoundationModelAgreementOutput {
@@ -10830,6 +11193,25 @@ extension GetCustomModelOutput {
         value.trainingMetrics = try reader["trainingMetrics"].readIfPresent(with: BedrockClientTypes.TrainingMetrics.read(from:))
         value.validationDataConfig = try reader["validationDataConfig"].readIfPresent(with: BedrockClientTypes.ValidationDataConfig.read(from:))
         value.validationMetrics = try reader["validationMetrics"].readListIfPresent(memberReadingClosure: BedrockClientTypes.ValidatorMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GetCustomModelDeploymentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCustomModelDeploymentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCustomModelDeploymentOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.customModelDeploymentArn = try reader["customModelDeploymentArn"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
+        value.modelDeploymentName = try reader["modelDeploymentName"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -11141,6 +11523,19 @@ extension GetUseCaseForModelAccessOutput {
         let reader = responseReader
         var value = GetUseCaseForModelAccessOutput()
         value.formData = try reader["formData"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
+        return value
+    }
+}
+
+extension ListCustomModelDeploymentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCustomModelDeploymentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCustomModelDeploymentsOutput()
+        value.modelDeploymentSummaries = try reader["modelDeploymentSummaries"].readListIfPresent(memberReadingClosure: BedrockClientTypes.CustomModelDeploymentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -11473,6 +11868,26 @@ enum CreateCustomModelOutputError {
     }
 }
 
+enum CreateCustomModelDeploymentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "TooManyTagsException": return try TooManyTagsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateEvaluationJobOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11733,6 +12148,25 @@ enum DeleteCustomModelOutputError {
     }
 }
 
+enum DeleteCustomModelDeploymentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteFoundationModelAgreementOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11900,6 +12334,24 @@ enum DeregisterMarketplaceModelEndpointOutputError {
 }
 
 enum GetCustomModelOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetCustomModelDeploymentOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -12177,6 +12629,23 @@ enum GetUseCaseForModelAccessOutputError {
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCustomModelDeploymentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -14754,6 +15223,22 @@ extension BedrockClientTypes.PromptRouterTargetModel {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockClientTypes.PromptRouterTargetModel()
         value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockClientTypes.CustomModelDeploymentSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockClientTypes.CustomModelDeploymentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockClientTypes.CustomModelDeploymentSummary()
+        value.customModelDeploymentArn = try reader["customModelDeploymentArn"].readIfPresent() ?? ""
+        value.customModelDeploymentName = try reader["customModelDeploymentName"].readIfPresent() ?? ""
+        value.modelArn = try reader["modelArn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.failureMessage = try reader["failureMessage"].readIfPresent()
         return value
     }
 }
