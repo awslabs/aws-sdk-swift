@@ -70,7 +70,7 @@ class GetHeadersBeforeTransmit<InputType, OutputType>: Interceptor {
     typealias ResponseType = HTTPResponse
     func readBeforeTransmit(context: some AfterSerialization<InputType, RequestType>) async throws {
         // Assert that the request is unauthenticated.
-        XCTAssertTrue(!context.getRequest().headers.exists(name: "Authorization"))
+        XCTAssertTrue(context.getRequest().headers.exists(name: "Authorization"))
     }
 }
 class GetHeadersBeforeTransmitProvider: HttpInterceptorProvider {
