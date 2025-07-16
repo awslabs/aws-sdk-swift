@@ -3244,6 +3244,8 @@ public struct CreateIPSetInput: Swift.Sendable {
     /// The unique ID of the detector of the GuardDuty account for which you want to create an IPSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
     /// This member is required.
     public var detectorId: Swift.String?
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+    public var expectedBucketOwner: Swift.String?
     /// The format of the file that contains the IPSet.
     /// This member is required.
     public var format: GuardDutyClientTypes.IpSetFormat?
@@ -3260,6 +3262,7 @@ public struct CreateIPSetInput: Swift.Sendable {
         activate: Swift.Bool? = nil,
         clientToken: Swift.String? = nil,
         detectorId: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
         format: GuardDutyClientTypes.IpSetFormat? = nil,
         location: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -3268,6 +3271,7 @@ public struct CreateIPSetInput: Swift.Sendable {
         self.activate = activate
         self.clientToken = clientToken
         self.detectorId = detectorId
+        self.expectedBucketOwner = expectedBucketOwner
         self.format = format
         self.location = location
         self.name = name
@@ -3624,6 +3628,8 @@ public struct CreateThreatIntelSetInput: Swift.Sendable {
     /// The unique ID of the detector of the GuardDuty account for which you want to create a ThreatIntelSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
     /// This member is required.
     public var detectorId: Swift.String?
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+    public var expectedBucketOwner: Swift.String?
     /// The format of the file that contains the ThreatIntelSet.
     /// This member is required.
     public var format: GuardDutyClientTypes.ThreatIntelSetFormat?
@@ -3640,6 +3646,7 @@ public struct CreateThreatIntelSetInput: Swift.Sendable {
         activate: Swift.Bool? = nil,
         clientToken: Swift.String? = nil,
         detectorId: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
         format: GuardDutyClientTypes.ThreatIntelSetFormat? = nil,
         location: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -3648,6 +3655,7 @@ public struct CreateThreatIntelSetInput: Swift.Sendable {
         self.activate = activate
         self.clientToken = clientToken
         self.detectorId = detectorId
+        self.expectedBucketOwner = expectedBucketOwner
         self.format = format
         self.location = location
         self.name = name
@@ -8294,6 +8302,8 @@ extension GuardDutyClientTypes {
 }
 
 public struct GetIPSetOutput: Swift.Sendable {
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter. This field appears in the response only if it was provided during IPSet creation or update.
+    public var expectedBucketOwner: Swift.String?
     /// The format of the file that contains the IPSet.
     /// This member is required.
     public var format: GuardDutyClientTypes.IpSetFormat?
@@ -8310,12 +8320,14 @@ public struct GetIPSetOutput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        expectedBucketOwner: Swift.String? = nil,
         format: GuardDutyClientTypes.IpSetFormat? = nil,
         location: Swift.String? = nil,
         name: Swift.String? = nil,
         status: GuardDutyClientTypes.IpSetStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.expectedBucketOwner = expectedBucketOwner
         self.format = format
         self.location = location
         self.name = name
@@ -8980,6 +8992,8 @@ extension GuardDutyClientTypes {
 }
 
 public struct GetThreatIntelSetOutput: Swift.Sendable {
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter. This field appears in the response only if it was provided during ThreatIntelSet creation or update.
+    public var expectedBucketOwner: Swift.String?
     /// The format of the threatIntelSet.
     /// This member is required.
     public var format: GuardDutyClientTypes.ThreatIntelSetFormat?
@@ -8996,12 +9010,14 @@ public struct GetThreatIntelSetOutput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        expectedBucketOwner: Swift.String? = nil,
         format: GuardDutyClientTypes.ThreatIntelSetFormat? = nil,
         location: Swift.String? = nil,
         name: Swift.String? = nil,
         status: GuardDutyClientTypes.ThreatIntelSetStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.expectedBucketOwner = expectedBucketOwner
         self.format = format
         self.location = location
         self.name = name
@@ -10211,6 +10227,8 @@ public struct UpdateIPSetInput: Swift.Sendable {
     /// The detectorID that specifies the GuardDuty service whose IPSet you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
     /// This member is required.
     public var detectorId: Swift.String?
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+    public var expectedBucketOwner: Swift.String?
     /// The unique ID that specifies the IPSet that you want to update.
     /// This member is required.
     public var ipSetId: Swift.String?
@@ -10222,12 +10240,14 @@ public struct UpdateIPSetInput: Swift.Sendable {
     public init(
         activate: Swift.Bool? = nil,
         detectorId: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
         ipSetId: Swift.String? = nil,
         location: Swift.String? = nil,
         name: Swift.String? = nil
     ) {
         self.activate = activate
         self.detectorId = detectorId
+        self.expectedBucketOwner = expectedBucketOwner
         self.ipSetId = ipSetId
         self.location = location
         self.name = name
@@ -10641,6 +10661,8 @@ public struct UpdateThreatIntelSetInput: Swift.Sendable {
     /// The detectorID that specifies the GuardDuty service whose ThreatIntelSet you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
     /// This member is required.
     public var detectorId: Swift.String?
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+    public var expectedBucketOwner: Swift.String?
     /// The updated URI of the file that contains the ThreateIntelSet.
     public var location: Swift.String?
     /// The unique ID that specifies the ThreatIntelSet that you want to update.
@@ -10652,12 +10674,14 @@ public struct UpdateThreatIntelSetInput: Swift.Sendable {
     public init(
         activate: Swift.Bool? = nil,
         detectorId: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
         location: Swift.String? = nil,
         name: Swift.String? = nil,
         threatIntelSetId: Swift.String? = nil
     ) {
         self.activate = activate
         self.detectorId = detectorId
+        self.expectedBucketOwner = expectedBucketOwner
         self.location = location
         self.name = name
         self.threatIntelSetId = threatIntelSetId
@@ -11641,6 +11665,7 @@ extension CreateIPSetInput {
         guard let value else { return }
         try writer["activate"].write(value.activate)
         try writer["clientToken"].write(value.clientToken)
+        try writer["expectedBucketOwner"].write(value.expectedBucketOwner)
         try writer["format"].write(value.format)
         try writer["location"].write(value.location)
         try writer["name"].write(value.name)
@@ -11692,6 +11717,7 @@ extension CreateThreatIntelSetInput {
         guard let value else { return }
         try writer["activate"].write(value.activate)
         try writer["clientToken"].write(value.clientToken)
+        try writer["expectedBucketOwner"].write(value.expectedBucketOwner)
         try writer["format"].write(value.format)
         try writer["location"].write(value.location)
         try writer["name"].write(value.name)
@@ -11933,6 +11959,7 @@ extension UpdateIPSetInput {
     static func write(value: UpdateIPSetInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["activate"].write(value.activate)
+        try writer["expectedBucketOwner"].write(value.expectedBucketOwner)
         try writer["location"].write(value.location)
         try writer["name"].write(value.name)
     }
@@ -11991,6 +12018,7 @@ extension UpdateThreatIntelSetInput {
     static func write(value: UpdateThreatIntelSetInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["activate"].write(value.activate)
+        try writer["expectedBucketOwner"].write(value.expectedBucketOwner)
         try writer["location"].write(value.location)
         try writer["name"].write(value.name)
     }
@@ -12377,6 +12405,7 @@ extension GetIPSetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetIPSetOutput()
+        value.expectedBucketOwner = try reader["expectedBucketOwner"].readIfPresent()
         value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
         value.location = try reader["location"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
@@ -12488,6 +12517,7 @@ extension GetThreatIntelSetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetThreatIntelSetOutput()
+        value.expectedBucketOwner = try reader["expectedBucketOwner"].readIfPresent()
         value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
         value.location = try reader["location"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
@@ -12897,6 +12927,7 @@ enum CreateIPSetOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -12974,6 +13005,7 @@ enum CreateThreatIntelSetOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -13838,6 +13870,7 @@ enum UpdateIPSetOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -13930,6 +13963,7 @@ enum UpdateThreatIntelSetOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)

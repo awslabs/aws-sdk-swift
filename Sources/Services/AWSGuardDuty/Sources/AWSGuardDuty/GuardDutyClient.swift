@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GuardDutyClient: ClientRuntime.Client {
     public static let clientName = "GuardDutyClient"
-    public static let version = "1.4.1"
+    public static let version = "1.5.0"
     let client: ClientRuntime.SdkHttpClient
     let config: GuardDutyClient.GuardDutyClientConfiguration
     let serviceName = "GuardDuty"
@@ -731,6 +731,7 @@ extension GuardDutyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
     public func createIPSet(input: CreateIPSetInput) async throws -> CreateIPSetOutput {
@@ -1076,6 +1077,7 @@ extension GuardDutyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
     public func createThreatIntelSet(input: CreateThreatIntelSetInput) async throws -> CreateThreatIntelSetOutput {
@@ -4888,6 +4890,7 @@ extension GuardDutyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
     public func updateIPSet(input: UpdateIPSetInput) async throws -> UpdateIPSetOutput {
@@ -5298,6 +5301,7 @@ extension GuardDutyClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An access denied exception object.
     /// - `BadRequestException` : A bad request exception object.
     /// - `InternalServerErrorException` : An internal server error exception object.
     public func updateThreatIntelSet(input: UpdateThreatIntelSetInput) async throws -> UpdateThreatIntelSetOutput {

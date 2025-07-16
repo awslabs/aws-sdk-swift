@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SFNClient: ClientRuntime.Client {
     public static let clientName = "SFNClient"
-    public static let version = "1.4.1"
+    public static let version = "1.5.0"
     let client: ClientRuntime.SdkHttpClient
     let config: SFNClient.SFNClientConfiguration
     let serviceName = "SFN"
@@ -2683,7 +2683,7 @@ extension SFNClient {
     ///
     /// * An [Amazon Web Services service integration](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-services.html) request and response
     ///
-    /// * An [HTTP Task](https://docs.aws.amazon.com/step-functions/latest/dg/connect-third-party-apis.html) request and response
+    /// * An [HTTP Task](https://docs.aws.amazon.com/step-functions/latest/dg/call-https-apis.html) request and response
     ///
     ///
     /// You can call this API on only one state at a time. The states that you can test include the following:

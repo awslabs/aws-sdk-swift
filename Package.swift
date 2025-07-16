@@ -65,6 +65,8 @@ let serviceTargets: [String] = [
     "AWSBatch",
     "AWSBedrock",
     "AWSBedrockAgent",
+    "AWSBedrockAgentCore",
+    "AWSBedrockAgentCoreControl",
     "AWSBedrockAgentRuntime",
     "AWSBedrockDataAutomation",
     "AWSBedrockDataAutomationRuntime",

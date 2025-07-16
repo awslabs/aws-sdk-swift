@@ -161,6 +161,10 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSBedrockAgent](../../../../../swift/api/awsbedrockagent/latest)
 
+[AWSBedrockAgentCore](../../../../../swift/api/awsbedrockagentcore/latest)
+
+[AWSBedrockAgentCoreControl](../../../../../swift/api/awsbedrockagentcorecontrol/latest)
+
 [AWSBedrockAgentRuntime](../../../../../swift/api/awsbedrockagentruntime/latest)
 
 [AWSBedrockDataAutomation](../../../../../swift/api/awsbedrockdataautomation/latest)
