@@ -178,7 +178,7 @@ extension ECSClient {
                     let lastStatus = original.lastStatus
                     return lastStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "RUNNING") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "RUNNING") } ?? false)
             }),
         ]
         return try SmithyWaitersAPI.WaiterConfiguration<DescribeTasksInput, DescribeTasksOutput>(acceptors: acceptors, minDelay: 6.0, maxDelay: 120.0)
@@ -212,7 +212,7 @@ extension ECSClient {
                     let lastStatus = original.lastStatus
                     return lastStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "STOPPED") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "STOPPED") } ?? false)
             }),
         ]
         return try SmithyWaitersAPI.WaiterConfiguration<DescribeTasksInput, DescribeTasksOutput>(acceptors: acceptors, minDelay: 6.0, maxDelay: 120.0)

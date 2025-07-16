@@ -15,6 +15,7 @@ import protocol SmithyHTTPAuthAPI.AuthSchemeResolverParameters
 import struct SmithyHTTPAuthAPI.AuthOption
 
 internal struct STSAuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
+    public let authSchemePreference: [String]?
     public let operation: Swift.String
     // Region is used for SigV4 auth scheme
     public let region: Swift.String?
@@ -27,12 +28,6 @@ internal protocol STSAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
 }
 
 internal struct DefaultSTSAuthSchemeResolver: STSAuthSchemeResolver {
-
-    public let authSchemePreference: [String]
-
-    public init(authSchemePreference: [String] = []) {
-        self.authSchemePreference = authSchemePreference
-    }
 
     public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [SmithyHTTPAuthAPI.AuthOption] {
         var validAuthOptions = [SmithyHTTPAuthAPI.AuthOption]()
@@ -51,14 +46,15 @@ internal struct DefaultSTSAuthSchemeResolver: STSAuthSchemeResolver {
                 sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingRegion, value: region)
                 validAuthOptions.append(sigv4Option)
         }
-        return self.reprioritizeAuthOptions(authSchemePreference: authSchemePreference, authOptions: validAuthOptions)
+        return self.reprioritizeAuthOptions(authSchemePreference: serviceParams.authSchemePreference, authOptions: validAuthOptions)
     }
 
     public func constructParameters(context: Smithy.Context) throws -> SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
         guard let opName = context.getOperation() else {
             throw Smithy.ClientError.dataNotFound("Operation name not configured in middleware context for auth scheme resolver params construction.")
         }
+        let authSchemePreference = context.getAuthSchemePreference()
         let opRegion = context.getRegion()
-        return STSAuthSchemeResolverParameters(operation: opName, region: opRegion)
+        return STSAuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName, region: opRegion)
     }
 }

@@ -43,7 +43,7 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
-/// You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+/// Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -294,21 +294,26 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
 extension MediaPackageV2ClientTypes {
 
     public enum ValidationExceptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case batchGetSecretValueDenied
         case cencIvIncompatible
         case clipStartTimeWithStartOrEnd
         case cmafContainerTypeWithMssManifest
         case cmafExcludeSegmentDrmMetadataIncompatibleContainerType
         case containerTypeImmutable
         case dashDvbAttributesWithoutDvbDashProfile
+        case decryptSecretFailed
+        case describeSecretDenied
         case directModeWithTimingSource
         case drmSignalingMismatchSegmentEncryptionStatus
         case drmSystemsEncryptionMethodIncompatible
+        case duplicatedSecret
         case encryptionContractShared
         case encryptionContractUnencrypted
         case encryptionContractWithoutAudioRenditionIncompatible
         case encryptionContractWithIsmContainerIncompatible
         case encryptionMethodContainerTypeMismatch
         case endTimeEarlierThanStartTime
+        case getSecretValueDenied
         case harvestedManifestHasStartEndFilterConfiguration
         case harvestedManifestNotFoundOnEndpoint
         case harvestJobCustomerEndpointReadAccessDenied
@@ -324,12 +329,17 @@ extension MediaPackageV2ClientTypes {
         case invalidPaginationToken
         case invalidPolicy
         case invalidRoleArn
+        case invalidSecret
+        case invalidSecretFormat
+        case invalidSecretKey
+        case invalidSecretValue
         case invalidTimeDelaySeconds
         case ismContainerTypeWithDashManifest
         case ismContainerTypeWithHlsManifest
         case ismContainerTypeWithLlHlsManifest
         case ismContainerTypeWithScte
         case ismContainerWithKeyRotation
+        case malformedSecretArn
         case manifestDrmSystemsIncompatible
         case manifestNameCollision
         case memberDoesNotMatchPattern
@@ -350,10 +360,15 @@ extension MediaPackageV2ClientTypes {
         case roleArnInvalidFormat
         case roleArnLengthOutOfRange
         case roleArnNotAssumable
+        case secretArnResourceNotFound
+        case secretFromDifferentAccount
+        case secretFromDifferentRegion
+        case secretIsNotOneKeyValuePair
         case sourceDisruptionsEnabledIncorrectly
         case startTagTimeOffsetInvalid
         case timingSourceMissing
         case tooManyInProgressHarvestJobs
+        case tooManySecrets
         case tsContainerTypeWithDashManifest
         case tsContainerTypeWithMssManifest
         case updatePeriodSmallerThanSegmentDuration
@@ -370,21 +385,26 @@ extension MediaPackageV2ClientTypes {
 
         public static var allCases: [ValidationExceptionType] {
             return [
+                .batchGetSecretValueDenied,
                 .cencIvIncompatible,
                 .clipStartTimeWithStartOrEnd,
                 .cmafContainerTypeWithMssManifest,
                 .cmafExcludeSegmentDrmMetadataIncompatibleContainerType,
                 .containerTypeImmutable,
                 .dashDvbAttributesWithoutDvbDashProfile,
+                .decryptSecretFailed,
+                .describeSecretDenied,
                 .directModeWithTimingSource,
                 .drmSignalingMismatchSegmentEncryptionStatus,
                 .drmSystemsEncryptionMethodIncompatible,
+                .duplicatedSecret,
                 .encryptionContractShared,
                 .encryptionContractUnencrypted,
                 .encryptionContractWithoutAudioRenditionIncompatible,
                 .encryptionContractWithIsmContainerIncompatible,
                 .encryptionMethodContainerTypeMismatch,
                 .endTimeEarlierThanStartTime,
+                .getSecretValueDenied,
                 .harvestedManifestHasStartEndFilterConfiguration,
                 .harvestedManifestNotFoundOnEndpoint,
                 .harvestJobCustomerEndpointReadAccessDenied,
@@ -400,12 +420,17 @@ extension MediaPackageV2ClientTypes {
                 .invalidPaginationToken,
                 .invalidPolicy,
                 .invalidRoleArn,
+                .invalidSecret,
+                .invalidSecretFormat,
+                .invalidSecretKey,
+                .invalidSecretValue,
                 .invalidTimeDelaySeconds,
                 .ismContainerTypeWithDashManifest,
                 .ismContainerTypeWithHlsManifest,
                 .ismContainerTypeWithLlHlsManifest,
                 .ismContainerTypeWithScte,
                 .ismContainerWithKeyRotation,
+                .malformedSecretArn,
                 .manifestDrmSystemsIncompatible,
                 .manifestNameCollision,
                 .memberDoesNotMatchPattern,
@@ -426,10 +451,15 @@ extension MediaPackageV2ClientTypes {
                 .roleArnInvalidFormat,
                 .roleArnLengthOutOfRange,
                 .roleArnNotAssumable,
+                .secretArnResourceNotFound,
+                .secretFromDifferentAccount,
+                .secretFromDifferentRegion,
+                .secretIsNotOneKeyValuePair,
                 .sourceDisruptionsEnabledIncorrectly,
                 .startTagTimeOffsetInvalid,
                 .timingSourceMissing,
                 .tooManyInProgressHarvestJobs,
+                .tooManySecrets,
                 .tsContainerTypeWithDashManifest,
                 .tsContainerTypeWithMssManifest,
                 .updatePeriodSmallerThanSegmentDuration,
@@ -452,21 +482,26 @@ extension MediaPackageV2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .batchGetSecretValueDenied: return "BATCH_GET_SECRET_VALUE_DENIED"
             case .cencIvIncompatible: return "CENC_IV_INCOMPATIBLE"
             case .clipStartTimeWithStartOrEnd: return "CLIP_START_TIME_WITH_START_OR_END"
             case .cmafContainerTypeWithMssManifest: return "CMAF_CONTAINER_TYPE_WITH_MSS_MANIFEST"
             case .cmafExcludeSegmentDrmMetadataIncompatibleContainerType: return "CMAF_EXCLUDE_SEGMENT_DRM_METADATA_INCOMPATIBLE_CONTAINER_TYPE"
             case .containerTypeImmutable: return "CONTAINER_TYPE_IMMUTABLE"
             case .dashDvbAttributesWithoutDvbDashProfile: return "DASH_DVB_ATTRIBUTES_WITHOUT_DVB_DASH_PROFILE"
+            case .decryptSecretFailed: return "DECRYPT_SECRET_FAILED"
+            case .describeSecretDenied: return "DESCRIBE_SECRET_DENIED"
             case .directModeWithTimingSource: return "DIRECT_MODE_WITH_TIMING_SOURCE"
             case .drmSignalingMismatchSegmentEncryptionStatus: return "DRM_SIGNALING_MISMATCH_SEGMENT_ENCRYPTION_STATUS"
             case .drmSystemsEncryptionMethodIncompatible: return "DRM_SYSTEMS_ENCRYPTION_METHOD_INCOMPATIBLE"
+            case .duplicatedSecret: return "DUPLICATED_SECRET"
             case .encryptionContractShared: return "ENCRYPTION_CONTRACT_SHARED"
             case .encryptionContractUnencrypted: return "ENCRYPTION_CONTRACT_UNENCRYPTED"
             case .encryptionContractWithoutAudioRenditionIncompatible: return "ENCRYPTION_CONTRACT_WITHOUT_AUDIO_RENDITION_INCOMPATIBLE"
             case .encryptionContractWithIsmContainerIncompatible: return "ENCRYPTION_CONTRACT_WITH_ISM_CONTAINER_INCOMPATIBLE"
             case .encryptionMethodContainerTypeMismatch: return "ENCRYPTION_METHOD_CONTAINER_TYPE_MISMATCH"
             case .endTimeEarlierThanStartTime: return "END_TIME_EARLIER_THAN_START_TIME"
+            case .getSecretValueDenied: return "GET_SECRET_VALUE_DENIED"
             case .harvestedManifestHasStartEndFilterConfiguration: return "HARVESTED_MANIFEST_HAS_START_END_FILTER_CONFIGURATION"
             case .harvestedManifestNotFoundOnEndpoint: return "HARVESTED_MANIFEST_NOT_FOUND_ON_ENDPOINT"
             case .harvestJobCustomerEndpointReadAccessDenied: return "HARVEST_JOB_CUSTOMER_ENDPOINT_READ_ACCESS_DENIED"
@@ -482,12 +517,17 @@ extension MediaPackageV2ClientTypes {
             case .invalidPaginationToken: return "INVALID_PAGINATION_TOKEN"
             case .invalidPolicy: return "INVALID_POLICY"
             case .invalidRoleArn: return "INVALID_ROLE_ARN"
+            case .invalidSecret: return "INVALID_SECRET"
+            case .invalidSecretFormat: return "INVALID_SECRET_FORMAT"
+            case .invalidSecretKey: return "INVALID_SECRET_KEY"
+            case .invalidSecretValue: return "INVALID_SECRET_VALUE"
             case .invalidTimeDelaySeconds: return "INVALID_TIME_DELAY_SECONDS"
             case .ismContainerTypeWithDashManifest: return "ISM_CONTAINER_TYPE_WITH_DASH_MANIFEST"
             case .ismContainerTypeWithHlsManifest: return "ISM_CONTAINER_TYPE_WITH_HLS_MANIFEST"
             case .ismContainerTypeWithLlHlsManifest: return "ISM_CONTAINER_TYPE_WITH_LL_HLS_MANIFEST"
             case .ismContainerTypeWithScte: return "ISM_CONTAINER_TYPE_WITH_SCTE"
             case .ismContainerWithKeyRotation: return "ISM_CONTAINER_WITH_KEY_ROTATION"
+            case .malformedSecretArn: return "MALFORMED_SECRET_ARN"
             case .manifestDrmSystemsIncompatible: return "MANIFEST_DRM_SYSTEMS_INCOMPATIBLE"
             case .manifestNameCollision: return "MANIFEST_NAME_COLLISION"
             case .memberDoesNotMatchPattern: return "MEMBER_DOES_NOT_MATCH_PATTERN"
@@ -508,10 +548,15 @@ extension MediaPackageV2ClientTypes {
             case .roleArnInvalidFormat: return "ROLE_ARN_INVALID_FORMAT"
             case .roleArnLengthOutOfRange: return "ROLE_ARN_LENGTH_OUT_OF_RANGE"
             case .roleArnNotAssumable: return "ROLE_ARN_NOT_ASSUMABLE"
+            case .secretArnResourceNotFound: return "SECRET_ARN_RESOURCE_NOT_FOUND"
+            case .secretFromDifferentAccount: return "SECRET_FROM_DIFFERENT_ACCOUNT"
+            case .secretFromDifferentRegion: return "SECRET_FROM_DIFFERENT_REGION"
+            case .secretIsNotOneKeyValuePair: return "SECRET_IS_NOT_ONE_KEY_VALUE_PAIR"
             case .sourceDisruptionsEnabledIncorrectly: return "SOURCE_DISRUPTIONS_ENABLED_INCORRECTLY"
             case .startTagTimeOffsetInvalid: return "START_TAG_TIME_OFFSET_INVALID"
             case .timingSourceMissing: return "TIMING_SOURCE_MISSING"
             case .tooManyInProgressHarvestJobs: return "TOO_MANY_IN_PROGRESS_HARVEST_JOBS"
+            case .tooManySecrets: return "TOO_MANY_SECRETS"
             case .tsContainerTypeWithDashManifest: return "TS_CONTAINER_TYPE_WITH_DASH_MANIFEST"
             case .tsContainerTypeWithMssManifest: return "TS_CONTAINER_TYPE_WITH_MSS_MANIFEST"
             case .updatePeriodSmallerThanSegmentDuration: return "UPDATE_PERIOD_SMALLER_THAN_SEGMENT_DURATION"
@@ -591,6 +636,27 @@ public struct CancelHarvestJobInput: Swift.Sendable {
 public struct CancelHarvestJobOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension MediaPackageV2ClientTypes {
+
+    /// The settings to enable CDN authorization headers in MediaPackage.
+    public struct CdnAuthConfiguration: Swift.Sendable {
+        /// The ARN for the secret in Secrets Manager that your CDN uses for authorization to access the endpoint.
+        /// This member is required.
+        public var cdnIdentifierSecretArns: [Swift.String]?
+        /// The ARN for the IAM role that gives MediaPackage read access to Secrets Manager and KMS for CDN authorization.
+        /// This member is required.
+        public var secretsRoleArn: Swift.String?
+
+        public init(
+            cdnIdentifierSecretArns: [Swift.String]? = nil,
+            secretsRoleArn: Swift.String? = nil
+        ) {
+            self.cdnIdentifierSecretArns = cdnIdentifierSecretArns
+            self.secretsRoleArn = secretsRoleArn
+        }
+    }
 }
 
 extension MediaPackageV2ClientTypes {
@@ -3126,6 +3192,8 @@ public struct GetOriginEndpointPolicyInput: Swift.Sendable {
 }
 
 public struct GetOriginEndpointPolicyOutput: Swift.Sendable {
+    /// The settings for using authorization headers between the MediaPackage endpoint and your CDN. For information about CDN authorization, see [CDN authorization in Elemental MediaPackage](https://docs.aws.amazon.com/mediapackage/latest/userguide/cdn-auth.html) in the MediaPackage user guide.
+    public var cdnAuthConfiguration: MediaPackageV2ClientTypes.CdnAuthConfiguration?
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -3140,11 +3208,13 @@ public struct GetOriginEndpointPolicyOutput: Swift.Sendable {
     public var policy: Swift.String?
 
     public init(
+        cdnAuthConfiguration: MediaPackageV2ClientTypes.CdnAuthConfiguration? = nil,
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         originEndpointName: Swift.String? = nil,
         policy: Swift.String? = nil
     ) {
+        self.cdnAuthConfiguration = cdnAuthConfiguration
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.originEndpointName = originEndpointName
@@ -3153,6 +3223,8 @@ public struct GetOriginEndpointPolicyOutput: Swift.Sendable {
 }
 
 public struct PutOriginEndpointPolicyInput: Swift.Sendable {
+    /// The settings for using authorization headers between the MediaPackage endpoint and your CDN. For information about CDN authorization, see [CDN authorization in Elemental MediaPackage](https://docs.aws.amazon.com/mediapackage/latest/userguide/cdn-auth.html) in the MediaPackage user guide.
+    public var cdnAuthConfiguration: MediaPackageV2ClientTypes.CdnAuthConfiguration?
     /// The name that describes the channel group. The name is the primary identifier for the channel group, and must be unique for your account in the AWS Region.
     /// This member is required.
     public var channelGroupName: Swift.String?
@@ -3167,11 +3239,13 @@ public struct PutOriginEndpointPolicyInput: Swift.Sendable {
     public var policy: Swift.String?
 
     public init(
+        cdnAuthConfiguration: MediaPackageV2ClientTypes.CdnAuthConfiguration? = nil,
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         originEndpointName: Swift.String? = nil,
         policy: Swift.String? = nil
     ) {
+        self.cdnAuthConfiguration = cdnAuthConfiguration
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.originEndpointName = originEndpointName
@@ -4985,6 +5059,7 @@ extension PutOriginEndpointPolicyInput {
 
     static func write(value: PutOriginEndpointPolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["CdnAuthConfiguration"].write(value.cdnAuthConfiguration, with: MediaPackageV2ClientTypes.CdnAuthConfiguration.write(value:to:))
         try writer["Policy"].write(value.policy)
     }
 }
@@ -5288,6 +5363,7 @@ extension GetOriginEndpointPolicyOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetOriginEndpointPolicyOutput()
+        value.cdnAuthConfiguration = try reader["CdnAuthConfiguration"].readIfPresent(with: MediaPackageV2ClientTypes.CdnAuthConfiguration.read(from:))
         value.channelGroupName = try reader["ChannelGroupName"].readIfPresent() ?? ""
         value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
         value.originEndpointName = try reader["OriginEndpointName"].readIfPresent() ?? ""
@@ -6706,6 +6782,23 @@ extension MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.ForceEndpointErrorConfiguration()
         value.endpointErrorConditions = try reader["EndpointErrorConditions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaPackageV2ClientTypes.EndpointErrorCondition>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaPackageV2ClientTypes.CdnAuthConfiguration {
+
+    static func write(value: MediaPackageV2ClientTypes.CdnAuthConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CdnIdentifierSecretArns"].writeList(value.cdnIdentifierSecretArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SecretsRoleArn"].write(value.secretsRoleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.CdnAuthConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaPackageV2ClientTypes.CdnAuthConfiguration()
+        value.cdnIdentifierSecretArns = try reader["CdnIdentifierSecretArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.secretsRoleArn = try reader["SecretsRoleArn"].readIfPresent() ?? ""
         return value
     }
 }

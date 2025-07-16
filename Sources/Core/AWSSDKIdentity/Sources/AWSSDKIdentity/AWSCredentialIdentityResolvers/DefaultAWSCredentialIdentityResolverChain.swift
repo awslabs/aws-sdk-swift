@@ -12,6 +12,7 @@ import protocol SmithyIdentity.AWSCredentialIdentityResolvedByCRT
 @_spi(FileBasedConfig) import AWSSDKCommon
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct Smithy.Attributes
+import struct Smithy.SwiftLogger
 
 // swiftlint:disable type_name
 // ^ Required to mute swiftlint warning about type name being too long.
@@ -20,9 +21,15 @@ import struct Smithy.Attributes
 /// This is the default resolver when no credential identity resolver is provided by the user.
 ///
 /// The chain resolves the credential identity in the following order:
-/// 1. Environment
-/// 2. Profile
-/// 3. Web Identity Tokens (STS Web Identity)
+/// 1. Environment - static credentials
+/// 2. Environment - STS web identity
+/// 3. Profile chain
+///     i. Static credentials
+///     ii. Assume role with source profile
+///     iii. Assume role with credential source
+///     iv. STS web identity
+///     v. SSO
+///     vi. External process
 /// 4. ECS (IAM roles for tasks)
 /// 5. EC2 Instance Metadata (IMDSv2)
 ///
@@ -34,14 +41,15 @@ public actor DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityRes
     private let resolverFactories: [ResolverFactory]
     private var cachedCredentials: AWSCredentialIdentity?
 
+    private let logger: SwiftLogger = SwiftLogger(label: "DefaultAWSCredentialIdentityResolverChain")
+
     public init() {
         resolverFactories = [
-            { return (EnvironmentAWSCredentialIdentityResolver()) },
-            { return (try ProfileAWSCredentialIdentityResolver()) },
+            { return ( EnvironmentAWSCredentialIdentityResolver()) },
             { return ( try STSWebIdentityAWSCredentialIdentityResolver(source: .env)) },
-            { return ( try STSWebIdentityAWSCredentialIdentityResolver(source: .configFile)) },
+            { return ( ProfileAWSCredentialIdentityResolver()) },
             { return ( ECSAWSCredentialIdentityResolver()) },
-            { return (try IMDSAWSCredentialIdentityResolver()) }
+            { return ( try IMDSAWSCredentialIdentityResolver()) }
         ]
     }
 
@@ -50,23 +58,24 @@ public actor DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityRes
             return cached
         }
 
-        let lastIndex = resolverFactories.count - 1
-        for index in 0..<lastIndex {
+        for index in 0..<resolverFactories.count {
             do {
                 let resolver = try resolverFactories[index]()
                 let credentials = try await resolver.getIdentity(identityProperties: identityProperties)
                 cachedCredentials = credentials
                 return credentials
             } catch {
-                // Continue to the next resolver factory.
+                // Log error & continue to the next resolver factory.
+                logger.debug(error.localizedDescription)
             }
         }
 
-        // The error thrown from the last resolver is not caught and instead gets thrown to caller.
-        let lastResolver = try resolverFactories[lastIndex]()
-        let credentials = try await lastResolver.getIdentity(identityProperties: identityProperties)
-        cachedCredentials = credentials
-        return credentials
+        // None of the resolvers successfully resolved credentials.
+        // Throw a descriptive error.
+        throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+            "DefaultAWSCredentialIdentityRsolverChain: "
+            + "Failed to resolve credentials."
+        )
     }
 
     private func shouldRefreshCredentials(expiration: Date?) -> Bool {

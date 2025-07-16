@@ -1191,7 +1191,7 @@ public struct CreateLocationNfsInput: Swift.Sendable {
     /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect to your NFS file server. You can specify more than one agent. For more information, see [Using multiple DataSync agents](https://docs.aws.amazon.com/datasync/latest/userguide/do-i-need-datasync-agent.html#multiple-agents).
     /// This member is required.
     public var onPremConfig: DataSyncClientTypes.OnPremConfig?
-    /// Specifies the DNS name or IP version 4 address of the NFS file server that your DataSync agent connects to.
+    /// Specifies the DNS name or IP address (IPv4 or IPv6) of the NFS file server that your DataSync agent connects to.
     /// This member is required.
     public var serverHostname: Swift.String?
     /// Specifies the export path in your NFS file server that you want DataSync to mount. This path (or a subdirectory of the path) is where DataSync transfers data to or from. For information on configuring an export for DataSync, see [Accessing NFS file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#accessing-nfs).
@@ -1269,7 +1269,7 @@ public struct CreateLocationObjectStorageInput: Swift.Sendable {
     public var cmkSecretConfig: DataSyncClientTypes.CmkSecretConfig?
     /// Specifies configuration information for a customer-managed Secrets Manager secret where the secret key for a specific object storage location is stored in plain text. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret. You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
     public var customSecretConfig: DataSyncClientTypes.CustomSecretConfig?
-    /// Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server.
+    /// Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server. If you provide a secret using SecretKey, but do not provide secret configuration details using CmkSecretConfig or CustomSecretConfig, then DataSync stores the token using your Amazon Web Services account's Secrets Manager secret.
     public var secretKey: Swift.String?
     /// Specifies a certificate chain for DataSync to authenticate with your object storage system if the system uses a private or self-signed certificate authority (CA). You must specify a single .pem file with a full certificate chain (for example, file:///home/user/.ssh/object_storage_certificates.pem). The certificate chain might include:
     ///
@@ -1282,12 +1282,12 @@ public struct CreateLocationObjectStorageInput: Swift.Sendable {
     ///
     /// You can concatenate your certificates into a .pem file (which can be up to 32768 bytes before base64 encoding). The following example cat command creates an object_storage_certificates.pem file that includes three certificates: cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem > object_storage_certificates.pem To use this parameter, configure ServerProtocol to HTTPS.
     public var serverCertificate: Foundation.Data?
-    /// Specifies the domain name or IP version 4 (IPv4) address of the object storage server that your DataSync agent connects to.
+    /// Specifies the domain name or IP address (IPv4 or IPv6) of the object storage server that your DataSync agent connects to.
     /// This member is required.
     public var serverHostname: Swift.String?
     /// Specifies the port that your object storage server accepts inbound network traffic on (for example, port 443).
     public var serverPort: Swift.Int?
-    /// Specifies the protocol that your object storage server uses to communicate.
+    /// Specifies the protocol that your object storage server uses to communicate. If not specified, the default value is HTTPS.
     public var serverProtocol: DataSyncClientTypes.ObjectStorageServerProtocol?
     /// Specifies the object prefix for your object storage server. If this is a source location, DataSync only copies objects with this prefix. If this is a destination location, DataSync writes all objects with this prefix.
     public var subdirectory: Swift.String?
@@ -1493,7 +1493,7 @@ public struct CreateLocationSmbInput: Swift.Sendable {
     public var agentArns: [Swift.String]?
     /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication. For more information, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
     public var authenticationType: DataSyncClientTypes.SmbAuthenticationType?
-    /// Specifies the IPv4 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
+    /// Specifies the IPv4 or IPv6 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
     public var dnsIpAddresses: [Swift.String]?
     /// Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
     public var domain: Swift.String?
@@ -1501,17 +1501,13 @@ public struct CreateLocationSmbInput: Swift.Sendable {
     public var kerberosKeytab: Foundation.Data?
     /// Specifies a Kerberos configuration file (krb5.conf) that defines your Kerberos realm configuration. The file must be base64 encoded. If you're using the CLI, the encoding is done for you.
     public var kerberosKrb5Conf: Foundation.Data?
-    /// Specifies a Kerberos prinicpal, which is an identity in your Kerberos realm that has permission to access the files, folders, and file metadata in your SMB file server. A Kerberos principal might look like HOST/kerberosuser@MYDOMAIN.ORG. Principal names are case sensitive. Your DataSync task execution will fail if the principal that you specify for this parameter doesn’t exactly match the principal that you use to create the keytab file.
+    /// Specifies a Kerberos principal, which is an identity in your Kerberos realm that has permission to access the files, folders, and file metadata in your SMB file server. A Kerberos principal might look like HOST/kerberosuser@MYDOMAIN.ORG. Principal names are case sensitive. Your DataSync task execution will fail if the principal that you specify for this parameter doesn’t exactly match the principal that you use to create the keytab file.
     public var kerberosPrincipal: Swift.String?
     /// Specifies the version of the SMB protocol that DataSync uses to access your SMB file server.
     public var mountOptions: DataSyncClientTypes.SmbMountOptions?
     /// Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. This parameter applies only if AuthenticationType is set to NTLM.
     public var password: Swift.String?
-    /// Specifies the domain name or IP address of the SMB file server that your DataSync agent connects to. Remember the following when configuring this parameter:
-    ///
-    /// * You can't specify an IP version 6 (IPv6) address.
-    ///
-    /// * If you're using Kerberos authentication, you must specify a domain name.
+    /// Specifies the domain name or IP address (IPv4 or IPv6) of the SMB file server that your DataSync agent connects to. If you're using Kerberos authentication, you must specify a domain name.
     /// This member is required.
     public var serverHostname: Swift.String?
     /// Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirectory in the share path (for example, /path/to/subdirectory). Make sure that other SMB clients in your network can also mount this path. To copy all data in the subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
@@ -3352,7 +3348,7 @@ public struct DescribeLocationSmbOutput: Swift.Sendable {
     public var authenticationType: DataSyncClientTypes.SmbAuthenticationType?
     /// The time that the SMB location was created.
     public var creationTime: Foundation.Date?
-    /// The IPv4 addresses for the DNS servers that your SMB file server belongs to. This element applies only if AuthenticationType is set to KERBEROS.
+    /// The IPv4 or IPv6 addresses for the DNS servers that your SMB file server belongs to. This element applies only if AuthenticationType is set to KERBEROS.
     public var dnsIpAddresses: [Swift.String]?
     /// The name of the Windows domain that the SMB file server belongs to. This element applies only if AuthenticationType is set to NTLM.
     public var domain: Swift.String?
@@ -4095,7 +4091,7 @@ extension DataSyncClientTypes {
     public struct LocationListEntry: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the location. For Network File System (NFS) or Amazon EFS, the location is the export path. For Amazon S3, the location is the prefix path that you want to mount and use as the root of the location.
         public var locationArn: Swift.String?
-        /// Represents a list of URIs of a location. LocationUri returns an array that contains a list of locations when the [ListLocations](https://docs.aws.amazon.com/datasync/latest/userguide/API_ListLocations.html) operation is called. Format: TYPE://GLOBAL_ID/SUBDIR. TYPE designates the type of location (for example, nfs or s3). GLOBAL_ID is the globally unique identifier of the resource that backs the location. An example for EFS is us-east-2.fs-abcd1234. An example for Amazon S3 is the bucket name, such as myBucket. An example for NFS is a valid IPv4 address or a hostname that is compliant with Domain Name Service (DNS). SUBDIR is a valid file system path, delimited by forward slashes as is the *nix convention. For NFS and Amazon EFS, it's the export path to mount the location. For Amazon S3, it's the prefix path that you mount to and treat as the root of the location.
+        /// Represents a list of URIs of a location. LocationUri returns an array that contains a list of locations when the [ListLocations](https://docs.aws.amazon.com/datasync/latest/userguide/API_ListLocations.html) operation is called. Format: TYPE://GLOBAL_ID/SUBDIR. TYPE designates the type of location (for example, nfs or s3). GLOBAL_ID is the globally unique identifier of the resource that backs the location. An example for EFS is us-east-2.fs-abcd1234. An example for Amazon S3 is the bucket name, such as myBucket. An example for NFS is a valid IPv4 or IPv6 address or a hostname that is compliant with DNS. SUBDIR is a valid file system path, delimited by forward slashes as is the *nix convention. For NFS and Amazon EFS, it's the export path to mount the location. For Amazon S3, it's the prefix path that you mount to and treat as the root of the location.
         public var locationUri: Swift.String?
 
         public init(
@@ -4770,7 +4766,7 @@ public struct UpdateLocationNfsInput: Swift.Sendable {
     public var mountOptions: DataSyncClientTypes.NfsMountOptions?
     /// The DataSync agents that can connect to your Network File System (NFS) file server.
     public var onPremConfig: DataSyncClientTypes.OnPremConfig?
-    /// Specifies the DNS name or IP version 4 (IPv4) address of the NFS file server that your DataSync agent connects to.
+    /// Specifies the DNS name or IP address (IPv4 or IPv6) of the NFS file server that your DataSync agent connects to.
     public var serverHostname: Swift.String?
     /// Specifies the export path in your NFS file server that you want DataSync to mount. This path (or a subdirectory of the path) is where DataSync transfers data to or from. For information on configuring an export for DataSync, see [Accessing NFS file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#accessing-nfs).
     public var subdirectory: Swift.String?
@@ -4807,7 +4803,7 @@ public struct UpdateLocationObjectStorageInput: Swift.Sendable {
     /// Specifies the ARN of the object storage system location that you're updating.
     /// This member is required.
     public var locationArn: Swift.String?
-    /// Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server.
+    /// Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server. If you provide a secret using SecretKey, but do not provide secret configuration details using CmkSecretConfig or CustomSecretConfig, then DataSync stores the token using your Amazon Web Services account's Secrets Manager secret.
     public var secretKey: Swift.String?
     /// Specifies a certificate chain for DataSync to authenticate with your object storage system if the system uses a private or self-signed certificate authority (CA). You must specify a single .pem file with a full certificate chain (for example, file:///home/user/.ssh/object_storage_certificates.pem). The certificate chain might include:
     ///
@@ -4820,7 +4816,7 @@ public struct UpdateLocationObjectStorageInput: Swift.Sendable {
     ///
     /// You can concatenate your certificates into a .pem file (which can be up to 32768 bytes before base64 encoding). The following example cat command creates an object_storage_certificates.pem file that includes three certificates: cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem > object_storage_certificates.pem To use this parameter, configure ServerProtocol to HTTPS. Updating this parameter doesn't interfere with tasks that you have in progress.
     public var serverCertificate: Foundation.Data?
-    /// Specifies the domain name or IP version 4 (IPv4) address of the object storage server that your DataSync agent connects to.
+    /// Specifies the domain name or IP address (IPv4 or IPv6) of the object storage server that your DataSync agent connects to.
     public var serverHostname: Swift.String?
     /// Specifies the port that your object storage server accepts inbound network traffic on (for example, port 443).
     public var serverPort: Swift.Int?
@@ -4908,7 +4904,7 @@ public struct UpdateLocationSmbInput: Swift.Sendable {
     public var agentArns: [Swift.String]?
     /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication. For more information, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
     public var authenticationType: DataSyncClientTypes.SmbAuthenticationType?
-    /// Specifies the IPv4 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
+    /// Specifies the IP addresses (IPv4 or IPv6) for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
     public var dnsIpAddresses: [Swift.String]?
     /// Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
     public var domain: Swift.String?
@@ -4925,11 +4921,7 @@ public struct UpdateLocationSmbInput: Swift.Sendable {
     public var mountOptions: DataSyncClientTypes.SmbMountOptions?
     /// Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. This parameter applies only if AuthenticationType is set to NTLM.
     public var password: Swift.String?
-    /// Specifies the domain name or IP address of the SMB file server that your DataSync agent connects to. Remember the following when configuring this parameter:
-    ///
-    /// * You can't specify an IP version 6 (IPv6) address.
-    ///
-    /// * If you're using Kerberos authentication, you must specify a domain name.
+    /// Specifies the domain name or IP address (IPv4 or IPv6) of the SMB file server that your DataSync agent connects to. If you're using Kerberos authentication, you must specify a domain name.
     public var serverHostname: Swift.String?
     /// Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirectory in the share path (for example, /path/to/subdirectory). Make sure that other SMB clients in your network can also mount this path. To copy all data in the specified subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see [Providing DataSync access to SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions).
     public var subdirectory: Swift.String?

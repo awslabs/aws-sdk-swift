@@ -10074,6 +10074,34 @@ extension BedrockAgentClientTypes {
 
 extension BedrockAgentClientTypes {
 
+    /// Contains the storage configuration of the knowledge base for S3 vectors.
+    public struct S3VectorsConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the vector index used for the knowledge base. This ARN identifies the specific vector index resource within Amazon Bedrock.
+        public var indexArn: Swift.String?
+        /// The name of the vector index used for the knowledge base. This name identifies the vector index within the Amazon Bedrock service.
+        public var indexName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the S3 bucket where vector embeddings are stored. This bucket contains the vector data used by the knowledge base.
+        public var vectorBucketArn: Swift.String?
+
+        public init(
+            indexArn: Swift.String? = nil,
+            indexName: Swift.String? = nil,
+            vectorBucketArn: Swift.String? = nil
+        ) {
+            self.indexArn = indexArn
+            self.indexName = indexName
+            self.vectorBucketArn = vectorBucketArn
+        }
+    }
+}
+
+extension BedrockAgentClientTypes.S3VectorsConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "S3VectorsConfiguration(indexArn: \"CONTENT_REDACTED\", indexName: \"CONTENT_REDACTED\", vectorBucketArn: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentClientTypes {
+
     public enum KnowledgeBaseStorageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mongoDbAtlas
         case neptuneAnalytics
@@ -10082,6 +10110,7 @@ extension BedrockAgentClientTypes {
         case pinecone
         case rds
         case redisEnterpriseCloud
+        case s3Vectors
         case sdkUnknown(Swift.String)
 
         public static var allCases: [KnowledgeBaseStorageType] {
@@ -10092,7 +10121,8 @@ extension BedrockAgentClientTypes {
                 .opensearchServerless,
                 .pinecone,
                 .rds,
-                .redisEnterpriseCloud
+                .redisEnterpriseCloud,
+                .s3Vectors
             ]
         }
 
@@ -10110,6 +10140,7 @@ extension BedrockAgentClientTypes {
             case .pinecone: return "PINECONE"
             case .rds: return "RDS"
             case .redisEnterpriseCloud: return "REDIS_ENTERPRISE_CLOUD"
+            case .s3Vectors: return "S3_VECTORS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -10134,6 +10165,8 @@ extension BedrockAgentClientTypes {
         public var rdsConfiguration: BedrockAgentClientTypes.RdsConfiguration?
         /// Contains the storage configuration of the knowledge base in Redis Enterprise Cloud.
         public var redisEnterpriseCloudConfiguration: BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration?
+        /// The configuration settings for storing knowledge base data using S3 vectors. This includes vector index information and S3 bucket details for vector storage.
+        public var s3VectorsConfiguration: BedrockAgentClientTypes.S3VectorsConfiguration?
         /// The vector store service in which the knowledge base is stored.
         /// This member is required.
         public var type: BedrockAgentClientTypes.KnowledgeBaseStorageType?
@@ -10146,6 +10179,7 @@ extension BedrockAgentClientTypes {
             pineconeConfiguration: BedrockAgentClientTypes.PineconeConfiguration? = nil,
             rdsConfiguration: BedrockAgentClientTypes.RdsConfiguration? = nil,
             redisEnterpriseCloudConfiguration: BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration? = nil,
+            s3VectorsConfiguration: BedrockAgentClientTypes.S3VectorsConfiguration? = nil,
             type: BedrockAgentClientTypes.KnowledgeBaseStorageType? = nil
         ) {
             self.mongoDbAtlasConfiguration = mongoDbAtlasConfiguration
@@ -10155,6 +10189,7 @@ extension BedrockAgentClientTypes {
             self.pineconeConfiguration = pineconeConfiguration
             self.rdsConfiguration = rdsConfiguration
             self.redisEnterpriseCloudConfiguration = redisEnterpriseCloudConfiguration
+            self.s3VectorsConfiguration = s3VectorsConfiguration
             self.type = type
         }
     }
@@ -18230,6 +18265,7 @@ extension BedrockAgentClientTypes.StorageConfiguration {
         try writer["pineconeConfiguration"].write(value.pineconeConfiguration, with: BedrockAgentClientTypes.PineconeConfiguration.write(value:to:))
         try writer["rdsConfiguration"].write(value.rdsConfiguration, with: BedrockAgentClientTypes.RdsConfiguration.write(value:to:))
         try writer["redisEnterpriseCloudConfiguration"].write(value.redisEnterpriseCloudConfiguration, with: BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration.write(value:to:))
+        try writer["s3VectorsConfiguration"].write(value.s3VectorsConfiguration, with: BedrockAgentClientTypes.S3VectorsConfiguration.write(value:to:))
         try writer["type"].write(value.type)
     }
 
@@ -18244,6 +18280,26 @@ extension BedrockAgentClientTypes.StorageConfiguration {
         value.rdsConfiguration = try reader["rdsConfiguration"].readIfPresent(with: BedrockAgentClientTypes.RdsConfiguration.read(from:))
         value.mongoDbAtlasConfiguration = try reader["mongoDbAtlasConfiguration"].readIfPresent(with: BedrockAgentClientTypes.MongoDbAtlasConfiguration.read(from:))
         value.neptuneAnalyticsConfiguration = try reader["neptuneAnalyticsConfiguration"].readIfPresent(with: BedrockAgentClientTypes.NeptuneAnalyticsConfiguration.read(from:))
+        value.s3VectorsConfiguration = try reader["s3VectorsConfiguration"].readIfPresent(with: BedrockAgentClientTypes.S3VectorsConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentClientTypes.S3VectorsConfiguration {
+
+    static func write(value: BedrockAgentClientTypes.S3VectorsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["indexArn"].write(value.indexArn)
+        try writer["indexName"].write(value.indexName)
+        try writer["vectorBucketArn"].write(value.vectorBucketArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.S3VectorsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentClientTypes.S3VectorsConfiguration()
+        value.vectorBucketArn = try reader["vectorBucketArn"].readIfPresent()
+        value.indexArn = try reader["indexArn"].readIfPresent()
+        value.indexName = try reader["indexName"].readIfPresent()
         return value
     }
 }

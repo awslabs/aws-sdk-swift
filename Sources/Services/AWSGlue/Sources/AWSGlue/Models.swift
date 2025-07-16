@@ -14284,7 +14284,6 @@ public struct CreateTableInput: Swift.Sendable {
     /// A list of partition indexes, PartitionIndex structures, to create in the table.
     public var partitionIndexes: [GlueClientTypes.PartitionIndex]?
     /// The TableInput object that defines the metadata table to create in the catalog.
-    /// This member is required.
     public var tableInput: GlueClientTypes.TableInput?
     /// The ID of the transaction.
     public var transactionId: Swift.String?

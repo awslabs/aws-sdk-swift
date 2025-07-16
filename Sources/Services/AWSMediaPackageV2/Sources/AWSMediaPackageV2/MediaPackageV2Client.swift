@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaPackageV2Client: ClientRuntime.Client {
     public static let clientName = "MediaPackageV2Client"
-    public static let version = "1.3.51"
+    public static let version = "1.5.0"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaPackageV2Client.MediaPackageV2ClientConfiguration
     let serviceName = "MediaPackageV2"
@@ -382,7 +382,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
@@ -452,7 +452,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
@@ -527,7 +527,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
@@ -602,7 +602,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
@@ -677,7 +677,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
@@ -752,7 +752,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
@@ -820,7 +820,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
@@ -888,7 +888,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
@@ -956,7 +956,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
@@ -1023,7 +1023,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
@@ -1091,7 +1091,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
@@ -1159,7 +1159,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
@@ -1227,7 +1227,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
@@ -1295,7 +1295,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
@@ -1363,7 +1363,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
@@ -1431,7 +1431,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
@@ -1499,7 +1499,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
     /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
@@ -1567,7 +1567,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
@@ -1636,7 +1636,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
@@ -1705,7 +1705,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
     /// - `ThrottlingException` : The request throughput limit was exceeded.
@@ -1838,7 +1838,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
@@ -1910,7 +1910,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
@@ -1982,7 +1982,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
@@ -2051,7 +2051,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
@@ -2252,7 +2252,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
@@ -2325,7 +2325,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.
@@ -2398,7 +2398,7 @@ extension MediaPackageV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `AccessDeniedException` : Access is denied because either you don't have permissions to perform the requested operation or MediaPackage is getting throttling errors with CDN authorization. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide. Or, if you're using CDN authorization, you will receive this exception if MediaPackage receives a throttling error from Secrets Manager.
     /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
     /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
     /// - `ResourceNotFoundException` : The specified resource doesn't exist.

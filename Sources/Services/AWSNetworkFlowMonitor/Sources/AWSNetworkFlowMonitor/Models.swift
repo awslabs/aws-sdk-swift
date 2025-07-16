@@ -505,6 +505,8 @@ public struct CreateScopeInput: Swift.Sendable {
 extension NetworkFlowMonitorClientTypes {
 
     public enum ScopeStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deactivated
+        case deactivating
         case failed
         case inProgress
         case succeeded
@@ -512,6 +514,8 @@ extension NetworkFlowMonitorClientTypes {
 
         public static var allCases: [ScopeStatus] {
             return [
+                .deactivated,
+                .deactivating,
                 .failed,
                 .inProgress,
                 .succeeded
@@ -525,6 +529,8 @@ extension NetworkFlowMonitorClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .deactivated: return "DEACTIVATED"
+            case .deactivating: return "DEACTIVATING"
             case .failed: return "FAILED"
             case .inProgress: return "IN_PROGRESS"
             case .succeeded: return "SUCCEEDED"
@@ -541,7 +547,7 @@ public struct CreateScopeOutput: Swift.Sendable {
     /// The identifier for the scope that includes the resources you want to get metrics for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
     /// This member is required.
     public var scopeId: Swift.String?
-    /// The status for a call to create a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, or FAILED.
+    /// The status for a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, FAILED, DEACTIVATING, or DEACTIVATED. A status of DEACTIVATING means that you've requested a scope to be deactivated and Network Flow Monitor is in the process of deactivating the scope. A status of DEACTIVATED means that the deactivating process is complete.
     /// This member is required.
     public var status: NetworkFlowMonitorClientTypes.ScopeStatus?
     /// The tags for a scope.
@@ -1390,7 +1396,7 @@ public struct GetScopeOutput: Swift.Sendable {
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call.
     /// This member is required.
     public var scopeId: Swift.String?
-    /// The status of a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, or FAILED.
+    /// The status for a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, FAILED, DEACTIVATING, or DEACTIVATED. A status of DEACTIVATING means that you've requested a scope to be deactivated and Network Flow Monitor is in the process of deactivating the scope. A status of DEACTIVATED means that the deactivating process is complete.
     /// This member is required.
     public var status: NetworkFlowMonitorClientTypes.ScopeStatus?
     /// The tags for a scope.
@@ -1520,7 +1526,7 @@ extension NetworkFlowMonitorClientTypes {
         /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
         /// This member is required.
         public var scopeId: Swift.String?
-        /// The status of a scope. The status can be one of the following, depending on the state of scope creation: SUCCEEDED, IN_PROGRESS, or FAILED.
+        /// The status for a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, FAILED, DEACTIVATING, or DEACTIVATED. A status of DEACTIVATING means that you've requested a scope to be deactivated and Network Flow Monitor is in the process of deactivating the scope. A status of DEACTIVATED means that the deactivating process is complete.
         /// This member is required.
         public var status: NetworkFlowMonitorClientTypes.ScopeStatus?
 
@@ -1995,7 +2001,7 @@ public struct UpdateScopeOutput: Swift.Sendable {
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
     /// This member is required.
     public var scopeId: Swift.String?
-    /// The status for a call to update a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, or FAILED.
+    /// The status for a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, FAILED, DEACTIVATING, or DEACTIVATED. A status of DEACTIVATING means that you've requested a scope to be deactivated and Network Flow Monitor is in the process of deactivating the scope. A status of DEACTIVATED means that the deactivating process is complete.
     /// This member is required.
     public var status: NetworkFlowMonitorClientTypes.ScopeStatus?
     /// The tags for a scope.

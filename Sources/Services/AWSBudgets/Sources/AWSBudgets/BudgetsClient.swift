@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BudgetsClient: ClientRuntime.Client {
     public static let clientName = "BudgetsClient"
-    public static let version = "1.3.51"
+    public static let version = "1.5.0"
     let client: ClientRuntime.SdkHttpClient
     let config: BudgetsClient.BudgetsClientConfiguration
     let serviceName = "Budgets"
