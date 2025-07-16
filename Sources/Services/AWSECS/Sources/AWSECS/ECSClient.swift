@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ECSClient: ClientRuntime.Client {
     public static let clientName = "ECSClient"
-    public static let version = "1.4.0"
+    public static let version = "1.4.1"
     let client: ClientRuntime.SdkHttpClient
     let config: ECSClient.ECSClientConfiguration
     let serviceName = "ECS"
@@ -524,7 +524,7 @@ extension ECSClient {
     ///
     /// The deployment controller is the mechanism that determines how tasks are deployed for your service. The valid options are:
     ///
-    /// * ECS When you create a service which uses the ECS deployment controller, you can choose between the following deployment strategies:
+    /// * ECS When you create a service which uses the ECS deployment controller, you can choose between the following deployment strategies (which you can set in the “strategy” field in “deploymentConfiguration”): :
     ///
     /// * ROLLING: When you create a service which uses the rolling update (ROLLING) deployment strategy, the Amazon ECS service scheduler replaces the currently running tasks with new tasks. The number of tasks that Amazon ECS adds or removes from the service during a rolling update is controlled by the service deployment configuration. For more information, see [Deploy Amazon ECS services by replacing tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide. Rolling update deployments are best suited for the following scenarios:
     ///

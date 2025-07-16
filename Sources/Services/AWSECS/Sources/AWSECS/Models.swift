@@ -24,7 +24,6 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
-import struct Smithy.Document
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
@@ -58,11 +57,11 @@ extension ECSClientTypes {
     public struct AdvancedConfiguration: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the alternate target group for Amazon ECS blue/green deployments.
         public var alternateTargetGroupArn: Swift.String?
-        /// The Amazon Resource Name (ARN) that identifies the production listener rule for routing production traffic.
+        /// The Amazon Resource Name (ARN) that that identifies the production listener rule (in the case of an Application Load Balancer) or listener (in the case for an Network Load Balancer) for routing production traffic.
         public var productionListenerRule: Swift.String?
         /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon ECS permission to call the Elastic Load Balancing APIs for you.
         public var roleArn: Swift.String?
-        /// The Amazon Resource Name (ARN) that identifies the test listener rule or listener for routing test traffic.
+        /// The Amazon Resource Name (ARN) that identifies ) that identifies the test listener rule (in the case of an Application Load Balancer) or listener (in the case for an Network Load Balancer) for routing test traffic.
         public var testListenerRule: Swift.String?
 
         public init(
@@ -1180,7 +1179,7 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// One of the methods which provide a way for you to quickly identify when a deployment has failed, and then to optionally roll back the failure to the last working deployment. When the alarms are generated, Amazon ECS sets the service deployment to failed. Set the rollback parameter to have Amazon ECS to roll back your service to the last completed deployment after a failure. You can only use the DeploymentAlarms method to detect failures when the DeploymentController is set to ECS (rolling update). For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide .
+    /// One of the methods which provide a way for you to quickly identify when a deployment has failed, and then to optionally roll back the failure to the last working deployment. When the alarms are generated, Amazon ECS sets the service deployment to failed. Set the rollback parameter to have Amazon ECS to roll back your service to the last completed deployment after a failure. You can only use the DeploymentAlarms method to detect failures when the DeploymentController is set to ECS. For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide .
     public struct DeploymentAlarms: Swift.Sendable {
         /// One or more CloudWatch alarm names. Use a "," to separate the alarms.
         /// This member is required.
@@ -1271,19 +1270,15 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// A deployment lifecycle hook runs custom logic at specific stages of the deployment process. Currently, you can use Lambda functions as hook targets.
+    /// A deployment lifecycle hook runs custom logic at specific stages of the deployment process. Currently, you can use Lambda functions as hook targets. For more information, see [Lifecycle hooks for Amazon ECS service deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-lifecycle-hooks.html) in the Amazon Elastic Container Service Developer Guide.
     public struct DeploymentLifecycleHook: Swift.Sendable {
-        /// Optionally provide details about the hook. Use this field to pass custom parameters to your hook target (such as a Lambda function).
-        public var hookDetails: Smithy.Document?
         /// The Amazon Resource Name (ARN) of the hook target. Currently, only Lambda function ARNs are supported. You must provide this parameter when configuring a deployment lifecycle hook.
         public var hookTargetArn: Swift.String?
         /// The lifecycle stages at which to run the hook. Choose from these valid values:
         ///
-        /// * RECONCILE_SERVICE This stage only happens when you start a new service deployment with more than 1 service revision in an ACTIVE state. You can use a lifecycle hook for this stage.
+        /// * RECONCILE_SERVICE The reconciliation stage that only happens when you start a new service deployment with more than 1 service revision in an ACTIVE state. You can use a lifecycle hook for this stage.
         ///
         /// * PRE_SCALE_UP The green service revision has not started. The blue service revision is handling 100% of the production traffic. There is no test traffic. You can use a lifecycle hook for this stage.
-        ///
-        /// * SCALE_UP The time when the green service revision scales up to 100% and launches new tasks. The green service revision is not serving any traffic at this point. You can't use a lifecycle hook for this stage.
         ///
         /// * POST_SCALE_UP The green service revision has started. The blue service revision is handling 100% of the production traffic. There is no test traffic. You can use a lifecycle hook for this stage.
         ///
@@ -1293,11 +1288,7 @@ extension ECSClientTypes {
         ///
         /// * PRODUCTION_TRAFFIC_SHIFT Production traffic is shifting to the green service revision. The green service revision is migrating from 0% to 100% of production traffic. You can use a lifecycle hook for this stage.
         ///
-        /// * POST_PRODUCTION_TRAFFIC_SHIFT The production traffic shift is complete. Yes
-        ///
-        /// * BAKE_TIME The duration when both blue and green service revisions are running simultaneously. You can't use a lifecycle hook for this stage.
-        ///
-        /// * CLEAN_UP The blue service revision has completely scaled down to 0 running tasks. The green service revision is now the production service revision after this stage. You can't use a lifecycle hook for this stage.
+        /// * POST_PRODUCTION_TRAFFIC_SHIFT The production traffic shift is complete. You can use a lifecycle hook for this stage.
         ///
         ///
         /// You must provide this parameter when configuring a deployment lifecycle hook.
@@ -1306,12 +1297,10 @@ extension ECSClientTypes {
         public var roleArn: Swift.String?
 
         public init(
-            hookDetails: Smithy.Document? = nil,
             hookTargetArn: Swift.String? = nil,
             lifecycleStages: [ECSClientTypes.DeploymentLifecycleHookStage]? = nil,
             roleArn: Swift.String? = nil
         ) {
-            self.hookDetails = hookDetails
             self.hookTargetArn = hookTargetArn
             self.lifecycleStages = lifecycleStages
             self.roleArn = roleArn
@@ -1354,11 +1343,11 @@ extension ECSClientTypes {
     public struct DeploymentConfiguration: Swift.Sendable {
         /// Information about the CloudWatch alarms.
         public var alarms: ECSClientTypes.DeploymentAlarms?
-        /// The duration when both blue and green service revisions are running simultaneously after the production traffic has shifted. You must provide this parameter when you use the BLUE_GREEN deployment strategy.
+        /// The time period when both blue and green service revisions are running simultaneously after the production traffic has shifted. You must provide this parameter when you use the BLUE_GREEN deployment strategy.
         public var bakeTimeInMinutes: Swift.Int?
         /// The deployment circuit breaker can only be used for services using the rolling update (ECS) deployment type. The deployment circuit breaker determines whether a service deployment will fail if the service can't reach a steady state. If you use the deployment circuit breaker, a service deployment will transition to a failed state and stop launching new tasks. If you use the rollback option, when a service deployment fails, the service is rolled back to the last deployment that completed successfully. For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide
         public var deploymentCircuitBreaker: ECSClientTypes.DeploymentCircuitBreaker?
-        /// An array of deployment lifecycle hook objects to run custom logic at specific stages of the deployment lifecycle. These hooks allow you to run custom logic at key points during the deployment process.
+        /// An array of deployment lifecycle hook objects to run custom logic at specific stages of the deployment lifecycle.
         public var lifecycleHooks: [ECSClientTypes.DeploymentLifecycleHook]?
         /// If a service is using the rolling update (ECS) deployment type, the maximumPercent parameter represents an upper limit on the number of your service's tasks that are allowed in the RUNNING or PENDING state during a deployment, as a percentage of the desiredCount (rounded down to the nearest integer). This parameter enables you to define the deployment batch size. For example, if your service is using the REPLICA service scheduler and has a desiredCount of four tasks and a maximumPercent value of 200%, the scheduler may start four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available). The default maximumPercent value for a service using the REPLICA service scheduler is 200%. The Amazon ECS scheduler uses this parameter to replace unhealthy tasks by starting replacement tasks first and then stopping the unhealthy tasks, as long as cluster resources for starting replacement tasks are available. For more information about how the scheduler replaces unhealthy tasks, see [Amazon ECS services](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html). If a service is using either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types, and tasks in the service use the EC2 launch type, the maximum percent value is set to the default value. The maximum percent value is used to define the upper limit on the number of the tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. You can't specify a custom maximumPercent value for a service that uses either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and has tasks that use the EC2 launch type. If the service uses either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types, and the tasks in the service use the Fargate launch type, the maximum percent value is not used. The value is still returned when describing your service.
         public var maximumPercent: Swift.Int?
@@ -1925,7 +1914,7 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// The HTTP header rules used to identify and route test traffic during Amazon ECS blue/green deployments. These rules specify which HTTP headers to examine and what values to match for routing decisions.
+    /// The HTTP header rules used to identify and route test traffic during Amazon ECS blue/green deployments. These rules specify which HTTP headers to examine and what values to match for routing decisions. For more information, see [Service Connect for Amazon ECS blue/green deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect-blue-green.html) in the Amazon Elastic Container Service Developer Guide.
     public struct ServiceConnectTestTrafficHeaderRules: Swift.Sendable {
         /// The name of the HTTP header to examine for test traffic routing. Common examples include custom headers like X-Test-Version or X-Canary-Request that can be used to identify test traffic.
         /// This member is required.
@@ -1945,7 +1934,7 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// The test traffic routing configuration for Amazon ECS blue/green deployments. This configuration allows you to define rules for routing specific traffic to the new service revision during the deployment process, allowing for safe testing before full production traffic shift.
+    /// The test traffic routing configuration for Amazon ECS blue/green deployments. This configuration allows you to define rules for routing specific traffic to the new service revision during the deployment process, allowing for safe testing before full production traffic shift. For more information, see [Service Connect for Amazon ECS blue/green deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect-blue-green.html) in the Amazon Elastic Container Service Developer Guide.
     public struct ServiceConnectTestTrafficRules: Swift.Sendable {
         /// The HTTP header-based routing rules that determine which requests should be routed to the new service version during blue/green deployment testing. These rules provide fine-grained control over test traffic routing based on request headers.
         /// This member is required.
@@ -6393,15 +6382,25 @@ extension ECSClientTypes {
         public var finishedAt: Foundation.Date?
         /// The current lifecycle stage of the deployment. Possible values include:
         ///
-        /// * SCALE_UP_IN_PROGRESS - Creating the new (green) tasks
+        /// * RECONCILE_SERVICE The reconciliation stage that only happens when you start a new service deployment with more than 1 service revision in an ACTIVE state.
         ///
-        /// * TEST_TRAFFIC_SHIFT_IN_PROGRESS - Shifting test traffic to the new (green) tasks
+        /// * PRE_SCALE_UP The green service revision has not started. The blue service revision is handling 100% of the production traffic. There is no test traffic.
         ///
-        /// * PRODUCTION_TRAFFIC_SHIFT_IN_PROGRESS - Shifting production traffic to the new (green) tasks
+        /// * SCALE_UP The stage when the green service revision scales up to 100% and launches new tasks. The green service revision is not serving any traffic at this point.
         ///
-        /// * BAKE_TIME_IN_PROGRESS - The duration when both blue and green service revisions are running simultaneously after the production traffic has shifted
+        /// * POST_SCALE_UP The green service revision has started. The blue service revision is handling 100% of the production traffic. There is no test traffic.
         ///
-        /// * CLEAN_UP_IN_PROGRESS - Stopping the old (blue) tasks
+        /// * TEST_TRAFFIC_SHIFT The blue and green service revisions are running. The blue service revision handles 100% of the production traffic. The green service revision is migrating from 0% to 100% of test traffic.
+        ///
+        /// * POST_TEST_TRAFFIC_SHIFT The test traffic shift is complete. The green service revision handles 100% of the test traffic.
+        ///
+        /// * PRODUCTION_TRAFFIC_SHIFT Production traffic is shifting to the green service revision. The green service revision is migrating from 0% to 100% of production traffic.
+        ///
+        /// * POST_PRODUCTION_TRAFFIC_SHIFT The production traffic shift is complete.
+        ///
+        /// * BAKE_TIME The stage when both blue and green service revisions are running simultaneously after the production traffic has shifted.
+        ///
+        /// * CLEAN_UP The stage when the blue service revision has completely scaled down to 0 running tasks. The green service revision is now the production service revision after this stage.
         public var lifecycleStage: ECSClientTypes.ServiceDeploymentLifecycleStage?
         /// The rollback options the service deployment uses when the deployment fails.
         public var rollback: ECSClientTypes.Rollback?
@@ -14358,7 +14357,6 @@ extension ECSClientTypes.DeploymentLifecycleHook {
 
     static func write(value: ECSClientTypes.DeploymentLifecycleHook?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["hookDetails"].write(value.hookDetails)
         try writer["hookTargetArn"].write(value.hookTargetArn)
         try writer["lifecycleStages"].writeList(value.lifecycleStages, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ECSClientTypes.DeploymentLifecycleHookStage>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["roleArn"].write(value.roleArn)
@@ -14370,7 +14368,6 @@ extension ECSClientTypes.DeploymentLifecycleHook {
         value.hookTargetArn = try reader["hookTargetArn"].readIfPresent()
         value.roleArn = try reader["roleArn"].readIfPresent()
         value.lifecycleStages = try reader["lifecycleStages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ECSClientTypes.DeploymentLifecycleHookStage>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.hookDetails = try reader["hookDetails"].readIfPresent()
         return value
     }
 }

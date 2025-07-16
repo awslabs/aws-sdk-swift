@@ -62,7 +62,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 internal class SSOClient: ClientRuntime.Client {
     public static let clientName = "SSOClient"
-    public static let version = "1.4.0"
+    public static let version = "1.4.1"
     let client: ClientRuntime.SdkHttpClient
     let config: SSOClient.SSOClientConfiguration
     let serviceName = "SSO"
