@@ -440,13 +440,15 @@ extension MediaConvertClientTypes {
         case hev1
         case hev2
         case lc
+        case xhe
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AacCodecProfile] {
             return [
                 .hev1,
                 .hev2,
-                .lc
+                .lc,
+                .xhe
             ]
         }
 
@@ -460,6 +462,7 @@ extension MediaConvertClientTypes {
             case .hev1: return "HEV1"
             case .hev2: return "HEV2"
             case .lc: return "LC"
+            case .xhe: return "XHE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -499,6 +502,36 @@ extension MediaConvertClientTypes {
             case .codingMode11: return "CODING_MODE_1_1"
             case .codingMode20: return "CODING_MODE_2_0"
             case .codingMode51: return "CODING_MODE_5_1"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Choose the loudness measurement mode for your audio content. For music or advertisements: We recommend that you keep the default value, Program. For speech or other content: We recommend that you choose Anchor. When you do, MediaConvert optimizes the loudness of your output for clarify by applying speech gates.
+    public enum AacLoudnessMeasurementMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case anchor
+        case program
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AacLoudnessMeasurementMode] {
+            return [
+                .anchor,
+                .program
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .anchor: return "ANCHOR"
+            case .program: return "PROGRAM"
             case let .sdkUnknown(s): return s
             }
         }
@@ -643,6 +676,10 @@ extension MediaConvertClientTypes {
         public var codecProfile: MediaConvertClientTypes.AacCodecProfile?
         /// The Coding mode that you specify determines the number of audio channels and the audio channel layout metadata in your AAC output. Valid coding modes depend on the Rate control mode and Profile that you select. The following list shows the number of audio channels and channel layout for each coding mode. * 1.0 Audio Description (Receiver Mix): One channel, C. Includes audio description data from your stereo input. For more information see ETSI TS 101 154 Annex E. * 1.0 Mono: One channel, C. * 2.0 Stereo: Two channels, L, R. * 5.1 Surround: Six channels, C, L, R, Ls, Rs, LFE.
         public var codingMode: MediaConvertClientTypes.AacCodingMode?
+        /// Choose the loudness measurement mode for your audio content. For music or advertisements: We recommend that you keep the default value, Program. For speech or other content: We recommend that you choose Anchor. When you do, MediaConvert optimizes the loudness of your output for clarify by applying speech gates.
+        public var loudnessMeasurementMode: MediaConvertClientTypes.AacLoudnessMeasurementMode?
+        /// Specify the RAP (Random Access Point) interval for your xHE-AAC audio output. A RAP allows a decoder to decode audio data mid-stream, without the need to reference previous audio frames, and perform adaptive audio bitrate switching. To specify the RAP interval: Enter an integer from 2000 to 30000, in milliseconds. Smaller values allow for better seeking and more frequent stream switching, while large values improve compression efficiency. To have MediaConvert automatically determine the RAP interval: Leave blank.
+        public var rapInterval: Swift.Int?
         /// Specify the AAC rate control mode. For a constant bitrate: Choose CBR. Your AAC output bitrate will be equal to the value that you choose for Bitrate. For a variable bitrate: Choose VBR. Your AAC output bitrate will vary according to your audio content and the value that you choose for Bitrate quality.
         public var rateControlMode: MediaConvertClientTypes.AacRateControlMode?
         /// Enables LATM/LOAS AAC output. Note that if you use LATM/LOAS AAC in an output, you must choose "No container" for the output container.
@@ -651,6 +688,8 @@ extension MediaConvertClientTypes {
         public var sampleRate: Swift.Int?
         /// Use MPEG-2 AAC instead of MPEG-4 AAC audio for raw or MPEG-2 Transport Stream containers.
         public var specification: MediaConvertClientTypes.AacSpecification?
+        /// Specify the xHE-AAC loudness target. Enter an integer from 6 to 16, representing "loudness units". For more information, see the following specification: Supplementary information for R 128 EBU Tech 3342-2023.
+        public var targetLoudnessRange: Swift.Int?
         /// Specify the quality of your variable bitrate (VBR) AAC audio. For a list of approximate VBR bitrates, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/aac-support.html#aac_vbr
         public var vbrQuality: MediaConvertClientTypes.AacVbrQuality?
 
@@ -659,20 +698,26 @@ extension MediaConvertClientTypes {
             bitrate: Swift.Int? = nil,
             codecProfile: MediaConvertClientTypes.AacCodecProfile? = nil,
             codingMode: MediaConvertClientTypes.AacCodingMode? = nil,
+            loudnessMeasurementMode: MediaConvertClientTypes.AacLoudnessMeasurementMode? = nil,
+            rapInterval: Swift.Int? = nil,
             rateControlMode: MediaConvertClientTypes.AacRateControlMode? = nil,
             rawFormat: MediaConvertClientTypes.AacRawFormat? = nil,
             sampleRate: Swift.Int? = nil,
             specification: MediaConvertClientTypes.AacSpecification? = nil,
+            targetLoudnessRange: Swift.Int? = nil,
             vbrQuality: MediaConvertClientTypes.AacVbrQuality? = nil
         ) {
             self.audioDescriptionBroadcasterMix = audioDescriptionBroadcasterMix
             self.bitrate = bitrate
             self.codecProfile = codecProfile
             self.codingMode = codingMode
+            self.loudnessMeasurementMode = loudnessMeasurementMode
+            self.rapInterval = rapInterval
             self.rateControlMode = rateControlMode
             self.rawFormat = rawFormat
             self.sampleRate = sampleRate
             self.specification = specification
+            self.targetLoudnessRange = targetLoudnessRange
             self.vbrQuality = vbrQuality
         }
     }
@@ -19808,7 +19853,7 @@ extension MediaConvertClientTypes {
         public var av1Settings: MediaConvertClientTypes.Av1Settings?
         /// Required when you choose AVC-Intra for your output video codec. For more information about the AVC-Intra settings, see the relevant specification. For detailed information about SD and HD in AVC-Intra, see https://ieeexplore.ieee.org/document/7290936. For information about 4K/2K in AVC-Intra, see https://pro-av.panasonic.net/en/avc-ultra/AVC-ULTRAoverview.pdf.
         public var avcIntraSettings: MediaConvertClientTypes.AvcIntraSettings?
-        /// Specifies the video codec. This must be equal to one of the enum values defined by the object VideoCodec. To passthrough the video stream of your input JPEG2000, VC-3, AVC-INTRA or Apple ProRes video without any video encoding: Choose Passthrough. If you have multiple input videos, note that they must have identical encoding attributes. When you choose Passthrough, your output container must be MXF or QuickTime MOV.
+        /// Specifies the video codec. This must be equal to one of the enum values defined by the object VideoCodec. To passthrough the video stream of your input without any video encoding: Choose Passthrough. More information about passthrough codec support and job settings requirements, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/video-passthrough-feature-restrictions.html
         public var codec: MediaConvertClientTypes.VideoCodec?
         /// Required when you set Codec to the value FRAME_CAPTURE.
         public var frameCaptureSettings: MediaConvertClientTypes.FrameCaptureSettings?
@@ -21853,6 +21898,7 @@ extension MediaConvertClientTypes {
     public enum Format: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case matroska
         case mp4
+        case mxf
         case quicktime
         case webm
         case sdkUnknown(Swift.String)
@@ -21861,6 +21907,7 @@ extension MediaConvertClientTypes {
             return [
                 .matroska,
                 .mp4,
+                .mxf,
                 .quicktime,
                 .webm
             ]
@@ -21875,6 +21922,7 @@ extension MediaConvertClientTypes {
             switch self {
             case .matroska: return "matroska"
             case .mp4: return "mp4"
+            case .mxf: return "mxf"
             case .quicktime: return "quicktime"
             case .webm: return "webm"
             case let .sdkUnknown(s): return s
@@ -21949,6 +21997,7 @@ extension MediaConvertClientTypes {
         case eac3
         case flac
         case hevc
+        case jpeg2000
         case mjpeg
         case mp3
         case mp4v
@@ -21975,6 +22024,7 @@ extension MediaConvertClientTypes {
                 .eac3,
                 .flac,
                 .hevc,
+                .jpeg2000,
                 .mjpeg,
                 .mp3,
                 .mp4v,
@@ -22007,6 +22057,7 @@ extension MediaConvertClientTypes {
             case .eac3: return "EAC3"
             case .flac: return "FLAC"
             case .hevc: return "HEVC"
+            case .jpeg2000: return "JPEG2000"
             case .mjpeg: return "MJPEG"
             case .mp3: return "MP3"
             case .mp4v: return "MP4V"
@@ -22392,7 +22443,7 @@ extension MediaConvertClientTypes {
     public struct Container: Swift.Sendable {
         /// The total duration of your media file, in seconds.
         public var duration: Swift.Double?
-        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), or WebM. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
+        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM or MXF. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
         public var format: MediaConvertClientTypes.Format?
         /// Details about each track (video, audio, or data) in the media file.
         public var tracks: [MediaConvertClientTypes.Track]?
@@ -28409,10 +28460,13 @@ extension MediaConvertClientTypes.AacSettings {
         try writer["bitrate"].write(value.bitrate)
         try writer["codecProfile"].write(value.codecProfile)
         try writer["codingMode"].write(value.codingMode)
+        try writer["loudnessMeasurementMode"].write(value.loudnessMeasurementMode)
+        try writer["rapInterval"].write(value.rapInterval)
         try writer["rateControlMode"].write(value.rateControlMode)
         try writer["rawFormat"].write(value.rawFormat)
         try writer["sampleRate"].write(value.sampleRate)
         try writer["specification"].write(value.specification)
+        try writer["targetLoudnessRange"].write(value.targetLoudnessRange)
         try writer["vbrQuality"].write(value.vbrQuality)
     }
 
@@ -28423,10 +28477,13 @@ extension MediaConvertClientTypes.AacSettings {
         value.bitrate = try reader["bitrate"].readIfPresent()
         value.codecProfile = try reader["codecProfile"].readIfPresent()
         value.codingMode = try reader["codingMode"].readIfPresent()
+        value.loudnessMeasurementMode = try reader["loudnessMeasurementMode"].readIfPresent()
+        value.rapInterval = try reader["rapInterval"].readIfPresent()
         value.rateControlMode = try reader["rateControlMode"].readIfPresent()
         value.rawFormat = try reader["rawFormat"].readIfPresent()
         value.sampleRate = try reader["sampleRate"].readIfPresent()
         value.specification = try reader["specification"].readIfPresent()
+        value.targetLoudnessRange = try reader["targetLoudnessRange"].readIfPresent()
         value.vbrQuality = try reader["vbrQuality"].readIfPresent()
         return value
     }
