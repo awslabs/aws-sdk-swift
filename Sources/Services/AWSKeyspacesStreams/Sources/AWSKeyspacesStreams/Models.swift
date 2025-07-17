@@ -185,9 +185,9 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 public struct GetRecordsInput: Swift.Sendable {
-    /// The maximum number of records to return in a single GetRecords request. Default value is 1000. You can specify a limit between 1 and 10000, but the actual number returned might be less than the specified maximum if the size of the data for the returned records exceeds the internal size limit.
+    /// The maximum number of records to return in a single GetRecords request. Default value is 1000. You can specify a limit between 1 and 1000, but the actual number returned might be less than the specified maximum if the size of the data for the returned records exceeds the internal size limit.
     public var maxResults: Swift.Int?
-    /// The unique identifier of the shard iterator. A shard iterator specifies the position in the shard from which you want to start reading data records sequentially. You obtain this value by calling the GetShardIterator operation. Each shard iterator is valid for 5 minutes after creation.
+    /// The unique identifier of the shard iterator. A shard iterator specifies the position in the shard from which you want to start reading data records sequentially. You obtain this value by calling the GetShardIterator operation. Each shard iterator is valid for 15 minutes after creation.
     /// This member is required.
     public var shardIterator: Swift.String?
 
@@ -321,7 +321,7 @@ public struct GetShardIteratorInput: Swift.Sendable {
 }
 
 public struct GetShardIteratorOutput: Swift.Sendable {
-    /// The unique identifier for the shard iterator. This value is used in the GetRecords operation to retrieve data records from the specified shard. Each shard iterator expires 5 minutes after it is returned to the requester.
+    /// The unique identifier for the shard iterator. This value is used in the GetRecords operation to retrieve data records from the specified shard. Each shard iterator expires 15 minutes after it is returned to the requester.
     public var shardIterator: Swift.String?
 
     public init(
@@ -377,7 +377,7 @@ extension KeyspacesStreamsClientTypes {
 }
 
 public struct GetStreamInput: Swift.Sendable {
-    /// The maximum number of shard objects to return in a single GetStream request. Default value is 100. The minimum value is 1 and the maximum value is 1000.
+    /// The maximum number of shard objects to return in a single GetStream request. Default value is 100. The minimum value is 1 and the maximum value is 100.
     public var maxResults: Swift.Int?
     /// An optional pagination token provided by a previous GetStream operation. If this parameter is specified, the response includes only records beyond the token, up to the value specified by maxResults.
     public var nextToken: Swift.String?
@@ -573,7 +573,7 @@ public struct GetStreamOutput: Swift.Sendable {
 public struct ListStreamsInput: Swift.Sendable {
     /// The name of the keyspace for which to list streams. If specified, only streams associated with tables in this keyspace are returned. If omitted, streams from all keyspaces are included in the results.
     public var keyspaceName: Swift.String?
-    /// The maximum number of streams to return in a single ListStreams request. Default value is 100. The minimum value is 1 and the maximum value is 1000.
+    /// The maximum number of streams to return in a single ListStreams request. Default value is 100. The minimum value is 1 and the maximum value is 100.
     public var maxResults: Swift.Int?
     /// An optional pagination token provided by a previous ListStreams operation. If this parameter is specified, the response includes only records beyond the token, up to the value specified by maxResults.
     public var nextToken: Swift.String?

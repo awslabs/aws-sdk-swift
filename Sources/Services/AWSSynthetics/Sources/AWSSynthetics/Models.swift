@@ -311,17 +311,67 @@ extension SyntheticsClientTypes {
 
 extension SyntheticsClientTypes {
 
+    public enum DependencyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case lambdalayer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DependencyType] {
+            return [
+                .lambdalayer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .lambdalayer: return "LambdaLayer"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
+    /// A structure that contains information about a dependency for a canary.
+    public struct Dependency: Swift.Sendable {
+        /// The dependency reference. For Lambda layers, this is the ARN of the Lambda layer. For more information about Lambda ARN format, see [Lambda](https://docs.aws.amazon.com/lambda/latest/api/API_Layer.html).
+        /// This member is required.
+        public var reference: Swift.String?
+        /// The type of dependency. Valid value is LambdaLayer.
+        public var type: SyntheticsClientTypes.DependencyType?
+
+        public init(
+            reference: Swift.String? = nil,
+            type: SyntheticsClientTypes.DependencyType? = nil
+        ) {
+            self.reference = reference
+            self.type = type
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
     /// This structure contains information about the canary's Lambda handler and where its code is stored by CloudWatch Synthetics.
     public struct CanaryCodeOutput: Swift.Sendable {
+        /// A list of dependencies that are used for running this canary. The dependencies are specified as a key-value pair, where the key is the type of dependency and the value is the dependency reference.
+        public var dependencies: [SyntheticsClientTypes.Dependency]?
         /// The entry point to use for the source code when running the canary.
         public var handler: Swift.String?
         /// The ARN of the Lambda layer where Synthetics stores the canary script code.
         public var sourceLocationArn: Swift.String?
 
         public init(
+            dependencies: [SyntheticsClientTypes.Dependency]? = nil,
             handler: Swift.String? = nil,
             sourceLocationArn: Swift.String? = nil
         ) {
+            self.dependencies = dependencies
             self.handler = handler
             self.sourceLocationArn = sourceLocationArn
         }
@@ -961,6 +1011,8 @@ extension SyntheticsClientTypes {
     ///
     /// * For Python canaries, the folder structure must be python/myCanaryFilename.py  or python/myFolder/myCanaryFilename.py  For more information, see [Packaging your Python canary files](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_WritingCanary_Python.html#CloudWatch_Synthetics_Canaries_WritingCanary_Python_package)
     public struct CanaryCodeInput: Swift.Sendable {
+        /// A list of dependencies that should be used for running this canary. Specify the dependencies as a key-value pair, where the key is the type of dependency and the value is the dependency reference.
+        public var dependencies: [SyntheticsClientTypes.Dependency]?
         /// The entry point to use for the source code when running the canary. For canaries that use the syn-python-selenium-1.0 runtime or a syn-nodejs.puppeteer runtime earlier than syn-nodejs.puppeteer-3.4, the handler must be specified as  fileName.handler. For syn-python-selenium-1.1, syn-nodejs.puppeteer-3.4, and later runtimes, the handler can be specified as  fileName.functionName , or you can specify a folder where canary scripts reside as  folder/fileName.functionName .
         /// This member is required.
         public var handler: Swift.String?
@@ -974,12 +1026,14 @@ extension SyntheticsClientTypes {
         public var zipFile: Foundation.Data?
 
         public init(
+            dependencies: [SyntheticsClientTypes.Dependency]? = nil,
             handler: Swift.String? = nil,
             s3Bucket: Swift.String? = nil,
             s3Key: Swift.String? = nil,
             s3Version: Swift.String? = nil,
             zipFile: Foundation.Data? = nil
         ) {
+            self.dependencies = dependencies
             self.handler = handler
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key
@@ -3380,6 +3434,24 @@ extension SyntheticsClientTypes.CanaryCodeOutput {
         var value = SyntheticsClientTypes.CanaryCodeOutput()
         value.sourceLocationArn = try reader["SourceLocationArn"].readIfPresent()
         value.handler = try reader["Handler"].readIfPresent()
+        value.dependencies = try reader["Dependencies"].readListIfPresent(memberReadingClosure: SyntheticsClientTypes.Dependency.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.Dependency {
+
+    static func write(value: SyntheticsClientTypes.Dependency?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Reference"].write(value.reference)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.Dependency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.Dependency()
+        value.type = try reader["Type"].readIfPresent()
+        value.reference = try reader["Reference"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3491,6 +3563,7 @@ extension SyntheticsClientTypes.CanaryCodeInput {
 
     static func write(value: SyntheticsClientTypes.CanaryCodeInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Dependencies"].writeList(value.dependencies, memberWritingClosure: SyntheticsClientTypes.Dependency.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Handler"].write(value.handler)
         try writer["S3Bucket"].write(value.s3Bucket)
         try writer["S3Key"].write(value.s3Key)
