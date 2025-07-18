@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CostExplorerClient: ClientRuntime.Client {
     public static let clientName = "CostExplorerClient"
-    public static let version = "1.5.1"
+    public static let version = "1.5.2"
     let client: ClientRuntime.SdkHttpClient
     let config: CostExplorerClient.CostExplorerClientConfiguration
     let serviceName = "Cost Explorer"

@@ -3417,13 +3417,13 @@ extension SSMClientTypes {
 
     /// Information about the patches to use to update the managed nodes, including target operating systems and source repository. Applies to Linux managed nodes only.
     public struct PatchSource: Swift.Sendable {
-        /// The value of the yum repo configuration. For example: [main]
+        /// The value of the repo configuration. Example for yum repositories [main]
         ///     name=MyCustomRepository
         ///
         ///
         ///     baseurl=https://my-custom-repository
         ///
-        /// enabled=1 For information about other options available for your yum repository configuration, see [dnf.conf(5)](https://man7.org/linux/man-pages/man5/dnf.conf.5.html).
+        /// enabled=1 For information about other options available for your yum repository configuration, see [dnf.conf(5)](https://man7.org/linux/man-pages/man5/dnf.conf.5.html) on the man7.org website. Examples for Ubuntu Server and Debian Server deb http://security.ubuntu.com/ubuntu jammy maindeb https://site.example.com/debian distribution component1 component2 component3 Repo information for Ubuntu Server repositories must be specifed in a single line. For more examples and information, see [jammy (5) sources.list.5.gz](https://manpages.ubuntu.com/manpages/jammy/man5/sources.list.5.html) on the Ubuntu Server Manuals website and [sources.list format](https://wiki.debian.org/SourcesList#sources.list_format) on the Debian Wiki.
         /// This member is required.
         public var configuration: Swift.String?
         /// The name specified to identify the patch source.
@@ -11557,14 +11557,39 @@ extension SSMClientTypes {
 
 extension SSMClientTypes {
 
-    /// One or more filters. Use a filter to return a more specific list of results.
+    /// One or more filters. Use a filter to return a more specific list of results. Example formats for the aws ssm get-inventory command: --filters Key=AWS:InstanceInformation.AgentType,Values=amazon-ssm-agent,Type=Equal
+    ///     --filters Key=AWS:InstanceInformation.AgentVersion,Values=3.3.2299.0,Type=Equal
+    ///
+    ///
+    ///     --filters Key=AWS:InstanceInformation.ComputerName,Values=ip-192.0.2.0.us-east-2.compute.internal,Type=Equal
+    ///
+    ///
+    ///     --filters Key=AWS:InstanceInformation.InstanceId,Values=i-0a4cd6ceffEXAMPLE,i-1a2b3c4d5e6EXAMPLE,Type=Equal
+    ///
+    ///
+    ///     --filters Key=AWS:InstanceInformation.InstanceStatus,Values=Active,Type=Equal
+    ///
+    ///
+    ///     --filters Key=AWS:InstanceInformation.IpAddress,Values=198.51.100.0,Type=Equal
+    ///
+    ///
+    ///     --filters Key=AWS:InstanceInformation.PlatformName,Values="Amazon Linux",Type=Equal
+    ///
+    ///
+    ///     --filters Key=AWS:InstanceInformation.PlatformType,Values=Linux,Type=Equal
+    ///
+    ///
+    ///     --filters Key=AWS:InstanceInformation.PlatformVersion,Values=2023,Type=BeginWith
+    ///
+    ///
+    ///     --filters Key=AWS:InstanceInformation.ResourceType,Values=EC2Instance,Type=Equal
     public struct InventoryFilter: Swift.Sendable {
         /// The name of the filter key.
         /// This member is required.
         public var key: Swift.String?
         /// The type of filter. The Exists filter must be used with aggregators. For more information, see [Aggregating inventory data](https://docs.aws.amazon.com/systems-manager/latest/userguide/inventory-aggregate.html) in the Amazon Web Services Systems Manager User Guide.
         public var type: SSMClientTypes.InventoryQueryOperatorType?
-        /// Inventory filter values. Example: inventory filter where managed node IDs are specified as values Key=AWS:InstanceInformation.InstanceId,Values= i-a12b3c4d5e6g, i-1a2b3c4d5e6,Type=Equal.
+        /// Inventory filter values.
         /// This member is required.
         public var values: [Swift.String]?
 
@@ -14424,7 +14449,7 @@ extension SSMClientTypes {
     public struct ComplianceExecutionSummary: Swift.Sendable {
         /// An ID created by the system when PutComplianceItems was called. For example, CommandID is a valid execution ID. You can use this ID in subsequent calls.
         public var executionId: Swift.String?
-        /// The time the execution ran as a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z'
+        /// The time the execution ran as a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z' For State Manager associations, this timestamp represents when the compliance status was captured and reported by the Systems Manager service, not when the underlying association was actually executed on the managed node. To track actual association execution times, use the [DescribeAssociationExecutionTargets] command or check the association execution history in the Systems Manager console.
         /// This member is required.
         public var executionTime: Foundation.Date?
         /// The type of execution. For example, Command is a valid execution type.
@@ -14520,7 +14545,7 @@ extension SSMClientTypes {
         public var complianceType: Swift.String?
         /// A "Key": "Value" tag combination for the compliance item.
         public var details: [Swift.String: Swift.String]?
-        /// A summary for the compliance item. The summary includes an execution ID, the execution type (for example, command), and the execution time.
+        /// A summary for the compliance item. The summary includes an execution ID, the execution type (for example, command), and the execution time. For State Manager associations, the ExecutionTime value represents when the compliance status was captured and aggregated by the Systems Manager service, not necessarily when the underlying association was executed on the managed node. State Manager updates compliance status for all associations on an instance whenever any association executes, which means multiple associations may show the same execution time even if they were executed at different times.
         public var executionSummary: SSMClientTypes.ComplianceExecutionSummary?
         /// An ID for the compliance item. For example, if the compliance item is a Windows patch, the ID could be the number of the KB article; for example: KB4010320.
         public var id: Swift.String?
@@ -17152,7 +17177,7 @@ public struct PutParameterInput: Swift.Sendable {
     ///
     /// * Parameter names can include only the following symbols and letters: a-zA-Z0-9_.- In addition, the slash character ( / ) is used to delineate hierarchies in parameter names. For example: /Dev/Production/East/Project-ABC/MyParameter
     ///
-    /// * A parameter name can't include spaces.
+    /// * Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.
     ///
     /// * Parameter hierarchies are limited to a maximum depth of fifteen levels.
     ///

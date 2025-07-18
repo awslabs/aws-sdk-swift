@@ -6442,6 +6442,66 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Specify how MediaConvert handles gaps between media segments in your TAMS source. Gaps can occur in live streams due to network issues or other interruptions. Choose from the following options: * Skip gaps - Default. Skip over gaps and join segments together. This creates a continuous output with no blank frames, but may cause timeline discontinuities. * Fill with black - Insert black frames to fill gaps between segments. This maintains timeline continuity but adds black frames where content is missing. * Hold last frame - Repeat the last frame before a gap until the next segment begins. This maintains visual continuity during gaps.
+    public enum TamsGapHandling: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fillWithBlack
+        case holdLastFrame
+        case skipGaps
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TamsGapHandling] {
+            return [
+                .fillWithBlack,
+                .holdLastFrame,
+                .skipGaps
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fillWithBlack: return "FILL_WITH_BLACK"
+            case .holdLastFrame: return "HOLD_LAST_FRAME"
+            case .skipGaps: return "SKIP_GAPS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Specify a Time Addressable Media Store (TAMS) server as an input source. TAMS is an open-source API specification that provides access to time-segmented media content. Use TAMS to retrieve specific time ranges from live or archived media streams. When you specify TAMS settings, MediaConvert connects to your TAMS server, retrieves the media segments for your specified time range, and processes them as a single input. This enables workflows like extracting clips from live streams or processing specific portions of archived content. To use TAMS, you must: 1. Have access to a TAMS-compliant server 2. Specify the server URL in the Input file URL field 3. Provide the required SourceId and Timerange parameters 4. Configure authentication, if your TAMS server requires it
+    public struct InputTamsSettings: Swift.Sendable {
+        /// Specify the ARN (Amazon Resource Name) of an EventBridge Connection to authenticate with your TAMS server. The EventBridge Connection stores your authentication credentials securely. MediaConvert assumes your job's IAM role to access this connection, so ensure the role has the events:RetrieveConnectionCredentials, secretsmanager:DescribeSecret, and secretsmanager:GetSecretValue permissions. Format: arn:aws:events:region:account-id:connection/connection-name/unique-id
+        public var authConnectionArn: Swift.String?
+        /// Specify how MediaConvert handles gaps between media segments in your TAMS source. Gaps can occur in live streams due to network issues or other interruptions. Choose from the following options: * Skip gaps - Default. Skip over gaps and join segments together. This creates a continuous output with no blank frames, but may cause timeline discontinuities. * Fill with black - Insert black frames to fill gaps between segments. This maintains timeline continuity but adds black frames where content is missing. * Hold last frame - Repeat the last frame before a gap until the next segment begins. This maintains visual continuity during gaps.
+        public var gapHandling: MediaConvertClientTypes.TamsGapHandling?
+        /// Specify the unique identifier for the media source in your TAMS server. MediaConvert uses this source ID to locate the appropriate flows containing the media segments you want to process. The source ID corresponds to a specific media source registered in your TAMS server. This source must be of type urn:x-nmos:format:multi, and can can reference multiple flows for audio, video, or combined audio/video content. MediaConvert automatically selects the highest quality flows available for your job. This setting is required when include TAMS settings in your job.
+        public var sourceId: Swift.String?
+        /// Specify the time range of media segments to retrieve from your TAMS server. MediaConvert fetches only the segments that fall within this range. Use the format specified by your TAMS server implementation. This must be two timestamp values with the format {sign?}{seconds}:{nanoseconds}, separated by an underscore, surrounded by either parentheses or square brackets. Example: [15:0_35:0) This setting is required when include TAMS settings in your job.
+        public var timerange: Swift.String?
+
+        public init(
+            authConnectionArn: Swift.String? = nil,
+            gapHandling: MediaConvertClientTypes.TamsGapHandling? = nil,
+            sourceId: Swift.String? = nil,
+            timerange: Swift.String? = nil
+        ) {
+            self.authConnectionArn = authConnectionArn
+            self.gapHandling = gapHandling
+            self.sourceId = sourceId
+            self.timerange = timerange
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Use this Timecode source setting, located under the input settings, to specify how the service counts input video frames. This input frame count affects only the behavior of features that apply to a single input at a time, such as input clipping and synchronizing some captions formats. Choose Embedded to use the timecodes in your input video. Choose Start at zero to start the first frame at zero. Choose Specified start to start the first frame at the timecode that you specify in the setting Start timecode. If you don't specify a value for Timecode source, the service will use Embedded by default. For more information about timecodes, see https://docs.aws.amazon.com/console/mediaconvert/timecode.
     public enum InputTimecodeSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case embedded
@@ -6538,11 +6598,11 @@ extension MediaConvertClientTypes {
 
     /// Specify a rectangle of content to crop and use from your video overlay's input video. When you do, MediaConvert uses the cropped dimensions that you specify under X offset, Y offset, Width, and Height.
     public struct VideoOverlayCrop: Swift.Sendable {
-        /// Specify the height of the video overlay cropping rectangle. To use the same height as your overlay input video: Keep blank, or enter 0. To specify a different height for the cropping rectangle: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 100 and choose Pixels, the cropping rectangle will 100 pixels high. When you enter 10, choose Percentage, and your overlay input video is 1920x1080, the cropping rectangle will be 108 pixels high.
+        /// Specify the height of the video overlay cropping rectangle. To use the same height as your overlay input video: Keep blank, or enter 0. To specify a different height for the cropping rectangle: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 100 and choose Pixels, the cropping rectangle will be 100 pixels high. When you enter 10, choose Percentage, and your overlay input video is 1920x1080, the cropping rectangle will be 108 pixels high.
         public var height: Swift.Int?
         /// Specify the Unit type to use when you enter a value for X position, Y position, Width, or Height. You can choose Pixels or Percentage. Leave blank to use the default value, Pixels.
         public var unit: MediaConvertClientTypes.VideoOverlayUnit?
-        /// Specify the width of the video overlay cropping rectangle. To use the same width as your overlay input video: Keep blank, or enter 0. To specify a different width for the cropping rectangle: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 100 and choose Pixels, the cropping rectangle will 100 pixels wide. When you enter 10, choose Percentage, and your overlay input video is 1920x1080, the cropping rectangle will be 192 pixels wide.
+        /// Specify the width of the video overlay cropping rectangle. To use the same width as your overlay input video: Keep blank, or enter 0. To specify a different width for the cropping rectangle: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 100 and choose Pixels, the cropping rectangle will be 100 pixels wide. When you enter 10, choose Percentage, and your overlay input video is 1920x1080, the cropping rectangle will be 192 pixels wide.
         public var width: Swift.Int?
         /// Specify the distance between the cropping rectangle and the left edge of your overlay video's frame. To position the cropping rectangle along the left edge: Keep blank, or enter 0. To position the cropping rectangle to the right, relative to the left edge of your overlay video's frame: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 10 and choose Pixels, the cropping rectangle will be positioned 10 pixels from the left edge of the overlay video's frame. When you enter 10, choose Percentage, and your overlay input video is 1920x1080, the cropping rectangle will be positioned 192 pixels from the left edge of the overlay video's frame.
         public var x: Swift.Int?
@@ -7076,7 +7136,7 @@ extension MediaConvertClientTypes {
         public var dolbyVisionMetadataXml: Swift.String?
         /// Use Dynamic audio selectors when you do not know the track layout of your source when you submit your job, but want to select multiple audio tracks. When you include an audio track in your output and specify this Dynamic audio selector as the Audio source, MediaConvert creates an output audio track for each dynamically selected track. Note that when you include a Dynamic audio selector for two or more inputs, each input must have the same number of audio tracks and audio channels.
         public var dynamicAudioSelectors: [Swift.String: MediaConvertClientTypes.DynamicAudioSelector]?
-        /// Specify the source file for your transcoding job. You can use multiple inputs in a single job. The service concatenates these inputs, in the order that you specify them in the job, to create the outputs. If your input format is IMF, specify your input by providing the path to your CPL. For example, "s3://bucket/vf/cpl.xml". If the CPL is in an incomplete IMP, make sure to use Supplemental IMPs to specify any supplemental IMPs that contain assets referenced by the CPL.
+        /// Specify the source file for your transcoding job. You can use multiple inputs in a single job. The service concatenates these inputs, in the order that you specify them in the job, to create the outputs. For standard inputs, provide the path to your S3, HTTP, or HTTPS source file. For example, s3://amzn-s3-demo-bucket/input.mp4 for an Amazon S3 input or https://example.com/input.mp4 for an HTTPS input. For TAMS inputs, specify the HTTPS endpoint of your TAMS server. For example, https://tams-server.example.com . When you do, also specify Source ID, Timerange, GAP handling, and the Authorization connection ARN under TAMS settings. (Don't include these parameters in the Input file URL.) For IMF inputs, specify your input by providing the path to your CPL. For example, s3://amzn-s3-demo-bucket/vf/cpl.xml . If the CPL is in an incomplete IMP, make sure to use Supplemental IMPsto specify any supplemental IMPs that contain assets referenced by the CPL.
         public var fileInput: Swift.String?
         /// Specify whether to apply input filtering to improve the video quality of your input. To apply filtering depending on your input type and quality: Choose Auto. To apply no filtering: Choose Disable. To apply filtering regardless of your input type and quality: Choose Force. When you do, you must also specify a value for Filter strength.
         public var filterEnable: MediaConvertClientTypes.InputFilterEnable?
@@ -7100,6 +7160,8 @@ extension MediaConvertClientTypes {
         public var psiControl: MediaConvertClientTypes.InputPsiControl?
         /// Provide a list of any necessary supplemental IMPs. You need supplemental IMPs if the CPL that you're using for your input is in an incomplete IMP. Specify either the supplemental IMP directories with a trailing slash or the ASSETMAP.xml files. For example ["s3://bucket/ov/", "s3://bucket/vf2/ASSETMAP.xml"]. You don't need to specify the IMP that contains your input CPL, because the service automatically detects it.
         public var supplementalImps: [Swift.String]?
+        /// Specify a Time Addressable Media Store (TAMS) server as an input source. TAMS is an open-source API specification that provides access to time-segmented media content. Use TAMS to retrieve specific time ranges from live or archived media streams. When you specify TAMS settings, MediaConvert connects to your TAMS server, retrieves the media segments for your specified time range, and processes them as a single input. This enables workflows like extracting clips from live streams or processing specific portions of archived content. To use TAMS, you must: 1. Have access to a TAMS-compliant server 2. Specify the server URL in the Input file URL field 3. Provide the required SourceId and Timerange parameters 4. Configure authentication, if your TAMS server requires it
+        public var tamsSettings: MediaConvertClientTypes.InputTamsSettings?
         /// Use this Timecode source setting, located under the input settings, to specify how the service counts input video frames. This input frame count affects only the behavior of features that apply to a single input at a time, such as input clipping and synchronizing some captions formats. Choose Embedded to use the timecodes in your input video. Choose Start at zero to start the first frame at zero. Choose Specified start to start the first frame at the timecode that you specify in the setting Start timecode. If you don't specify a value for Timecode source, the service will use Embedded by default. For more information about timecodes, see https://docs.aws.amazon.com/console/mediaconvert/timecode.
         public var timecodeSource: MediaConvertClientTypes.InputTimecodeSource?
         /// Specify the timecode that you want the service to use for this input's initial frame. To use this setting, you must set the Timecode source setting, located under the input settings, to Specified start. For more information about timecodes, see https://docs.aws.amazon.com/console/mediaconvert/timecode.
@@ -7133,6 +7195,7 @@ extension MediaConvertClientTypes {
             programNumber: Swift.Int? = nil,
             psiControl: MediaConvertClientTypes.InputPsiControl? = nil,
             supplementalImps: [Swift.String]? = nil,
+            tamsSettings: MediaConvertClientTypes.InputTamsSettings? = nil,
             timecodeSource: MediaConvertClientTypes.InputTimecodeSource? = nil,
             timecodeStart: Swift.String? = nil,
             videoGenerator: MediaConvertClientTypes.InputVideoGenerator? = nil,
@@ -7160,6 +7223,7 @@ extension MediaConvertClientTypes {
             self.programNumber = programNumber
             self.psiControl = psiControl
             self.supplementalImps = supplementalImps
+            self.tamsSettings = tamsSettings
             self.timecodeSource = timecodeSource
             self.timecodeStart = timecodeStart
             self.videoGenerator = videoGenerator
@@ -29517,6 +29581,7 @@ extension MediaConvertClientTypes.Input {
         try writer["programNumber"].write(value.programNumber)
         try writer["psiControl"].write(value.psiControl)
         try writer["supplementalImps"].writeList(value.supplementalImps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tamsSettings"].write(value.tamsSettings, with: MediaConvertClientTypes.InputTamsSettings.write(value:to:))
         try writer["timecodeSource"].write(value.timecodeSource)
         try writer["timecodeStart"].write(value.timecodeStart)
         try writer["videoGenerator"].write(value.videoGenerator, with: MediaConvertClientTypes.InputVideoGenerator.write(value:to:))
@@ -29548,6 +29613,7 @@ extension MediaConvertClientTypes.Input {
         value.programNumber = try reader["programNumber"].readIfPresent()
         value.psiControl = try reader["psiControl"].readIfPresent()
         value.supplementalImps = try reader["supplementalImps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tamsSettings = try reader["tamsSettings"].readIfPresent(with: MediaConvertClientTypes.InputTamsSettings.read(from:))
         value.timecodeSource = try reader["timecodeSource"].readIfPresent()
         value.timecodeStart = try reader["timecodeStart"].readIfPresent()
         value.videoGenerator = try reader["videoGenerator"].readIfPresent(with: MediaConvertClientTypes.InputVideoGenerator.read(from:))
@@ -29741,6 +29807,27 @@ extension MediaConvertClientTypes.InputVideoGenerator {
         value.framerateDenominator = try reader["framerateDenominator"].readIfPresent()
         value.framerateNumerator = try reader["framerateNumerator"].readIfPresent()
         value.sampleRate = try reader["sampleRate"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.InputTamsSettings {
+
+    static func write(value: MediaConvertClientTypes.InputTamsSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authConnectionArn"].write(value.authConnectionArn)
+        try writer["gapHandling"].write(value.gapHandling)
+        try writer["sourceId"].write(value.sourceId)
+        try writer["timerange"].write(value.timerange)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.InputTamsSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.InputTamsSettings()
+        value.authConnectionArn = try reader["authConnectionArn"].readIfPresent()
+        value.gapHandling = try reader["gapHandling"].readIfPresent()
+        value.sourceId = try reader["sourceId"].readIfPresent()
+        value.timerange = try reader["timerange"].readIfPresent()
         return value
     }
 }

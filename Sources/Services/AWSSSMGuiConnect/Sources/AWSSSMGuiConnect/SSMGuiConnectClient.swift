@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSMGuiConnectClient: ClientRuntime.Client {
     public static let clientName = "SSMGuiConnectClient"
-    public static let version = "1.5.1"
+    public static let version = "1.5.2"
     let client: ClientRuntime.SdkHttpClient
     let config: SSMGuiConnectClient.SSMGuiConnectClientConfiguration
     let serviceName = "SSM GuiConnect"

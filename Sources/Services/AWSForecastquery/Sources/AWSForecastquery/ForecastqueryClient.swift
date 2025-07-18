@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ForecastqueryClient: ClientRuntime.Client {
     public static let clientName = "ForecastqueryClient"
-    public static let version = "1.5.1"
+    public static let version = "1.5.2"
     let client: ClientRuntime.SdkHttpClient
     let config: ForecastqueryClient.ForecastqueryClientConfiguration
     let serviceName = "forecastquery"
