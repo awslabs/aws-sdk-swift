@@ -3849,12 +3849,14 @@ extension SESv2ClientTypes {
     public enum WarmupStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case done
         case inProgress
+        case notApplicable
         case sdkUnknown(Swift.String)
 
         public static var allCases: [WarmupStatus] {
             return [
                 .done,
-                .inProgress
+                .inProgress,
+                .notApplicable
             ]
         }
 
@@ -3867,6 +3869,7 @@ extension SESv2ClientTypes {
             switch self {
             case .done: return "DONE"
             case .inProgress: return "IN_PROGRESS"
+            case .notApplicable: return "NOT_APPLICABLE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3882,7 +3885,11 @@ extension SESv2ClientTypes {
         public var ip: Swift.String?
         /// The name of the dedicated IP pool that the IP address is associated with.
         public var poolName: Swift.String?
-        /// Indicates how complete the dedicated IP warm-up process is. When this value equals 1, the address has completed the warm-up process and is ready for use.
+        /// Indicates the progress of your dedicated IP warm-up:
+        ///
+        /// * 0-100 – For standard dedicated IP addresses, this shows the warm-up completion percentage. A value of 100 means the IP address is fully warmed up and ready for use.
+        ///
+        /// * -1 – Appears for IP addresses in managed dedicated pools where Amazon SES automatically handles the warm-up process, making the percentage not applicable.
         /// This member is required.
         public var warmupPercentage: Swift.Int?
         /// The warm-up status of a dedicated IP address. The status can have one of the following values:
@@ -3890,6 +3897,8 @@ extension SESv2ClientTypes {
         /// * IN_PROGRESS – The IP address isn't ready to use because the dedicated IP warm-up process is ongoing.
         ///
         /// * DONE – The dedicated IP warm-up process is complete, and the IP address is ready to use.
+        ///
+        /// * NOT_APPLICABLE – The warm-up status doesn't apply to this IP address. This status is used for IP addresses in managed dedicated IP pools, where Amazon SES automatically handles the warm-up process.
         /// This member is required.
         public var warmupStatus: SESv2ClientTypes.WarmupStatus?
 

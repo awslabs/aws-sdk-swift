@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OutpostsClient: ClientRuntime.Client {
     public static let clientName = "OutpostsClient"
-    public static let version = "1.5.0"
+    public static let version = "1.5.2"
     let client: ClientRuntime.SdkHttpClient
     let config: OutpostsClient.OutpostsClientConfiguration
     let serviceName = "Outposts"
@@ -934,6 +934,7 @@ extension OutpostsClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have permission to perform this operation.
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.
@@ -1177,6 +1178,73 @@ extension OutpostsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Outposts")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetOutpost")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetOutpostBillingInformation` operation on the `Outposts` service.
+    ///
+    /// Gets current and historical billing information about the specified Outpost.
+    ///
+    /// - Parameter GetOutpostBillingInformationInput : [no documentation found]
+    ///
+    /// - Returns: `GetOutpostBillingInformationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have permission to perform this operation.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `NotFoundException` : The specified request is not valid.
+    public func getOutpostBillingInformation(input: GetOutpostBillingInformationInput) async throws -> GetOutpostBillingInformationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getOutpostBillingInformation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "outposts")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetOutpostBillingInformationInput, GetOutpostBillingInformationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetOutpostBillingInformationInput, GetOutpostBillingInformationOutput>(GetOutpostBillingInformationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOutpostBillingInformationInput, GetOutpostBillingInformationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetOutpostBillingInformationInput, GetOutpostBillingInformationOutput>(GetOutpostBillingInformationInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOutpostBillingInformationOutput>(GetOutpostBillingInformationOutput.httpOutput(from:), GetOutpostBillingInformationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOutpostBillingInformationInput, GetOutpostBillingInformationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetOutpostBillingInformationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Outposts", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOutpostBillingInformationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOutpostBillingInformationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOutpostBillingInformationInput, GetOutpostBillingInformationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetOutpostBillingInformationInput, GetOutpostBillingInformationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetOutpostBillingInformationInput, GetOutpostBillingInformationOutput>(serviceID: serviceName, version: OutpostsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Outposts")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetOutpostBillingInformation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1743,6 +1811,7 @@ extension OutpostsClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have permission to perform this operation.
     /// - `InternalServerException` : An internal error has occurred.
     /// - `NotFoundException` : The specified request is not valid.
     /// - `ValidationException` : A parameter is not valid.

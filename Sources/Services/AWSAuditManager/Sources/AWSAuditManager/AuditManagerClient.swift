@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AuditManagerClient: ClientRuntime.Client {
     public static let clientName = "AuditManagerClient"
-    public static let version = "1.5.0"
+    public static let version = "1.5.2"
     let client: ClientRuntime.SdkHttpClient
     let config: AuditManagerClient.AuditManagerClientConfiguration
     let serviceName = "AuditManager"
@@ -3751,6 +3751,7 @@ extension AuditManagerClient {
     /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has invalid or missing parameters.
     public func registerOrganizationAdminAccount(input: RegisterOrganizationAdminAccountInput) async throws -> RegisterOrganizationAdminAccountOutput {
         let context = Smithy.ContextBuilder()

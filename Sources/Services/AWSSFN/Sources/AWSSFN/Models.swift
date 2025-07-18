@@ -4262,7 +4262,7 @@ public struct InvalidExecutionInput: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 public struct StartExecutionInput: Swift.Sendable {
-    /// The string that contains the JSON input data for the execution, for example: "{\"first_name\" : \"Tim\"}" If you don't include any JSON input data, you still must include the two braces, for example: "{}" Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
+    /// The string that contains the JSON input data for the execution, for example: "{\"first_name\" : \"Alejandro\"}" If you don't include any JSON input data, you still must include the two braces, for example: "{}" Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
     public var input: Swift.String?
     /// Optional name of the execution. This name must be unique for your Amazon Web Services account, Region, and state machine for 90 days. For more information, see [ Limits Related to State Machine Executions](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions) in the Step Functions Developer Guide. If you don't provide a name for the execution, Step Functions automatically generates a universally unique identifier (UUID) as the execution name. A name must not contain:
     ///
@@ -4333,7 +4333,7 @@ public struct StartExecutionOutput: Swift.Sendable {
 public struct StartSyncExecutionInput: Swift.Sendable {
     /// If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call the API with includedData = METADATA_ONLY to get a successful response without the encrypted definition.
     public var includedData: SFNClientTypes.IncludedData?
-    /// The string that contains the JSON input data for the execution, for example: "{\"first_name\" : \"Tim\"}" If you don't include any JSON input data, you still must include the two braces, for example: "{}" Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
+    /// The string that contains the JSON input data for the execution, for example: "{\"first_name\" : \"Alejandro\"}" If you don't include any JSON input data, you still must include the two braces, for example: "{}" Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
     public var input: Swift.String?
     /// The name of the execution.
     public var name: Swift.String?
