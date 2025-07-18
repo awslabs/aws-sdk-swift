@@ -31,11 +31,16 @@ class IdentityProvidingSSOOIDCClientIntegration : SwiftIntegration {
                 writer.write("package init() {}")
                 writer.write("")
                 writer.openBlock(
-                    "package func createToken(region: String, clientID: String, clientSecret: String, refreshToken: String) async throws -> (refreshToken: String?, \$N) {",
+                    "package func createToken(region: String, clientID: String, clientSecret: String, refreshToken: String, credentialFeatureIDs: [String]) async throws -> (refreshToken: String?, \$N) {",
                     "}",
                     SmithyIdentityTypes.BearerTokenIdentity,
                 ) {
-                    writer.write("let ssoOIDC = try SSOOIDCClient(region: region)")
+                    writer.write("let ssoOIDCConfig = try await SSOOIDCClient.SSOOIDCClientConfiguration(region: region)")
+                    writer.write(
+                        "ssoOIDCConfig.addInterceptorProvider(\$N(featureIDsToAdd: credentialFeatureIDs))",
+                        AWSSDKIdentityTypes.CredentialFeatureIDInterceptorProvider,
+                    )
+                    writer.write("let ssoOIDC = SSOOIDCClient(config: ssoOIDCConfig)")
                     writer.write(
                         "let input = CreateTokenInput(clientId: clientID, clientSecret: clientSecret, " +
                             "grantType: \"refresh_token\", refreshToken: refreshToken)",

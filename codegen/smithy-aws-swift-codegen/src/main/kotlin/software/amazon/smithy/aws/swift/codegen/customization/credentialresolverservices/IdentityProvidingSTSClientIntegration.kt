@@ -9,6 +9,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.swiftmodules.FoundationTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SmithyIdentityTypes
+import software.amazon.smithy.swift.codegen.swiftmodules.SmithyTypes
 import software.amazon.smithy.swift.codegen.swiftmodules.SwiftTypes
 
 class IdentityProvidingSTSClientIntegration : SwiftIntegration {
@@ -33,7 +34,7 @@ class IdentityProvidingSTSClientIntegration : SwiftIntegration {
                 writer.write("package init() {}")
                 writer.write("")
                 writer.openBlock(
-                    "package func assumeRoleWithCreds(creds: \$N, roleARN: String, roleSessionName: String, durationSeconds: \$N) async throws -> \$N {",
+                    "package func assumeRoleWithCreds(creds: \$N, roleARN: String, roleSessionName: String, durationSeconds: \$N, credentialFeatureIDs: [String]) async throws -> \$N {",
                     "}",
                     AWSSDKIdentityTypes.AWSCredentialIdentity,
                     FoundationTypes.TimeInterval,
@@ -59,19 +60,44 @@ class IdentityProvidingSTSClientIntegration : SwiftIntegration {
                             AWSSDKIdentityTypes.AWSCredentialIdentityResolverError,
                         )
                     }
+                    writer.write("var properties = \$N()", SmithyTypes.Attributes)
+                    writer.write(
+                        "if credentialFeatureIDs.last == \$N.CREDENTIALS_STS_ASSUME_ROLE.rawValue {",
+                        AWSSDKIdentityTypes.CredentialFeatureID,
+                    )
+                    writer.indent()
+                    writer.write(
+                        "properties.set(key: \$N.credentialFeatureIDs, value: credentialFeatureIDs)",
+                        AWSSDKIdentityTypes.AWSIdentityPropertyKeys,
+                    )
+                    writer.dedent()
+                    writer.write("} else {")
+                    writer.indent()
+                    writer.write(
+                        "properties.set(key: \$N.credentialFeatureIDs, value: credentialFeatureIDs + [\$N.CREDENTIALS_STS_ASSUME_ROLE.rawValue])",
+                        AWSSDKIdentityTypes.AWSIdentityPropertyKeys,
+                        AWSSDKIdentityTypes.CredentialFeatureID,
+                    )
+                    writer.dedent()
+                    writer.write("}")
                     writer.write(
                         "return AWSCredentialIdentity(accessKey: accessKey, secret: secretKey, " +
-                            "expiration: creds.expiration, sessionToken: creds.sessionToken)",
+                            "expiration: creds.expiration, sessionToken: creds.sessionToken, properties: properties)",
                     )
                 }
                 writer.write("")
                 writer.openBlock(
                     "package func getCredentialsWithWebIdentity(region: String, roleARN: String, " +
-                        "roleSessionName: String, webIdentityToken: String) async throws -> \$N {",
+                        "roleSessionName: String, webIdentityToken: String, credentialFeatureIDs: [String]) async throws -> \$N {",
                     "}",
                     AWSSDKIdentityTypes.AWSCredentialIdentity,
                 ) {
-                    writer.write("let sts = try STSClient(region: region)")
+                    writer.write("let stsConfig = try await STSClient.STSClientConfiguration(region: region)")
+                    writer.write(
+                        "stsConfig.addInterceptorProvider(\$N(featureIDsToAdd: credentialFeatureIDs))",
+                        AWSSDKIdentityTypes.CredentialFeatureIDInterceptorProvider,
+                    )
+                    writer.write("let sts = STSClient(config: stsConfig)")
                     writer.write("var out: AssumeRoleWithWebIdentityOutput")
                     writer.write("do {")
                     writer.indent()
@@ -121,13 +147,19 @@ class IdentityProvidingSTSClientIntegration : SwiftIntegration {
                         }
                     }
 
+                    writer.write("var properties = \$N()", SmithyTypes.Attributes)
+                    writer.write(
+                        "properties.set(key: \$N.credentialFeatureIDs, value: credentialFeatureIDs + [\$N.CREDENTIALS_STS_ASSUME_ROLE_WEB_ID.rawValue])",
+                        AWSSDKIdentityTypes.AWSIdentityPropertyKeys,
+                        AWSSDKIdentityTypes.CredentialFeatureID,
+                    )
                     writer.openBlock(
                         "return AWSCredentialIdentity(",
                         ")",
                     ) {
                         writer.write(
                             "accessKey: access, secret: secret, " +
-                                "expiration: creds.expiration, sessionToken: creds.sessionToken",
+                                "expiration: creds.expiration, sessionToken: creds.sessionToken, properties: properties",
                         )
                     }
                 }
