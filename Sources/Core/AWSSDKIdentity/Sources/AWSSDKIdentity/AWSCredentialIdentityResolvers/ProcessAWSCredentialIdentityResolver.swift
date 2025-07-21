@@ -129,12 +129,21 @@ public struct ProcessAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
     private func decodeCredentials(from jsonData: Data) throws -> AWSCredentialIdentity {
         do {
             let jsonCredentialResponse = try JSONDecoder().decode(ProcessJSONCredentialResponse.self, from: jsonData)
+            var properties = Attributes()
+            properties.set(
+                key: AWSIdentityPropertyKeys.credentialFeatureIDs,
+                value: [
+                    CredentialFeatureID.CREDENTIALS_PROFILE_PROCESS.rawValue,
+                    CredentialFeatureID.CREDENTIALS_PROCESS.rawValue
+                ]
+            )
             return AWSCredentialIdentity(
                 accessKey: jsonCredentialResponse.accessKeyID,
                 secret: jsonCredentialResponse.secretAccessKey,
                 accountID: jsonCredentialResponse.accountID,
                 expiration: jsonCredentialResponse.expiration,
-                sessionToken: jsonCredentialResponse.sessionToken
+                sessionToken: jsonCredentialResponse.sessionToken,
+                properties: properties
             )
         } catch {
             throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(

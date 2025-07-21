@@ -27,6 +27,7 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
     private let source: STSWebIdentitySource
     private let maxRetries = 3
     private var profileName: String?
+    private let credentialFeatureIDs: [String]
 
     public init(
         configFilePath: String? = nil,
@@ -36,6 +37,7 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
         self.configFilePath = configFilePath
         self.credentialsFilePath = credentialsFilePath
         self.source = source
+        self.credentialFeatureIDs = []
         guard source != .mixed else {
             throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
                 "STSWebIdentityAWSCredentialIdentityResolver: "
@@ -64,6 +66,7 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
         self.inlineRoleSessionName = roleSessionName
         self.inlineTokenFilePath = tokenFilePath
         self.source = .mixed
+        self.credentialFeatureIDs = []
     }
 
     public init(
@@ -75,6 +78,21 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
         self.credentialsFilePath = credentialsFilePath
         self.profileName = profileName
         self.source = .configFile
+        self.credentialFeatureIDs = []
+    }
+
+    // Initializer used by profile chain resolver.
+    internal init(
+        configFilePath: String? = nil,
+        credentialsFilePath: String? = nil,
+        profileName: String,
+        credentialFeatureIDs: [String]
+    ) {
+        self.configFilePath = configFilePath
+        self.credentialsFilePath = credentialsFilePath
+        self.profileName = profileName
+        self.source = .configFile
+        self.credentialFeatureIDs = credentialFeatureIDs
     }
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
@@ -88,6 +106,7 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
         }
         let (region, roleARN, tokenFilePath, roleSessionName) = try resolveConfiguration()
         var token = try readToken(from: tokenFilePath)
+        let tokenFeatureIDs = resolveTokenFeatureID()
 
         var backoff = 0.1
         for _ in 0..<maxRetries {
@@ -96,7 +115,8 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
                     region: region,
                     roleARN: roleARN,
                     roleSessionName: roleSessionName,
-                    webIdentityToken: token
+                    webIdentityToken: token,
+                    credentialFeatureIDs: credentialFeatureIDs + tokenFeatureIDs
                 )
             } catch IdentityProvidingSTSClientError.expiredTokenException {
                 try? await Task.sleep(nanoseconds: UInt64(backoff * 1_000_000_000))
@@ -116,7 +136,8 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
             region: region,
             roleARN: roleARN,
             roleSessionName: roleSessionName,
-            webIdentityToken: token
+            webIdentityToken: token,
+            credentialFeatureIDs: credentialFeatureIDs + tokenFeatureIDs
         )
     }
 
@@ -239,6 +260,20 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
         }
         return try String(contentsOfFile: resolvedPath, encoding: .utf8)
             .trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    private func resolveTokenFeatureID() -> [String] {
+        switch source {
+        case .env:
+            return [CredentialFeatureID.CREDENTIALS_ENV_VARS_STS_WEB_ID_TOKEN.rawValue]
+        case .configFile:
+            return [CredentialFeatureID.CREDENTIALS_PROFILE_STS_WEB_ID_TOKEN.rawValue]
+        case .mixed:
+            return [
+                CredentialFeatureID.CREDENTIALS_ENV_VARS_STS_WEB_ID_TOKEN.rawValue,
+                CredentialFeatureID.CREDENTIALS_PROFILE_STS_WEB_ID_TOKEN.rawValue
+            ]
+        }
     }
 }
 

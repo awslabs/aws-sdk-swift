@@ -10,6 +10,7 @@ public protocol IdentityProvidingSSOClient: Sendable {
         region: String,
         accessToken: String,
         accountID: String,
-        roleName: String
+        roleName: String,
+        credentialFeatureIDs: [String]
     ) async throws -> AWSCredentialIdentity
 }

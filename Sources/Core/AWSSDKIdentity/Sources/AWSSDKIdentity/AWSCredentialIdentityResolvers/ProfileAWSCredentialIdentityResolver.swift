@@ -73,7 +73,8 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
         return try await resolve(
             identityProperties: identityProperties,
             fileBasedConfig: fileBasedConfig,
-            currentProfileName: resolvedProfileName
+            currentProfileName: resolvedProfileName,
+            credentialFeatureIDs: []
         )
     }
 
@@ -81,7 +82,8 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
         identityProperties: Attributes?,
         fileBasedConfig: CRTFileBasedConfiguration,
         currentProfileName: String,
-        visitedProfiles: Set<String> = []
+        visitedProfiles: Set<String> = [],
+        credentialFeatureIDs: [String]
     ) async throws -> AWSCredentialIdentity {
         guard !visitedProfiles.contains(currentProfileName) else {
             throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
@@ -107,7 +109,8 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
         for resolver in credentialResolvers(
             profile: profile,
             fileBasedConfig: fileBasedConfig,
-            visitedProfiles: newVisited
+            visitedProfiles: newVisited,
+            credentialFeatureIDs: credentialFeatureIDs
         ) {
             do {
                 return try await resolver(identityProperties)
@@ -126,10 +129,12 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
         )
     }
 
+    // swiftlint:disable function_body_length
     private func credentialResolvers(
         profile: CRTFileBasedConfigurationSection,
         fileBasedConfig: CRTFileBasedConfiguration,
-        visitedProfiles: Set<String>
+        visitedProfiles: Set<String>,
+        credentialFeatureIDs: [String]
     ) -> [(Attributes?) async throws -> AWSCredentialIdentity] {
         var resolvers: [(Attributes?) async throws -> AWSCredentialIdentity] = []
 
@@ -144,8 +149,16 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
                     configFilePath: configFilePath,
                     credentialsFilePath: credentialsFilePath
                 ).getIdentity(identityProperties: identityProperties)
+                let sourceCredsWithUpdatedFeatureIDs = prependFeatureIDs(
+                    featureIDsToPrepend: credentialFeatureIDs + [
+                        CredentialFeatureID.CREDENTIALS_PROFILE_SOURCE_PROFILE.rawValue
+                    ],
+                    creds: sourceCreds
+                )
                 return try await STSAssumeRoleAWSCredentialIdentityResolver(
-                    awsCredentialIdentityResolver: StaticAWSCredentialIdentityResolver(sourceCreds),
+                    awsCredentialIdentityResolver: StaticAWSCredentialIdentityResolver(
+                        sourceCredsWithUpdatedFeatureIDs
+                    ),
                     roleArn: profile.string(for: .init(stringLiteral: "role_arn"))!,
                     sessionName: profile.string(for: .init(stringLiteral: "role_session_name"))
                 ).getIdentity(identityProperties: identityProperties)
@@ -158,11 +171,12 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
         //      that's the intended behavior as per SEP.
         if profile.hasStaticCredentials() && (!profile.hasSourceProfile() || visitedProfiles.count > 1) {
             resolvers.append { identityProperties in
-                return try await SharedConfigStaticAWSCredentialIdentityResolver(
+                let creds = try await SharedConfigStaticAWSCredentialIdentityResolver(
                     profileName: profile.name,
                     configFilePath: configFilePath,
                     credentialsFilePath: credentialsFilePath
                 ).getIdentity(identityProperties: identityProperties)
+                return prependFeatureIDs(featureIDsToPrepend: credentialFeatureIDs, creds: creds)
             }
         }
 
@@ -174,7 +188,8 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
                     identityProperties: identityProperties,
                     fileBasedConfig: fileBasedConfig,
                     currentProfileName: sourceProfile,
-                    visitedProfiles: visitedProfiles
+                    visitedProfiles: visitedProfiles,
+                    credentialFeatureIDs: [CredentialFeatureID.CREDENTIALS_PROFILE_SOURCE_PROFILE.rawValue]
                 )
                 return try await STSAssumeRoleAWSCredentialIdentityResolver(
                     awsCredentialIdentityResolver: StaticAWSCredentialIdentityResolver(sourceCreds),
@@ -192,8 +207,16 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
                     source: credSource,
                     identityProperties: identityProperties
                 )
+                let sourceCredsWithUpdatedFeatureIDs = prependFeatureIDs(
+                    featureIDsToPrepend: credentialFeatureIDs + [
+                        CredentialFeatureID.CREDENTIALS_PROFILE_NAMED_PROVIDER.rawValue
+                    ],
+                    creds: sourceCreds
+                )
                 return try await STSAssumeRoleAWSCredentialIdentityResolver(
-                    awsCredentialIdentityResolver: StaticAWSCredentialIdentityResolver(sourceCreds),
+                    awsCredentialIdentityResolver: StaticAWSCredentialIdentityResolver(
+                        sourceCredsWithUpdatedFeatureIDs
+                    ),
                     roleArn: profile.string(for: .init(stringLiteral: "role_arn"))!,
                     sessionName: profile.string(for: .init(stringLiteral: "role_session_name"))
                 ).getIdentity(identityProperties: identityProperties)
@@ -206,7 +229,8 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
                 return try await STSWebIdentityAWSCredentialIdentityResolver(
                     configFilePath: configFilePath,
                     credentialsFilePath: credentialsFilePath,
-                    profileName: profile.name
+                    profileName: profile.name,
+                    credentialFeatureIDs: credentialFeatureIDs
                 ).getIdentity(identityProperties: identityProperties)
             }
         }
@@ -217,7 +241,8 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
                 return try await SSOAWSCredentialIdentityResolver(
                     profileName: profile.name,
                     configFilePath: configFilePath,
-                    credentialsFilePath: credentialsFilePath
+                    credentialsFilePath: credentialsFilePath,
+                    credentialFeatureIDs: credentialFeatureIDs
                 ).getIdentity(identityProperties: identityProperties)
             }
         }
@@ -225,16 +250,18 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
         // 6. External process credentials
         if profile.hasExternalProcess() {
             resolvers.append { identityProperties in
-                return try await ProcessAWSCredentialIdentityResolver(
+                let creds = try await ProcessAWSCredentialIdentityResolver(
                     profileName: profile.name,
                     configFilePath: configFilePath,
                     credentialsFilePath: credentialsFilePath
                 ).getIdentity(identityProperties: identityProperties)
+                return prependFeatureIDs(featureIDsToPrepend: credentialFeatureIDs, creds: creds)
             }
         }
 
         return resolvers
     }
+    // swiftlint:enable function_body_length
 
     private func resolveFromCredentialSource(
         source: String,
@@ -259,6 +286,24 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
                 + "Unsupported credential_source: \(source)."
             )
         }
+    }
+
+    private func prependFeatureIDs(
+        featureIDsToPrepend: [String],
+        creds: AWSCredentialIdentity
+    ) -> AWSCredentialIdentity {
+        let originalFeatureIDs = creds.properties.get(key: AWSIdentityPropertyKeys.credentialFeatureIDs) ?? []
+        let newFeatureIDs = featureIDsToPrepend + originalFeatureIDs
+        var properties = creds.properties
+        properties.set(key: AWSIdentityPropertyKeys.credentialFeatureIDs, value: newFeatureIDs)
+        return AWSCredentialIdentity(
+            accessKey: creds.accessKey,
+            secret: creds.secret,
+            accountID: creds.accountID,
+            expiration: creds.expiration,
+            sessionToken: creds.sessionToken,
+            properties: properties
+        )
     }
 }
 
