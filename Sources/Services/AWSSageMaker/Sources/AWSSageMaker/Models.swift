@@ -4584,6 +4584,33 @@ extension SageMakerClientTypes {
         /// * arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-Adjustment3DPointCloudSemanticSegmentation
         ///
         /// * arn:aws:lambda:ca-central-1:918755190332:function:ACS-Adjustment3DPointCloudSemanticSegmentation
+        ///
+        ///
+        /// Generative AI/Custom - Direct passthrough of output data without any transformation.
+        ///
+        /// * arn:aws:lambda:us-east-1:432418664414:function:ACS-PassThrough
+        ///
+        /// * arn:aws:lambda:us-east-2:266458841044:function:ACS-PassThrough
+        ///
+        /// * arn:aws:lambda:us-west-2:081040173940:function:ACS-PassThrough
+        ///
+        /// * arn:aws:lambda:eu-west-1:568282634449:function:ACS-PassThrough
+        ///
+        /// * arn:aws:lambda:ap-northeast-1:477331159723:function:ACS-PassThrough
+        ///
+        /// * arn:aws:lambda:ap-southeast-2:454466003867:function:ACS-PassThrough
+        ///
+        /// * arn:aws:lambda:ap-south-1:565803892007:function:ACS-PassThrough
+        ///
+        /// * arn:aws:lambda:eu-central-1:203001061592:function:ACS-PassThrough
+        ///
+        /// * arn:aws:lambda:ap-northeast-2:845288260483:function:ACS-PassThrough
+        ///
+        /// * arn:aws:lambda:eu-west-2:487402164563:function:ACS-PassThrough
+        ///
+        /// * arn:aws:lambda:ap-southeast-1:377565633583:function:ACS-PassThrough
+        ///
+        /// * arn:aws:lambda:ca-central-1:918755190332:function:ACS-PassThrough
         /// This member is required.
         public var annotationConsolidationLambdaArn: Swift.String?
 
@@ -10254,7 +10281,6 @@ extension SageMakerClientTypes {
     /// Defines the configuration for attaching an additional Amazon Elastic Block Store (EBS) volume to each instance of the SageMaker HyperPod cluster instance group. To learn more, see [SageMaker HyperPod release notes: June 20, 2024](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-release-notes.html#sagemaker-hyperpod-release-notes-20240620).
     public struct ClusterEbsVolumeConfig: Swift.Sendable {
         /// The size in gigabytes (GB) of the additional EBS volume to be attached to the instances in the SageMaker HyperPod cluster instance group. The additional EBS volume is attached to each instance within the SageMaker HyperPod cluster instance group and mounted to /opt/sagemaker.
-        /// This member is required.
         public var volumeSizeInGB: Swift.Int?
 
         public init(
@@ -12288,7 +12314,6 @@ extension SageMakerClientTypes {
     /// Configuration of the resources used for the compute allocation definition.
     public struct ComputeQuotaResourceConfig: Swift.Sendable {
         /// The number of instances to add to the instance group of a SageMaker HyperPod cluster.
-        /// This member is required.
         public var count: Swift.Int?
         /// The instance type of the instance group for the cluster.
         /// This member is required.
@@ -15368,12 +15393,33 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// Configuration for the custom Amazon S3 file system.
+    public struct S3FileSystemConfig: Swift.Sendable {
+        /// The file system path where the Amazon S3 storage location will be mounted within the Amazon SageMaker Studio environment.
+        public var mountPath: Swift.String?
+        /// The Amazon S3 URI of the S3 file system configuration.
+        public var s3Uri: Swift.String?
+
+        public init(
+            mountPath: Swift.String? = nil,
+            s3Uri: Swift.String? = nil
+        ) {
+            self.mountPath = mountPath
+            self.s3Uri = s3Uri
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// The settings for assigning a custom file system to a user profile or space for an Amazon SageMaker AI Domain. Permitted users can access this file system in Amazon SageMaker AI Studio.
     public enum CustomFileSystemConfig: Swift.Sendable {
         /// The settings for a custom Amazon EFS file system.
         case efsfilesystemconfig(SageMakerClientTypes.EFSFileSystemConfig)
         /// The settings for a custom Amazon FSx for Lustre file system.
         case fsxlustrefilesystemconfig(SageMakerClientTypes.FSxLustreFileSystemConfig)
+        /// Configuration settings for a custom Amazon S3 file system.
+        case s3filesystemconfig(SageMakerClientTypes.S3FileSystemConfig)
         case sdkUnknown(Swift.String)
     }
 }
@@ -16232,13 +16278,13 @@ public struct CreateDomainInput: Swift.Sendable {
     public var homeEfsFileSystemKmsKeyId: Swift.String?
     /// SageMaker AI uses Amazon Web Services KMS to encrypt EFS and EBS volumes attached to the domain with an Amazon Web Services managed key by default. For more control, specify a customer managed key.
     public var kmsKeyId: Swift.String?
-    /// The VPC subnets that the domain uses for communication.
+    /// The VPC subnets that the domain uses for communication. The field is optional when the AppNetworkAccessType parameter is set to PublicInternetOnly for domains created from Amazon SageMaker Unified Studio.
     public var subnetIds: [Swift.String]?
     /// Indicates whether custom tag propagation is supported for the domain. Defaults to DISABLED.
     public var tagPropagation: SageMakerClientTypes.TagPropagation?
     /// Tags to associated with the Domain. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API. Tags that you specify for the Domain are also added to all Apps that the Domain launches.
     public var tags: [SageMakerClientTypes.Tag]?
-    /// The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for communication.
+    /// The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for communication. The field is optional when the AppNetworkAccessType parameter is set to PublicInternetOnly for domains created from Amazon SageMaker Unified Studio.
     public var vpcId: Swift.String?
 
     public init(
@@ -21532,6 +21578,33 @@ extension SageMakerClientTypes {
         /// * arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-Adjustment3DPointCloudSemanticSegmentation
         ///
         /// * arn:aws:lambda:ca-central-1:918755190332:function:PRE-Adjustment3DPointCloudSemanticSegmentation
+        ///
+        ///
+        /// Generative AI/Custom - Direct passthrough of input data without any transformation.
+        ///
+        /// * arn:aws:lambda:us-east-1:432418664414:function:PRE-PassThrough
+        ///
+        /// * arn:aws:lambda:us-east-2:266458841044:function:PRE-PassThrough
+        ///
+        /// * arn:aws:lambda:us-west-2:081040173940:function:PRE-PassThrough
+        ///
+        /// * arn:aws:lambda:ca-central-1:918755190332:function:PRE-PassThrough
+        ///
+        /// * arn:aws:lambda:eu-west-1:568282634449:function:PRE-PassThrough
+        ///
+        /// * arn:aws:lambda:eu-west-2:487402164563:function:PRE-PassThrough
+        ///
+        /// * arn:aws:lambda:eu-central-1:203001061592:function:PRE-PassThrough
+        ///
+        /// * arn:aws:lambda:ap-northeast-1:477331159723:function:PRE-PassThrough
+        ///
+        /// * arn:aws:lambda:ap-northeast-2:845288260483:function:PRE-PassThrough
+        ///
+        /// * arn:aws:lambda:ap-south-1:565803892007:function:PRE-PassThrough
+        ///
+        /// * arn:aws:lambda:ap-southeast-1:377565633583:function:PRE-PassThrough
+        ///
+        /// * arn:aws:lambda:ap-southeast-2:454466003867:function:PRE-PassThrough
         public var preHumanTaskLambdaArn: Swift.String?
         /// The price that you pay for each task performed by an Amazon Mechanical Turk worker.
         public var publicWorkforceTaskPrice: SageMakerClientTypes.PublicWorkforceTaskPrice?
@@ -25352,12 +25425,29 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// A custom file system in Amazon S3. This is only supported in Amazon SageMaker Unified Studio.
+    public struct S3FileSystem: Swift.Sendable {
+        /// The Amazon S3 URI that specifies the location in S3 where files are stored, which is mounted within the Studio environment. For example: s3://<bucket-name>/<prefix>/.
+        public var s3Uri: Swift.String?
+
+        public init(
+            s3Uri: Swift.String? = nil
+        ) {
+            self.s3Uri = s3Uri
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// A file system, created by you, that you assign to a user profile or space for an Amazon SageMaker AI Domain. Permitted users can access this file system in Amazon SageMaker AI Studio.
     public enum CustomFileSystem: Swift.Sendable {
         /// A custom file system in Amazon EFS.
         case efsfilesystem(SageMakerClientTypes.EFSFileSystem)
         /// A custom file system in Amazon FSx for Lustre.
         case fsxlustrefilesystem(SageMakerClientTypes.FSxLustreFileSystem)
+        /// A custom file system in Amazon S3. This is only supported in Amazon SageMaker Unified Studio.
+        case s3filesystem(SageMakerClientTypes.S3FileSystem)
         case sdkUnknown(Swift.String)
     }
 }
@@ -26395,6 +26485,35 @@ public struct CreateUserProfileOutput: Swift.Sendable {
 
 extension SageMakerClientTypes {
 
+    public enum WorkforceIpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualstack
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkforceIpAddressType] {
+            return [
+                .dualstack,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "dualstack"
+            case .ipv4: return "ipv4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Use this parameter to configure your OIDC Identity Provider (IdP).
     public struct OidcConfig: Swift.Sendable {
         /// A string to string map of identifiers specific to the custom identity provider (IdP) being used.
@@ -26499,6 +26618,8 @@ extension SageMakerClientTypes {
 public struct CreateWorkforceInput: Swift.Sendable {
     /// Use this parameter to configure an Amazon Cognito private workforce. A single Cognito workforce is created using and corresponds to a single [ Amazon Cognito user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html). Do not use OidcConfig if you specify values for CognitoConfig.
     public var cognitoConfig: SageMakerClientTypes.CognitoConfig?
+    /// Use this parameter to specify whether you want IPv4 only or dualstack (IPv4 and IPv6) to support your labeling workforce.
+    public var ipAddressType: SageMakerClientTypes.WorkforceIpAddressType?
     /// Use this parameter to configure a private workforce using your own OIDC Identity Provider. Do not use CognitoConfig if you specify values for OidcConfig.
     public var oidcConfig: SageMakerClientTypes.OidcConfig?
     /// A list of IP address ranges ([CIDRs](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html)). Used to create an allow list of IP addresses for a private workforce. Workers will only be able to log in to their worker portal from an IP address within this range. By default, a workforce isn't restricted to specific IP addresses.
@@ -26513,6 +26634,7 @@ public struct CreateWorkforceInput: Swift.Sendable {
 
     public init(
         cognitoConfig: SageMakerClientTypes.CognitoConfig? = nil,
+        ipAddressType: SageMakerClientTypes.WorkforceIpAddressType? = nil,
         oidcConfig: SageMakerClientTypes.OidcConfig? = nil,
         sourceIpConfig: SageMakerClientTypes.SourceIpConfig? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
@@ -26520,6 +26642,7 @@ public struct CreateWorkforceInput: Swift.Sendable {
         workforceVpcConfig: SageMakerClientTypes.WorkforceVpcConfigRequest? = nil
     ) {
         self.cognitoConfig = cognitoConfig
+        self.ipAddressType = ipAddressType
         self.oidcConfig = oidcConfig
         self.sourceIpConfig = sourceIpConfig
         self.tags = tags
@@ -36352,6 +36475,7 @@ public struct DescribeTrainingPlanInput: Swift.Sendable {
 extension SageMakerClientTypes {
 
     public enum ReservedCapacityInstanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mlP4de24xlarge
         case mlP4d24xlarge
         case mlP5en48xlarge
         case mlP5e48xlarge
@@ -36363,6 +36487,7 @@ extension SageMakerClientTypes {
 
         public static var allCases: [ReservedCapacityInstanceType] {
             return [
+                .mlP4de24xlarge,
                 .mlP4d24xlarge,
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
@@ -36380,6 +36505,7 @@ extension SageMakerClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
@@ -37269,6 +37395,8 @@ extension SageMakerClientTypes {
         public var createDate: Foundation.Date?
         /// The reason your workforce failed.
         public var failureReason: Swift.String?
+        /// The IP address type you specify - either IPv4 only or dualstack (IPv4 and IPv6) - to support your labeling workforce.
+        public var ipAddressType: SageMakerClientTypes.WorkforceIpAddressType?
         /// The most recent date that [UpdateWorkforce](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_UpdateWorkforce.html) was used to successfully add one or more IP address ranges ([CIDRs](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html)) to a private workforce's allow list.
         public var lastUpdatedDate: Foundation.Date?
         /// The configuration of an OIDC Identity Provider (IdP) private workforce.
@@ -37292,6 +37420,7 @@ extension SageMakerClientTypes {
             cognitoConfig: SageMakerClientTypes.CognitoConfig? = nil,
             createDate: Foundation.Date? = nil,
             failureReason: Swift.String? = nil,
+            ipAddressType: SageMakerClientTypes.WorkforceIpAddressType? = nil,
             lastUpdatedDate: Foundation.Date? = nil,
             oidcConfig: SageMakerClientTypes.OidcConfigForResponse? = nil,
             sourceIpConfig: SageMakerClientTypes.SourceIpConfig? = nil,
@@ -37304,6 +37433,7 @@ extension SageMakerClientTypes {
             self.cognitoConfig = cognitoConfig
             self.createDate = createDate
             self.failureReason = failureReason
+            self.ipAddressType = ipAddressType
             self.lastUpdatedDate = lastUpdatedDate
             self.oidcConfig = oidcConfig
             self.sourceIpConfig = sourceIpConfig
@@ -53119,6 +53249,8 @@ public struct UpdateUserProfileOutput: Swift.Sendable {
 }
 
 public struct UpdateWorkforceInput: Swift.Sendable {
+    /// Use this parameter to specify whether you want IPv4 only or dualstack (IPv4 and IPv6) to support your labeling workforce.
+    public var ipAddressType: SageMakerClientTypes.WorkforceIpAddressType?
     /// Use this parameter to update your OIDC Identity Provider (IdP) configuration for a workforce made using your own IdP.
     public var oidcConfig: SageMakerClientTypes.OidcConfig?
     /// A list of one to ten worker IP address ranges ([CIDRs](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html)) that can be used to access tasks assigned to this workforce. Maximum: Ten CIDR values
@@ -53130,11 +53262,13 @@ public struct UpdateWorkforceInput: Swift.Sendable {
     public var workforceVpcConfig: SageMakerClientTypes.WorkforceVpcConfigRequest?
 
     public init(
+        ipAddressType: SageMakerClientTypes.WorkforceIpAddressType? = nil,
         oidcConfig: SageMakerClientTypes.OidcConfig? = nil,
         sourceIpConfig: SageMakerClientTypes.SourceIpConfig? = nil,
         workforceName: Swift.String? = nil,
         workforceVpcConfig: SageMakerClientTypes.WorkforceVpcConfigRequest? = nil
     ) {
+        self.ipAddressType = ipAddressType
         self.oidcConfig = oidcConfig
         self.sourceIpConfig = sourceIpConfig
         self.workforceName = workforceName
@@ -56789,6 +56923,7 @@ extension CreateWorkforceInput {
     static func write(value: CreateWorkforceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CognitoConfig"].write(value.cognitoConfig, with: SageMakerClientTypes.CognitoConfig.write(value:to:))
+        try writer["IpAddressType"].write(value.ipAddressType)
         try writer["OidcConfig"].write(value.oidcConfig, with: SageMakerClientTypes.OidcConfig.write(value:to:))
         try writer["SourceIpConfig"].write(value.sourceIpConfig, with: SageMakerClientTypes.SourceIpConfig.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -59968,6 +60103,7 @@ extension UpdateWorkforceInput {
 
     static func write(value: UpdateWorkforceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["IpAddressType"].write(value.ipAddressType)
         try writer["OidcConfig"].write(value.oidcConfig, with: SageMakerClientTypes.OidcConfig.write(value:to:))
         try writer["SourceIpConfig"].write(value.sourceIpConfig, with: SageMakerClientTypes.SourceIpConfig.write(value:to:))
         try writer["WorkforceName"].write(value.workforceName)
@@ -71928,7 +72064,7 @@ extension SageMakerClientTypes.ClusterEbsVolumeConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterEbsVolumeConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ClusterEbsVolumeConfig()
-        value.volumeSizeInGB = try reader["VolumeSizeInGB"].readIfPresent() ?? 0
+        value.volumeSizeInGB = try reader["VolumeSizeInGB"].readIfPresent()
         return value
     }
 }
@@ -72287,7 +72423,7 @@ extension SageMakerClientTypes.ComputeQuotaResourceConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ComputeQuotaResourceConfig()
         value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
-        value.count = try reader["Count"].readIfPresent() ?? 0
+        value.count = try reader["Count"].readIfPresent()
         return value
     }
 }
@@ -72804,6 +72940,8 @@ extension SageMakerClientTypes.CustomFileSystemConfig {
                 try writer["EFSFileSystemConfig"].write(efsfilesystemconfig, with: SageMakerClientTypes.EFSFileSystemConfig.write(value:to:))
             case let .fsxlustrefilesystemconfig(fsxlustrefilesystemconfig):
                 try writer["FSxLustreFileSystemConfig"].write(fsxlustrefilesystemconfig, with: SageMakerClientTypes.FSxLustreFileSystemConfig.write(value:to:))
+            case let .s3filesystemconfig(s3filesystemconfig):
+                try writer["S3FileSystemConfig"].write(s3filesystemconfig, with: SageMakerClientTypes.S3FileSystemConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -72817,9 +72955,28 @@ extension SageMakerClientTypes.CustomFileSystemConfig {
                 return .efsfilesystemconfig(try reader["EFSFileSystemConfig"].read(with: SageMakerClientTypes.EFSFileSystemConfig.read(from:)))
             case "FSxLustreFileSystemConfig":
                 return .fsxlustrefilesystemconfig(try reader["FSxLustreFileSystemConfig"].read(with: SageMakerClientTypes.FSxLustreFileSystemConfig.read(from:)))
+            case "S3FileSystemConfig":
+                return .s3filesystemconfig(try reader["S3FileSystemConfig"].read(with: SageMakerClientTypes.S3FileSystemConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension SageMakerClientTypes.S3FileSystemConfig {
+
+    static func write(value: SageMakerClientTypes.S3FileSystemConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MountPath"].write(value.mountPath)
+        try writer["S3Uri"].write(value.s3Uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.S3FileSystemConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.S3FileSystemConfig()
+        value.mountPath = try reader["MountPath"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        return value
     }
 }
 
@@ -77604,6 +77761,8 @@ extension SageMakerClientTypes.CustomFileSystem {
                 try writer["EFSFileSystem"].write(efsfilesystem, with: SageMakerClientTypes.EFSFileSystem.write(value:to:))
             case let .fsxlustrefilesystem(fsxlustrefilesystem):
                 try writer["FSxLustreFileSystem"].write(fsxlustrefilesystem, with: SageMakerClientTypes.FSxLustreFileSystem.write(value:to:))
+            case let .s3filesystem(s3filesystem):
+                try writer["S3FileSystem"].write(s3filesystem, with: SageMakerClientTypes.S3FileSystem.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -77617,9 +77776,26 @@ extension SageMakerClientTypes.CustomFileSystem {
                 return .efsfilesystem(try reader["EFSFileSystem"].read(with: SageMakerClientTypes.EFSFileSystem.read(from:)))
             case "FSxLustreFileSystem":
                 return .fsxlustrefilesystem(try reader["FSxLustreFileSystem"].read(with: SageMakerClientTypes.FSxLustreFileSystem.read(from:)))
+            case "S3FileSystem":
+                return .s3filesystem(try reader["S3FileSystem"].read(with: SageMakerClientTypes.S3FileSystem.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension SageMakerClientTypes.S3FileSystem {
+
+    static func write(value: SageMakerClientTypes.S3FileSystem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Uri"].write(value.s3Uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.S3FileSystem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.S3FileSystem()
+        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        return value
     }
 }
 
@@ -78270,6 +78446,7 @@ extension SageMakerClientTypes.Workforce {
         value.workforceVpcConfig = try reader["WorkforceVpcConfig"].readIfPresent(with: SageMakerClientTypes.WorkforceVpcConfigResponse.read(from:))
         value.status = try reader["Status"].readIfPresent()
         value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
         return value
     }
 }

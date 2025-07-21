@@ -4289,6 +4289,11 @@ extension CloudFrontClientTypes {
     }
 }
 
+extension CloudFrontClientTypes.StringSchemaConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StringSchemaConfig(required: \(Swift.String(describing: `required`)), defaultValue: \(Swift.String(describing: defaultValue)), comment: \"CONTENT_REDACTED\")"}
+}
+
 extension CloudFrontClientTypes {
 
     /// An object that contains information about the parameter definition.
@@ -12317,6 +12322,11 @@ extension CloudFrontClientTypes {
     }
 }
 
+extension CloudFrontClientTypes.DistributionSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DistributionSummary(aliasICPRecordals: \(Swift.String(describing: aliasICPRecordals)), aliases: \(Swift.String(describing: aliases)), anycastIpListId: \(Swift.String(describing: anycastIpListId)), arn: \(Swift.String(describing: arn)), cacheBehaviors: \(Swift.String(describing: cacheBehaviors)), connectionMode: \(Swift.String(describing: connectionMode)), customErrorResponses: \(Swift.String(describing: customErrorResponses)), defaultCacheBehavior: \(Swift.String(describing: defaultCacheBehavior)), domainName: \(Swift.String(describing: domainName)), eTag: \(Swift.String(describing: eTag)), enabled: \(Swift.String(describing: enabled)), httpVersion: \(Swift.String(describing: httpVersion)), id: \(Swift.String(describing: id)), isIPV6Enabled: \(Swift.String(describing: isIPV6Enabled)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), originGroups: \(Swift.String(describing: originGroups)), origins: \(Swift.String(describing: origins)), priceClass: \(Swift.String(describing: priceClass)), restrictions: \(Swift.String(describing: restrictions)), staging: \(Swift.String(describing: staging)), status: \(Swift.String(describing: status)), viewerCertificate: \(Swift.String(describing: viewerCertificate)), webACLId: \(Swift.String(describing: webACLId)), comment: \"CONTENT_REDACTED\")"}
+}
+
 extension CloudFrontClientTypes {
 
     /// A distribution list.
@@ -13482,7 +13492,7 @@ public struct ListOriginAccessControlsInput: Swift.Sendable {
 extension CloudFrontClientTypes {
 
     /// A CloudFront origin access control.
-    public struct OriginAccessControlSummary: Swift.Sendable {
+    public struct OriginAccessControlSummary: Swift.Sendable, Swift.Equatable {
         /// A description of the origin access control.
         /// This member is required.
         public var description: Swift.String?
@@ -13529,7 +13539,7 @@ extension CloudFrontClientTypes {
 extension CloudFrontClientTypes {
 
     /// A list of CloudFront origin access controls.
-    public struct OriginAccessControlList: Swift.Sendable {
+    public struct OriginAccessControlList: Swift.Sendable, Swift.Equatable {
         /// If there are more items in the list than are in this response, this value is true.
         /// This member is required.
         public var isTruncated: Swift.Bool?

@@ -3255,6 +3255,21 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
+    /// The configuration options for a service managed fleet's VPC.
+    public struct VpcConfiguration: Swift.Sendable {
+        /// The ARNs of the VPC Lattice resource configurations attached to the fleet.
+        public var resourceConfigurationArns: [Swift.String]?
+
+        public init(
+            resourceConfigurationArns: [Swift.String]? = nil
+        ) {
+            self.resourceConfigurationArns = resourceConfigurationArns
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
     /// The configuration details for a service managed Amazon EC2 fleet.
     public struct ServiceManagedEc2FleetConfiguration: Swift.Sendable {
         /// The Amazon EC2 instance capabilities.
@@ -3265,15 +3280,19 @@ extension DeadlineClientTypes {
         public var instanceMarketOptions: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions?
         /// The storage profile ID.
         public var storageProfileId: Swift.String?
+        /// The VPC configuration details for a service managed Amazon EC2 fleet.
+        public var vpcConfiguration: DeadlineClientTypes.VpcConfiguration?
 
         public init(
             instanceCapabilities: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities? = nil,
             instanceMarketOptions: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions? = nil,
-            storageProfileId: Swift.String? = nil
+            storageProfileId: Swift.String? = nil,
+            vpcConfiguration: DeadlineClientTypes.VpcConfiguration? = nil
         ) {
             self.instanceCapabilities = instanceCapabilities
             self.instanceMarketOptions = instanceMarketOptions
             self.storageProfileId = storageProfileId
+            self.vpcConfiguration = vpcConfiguration
         }
     }
 }
@@ -10719,6 +10738,10 @@ extension DeadlineClientTypes {
         public var taskRunStatus: DeadlineClientTypes.TaskRunStatus?
         /// The number of tasks running on the job.
         public var taskRunStatusCounts: [Swift.String: Swift.Int]?
+        /// The date and time the resource was updated.
+        public var updatedAt: Foundation.Date?
+        /// The user or system that updated this resource.
+        public var updatedBy: Swift.String?
 
         public init(
             createdAt: Foundation.Date? = nil,
@@ -10739,7 +10762,9 @@ extension DeadlineClientTypes {
             targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus? = nil,
             taskFailureRetryCount: Swift.Int? = nil,
             taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
-            taskRunStatusCounts: [Swift.String: Swift.Int]? = nil
+            taskRunStatusCounts: [Swift.String: Swift.Int]? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil
         ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -10760,13 +10785,15 @@ extension DeadlineClientTypes {
             self.taskFailureRetryCount = taskFailureRetryCount
             self.taskRunStatus = taskRunStatus
             self.taskRunStatusCounts = taskRunStatusCounts
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
         }
     }
 }
 
 extension DeadlineClientTypes.JobSearchSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "JobSearchSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskFailureRetryCount: \(Swift.String(describing: taskFailureRetryCount)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), jobParameters: \"CONTENT_REDACTED\")"}
+        "JobSearchSummary(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), endedAt: \(Swift.String(describing: endedAt)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), lifecycleStatusMessage: \(Swift.String(describing: lifecycleStatusMessage)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), startedAt: \(Swift.String(describing: startedAt)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), taskFailureRetryCount: \(Swift.String(describing: taskFailureRetryCount)), taskRunStatus: \(Swift.String(describing: taskRunStatus)), taskRunStatusCounts: \(Swift.String(describing: taskRunStatusCounts)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), jobParameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct SearchJobsOutput: Swift.Sendable {
@@ -10796,6 +10823,8 @@ extension DeadlineClientTypes {
     public struct StepSearchSummary: Swift.Sendable {
         /// The date and time the resource was created.
         public var createdAt: Foundation.Date?
+        /// The user or system that created this resource.
+        public var createdBy: Swift.String?
         /// The date and time the resource ended running.
         public var endedAt: Foundation.Date?
         /// The job ID.
@@ -10842,9 +10871,14 @@ extension DeadlineClientTypes {
         public var taskRunStatus: DeadlineClientTypes.TaskRunStatus?
         /// The number of tasks running on the job.
         public var taskRunStatusCounts: [Swift.String: Swift.Int]?
+        /// The date and time the resource was updated.
+        public var updatedAt: Foundation.Date?
+        /// The user or system that updated this resource.
+        public var updatedBy: Swift.String?
 
         public init(
             createdAt: Foundation.Date? = nil,
+            createdBy: Swift.String? = nil,
             endedAt: Foundation.Date? = nil,
             jobId: Swift.String? = nil,
             lifecycleStatus: DeadlineClientTypes.StepLifecycleStatus? = nil,
@@ -10857,9 +10891,12 @@ extension DeadlineClientTypes {
             targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus? = nil,
             taskFailureRetryCount: Swift.Int? = nil,
             taskRunStatus: DeadlineClientTypes.TaskRunStatus? = nil,
-            taskRunStatusCounts: [Swift.String: Swift.Int]? = nil
+            taskRunStatusCounts: [Swift.String: Swift.Int]? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil
         ) {
             self.createdAt = createdAt
+            self.createdBy = createdBy
             self.endedAt = endedAt
             self.jobId = jobId
             self.lifecycleStatus = lifecycleStatus
@@ -10873,6 +10910,8 @@ extension DeadlineClientTypes {
             self.taskFailureRetryCount = taskFailureRetryCount
             self.taskRunStatus = taskRunStatus
             self.taskRunStatusCounts = taskRunStatusCounts
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
         }
     }
 }
@@ -10922,6 +10961,10 @@ extension DeadlineClientTypes {
         public var targetRunStatus: DeadlineClientTypes.TaskTargetRunStatus?
         /// The task ID.
         public var taskId: Swift.String?
+        /// The date and time the resource was updated.
+        public var updatedAt: Foundation.Date?
+        /// The user or system that updated this resource.
+        public var updatedBy: Swift.String?
 
         public init(
             endedAt: Foundation.Date? = nil,
@@ -10933,7 +10976,9 @@ extension DeadlineClientTypes {
             startedAt: Foundation.Date? = nil,
             stepId: Swift.String? = nil,
             targetRunStatus: DeadlineClientTypes.TaskTargetRunStatus? = nil,
-            taskId: Swift.String? = nil
+            taskId: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil,
+            updatedBy: Swift.String? = nil
         ) {
             self.endedAt = endedAt
             self.failureRetryCount = failureRetryCount
@@ -10945,13 +10990,15 @@ extension DeadlineClientTypes {
             self.stepId = stepId
             self.targetRunStatus = targetRunStatus
             self.taskId = taskId
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
         }
     }
 }
 
 extension DeadlineClientTypes.TaskSearchSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TaskSearchSummary(endedAt: \(Swift.String(describing: endedAt)), failureRetryCount: \(Swift.String(describing: failureRetryCount)), jobId: \(Swift.String(describing: jobId)), queueId: \(Swift.String(describing: queueId)), runStatus: \(Swift.String(describing: runStatus)), startedAt: \(Swift.String(describing: startedAt)), stepId: \(Swift.String(describing: stepId)), targetRunStatus: \(Swift.String(describing: targetRunStatus)), taskId: \(Swift.String(describing: taskId)), parameters: \"CONTENT_REDACTED\")"}
+        "TaskSearchSummary(endedAt: \(Swift.String(describing: endedAt)), failureRetryCount: \(Swift.String(describing: failureRetryCount)), jobId: \(Swift.String(describing: jobId)), queueId: \(Swift.String(describing: queueId)), runStatus: \(Swift.String(describing: runStatus)), startedAt: \(Swift.String(describing: startedAt)), stepId: \(Swift.String(describing: stepId)), targetRunStatus: \(Swift.String(describing: targetRunStatus)), taskId: \(Swift.String(describing: taskId)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), parameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct SearchTasksOutput: Swift.Sendable {
@@ -18312,6 +18359,7 @@ extension DeadlineClientTypes.ServiceManagedEc2FleetConfiguration {
         try writer["instanceCapabilities"].write(value.instanceCapabilities, with: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities.write(value:to:))
         try writer["instanceMarketOptions"].write(value.instanceMarketOptions, with: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions.write(value:to:))
         try writer["storageProfileId"].write(value.storageProfileId)
+        try writer["vpcConfiguration"].write(value.vpcConfiguration, with: DeadlineClientTypes.VpcConfiguration.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.ServiceManagedEc2FleetConfiguration {
@@ -18319,7 +18367,23 @@ extension DeadlineClientTypes.ServiceManagedEc2FleetConfiguration {
         var value = DeadlineClientTypes.ServiceManagedEc2FleetConfiguration()
         value.instanceCapabilities = try reader["instanceCapabilities"].readIfPresent(with: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities.read(from:))
         value.instanceMarketOptions = try reader["instanceMarketOptions"].readIfPresent(with: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions.read(from:))
+        value.vpcConfiguration = try reader["vpcConfiguration"].readIfPresent(with: DeadlineClientTypes.VpcConfiguration.read(from:))
         value.storageProfileId = try reader["storageProfileId"].readIfPresent()
+        return value
+    }
+}
+
+extension DeadlineClientTypes.VpcConfiguration {
+
+    static func write(value: DeadlineClientTypes.VpcConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resourceConfigurationArns"].writeList(value.resourceConfigurationArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.VpcConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.VpcConfiguration()
+        value.resourceConfigurationArns = try reader["resourceConfigurationArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -19390,6 +19454,8 @@ extension DeadlineClientTypes.JobSearchSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
         value.jobParameters = try reader["jobParameters"].readMapIfPresent(valueReadingClosure: DeadlineClientTypes.JobParameter.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.maxWorkerCount = try reader["maxWorkerCount"].readIfPresent()
         value.sourceJobId = try reader["sourceJobId"].readIfPresent()
@@ -19413,8 +19479,11 @@ extension DeadlineClientTypes.StepSearchSummary {
         value.taskRunStatusCounts = try reader["taskRunStatusCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.taskFailureRetryCount = try reader["taskFailureRetryCount"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["createdBy"].readIfPresent()
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
         value.parameterSpace = try reader["parameterSpace"].readIfPresent(with: DeadlineClientTypes.ParameterSpace.read(from:))
         return value
     }
@@ -19435,6 +19504,8 @@ extension DeadlineClientTypes.TaskSearchSummary {
         value.failureRetryCount = try reader["failureRetryCount"].readIfPresent()
         value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
 }

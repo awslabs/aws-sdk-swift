@@ -265,6 +265,7 @@ extension TimestreamInfluxDBClientTypes {
     public enum DbInstanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dbInflux12xlarge
         case dbInflux16xlarge
+        case dbInflux24xlarge
         case dbInflux2xlarge
         case dbInflux4xlarge
         case dbInflux8xlarge
@@ -277,6 +278,7 @@ extension TimestreamInfluxDBClientTypes {
             return [
                 .dbInflux12xlarge,
                 .dbInflux16xlarge,
+                .dbInflux24xlarge,
                 .dbInflux2xlarge,
                 .dbInflux4xlarge,
                 .dbInflux8xlarge,
@@ -295,6 +297,7 @@ extension TimestreamInfluxDBClientTypes {
             switch self {
             case .dbInflux12xlarge: return "db.influx.12xlarge"
             case .dbInflux16xlarge: return "db.influx.16xlarge"
+            case .dbInflux24xlarge: return "db.influx.24xlarge"
             case .dbInflux2xlarge: return "db.influx.2xlarge"
             case .dbInflux4xlarge: return "db.influx.4xlarge"
             case .dbInflux8xlarge: return "db.influx.8xlarge"

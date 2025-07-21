@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KeyspacesStreamsClient: ClientRuntime.Client {
     public static let clientName = "KeyspacesStreamsClient"
-    public static let version = "1.5.2"
+    public static let version = "1.5.3"
     let client: ClientRuntime.SdkHttpClient
     let config: KeyspacesStreamsClient.KeyspacesStreamsClientConfiguration
     let serviceName = "KeyspacesStreams"
