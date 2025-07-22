@@ -23,11 +23,11 @@ enum TestSubject {
         // OPTION 1:
 
         // This constructor creates the existing CRT-based FileBasedConfiguration.
-        return CRTFileBasedConfiguration.makeAsync(configFilePath:credentialsFilePath:)
+//        return CRTFileBasedConfiguration.makeAsync(configFilePath:credentialsFilePath:)
 
         // OPTION 2:
         
         // This constructor creates the new, pure-Swift config file reader.
-//        return ConfigFileReader.makeAsync(configFilePath:credentialsFilePath:)
+        return ConfigFileReader.makeAsync(configFilePath:credentialsFilePath:)
     }
 }
