@@ -863,77 +863,6 @@ extension LambdaClientTypes {
     }
 }
 
-public struct CreateAliasInput: Swift.Sendable {
-    /// A description of the alias.
-    public var description: Swift.String?
-    /// The name or ARN of the Lambda function. Name formats
-    ///
-    /// * Function name - MyFunction.
-    ///
-    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
-    ///
-    /// * Partial ARN - 123456789012:function:MyFunction.
-    ///
-    ///
-    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    /// This member is required.
-    public var functionName: Swift.String?
-    /// The function version that the alias invokes.
-    /// This member is required.
-    public var functionVersion: Swift.String?
-    /// The name of the alias.
-    /// This member is required.
-    public var name: Swift.String?
-    /// The [routing configuration](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html#configuring-alias-routing) of the alias.
-    public var routingConfig: LambdaClientTypes.AliasRoutingConfiguration?
-
-    public init(
-        description: Swift.String? = nil,
-        functionName: Swift.String? = nil,
-        functionVersion: Swift.String? = nil,
-        name: Swift.String? = nil,
-        routingConfig: LambdaClientTypes.AliasRoutingConfiguration? = nil
-    ) {
-        self.description = description
-        self.functionName = functionName
-        self.functionVersion = functionVersion
-        self.name = name
-        self.routingConfig = routingConfig
-    }
-}
-
-/// Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
-public struct CreateAliasOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the alias.
-    public var aliasArn: Swift.String?
-    /// A description of the alias.
-    public var description: Swift.String?
-    /// The function version that the alias invokes.
-    public var functionVersion: Swift.String?
-    /// The name of the alias.
-    public var name: Swift.String?
-    /// A unique identifier that changes when you update the alias.
-    public var revisionId: Swift.String?
-    /// The [routing configuration](https://docs.aws.amazon.com/lambda/latest/dg/lambda-traffic-shifting-using-aliases.html) of the alias.
-    public var routingConfig: LambdaClientTypes.AliasRoutingConfiguration?
-
-    public init(
-        aliasArn: Swift.String? = nil,
-        description: Swift.String? = nil,
-        functionVersion: Swift.String? = nil,
-        name: Swift.String? = nil,
-        revisionId: Swift.String? = nil,
-        routingConfig: LambdaClientTypes.AliasRoutingConfiguration? = nil
-    ) {
-        self.aliasArn = aliasArn
-        self.description = description
-        self.functionVersion = functionVersion
-        self.name = name
-        self.revisionId = revisionId
-        self.routingConfig = routingConfig
-    }
-}
-
 extension LambdaClientTypes {
 
     public enum CodeSigningPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -1044,6 +973,148 @@ extension LambdaClientTypes {
 
 public struct CreateCodeSigningConfigOutput: Swift.Sendable {
     /// The code signing configuration.
+    /// This member is required.
+    public var codeSigningConfig: LambdaClientTypes.CodeSigningConfig?
+
+    public init(
+        codeSigningConfig: LambdaClientTypes.CodeSigningConfig? = nil
+    ) {
+        self.codeSigningConfig = codeSigningConfig
+    }
+}
+
+public struct DeleteCodeSigningConfigInput: Swift.Sendable {
+    /// The The Amazon Resource Name (ARN) of the code signing configuration.
+    /// This member is required.
+    public var codeSigningConfigArn: Swift.String?
+
+    public init(
+        codeSigningConfigArn: Swift.String? = nil
+    ) {
+        self.codeSigningConfigArn = codeSigningConfigArn
+    }
+}
+
+public struct DeleteCodeSigningConfigOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetCodeSigningConfigInput: Swift.Sendable {
+    /// The The Amazon Resource Name (ARN) of the code signing configuration.
+    /// This member is required.
+    public var codeSigningConfigArn: Swift.String?
+
+    public init(
+        codeSigningConfigArn: Swift.String? = nil
+    ) {
+        self.codeSigningConfigArn = codeSigningConfigArn
+    }
+}
+
+public struct GetCodeSigningConfigOutput: Swift.Sendable {
+    /// The code signing configuration
+    /// This member is required.
+    public var codeSigningConfig: LambdaClientTypes.CodeSigningConfig?
+
+    public init(
+        codeSigningConfig: LambdaClientTypes.CodeSigningConfig? = nil
+    ) {
+        self.codeSigningConfig = codeSigningConfig
+    }
+}
+
+public struct ListCodeSigningConfigsInput: Swift.Sendable {
+    /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
+    public var marker: Swift.String?
+    /// Maximum number of items to return.
+    public var maxItems: Swift.Int?
+
+    public init(
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    ) {
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+public struct ListCodeSigningConfigsOutput: Swift.Sendable {
+    /// The code signing configurations
+    public var codeSigningConfigs: [LambdaClientTypes.CodeSigningConfig]?
+    /// The pagination token that's included if more results are available.
+    public var nextMarker: Swift.String?
+
+    public init(
+        codeSigningConfigs: [LambdaClientTypes.CodeSigningConfig]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.codeSigningConfigs = codeSigningConfigs
+        self.nextMarker = nextMarker
+    }
+}
+
+public struct ListFunctionsByCodeSigningConfigInput: Swift.Sendable {
+    /// The The Amazon Resource Name (ARN) of the code signing configuration.
+    /// This member is required.
+    public var codeSigningConfigArn: Swift.String?
+    /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
+    public var marker: Swift.String?
+    /// Maximum number of items to return.
+    public var maxItems: Swift.Int?
+
+    public init(
+        codeSigningConfigArn: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    ) {
+        self.codeSigningConfigArn = codeSigningConfigArn
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+public struct ListFunctionsByCodeSigningConfigOutput: Swift.Sendable {
+    /// The function ARNs.
+    public var functionArns: [Swift.String]?
+    /// The pagination token that's included if more results are available.
+    public var nextMarker: Swift.String?
+
+    public init(
+        functionArns: [Swift.String]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.functionArns = functionArns
+        self.nextMarker = nextMarker
+    }
+}
+
+public struct UpdateCodeSigningConfigInput: Swift.Sendable {
+    /// Signing profiles for this code signing configuration.
+    public var allowedPublishers: LambdaClientTypes.AllowedPublishers?
+    /// The The Amazon Resource Name (ARN) of the code signing configuration.
+    /// This member is required.
+    public var codeSigningConfigArn: Swift.String?
+    /// The code signing policy.
+    public var codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies?
+    /// Descriptive name for this code signing configuration.
+    public var description: Swift.String?
+
+    public init(
+        allowedPublishers: LambdaClientTypes.AllowedPublishers? = nil,
+        codeSigningConfigArn: Swift.String? = nil,
+        codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies? = nil,
+        description: Swift.String? = nil
+    ) {
+        self.allowedPublishers = allowedPublishers
+        self.codeSigningConfigArn = codeSigningConfigArn
+        self.codeSigningPolicies = codeSigningPolicies
+        self.description = description
+    }
+}
+
+public struct UpdateCodeSigningConfigOutput: Swift.Sendable {
+    /// The code signing configuration
     /// This member is required.
     public var codeSigningConfig: LambdaClientTypes.CodeSigningConfig?
 
@@ -1770,6 +1841,781 @@ public struct CreateEventSourceMappingOutput: Swift.Sendable {
     }
 }
 
+/// The operation conflicts with the resource's availability. For example, you tried to update an event source mapping in the CREATING state, or you tried to delete an event source mapping currently UPDATING.
+public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceInUseException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+public struct DeleteEventSourceMappingInput: Swift.Sendable {
+    /// The identifier of the event source mapping.
+    /// This member is required.
+    public var uuid: Swift.String?
+
+    public init(
+        uuid: Swift.String? = nil
+    ) {
+        self.uuid = uuid
+    }
+}
+
+/// A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
+public struct DeleteEventSourceMappingOutput: Swift.Sendable {
+    /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
+    public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
+    /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB). Default value: Varies by service. For Amazon SQS, the default is 10. For all other services, the default is 100. Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+    public var batchSize: Swift.Int?
+    /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
+    public var bisectBatchOnFunctionError: Swift.Bool?
+    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka event sources only) A configuration object that specifies the destination of an event after Lambda processes it.
+    public var destinationConfig: LambdaClientTypes.DestinationConfig?
+    /// Specific configuration settings for a DocumentDB event source.
+    public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
+    /// The Amazon Resource Name (ARN) of the event source.
+    public var eventSourceArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the event source mapping.
+    public var eventSourceMappingArn: Swift.String?
+    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
+    public var filterCriteria: LambdaClientTypes.FilterCriteria?
+    /// An object that contains details about an error related to filter criteria encryption.
+    public var filterCriteriaError: LambdaClientTypes.FilterCriteriaError?
+    /// The ARN of the Lambda function.
+    public var functionArn: Swift.String?
+    /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
+    public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
+    /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
+    public var kmsKeyArn: Swift.String?
+    /// The date that the event source mapping was last updated or that its state changed.
+    public var lastModified: Foundation.Date?
+    /// The result of the event source mapping's last processing attempt.
+    public var lastProcessingResult: Swift.String?
+    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+    public var maximumBatchingWindowInSeconds: Swift.Int?
+    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum valid value for maximum record age is 60s. Although values less than 60 and greater than -1 fall within the parameter's absolute range, they are not allowed
+    public var maximumRecordAgeInSeconds: Swift.Int?
+    /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
+    public var maximumRetryAttempts: Swift.Int?
+    /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+    public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
+    /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
+    public var parallelizationFactor: Swift.Int?
+    /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
+    /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
+    public var queues: [Swift.String]?
+    /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
+    public var scalingConfig: LambdaClientTypes.ScalingConfig?
+    /// The self-managed Apache Kafka cluster for your event source.
+    public var selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource?
+    /// Specific configuration settings for a self-managed Apache Kafka event source.
+    public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
+    /// An array of the authentication protocol, VPC components, or virtual host to secure and define your event source.
+    public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
+    /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka.
+    public var startingPosition: LambdaClientTypes.EventSourcePosition?
+    /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future.
+    public var startingPositionTimestamp: Foundation.Date?
+    /// The state of the event source mapping. It can be one of the following: Creating, Enabling, Enabled, Disabling, Disabled, Updating, or Deleting.
+    public var state: Swift.String?
+    /// Indicates whether a user or Lambda made the last change to the event source mapping.
+    public var stateTransitionReason: Swift.String?
+    /// The name of the Kafka topic.
+    public var topics: [Swift.String]?
+    /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
+    public var tumblingWindowInSeconds: Swift.Int?
+    /// The identifier of the event source mapping.
+    public var uuid: Swift.String?
+
+    public init(
+        amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig? = nil,
+        batchSize: Swift.Int? = nil,
+        bisectBatchOnFunctionError: Swift.Bool? = nil,
+        destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
+        documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
+        eventSourceArn: Swift.String? = nil,
+        eventSourceMappingArn: Swift.String? = nil,
+        filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
+        filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
+        functionArn: Swift.String? = nil,
+        functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        lastModified: Foundation.Date? = nil,
+        lastProcessingResult: Swift.String? = nil,
+        maximumBatchingWindowInSeconds: Swift.Int? = nil,
+        maximumRecordAgeInSeconds: Swift.Int? = nil,
+        maximumRetryAttempts: Swift.Int? = nil,
+        metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
+        parallelizationFactor: Swift.Int? = nil,
+        provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
+        queues: [Swift.String]? = nil,
+        scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
+        selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
+        selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig? = nil,
+        sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
+        startingPosition: LambdaClientTypes.EventSourcePosition? = nil,
+        startingPositionTimestamp: Foundation.Date? = nil,
+        state: Swift.String? = nil,
+        stateTransitionReason: Swift.String? = nil,
+        topics: [Swift.String]? = nil,
+        tumblingWindowInSeconds: Swift.Int? = nil,
+        uuid: Swift.String? = nil
+    ) {
+        self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
+        self.batchSize = batchSize
+        self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
+        self.destinationConfig = destinationConfig
+        self.documentDBEventSourceConfig = documentDBEventSourceConfig
+        self.eventSourceArn = eventSourceArn
+        self.eventSourceMappingArn = eventSourceMappingArn
+        self.filterCriteria = filterCriteria
+        self.filterCriteriaError = filterCriteriaError
+        self.functionArn = functionArn
+        self.functionResponseTypes = functionResponseTypes
+        self.kmsKeyArn = kmsKeyArn
+        self.lastModified = lastModified
+        self.lastProcessingResult = lastProcessingResult
+        self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
+        self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
+        self.maximumRetryAttempts = maximumRetryAttempts
+        self.metricsConfig = metricsConfig
+        self.parallelizationFactor = parallelizationFactor
+        self.provisionedPollerConfig = provisionedPollerConfig
+        self.queues = queues
+        self.scalingConfig = scalingConfig
+        self.selfManagedEventSource = selfManagedEventSource
+        self.selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfig
+        self.sourceAccessConfigurations = sourceAccessConfigurations
+        self.startingPosition = startingPosition
+        self.startingPositionTimestamp = startingPositionTimestamp
+        self.state = state
+        self.stateTransitionReason = stateTransitionReason
+        self.topics = topics
+        self.tumblingWindowInSeconds = tumblingWindowInSeconds
+        self.uuid = uuid
+    }
+}
+
+public struct GetEventSourceMappingInput: Swift.Sendable {
+    /// The identifier of the event source mapping.
+    /// This member is required.
+    public var uuid: Swift.String?
+
+    public init(
+        uuid: Swift.String? = nil
+    ) {
+        self.uuid = uuid
+    }
+}
+
+/// A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
+public struct GetEventSourceMappingOutput: Swift.Sendable {
+    /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
+    public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
+    /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB). Default value: Varies by service. For Amazon SQS, the default is 10. For all other services, the default is 100. Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+    public var batchSize: Swift.Int?
+    /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
+    public var bisectBatchOnFunctionError: Swift.Bool?
+    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka event sources only) A configuration object that specifies the destination of an event after Lambda processes it.
+    public var destinationConfig: LambdaClientTypes.DestinationConfig?
+    /// Specific configuration settings for a DocumentDB event source.
+    public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
+    /// The Amazon Resource Name (ARN) of the event source.
+    public var eventSourceArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the event source mapping.
+    public var eventSourceMappingArn: Swift.String?
+    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
+    public var filterCriteria: LambdaClientTypes.FilterCriteria?
+    /// An object that contains details about an error related to filter criteria encryption.
+    public var filterCriteriaError: LambdaClientTypes.FilterCriteriaError?
+    /// The ARN of the Lambda function.
+    public var functionArn: Swift.String?
+    /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
+    public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
+    /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
+    public var kmsKeyArn: Swift.String?
+    /// The date that the event source mapping was last updated or that its state changed.
+    public var lastModified: Foundation.Date?
+    /// The result of the event source mapping's last processing attempt.
+    public var lastProcessingResult: Swift.String?
+    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+    public var maximumBatchingWindowInSeconds: Swift.Int?
+    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum valid value for maximum record age is 60s. Although values less than 60 and greater than -1 fall within the parameter's absolute range, they are not allowed
+    public var maximumRecordAgeInSeconds: Swift.Int?
+    /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
+    public var maximumRetryAttempts: Swift.Int?
+    /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+    public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
+    /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
+    public var parallelizationFactor: Swift.Int?
+    /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
+    /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
+    public var queues: [Swift.String]?
+    /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
+    public var scalingConfig: LambdaClientTypes.ScalingConfig?
+    /// The self-managed Apache Kafka cluster for your event source.
+    public var selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource?
+    /// Specific configuration settings for a self-managed Apache Kafka event source.
+    public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
+    /// An array of the authentication protocol, VPC components, or virtual host to secure and define your event source.
+    public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
+    /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka.
+    public var startingPosition: LambdaClientTypes.EventSourcePosition?
+    /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future.
+    public var startingPositionTimestamp: Foundation.Date?
+    /// The state of the event source mapping. It can be one of the following: Creating, Enabling, Enabled, Disabling, Disabled, Updating, or Deleting.
+    public var state: Swift.String?
+    /// Indicates whether a user or Lambda made the last change to the event source mapping.
+    public var stateTransitionReason: Swift.String?
+    /// The name of the Kafka topic.
+    public var topics: [Swift.String]?
+    /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
+    public var tumblingWindowInSeconds: Swift.Int?
+    /// The identifier of the event source mapping.
+    public var uuid: Swift.String?
+
+    public init(
+        amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig? = nil,
+        batchSize: Swift.Int? = nil,
+        bisectBatchOnFunctionError: Swift.Bool? = nil,
+        destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
+        documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
+        eventSourceArn: Swift.String? = nil,
+        eventSourceMappingArn: Swift.String? = nil,
+        filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
+        filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
+        functionArn: Swift.String? = nil,
+        functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        lastModified: Foundation.Date? = nil,
+        lastProcessingResult: Swift.String? = nil,
+        maximumBatchingWindowInSeconds: Swift.Int? = nil,
+        maximumRecordAgeInSeconds: Swift.Int? = nil,
+        maximumRetryAttempts: Swift.Int? = nil,
+        metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
+        parallelizationFactor: Swift.Int? = nil,
+        provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
+        queues: [Swift.String]? = nil,
+        scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
+        selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
+        selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig? = nil,
+        sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
+        startingPosition: LambdaClientTypes.EventSourcePosition? = nil,
+        startingPositionTimestamp: Foundation.Date? = nil,
+        state: Swift.String? = nil,
+        stateTransitionReason: Swift.String? = nil,
+        topics: [Swift.String]? = nil,
+        tumblingWindowInSeconds: Swift.Int? = nil,
+        uuid: Swift.String? = nil
+    ) {
+        self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
+        self.batchSize = batchSize
+        self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
+        self.destinationConfig = destinationConfig
+        self.documentDBEventSourceConfig = documentDBEventSourceConfig
+        self.eventSourceArn = eventSourceArn
+        self.eventSourceMappingArn = eventSourceMappingArn
+        self.filterCriteria = filterCriteria
+        self.filterCriteriaError = filterCriteriaError
+        self.functionArn = functionArn
+        self.functionResponseTypes = functionResponseTypes
+        self.kmsKeyArn = kmsKeyArn
+        self.lastModified = lastModified
+        self.lastProcessingResult = lastProcessingResult
+        self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
+        self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
+        self.maximumRetryAttempts = maximumRetryAttempts
+        self.metricsConfig = metricsConfig
+        self.parallelizationFactor = parallelizationFactor
+        self.provisionedPollerConfig = provisionedPollerConfig
+        self.queues = queues
+        self.scalingConfig = scalingConfig
+        self.selfManagedEventSource = selfManagedEventSource
+        self.selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfig
+        self.sourceAccessConfigurations = sourceAccessConfigurations
+        self.startingPosition = startingPosition
+        self.startingPositionTimestamp = startingPositionTimestamp
+        self.state = state
+        self.stateTransitionReason = stateTransitionReason
+        self.topics = topics
+        self.tumblingWindowInSeconds = tumblingWindowInSeconds
+        self.uuid = uuid
+    }
+}
+
+public struct ListEventSourceMappingsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the event source.
+    ///
+    /// * Amazon Kinesis – The ARN of the data stream or a stream consumer.
+    ///
+    /// * Amazon DynamoDB Streams – The ARN of the stream.
+    ///
+    /// * Amazon Simple Queue Service – The ARN of the queue.
+    ///
+    /// * Amazon Managed Streaming for Apache Kafka – The ARN of the cluster or the ARN of the VPC connection (for [cross-account event source mappings](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#msk-multi-vpc)).
+    ///
+    /// * Amazon MQ – The ARN of the broker.
+    ///
+    /// * Amazon DocumentDB – The ARN of the DocumentDB change stream.
+    public var eventSourceArn: Swift.String?
+    /// The name or ARN of the Lambda function. Name formats
+    ///
+    /// * Function name – MyFunction.
+    ///
+    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
+    ///
+    /// * Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
+    ///
+    /// * Partial ARN – 123456789012:function:MyFunction.
+    ///
+    ///
+    /// The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
+    public var functionName: Swift.String?
+    /// A pagination token returned by a previous call.
+    public var marker: Swift.String?
+    /// The maximum number of event source mappings to return. Note that ListEventSourceMappings returns a maximum of 100 items in each response, even if you set the number higher.
+    public var maxItems: Swift.Int?
+
+    public init(
+        eventSourceArn: Swift.String? = nil,
+        functionName: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    ) {
+        self.eventSourceArn = eventSourceArn
+        self.functionName = functionName
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
+    public struct EventSourceMappingConfiguration: Swift.Sendable {
+        /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
+        public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
+        /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB). Default value: Varies by service. For Amazon SQS, the default is 10. For all other services, the default is 100. Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+        public var batchSize: Swift.Int?
+        /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
+        public var bisectBatchOnFunctionError: Swift.Bool?
+        /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka event sources only) A configuration object that specifies the destination of an event after Lambda processes it.
+        public var destinationConfig: LambdaClientTypes.DestinationConfig?
+        /// Specific configuration settings for a DocumentDB event source.
+        public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
+        /// The Amazon Resource Name (ARN) of the event source.
+        public var eventSourceArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the event source mapping.
+        public var eventSourceMappingArn: Swift.String?
+        /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
+        public var filterCriteria: LambdaClientTypes.FilterCriteria?
+        /// An object that contains details about an error related to filter criteria encryption.
+        public var filterCriteriaError: LambdaClientTypes.FilterCriteriaError?
+        /// The ARN of the Lambda function.
+        public var functionArn: Swift.String?
+        /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
+        public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
+        /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
+        public var kmsKeyArn: Swift.String?
+        /// The date that the event source mapping was last updated or that its state changed.
+        public var lastModified: Foundation.Date?
+        /// The result of the event source mapping's last processing attempt.
+        public var lastProcessingResult: Swift.String?
+        /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+        public var maximumBatchingWindowInSeconds: Swift.Int?
+        /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum valid value for maximum record age is 60s. Although values less than 60 and greater than -1 fall within the parameter's absolute range, they are not allowed
+        public var maximumRecordAgeInSeconds: Swift.Int?
+        /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
+        public var maximumRetryAttempts: Swift.Int?
+        /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+        public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
+        /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
+        public var parallelizationFactor: Swift.Int?
+        /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+        public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
+        /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
+        public var queues: [Swift.String]?
+        /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
+        public var scalingConfig: LambdaClientTypes.ScalingConfig?
+        /// The self-managed Apache Kafka cluster for your event source.
+        public var selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource?
+        /// Specific configuration settings for a self-managed Apache Kafka event source.
+        public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
+        /// An array of the authentication protocol, VPC components, or virtual host to secure and define your event source.
+        public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
+        /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka.
+        public var startingPosition: LambdaClientTypes.EventSourcePosition?
+        /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future.
+        public var startingPositionTimestamp: Foundation.Date?
+        /// The state of the event source mapping. It can be one of the following: Creating, Enabling, Enabled, Disabling, Disabled, Updating, or Deleting.
+        public var state: Swift.String?
+        /// Indicates whether a user or Lambda made the last change to the event source mapping.
+        public var stateTransitionReason: Swift.String?
+        /// The name of the Kafka topic.
+        public var topics: [Swift.String]?
+        /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
+        public var tumblingWindowInSeconds: Swift.Int?
+        /// The identifier of the event source mapping.
+        public var uuid: Swift.String?
+
+        public init(
+            amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig? = nil,
+            batchSize: Swift.Int? = nil,
+            bisectBatchOnFunctionError: Swift.Bool? = nil,
+            destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
+            documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
+            eventSourceArn: Swift.String? = nil,
+            eventSourceMappingArn: Swift.String? = nil,
+            filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
+            filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
+            functionArn: Swift.String? = nil,
+            functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
+            kmsKeyArn: Swift.String? = nil,
+            lastModified: Foundation.Date? = nil,
+            lastProcessingResult: Swift.String? = nil,
+            maximumBatchingWindowInSeconds: Swift.Int? = nil,
+            maximumRecordAgeInSeconds: Swift.Int? = nil,
+            maximumRetryAttempts: Swift.Int? = nil,
+            metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
+            parallelizationFactor: Swift.Int? = nil,
+            provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
+            queues: [Swift.String]? = nil,
+            scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
+            selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
+            selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig? = nil,
+            sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
+            startingPosition: LambdaClientTypes.EventSourcePosition? = nil,
+            startingPositionTimestamp: Foundation.Date? = nil,
+            state: Swift.String? = nil,
+            stateTransitionReason: Swift.String? = nil,
+            topics: [Swift.String]? = nil,
+            tumblingWindowInSeconds: Swift.Int? = nil,
+            uuid: Swift.String? = nil
+        ) {
+            self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
+            self.batchSize = batchSize
+            self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
+            self.destinationConfig = destinationConfig
+            self.documentDBEventSourceConfig = documentDBEventSourceConfig
+            self.eventSourceArn = eventSourceArn
+            self.eventSourceMappingArn = eventSourceMappingArn
+            self.filterCriteria = filterCriteria
+            self.filterCriteriaError = filterCriteriaError
+            self.functionArn = functionArn
+            self.functionResponseTypes = functionResponseTypes
+            self.kmsKeyArn = kmsKeyArn
+            self.lastModified = lastModified
+            self.lastProcessingResult = lastProcessingResult
+            self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
+            self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
+            self.maximumRetryAttempts = maximumRetryAttempts
+            self.metricsConfig = metricsConfig
+            self.parallelizationFactor = parallelizationFactor
+            self.provisionedPollerConfig = provisionedPollerConfig
+            self.queues = queues
+            self.scalingConfig = scalingConfig
+            self.selfManagedEventSource = selfManagedEventSource
+            self.selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfig
+            self.sourceAccessConfigurations = sourceAccessConfigurations
+            self.startingPosition = startingPosition
+            self.startingPositionTimestamp = startingPositionTimestamp
+            self.state = state
+            self.stateTransitionReason = stateTransitionReason
+            self.topics = topics
+            self.tumblingWindowInSeconds = tumblingWindowInSeconds
+            self.uuid = uuid
+        }
+    }
+}
+
+public struct ListEventSourceMappingsOutput: Swift.Sendable {
+    /// A list of event source mappings.
+    public var eventSourceMappings: [LambdaClientTypes.EventSourceMappingConfiguration]?
+    /// A pagination token that's returned when the response doesn't contain all event source mappings.
+    public var nextMarker: Swift.String?
+
+    public init(
+        eventSourceMappings: [LambdaClientTypes.EventSourceMappingConfiguration]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.eventSourceMappings = eventSourceMappings
+        self.nextMarker = nextMarker
+    }
+}
+
+public struct UpdateEventSourceMappingInput: Swift.Sendable {
+    /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
+    public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
+    /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).
+    ///
+    /// * Amazon Kinesis – Default 100. Max 10,000.
+    ///
+    /// * Amazon DynamoDB Streams – Default 100. Max 10,000.
+    ///
+    /// * Amazon Simple Queue Service – Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.
+    ///
+    /// * Amazon Managed Streaming for Apache Kafka – Default 100. Max 10,000.
+    ///
+    /// * Self-managed Apache Kafka – Default 100. Max 10,000.
+    ///
+    /// * Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.
+    ///
+    /// * DocumentDB – Default 100. Max 10,000.
+    public var batchSize: Swift.Int?
+    /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry.
+    public var bisectBatchOnFunctionError: Swift.Bool?
+    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Kafka only) A configuration object that specifies the destination of an event after Lambda processes it.
+    public var destinationConfig: LambdaClientTypes.DestinationConfig?
+    /// Specific configuration settings for a DocumentDB event source.
+    public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
+    /// When true, the event source mapping is active. When false, Lambda pauses polling and invocation. Default: True
+    public var enabled: Swift.Bool?
+    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
+    public var filterCriteria: LambdaClientTypes.FilterCriteria?
+    /// The name or ARN of the Lambda function. Name formats
+    ///
+    /// * Function name – MyFunction.
+    ///
+    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
+    ///
+    /// * Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
+    ///
+    /// * Partial ARN – 123456789012:function:MyFunction.
+    ///
+    ///
+    /// The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
+    public var functionName: Swift.String?
+    /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
+    public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
+    /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics). By default, Lambda does not encrypt your filter criteria object. Specify this property to encrypt data using your own customer managed key.
+    public var kmsKeyArn: Swift.String?
+    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+    public var maximumBatchingWindowInSeconds: Swift.Int?
+    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is infinite (-1).
+    public var maximumRecordAgeInSeconds: Swift.Int?
+    /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
+    public var maximumRetryAttempts: Swift.Int?
+    /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+    public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
+    /// (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
+    public var parallelizationFactor: Swift.Int?
+    /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
+    /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
+    public var scalingConfig: LambdaClientTypes.ScalingConfig?
+    /// Specific configuration settings for a self-managed Apache Kafka event source.
+    public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
+    /// An array of authentication protocols or VPC components required to secure your event source.
+    public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
+    /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
+    public var tumblingWindowInSeconds: Swift.Int?
+    /// The identifier of the event source mapping.
+    /// This member is required.
+    public var uuid: Swift.String?
+
+    public init(
+        amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig? = nil,
+        batchSize: Swift.Int? = nil,
+        bisectBatchOnFunctionError: Swift.Bool? = nil,
+        destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
+        documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
+        enabled: Swift.Bool? = nil,
+        filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
+        functionName: Swift.String? = nil,
+        functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        maximumBatchingWindowInSeconds: Swift.Int? = nil,
+        maximumRecordAgeInSeconds: Swift.Int? = nil,
+        maximumRetryAttempts: Swift.Int? = nil,
+        metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
+        parallelizationFactor: Swift.Int? = nil,
+        provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
+        scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
+        selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig? = nil,
+        sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
+        tumblingWindowInSeconds: Swift.Int? = nil,
+        uuid: Swift.String? = nil
+    ) {
+        self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
+        self.batchSize = batchSize
+        self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
+        self.destinationConfig = destinationConfig
+        self.documentDBEventSourceConfig = documentDBEventSourceConfig
+        self.enabled = enabled
+        self.filterCriteria = filterCriteria
+        self.functionName = functionName
+        self.functionResponseTypes = functionResponseTypes
+        self.kmsKeyArn = kmsKeyArn
+        self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
+        self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
+        self.maximumRetryAttempts = maximumRetryAttempts
+        self.metricsConfig = metricsConfig
+        self.parallelizationFactor = parallelizationFactor
+        self.provisionedPollerConfig = provisionedPollerConfig
+        self.scalingConfig = scalingConfig
+        self.selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfig
+        self.sourceAccessConfigurations = sourceAccessConfigurations
+        self.tumblingWindowInSeconds = tumblingWindowInSeconds
+        self.uuid = uuid
+    }
+}
+
+/// A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
+public struct UpdateEventSourceMappingOutput: Swift.Sendable {
+    /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
+    public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
+    /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB). Default value: Varies by service. For Amazon SQS, the default is 10. For all other services, the default is 100. Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+    public var batchSize: Swift.Int?
+    /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
+    public var bisectBatchOnFunctionError: Swift.Bool?
+    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka event sources only) A configuration object that specifies the destination of an event after Lambda processes it.
+    public var destinationConfig: LambdaClientTypes.DestinationConfig?
+    /// Specific configuration settings for a DocumentDB event source.
+    public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
+    /// The Amazon Resource Name (ARN) of the event source.
+    public var eventSourceArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the event source mapping.
+    public var eventSourceMappingArn: Swift.String?
+    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
+    public var filterCriteria: LambdaClientTypes.FilterCriteria?
+    /// An object that contains details about an error related to filter criteria encryption.
+    public var filterCriteriaError: LambdaClientTypes.FilterCriteriaError?
+    /// The ARN of the Lambda function.
+    public var functionArn: Swift.String?
+    /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
+    public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
+    /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
+    public var kmsKeyArn: Swift.String?
+    /// The date that the event source mapping was last updated or that its state changed.
+    public var lastModified: Foundation.Date?
+    /// The result of the event source mapping's last processing attempt.
+    public var lastProcessingResult: Swift.String?
+    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
+    public var maximumBatchingWindowInSeconds: Swift.Int?
+    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum valid value for maximum record age is 60s. Although values less than 60 and greater than -1 fall within the parameter's absolute range, they are not allowed
+    public var maximumRecordAgeInSeconds: Swift.Int?
+    /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
+    public var maximumRetryAttempts: Swift.Int?
+    /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+    public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
+    /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
+    public var parallelizationFactor: Swift.Int?
+    /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
+    public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
+    /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
+    public var queues: [Swift.String]?
+    /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
+    public var scalingConfig: LambdaClientTypes.ScalingConfig?
+    /// The self-managed Apache Kafka cluster for your event source.
+    public var selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource?
+    /// Specific configuration settings for a self-managed Apache Kafka event source.
+    public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
+    /// An array of the authentication protocol, VPC components, or virtual host to secure and define your event source.
+    public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
+    /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka.
+    public var startingPosition: LambdaClientTypes.EventSourcePosition?
+    /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future.
+    public var startingPositionTimestamp: Foundation.Date?
+    /// The state of the event source mapping. It can be one of the following: Creating, Enabling, Enabled, Disabling, Disabled, Updating, or Deleting.
+    public var state: Swift.String?
+    /// Indicates whether a user or Lambda made the last change to the event source mapping.
+    public var stateTransitionReason: Swift.String?
+    /// The name of the Kafka topic.
+    public var topics: [Swift.String]?
+    /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
+    public var tumblingWindowInSeconds: Swift.Int?
+    /// The identifier of the event source mapping.
+    public var uuid: Swift.String?
+
+    public init(
+        amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig? = nil,
+        batchSize: Swift.Int? = nil,
+        bisectBatchOnFunctionError: Swift.Bool? = nil,
+        destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
+        documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
+        eventSourceArn: Swift.String? = nil,
+        eventSourceMappingArn: Swift.String? = nil,
+        filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
+        filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
+        functionArn: Swift.String? = nil,
+        functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        lastModified: Foundation.Date? = nil,
+        lastProcessingResult: Swift.String? = nil,
+        maximumBatchingWindowInSeconds: Swift.Int? = nil,
+        maximumRecordAgeInSeconds: Swift.Int? = nil,
+        maximumRetryAttempts: Swift.Int? = nil,
+        metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
+        parallelizationFactor: Swift.Int? = nil,
+        provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
+        queues: [Swift.String]? = nil,
+        scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
+        selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
+        selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig? = nil,
+        sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
+        startingPosition: LambdaClientTypes.EventSourcePosition? = nil,
+        startingPositionTimestamp: Foundation.Date? = nil,
+        state: Swift.String? = nil,
+        stateTransitionReason: Swift.String? = nil,
+        topics: [Swift.String]? = nil,
+        tumblingWindowInSeconds: Swift.Int? = nil,
+        uuid: Swift.String? = nil
+    ) {
+        self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
+        self.batchSize = batchSize
+        self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
+        self.destinationConfig = destinationConfig
+        self.documentDBEventSourceConfig = documentDBEventSourceConfig
+        self.eventSourceArn = eventSourceArn
+        self.eventSourceMappingArn = eventSourceMappingArn
+        self.filterCriteria = filterCriteria
+        self.filterCriteriaError = filterCriteriaError
+        self.functionArn = functionArn
+        self.functionResponseTypes = functionResponseTypes
+        self.kmsKeyArn = kmsKeyArn
+        self.lastModified = lastModified
+        self.lastProcessingResult = lastProcessingResult
+        self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
+        self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
+        self.maximumRetryAttempts = maximumRetryAttempts
+        self.metricsConfig = metricsConfig
+        self.parallelizationFactor = parallelizationFactor
+        self.provisionedPollerConfig = provisionedPollerConfig
+        self.queues = queues
+        self.scalingConfig = scalingConfig
+        self.selfManagedEventSource = selfManagedEventSource
+        self.selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfig
+        self.sourceAccessConfigurations = sourceAccessConfigurations
+        self.startingPosition = startingPosition
+        self.startingPositionTimestamp = startingPositionTimestamp
+        self.state = state
+        self.stateTransitionReason = stateTransitionReason
+        self.topics = topics
+        self.tumblingWindowInSeconds = tumblingWindowInSeconds
+        self.uuid = uuid
+    }
+}
+
 /// The specified code signing configuration does not exist.
 public struct CodeSigningConfigNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2079,7 +2925,7 @@ extension LambdaClientTypes {
         public var applicationLogLevel: LambdaClientTypes.ApplicationLogLevel?
         /// The format in which Lambda sends your function's application and system logs to CloudWatch. Select between plain text and structured JSON.
         public var logFormat: LambdaClientTypes.LogFormat?
-        /// The name of the Amazon CloudWatch log group the function sends logs to. By default, Lambda functions send logs to a default log group named /aws/lambda/. To use a different log group, enter an existing log group or enter a new log group name.
+        /// The name of the Amazon CloudWatch log group the function sends logs to. By default, Lambda functions send logs to a default log group named /aws/lambda/<function name>. To use a different log group, enter an existing log group or enter a new log group name.
         public var logGroup: Swift.String?
         /// Set this property to filter the system logs for your function that Lambda sends to CloudWatch. Lambda only sends system logs at the selected level of detail and lower, where DEBUG is the highest level and WARN is the lowest.
         public var systemLogLevel: LambdaClientTypes.SystemLogLevel?
@@ -3317,223 +4163,6 @@ public struct CreateFunctionUrlConfigOutput: Swift.Sendable {
     }
 }
 
-public struct DeleteAliasInput: Swift.Sendable {
-    /// The name or ARN of the Lambda function. Name formats
-    ///
-    /// * Function name - MyFunction.
-    ///
-    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
-    ///
-    /// * Partial ARN - 123456789012:function:MyFunction.
-    ///
-    ///
-    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    /// This member is required.
-    public var functionName: Swift.String?
-    /// The name of the alias.
-    /// This member is required.
-    public var name: Swift.String?
-
-    public init(
-        functionName: Swift.String? = nil,
-        name: Swift.String? = nil
-    ) {
-        self.functionName = functionName
-        self.name = name
-    }
-}
-
-public struct DeleteCodeSigningConfigInput: Swift.Sendable {
-    /// The The Amazon Resource Name (ARN) of the code signing configuration.
-    /// This member is required.
-    public var codeSigningConfigArn: Swift.String?
-
-    public init(
-        codeSigningConfigArn: Swift.String? = nil
-    ) {
-        self.codeSigningConfigArn = codeSigningConfigArn
-    }
-}
-
-public struct DeleteCodeSigningConfigOutput: Swift.Sendable {
-
-    public init() { }
-}
-
-/// The operation conflicts with the resource's availability. For example, you tried to update an event source mapping in the CREATING state, or you tried to delete an event source mapping currently UPDATING.
-public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        public internal(set) var type: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceInUseException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        type: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.type = type
-    }
-}
-
-public struct DeleteEventSourceMappingInput: Swift.Sendable {
-    /// The identifier of the event source mapping.
-    /// This member is required.
-    public var uuid: Swift.String?
-
-    public init(
-        uuid: Swift.String? = nil
-    ) {
-        self.uuid = uuid
-    }
-}
-
-/// A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
-public struct DeleteEventSourceMappingOutput: Swift.Sendable {
-    /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
-    public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
-    /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB). Default value: Varies by service. For Amazon SQS, the default is 10. For all other services, the default is 100. Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
-    public var batchSize: Swift.Int?
-    /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
-    public var bisectBatchOnFunctionError: Swift.Bool?
-    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka event sources only) A configuration object that specifies the destination of an event after Lambda processes it.
-    public var destinationConfig: LambdaClientTypes.DestinationConfig?
-    /// Specific configuration settings for a DocumentDB event source.
-    public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
-    /// The Amazon Resource Name (ARN) of the event source.
-    public var eventSourceArn: Swift.String?
-    /// The Amazon Resource Name (ARN) of the event source mapping.
-    public var eventSourceMappingArn: Swift.String?
-    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
-    public var filterCriteria: LambdaClientTypes.FilterCriteria?
-    /// An object that contains details about an error related to filter criteria encryption.
-    public var filterCriteriaError: LambdaClientTypes.FilterCriteriaError?
-    /// The ARN of the Lambda function.
-    public var functionArn: Swift.String?
-    /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
-    public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
-    /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
-    public var kmsKeyArn: Swift.String?
-    /// The date that the event source mapping was last updated or that its state changed.
-    public var lastModified: Foundation.Date?
-    /// The result of the event source mapping's last processing attempt.
-    public var lastProcessingResult: Swift.String?
-    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
-    public var maximumBatchingWindowInSeconds: Swift.Int?
-    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum valid value for maximum record age is 60s. Although values less than 60 and greater than -1 fall within the parameter's absolute range, they are not allowed
-    public var maximumRecordAgeInSeconds: Swift.Int?
-    /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
-    public var maximumRetryAttempts: Swift.Int?
-    /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
-    public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
-    /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
-    public var parallelizationFactor: Swift.Int?
-    /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
-    public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
-    /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
-    public var queues: [Swift.String]?
-    /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
-    public var scalingConfig: LambdaClientTypes.ScalingConfig?
-    /// The self-managed Apache Kafka cluster for your event source.
-    public var selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource?
-    /// Specific configuration settings for a self-managed Apache Kafka event source.
-    public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
-    /// An array of the authentication protocol, VPC components, or virtual host to secure and define your event source.
-    public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
-    /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka.
-    public var startingPosition: LambdaClientTypes.EventSourcePosition?
-    /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future.
-    public var startingPositionTimestamp: Foundation.Date?
-    /// The state of the event source mapping. It can be one of the following: Creating, Enabling, Enabled, Disabling, Disabled, Updating, or Deleting.
-    public var state: Swift.String?
-    /// Indicates whether a user or Lambda made the last change to the event source mapping.
-    public var stateTransitionReason: Swift.String?
-    /// The name of the Kafka topic.
-    public var topics: [Swift.String]?
-    /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
-    public var tumblingWindowInSeconds: Swift.Int?
-    /// The identifier of the event source mapping.
-    public var uuid: Swift.String?
-
-    public init(
-        amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig? = nil,
-        batchSize: Swift.Int? = nil,
-        bisectBatchOnFunctionError: Swift.Bool? = nil,
-        destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
-        documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
-        eventSourceArn: Swift.String? = nil,
-        eventSourceMappingArn: Swift.String? = nil,
-        filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
-        filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
-        functionArn: Swift.String? = nil,
-        functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
-        kmsKeyArn: Swift.String? = nil,
-        lastModified: Foundation.Date? = nil,
-        lastProcessingResult: Swift.String? = nil,
-        maximumBatchingWindowInSeconds: Swift.Int? = nil,
-        maximumRecordAgeInSeconds: Swift.Int? = nil,
-        maximumRetryAttempts: Swift.Int? = nil,
-        metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
-        parallelizationFactor: Swift.Int? = nil,
-        provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
-        queues: [Swift.String]? = nil,
-        scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
-        selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
-        selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig? = nil,
-        sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
-        startingPosition: LambdaClientTypes.EventSourcePosition? = nil,
-        startingPositionTimestamp: Foundation.Date? = nil,
-        state: Swift.String? = nil,
-        stateTransitionReason: Swift.String? = nil,
-        topics: [Swift.String]? = nil,
-        tumblingWindowInSeconds: Swift.Int? = nil,
-        uuid: Swift.String? = nil
-    ) {
-        self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
-        self.batchSize = batchSize
-        self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
-        self.destinationConfig = destinationConfig
-        self.documentDBEventSourceConfig = documentDBEventSourceConfig
-        self.eventSourceArn = eventSourceArn
-        self.eventSourceMappingArn = eventSourceMappingArn
-        self.filterCriteria = filterCriteria
-        self.filterCriteriaError = filterCriteriaError
-        self.functionArn = functionArn
-        self.functionResponseTypes = functionResponseTypes
-        self.kmsKeyArn = kmsKeyArn
-        self.lastModified = lastModified
-        self.lastProcessingResult = lastProcessingResult
-        self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
-        self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
-        self.maximumRetryAttempts = maximumRetryAttempts
-        self.metricsConfig = metricsConfig
-        self.parallelizationFactor = parallelizationFactor
-        self.provisionedPollerConfig = provisionedPollerConfig
-        self.queues = queues
-        self.scalingConfig = scalingConfig
-        self.selfManagedEventSource = selfManagedEventSource
-        self.selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfig
-        self.sourceAccessConfigurations = sourceAccessConfigurations
-        self.startingPosition = startingPosition
-        self.startingPositionTimestamp = startingPositionTimestamp
-        self.state = state
-        self.stateTransitionReason = stateTransitionReason
-        self.topics = topics
-        self.tumblingWindowInSeconds = tumblingWindowInSeconds
-        self.uuid = uuid
-    }
-}
-
 public struct DeleteFunctionInput: Swift.Sendable {
     /// The name or ARN of the Lambda function or version. Name formats
     ///
@@ -3648,299 +4277,6 @@ public struct DeleteFunctionUrlConfigInput: Swift.Sendable {
     ) {
         self.functionName = functionName
         self.qualifier = qualifier
-    }
-}
-
-public struct DeleteLayerVersionInput: Swift.Sendable {
-    /// The name or Amazon Resource Name (ARN) of the layer.
-    /// This member is required.
-    public var layerName: Swift.String?
-    /// The version number.
-    /// This member is required.
-    public var versionNumber: Swift.Int?
-
-    public init(
-        layerName: Swift.String? = nil,
-        versionNumber: Swift.Int? = 0
-    ) {
-        self.layerName = layerName
-        self.versionNumber = versionNumber
-    }
-}
-
-public struct DeleteProvisionedConcurrencyConfigInput: Swift.Sendable {
-    /// The name or ARN of the Lambda function. Name formats
-    ///
-    /// * Function name – my-function.
-    ///
-    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.
-    ///
-    /// * Partial ARN – 123456789012:function:my-function.
-    ///
-    ///
-    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    /// This member is required.
-    public var functionName: Swift.String?
-    /// The version number or alias name.
-    /// This member is required.
-    public var qualifier: Swift.String?
-
-    public init(
-        functionName: Swift.String? = nil,
-        qualifier: Swift.String? = nil
-    ) {
-        self.functionName = functionName
-        self.qualifier = qualifier
-    }
-}
-
-public struct GetAccountSettingsInput: Swift.Sendable {
-
-    public init() { }
-}
-
-public struct GetAccountSettingsOutput: Swift.Sendable {
-    /// Limits that are related to concurrency and code storage.
-    public var accountLimit: LambdaClientTypes.AccountLimit?
-    /// The number of functions and amount of storage in use.
-    public var accountUsage: LambdaClientTypes.AccountUsage?
-
-    public init(
-        accountLimit: LambdaClientTypes.AccountLimit? = nil,
-        accountUsage: LambdaClientTypes.AccountUsage? = nil
-    ) {
-        self.accountLimit = accountLimit
-        self.accountUsage = accountUsage
-    }
-}
-
-public struct GetAliasInput: Swift.Sendable {
-    /// The name or ARN of the Lambda function. Name formats
-    ///
-    /// * Function name - MyFunction.
-    ///
-    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
-    ///
-    /// * Partial ARN - 123456789012:function:MyFunction.
-    ///
-    ///
-    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    /// This member is required.
-    public var functionName: Swift.String?
-    /// The name of the alias.
-    /// This member is required.
-    public var name: Swift.String?
-
-    public init(
-        functionName: Swift.String? = nil,
-        name: Swift.String? = nil
-    ) {
-        self.functionName = functionName
-        self.name = name
-    }
-}
-
-/// Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
-public struct GetAliasOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the alias.
-    public var aliasArn: Swift.String?
-    /// A description of the alias.
-    public var description: Swift.String?
-    /// The function version that the alias invokes.
-    public var functionVersion: Swift.String?
-    /// The name of the alias.
-    public var name: Swift.String?
-    /// A unique identifier that changes when you update the alias.
-    public var revisionId: Swift.String?
-    /// The [routing configuration](https://docs.aws.amazon.com/lambda/latest/dg/lambda-traffic-shifting-using-aliases.html) of the alias.
-    public var routingConfig: LambdaClientTypes.AliasRoutingConfiguration?
-
-    public init(
-        aliasArn: Swift.String? = nil,
-        description: Swift.String? = nil,
-        functionVersion: Swift.String? = nil,
-        name: Swift.String? = nil,
-        revisionId: Swift.String? = nil,
-        routingConfig: LambdaClientTypes.AliasRoutingConfiguration? = nil
-    ) {
-        self.aliasArn = aliasArn
-        self.description = description
-        self.functionVersion = functionVersion
-        self.name = name
-        self.revisionId = revisionId
-        self.routingConfig = routingConfig
-    }
-}
-
-public struct GetCodeSigningConfigInput: Swift.Sendable {
-    /// The The Amazon Resource Name (ARN) of the code signing configuration.
-    /// This member is required.
-    public var codeSigningConfigArn: Swift.String?
-
-    public init(
-        codeSigningConfigArn: Swift.String? = nil
-    ) {
-        self.codeSigningConfigArn = codeSigningConfigArn
-    }
-}
-
-public struct GetCodeSigningConfigOutput: Swift.Sendable {
-    /// The code signing configuration
-    /// This member is required.
-    public var codeSigningConfig: LambdaClientTypes.CodeSigningConfig?
-
-    public init(
-        codeSigningConfig: LambdaClientTypes.CodeSigningConfig? = nil
-    ) {
-        self.codeSigningConfig = codeSigningConfig
-    }
-}
-
-public struct GetEventSourceMappingInput: Swift.Sendable {
-    /// The identifier of the event source mapping.
-    /// This member is required.
-    public var uuid: Swift.String?
-
-    public init(
-        uuid: Swift.String? = nil
-    ) {
-        self.uuid = uuid
-    }
-}
-
-/// A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
-public struct GetEventSourceMappingOutput: Swift.Sendable {
-    /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
-    public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
-    /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB). Default value: Varies by service. For Amazon SQS, the default is 10. For all other services, the default is 100. Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
-    public var batchSize: Swift.Int?
-    /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
-    public var bisectBatchOnFunctionError: Swift.Bool?
-    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka event sources only) A configuration object that specifies the destination of an event after Lambda processes it.
-    public var destinationConfig: LambdaClientTypes.DestinationConfig?
-    /// Specific configuration settings for a DocumentDB event source.
-    public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
-    /// The Amazon Resource Name (ARN) of the event source.
-    public var eventSourceArn: Swift.String?
-    /// The Amazon Resource Name (ARN) of the event source mapping.
-    public var eventSourceMappingArn: Swift.String?
-    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
-    public var filterCriteria: LambdaClientTypes.FilterCriteria?
-    /// An object that contains details about an error related to filter criteria encryption.
-    public var filterCriteriaError: LambdaClientTypes.FilterCriteriaError?
-    /// The ARN of the Lambda function.
-    public var functionArn: Swift.String?
-    /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
-    public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
-    /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
-    public var kmsKeyArn: Swift.String?
-    /// The date that the event source mapping was last updated or that its state changed.
-    public var lastModified: Foundation.Date?
-    /// The result of the event source mapping's last processing attempt.
-    public var lastProcessingResult: Swift.String?
-    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
-    public var maximumBatchingWindowInSeconds: Swift.Int?
-    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum valid value for maximum record age is 60s. Although values less than 60 and greater than -1 fall within the parameter's absolute range, they are not allowed
-    public var maximumRecordAgeInSeconds: Swift.Int?
-    /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
-    public var maximumRetryAttempts: Swift.Int?
-    /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
-    public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
-    /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
-    public var parallelizationFactor: Swift.Int?
-    /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
-    public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
-    /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
-    public var queues: [Swift.String]?
-    /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
-    public var scalingConfig: LambdaClientTypes.ScalingConfig?
-    /// The self-managed Apache Kafka cluster for your event source.
-    public var selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource?
-    /// Specific configuration settings for a self-managed Apache Kafka event source.
-    public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
-    /// An array of the authentication protocol, VPC components, or virtual host to secure and define your event source.
-    public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
-    /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka.
-    public var startingPosition: LambdaClientTypes.EventSourcePosition?
-    /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future.
-    public var startingPositionTimestamp: Foundation.Date?
-    /// The state of the event source mapping. It can be one of the following: Creating, Enabling, Enabled, Disabling, Disabled, Updating, or Deleting.
-    public var state: Swift.String?
-    /// Indicates whether a user or Lambda made the last change to the event source mapping.
-    public var stateTransitionReason: Swift.String?
-    /// The name of the Kafka topic.
-    public var topics: [Swift.String]?
-    /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
-    public var tumblingWindowInSeconds: Swift.Int?
-    /// The identifier of the event source mapping.
-    public var uuid: Swift.String?
-
-    public init(
-        amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig? = nil,
-        batchSize: Swift.Int? = nil,
-        bisectBatchOnFunctionError: Swift.Bool? = nil,
-        destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
-        documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
-        eventSourceArn: Swift.String? = nil,
-        eventSourceMappingArn: Swift.String? = nil,
-        filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
-        filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
-        functionArn: Swift.String? = nil,
-        functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
-        kmsKeyArn: Swift.String? = nil,
-        lastModified: Foundation.Date? = nil,
-        lastProcessingResult: Swift.String? = nil,
-        maximumBatchingWindowInSeconds: Swift.Int? = nil,
-        maximumRecordAgeInSeconds: Swift.Int? = nil,
-        maximumRetryAttempts: Swift.Int? = nil,
-        metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
-        parallelizationFactor: Swift.Int? = nil,
-        provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
-        queues: [Swift.String]? = nil,
-        scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
-        selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
-        selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig? = nil,
-        sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
-        startingPosition: LambdaClientTypes.EventSourcePosition? = nil,
-        startingPositionTimestamp: Foundation.Date? = nil,
-        state: Swift.String? = nil,
-        stateTransitionReason: Swift.String? = nil,
-        topics: [Swift.String]? = nil,
-        tumblingWindowInSeconds: Swift.Int? = nil,
-        uuid: Swift.String? = nil
-    ) {
-        self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
-        self.batchSize = batchSize
-        self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
-        self.destinationConfig = destinationConfig
-        self.documentDBEventSourceConfig = documentDBEventSourceConfig
-        self.eventSourceArn = eventSourceArn
-        self.eventSourceMappingArn = eventSourceMappingArn
-        self.filterCriteria = filterCriteria
-        self.filterCriteriaError = filterCriteriaError
-        self.functionArn = functionArn
-        self.functionResponseTypes = functionResponseTypes
-        self.kmsKeyArn = kmsKeyArn
-        self.lastModified = lastModified
-        self.lastProcessingResult = lastProcessingResult
-        self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
-        self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
-        self.maximumRetryAttempts = maximumRetryAttempts
-        self.metricsConfig = metricsConfig
-        self.parallelizationFactor = parallelizationFactor
-        self.provisionedPollerConfig = provisionedPollerConfig
-        self.queues = queues
-        self.scalingConfig = scalingConfig
-        self.selfManagedEventSource = selfManagedEventSource
-        self.selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfig
-        self.sourceAccessConfigurations = sourceAccessConfigurations
-        self.startingPosition = startingPosition
-        self.startingPositionTimestamp = startingPositionTimestamp
-        self.state = state
-        self.stateTransitionReason = stateTransitionReason
-        self.topics = topics
-        self.tumblingWindowInSeconds = tumblingWindowInSeconds
-        self.uuid = uuid
     }
 }
 
@@ -4681,184 +5017,6 @@ public struct GetFunctionUrlConfigOutput: Swift.Sendable {
     }
 }
 
-public struct GetLayerVersionInput: Swift.Sendable {
-    /// The name or Amazon Resource Name (ARN) of the layer.
-    /// This member is required.
-    public var layerName: Swift.String?
-    /// The version number.
-    /// This member is required.
-    public var versionNumber: Swift.Int?
-
-    public init(
-        layerName: Swift.String? = nil,
-        versionNumber: Swift.Int? = 0
-    ) {
-        self.layerName = layerName
-        self.versionNumber = versionNumber
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Details about a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html).
-    public struct LayerVersionContentOutput: Swift.Sendable {
-        /// The SHA-256 hash of the layer archive.
-        public var codeSha256: Swift.String?
-        /// The size of the layer archive in bytes.
-        public var codeSize: Swift.Int
-        /// A link to the layer archive in Amazon S3 that is valid for 10 minutes.
-        public var location: Swift.String?
-        /// The Amazon Resource Name (ARN) of a signing job.
-        public var signingJobArn: Swift.String?
-        /// The Amazon Resource Name (ARN) for a signing profile version.
-        public var signingProfileVersionArn: Swift.String?
-
-        public init(
-            codeSha256: Swift.String? = nil,
-            codeSize: Swift.Int = 0,
-            location: Swift.String? = nil,
-            signingJobArn: Swift.String? = nil,
-            signingProfileVersionArn: Swift.String? = nil
-        ) {
-            self.codeSha256 = codeSha256
-            self.codeSize = codeSize
-            self.location = location
-            self.signingJobArn = signingJobArn
-            self.signingProfileVersionArn = signingProfileVersionArn
-        }
-    }
-}
-
-public struct GetLayerVersionOutput: Swift.Sendable {
-    /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
-    public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
-    /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
-    public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
-    /// Details about the layer version.
-    public var content: LambdaClientTypes.LayerVersionContentOutput?
-    /// The date that the layer version was created, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
-    public var createdDate: Swift.String?
-    /// The description of the version.
-    public var description: Swift.String?
-    /// The ARN of the layer.
-    public var layerArn: Swift.String?
-    /// The ARN of the layer version.
-    public var layerVersionArn: Swift.String?
-    /// The layer's software license.
-    public var licenseInfo: Swift.String?
-    /// The version number.
-    public var version: Swift.Int
-
-    public init(
-        compatibleArchitectures: [LambdaClientTypes.Architecture]? = nil,
-        compatibleRuntimes: [LambdaClientTypes.Runtime]? = nil,
-        content: LambdaClientTypes.LayerVersionContentOutput? = nil,
-        createdDate: Swift.String? = nil,
-        description: Swift.String? = nil,
-        layerArn: Swift.String? = nil,
-        layerVersionArn: Swift.String? = nil,
-        licenseInfo: Swift.String? = nil,
-        version: Swift.Int = 0
-    ) {
-        self.compatibleArchitectures = compatibleArchitectures
-        self.compatibleRuntimes = compatibleRuntimes
-        self.content = content
-        self.createdDate = createdDate
-        self.description = description
-        self.layerArn = layerArn
-        self.layerVersionArn = layerVersionArn
-        self.licenseInfo = licenseInfo
-        self.version = version
-    }
-}
-
-public struct GetLayerVersionByArnInput: Swift.Sendable {
-    /// The ARN of the layer version.
-    /// This member is required.
-    public var arn: Swift.String?
-
-    public init(
-        arn: Swift.String? = nil
-    ) {
-        self.arn = arn
-    }
-}
-
-public struct GetLayerVersionByArnOutput: Swift.Sendable {
-    /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
-    public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
-    /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
-    public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
-    /// Details about the layer version.
-    public var content: LambdaClientTypes.LayerVersionContentOutput?
-    /// The date that the layer version was created, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
-    public var createdDate: Swift.String?
-    /// The description of the version.
-    public var description: Swift.String?
-    /// The ARN of the layer.
-    public var layerArn: Swift.String?
-    /// The ARN of the layer version.
-    public var layerVersionArn: Swift.String?
-    /// The layer's software license.
-    public var licenseInfo: Swift.String?
-    /// The version number.
-    public var version: Swift.Int
-
-    public init(
-        compatibleArchitectures: [LambdaClientTypes.Architecture]? = nil,
-        compatibleRuntimes: [LambdaClientTypes.Runtime]? = nil,
-        content: LambdaClientTypes.LayerVersionContentOutput? = nil,
-        createdDate: Swift.String? = nil,
-        description: Swift.String? = nil,
-        layerArn: Swift.String? = nil,
-        layerVersionArn: Swift.String? = nil,
-        licenseInfo: Swift.String? = nil,
-        version: Swift.Int = 0
-    ) {
-        self.compatibleArchitectures = compatibleArchitectures
-        self.compatibleRuntimes = compatibleRuntimes
-        self.content = content
-        self.createdDate = createdDate
-        self.description = description
-        self.layerArn = layerArn
-        self.layerVersionArn = layerVersionArn
-        self.licenseInfo = licenseInfo
-        self.version = version
-    }
-}
-
-public struct GetLayerVersionPolicyInput: Swift.Sendable {
-    /// The name or Amazon Resource Name (ARN) of the layer.
-    /// This member is required.
-    public var layerName: Swift.String?
-    /// The version number.
-    /// This member is required.
-    public var versionNumber: Swift.Int?
-
-    public init(
-        layerName: Swift.String? = nil,
-        versionNumber: Swift.Int? = 0
-    ) {
-        self.layerName = layerName
-        self.versionNumber = versionNumber
-    }
-}
-
-public struct GetLayerVersionPolicyOutput: Swift.Sendable {
-    /// The policy document.
-    public var policy: Swift.String?
-    /// A unique identifier for the current revision of the policy.
-    public var revisionId: Swift.String?
-
-    public init(
-        policy: Swift.String? = nil,
-        revisionId: Swift.String? = nil
-    ) {
-        self.policy = policy
-        self.revisionId = revisionId
-    }
-}
-
 public struct GetPolicyInput: Swift.Sendable {
     /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
@@ -4896,121 +5054,6 @@ public struct GetPolicyOutput: Swift.Sendable {
     ) {
         self.policy = policy
         self.revisionId = revisionId
-    }
-}
-
-/// The specified configuration does not exist.
-public struct ProvisionedConcurrencyConfigNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        public internal(set) var type: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ProvisionedConcurrencyConfigNotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        type: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.type = type
-    }
-}
-
-public struct GetProvisionedConcurrencyConfigInput: Swift.Sendable {
-    /// The name or ARN of the Lambda function. Name formats
-    ///
-    /// * Function name – my-function.
-    ///
-    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.
-    ///
-    /// * Partial ARN – 123456789012:function:my-function.
-    ///
-    ///
-    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    /// This member is required.
-    public var functionName: Swift.String?
-    /// The version number or alias name.
-    /// This member is required.
-    public var qualifier: Swift.String?
-
-    public init(
-        functionName: Swift.String? = nil,
-        qualifier: Swift.String? = nil
-    ) {
-        self.functionName = functionName
-        self.qualifier = qualifier
-    }
-}
-
-extension LambdaClientTypes {
-
-    public enum ProvisionedConcurrencyStatusEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case failed
-        case inProgress
-        case ready
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ProvisionedConcurrencyStatusEnum] {
-            return [
-                .failed,
-                .inProgress,
-                .ready
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .failed: return "FAILED"
-            case .inProgress: return "IN_PROGRESS"
-            case .ready: return "READY"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-public struct GetProvisionedConcurrencyConfigOutput: Swift.Sendable {
-    /// The amount of provisioned concurrency allocated. When a weighted alias is used during linear and canary deployments, this value fluctuates depending on the amount of concurrency that is provisioned for the function versions.
-    public var allocatedProvisionedConcurrentExecutions: Swift.Int?
-    /// The amount of provisioned concurrency available.
-    public var availableProvisionedConcurrentExecutions: Swift.Int?
-    /// The date and time that a user last updated the configuration, in [ISO 8601 format](https://www.iso.org/iso-8601-date-and-time-format.html).
-    public var lastModified: Swift.String?
-    /// The amount of provisioned concurrency requested.
-    public var requestedProvisionedConcurrentExecutions: Swift.Int?
-    /// The status of the allocation process.
-    public var status: LambdaClientTypes.ProvisionedConcurrencyStatusEnum?
-    /// For failed allocations, the reason that provisioned concurrency could not be allocated.
-    public var statusReason: Swift.String?
-
-    public init(
-        allocatedProvisionedConcurrentExecutions: Swift.Int? = nil,
-        availableProvisionedConcurrentExecutions: Swift.Int? = nil,
-        lastModified: Swift.String? = nil,
-        requestedProvisionedConcurrentExecutions: Swift.Int? = nil,
-        status: LambdaClientTypes.ProvisionedConcurrencyStatusEnum? = nil,
-        statusReason: Swift.String? = nil
-    ) {
-        self.allocatedProvisionedConcurrentExecutions = allocatedProvisionedConcurrentExecutions
-        self.availableProvisionedConcurrentExecutions = availableProvisionedConcurrentExecutions
-        self.lastModified = lastModified
-        self.requestedProvisionedConcurrentExecutions = requestedProvisionedConcurrentExecutions
-        self.status = status
-        self.statusReason = statusReason
     }
 }
 
@@ -6091,284 +6134,6 @@ public struct InvokeWithResponseStreamOutput: Swift.Sendable {
     }
 }
 
-public struct ListAliasesInput: Swift.Sendable {
-    /// The name or ARN of the Lambda function. Name formats
-    ///
-    /// * Function name - MyFunction.
-    ///
-    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
-    ///
-    /// * Partial ARN - 123456789012:function:MyFunction.
-    ///
-    ///
-    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    /// This member is required.
-    public var functionName: Swift.String?
-    /// Specify a function version to only list aliases that invoke that version.
-    public var functionVersion: Swift.String?
-    /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
-    public var marker: Swift.String?
-    /// Limit the number of aliases returned.
-    public var maxItems: Swift.Int?
-
-    public init(
-        functionName: Swift.String? = nil,
-        functionVersion: Swift.String? = nil,
-        marker: Swift.String? = nil,
-        maxItems: Swift.Int? = nil
-    ) {
-        self.functionName = functionName
-        self.functionVersion = functionVersion
-        self.marker = marker
-        self.maxItems = maxItems
-    }
-}
-
-public struct ListAliasesOutput: Swift.Sendable {
-    /// A list of aliases.
-    public var aliases: [LambdaClientTypes.AliasConfiguration]?
-    /// The pagination token that's included if more results are available.
-    public var nextMarker: Swift.String?
-
-    public init(
-        aliases: [LambdaClientTypes.AliasConfiguration]? = nil,
-        nextMarker: Swift.String? = nil
-    ) {
-        self.aliases = aliases
-        self.nextMarker = nextMarker
-    }
-}
-
-public struct ListCodeSigningConfigsInput: Swift.Sendable {
-    /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
-    public var marker: Swift.String?
-    /// Maximum number of items to return.
-    public var maxItems: Swift.Int?
-
-    public init(
-        marker: Swift.String? = nil,
-        maxItems: Swift.Int? = nil
-    ) {
-        self.marker = marker
-        self.maxItems = maxItems
-    }
-}
-
-public struct ListCodeSigningConfigsOutput: Swift.Sendable {
-    /// The code signing configurations
-    public var codeSigningConfigs: [LambdaClientTypes.CodeSigningConfig]?
-    /// The pagination token that's included if more results are available.
-    public var nextMarker: Swift.String?
-
-    public init(
-        codeSigningConfigs: [LambdaClientTypes.CodeSigningConfig]? = nil,
-        nextMarker: Swift.String? = nil
-    ) {
-        self.codeSigningConfigs = codeSigningConfigs
-        self.nextMarker = nextMarker
-    }
-}
-
-public struct ListEventSourceMappingsInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the event source.
-    ///
-    /// * Amazon Kinesis – The ARN of the data stream or a stream consumer.
-    ///
-    /// * Amazon DynamoDB Streams – The ARN of the stream.
-    ///
-    /// * Amazon Simple Queue Service – The ARN of the queue.
-    ///
-    /// * Amazon Managed Streaming for Apache Kafka – The ARN of the cluster or the ARN of the VPC connection (for [cross-account event source mappings](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#msk-multi-vpc)).
-    ///
-    /// * Amazon MQ – The ARN of the broker.
-    ///
-    /// * Amazon DocumentDB – The ARN of the DocumentDB change stream.
-    public var eventSourceArn: Swift.String?
-    /// The name or ARN of the Lambda function. Name formats
-    ///
-    /// * Function name – MyFunction.
-    ///
-    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
-    ///
-    /// * Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
-    ///
-    /// * Partial ARN – 123456789012:function:MyFunction.
-    ///
-    ///
-    /// The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
-    public var functionName: Swift.String?
-    /// A pagination token returned by a previous call.
-    public var marker: Swift.String?
-    /// The maximum number of event source mappings to return. Note that ListEventSourceMappings returns a maximum of 100 items in each response, even if you set the number higher.
-    public var maxItems: Swift.Int?
-
-    public init(
-        eventSourceArn: Swift.String? = nil,
-        functionName: Swift.String? = nil,
-        marker: Swift.String? = nil,
-        maxItems: Swift.Int? = nil
-    ) {
-        self.eventSourceArn = eventSourceArn
-        self.functionName = functionName
-        self.marker = marker
-        self.maxItems = maxItems
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
-    public struct EventSourceMappingConfiguration: Swift.Sendable {
-        /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
-        public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
-        /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB). Default value: Varies by service. For Amazon SQS, the default is 10. For all other services, the default is 100. Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
-        public var batchSize: Swift.Int?
-        /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
-        public var bisectBatchOnFunctionError: Swift.Bool?
-        /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka event sources only) A configuration object that specifies the destination of an event after Lambda processes it.
-        public var destinationConfig: LambdaClientTypes.DestinationConfig?
-        /// Specific configuration settings for a DocumentDB event source.
-        public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
-        /// The Amazon Resource Name (ARN) of the event source.
-        public var eventSourceArn: Swift.String?
-        /// The Amazon Resource Name (ARN) of the event source mapping.
-        public var eventSourceMappingArn: Swift.String?
-        /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
-        public var filterCriteria: LambdaClientTypes.FilterCriteria?
-        /// An object that contains details about an error related to filter criteria encryption.
-        public var filterCriteriaError: LambdaClientTypes.FilterCriteriaError?
-        /// The ARN of the Lambda function.
-        public var functionArn: Swift.String?
-        /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
-        public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
-        /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
-        public var kmsKeyArn: Swift.String?
-        /// The date that the event source mapping was last updated or that its state changed.
-        public var lastModified: Foundation.Date?
-        /// The result of the event source mapping's last processing attempt.
-        public var lastProcessingResult: Swift.String?
-        /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
-        public var maximumBatchingWindowInSeconds: Swift.Int?
-        /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum valid value for maximum record age is 60s. Although values less than 60 and greater than -1 fall within the parameter's absolute range, they are not allowed
-        public var maximumRecordAgeInSeconds: Swift.Int?
-        /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
-        public var maximumRetryAttempts: Swift.Int?
-        /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
-        public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
-        /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
-        public var parallelizationFactor: Swift.Int?
-        /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
-        public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
-        /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
-        public var queues: [Swift.String]?
-        /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
-        public var scalingConfig: LambdaClientTypes.ScalingConfig?
-        /// The self-managed Apache Kafka cluster for your event source.
-        public var selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource?
-        /// Specific configuration settings for a self-managed Apache Kafka event source.
-        public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
-        /// An array of the authentication protocol, VPC components, or virtual host to secure and define your event source.
-        public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
-        /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka.
-        public var startingPosition: LambdaClientTypes.EventSourcePosition?
-        /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future.
-        public var startingPositionTimestamp: Foundation.Date?
-        /// The state of the event source mapping. It can be one of the following: Creating, Enabling, Enabled, Disabling, Disabled, Updating, or Deleting.
-        public var state: Swift.String?
-        /// Indicates whether a user or Lambda made the last change to the event source mapping.
-        public var stateTransitionReason: Swift.String?
-        /// The name of the Kafka topic.
-        public var topics: [Swift.String]?
-        /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
-        public var tumblingWindowInSeconds: Swift.Int?
-        /// The identifier of the event source mapping.
-        public var uuid: Swift.String?
-
-        public init(
-            amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig? = nil,
-            batchSize: Swift.Int? = nil,
-            bisectBatchOnFunctionError: Swift.Bool? = nil,
-            destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
-            documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
-            eventSourceArn: Swift.String? = nil,
-            eventSourceMappingArn: Swift.String? = nil,
-            filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
-            filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
-            functionArn: Swift.String? = nil,
-            functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
-            kmsKeyArn: Swift.String? = nil,
-            lastModified: Foundation.Date? = nil,
-            lastProcessingResult: Swift.String? = nil,
-            maximumBatchingWindowInSeconds: Swift.Int? = nil,
-            maximumRecordAgeInSeconds: Swift.Int? = nil,
-            maximumRetryAttempts: Swift.Int? = nil,
-            metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
-            parallelizationFactor: Swift.Int? = nil,
-            provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
-            queues: [Swift.String]? = nil,
-            scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
-            selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
-            selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig? = nil,
-            sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
-            startingPosition: LambdaClientTypes.EventSourcePosition? = nil,
-            startingPositionTimestamp: Foundation.Date? = nil,
-            state: Swift.String? = nil,
-            stateTransitionReason: Swift.String? = nil,
-            topics: [Swift.String]? = nil,
-            tumblingWindowInSeconds: Swift.Int? = nil,
-            uuid: Swift.String? = nil
-        ) {
-            self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
-            self.batchSize = batchSize
-            self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
-            self.destinationConfig = destinationConfig
-            self.documentDBEventSourceConfig = documentDBEventSourceConfig
-            self.eventSourceArn = eventSourceArn
-            self.eventSourceMappingArn = eventSourceMappingArn
-            self.filterCriteria = filterCriteria
-            self.filterCriteriaError = filterCriteriaError
-            self.functionArn = functionArn
-            self.functionResponseTypes = functionResponseTypes
-            self.kmsKeyArn = kmsKeyArn
-            self.lastModified = lastModified
-            self.lastProcessingResult = lastProcessingResult
-            self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
-            self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
-            self.maximumRetryAttempts = maximumRetryAttempts
-            self.metricsConfig = metricsConfig
-            self.parallelizationFactor = parallelizationFactor
-            self.provisionedPollerConfig = provisionedPollerConfig
-            self.queues = queues
-            self.scalingConfig = scalingConfig
-            self.selfManagedEventSource = selfManagedEventSource
-            self.selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfig
-            self.sourceAccessConfigurations = sourceAccessConfigurations
-            self.startingPosition = startingPosition
-            self.startingPositionTimestamp = startingPositionTimestamp
-            self.state = state
-            self.stateTransitionReason = stateTransitionReason
-            self.topics = topics
-            self.tumblingWindowInSeconds = tumblingWindowInSeconds
-            self.uuid = uuid
-        }
-    }
-}
-
-public struct ListEventSourceMappingsOutput: Swift.Sendable {
-    /// A list of event source mappings.
-    public var eventSourceMappings: [LambdaClientTypes.EventSourceMappingConfiguration]?
-    /// A pagination token that's returned when the response doesn't contain all event source mappings.
-    public var nextMarker: Swift.String?
-
-    public init(
-        eventSourceMappings: [LambdaClientTypes.EventSourceMappingConfiguration]? = nil,
-        nextMarker: Swift.String? = nil
-    ) {
-        self.eventSourceMappings = eventSourceMappings
-        self.nextMarker = nextMarker
-    }
-}
-
 public struct ListFunctionEventInvokeConfigsInput: Swift.Sendable {
     /// The name or ARN of the Lambda function. Name formats
     ///
@@ -6521,41 +6286,6 @@ public struct ListFunctionsOutput: Swift.Sendable {
     }
 }
 
-public struct ListFunctionsByCodeSigningConfigInput: Swift.Sendable {
-    /// The The Amazon Resource Name (ARN) of the code signing configuration.
-    /// This member is required.
-    public var codeSigningConfigArn: Swift.String?
-    /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
-    public var marker: Swift.String?
-    /// Maximum number of items to return.
-    public var maxItems: Swift.Int?
-
-    public init(
-        codeSigningConfigArn: Swift.String? = nil,
-        marker: Swift.String? = nil,
-        maxItems: Swift.Int? = nil
-    ) {
-        self.codeSigningConfigArn = codeSigningConfigArn
-        self.marker = marker
-        self.maxItems = maxItems
-    }
-}
-
-public struct ListFunctionsByCodeSigningConfigOutput: Swift.Sendable {
-    /// The function ARNs.
-    public var functionArns: [Swift.String]?
-    /// The pagination token that's included if more results are available.
-    public var nextMarker: Swift.String?
-
-    public init(
-        functionArns: [Swift.String]? = nil,
-        nextMarker: Swift.String? = nil
-    ) {
-        self.functionArns = functionArns
-        self.nextMarker = nextMarker
-    }
-}
-
 public struct ListFunctionUrlConfigsInput: Swift.Sendable {
     /// The name or ARN of the Lambda function. Name formats
     ///
@@ -6649,149 +6379,6 @@ public struct ListFunctionUrlConfigsOutput: Swift.Sendable {
     }
 }
 
-public struct ListLayersInput: Swift.Sendable {
-    /// The compatible [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
-    public var compatibleArchitecture: LambdaClientTypes.Architecture?
-    /// A runtime identifier. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
-    public var compatibleRuntime: LambdaClientTypes.Runtime?
-    /// A pagination token returned by a previous call.
-    public var marker: Swift.String?
-    /// The maximum number of layers to return.
-    public var maxItems: Swift.Int?
-
-    public init(
-        compatibleArchitecture: LambdaClientTypes.Architecture? = nil,
-        compatibleRuntime: LambdaClientTypes.Runtime? = nil,
-        marker: Swift.String? = nil,
-        maxItems: Swift.Int? = nil
-    ) {
-        self.compatibleArchitecture = compatibleArchitecture
-        self.compatibleRuntime = compatibleRuntime
-        self.marker = marker
-        self.maxItems = maxItems
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Details about a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html).
-    public struct LayerVersionsListItem: Swift.Sendable {
-        /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
-        public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
-        /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
-        public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
-        /// The date that the version was created, in ISO 8601 format. For example, 2018-11-27T15:10:45.123+0000.
-        public var createdDate: Swift.String?
-        /// The description of the version.
-        public var description: Swift.String?
-        /// The ARN of the layer version.
-        public var layerVersionArn: Swift.String?
-        /// The layer's open-source license.
-        public var licenseInfo: Swift.String?
-        /// The version number.
-        public var version: Swift.Int
-
-        public init(
-            compatibleArchitectures: [LambdaClientTypes.Architecture]? = nil,
-            compatibleRuntimes: [LambdaClientTypes.Runtime]? = nil,
-            createdDate: Swift.String? = nil,
-            description: Swift.String? = nil,
-            layerVersionArn: Swift.String? = nil,
-            licenseInfo: Swift.String? = nil,
-            version: Swift.Int = 0
-        ) {
-            self.compatibleArchitectures = compatibleArchitectures
-            self.compatibleRuntimes = compatibleRuntimes
-            self.createdDate = createdDate
-            self.description = description
-            self.layerVersionArn = layerVersionArn
-            self.licenseInfo = licenseInfo
-            self.version = version
-        }
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// Details about an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html).
-    public struct LayersListItem: Swift.Sendable {
-        /// The newest version of the layer.
-        public var latestMatchingVersion: LambdaClientTypes.LayerVersionsListItem?
-        /// The Amazon Resource Name (ARN) of the function layer.
-        public var layerArn: Swift.String?
-        /// The name of the layer.
-        public var layerName: Swift.String?
-
-        public init(
-            latestMatchingVersion: LambdaClientTypes.LayerVersionsListItem? = nil,
-            layerArn: Swift.String? = nil,
-            layerName: Swift.String? = nil
-        ) {
-            self.latestMatchingVersion = latestMatchingVersion
-            self.layerArn = layerArn
-            self.layerName = layerName
-        }
-    }
-}
-
-public struct ListLayersOutput: Swift.Sendable {
-    /// A list of function layers.
-    public var layers: [LambdaClientTypes.LayersListItem]?
-    /// A pagination token returned when the response doesn't contain all layers.
-    public var nextMarker: Swift.String?
-
-    public init(
-        layers: [LambdaClientTypes.LayersListItem]? = nil,
-        nextMarker: Swift.String? = nil
-    ) {
-        self.layers = layers
-        self.nextMarker = nextMarker
-    }
-}
-
-public struct ListLayerVersionsInput: Swift.Sendable {
-    /// The compatible [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
-    public var compatibleArchitecture: LambdaClientTypes.Architecture?
-    /// A runtime identifier. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
-    public var compatibleRuntime: LambdaClientTypes.Runtime?
-    /// The name or Amazon Resource Name (ARN) of the layer.
-    /// This member is required.
-    public var layerName: Swift.String?
-    /// A pagination token returned by a previous call.
-    public var marker: Swift.String?
-    /// The maximum number of versions to return.
-    public var maxItems: Swift.Int?
-
-    public init(
-        compatibleArchitecture: LambdaClientTypes.Architecture? = nil,
-        compatibleRuntime: LambdaClientTypes.Runtime? = nil,
-        layerName: Swift.String? = nil,
-        marker: Swift.String? = nil,
-        maxItems: Swift.Int? = nil
-    ) {
-        self.compatibleArchitecture = compatibleArchitecture
-        self.compatibleRuntime = compatibleRuntime
-        self.layerName = layerName
-        self.marker = marker
-        self.maxItems = maxItems
-    }
-}
-
-public struct ListLayerVersionsOutput: Swift.Sendable {
-    /// A list of versions.
-    public var layerVersions: [LambdaClientTypes.LayerVersionsListItem]?
-    /// A pagination token returned when the response doesn't contain all versions.
-    public var nextMarker: Swift.String?
-
-    public init(
-        layerVersions: [LambdaClientTypes.LayerVersionsListItem]? = nil,
-        nextMarker: Swift.String? = nil
-    ) {
-        self.layerVersions = layerVersions
-        self.nextMarker = nextMarker
-    }
-}
-
 public struct ListProvisionedConcurrencyConfigsInput: Swift.Sendable {
     /// The name or ARN of the Lambda function. Name formats
     ///
@@ -6818,6 +6405,38 @@ public struct ListProvisionedConcurrencyConfigsInput: Swift.Sendable {
         self.functionName = functionName
         self.marker = marker
         self.maxItems = maxItems
+    }
+}
+
+extension LambdaClientTypes {
+
+    public enum ProvisionedConcurrencyStatusEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case ready
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProvisionedConcurrencyStatusEnum] {
+            return [
+                .failed,
+                .inProgress,
+                .ready
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .ready: return "READY"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -6872,383 +6491,6 @@ public struct ListProvisionedConcurrencyConfigsOutput: Swift.Sendable {
     ) {
         self.nextMarker = nextMarker
         self.provisionedConcurrencyConfigs = provisionedConcurrencyConfigs
-    }
-}
-
-public struct ListTagsInput: Swift.Sendable {
-    /// The resource's Amazon Resource Name (ARN). Note: Lambda does not support adding tags to function aliases or versions.
-    /// This member is required.
-    public var resource: Swift.String?
-
-    public init(
-        resource: Swift.String? = nil
-    ) {
-        self.resource = resource
-    }
-}
-
-public struct ListTagsOutput: Swift.Sendable {
-    /// The function's tags.
-    public var tags: [Swift.String: Swift.String]?
-
-    public init(
-        tags: [Swift.String: Swift.String]? = nil
-    ) {
-        self.tags = tags
-    }
-}
-
-public struct ListVersionsByFunctionInput: Swift.Sendable {
-    /// The name or ARN of the Lambda function. Name formats
-    ///
-    /// * Function name - MyFunction.
-    ///
-    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
-    ///
-    /// * Partial ARN - 123456789012:function:MyFunction.
-    ///
-    ///
-    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    /// This member is required.
-    public var functionName: Swift.String?
-    /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
-    public var marker: Swift.String?
-    /// The maximum number of versions to return. Note that ListVersionsByFunction returns a maximum of 50 items in each response, even if you set the number higher.
-    public var maxItems: Swift.Int?
-
-    public init(
-        functionName: Swift.String? = nil,
-        marker: Swift.String? = nil,
-        maxItems: Swift.Int? = nil
-    ) {
-        self.functionName = functionName
-        self.marker = marker
-        self.maxItems = maxItems
-    }
-}
-
-public struct ListVersionsByFunctionOutput: Swift.Sendable {
-    /// The pagination token that's included if more results are available.
-    public var nextMarker: Swift.String?
-    /// A list of Lambda function versions.
-    public var versions: [LambdaClientTypes.FunctionConfiguration]?
-
-    public init(
-        nextMarker: Swift.String? = nil,
-        versions: [LambdaClientTypes.FunctionConfiguration]? = nil
-    ) {
-        self.nextMarker = nextMarker
-        self.versions = versions
-    }
-}
-
-extension LambdaClientTypes {
-
-    /// A ZIP archive that contains the contents of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). You can specify either an Amazon S3 location, or upload a layer archive directly.
-    public struct LayerVersionContentInput: Swift.Sendable {
-        /// The Amazon S3 bucket of the layer archive.
-        public var s3Bucket: Swift.String?
-        /// The Amazon S3 key of the layer archive.
-        public var s3Key: Swift.String?
-        /// For versioned objects, the version of the layer archive object to use.
-        public var s3ObjectVersion: Swift.String?
-        /// The base64-encoded contents of the layer archive. Amazon Web Services SDK and Amazon Web Services CLI clients handle the encoding for you.
-        public var zipFile: Foundation.Data?
-
-        public init(
-            s3Bucket: Swift.String? = nil,
-            s3Key: Swift.String? = nil,
-            s3ObjectVersion: Swift.String? = nil,
-            zipFile: Foundation.Data? = nil
-        ) {
-            self.s3Bucket = s3Bucket
-            self.s3Key = s3Key
-            self.s3ObjectVersion = s3ObjectVersion
-            self.zipFile = zipFile
-        }
-    }
-}
-
-extension LambdaClientTypes.LayerVersionContentInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "LayerVersionContentInput(s3Bucket: \(Swift.String(describing: s3Bucket)), s3Key: \(Swift.String(describing: s3Key)), s3ObjectVersion: \(Swift.String(describing: s3ObjectVersion)), zipFile: \"CONTENT_REDACTED\")"}
-}
-
-public struct PublishLayerVersionInput: Swift.Sendable {
-    /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
-    public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
-    /// A list of compatible [function runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Used for filtering with [ListLayers] and [ListLayerVersions]. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
-    public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
-    /// The function layer archive.
-    /// This member is required.
-    public var content: LambdaClientTypes.LayerVersionContentInput?
-    /// The description of the version.
-    public var description: Swift.String?
-    /// The name or Amazon Resource Name (ARN) of the layer.
-    /// This member is required.
-    public var layerName: Swift.String?
-    /// The layer's software license. It can be any of the following:
-    ///
-    /// * An [SPDX license identifier](https://spdx.org/licenses/). For example, MIT.
-    ///
-    /// * The URL of a license hosted on the internet. For example, https://opensource.org/licenses/MIT.
-    ///
-    /// * The full text of the license.
-    public var licenseInfo: Swift.String?
-
-    public init(
-        compatibleArchitectures: [LambdaClientTypes.Architecture]? = nil,
-        compatibleRuntimes: [LambdaClientTypes.Runtime]? = nil,
-        content: LambdaClientTypes.LayerVersionContentInput? = nil,
-        description: Swift.String? = nil,
-        layerName: Swift.String? = nil,
-        licenseInfo: Swift.String? = nil
-    ) {
-        self.compatibleArchitectures = compatibleArchitectures
-        self.compatibleRuntimes = compatibleRuntimes
-        self.content = content
-        self.description = description
-        self.layerName = layerName
-        self.licenseInfo = licenseInfo
-    }
-}
-
-public struct PublishLayerVersionOutput: Swift.Sendable {
-    /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
-    public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
-    /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
-    public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
-    /// Details about the layer version.
-    public var content: LambdaClientTypes.LayerVersionContentOutput?
-    /// The date that the layer version was created, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
-    public var createdDate: Swift.String?
-    /// The description of the version.
-    public var description: Swift.String?
-    /// The ARN of the layer.
-    public var layerArn: Swift.String?
-    /// The ARN of the layer version.
-    public var layerVersionArn: Swift.String?
-    /// The layer's software license.
-    public var licenseInfo: Swift.String?
-    /// The version number.
-    public var version: Swift.Int
-
-    public init(
-        compatibleArchitectures: [LambdaClientTypes.Architecture]? = nil,
-        compatibleRuntimes: [LambdaClientTypes.Runtime]? = nil,
-        content: LambdaClientTypes.LayerVersionContentOutput? = nil,
-        createdDate: Swift.String? = nil,
-        description: Swift.String? = nil,
-        layerArn: Swift.String? = nil,
-        layerVersionArn: Swift.String? = nil,
-        licenseInfo: Swift.String? = nil,
-        version: Swift.Int = 0
-    ) {
-        self.compatibleArchitectures = compatibleArchitectures
-        self.compatibleRuntimes = compatibleRuntimes
-        self.content = content
-        self.createdDate = createdDate
-        self.description = description
-        self.layerArn = layerArn
-        self.layerVersionArn = layerVersionArn
-        self.licenseInfo = licenseInfo
-        self.version = version
-    }
-}
-
-public struct PublishVersionInput: Swift.Sendable {
-    /// Only publish a version if the hash value matches the value that's specified. Use this option to avoid publishing a version if the function code has changed since you last updated it. You can get the hash for the version that you uploaded from the output of [UpdateFunctionCode].
-    public var codeSha256: Swift.String?
-    /// A description for the version to override the description in the function configuration.
-    public var description: Swift.String?
-    /// The name or ARN of the Lambda function. Name formats
-    ///
-    /// * Function name - MyFunction.
-    ///
-    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
-    ///
-    /// * Partial ARN - 123456789012:function:MyFunction.
-    ///
-    ///
-    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    /// This member is required.
-    public var functionName: Swift.String?
-    /// Only update the function if the revision ID matches the ID that's specified. Use this option to avoid publishing a version if the function configuration has changed since you last updated it.
-    public var revisionId: Swift.String?
-
-    public init(
-        codeSha256: Swift.String? = nil,
-        description: Swift.String? = nil,
-        functionName: Swift.String? = nil,
-        revisionId: Swift.String? = nil
-    ) {
-        self.codeSha256 = codeSha256
-        self.description = description
-        self.functionName = functionName
-        self.revisionId = revisionId
-    }
-}
-
-/// Details about a function's configuration.
-public struct PublishVersionOutput: Swift.Sendable {
-    /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
-    public var architectures: [LambdaClientTypes.Architecture]?
-    /// The SHA256 hash of the function's deployment package.
-    public var codeSha256: Swift.String?
-    /// The size of the function's deployment package, in bytes.
-    public var codeSize: Swift.Int
-    /// The function's dead letter queue.
-    public var deadLetterConfig: LambdaClientTypes.DeadLetterConfig?
-    /// The function's description.
-    public var description: Swift.String?
-    /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
-    public var environment: LambdaClientTypes.EnvironmentResponse?
-    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
-    public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
-    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
-    public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
-    /// The function's Amazon Resource Name (ARN).
-    public var functionArn: Swift.String?
-    /// The name of the function.
-    public var functionName: Swift.String?
-    /// The function that Lambda calls to begin running your function.
-    public var handler: Swift.String?
-    /// The function's image configuration values.
-    public var imageConfigResponse: LambdaClientTypes.ImageConfigResponse?
-    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:
-    ///
-    /// * The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption).
-    ///
-    /// * The function's [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) snapshots.
-    ///
-    /// * When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see [ Specifying a customer managed key for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/encrypt-zip-package.html#enable-zip-custom-encryption).
-    ///
-    /// * The optimized version of the container image that's used for function invocations. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). For more information, see [Function lifecycle](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-lifecycle).
-    ///
-    ///
-    /// If you don't provide a customer managed key, Lambda uses an [Amazon Web Services owned key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk) or an [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk).
-    public var kmsKeyArn: Swift.String?
-    /// The date and time that the function was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
-    public var lastModified: Swift.String?
-    /// The status of the last update that was performed on the function. This is first set to Successful after function creation completes.
-    public var lastUpdateStatus: LambdaClientTypes.LastUpdateStatus?
-    /// The reason for the last update that was performed on the function.
-    public var lastUpdateStatusReason: Swift.String?
-    /// The reason code for the last update that was performed on the function.
-    public var lastUpdateStatusReasonCode: LambdaClientTypes.LastUpdateStatusReasonCode?
-    /// The function's [layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html).
-    public var layers: [LambdaClientTypes.Layer]?
-    /// The function's Amazon CloudWatch Logs configuration settings.
-    public var loggingConfig: LambdaClientTypes.LoggingConfig?
-    /// For Lambda@Edge functions, the ARN of the main function.
-    public var masterArn: Swift.String?
-    /// The amount of memory available to the function at runtime.
-    public var memorySize: Swift.Int?
-    /// The type of deployment package. Set to Image for container image and set Zip for .zip file archive.
-    public var packageType: LambdaClientTypes.PackageType?
-    /// The latest updated revision of the function or alias.
-    public var revisionId: Swift.String?
-    /// The function's execution role.
-    public var role: Swift.String?
-    /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
-    public var runtime: LambdaClientTypes.Runtime?
-    /// The ARN of the runtime and any errors that occured.
-    public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
-    /// The ARN of the signing job.
-    public var signingJobArn: Swift.String?
-    /// The ARN of the signing profile version.
-    public var signingProfileVersionArn: Swift.String?
-    /// Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. For more information, see [Improving startup performance with Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
-    public var snapStart: LambdaClientTypes.SnapStartResponse?
-    /// The current state of the function. When the state is Inactive, you can reactivate the function by invoking it.
-    public var state: LambdaClientTypes.State?
-    /// The reason for the function's current state.
-    public var stateReason: Swift.String?
-    /// The reason code for the function's current state. When the code is Creating, you can't invoke or modify the function.
-    public var stateReasonCode: LambdaClientTypes.StateReasonCode?
-    /// The amount of time in seconds that Lambda allows a function to run before stopping it.
-    public var timeout: Swift.Int?
-    /// The function's X-Ray tracing configuration.
-    public var tracingConfig: LambdaClientTypes.TracingConfigResponse?
-    /// The version of the Lambda function.
-    public var version: Swift.String?
-    /// The function's networking configuration.
-    public var vpcConfig: LambdaClientTypes.VpcConfigResponse?
-
-    public init(
-        architectures: [LambdaClientTypes.Architecture]? = nil,
-        codeSha256: Swift.String? = nil,
-        codeSize: Swift.Int = 0,
-        deadLetterConfig: LambdaClientTypes.DeadLetterConfig? = nil,
-        description: Swift.String? = nil,
-        environment: LambdaClientTypes.EnvironmentResponse? = nil,
-        ephemeralStorage: LambdaClientTypes.EphemeralStorage? = nil,
-        fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]? = nil,
-        functionArn: Swift.String? = nil,
-        functionName: Swift.String? = nil,
-        handler: Swift.String? = nil,
-        imageConfigResponse: LambdaClientTypes.ImageConfigResponse? = nil,
-        kmsKeyArn: Swift.String? = nil,
-        lastModified: Swift.String? = nil,
-        lastUpdateStatus: LambdaClientTypes.LastUpdateStatus? = nil,
-        lastUpdateStatusReason: Swift.String? = nil,
-        lastUpdateStatusReasonCode: LambdaClientTypes.LastUpdateStatusReasonCode? = nil,
-        layers: [LambdaClientTypes.Layer]? = nil,
-        loggingConfig: LambdaClientTypes.LoggingConfig? = nil,
-        masterArn: Swift.String? = nil,
-        memorySize: Swift.Int? = nil,
-        packageType: LambdaClientTypes.PackageType? = nil,
-        revisionId: Swift.String? = nil,
-        role: Swift.String? = nil,
-        runtime: LambdaClientTypes.Runtime? = nil,
-        runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig? = nil,
-        signingJobArn: Swift.String? = nil,
-        signingProfileVersionArn: Swift.String? = nil,
-        snapStart: LambdaClientTypes.SnapStartResponse? = nil,
-        state: LambdaClientTypes.State? = nil,
-        stateReason: Swift.String? = nil,
-        stateReasonCode: LambdaClientTypes.StateReasonCode? = nil,
-        timeout: Swift.Int? = nil,
-        tracingConfig: LambdaClientTypes.TracingConfigResponse? = nil,
-        version: Swift.String? = nil,
-        vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
-    ) {
-        self.architectures = architectures
-        self.codeSha256 = codeSha256
-        self.codeSize = codeSize
-        self.deadLetterConfig = deadLetterConfig
-        self.description = description
-        self.environment = environment
-        self.ephemeralStorage = ephemeralStorage
-        self.fileSystemConfigs = fileSystemConfigs
-        self.functionArn = functionArn
-        self.functionName = functionName
-        self.handler = handler
-        self.imageConfigResponse = imageConfigResponse
-        self.kmsKeyArn = kmsKeyArn
-        self.lastModified = lastModified
-        self.lastUpdateStatus = lastUpdateStatus
-        self.lastUpdateStatusReason = lastUpdateStatusReason
-        self.lastUpdateStatusReasonCode = lastUpdateStatusReasonCode
-        self.layers = layers
-        self.loggingConfig = loggingConfig
-        self.masterArn = masterArn
-        self.memorySize = memorySize
-        self.packageType = packageType
-        self.revisionId = revisionId
-        self.role = role
-        self.runtime = runtime
-        self.runtimeVersionConfig = runtimeVersionConfig
-        self.signingJobArn = signingJobArn
-        self.signingProfileVersionArn = signingProfileVersionArn
-        self.snapStart = snapStart
-        self.state = state
-        self.stateReason = stateReason
-        self.stateReasonCode = stateReasonCode
-        self.timeout = timeout
-        self.tracingConfig = tracingConfig
-        self.version = version
-        self.vpcConfig = vpcConfig
     }
 }
 
@@ -7468,68 +6710,6 @@ public struct PutFunctionRecursionConfigOutput: Swift.Sendable {
     }
 }
 
-public struct PutProvisionedConcurrencyConfigInput: Swift.Sendable {
-    /// The name or ARN of the Lambda function. Name formats
-    ///
-    /// * Function name – my-function.
-    ///
-    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.
-    ///
-    /// * Partial ARN – 123456789012:function:my-function.
-    ///
-    ///
-    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    /// This member is required.
-    public var functionName: Swift.String?
-    /// The amount of provisioned concurrency to allocate for the version or alias.
-    /// This member is required.
-    public var provisionedConcurrentExecutions: Swift.Int?
-    /// The version number or alias name.
-    /// This member is required.
-    public var qualifier: Swift.String?
-
-    public init(
-        functionName: Swift.String? = nil,
-        provisionedConcurrentExecutions: Swift.Int? = nil,
-        qualifier: Swift.String? = nil
-    ) {
-        self.functionName = functionName
-        self.provisionedConcurrentExecutions = provisionedConcurrentExecutions
-        self.qualifier = qualifier
-    }
-}
-
-public struct PutProvisionedConcurrencyConfigOutput: Swift.Sendable {
-    /// The amount of provisioned concurrency allocated. When a weighted alias is used during linear and canary deployments, this value fluctuates depending on the amount of concurrency that is provisioned for the function versions.
-    public var allocatedProvisionedConcurrentExecutions: Swift.Int?
-    /// The amount of provisioned concurrency available.
-    public var availableProvisionedConcurrentExecutions: Swift.Int?
-    /// The date and time that a user last updated the configuration, in [ISO 8601 format](https://www.iso.org/iso-8601-date-and-time-format.html).
-    public var lastModified: Swift.String?
-    /// The amount of provisioned concurrency requested.
-    public var requestedProvisionedConcurrentExecutions: Swift.Int?
-    /// The status of the allocation process.
-    public var status: LambdaClientTypes.ProvisionedConcurrencyStatusEnum?
-    /// For failed allocations, the reason that provisioned concurrency could not be allocated.
-    public var statusReason: Swift.String?
-
-    public init(
-        allocatedProvisionedConcurrentExecutions: Swift.Int? = nil,
-        availableProvisionedConcurrentExecutions: Swift.Int? = nil,
-        lastModified: Swift.String? = nil,
-        requestedProvisionedConcurrentExecutions: Swift.Int? = nil,
-        status: LambdaClientTypes.ProvisionedConcurrencyStatusEnum? = nil,
-        statusReason: Swift.String? = nil
-    ) {
-        self.allocatedProvisionedConcurrentExecutions = allocatedProvisionedConcurrentExecutions
-        self.availableProvisionedConcurrentExecutions = availableProvisionedConcurrentExecutions
-        self.lastModified = lastModified
-        self.requestedProvisionedConcurrentExecutions = requestedProvisionedConcurrentExecutions
-        self.status = status
-        self.statusReason = statusReason
-    }
-}
-
 public struct PutRuntimeManagementConfigInput: Swift.Sendable {
     /// The name or ARN of the Lambda function. Name formats
     ///
@@ -7588,463 +6768,6 @@ public struct PutRuntimeManagementConfigOutput: Swift.Sendable {
         self.functionArn = functionArn
         self.runtimeVersionArn = runtimeVersionArn
         self.updateRuntimeOn = updateRuntimeOn
-    }
-}
-
-public struct RemoveLayerVersionPermissionInput: Swift.Sendable {
-    /// The name or Amazon Resource Name (ARN) of the layer.
-    /// This member is required.
-    public var layerName: Swift.String?
-    /// Only update the policy if the revision ID matches the ID specified. Use this option to avoid modifying a policy that has changed since you last read it.
-    public var revisionId: Swift.String?
-    /// The identifier that was specified when the statement was added.
-    /// This member is required.
-    public var statementId: Swift.String?
-    /// The version number.
-    /// This member is required.
-    public var versionNumber: Swift.Int?
-
-    public init(
-        layerName: Swift.String? = nil,
-        revisionId: Swift.String? = nil,
-        statementId: Swift.String? = nil,
-        versionNumber: Swift.Int? = 0
-    ) {
-        self.layerName = layerName
-        self.revisionId = revisionId
-        self.statementId = statementId
-        self.versionNumber = versionNumber
-    }
-}
-
-public struct RemovePermissionInput: Swift.Sendable {
-    /// The name or ARN of the Lambda function, version, or alias. Name formats
-    ///
-    /// * Function name – my-function (name-only), my-function:v1 (with alias).
-    ///
-    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.
-    ///
-    /// * Partial ARN – 123456789012:function:my-function.
-    ///
-    ///
-    /// You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    /// This member is required.
-    public var functionName: Swift.String?
-    /// Specify a version or alias to remove permissions from a published version of the function.
-    public var qualifier: Swift.String?
-    /// Update the policy only if the revision ID matches the ID that's specified. Use this option to avoid modifying a policy that has changed since you last read it.
-    public var revisionId: Swift.String?
-    /// Statement ID of the permission to remove.
-    /// This member is required.
-    public var statementId: Swift.String?
-
-    public init(
-        functionName: Swift.String? = nil,
-        qualifier: Swift.String? = nil,
-        revisionId: Swift.String? = nil,
-        statementId: Swift.String? = nil
-    ) {
-        self.functionName = functionName
-        self.qualifier = qualifier
-        self.revisionId = revisionId
-        self.statementId = statementId
-    }
-}
-
-public struct TagResourceInput: Swift.Sendable {
-    /// The resource's Amazon Resource Name (ARN).
-    /// This member is required.
-    public var resource: Swift.String?
-    /// A list of tags to apply to the resource.
-    /// This member is required.
-    public var tags: [Swift.String: Swift.String]?
-
-    public init(
-        resource: Swift.String? = nil,
-        tags: [Swift.String: Swift.String]? = nil
-    ) {
-        self.resource = resource
-        self.tags = tags
-    }
-}
-
-public struct UntagResourceInput: Swift.Sendable {
-    /// The resource's Amazon Resource Name (ARN).
-    /// This member is required.
-    public var resource: Swift.String?
-    /// A list of tag keys to remove from the resource.
-    /// This member is required.
-    public var tagKeys: [Swift.String]?
-
-    public init(
-        resource: Swift.String? = nil,
-        tagKeys: [Swift.String]? = nil
-    ) {
-        self.resource = resource
-        self.tagKeys = tagKeys
-    }
-}
-
-public struct UpdateAliasInput: Swift.Sendable {
-    /// A description of the alias.
-    public var description: Swift.String?
-    /// The name or ARN of the Lambda function. Name formats
-    ///
-    /// * Function name - MyFunction.
-    ///
-    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
-    ///
-    /// * Partial ARN - 123456789012:function:MyFunction.
-    ///
-    ///
-    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    /// This member is required.
-    public var functionName: Swift.String?
-    /// The function version that the alias invokes.
-    public var functionVersion: Swift.String?
-    /// The name of the alias.
-    /// This member is required.
-    public var name: Swift.String?
-    /// Only update the alias if the revision ID matches the ID that's specified. Use this option to avoid modifying an alias that has changed since you last read it.
-    public var revisionId: Swift.String?
-    /// The [routing configuration](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html#configuring-alias-routing) of the alias.
-    public var routingConfig: LambdaClientTypes.AliasRoutingConfiguration?
-
-    public init(
-        description: Swift.String? = nil,
-        functionName: Swift.String? = nil,
-        functionVersion: Swift.String? = nil,
-        name: Swift.String? = nil,
-        revisionId: Swift.String? = nil,
-        routingConfig: LambdaClientTypes.AliasRoutingConfiguration? = nil
-    ) {
-        self.description = description
-        self.functionName = functionName
-        self.functionVersion = functionVersion
-        self.name = name
-        self.revisionId = revisionId
-        self.routingConfig = routingConfig
-    }
-}
-
-/// Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
-public struct UpdateAliasOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the alias.
-    public var aliasArn: Swift.String?
-    /// A description of the alias.
-    public var description: Swift.String?
-    /// The function version that the alias invokes.
-    public var functionVersion: Swift.String?
-    /// The name of the alias.
-    public var name: Swift.String?
-    /// A unique identifier that changes when you update the alias.
-    public var revisionId: Swift.String?
-    /// The [routing configuration](https://docs.aws.amazon.com/lambda/latest/dg/lambda-traffic-shifting-using-aliases.html) of the alias.
-    public var routingConfig: LambdaClientTypes.AliasRoutingConfiguration?
-
-    public init(
-        aliasArn: Swift.String? = nil,
-        description: Swift.String? = nil,
-        functionVersion: Swift.String? = nil,
-        name: Swift.String? = nil,
-        revisionId: Swift.String? = nil,
-        routingConfig: LambdaClientTypes.AliasRoutingConfiguration? = nil
-    ) {
-        self.aliasArn = aliasArn
-        self.description = description
-        self.functionVersion = functionVersion
-        self.name = name
-        self.revisionId = revisionId
-        self.routingConfig = routingConfig
-    }
-}
-
-public struct UpdateCodeSigningConfigInput: Swift.Sendable {
-    /// Signing profiles for this code signing configuration.
-    public var allowedPublishers: LambdaClientTypes.AllowedPublishers?
-    /// The The Amazon Resource Name (ARN) of the code signing configuration.
-    /// This member is required.
-    public var codeSigningConfigArn: Swift.String?
-    /// The code signing policy.
-    public var codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies?
-    /// Descriptive name for this code signing configuration.
-    public var description: Swift.String?
-
-    public init(
-        allowedPublishers: LambdaClientTypes.AllowedPublishers? = nil,
-        codeSigningConfigArn: Swift.String? = nil,
-        codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies? = nil,
-        description: Swift.String? = nil
-    ) {
-        self.allowedPublishers = allowedPublishers
-        self.codeSigningConfigArn = codeSigningConfigArn
-        self.codeSigningPolicies = codeSigningPolicies
-        self.description = description
-    }
-}
-
-public struct UpdateCodeSigningConfigOutput: Swift.Sendable {
-    /// The code signing configuration
-    /// This member is required.
-    public var codeSigningConfig: LambdaClientTypes.CodeSigningConfig?
-
-    public init(
-        codeSigningConfig: LambdaClientTypes.CodeSigningConfig? = nil
-    ) {
-        self.codeSigningConfig = codeSigningConfig
-    }
-}
-
-public struct UpdateEventSourceMappingInput: Swift.Sendable {
-    /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
-    public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
-    /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).
-    ///
-    /// * Amazon Kinesis – Default 100. Max 10,000.
-    ///
-    /// * Amazon DynamoDB Streams – Default 100. Max 10,000.
-    ///
-    /// * Amazon Simple Queue Service – Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.
-    ///
-    /// * Amazon Managed Streaming for Apache Kafka – Default 100. Max 10,000.
-    ///
-    /// * Self-managed Apache Kafka – Default 100. Max 10,000.
-    ///
-    /// * Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.
-    ///
-    /// * DocumentDB – Default 100. Max 10,000.
-    public var batchSize: Swift.Int?
-    /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry.
-    public var bisectBatchOnFunctionError: Swift.Bool?
-    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Kafka only) A configuration object that specifies the destination of an event after Lambda processes it.
-    public var destinationConfig: LambdaClientTypes.DestinationConfig?
-    /// Specific configuration settings for a DocumentDB event source.
-    public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
-    /// When true, the event source mapping is active. When false, Lambda pauses polling and invocation. Default: True
-    public var enabled: Swift.Bool?
-    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
-    public var filterCriteria: LambdaClientTypes.FilterCriteria?
-    /// The name or ARN of the Lambda function. Name formats
-    ///
-    /// * Function name – MyFunction.
-    ///
-    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
-    ///
-    /// * Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
-    ///
-    /// * Partial ARN – 123456789012:function:MyFunction.
-    ///
-    ///
-    /// The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
-    public var functionName: Swift.String?
-    /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
-    public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
-    /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics). By default, Lambda does not encrypt your filter criteria object. Specify this property to encrypt data using your own customer managed key.
-    public var kmsKeyArn: Swift.String?
-    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
-    public var maximumBatchingWindowInSeconds: Swift.Int?
-    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is infinite (-1).
-    public var maximumRecordAgeInSeconds: Swift.Int?
-    /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
-    public var maximumRetryAttempts: Swift.Int?
-    /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
-    public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
-    /// (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
-    public var parallelizationFactor: Swift.Int?
-    /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
-    public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
-    /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
-    public var scalingConfig: LambdaClientTypes.ScalingConfig?
-    /// Specific configuration settings for a self-managed Apache Kafka event source.
-    public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
-    /// An array of authentication protocols or VPC components required to secure your event source.
-    public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
-    /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
-    public var tumblingWindowInSeconds: Swift.Int?
-    /// The identifier of the event source mapping.
-    /// This member is required.
-    public var uuid: Swift.String?
-
-    public init(
-        amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig? = nil,
-        batchSize: Swift.Int? = nil,
-        bisectBatchOnFunctionError: Swift.Bool? = nil,
-        destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
-        documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
-        enabled: Swift.Bool? = nil,
-        filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
-        functionName: Swift.String? = nil,
-        functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
-        kmsKeyArn: Swift.String? = nil,
-        maximumBatchingWindowInSeconds: Swift.Int? = nil,
-        maximumRecordAgeInSeconds: Swift.Int? = nil,
-        maximumRetryAttempts: Swift.Int? = nil,
-        metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
-        parallelizationFactor: Swift.Int? = nil,
-        provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
-        scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
-        selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig? = nil,
-        sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
-        tumblingWindowInSeconds: Swift.Int? = nil,
-        uuid: Swift.String? = nil
-    ) {
-        self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
-        self.batchSize = batchSize
-        self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
-        self.destinationConfig = destinationConfig
-        self.documentDBEventSourceConfig = documentDBEventSourceConfig
-        self.enabled = enabled
-        self.filterCriteria = filterCriteria
-        self.functionName = functionName
-        self.functionResponseTypes = functionResponseTypes
-        self.kmsKeyArn = kmsKeyArn
-        self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
-        self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
-        self.maximumRetryAttempts = maximumRetryAttempts
-        self.metricsConfig = metricsConfig
-        self.parallelizationFactor = parallelizationFactor
-        self.provisionedPollerConfig = provisionedPollerConfig
-        self.scalingConfig = scalingConfig
-        self.selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfig
-        self.sourceAccessConfigurations = sourceAccessConfigurations
-        self.tumblingWindowInSeconds = tumblingWindowInSeconds
-        self.uuid = uuid
-    }
-}
-
-/// A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
-public struct UpdateEventSourceMappingOutput: Swift.Sendable {
-    /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
-    public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
-    /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB). Default value: Varies by service. For Amazon SQS, the default is 10. For all other services, the default is 100. Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
-    public var batchSize: Swift.Int?
-    /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
-    public var bisectBatchOnFunctionError: Swift.Bool?
-    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka event sources only) A configuration object that specifies the destination of an event after Lambda processes it.
-    public var destinationConfig: LambdaClientTypes.DestinationConfig?
-    /// Specific configuration settings for a DocumentDB event source.
-    public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
-    /// The Amazon Resource Name (ARN) of the event source.
-    public var eventSourceArn: Swift.String?
-    /// The Amazon Resource Name (ARN) of the event source mapping.
-    public var eventSourceMappingArn: Swift.String?
-    /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html). If filter criteria is encrypted, this field shows up as null in the response of ListEventSourceMapping API calls. You can view this field in plaintext in the response of GetEventSourceMapping and DeleteEventSourceMapping calls if you have kms:Decrypt permissions for the correct KMS key.
-    public var filterCriteria: LambdaClientTypes.FilterCriteria?
-    /// An object that contains details about an error related to filter criteria encryption.
-    public var filterCriteriaError: LambdaClientTypes.FilterCriteriaError?
-    /// The ARN of the Lambda function.
-    public var functionArn: Swift.String?
-    /// (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
-    public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
-    /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics).
-    public var kmsKeyArn: Swift.String?
-    /// The date that the event source mapping was last updated or that its state changed.
-    public var lastModified: Foundation.Date?
-    /// The result of the event source mapping's last processing attempt.
-    public var lastProcessingResult: Swift.String?
-    /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
-    public var maximumBatchingWindowInSeconds: Swift.Int?
-    /// (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum valid value for maximum record age is 60s. Although values less than 60 and greater than -1 fall within the parameter's absolute range, they are not allowed
-    public var maximumRecordAgeInSeconds: Swift.Int?
-    /// (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is -1, which sets the maximum number of retries to infinite. When MaximumRetryAttempts is infinite, Lambda retries failed records until the record expires in the event source.
-    public var maximumRetryAttempts: Swift.Int?
-    /// The metrics configuration for your event source. For more information, see [Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
-    public var metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig?
-    /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
-    public var parallelizationFactor: Swift.Int?
-    /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see [provisioned mode](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#invocation-eventsourcemapping-provisioned-mode).
-    public var provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig?
-    /// (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
-    public var queues: [Swift.String]?
-    /// (Amazon SQS only) The scaling configuration for the event source. For more information, see [Configuring maximum concurrency for Amazon SQS event sources](https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html#events-sqs-max-concurrency).
-    public var scalingConfig: LambdaClientTypes.ScalingConfig?
-    /// The self-managed Apache Kafka cluster for your event source.
-    public var selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource?
-    /// Specific configuration settings for a self-managed Apache Kafka event source.
-    public var selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?
-    /// An array of the authentication protocol, VPC components, or virtual host to secure and define your event source.
-    public var sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]?
-    /// The position in a stream from which to start reading. Required for Amazon Kinesis and Amazon DynamoDB Stream event sources. AT_TIMESTAMP is supported only for Amazon Kinesis streams, Amazon DocumentDB, Amazon MSK, and self-managed Apache Kafka.
-    public var startingPosition: LambdaClientTypes.EventSourcePosition?
-    /// With StartingPosition set to AT_TIMESTAMP, the time from which to start reading. StartingPositionTimestamp cannot be in the future.
-    public var startingPositionTimestamp: Foundation.Date?
-    /// The state of the event source mapping. It can be one of the following: Creating, Enabling, Enabled, Disabling, Disabled, Updating, or Deleting.
-    public var state: Swift.String?
-    /// Indicates whether a user or Lambda made the last change to the event source mapping.
-    public var stateTransitionReason: Swift.String?
-    /// The name of the Kafka topic.
-    public var topics: [Swift.String]?
-    /// (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.
-    public var tumblingWindowInSeconds: Swift.Int?
-    /// The identifier of the event source mapping.
-    public var uuid: Swift.String?
-
-    public init(
-        amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig? = nil,
-        batchSize: Swift.Int? = nil,
-        bisectBatchOnFunctionError: Swift.Bool? = nil,
-        destinationConfig: LambdaClientTypes.DestinationConfig? = nil,
-        documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig? = nil,
-        eventSourceArn: Swift.String? = nil,
-        eventSourceMappingArn: Swift.String? = nil,
-        filterCriteria: LambdaClientTypes.FilterCriteria? = nil,
-        filterCriteriaError: LambdaClientTypes.FilterCriteriaError? = nil,
-        functionArn: Swift.String? = nil,
-        functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
-        kmsKeyArn: Swift.String? = nil,
-        lastModified: Foundation.Date? = nil,
-        lastProcessingResult: Swift.String? = nil,
-        maximumBatchingWindowInSeconds: Swift.Int? = nil,
-        maximumRecordAgeInSeconds: Swift.Int? = nil,
-        maximumRetryAttempts: Swift.Int? = nil,
-        metricsConfig: LambdaClientTypes.EventSourceMappingMetricsConfig? = nil,
-        parallelizationFactor: Swift.Int? = nil,
-        provisionedPollerConfig: LambdaClientTypes.ProvisionedPollerConfig? = nil,
-        queues: [Swift.String]? = nil,
-        scalingConfig: LambdaClientTypes.ScalingConfig? = nil,
-        selfManagedEventSource: LambdaClientTypes.SelfManagedEventSource? = nil,
-        selfManagedKafkaEventSourceConfig: LambdaClientTypes.SelfManagedKafkaEventSourceConfig? = nil,
-        sourceAccessConfigurations: [LambdaClientTypes.SourceAccessConfiguration]? = nil,
-        startingPosition: LambdaClientTypes.EventSourcePosition? = nil,
-        startingPositionTimestamp: Foundation.Date? = nil,
-        state: Swift.String? = nil,
-        stateTransitionReason: Swift.String? = nil,
-        topics: [Swift.String]? = nil,
-        tumblingWindowInSeconds: Swift.Int? = nil,
-        uuid: Swift.String? = nil
-    ) {
-        self.amazonManagedKafkaEventSourceConfig = amazonManagedKafkaEventSourceConfig
-        self.batchSize = batchSize
-        self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
-        self.destinationConfig = destinationConfig
-        self.documentDBEventSourceConfig = documentDBEventSourceConfig
-        self.eventSourceArn = eventSourceArn
-        self.eventSourceMappingArn = eventSourceMappingArn
-        self.filterCriteria = filterCriteria
-        self.filterCriteriaError = filterCriteriaError
-        self.functionArn = functionArn
-        self.functionResponseTypes = functionResponseTypes
-        self.kmsKeyArn = kmsKeyArn
-        self.lastModified = lastModified
-        self.lastProcessingResult = lastProcessingResult
-        self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
-        self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
-        self.maximumRetryAttempts = maximumRetryAttempts
-        self.metricsConfig = metricsConfig
-        self.parallelizationFactor = parallelizationFactor
-        self.provisionedPollerConfig = provisionedPollerConfig
-        self.queues = queues
-        self.scalingConfig = scalingConfig
-        self.selfManagedEventSource = selfManagedEventSource
-        self.selfManagedKafkaEventSourceConfig = selfManagedKafkaEventSourceConfig
-        self.sourceAccessConfigurations = sourceAccessConfigurations
-        self.startingPosition = startingPosition
-        self.startingPositionTimestamp = startingPositionTimestamp
-        self.state = state
-        self.stateTransitionReason = stateTransitionReason
-        self.topics = topics
-        self.tumblingWindowInSeconds = tumblingWindowInSeconds
-        self.uuid = uuid
     }
 }
 
@@ -8716,6 +7439,1283 @@ public struct UpdateFunctionUrlConfigOutput: Swift.Sendable {
         self.functionUrl = functionUrl
         self.invokeMode = invokeMode
         self.lastModifiedTime = lastModifiedTime
+    }
+}
+
+public struct CreateAliasInput: Swift.Sendable {
+    /// A description of the alias.
+    public var description: Swift.String?
+    /// The name or ARN of the Lambda function. Name formats
+    ///
+    /// * Function name - MyFunction.
+    ///
+    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
+    ///
+    /// * Partial ARN - 123456789012:function:MyFunction.
+    ///
+    ///
+    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// The function version that the alias invokes.
+    /// This member is required.
+    public var functionVersion: Swift.String?
+    /// The name of the alias.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The [routing configuration](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html#configuring-alias-routing) of the alias.
+    public var routingConfig: LambdaClientTypes.AliasRoutingConfiguration?
+
+    public init(
+        description: Swift.String? = nil,
+        functionName: Swift.String? = nil,
+        functionVersion: Swift.String? = nil,
+        name: Swift.String? = nil,
+        routingConfig: LambdaClientTypes.AliasRoutingConfiguration? = nil
+    ) {
+        self.description = description
+        self.functionName = functionName
+        self.functionVersion = functionVersion
+        self.name = name
+        self.routingConfig = routingConfig
+    }
+}
+
+/// Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
+public struct CreateAliasOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the alias.
+    public var aliasArn: Swift.String?
+    /// A description of the alias.
+    public var description: Swift.String?
+    /// The function version that the alias invokes.
+    public var functionVersion: Swift.String?
+    /// The name of the alias.
+    public var name: Swift.String?
+    /// A unique identifier that changes when you update the alias.
+    public var revisionId: Swift.String?
+    /// The [routing configuration](https://docs.aws.amazon.com/lambda/latest/dg/lambda-traffic-shifting-using-aliases.html) of the alias.
+    public var routingConfig: LambdaClientTypes.AliasRoutingConfiguration?
+
+    public init(
+        aliasArn: Swift.String? = nil,
+        description: Swift.String? = nil,
+        functionVersion: Swift.String? = nil,
+        name: Swift.String? = nil,
+        revisionId: Swift.String? = nil,
+        routingConfig: LambdaClientTypes.AliasRoutingConfiguration? = nil
+    ) {
+        self.aliasArn = aliasArn
+        self.description = description
+        self.functionVersion = functionVersion
+        self.name = name
+        self.revisionId = revisionId
+        self.routingConfig = routingConfig
+    }
+}
+
+public struct DeleteAliasInput: Swift.Sendable {
+    /// The name or ARN of the Lambda function. Name formats
+    ///
+    /// * Function name - MyFunction.
+    ///
+    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
+    ///
+    /// * Partial ARN - 123456789012:function:MyFunction.
+    ///
+    ///
+    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// The name of the alias.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        functionName: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.functionName = functionName
+        self.name = name
+    }
+}
+
+public struct GetAliasInput: Swift.Sendable {
+    /// The name or ARN of the Lambda function. Name formats
+    ///
+    /// * Function name - MyFunction.
+    ///
+    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
+    ///
+    /// * Partial ARN - 123456789012:function:MyFunction.
+    ///
+    ///
+    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// The name of the alias.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        functionName: Swift.String? = nil,
+        name: Swift.String? = nil
+    ) {
+        self.functionName = functionName
+        self.name = name
+    }
+}
+
+/// Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
+public struct GetAliasOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the alias.
+    public var aliasArn: Swift.String?
+    /// A description of the alias.
+    public var description: Swift.String?
+    /// The function version that the alias invokes.
+    public var functionVersion: Swift.String?
+    /// The name of the alias.
+    public var name: Swift.String?
+    /// A unique identifier that changes when you update the alias.
+    public var revisionId: Swift.String?
+    /// The [routing configuration](https://docs.aws.amazon.com/lambda/latest/dg/lambda-traffic-shifting-using-aliases.html) of the alias.
+    public var routingConfig: LambdaClientTypes.AliasRoutingConfiguration?
+
+    public init(
+        aliasArn: Swift.String? = nil,
+        description: Swift.String? = nil,
+        functionVersion: Swift.String? = nil,
+        name: Swift.String? = nil,
+        revisionId: Swift.String? = nil,
+        routingConfig: LambdaClientTypes.AliasRoutingConfiguration? = nil
+    ) {
+        self.aliasArn = aliasArn
+        self.description = description
+        self.functionVersion = functionVersion
+        self.name = name
+        self.revisionId = revisionId
+        self.routingConfig = routingConfig
+    }
+}
+
+public struct ListAliasesInput: Swift.Sendable {
+    /// The name or ARN of the Lambda function. Name formats
+    ///
+    /// * Function name - MyFunction.
+    ///
+    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
+    ///
+    /// * Partial ARN - 123456789012:function:MyFunction.
+    ///
+    ///
+    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// Specify a function version to only list aliases that invoke that version.
+    public var functionVersion: Swift.String?
+    /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
+    public var marker: Swift.String?
+    /// Limit the number of aliases returned.
+    public var maxItems: Swift.Int?
+
+    public init(
+        functionName: Swift.String? = nil,
+        functionVersion: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    ) {
+        self.functionName = functionName
+        self.functionVersion = functionVersion
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+public struct ListAliasesOutput: Swift.Sendable {
+    /// A list of aliases.
+    public var aliases: [LambdaClientTypes.AliasConfiguration]?
+    /// The pagination token that's included if more results are available.
+    public var nextMarker: Swift.String?
+
+    public init(
+        aliases: [LambdaClientTypes.AliasConfiguration]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.aliases = aliases
+        self.nextMarker = nextMarker
+    }
+}
+
+public struct UpdateAliasInput: Swift.Sendable {
+    /// A description of the alias.
+    public var description: Swift.String?
+    /// The name or ARN of the Lambda function. Name formats
+    ///
+    /// * Function name - MyFunction.
+    ///
+    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
+    ///
+    /// * Partial ARN - 123456789012:function:MyFunction.
+    ///
+    ///
+    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// The function version that the alias invokes.
+    public var functionVersion: Swift.String?
+    /// The name of the alias.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Only update the alias if the revision ID matches the ID that's specified. Use this option to avoid modifying an alias that has changed since you last read it.
+    public var revisionId: Swift.String?
+    /// The [routing configuration](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html#configuring-alias-routing) of the alias.
+    public var routingConfig: LambdaClientTypes.AliasRoutingConfiguration?
+
+    public init(
+        description: Swift.String? = nil,
+        functionName: Swift.String? = nil,
+        functionVersion: Swift.String? = nil,
+        name: Swift.String? = nil,
+        revisionId: Swift.String? = nil,
+        routingConfig: LambdaClientTypes.AliasRoutingConfiguration? = nil
+    ) {
+        self.description = description
+        self.functionName = functionName
+        self.functionVersion = functionVersion
+        self.name = name
+        self.revisionId = revisionId
+        self.routingConfig = routingConfig
+    }
+}
+
+/// Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
+public struct UpdateAliasOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the alias.
+    public var aliasArn: Swift.String?
+    /// A description of the alias.
+    public var description: Swift.String?
+    /// The function version that the alias invokes.
+    public var functionVersion: Swift.String?
+    /// The name of the alias.
+    public var name: Swift.String?
+    /// A unique identifier that changes when you update the alias.
+    public var revisionId: Swift.String?
+    /// The [routing configuration](https://docs.aws.amazon.com/lambda/latest/dg/lambda-traffic-shifting-using-aliases.html) of the alias.
+    public var routingConfig: LambdaClientTypes.AliasRoutingConfiguration?
+
+    public init(
+        aliasArn: Swift.String? = nil,
+        description: Swift.String? = nil,
+        functionVersion: Swift.String? = nil,
+        name: Swift.String? = nil,
+        revisionId: Swift.String? = nil,
+        routingConfig: LambdaClientTypes.AliasRoutingConfiguration? = nil
+    ) {
+        self.aliasArn = aliasArn
+        self.description = description
+        self.functionVersion = functionVersion
+        self.name = name
+        self.revisionId = revisionId
+        self.routingConfig = routingConfig
+    }
+}
+
+public struct ListVersionsByFunctionInput: Swift.Sendable {
+    /// The name or ARN of the Lambda function. Name formats
+    ///
+    /// * Function name - MyFunction.
+    ///
+    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
+    ///
+    /// * Partial ARN - 123456789012:function:MyFunction.
+    ///
+    ///
+    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
+    public var marker: Swift.String?
+    /// The maximum number of versions to return. Note that ListVersionsByFunction returns a maximum of 50 items in each response, even if you set the number higher.
+    public var maxItems: Swift.Int?
+
+    public init(
+        functionName: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    ) {
+        self.functionName = functionName
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+public struct ListVersionsByFunctionOutput: Swift.Sendable {
+    /// The pagination token that's included if more results are available.
+    public var nextMarker: Swift.String?
+    /// A list of Lambda function versions.
+    public var versions: [LambdaClientTypes.FunctionConfiguration]?
+
+    public init(
+        nextMarker: Swift.String? = nil,
+        versions: [LambdaClientTypes.FunctionConfiguration]? = nil
+    ) {
+        self.nextMarker = nextMarker
+        self.versions = versions
+    }
+}
+
+public struct PublishVersionInput: Swift.Sendable {
+    /// Only publish a version if the hash value matches the value that's specified. Use this option to avoid publishing a version if the function code has changed since you last updated it. You can get the hash for the version that you uploaded from the output of [UpdateFunctionCode].
+    public var codeSha256: Swift.String?
+    /// A description for the version to override the description in the function configuration.
+    public var description: Swift.String?
+    /// The name or ARN of the Lambda function. Name formats
+    ///
+    /// * Function name - MyFunction.
+    ///
+    /// * Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
+    ///
+    /// * Partial ARN - 123456789012:function:MyFunction.
+    ///
+    ///
+    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// Only update the function if the revision ID matches the ID that's specified. Use this option to avoid publishing a version if the function configuration has changed since you last updated it.
+    public var revisionId: Swift.String?
+
+    public init(
+        codeSha256: Swift.String? = nil,
+        description: Swift.String? = nil,
+        functionName: Swift.String? = nil,
+        revisionId: Swift.String? = nil
+    ) {
+        self.codeSha256 = codeSha256
+        self.description = description
+        self.functionName = functionName
+        self.revisionId = revisionId
+    }
+}
+
+/// Details about a function's configuration.
+public struct PublishVersionOutput: Swift.Sendable {
+    /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
+    public var architectures: [LambdaClientTypes.Architecture]?
+    /// The SHA256 hash of the function's deployment package.
+    public var codeSha256: Swift.String?
+    /// The size of the function's deployment package, in bytes.
+    public var codeSize: Swift.Int
+    /// The function's dead letter queue.
+    public var deadLetterConfig: LambdaClientTypes.DeadLetterConfig?
+    /// The function's description.
+    public var description: Swift.String?
+    /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
+    public var environment: LambdaClientTypes.EnvironmentResponse?
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
+    public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
+    /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
+    public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
+    /// The function's Amazon Resource Name (ARN).
+    public var functionArn: Swift.String?
+    /// The name of the function.
+    public var functionName: Swift.String?
+    /// The function that Lambda calls to begin running your function.
+    public var handler: Swift.String?
+    /// The function's image configuration values.
+    public var imageConfigResponse: LambdaClientTypes.ImageConfigResponse?
+    /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt the following resources:
+    ///
+    /// * The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption).
+    ///
+    /// * The function's [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) snapshots.
+    ///
+    /// * When used with SourceKMSKeyArn, the unzipped version of the .zip deployment package that's used for function invocations. For more information, see [ Specifying a customer managed key for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/encrypt-zip-package.html#enable-zip-custom-encryption).
+    ///
+    /// * The optimized version of the container image that's used for function invocations. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). For more information, see [Function lifecycle](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-lifecycle).
+    ///
+    ///
+    /// If you don't provide a customer managed key, Lambda uses an [Amazon Web Services owned key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-owned-cmk) or an [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk).
+    public var kmsKeyArn: Swift.String?
+    /// The date and time that the function was last updated, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+    public var lastModified: Swift.String?
+    /// The status of the last update that was performed on the function. This is first set to Successful after function creation completes.
+    public var lastUpdateStatus: LambdaClientTypes.LastUpdateStatus?
+    /// The reason for the last update that was performed on the function.
+    public var lastUpdateStatusReason: Swift.String?
+    /// The reason code for the last update that was performed on the function.
+    public var lastUpdateStatusReasonCode: LambdaClientTypes.LastUpdateStatusReasonCode?
+    /// The function's [layers](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html).
+    public var layers: [LambdaClientTypes.Layer]?
+    /// The function's Amazon CloudWatch Logs configuration settings.
+    public var loggingConfig: LambdaClientTypes.LoggingConfig?
+    /// For Lambda@Edge functions, the ARN of the main function.
+    public var masterArn: Swift.String?
+    /// The amount of memory available to the function at runtime.
+    public var memorySize: Swift.Int?
+    /// The type of deployment package. Set to Image for container image and set Zip for .zip file archive.
+    public var packageType: LambdaClientTypes.PackageType?
+    /// The latest updated revision of the function or alias.
+    public var revisionId: Swift.String?
+    /// The function's execution role.
+    public var role: Swift.String?
+    /// The identifier of the function's [ runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
+    public var runtime: LambdaClientTypes.Runtime?
+    /// The ARN of the runtime and any errors that occured.
+    public var runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig?
+    /// The ARN of the signing job.
+    public var signingJobArn: Swift.String?
+    /// The ARN of the signing profile version.
+    public var signingProfileVersionArn: Swift.String?
+    /// Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version. For more information, see [Improving startup performance with Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html).
+    public var snapStart: LambdaClientTypes.SnapStartResponse?
+    /// The current state of the function. When the state is Inactive, you can reactivate the function by invoking it.
+    public var state: LambdaClientTypes.State?
+    /// The reason for the function's current state.
+    public var stateReason: Swift.String?
+    /// The reason code for the function's current state. When the code is Creating, you can't invoke or modify the function.
+    public var stateReasonCode: LambdaClientTypes.StateReasonCode?
+    /// The amount of time in seconds that Lambda allows a function to run before stopping it.
+    public var timeout: Swift.Int?
+    /// The function's X-Ray tracing configuration.
+    public var tracingConfig: LambdaClientTypes.TracingConfigResponse?
+    /// The version of the Lambda function.
+    public var version: Swift.String?
+    /// The function's networking configuration.
+    public var vpcConfig: LambdaClientTypes.VpcConfigResponse?
+
+    public init(
+        architectures: [LambdaClientTypes.Architecture]? = nil,
+        codeSha256: Swift.String? = nil,
+        codeSize: Swift.Int = 0,
+        deadLetterConfig: LambdaClientTypes.DeadLetterConfig? = nil,
+        description: Swift.String? = nil,
+        environment: LambdaClientTypes.EnvironmentResponse? = nil,
+        ephemeralStorage: LambdaClientTypes.EphemeralStorage? = nil,
+        fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]? = nil,
+        functionArn: Swift.String? = nil,
+        functionName: Swift.String? = nil,
+        handler: Swift.String? = nil,
+        imageConfigResponse: LambdaClientTypes.ImageConfigResponse? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        lastModified: Swift.String? = nil,
+        lastUpdateStatus: LambdaClientTypes.LastUpdateStatus? = nil,
+        lastUpdateStatusReason: Swift.String? = nil,
+        lastUpdateStatusReasonCode: LambdaClientTypes.LastUpdateStatusReasonCode? = nil,
+        layers: [LambdaClientTypes.Layer]? = nil,
+        loggingConfig: LambdaClientTypes.LoggingConfig? = nil,
+        masterArn: Swift.String? = nil,
+        memorySize: Swift.Int? = nil,
+        packageType: LambdaClientTypes.PackageType? = nil,
+        revisionId: Swift.String? = nil,
+        role: Swift.String? = nil,
+        runtime: LambdaClientTypes.Runtime? = nil,
+        runtimeVersionConfig: LambdaClientTypes.RuntimeVersionConfig? = nil,
+        signingJobArn: Swift.String? = nil,
+        signingProfileVersionArn: Swift.String? = nil,
+        snapStart: LambdaClientTypes.SnapStartResponse? = nil,
+        state: LambdaClientTypes.State? = nil,
+        stateReason: Swift.String? = nil,
+        stateReasonCode: LambdaClientTypes.StateReasonCode? = nil,
+        timeout: Swift.Int? = nil,
+        tracingConfig: LambdaClientTypes.TracingConfigResponse? = nil,
+        version: Swift.String? = nil,
+        vpcConfig: LambdaClientTypes.VpcConfigResponse? = nil
+    ) {
+        self.architectures = architectures
+        self.codeSha256 = codeSha256
+        self.codeSize = codeSize
+        self.deadLetterConfig = deadLetterConfig
+        self.description = description
+        self.environment = environment
+        self.ephemeralStorage = ephemeralStorage
+        self.fileSystemConfigs = fileSystemConfigs
+        self.functionArn = functionArn
+        self.functionName = functionName
+        self.handler = handler
+        self.imageConfigResponse = imageConfigResponse
+        self.kmsKeyArn = kmsKeyArn
+        self.lastModified = lastModified
+        self.lastUpdateStatus = lastUpdateStatus
+        self.lastUpdateStatusReason = lastUpdateStatusReason
+        self.lastUpdateStatusReasonCode = lastUpdateStatusReasonCode
+        self.layers = layers
+        self.loggingConfig = loggingConfig
+        self.masterArn = masterArn
+        self.memorySize = memorySize
+        self.packageType = packageType
+        self.revisionId = revisionId
+        self.role = role
+        self.runtime = runtime
+        self.runtimeVersionConfig = runtimeVersionConfig
+        self.signingJobArn = signingJobArn
+        self.signingProfileVersionArn = signingProfileVersionArn
+        self.snapStart = snapStart
+        self.state = state
+        self.stateReason = stateReason
+        self.stateReasonCode = stateReasonCode
+        self.timeout = timeout
+        self.tracingConfig = tracingConfig
+        self.version = version
+        self.vpcConfig = vpcConfig
+    }
+}
+
+public struct GetAccountSettingsInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetAccountSettingsOutput: Swift.Sendable {
+    /// Limits that are related to concurrency and code storage.
+    public var accountLimit: LambdaClientTypes.AccountLimit?
+    /// The number of functions and amount of storage in use.
+    public var accountUsage: LambdaClientTypes.AccountUsage?
+
+    public init(
+        accountLimit: LambdaClientTypes.AccountLimit? = nil,
+        accountUsage: LambdaClientTypes.AccountUsage? = nil
+    ) {
+        self.accountLimit = accountLimit
+        self.accountUsage = accountUsage
+    }
+}
+
+public struct ListLayersInput: Swift.Sendable {
+    /// The compatible [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
+    public var compatibleArchitecture: LambdaClientTypes.Architecture?
+    /// A runtime identifier. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
+    public var compatibleRuntime: LambdaClientTypes.Runtime?
+    /// A pagination token returned by a previous call.
+    public var marker: Swift.String?
+    /// The maximum number of layers to return.
+    public var maxItems: Swift.Int?
+
+    public init(
+        compatibleArchitecture: LambdaClientTypes.Architecture? = nil,
+        compatibleRuntime: LambdaClientTypes.Runtime? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    ) {
+        self.compatibleArchitecture = compatibleArchitecture
+        self.compatibleRuntime = compatibleRuntime
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html).
+    public struct LayerVersionsListItem: Swift.Sendable {
+        /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
+        public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
+        /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
+        public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
+        /// The date that the version was created, in ISO 8601 format. For example, 2018-11-27T15:10:45.123+0000.
+        public var createdDate: Swift.String?
+        /// The description of the version.
+        public var description: Swift.String?
+        /// The ARN of the layer version.
+        public var layerVersionArn: Swift.String?
+        /// The layer's open-source license.
+        public var licenseInfo: Swift.String?
+        /// The version number.
+        public var version: Swift.Int
+
+        public init(
+            compatibleArchitectures: [LambdaClientTypes.Architecture]? = nil,
+            compatibleRuntimes: [LambdaClientTypes.Runtime]? = nil,
+            createdDate: Swift.String? = nil,
+            description: Swift.String? = nil,
+            layerVersionArn: Swift.String? = nil,
+            licenseInfo: Swift.String? = nil,
+            version: Swift.Int = 0
+        ) {
+            self.compatibleArchitectures = compatibleArchitectures
+            self.compatibleRuntimes = compatibleRuntimes
+            self.createdDate = createdDate
+            self.description = description
+            self.layerVersionArn = layerVersionArn
+            self.licenseInfo = licenseInfo
+            self.version = version
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html).
+    public struct LayersListItem: Swift.Sendable {
+        /// The newest version of the layer.
+        public var latestMatchingVersion: LambdaClientTypes.LayerVersionsListItem?
+        /// The Amazon Resource Name (ARN) of the function layer.
+        public var layerArn: Swift.String?
+        /// The name of the layer.
+        public var layerName: Swift.String?
+
+        public init(
+            latestMatchingVersion: LambdaClientTypes.LayerVersionsListItem? = nil,
+            layerArn: Swift.String? = nil,
+            layerName: Swift.String? = nil
+        ) {
+            self.latestMatchingVersion = latestMatchingVersion
+            self.layerArn = layerArn
+            self.layerName = layerName
+        }
+    }
+}
+
+public struct ListLayersOutput: Swift.Sendable {
+    /// A list of function layers.
+    public var layers: [LambdaClientTypes.LayersListItem]?
+    /// A pagination token returned when the response doesn't contain all layers.
+    public var nextMarker: Swift.String?
+
+    public init(
+        layers: [LambdaClientTypes.LayersListItem]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.layers = layers
+        self.nextMarker = nextMarker
+    }
+}
+
+public struct DeleteLayerVersionInput: Swift.Sendable {
+    /// The name or Amazon Resource Name (ARN) of the layer.
+    /// This member is required.
+    public var layerName: Swift.String?
+    /// The version number.
+    /// This member is required.
+    public var versionNumber: Swift.Int?
+
+    public init(
+        layerName: Swift.String? = nil,
+        versionNumber: Swift.Int? = 0
+    ) {
+        self.layerName = layerName
+        self.versionNumber = versionNumber
+    }
+}
+
+public struct GetLayerVersionInput: Swift.Sendable {
+    /// The name or Amazon Resource Name (ARN) of the layer.
+    /// This member is required.
+    public var layerName: Swift.String?
+    /// The version number.
+    /// This member is required.
+    public var versionNumber: Swift.Int?
+
+    public init(
+        layerName: Swift.String? = nil,
+        versionNumber: Swift.Int? = 0
+    ) {
+        self.layerName = layerName
+        self.versionNumber = versionNumber
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// Details about a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html).
+    public struct LayerVersionContentOutput: Swift.Sendable {
+        /// The SHA-256 hash of the layer archive.
+        public var codeSha256: Swift.String?
+        /// The size of the layer archive in bytes.
+        public var codeSize: Swift.Int
+        /// A link to the layer archive in Amazon S3 that is valid for 10 minutes.
+        public var location: Swift.String?
+        /// The Amazon Resource Name (ARN) of a signing job.
+        public var signingJobArn: Swift.String?
+        /// The Amazon Resource Name (ARN) for a signing profile version.
+        public var signingProfileVersionArn: Swift.String?
+
+        public init(
+            codeSha256: Swift.String? = nil,
+            codeSize: Swift.Int = 0,
+            location: Swift.String? = nil,
+            signingJobArn: Swift.String? = nil,
+            signingProfileVersionArn: Swift.String? = nil
+        ) {
+            self.codeSha256 = codeSha256
+            self.codeSize = codeSize
+            self.location = location
+            self.signingJobArn = signingJobArn
+            self.signingProfileVersionArn = signingProfileVersionArn
+        }
+    }
+}
+
+public struct GetLayerVersionOutput: Swift.Sendable {
+    /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
+    public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
+    /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
+    public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
+    /// Details about the layer version.
+    public var content: LambdaClientTypes.LayerVersionContentOutput?
+    /// The date that the layer version was created, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+    public var createdDate: Swift.String?
+    /// The description of the version.
+    public var description: Swift.String?
+    /// The ARN of the layer.
+    public var layerArn: Swift.String?
+    /// The ARN of the layer version.
+    public var layerVersionArn: Swift.String?
+    /// The layer's software license.
+    public var licenseInfo: Swift.String?
+    /// The version number.
+    public var version: Swift.Int
+
+    public init(
+        compatibleArchitectures: [LambdaClientTypes.Architecture]? = nil,
+        compatibleRuntimes: [LambdaClientTypes.Runtime]? = nil,
+        content: LambdaClientTypes.LayerVersionContentOutput? = nil,
+        createdDate: Swift.String? = nil,
+        description: Swift.String? = nil,
+        layerArn: Swift.String? = nil,
+        layerVersionArn: Swift.String? = nil,
+        licenseInfo: Swift.String? = nil,
+        version: Swift.Int = 0
+    ) {
+        self.compatibleArchitectures = compatibleArchitectures
+        self.compatibleRuntimes = compatibleRuntimes
+        self.content = content
+        self.createdDate = createdDate
+        self.description = description
+        self.layerArn = layerArn
+        self.layerVersionArn = layerVersionArn
+        self.licenseInfo = licenseInfo
+        self.version = version
+    }
+}
+
+public struct GetLayerVersionByArnInput: Swift.Sendable {
+    /// The ARN of the layer version.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    ) {
+        self.arn = arn
+    }
+}
+
+public struct GetLayerVersionByArnOutput: Swift.Sendable {
+    /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
+    public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
+    /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
+    public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
+    /// Details about the layer version.
+    public var content: LambdaClientTypes.LayerVersionContentOutput?
+    /// The date that the layer version was created, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+    public var createdDate: Swift.String?
+    /// The description of the version.
+    public var description: Swift.String?
+    /// The ARN of the layer.
+    public var layerArn: Swift.String?
+    /// The ARN of the layer version.
+    public var layerVersionArn: Swift.String?
+    /// The layer's software license.
+    public var licenseInfo: Swift.String?
+    /// The version number.
+    public var version: Swift.Int
+
+    public init(
+        compatibleArchitectures: [LambdaClientTypes.Architecture]? = nil,
+        compatibleRuntimes: [LambdaClientTypes.Runtime]? = nil,
+        content: LambdaClientTypes.LayerVersionContentOutput? = nil,
+        createdDate: Swift.String? = nil,
+        description: Swift.String? = nil,
+        layerArn: Swift.String? = nil,
+        layerVersionArn: Swift.String? = nil,
+        licenseInfo: Swift.String? = nil,
+        version: Swift.Int = 0
+    ) {
+        self.compatibleArchitectures = compatibleArchitectures
+        self.compatibleRuntimes = compatibleRuntimes
+        self.content = content
+        self.createdDate = createdDate
+        self.description = description
+        self.layerArn = layerArn
+        self.layerVersionArn = layerVersionArn
+        self.licenseInfo = licenseInfo
+        self.version = version
+    }
+}
+
+public struct GetLayerVersionPolicyInput: Swift.Sendable {
+    /// The name or Amazon Resource Name (ARN) of the layer.
+    /// This member is required.
+    public var layerName: Swift.String?
+    /// The version number.
+    /// This member is required.
+    public var versionNumber: Swift.Int?
+
+    public init(
+        layerName: Swift.String? = nil,
+        versionNumber: Swift.Int? = 0
+    ) {
+        self.layerName = layerName
+        self.versionNumber = versionNumber
+    }
+}
+
+public struct GetLayerVersionPolicyOutput: Swift.Sendable {
+    /// The policy document.
+    public var policy: Swift.String?
+    /// A unique identifier for the current revision of the policy.
+    public var revisionId: Swift.String?
+
+    public init(
+        policy: Swift.String? = nil,
+        revisionId: Swift.String? = nil
+    ) {
+        self.policy = policy
+        self.revisionId = revisionId
+    }
+}
+
+public struct ListLayerVersionsInput: Swift.Sendable {
+    /// The compatible [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
+    public var compatibleArchitecture: LambdaClientTypes.Architecture?
+    /// A runtime identifier. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
+    public var compatibleRuntime: LambdaClientTypes.Runtime?
+    /// The name or Amazon Resource Name (ARN) of the layer.
+    /// This member is required.
+    public var layerName: Swift.String?
+    /// A pagination token returned by a previous call.
+    public var marker: Swift.String?
+    /// The maximum number of versions to return.
+    public var maxItems: Swift.Int?
+
+    public init(
+        compatibleArchitecture: LambdaClientTypes.Architecture? = nil,
+        compatibleRuntime: LambdaClientTypes.Runtime? = nil,
+        layerName: Swift.String? = nil,
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil
+    ) {
+        self.compatibleArchitecture = compatibleArchitecture
+        self.compatibleRuntime = compatibleRuntime
+        self.layerName = layerName
+        self.marker = marker
+        self.maxItems = maxItems
+    }
+}
+
+public struct ListLayerVersionsOutput: Swift.Sendable {
+    /// A list of versions.
+    public var layerVersions: [LambdaClientTypes.LayerVersionsListItem]?
+    /// A pagination token returned when the response doesn't contain all versions.
+    public var nextMarker: Swift.String?
+
+    public init(
+        layerVersions: [LambdaClientTypes.LayerVersionsListItem]? = nil,
+        nextMarker: Swift.String? = nil
+    ) {
+        self.layerVersions = layerVersions
+        self.nextMarker = nextMarker
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// A ZIP archive that contains the contents of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). You can specify either an Amazon S3 location, or upload a layer archive directly.
+    public struct LayerVersionContentInput: Swift.Sendable {
+        /// The Amazon S3 bucket of the layer archive.
+        public var s3Bucket: Swift.String?
+        /// The Amazon S3 key of the layer archive.
+        public var s3Key: Swift.String?
+        /// For versioned objects, the version of the layer archive object to use.
+        public var s3ObjectVersion: Swift.String?
+        /// The base64-encoded contents of the layer archive. Amazon Web Services SDK and Amazon Web Services CLI clients handle the encoding for you.
+        public var zipFile: Foundation.Data?
+
+        public init(
+            s3Bucket: Swift.String? = nil,
+            s3Key: Swift.String? = nil,
+            s3ObjectVersion: Swift.String? = nil,
+            zipFile: Foundation.Data? = nil
+        ) {
+            self.s3Bucket = s3Bucket
+            self.s3Key = s3Key
+            self.s3ObjectVersion = s3ObjectVersion
+            self.zipFile = zipFile
+        }
+    }
+}
+
+extension LambdaClientTypes.LayerVersionContentInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "LayerVersionContentInput(s3Bucket: \(Swift.String(describing: s3Bucket)), s3Key: \(Swift.String(describing: s3Key)), s3ObjectVersion: \(Swift.String(describing: s3ObjectVersion)), zipFile: \"CONTENT_REDACTED\")"}
+}
+
+public struct PublishLayerVersionInput: Swift.Sendable {
+    /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
+    public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
+    /// A list of compatible [function runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Used for filtering with [ListLayers] and [ListLayerVersions]. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
+    /// The function layer archive.
+    /// This member is required.
+    public var content: LambdaClientTypes.LayerVersionContentInput?
+    /// The description of the version.
+    public var description: Swift.String?
+    /// The name or Amazon Resource Name (ARN) of the layer.
+    /// This member is required.
+    public var layerName: Swift.String?
+    /// The layer's software license. It can be any of the following:
+    ///
+    /// * An [SPDX license identifier](https://spdx.org/licenses/). For example, MIT.
+    ///
+    /// * The URL of a license hosted on the internet. For example, https://opensource.org/licenses/MIT.
+    ///
+    /// * The full text of the license.
+    public var licenseInfo: Swift.String?
+
+    public init(
+        compatibleArchitectures: [LambdaClientTypes.Architecture]? = nil,
+        compatibleRuntimes: [LambdaClientTypes.Runtime]? = nil,
+        content: LambdaClientTypes.LayerVersionContentInput? = nil,
+        description: Swift.String? = nil,
+        layerName: Swift.String? = nil,
+        licenseInfo: Swift.String? = nil
+    ) {
+        self.compatibleArchitectures = compatibleArchitectures
+        self.compatibleRuntimes = compatibleRuntimes
+        self.content = content
+        self.description = description
+        self.layerName = layerName
+        self.licenseInfo = licenseInfo
+    }
+}
+
+public struct PublishLayerVersionOutput: Swift.Sendable {
+    /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
+    public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
+    /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime use after deprecation](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-deprecation-levels). For a list of all currently supported runtimes, see [Supported runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtimes-supported).
+    public var compatibleRuntimes: [LambdaClientTypes.Runtime]?
+    /// Details about the layer version.
+    public var content: LambdaClientTypes.LayerVersionContentOutput?
+    /// The date that the layer version was created, in [ISO-8601 format](https://www.w3.org/TR/NOTE-datetime) (YYYY-MM-DDThh:mm:ss.sTZD).
+    public var createdDate: Swift.String?
+    /// The description of the version.
+    public var description: Swift.String?
+    /// The ARN of the layer.
+    public var layerArn: Swift.String?
+    /// The ARN of the layer version.
+    public var layerVersionArn: Swift.String?
+    /// The layer's software license.
+    public var licenseInfo: Swift.String?
+    /// The version number.
+    public var version: Swift.Int
+
+    public init(
+        compatibleArchitectures: [LambdaClientTypes.Architecture]? = nil,
+        compatibleRuntimes: [LambdaClientTypes.Runtime]? = nil,
+        content: LambdaClientTypes.LayerVersionContentOutput? = nil,
+        createdDate: Swift.String? = nil,
+        description: Swift.String? = nil,
+        layerArn: Swift.String? = nil,
+        layerVersionArn: Swift.String? = nil,
+        licenseInfo: Swift.String? = nil,
+        version: Swift.Int = 0
+    ) {
+        self.compatibleArchitectures = compatibleArchitectures
+        self.compatibleRuntimes = compatibleRuntimes
+        self.content = content
+        self.createdDate = createdDate
+        self.description = description
+        self.layerArn = layerArn
+        self.layerVersionArn = layerVersionArn
+        self.licenseInfo = licenseInfo
+        self.version = version
+    }
+}
+
+public struct RemoveLayerVersionPermissionInput: Swift.Sendable {
+    /// The name or Amazon Resource Name (ARN) of the layer.
+    /// This member is required.
+    public var layerName: Swift.String?
+    /// Only update the policy if the revision ID matches the ID specified. Use this option to avoid modifying a policy that has changed since you last read it.
+    public var revisionId: Swift.String?
+    /// The identifier that was specified when the statement was added.
+    /// This member is required.
+    public var statementId: Swift.String?
+    /// The version number.
+    /// This member is required.
+    public var versionNumber: Swift.Int?
+
+    public init(
+        layerName: Swift.String? = nil,
+        revisionId: Swift.String? = nil,
+        statementId: Swift.String? = nil,
+        versionNumber: Swift.Int? = 0
+    ) {
+        self.layerName = layerName
+        self.revisionId = revisionId
+        self.statementId = statementId
+        self.versionNumber = versionNumber
+    }
+}
+
+public struct ListTagsInput: Swift.Sendable {
+    /// The resource's Amazon Resource Name (ARN). Note: Lambda does not support adding tags to function aliases or versions.
+    /// This member is required.
+    public var resource: Swift.String?
+
+    public init(
+        resource: Swift.String? = nil
+    ) {
+        self.resource = resource
+    }
+}
+
+public struct ListTagsOutput: Swift.Sendable {
+    /// The function's tags.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.tags = tags
+    }
+}
+
+public struct RemovePermissionInput: Swift.Sendable {
+    /// The name or ARN of the Lambda function, version, or alias. Name formats
+    ///
+    /// * Function name – my-function (name-only), my-function:v1 (with alias).
+    ///
+    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    ///
+    /// * Partial ARN – 123456789012:function:my-function.
+    ///
+    ///
+    /// You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// Specify a version or alias to remove permissions from a published version of the function.
+    public var qualifier: Swift.String?
+    /// Update the policy only if the revision ID matches the ID that's specified. Use this option to avoid modifying a policy that has changed since you last read it.
+    public var revisionId: Swift.String?
+    /// Statement ID of the permission to remove.
+    /// This member is required.
+    public var statementId: Swift.String?
+
+    public init(
+        functionName: Swift.String? = nil,
+        qualifier: Swift.String? = nil,
+        revisionId: Swift.String? = nil,
+        statementId: Swift.String? = nil
+    ) {
+        self.functionName = functionName
+        self.qualifier = qualifier
+        self.revisionId = revisionId
+        self.statementId = statementId
+    }
+}
+
+public struct DeleteProvisionedConcurrencyConfigInput: Swift.Sendable {
+    /// The name or ARN of the Lambda function. Name formats
+    ///
+    /// * Function name – my-function.
+    ///
+    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    ///
+    /// * Partial ARN – 123456789012:function:my-function.
+    ///
+    ///
+    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// The version number or alias name.
+    /// This member is required.
+    public var qualifier: Swift.String?
+
+    public init(
+        functionName: Swift.String? = nil,
+        qualifier: Swift.String? = nil
+    ) {
+        self.functionName = functionName
+        self.qualifier = qualifier
+    }
+}
+
+/// The specified configuration does not exist.
+public struct ProvisionedConcurrencyConfigNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ProvisionedConcurrencyConfigNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
+public struct GetProvisionedConcurrencyConfigInput: Swift.Sendable {
+    /// The name or ARN of the Lambda function. Name formats
+    ///
+    /// * Function name – my-function.
+    ///
+    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    ///
+    /// * Partial ARN – 123456789012:function:my-function.
+    ///
+    ///
+    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// The version number or alias name.
+    /// This member is required.
+    public var qualifier: Swift.String?
+
+    public init(
+        functionName: Swift.String? = nil,
+        qualifier: Swift.String? = nil
+    ) {
+        self.functionName = functionName
+        self.qualifier = qualifier
+    }
+}
+
+public struct GetProvisionedConcurrencyConfigOutput: Swift.Sendable {
+    /// The amount of provisioned concurrency allocated. When a weighted alias is used during linear and canary deployments, this value fluctuates depending on the amount of concurrency that is provisioned for the function versions.
+    public var allocatedProvisionedConcurrentExecutions: Swift.Int?
+    /// The amount of provisioned concurrency available.
+    public var availableProvisionedConcurrentExecutions: Swift.Int?
+    /// The date and time that a user last updated the configuration, in [ISO 8601 format](https://www.iso.org/iso-8601-date-and-time-format.html).
+    public var lastModified: Swift.String?
+    /// The amount of provisioned concurrency requested.
+    public var requestedProvisionedConcurrentExecutions: Swift.Int?
+    /// The status of the allocation process.
+    public var status: LambdaClientTypes.ProvisionedConcurrencyStatusEnum?
+    /// For failed allocations, the reason that provisioned concurrency could not be allocated.
+    public var statusReason: Swift.String?
+
+    public init(
+        allocatedProvisionedConcurrentExecutions: Swift.Int? = nil,
+        availableProvisionedConcurrentExecutions: Swift.Int? = nil,
+        lastModified: Swift.String? = nil,
+        requestedProvisionedConcurrentExecutions: Swift.Int? = nil,
+        status: LambdaClientTypes.ProvisionedConcurrencyStatusEnum? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.allocatedProvisionedConcurrentExecutions = allocatedProvisionedConcurrentExecutions
+        self.availableProvisionedConcurrentExecutions = availableProvisionedConcurrentExecutions
+        self.lastModified = lastModified
+        self.requestedProvisionedConcurrentExecutions = requestedProvisionedConcurrentExecutions
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+public struct PutProvisionedConcurrencyConfigInput: Swift.Sendable {
+    /// The name or ARN of the Lambda function. Name formats
+    ///
+    /// * Function name – my-function.
+    ///
+    /// * Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.
+    ///
+    /// * Partial ARN – 123456789012:function:my-function.
+    ///
+    ///
+    /// The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    /// This member is required.
+    public var functionName: Swift.String?
+    /// The amount of provisioned concurrency to allocate for the version or alias.
+    /// This member is required.
+    public var provisionedConcurrentExecutions: Swift.Int?
+    /// The version number or alias name.
+    /// This member is required.
+    public var qualifier: Swift.String?
+
+    public init(
+        functionName: Swift.String? = nil,
+        provisionedConcurrentExecutions: Swift.Int? = nil,
+        qualifier: Swift.String? = nil
+    ) {
+        self.functionName = functionName
+        self.provisionedConcurrentExecutions = provisionedConcurrentExecutions
+        self.qualifier = qualifier
+    }
+}
+
+public struct PutProvisionedConcurrencyConfigOutput: Swift.Sendable {
+    /// The amount of provisioned concurrency allocated. When a weighted alias is used during linear and canary deployments, this value fluctuates depending on the amount of concurrency that is provisioned for the function versions.
+    public var allocatedProvisionedConcurrentExecutions: Swift.Int?
+    /// The amount of provisioned concurrency available.
+    public var availableProvisionedConcurrentExecutions: Swift.Int?
+    /// The date and time that a user last updated the configuration, in [ISO 8601 format](https://www.iso.org/iso-8601-date-and-time-format.html).
+    public var lastModified: Swift.String?
+    /// The amount of provisioned concurrency requested.
+    public var requestedProvisionedConcurrentExecutions: Swift.Int?
+    /// The status of the allocation process.
+    public var status: LambdaClientTypes.ProvisionedConcurrencyStatusEnum?
+    /// For failed allocations, the reason that provisioned concurrency could not be allocated.
+    public var statusReason: Swift.String?
+
+    public init(
+        allocatedProvisionedConcurrentExecutions: Swift.Int? = nil,
+        availableProvisionedConcurrentExecutions: Swift.Int? = nil,
+        lastModified: Swift.String? = nil,
+        requestedProvisionedConcurrentExecutions: Swift.Int? = nil,
+        status: LambdaClientTypes.ProvisionedConcurrencyStatusEnum? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.allocatedProvisionedConcurrentExecutions = allocatedProvisionedConcurrentExecutions
+        self.availableProvisionedConcurrentExecutions = availableProvisionedConcurrentExecutions
+        self.lastModified = lastModified
+        self.requestedProvisionedConcurrentExecutions = requestedProvisionedConcurrentExecutions
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+public struct TagResourceInput: Swift.Sendable {
+    /// The resource's Amazon Resource Name (ARN).
+    /// This member is required.
+    public var resource: Swift.String?
+    /// A list of tags to apply to the resource.
+    /// This member is required.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        resource: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.resource = resource
+        self.tags = tags
+    }
+}
+
+public struct UntagResourceInput: Swift.Sendable {
+    /// The resource's Amazon Resource Name (ARN).
+    /// This member is required.
+    public var resource: Swift.String?
+    /// A list of tag keys to remove from the resource.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        resource: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    ) {
+        self.resource = resource
+        self.tagKeys = tagKeys
     }
 }
 

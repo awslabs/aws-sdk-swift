@@ -3459,20 +3459,33 @@ extension NeptunedataClientTypes {
     public enum S3BucketRegion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afSouth1
         case apEast1
+        case apEast2
         case apNortheast1
         case apNortheast2
+        case apNortheast3
         case apSoutheast1
         case apSoutheast2
+        case apSoutheast3
+        case apSoutheast4
+        case apSoutheast5
+        case apSoutheast7
         case apSouth1
+        case apSouth2
         case caCentral1
+        case caWest1
         case cnNorthwest1
         case cnNorth1
         case euCentral1
+        case euCentral2
         case euNorth1
+        case euSouth2
         case euWest1
         case euWest2
         case euWest3
+        case ilCentral1
+        case meCentral1
         case meSouth1
+        case mxCentral1
         case saEast1
         case usEast1
         case usEast2
@@ -3486,20 +3499,33 @@ extension NeptunedataClientTypes {
             return [
                 .afSouth1,
                 .apEast1,
+                .apEast2,
                 .apNortheast1,
                 .apNortheast2,
+                .apNortheast3,
                 .apSoutheast1,
                 .apSoutheast2,
+                .apSoutheast3,
+                .apSoutheast4,
+                .apSoutheast5,
+                .apSoutheast7,
                 .apSouth1,
+                .apSouth2,
                 .caCentral1,
+                .caWest1,
                 .cnNorthwest1,
                 .cnNorth1,
                 .euCentral1,
+                .euCentral2,
                 .euNorth1,
+                .euSouth2,
                 .euWest1,
                 .euWest2,
                 .euWest3,
+                .ilCentral1,
+                .meCentral1,
                 .meSouth1,
+                .mxCentral1,
                 .saEast1,
                 .usEast1,
                 .usEast2,
@@ -3519,20 +3545,33 @@ extension NeptunedataClientTypes {
             switch self {
             case .afSouth1: return "af-south-1"
             case .apEast1: return "ap-east-1"
+            case .apEast2: return "ap-east-2"
             case .apNortheast1: return "ap-northeast-1"
             case .apNortheast2: return "ap-northeast-2"
+            case .apNortheast3: return "ap-northeast-3"
             case .apSoutheast1: return "ap-southeast-1"
             case .apSoutheast2: return "ap-southeast-2"
+            case .apSoutheast3: return "ap-southeast-3"
+            case .apSoutheast4: return "ap-southeast-4"
+            case .apSoutheast5: return "ap-southeast-5"
+            case .apSoutheast7: return "ap-southeast-7"
             case .apSouth1: return "ap-south-1"
+            case .apSouth2: return "ap-south-2"
             case .caCentral1: return "ca-central-1"
+            case .caWest1: return "ca-west-1"
             case .cnNorthwest1: return "cn-northwest-1"
             case .cnNorth1: return "cn-north-1"
             case .euCentral1: return "eu-central-1"
+            case .euCentral2: return "eu-central-2"
             case .euNorth1: return "eu-north-1"
+            case .euSouth2: return "eu-south-2"
             case .euWest1: return "eu-west-1"
             case .euWest2: return "eu-west-2"
             case .euWest3: return "eu-west-3"
+            case .ilCentral1: return "il-central-1"
+            case .meCentral1: return "me-central-1"
             case .meSouth1: return "me-south-1"
+            case .mxCentral1: return "mx-central-1"
             case .saEast1: return "sa-east-1"
             case .usEast1: return "us-east-1"
             case .usEast2: return "us-east-2"

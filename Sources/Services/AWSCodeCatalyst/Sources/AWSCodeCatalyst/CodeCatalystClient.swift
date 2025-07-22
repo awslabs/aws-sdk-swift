@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeCatalystClient: ClientRuntime.Client {
     public static let clientName = "CodeCatalystClient"
-    public static let version = "1.5.3"
+    public static let version = "1.5.4"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeCatalystClient.CodeCatalystClientConfiguration
     let serviceName = "CodeCatalyst"
