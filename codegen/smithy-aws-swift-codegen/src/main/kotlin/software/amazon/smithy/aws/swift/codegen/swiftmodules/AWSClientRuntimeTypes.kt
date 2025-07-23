@@ -33,9 +33,8 @@ object AWSClientRuntimeTypes {
         }
     }
 
-    object RpcV2Cbor {
-        val RpcV2CborError = runtimeSymbol("RpcV2CborError", SwiftDeclaration.STRUCT, listOf("SmithyReadWrite"))
-        val CborValidateResponseHeaderMiddleware = runtimeSymbol("CborValidateResponseHeaderMiddleware", SwiftDeclaration.STRUCT)
+    object Customizations {
+        val BedrockAPIKeyPlugin = runtimeSymbol("BedrockAPIKeyPlugin", SwiftDeclaration.STRUCT)
     }
 
     object Core {
