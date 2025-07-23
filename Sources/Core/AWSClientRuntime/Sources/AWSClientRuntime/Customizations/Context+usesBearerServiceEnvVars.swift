@@ -9,7 +9,7 @@ import struct Smithy.AttributeKey
 import class Smithy.Context
 
 extension Context {
-    
+
     /// This property is set to `true` when a service-specific API key / bearer token has been resolved from
     /// an environment variable.  Used to generate appropriate business metrics for that feature.
     var usesBearerServiceEnvVars: Bool {
@@ -18,4 +18,4 @@ extension Context {
     }
 }
 
-private var usesBearerServiceEnvVarsKey = AttributeKey<Bool>(name: "usesBearerServiceEnvVarsKey")
+private let usesBearerServiceEnvVarsKey = AttributeKey<Bool>(name: "usesBearerServiceEnvVarsKey")
