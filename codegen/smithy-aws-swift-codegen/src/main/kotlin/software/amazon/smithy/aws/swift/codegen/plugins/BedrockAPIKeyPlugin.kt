@@ -4,7 +4,7 @@ import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTyp
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.integration.Plugin
 
-class BedrockAPIKeyPlugin(): Plugin {
+class BedrockAPIKeyPlugin : Plugin {
     override val className: Symbol = AWSClientRuntimeTypes.Customizations.BedrockAPIKeyPlugin
     override val isDefault: Boolean = true
 }

@@ -25,13 +25,17 @@ class AWSClientConfigurationIntegration : SwiftIntegration {
     override fun clientConfigurations(ctx: ProtocolGenerator.GenerationContext): List<ClientConfiguration> =
         listOf(AWSDefaultClientConfiguration(), AWSRegionClientConfiguration(), AWSEndpointClientConfiguration(ctx))
 
-    override fun plugins(ctx: ProtocolGenerator.GenerationContext, serviceConfig: ServiceConfig): List<Plugin> {
-        val list = mutableListOf(
-            DefaultAWSClientPlugin(),
-            EndpointPlugin(serviceConfig),
-            DefaultAWSAuthSchemePlugin(serviceConfig),
-            AuthSchemePlugin(serviceConfig),
-        )
+    override fun plugins(
+        ctx: ProtocolGenerator.GenerationContext,
+        serviceConfig: ServiceConfig,
+    ): List<Plugin> {
+        val list =
+            mutableListOf(
+                DefaultAWSClientPlugin(),
+                EndpointPlugin(serviceConfig),
+                DefaultAWSAuthSchemePlugin(serviceConfig),
+                AuthSchemePlugin(serviceConfig),
+            )
         if (ctx.service.getTrait<SigV4Trait>()?.name == "bedrock") {
             list.add(BedrockAPIKeyPlugin())
         }
