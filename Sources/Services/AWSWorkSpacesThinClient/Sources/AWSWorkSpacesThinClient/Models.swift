@@ -893,6 +893,8 @@ extension WorkSpacesThinClientClientTypes {
         public var lastConnectedAt: Foundation.Date?
         /// The timestamp of the most recent check-in of the device.
         public var lastPostureAt: Foundation.Date?
+        /// The user ID of the most recent session on the device.
+        public var lastUserId: Swift.String?
         /// The model number of the device.
         public var model: Swift.String?
         /// The name of the device.
@@ -925,6 +927,7 @@ extension WorkSpacesThinClientClientTypes {
             kmsKeyArn: Swift.String? = nil,
             lastConnectedAt: Foundation.Date? = nil,
             lastPostureAt: Foundation.Date? = nil,
+            lastUserId: Swift.String? = nil,
             model: Swift.String? = nil,
             name: Swift.String? = nil,
             pendingSoftwareSetId: Swift.String? = nil,
@@ -946,6 +949,7 @@ extension WorkSpacesThinClientClientTypes {
             self.kmsKeyArn = kmsKeyArn
             self.lastConnectedAt = lastConnectedAt
             self.lastPostureAt = lastPostureAt
+            self.lastUserId = lastUserId
             self.model = model
             self.name = name
             self.pendingSoftwareSetId = pendingSoftwareSetId
@@ -962,7 +966,7 @@ extension WorkSpacesThinClientClientTypes {
 
 extension WorkSpacesThinClientClientTypes.Device: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Device(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), currentSoftwareSetId: \(Swift.String(describing: currentSoftwareSetId)), currentSoftwareSetVersion: \(Swift.String(describing: currentSoftwareSetVersion)), desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), environmentId: \(Swift.String(describing: environmentId)), id: \(Swift.String(describing: id)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), lastConnectedAt: \(Swift.String(describing: lastConnectedAt)), lastPostureAt: \(Swift.String(describing: lastPostureAt)), model: \(Swift.String(describing: model)), pendingSoftwareSetId: \(Swift.String(describing: pendingSoftwareSetId)), pendingSoftwareSetVersion: \(Swift.String(describing: pendingSoftwareSetVersion)), serialNumber: \(Swift.String(describing: serialNumber)), softwareSetComplianceStatus: \(Swift.String(describing: softwareSetComplianceStatus)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), softwareSetUpdateStatus: \(Swift.String(describing: softwareSetUpdateStatus)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), name: \"CONTENT_REDACTED\")"}
+        "Device(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), currentSoftwareSetId: \(Swift.String(describing: currentSoftwareSetId)), currentSoftwareSetVersion: \(Swift.String(describing: currentSoftwareSetVersion)), desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), environmentId: \(Swift.String(describing: environmentId)), id: \(Swift.String(describing: id)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), lastConnectedAt: \(Swift.String(describing: lastConnectedAt)), lastPostureAt: \(Swift.String(describing: lastPostureAt)), model: \(Swift.String(describing: model)), pendingSoftwareSetId: \(Swift.String(describing: pendingSoftwareSetId)), pendingSoftwareSetVersion: \(Swift.String(describing: pendingSoftwareSetVersion)), serialNumber: \(Swift.String(describing: serialNumber)), softwareSetComplianceStatus: \(Swift.String(describing: softwareSetComplianceStatus)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), softwareSetUpdateStatus: \(Swift.String(describing: softwareSetUpdateStatus)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), lastUserId: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkSpacesThinClientClientTypes {
@@ -985,6 +989,8 @@ extension WorkSpacesThinClientClientTypes {
         public var lastConnectedAt: Foundation.Date?
         /// The timestamp of the most recent check-in of the device.
         public var lastPostureAt: Foundation.Date?
+        /// The user ID of the most recent session on the device.
+        public var lastUserId: Swift.String?
         /// The model number of the device.
         public var model: Swift.String?
         /// The name of the device.
@@ -1009,6 +1015,7 @@ extension WorkSpacesThinClientClientTypes {
             id: Swift.String? = nil,
             lastConnectedAt: Foundation.Date? = nil,
             lastPostureAt: Foundation.Date? = nil,
+            lastUserId: Swift.String? = nil,
             model: Swift.String? = nil,
             name: Swift.String? = nil,
             pendingSoftwareSetId: Swift.String? = nil,
@@ -1025,6 +1032,7 @@ extension WorkSpacesThinClientClientTypes {
             self.id = id
             self.lastConnectedAt = lastConnectedAt
             self.lastPostureAt = lastPostureAt
+            self.lastUserId = lastUserId
             self.model = model
             self.name = name
             self.pendingSoftwareSetId = pendingSoftwareSetId
@@ -1038,7 +1046,7 @@ extension WorkSpacesThinClientClientTypes {
 
 extension WorkSpacesThinClientClientTypes.DeviceSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DeviceSummary(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), currentSoftwareSetId: \(Swift.String(describing: currentSoftwareSetId)), desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), environmentId: \(Swift.String(describing: environmentId)), id: \(Swift.String(describing: id)), lastConnectedAt: \(Swift.String(describing: lastConnectedAt)), lastPostureAt: \(Swift.String(describing: lastPostureAt)), model: \(Swift.String(describing: model)), pendingSoftwareSetId: \(Swift.String(describing: pendingSoftwareSetId)), serialNumber: \(Swift.String(describing: serialNumber)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), name: \"CONTENT_REDACTED\")"}
+        "DeviceSummary(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), currentSoftwareSetId: \(Swift.String(describing: currentSoftwareSetId)), desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), environmentId: \(Swift.String(describing: environmentId)), id: \(Swift.String(describing: id)), lastConnectedAt: \(Swift.String(describing: lastConnectedAt)), lastPostureAt: \(Swift.String(describing: lastPostureAt)), model: \(Swift.String(describing: model)), pendingSoftwareSetId: \(Swift.String(describing: pendingSoftwareSetId)), serialNumber: \(Swift.String(describing: serialNumber)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), lastUserId: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkSpacesThinClientClientTypes {
@@ -2598,6 +2606,7 @@ extension WorkSpacesThinClientClientTypes.Device {
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.arn = try reader["arn"].readIfPresent()
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        value.lastUserId = try reader["lastUserId"].readIfPresent()
         return value
     }
 }
@@ -2677,6 +2686,7 @@ extension WorkSpacesThinClientClientTypes.DeviceSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.arn = try reader["arn"].readIfPresent()
+        value.lastUserId = try reader["lastUserId"].readIfPresent()
         return value
     }
 }

@@ -9270,6 +9270,8 @@ extension GlueClientTypes {
         public var errorMessage: Swift.String?
         /// Indicates whether the job is run with a standard or flexible execution class. The standard execution-class is ideal for time-sensitive workloads that require fast job startup and dedicated resources. The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary. Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
         public var executionClass: GlueClientTypes.ExecutionClass?
+        /// This inline session policy to the StartJobRun API allows you to dynamically restrict the permissions of the specified execution role for the scope of the job, without requiring the creation of additional IAM roles.
+        public var executionRoleSessionPolicy: Swift.String?
         /// The amount of time (in seconds) that the job run consumed resources.
         public var executionTime: Swift.Int
         /// In Spark jobs, GlueVersion determines the versions of Apache Spark and Python that Glue available in a job. The Python version indicates the version supported for jobs of type Spark. Ray jobs should set GlueVersion to 4.0 or greater. However, the versions of Ray, Python and additional libraries available in your Ray job are determined by the Runtime parameter of the Job command. For more information about the available Glue versions and corresponding Spark and Python versions, see [Glue version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in the developer guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
@@ -9348,6 +9350,7 @@ extension GlueClientTypes {
             dpuSeconds: Swift.Double? = nil,
             errorMessage: Swift.String? = nil,
             executionClass: GlueClientTypes.ExecutionClass? = nil,
+            executionRoleSessionPolicy: Swift.String? = nil,
             executionTime: Swift.Int = 0,
             glueVersion: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -9378,6 +9381,7 @@ extension GlueClientTypes {
             self.dpuSeconds = dpuSeconds
             self.errorMessage = errorMessage
             self.executionClass = executionClass
+            self.executionRoleSessionPolicy = executionRoleSessionPolicy
             self.executionTime = executionTime
             self.glueVersion = glueVersion
             self.id = id
@@ -25705,6 +25709,8 @@ public struct StartJobRunInput: Swift.Sendable {
     public var arguments: [Swift.String: Swift.String]?
     /// Indicates whether the job is run with a standard or flexible execution class. The standard execution-class is ideal for time-sensitive workloads that require fast job startup and dedicated resources. The flexible execution class is appropriate for time-insensitive jobs whose start and completion times may vary. Only jobs with Glue version 3.0 and above and command type glueetl will be allowed to set ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
     public var executionClass: GlueClientTypes.ExecutionClass?
+    /// This inline session policy to the StartJobRun API allows you to dynamically restrict the permissions of the specified execution role for the scope of the job, without requiring the creation of additional IAM roles.
+    public var executionRoleSessionPolicy: Swift.String?
     /// The name of the job definition to use.
     /// This member is required.
     public var jobName: Swift.String?
@@ -25745,6 +25751,7 @@ public struct StartJobRunInput: Swift.Sendable {
         allocatedCapacity: Swift.Int? = 0,
         arguments: [Swift.String: Swift.String]? = nil,
         executionClass: GlueClientTypes.ExecutionClass? = nil,
+        executionRoleSessionPolicy: Swift.String? = nil,
         jobName: Swift.String? = nil,
         jobRunId: Swift.String? = nil,
         jobRunQueuingEnabled: Swift.Bool? = nil,
@@ -25758,6 +25765,7 @@ public struct StartJobRunInput: Swift.Sendable {
         self.allocatedCapacity = allocatedCapacity
         self.arguments = arguments
         self.executionClass = executionClass
+        self.executionRoleSessionPolicy = executionRoleSessionPolicy
         self.jobName = jobName
         self.jobRunId = jobRunId
         self.jobRunQueuingEnabled = jobRunQueuingEnabled
@@ -28508,19 +28516,7 @@ extension GlueClientTypes {
         public var sourceControlDetails: GlueClientTypes.SourceControlDetails?
         /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
         public var timeout: Swift.Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.
-        ///
-        /// * For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
-        ///
-        /// * For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.
-        ///
-        /// * For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).
-        ///
-        /// * For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.
-        ///
-        /// * For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.
-        ///
-        /// * For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs. For more information, see [Defining job properties for Spark jobs ](https://docs.aws.amazon.com/glue/latest/dg/add-job.html#create-job)
         public var workerType: GlueClientTypes.WorkerType?
 
         public init(
@@ -32775,6 +32771,7 @@ extension StartJobRunInput {
         try writer["AllocatedCapacity"].write(value.allocatedCapacity)
         try writer["Arguments"].writeMap(value.arguments, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["ExecutionClass"].write(value.executionClass)
+        try writer["ExecutionRoleSessionPolicy"].write(value.executionRoleSessionPolicy)
         try writer["JobName"].write(value.jobName)
         try writer["JobRunId"].write(value.jobRunId)
         try writer["JobRunQueuingEnabled"].write(value.jobRunQueuingEnabled)
@@ -45500,6 +45497,7 @@ extension GlueClientTypes.JobRun {
         value.maintenanceWindow = try reader["MaintenanceWindow"].readIfPresent()
         value.profileName = try reader["ProfileName"].readIfPresent()
         value.stateDetail = try reader["StateDetail"].readIfPresent()
+        value.executionRoleSessionPolicy = try reader["ExecutionRoleSessionPolicy"].readIfPresent()
         return value
     }
 }
