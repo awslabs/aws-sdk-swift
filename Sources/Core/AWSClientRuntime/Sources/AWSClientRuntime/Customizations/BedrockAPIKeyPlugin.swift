@@ -42,7 +42,7 @@ struct BedrockAPIKeyInterceptor<InputType, OutputType>: Interceptor {
     typealias RequestType = HTTPRequest
     typealias ResponseType = HTTPResponse
 
-    func readBeforeSigning(context: some AfterSerialization<InputType, HTTPRequest>) async throws {
+    func readBeforeAttempt(context: some AfterSerialization<InputType, HTTPRequest>) async throws {
 
         // Check to see if there's a Bedrock bearer token set in the environment.  If not, return &
         // do nothing.
@@ -53,9 +53,9 @@ struct BedrockAPIKeyInterceptor<InputType, OutputType>: Interceptor {
 
         // Check if identityResolvers already contains a bearer token resolver.
         // If so, return immediately & use that instead of the Bedrock API token.
-        let identityResolvers = attributes.getIdentityResolvers() ?? Attributes()
-        let key = AttributeKey<any IdentityResolver>(name: "smithy.api#httpBearerAuth")
-        guard !identityResolvers.contains(key: key) else { return }
+//        let identityResolvers = attributes.getIdentityResolvers() ?? Attributes()
+//        let key = AttributeKey<any IdentityResolver>(name: "smithy.api#httpBearerAuth")
+//        guard !identityResolvers.contains(key: key) else { return }
 
         // Create a bearer token identity resolver with the resolved token, then
         // store it in the context.
