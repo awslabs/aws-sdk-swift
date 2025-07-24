@@ -900,6 +900,7 @@ extension SearchListingsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> SearchListingsInput {
         return SearchListingsInput(
             additionalAttributes: self.additionalAttributes,
+            aggregations: self.aggregations,
             domainIdentifier: self.domainIdentifier,
             filters: self.filters,
             maxResults: self.maxResults,
