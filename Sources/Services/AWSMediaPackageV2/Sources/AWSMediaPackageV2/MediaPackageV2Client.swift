@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaPackageV2Client: ClientRuntime.Client {
     public static let clientName = "MediaPackageV2Client"
-    public static let version = "1.5.6"
+    public static let version = "1.5.7"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaPackageV2Client.MediaPackageV2ClientConfiguration
     let serviceName = "MediaPackageV2"
@@ -1082,7 +1082,7 @@ extension MediaPackageV2Client {
 
     /// Performs the `GetChannel` operation on the `MediaPackageV2` service.
     ///
-    /// Retrieves the specified channel that's configured in AWS Elemental MediaPackage, including the origin endpoints that are associated with it.
+    /// Retrieves the specified channel that's configured in AWS Elemental MediaPackage.
     ///
     /// - Parameter GetChannelInput : [no documentation found]
     ///
@@ -1150,7 +1150,7 @@ extension MediaPackageV2Client {
 
     /// Performs the `GetChannelGroup` operation on the `MediaPackageV2` service.
     ///
-    /// Retrieves the specified channel group that's configured in AWS Elemental MediaPackage, including the channels and origin endpoints that are associated with it.
+    /// Retrieves the specified channel group that's configured in AWS Elemental MediaPackage.
     ///
     /// - Parameter GetChannelGroupInput : [no documentation found]
     ///
@@ -1558,7 +1558,7 @@ extension MediaPackageV2Client {
 
     /// Performs the `ListChannels` operation on the `MediaPackageV2` service.
     ///
-    /// Retrieves all channels in a specific channel group that are configured in AWS Elemental MediaPackage, including the origin endpoints that are associated with it.
+    /// Retrieves all channels in a specific channel group that are configured in AWS Elemental MediaPackage.
     ///
     /// - Parameter ListChannelsInput : [no documentation found]
     ///
