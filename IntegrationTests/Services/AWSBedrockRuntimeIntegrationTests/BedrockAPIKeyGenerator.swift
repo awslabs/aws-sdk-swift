@@ -7,6 +7,7 @@
 
 import struct AwsCommonRuntimeKit.CommonRuntimeKit
 import struct Foundation.TimeInterval
+import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentityAPI.IdentityResolver
 import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class SmithyHTTPAPI.HTTPRequestBuilder
@@ -33,18 +34,30 @@ struct BedrockAPIKeyGenerator {
 
     let region: String
     let duration: TimeInterval
-    let awsCredentialIdentityResolver: any IdentityResolver
+    let awsCredentialIdentityResolver: any AWSCredentialIdentityResolver
 
+    /// Creates a generator for Bedrock API Keys.
+    /// - Parameters:
+    ///   - region: The AWS region to use for signing the Bedrock API Key.  Must be a valid AWS region, i.e. `us-east-1`.
+    ///   - duration: The time, in seconds from token creation, that the Bedrock API Key should remain valid.  Defaults to 12 hrs.
+    ///   - awsCredentialIdentityResolver: The AWS credential identity resolver to use when resolving the AWS credentials
+    ///   that are used to sign the key.  Defaults to the AWS SDK for Swift's default identity resolver chain.
     init(
-        region: String = "us-east-1",
+        region: String,
         duration: TimeInterval = 43200.0,  // 12 hrs
-        awsCredentialIdentityResolver: any IdentityResolver = DefaultAWSCredentialIdentityResolverChain()
+        awsCredentialIdentityResolver: any AWSCredentialIdentityResolver =
+            DefaultAWSCredentialIdentityResolverChain()
     ) {
         self.region = region
         self.duration = duration
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
-
+    
+    /// Resolves AWS credentials, then uses those to create a new Bedrock API Key.
+    ///
+    /// The Bedrock API Key will be configured with the signing region & duration that were configured at
+    /// token generator creation.
+    /// - Returns: A `String` bearer token suitable for use with AWS Bedrock.
     func generate() async throws -> String {
 
         // Create a request builder to be signed as a presigned URL in the form:

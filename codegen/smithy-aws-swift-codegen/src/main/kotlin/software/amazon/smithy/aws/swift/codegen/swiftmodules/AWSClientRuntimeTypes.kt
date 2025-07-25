@@ -34,7 +34,7 @@ object AWSClientRuntimeTypes {
     }
 
     object Customizations {
-        val BedrockAPIKeyPlugin = runtimeSymbol("BedrockAPIKeyPlugin", SwiftDeclaration.STRUCT)
+        val BedrockAPIKeyInterceptor = runtimeSymbol("BedrockAPIKeyInterceptor", SwiftDeclaration.STRUCT)
     }
 
     object Core {
