@@ -9,6 +9,7 @@ import XCTest
 import ClientRuntime
 import SmithyHTTPAPI
 @testable import AWSClientRuntime
+import AWSSDKIdentity
 import Smithy
 import SmithyIdentity
 
@@ -24,7 +25,7 @@ final class BedrockAPIKeyInterceptorTests: XCTestCase {
         let context = Context(attributes: Attributes())
         let interceptorContext = DefaultInterceptorContext<String, String, HTTPRequest, HTTPResponse>(input: "", attributes: context)
 
-        try await subject.readBeforeSigning(context: interceptorContext)
+        try await subject.readBeforeAttempt(context: interceptorContext)
 
         let authSchemePreference = context.authSchemePreference ?? []
         XCTAssertTrue(authSchemePreference.isEmpty)
@@ -38,7 +39,7 @@ final class BedrockAPIKeyInterceptorTests: XCTestCase {
         context.authSchemePreference = ["aws.auth#sigv4", "some.other.domain#enigma"]
         let interceptorContext = DefaultInterceptorContext<String, String, HTTPRequest, HTTPResponse>(input: "", attributes: context)
 
-        try await subject.readBeforeSigning(context: interceptorContext)
+        try await subject.readBeforeAttempt(context: interceptorContext)
 
         let authSchemePreference = context.authSchemePreference
         XCTAssertEqual(authSchemePreference, ["smithy.api#httpBearerAuth", "aws.auth#sigv4", "some.other.domain#enigma"])
@@ -52,7 +53,7 @@ final class BedrockAPIKeyInterceptorTests: XCTestCase {
         context.authSchemePreference = ["aws.auth#sigv4", "smithy.api#httpBearerAuth", "some.other.domain#enigma", "httpBearerAuth"]
         let interceptorContext = DefaultInterceptorContext<String, String, HTTPRequest, HTTPResponse>(input: "", attributes: context)
 
-        try await subject.readBeforeSigning(context: interceptorContext)
+        try await subject.readBeforeAttempt(context: interceptorContext)
 
         let authSchemePreference = context.authSchemePreference
         XCTAssertEqual(authSchemePreference, ["smithy.api#httpBearerAuth", "aws.auth#sigv4", "some.other.domain#enigma"])
@@ -66,7 +67,7 @@ final class BedrockAPIKeyInterceptorTests: XCTestCase {
         let context = Context(attributes: Attributes())
         let interceptorContext = DefaultInterceptorContext<String, String, HTTPRequest, HTTPResponse>(input: "", attributes: context)
 
-        try await subject.readBeforeSigning(context: interceptorContext)
+        try await subject.readBeforeAttempt(context: interceptorContext)
 
         let identityResolvers = context.getIdentityResolvers() ?? Attributes()
         let bearerTokenIdentityResolver = identityResolvers.get(key: bearerTokenIdentityResolverKey)
@@ -83,7 +84,7 @@ final class BedrockAPIKeyInterceptorTests: XCTestCase {
         context.addIdentityResolver(value: explicitResolver, schemeID: "smithy.api#httpBearerAuth")
         let interceptorContext = DefaultInterceptorContext<String, String, HTTPRequest, HTTPResponse>(input: "", attributes: context)
 
-        try await subject.readBeforeSigning(context: interceptorContext)
+        try await subject.readBeforeAttempt(context: interceptorContext)
 
         let identityResolvers = try XCTUnwrap(context.getIdentityResolvers())
         let bearerTokenIdentityResolver = try XCTUnwrap(identityResolvers.get(key: bearerTokenIdentityResolverKey))
@@ -96,9 +97,10 @@ final class BedrockAPIKeyInterceptorTests: XCTestCase {
         defer { unsetenv(envVarName) }
         let subject = BedrockAPIKeyInterceptor<String, String>()
         let context = Context(attributes: Attributes())
+        context.addIdentityResolver(value: try DefaultBearerTokenIdentityResolverChain(), schemeID: "smithy.api#httpBearerAuth")
         let interceptorContext = DefaultInterceptorContext<String, String, HTTPRequest, HTTPResponse>(input: "", attributes: context)
 
-        try await subject.readBeforeSigning(context: interceptorContext)
+        try await subject.readBeforeAttempt(context: interceptorContext)
 
         let identityResolvers = try XCTUnwrap(context.getIdentityResolvers())
         let bearerTokenIdentityResolver = try XCTUnwrap(identityResolvers.get(key: bearerTokenIdentityResolverKey))
@@ -114,7 +116,7 @@ final class BedrockAPIKeyInterceptorTests: XCTestCase {
         let context = Context(attributes: Attributes())
         let interceptorContext = DefaultInterceptorContext<String, String, HTTPRequest, HTTPResponse>(input: "", attributes: context)
 
-        try await subject.readBeforeSigning(context: interceptorContext)
+        try await subject.readBeforeAttempt(context: interceptorContext)
 
         XCTAssertFalse(context.usesBearerServiceEnvVars)
     }
@@ -126,7 +128,7 @@ final class BedrockAPIKeyInterceptorTests: XCTestCase {
         let context = Context(attributes: Attributes())
         let interceptorContext = DefaultInterceptorContext<String, String, HTTPRequest, HTTPResponse>(input: "", attributes: context)
 
-        try await subject.readBeforeSigning(context: interceptorContext)
+        try await subject.readBeforeAttempt(context: interceptorContext)
 
         XCTAssertTrue(context.usesBearerServiceEnvVars)
     }

@@ -38,7 +38,10 @@ public struct BedrockAPIKeyInterceptor<InputType, OutputType>: Interceptor {
         let identityResolvers = attributes.getIdentityResolvers() ?? Attributes()
         let key = AttributeKey<any BearerTokenIdentityResolver>(name: "smithy.api#httpBearerAuth")
         guard !identityResolvers.contains(key: key) || identityResolvers.get(key: key) is
-            DefaultBearerTokenIdentityResolverChain else { return }
+                DefaultBearerTokenIdentityResolverChain else {
+            print("Custom bearer token resolver")
+            return
+        }
 
         // Create a bearer token identity resolver with the resolved token, then
         // store it in the context.
