@@ -356,6 +356,7 @@ extension MediaPackageV2ClientTypes {
         case onlyCmafInputTypeAllowForceEndpointErrorConfiguration
         case onlyCmafInputTypeAllowMqcsInputSwitching
         case onlyCmafInputTypeAllowMqcsOutputConfiguration
+        case onlyCmafInputTypeAllowPreferredInputConfiguration
         case periodTriggersNoneSpecifiedWithAdditionalValues
         case roleArnInvalidFormat
         case roleArnLengthOutOfRange
@@ -447,6 +448,7 @@ extension MediaPackageV2ClientTypes {
                 .onlyCmafInputTypeAllowForceEndpointErrorConfiguration,
                 .onlyCmafInputTypeAllowMqcsInputSwitching,
                 .onlyCmafInputTypeAllowMqcsOutputConfiguration,
+                .onlyCmafInputTypeAllowPreferredInputConfiguration,
                 .periodTriggersNoneSpecifiedWithAdditionalValues,
                 .roleArnInvalidFormat,
                 .roleArnLengthOutOfRange,
@@ -544,6 +546,7 @@ extension MediaPackageV2ClientTypes {
             case .onlyCmafInputTypeAllowForceEndpointErrorConfiguration: return "ONLY_CMAF_INPUT_TYPE_ALLOW_FORCE_ENDPOINT_ERROR_CONFIGURATION"
             case .onlyCmafInputTypeAllowMqcsInputSwitching: return "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_INPUT_SWITCHING"
             case .onlyCmafInputTypeAllowMqcsOutputConfiguration: return "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_OUTPUT_CONFIGURATION"
+            case .onlyCmafInputTypeAllowPreferredInputConfiguration: return "ONLY_CMAF_INPUT_TYPE_ALLOW_PREFERRED_INPUT_CONFIGURATION"
             case .periodTriggersNoneSpecifiedWithAdditionalValues: return "PERIOD_TRIGGERS_NONE_SPECIFIED_WITH_ADDITIONAL_VALUES"
             case .roleArnInvalidFormat: return "ROLE_ARN_INVALID_FORMAT"
             case .roleArnLengthOutOfRange: return "ROLE_ARN_LENGTH_OUT_OF_RANGE"
@@ -811,11 +814,15 @@ extension MediaPackageV2ClientTypes {
     public struct InputSwitchConfiguration: Swift.Sendable {
         /// When true, AWS Elemental MediaPackage performs input switching based on the MQCS. Default is true. This setting is valid only when InputType is CMAF.
         public var mqcsInputSwitching: Swift.Bool?
+        /// For CMAF inputs, indicates which input MediaPackage should prefer when both inputs have equal MQCS scores. Select 1 to prefer the first ingest endpoint, or 2 to prefer the second ingest endpoint. If you don't specify a preferred input, MediaPackage uses its default switching behavior when MQCS scores are equal.
+        public var preferredInput: Swift.Int?
 
         public init(
-            mqcsInputSwitching: Swift.Bool? = nil
+            mqcsInputSwitching: Swift.Bool? = nil,
+            preferredInput: Swift.Int? = nil
         ) {
             self.mqcsInputSwitching = mqcsInputSwitching
+            self.preferredInput = preferredInput
         }
     }
 }
@@ -6218,12 +6225,14 @@ extension MediaPackageV2ClientTypes.InputSwitchConfiguration {
     static func write(value: MediaPackageV2ClientTypes.InputSwitchConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["MQCSInputSwitching"].write(value.mqcsInputSwitching)
+        try writer["PreferredInput"].write(value.preferredInput)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaPackageV2ClientTypes.InputSwitchConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaPackageV2ClientTypes.InputSwitchConfiguration()
         value.mqcsInputSwitching = try reader["MQCSInputSwitching"].readIfPresent()
+        value.preferredInput = try reader["PreferredInput"].readIfPresent()
         return value
     }
 }

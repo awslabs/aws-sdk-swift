@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TimestreamQueryClient: ClientRuntime.Client {
     public static let clientName = "TimestreamQueryClient"
-    public static let version = "1.5.6"
+    public static let version = "1.5.7"
     let client: ClientRuntime.SdkHttpClient
     let config: TimestreamQueryClient.TimestreamQueryClientConfiguration
     let serviceName = "Timestream Query"

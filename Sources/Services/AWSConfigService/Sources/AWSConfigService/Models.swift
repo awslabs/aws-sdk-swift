@@ -2604,7 +2604,7 @@ extension ConfigClientTypes {
     public struct ConfigurationRecorder: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the specified configuration recorder.
         public var arn: Swift.String?
-        /// The name of the configuration recorder. For customer managed configuration recorders, Config automatically assigns the name of "default" when creating a configuration recorder if you do not specify a name at creation time. For service-linked configuration recorders, Config automatically assigns a name that has the prefix "AWS" to a new service-linked configuration recorder. Changing the name of a configuration recorder To change the name of the customer managed configuration recorder, you must delete it and create a new customer managed configuration recorder with a new name. You cannot change the name of a service-linked configuration recorder.
+        /// The name of the configuration recorder. For customer managed configuration recorders, Config automatically assigns the name of "default" when creating a configuration recorder if you do not specify a name at creation time. For service-linked configuration recorders, Config automatically assigns a name that has the prefix "AWSConfigurationRecorderFor" to a new service-linked configuration recorder. Changing the name of a configuration recorder To change the name of the customer managed configuration recorder, you must delete it and create a new customer managed configuration recorder with a new name. You cannot change the name of a service-linked configuration recorder.
         public var name: Swift.String?
         /// Specifies which resource types are in scope for the configuration recorder to record. High Number of Config Evaluations You might notice increased activity in your account during your initial month recording with Config when compared to subsequent months. During the initial bootstrapping process, Config runs evaluations on all the resources in your account that you have selected for Config to record. If you are running ephemeral workloads, you may see increased activity from Config as it records configuration changes associated with creating and deleting these temporary resources. An ephemeral workload is a temporary use of computing resources that are loaded and run when needed. Examples include Amazon Elastic Compute Cloud (Amazon EC2) Spot Instances, Amazon EMR jobs, and Auto Scaling. If you want to avoid the increased activity from running ephemeral workloads, you can set up the configuration recorder to exclude these resource types from being recorded, or run these types of workloads in a separate account with Config turned off to avoid increased configuration recording and rule evaluations.
         public var recordingGroup: ConfigClientTypes.RecordingGroup?
@@ -2706,7 +2706,7 @@ extension ConfigClientTypes {
         public var availabilityZone: Swift.String?
         /// The region where the resource resides.
         public var awsRegion: Swift.String?
-        /// The description of the resource configuration.
+        /// A JSON-encoded string that contains the contents for the resource configuration. This string needs to be deserialized using json.loads() before you can access the contents.
         public var configuration: Swift.String?
         /// The time when the recording of configuration changes was initiated for the resource.
         public var configurationItemCaptureTime: Foundation.Date?
@@ -2726,7 +2726,7 @@ extension ConfigClientTypes {
         public var configurationItemStatus: ConfigClientTypes.ConfigurationItemStatus?
         /// An identifier that indicates the ordering of the configuration items of a resource.
         public var configurationStateId: Swift.String?
-        /// The recording frequency that Config uses to record configuration changes for the resource.
+        /// The recording frequency that Config uses to record configuration changes for the resource. This field only appears in the API response when DAILY recording is enabled for a resource type. If this field is not present, CONTINUOUS recording is enabled for that resource type. For more information on daily recording and continuous recording, see [Recording Frequency](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-recording-frequency) in the Config Developer Guide.
         public var recordingFrequency: ConfigClientTypes.RecordingFrequency?
         /// The time stamp when the resource was created.
         public var resourceCreationTime: Foundation.Date?
@@ -2736,7 +2736,7 @@ extension ConfigClientTypes {
         public var resourceName: Swift.String?
         /// The type of Amazon Web Services resource.
         public var resourceType: ConfigClientTypes.ResourceType?
-        /// Configuration attributes that Config returns for certain resource types to supplement the information returned for the configuration parameter.
+        /// A string to string map that contains additional contents for the resource configuration.Config returns this field for certain resource types to supplement the information returned for the configuration field. This string needs to be deserialized using json.loads() before you can access the contents.
         public var supplementaryConfiguration: [Swift.String: Swift.String]?
         /// The version number of the resource configuration.
         public var version: Swift.String?
@@ -3388,7 +3388,7 @@ extension ConfigClientTypes {
         ///
         /// By default, rules with a periodic trigger are evaluated every 24 hours. To change the frequency, specify a valid value for the MaximumExecutionFrequency parameter.
         public var maximumExecutionFrequency: ConfigClientTypes.MaximumExecutionFrequency?
-        /// Defines which resources can trigger an evaluation for the rule. The scope can include one or more resource types, a combination of one resource type and one resource ID, or a combination of a tag key and value. Specify a scope to constrain the resources that can trigger an evaluation for the rule. If you do not specify a scope, evaluations are triggered when any resource in the recording group changes. The scope can be empty.
+        /// Defines which resources can trigger an evaluation for the rule. The scope can include one or more resource types, a combination of one resource type and one resource ID, or a combination of a tag key and value. Specify a scope to constrain the resources that can trigger an evaluation for the rule. If you do not specify a scope, evaluations are triggered when any resource in the recording group changes.
         public var scope: ConfigClientTypes.Scope?
         /// Provides the rule owner (Amazon Web Services for managed rules, CUSTOM_POLICY for Custom Policy rules, and CUSTOM_LAMBDA for Custom Lambda rules), the rule identifier, and the notifications that cause the function to evaluate your Amazon Web Services resources.
         /// This member is required.
@@ -3738,7 +3738,7 @@ extension ConfigClientTypes {
         public var availabilityZone: Swift.String?
         /// The region where the resource resides.
         public var awsRegion: Swift.String?
-        /// The description of the resource configuration.
+        /// A JSON-encoded string that contains the contents for the resource configuration. This string needs to be deserialized using json.loads() before you can access the contents.
         public var configuration: Swift.String?
         /// The time when the recording of configuration changes was initiated for the resource.
         public var configurationItemCaptureTime: Foundation.Date?
@@ -3760,7 +3760,7 @@ extension ConfigClientTypes {
         public var configurationItemStatus: ConfigClientTypes.ConfigurationItemStatus?
         /// An identifier that indicates the ordering of the configuration items of a resource.
         public var configurationStateId: Swift.String?
-        /// The recording frequency that Config uses to record configuration changes for the resource.
+        /// The recording frequency that Config uses to record configuration changes for the resource. This field only appears in the API response when DAILY recording is enabled for a resource type. If this field is not present, CONTINUOUS recording is enabled for that resource type. For more information on daily recording and continuous recording, see [Recording Frequency](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-recording-frequency) in the Config Developer Guide.
         public var recordingFrequency: ConfigClientTypes.RecordingFrequency?
         /// A list of CloudTrail event IDs. A populated field indicates that the current configuration was initiated by the events recorded in the CloudTrail log. For more information about CloudTrail, see [What Is CloudTrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/what_is_cloud_trail_top_level.html). An empty field indicates that the current configuration was not initiated by any event. As of Version 1.3, the relatedEvents field is empty. You can access the [LookupEvents API](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_LookupEvents.html) in the CloudTrail API Reference to retrieve the events for the resource.
         public var relatedEvents: [Swift.String]?
@@ -3774,7 +3774,7 @@ extension ConfigClientTypes {
         public var resourceName: Swift.String?
         /// The type of Amazon Web Services resource.
         public var resourceType: ConfigClientTypes.ResourceType?
-        /// Configuration attributes that Config returns for certain resource types to supplement the information returned for the configuration parameter.
+        /// A string to string map that contains additional contents for the resource configuration.Config returns this field for certain resource types to supplement the information returned for the configuration field. This string to string map needs to be deserialized using json.loads() before you can accessing the contents.
         public var supplementaryConfiguration: [Swift.String: Swift.String]?
         /// A mapping of key value tags associated with the resource.
         public var tags: [Swift.String: Swift.String]?
@@ -5609,7 +5609,7 @@ public struct DescribeConfigurationAggregatorSourcesStatusOutput: Swift.Sendable
 public struct DescribeConfigurationRecordersInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the configuration recorder that you want to specify.
     public var arn: Swift.String?
-    /// A list of names of the configuration recorders that you want to specify.
+    /// A list of names of the configuration recorders that you want to specify. When making a request to this operation, you can only specify one configuration recorder.
     public var configurationRecorderNames: [Swift.String]?
     /// For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder.
     public var servicePrincipal: Swift.String?
@@ -5641,7 +5641,7 @@ public struct DescribeConfigurationRecordersOutput: Swift.Sendable {
 public struct DescribeConfigurationRecorderStatusInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the configuration recorder that you want to specify.
     public var arn: Swift.String?
-    /// The name of the configuration recorder. If the name is not specified, the opertation returns the status for the customer managed configuration recorder configured for the account, if applicable. When making a request to this operation, you can only specify one configuration recorder.
+    /// The name of the configuration recorder. If the name is not specified, the operation returns the status for the customer managed configuration recorder configured for the account, if applicable. When making a request to this operation, you can only specify one configuration recorder.
     public var configurationRecorderNames: [Swift.String]?
     /// For service-linked configuration recorders, you can use the service principal of the linked Amazon Web Services service to specify the configuration recorder.
     public var servicePrincipal: Swift.String?
@@ -8395,7 +8395,7 @@ public struct GetResourceConfigHistoryInput: Swift.Sendable {
 
 /// The output for the [GetResourceConfigHistory] action.
 public struct GetResourceConfigHistoryOutput: Swift.Sendable {
-    /// A list that contains the configuration history of one or more resources.
+    /// An array of ConfigurationItems Objects. Contatins the configuration history for one or more resources.
     public var configurationItems: [ConfigClientTypes.ConfigurationItem]?
     /// The string that you use in a subsequent request to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
@@ -8614,7 +8614,7 @@ public struct InsufficientDeliveryPolicyException: ClientRuntime.ModeledError, A
     }
 }
 
-/// You have provided a name for the customer managed configuration recorder that is not valid.
+/// The configuration recorder name is not valid. The prefix "AWSConfigurationRecorderFor" is reserved for service-linked configuration recorders.
 public struct InvalidConfigurationRecorderNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -9865,7 +9865,7 @@ public struct PutConformancePackInput: Swift.Sendable {
     public var deliveryS3Bucket: Swift.String?
     /// The prefix for the Amazon S3 bucket. This field is optional.
     public var deliveryS3KeyPrefix: Swift.String?
-    /// A string containing the full conformance pack template body. The structure containing the template body has a minimum length of 1 byte and a maximum length of 51,200 bytes. You can use a YAML template with two resource types: Config rule (AWS::Config::ConfigRule) and remediation action (AWS::Config::RemediationConfiguration).
+    /// A string that contains the full conformance pack template body. The structure containing the template body has a minimum length of 1 byte and a maximum length of 51,200 bytes. You can use a YAML template with two resource types: Config rule (AWS::Config::ConfigRule) and remediation action (AWS::Config::RemediationConfiguration).
     public var templateBody: Swift.String?
     /// The location of the file containing the template body (s3://bucketname/prefix). The uri must point to a conformance pack template (max size: 300 KB) that is located in an Amazon S3 bucket in the same Region as the conformance pack. You must have access to read Amazon S3 bucket. In addition, in order to ensure a successful deployment, the template object must not be in an [archived storage class](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html) if this parameter is passed.
     public var templateS3Uri: Swift.String?
@@ -10021,7 +10021,7 @@ public struct PutOrganizationConformancePackInput: Swift.Sendable {
     /// Name of the organization conformance pack you want to create.
     /// This member is required.
     public var organizationConformancePackName: Swift.String?
-    /// A string containing full conformance pack template body. Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes.
+    /// A string that contains the full conformance pack template body. Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes.
     public var templateBody: Swift.String?
     /// Location of file containing the template body. The uri must point to the conformance pack template (max size: 300 KB). You must have access to read Amazon S3 bucket. In addition, in order to ensure a successful deployment, the template object must not be in an [archived storage class](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html) if this parameter is passed.
     public var templateS3Uri: Swift.String?
@@ -10192,7 +10192,7 @@ public struct PutServiceLinkedConfigurationRecorderInput: Swift.Sendable {
 public struct PutServiceLinkedConfigurationRecorderOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the specified configuration recorder.
     public var arn: Swift.String?
-    /// The name of the specified configuration recorder. For service-linked configuration recorders, Config automatically assigns a name that has the prefix "AWS" to the new service-linked configuration recorder.
+    /// The name of the specified configuration recorder. For service-linked configuration recorders, Config automatically assigns a name that has the prefix "AWSConfigurationRecorderFor" to the new service-linked configuration recorder.
     public var name: Swift.String?
 
     public init(
@@ -10448,7 +10448,7 @@ public struct StartResourceEvaluationInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// Returns an EvaluationContext object.
     public var evaluationContext: ConfigClientTypes.EvaluationContext?
-    /// The mode of an evaluation. The valid values for this API are DETECTIVE and PROACTIVE.
+    /// The mode of an evaluation. The only valid value for this API is PROACTIVE.
     /// This member is required.
     public var evaluationMode: ConfigClientTypes.EvaluationMode?
     /// The timeout for an evaluation. The default is 900 seconds. You cannot specify a number greater than 3600. If you specify 0, Config uses the default.
