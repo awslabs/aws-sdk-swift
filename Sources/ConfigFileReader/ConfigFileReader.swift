@@ -40,12 +40,38 @@ public struct ConfigFileReader {
         }
         
         var sections = [String: ConfigFileSection]()
+        var currentSectionName: String? // Keep track of current section name
+        let profileSection = try! NSRegularExpression(pattern: "profile", options: .caseInsensitive) // Regex pattern to match any line containing "profile"
+        
         for line in arrayConfigData{
             switch line{
             case "[default]":
+                let profileName = "default"
+                currentSectionName = profileName
                 let section = ConfigFileSection(name: "default")
-                sections["default"] = section
+                sections[profileName] = section
+                // Use a 'where' clause with regex matching
+            case _ where profileSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
+                // Extract the profile name using another regex or string manipulation
+                if let range = line.range(of: "\\[profile\\s(.+?)\\]", options: .regularExpression),
+                   let profileNameRange = line.range(of: "\\s(.+?)\\]", options: .regularExpression, range: range.lowerBound..<range.upperBound) {
+                    let profileName = String(line[profileNameRange].dropFirst().dropLast()) // Remove space and ']'
+                    currentSectionName = profileName
+                    let section = ConfigFileSection(name: "profile")
+                    sections[profileName] = section
+                    print("Found profile: \(profileName)") // For demonstration
+                }
+            case _ where currentSectionName != nil && line.contains("="):
+                    // This case handles key-value pairs within a section
+                    let components = line.split(separator: "=", maxSplits: 1).map(String.init)
+                    if components.count == 2, let currentName = currentSectionName {
+                        let key = components[0].trimmingCharacters(in: .whitespaces)
+                        let value = components[1].trimmingCharacters(in: .whitespaces)
+                        sections[currentName]?.keys[key] = value
+                        print("  Added key and value '\(key)' = '\(value)' to section '\(currentName)'")
+                    }
             default:
+                print ("No profile found, values will be placed in [default] section")
                 break
             }
         }
@@ -79,11 +105,15 @@ struct ConfigFile: FileBasedConfiguration {
 
 struct ConfigFileSection: FileBasedConfigurationSection {
     let name: String
-    let keys: [String: String] = [:]
+    var keys: [String: String] = ["":""]
     
     func property(for name: FileBasedConfigurationKey) -> FileBasedConfigurationProperty? {
         // Replace this function body with code that works.
-        return nil
+        if let value = keys[name.rawValue]{
+            return .string(value)
+        }else {
+            return nil
+        }
     }
 }
 struct Config: FileBasedConfigurationSectionProviding {
