@@ -1497,6 +1497,72 @@ public struct AddPolicyGrantOutput: Swift.Sendable {
 
 extension DataZoneClientTypes {
 
+    /// An aggregation list item.
+    public struct AggregationListItem: Swift.Sendable {
+        /// An attribute on which to compute aggregations.
+        /// This member is required.
+        public var attribute: Swift.String?
+        /// The display value of the aggregation list item. Supported values include value and glossaryTerm.name.
+        public var displayValue: Swift.String?
+
+        public init(
+            attribute: Swift.String? = nil,
+            displayValue: Swift.String? = nil
+        ) {
+            self.attribute = attribute
+            self.displayValue = displayValue
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// An aggregation output item.
+    public struct AggregationOutputItem: Swift.Sendable {
+        /// The count of the aggregation output item.
+        public var count: Swift.Int?
+        /// The display value of the aggregation. If the attribute being aggregated corresponds to the id of a public resource, the service automatically resolves the id to the provided display value.
+        public var displayValue: Swift.String?
+        /// The attribute value of the aggregation output item.
+        public var value: Swift.String?
+
+        public init(
+            count: Swift.Int? = nil,
+            displayValue: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.count = count
+            self.displayValue = displayValue
+            self.value = value
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The aggregation for an attribute.
+    public struct AggregationOutput: Swift.Sendable {
+        /// The attribute for this aggregation.
+        public var attribute: Swift.String?
+        /// The display value of the aggregation output item.
+        public var displayValue: Swift.String?
+        /// A list of aggregation output items.
+        public var items: [DataZoneClientTypes.AggregationOutputItem]?
+
+        public init(
+            attribute: Swift.String? = nil,
+            displayValue: Swift.String? = nil,
+            items: [DataZoneClientTypes.AggregationOutputItem]? = nil
+        ) {
+            self.attribute = attribute
+            self.displayValue = displayValue
+            self.items = items
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     public enum ListingStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case creating
@@ -1620,7 +1686,7 @@ public struct CreateAssetInput: Swift.Sendable {
     /// Amazon DataZone domain where the asset is created.
     /// This member is required.
     public var domainIdentifier: Swift.String?
-    /// The external identifier of the asset.
+    /// The external identifier of the asset. If the value for the externalIdentifier parameter is specified, it must be a unique value.
     public var externalIdentifier: Swift.String?
     /// Metadata forms attached to the asset.
     public var formsInput: [DataZoneClientTypes.FormInput]?
@@ -1979,7 +2045,7 @@ public struct GetAssetInput: Swift.Sendable {
     /// The ID of the Amazon DataZone domain to which the asset belongs.
     /// This member is required.
     public var domainIdentifier: Swift.String?
-    /// The ID of the Amazon DataZone asset.
+    /// The ID of the Amazon DataZone asset. This parameter supports either the value of assetId or externalIdentifier as input. If you are passing the value of externalIdentifier, you must prefix this value with externalIdentifer%2F.
     /// This member is required.
     public var identifier: Swift.String?
     /// The revision of the Amazon DataZone asset.
@@ -2468,22 +2534,78 @@ extension DataZoneClientTypes.AssetFilterSummary: Swift.CustomDebugStringConvert
 
 extension DataZoneClientTypes {
 
+    /// The offset of a matched term.
+    public struct MatchOffset: Swift.Sendable {
+        /// The 0-indexed number indicating the end position (exclusive) of a matched term.
+        public var endOffset: Swift.Int?
+        /// The 0-indexed number indicating the start position (inclusive) of a matched term.
+        public var startOffset: Swift.Int?
+
+        public init(
+            endOffset: Swift.Int? = nil,
+            startOffset: Swift.Int? = nil
+        ) {
+            self.endOffset = endOffset
+            self.startOffset = startOffset
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// A structure indicating matched terms for an attribute.
+    public struct TextMatchItem: Swift.Sendable {
+        /// The name of the attribute.
+        public var attribute: Swift.String?
+        /// List of offsets indicating matching terms in the TextMatchItem text.
+        public var matchOffsets: [DataZoneClientTypes.MatchOffset]?
+        /// Snippet of attribute text containing highlighted content.
+        public var text: Swift.String?
+
+        public init(
+            attribute: Swift.String? = nil,
+            matchOffsets: [DataZoneClientTypes.MatchOffset]? = nil,
+            text: Swift.String? = nil
+        ) {
+            self.attribute = attribute
+            self.matchOffsets = matchOffsets
+            self.text = text
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// A rationale indicating why this item was matched by search.
+    public enum MatchRationaleItem: Swift.Sendable {
+        /// A list of TextMatchItems.
+        case textmatches([DataZoneClientTypes.TextMatchItem])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The additional attributes of an inventory asset.
     public struct AssetItemAdditionalAttributes: Swift.Sendable {
         /// The forms included in the additional attributes of an inventory asset.
         public var formsOutput: [DataZoneClientTypes.FormOutput]?
         /// The latest time series data points forms included in the additional attributes of an asset.
         public var latestTimeSeriesDataPointFormsOutput: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]?
+        /// List of rationales indicating why this item was matched by search.
+        public var matchRationale: [DataZoneClientTypes.MatchRationaleItem]?
         /// The read-only forms included in the additional attributes of an inventory asset.
         public var readOnlyFormsOutput: [DataZoneClientTypes.FormOutput]?
 
         public init(
             formsOutput: [DataZoneClientTypes.FormOutput]? = nil,
             latestTimeSeriesDataPointFormsOutput: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil,
+            matchRationale: [DataZoneClientTypes.MatchRationaleItem]? = nil,
             readOnlyFormsOutput: [DataZoneClientTypes.FormOutput]? = nil
         ) {
             self.formsOutput = formsOutput
             self.latestTimeSeriesDataPointFormsOutput = latestTimeSeriesDataPointFormsOutput
+            self.matchRationale = matchRationale
             self.readOnlyFormsOutput = readOnlyFormsOutput
         }
     }
@@ -2618,13 +2740,17 @@ extension DataZoneClientTypes {
         public var forms: Swift.String?
         /// The latest time series data points forms included in the additional attributes of an asset.
         public var latestTimeSeriesDataPointForms: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]?
+        /// List of rationales indicating why this item was matched by search.
+        public var matchRationale: [DataZoneClientTypes.MatchRationaleItem]?
 
         public init(
             forms: Swift.String? = nil,
-            latestTimeSeriesDataPointForms: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil
+            latestTimeSeriesDataPointForms: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil,
+            matchRationale: [DataZoneClientTypes.MatchRationaleItem]? = nil
         ) {
             self.forms = forms
             self.latestTimeSeriesDataPointForms = latestTimeSeriesDataPointForms
+            self.matchRationale = matchRationale
         }
     }
 }
@@ -10027,6 +10153,21 @@ extension GetDataProductOutput: Swift.CustomDebugStringConvertible {
 
 extension DataZoneClientTypes {
 
+    /// The additional attributes of an Amazon DataZone data product.
+    public struct DataProductItemAdditionalAttributes: Swift.Sendable {
+        /// List of rationales indicating why this item was matched by search.
+        public var matchRationale: [DataZoneClientTypes.MatchRationaleItem]?
+
+        public init(
+            matchRationale: [DataZoneClientTypes.MatchRationaleItem]? = nil
+        ) {
+            self.matchRationale = matchRationale
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The summary of the listing of the data product.
     public struct ListingSummary: Swift.Sendable {
         /// The glossary terms of the data product.
@@ -10093,11 +10234,15 @@ extension DataZoneClientTypes {
     public struct DataProductListingItemAdditionalAttributes: Swift.Sendable {
         /// The metadata forms of the asset of the data product.
         public var forms: Swift.String?
+        /// List of rationales indicating why this item was matched by search.
+        public var matchRationale: [DataZoneClientTypes.MatchRationaleItem]?
 
         public init(
-            forms: Swift.String? = nil
+            forms: Swift.String? = nil,
+            matchRationale: [DataZoneClientTypes.MatchRationaleItem]? = nil
         ) {
             self.forms = forms
+            self.matchRationale = matchRationale
         }
     }
 }
@@ -10197,6 +10342,8 @@ extension DataZoneClientTypes {
 
     /// The data product.
     public struct DataProductResultItem: Swift.Sendable {
+        /// The additional attributes of an Amazon DataZone data product.
+        public var additionalAttributes: DataZoneClientTypes.DataProductItemAdditionalAttributes?
         /// The timestamp at which the data product was created.
         public var createdAt: Foundation.Date?
         /// The user who created the data product.
@@ -10223,6 +10370,7 @@ extension DataZoneClientTypes {
         public var owningProjectId: Swift.String?
 
         public init(
+            additionalAttributes: DataZoneClientTypes.DataProductItemAdditionalAttributes? = nil,
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
             description: Swift.String? = nil,
@@ -10234,6 +10382,7 @@ extension DataZoneClientTypes {
             name: Swift.String? = nil,
             owningProjectId: Swift.String? = nil
         ) {
+            self.additionalAttributes = additionalAttributes
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -10250,7 +10399,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.DataProductResultItem: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DataProductResultItem(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), owningProjectId: \(Swift.String(describing: owningProjectId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "DataProductResultItem(additionalAttributes: \(Swift.String(describing: additionalAttributes)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), owningProjectId: \(Swift.String(describing: owningProjectId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -18849,12 +18998,14 @@ extension DataZoneClientTypes {
 
     public enum SearchOutputAdditionalAttribute: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case forms
+        case textMatchRationale
         case timeSeriesDataPointForms
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SearchOutputAdditionalAttribute] {
             return [
                 .forms,
+                .textMatchRationale,
                 .timeSeriesDataPointForms
             ]
         }
@@ -18867,6 +19018,7 @@ extension DataZoneClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .forms: return "FORMS"
+            case .textMatchRationale: return "TEXT_MATCH_RATIONALE"
             case .timeSeriesDataPointForms: return "TIME_SERIES_DATA_POINT_FORMS"
             case let .sdkUnknown(s): return s
             }
@@ -18968,8 +19120,25 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The additional attributes of an Amazon DataZone glossary.
+    public struct GlossaryItemAdditionalAttributes: Swift.Sendable {
+        /// List of rationales indicating why this item was matched by search.
+        public var matchRationale: [DataZoneClientTypes.MatchRationaleItem]?
+
+        public init(
+            matchRationale: [DataZoneClientTypes.MatchRationaleItem]? = nil
+        ) {
+            self.matchRationale = matchRationale
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The details of a business glossary.
     public struct GlossaryItem: Swift.Sendable {
+        /// The additional attributes of an Amazon DataZone glossary.
+        public var additionalAttributes: DataZoneClientTypes.GlossaryItemAdditionalAttributes?
         /// The timestamp of when the glossary was created.
         public var createdAt: Foundation.Date?
         /// The Amazon DataZone user who created the glossary.
@@ -18997,6 +19166,7 @@ extension DataZoneClientTypes {
         public var updatedBy: Swift.String?
 
         public init(
+            additionalAttributes: DataZoneClientTypes.GlossaryItemAdditionalAttributes? = nil,
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
             description: Swift.String? = nil,
@@ -19008,6 +19178,7 @@ extension DataZoneClientTypes {
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
         ) {
+            self.additionalAttributes = additionalAttributes
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -19024,13 +19195,30 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.GlossaryItem: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GlossaryItem(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GlossaryItem(additionalAttributes: \(Swift.String(describing: additionalAttributes)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    /// The additional attributes of an Amazon DataZone glossary term.
+    public struct GlossaryTermItemAdditionalAttributes: Swift.Sendable {
+        /// List of rationales indicating why this item was matched by search.
+        public var matchRationale: [DataZoneClientTypes.MatchRationaleItem]?
+
+        public init(
+            matchRationale: [DataZoneClientTypes.MatchRationaleItem]? = nil
+        ) {
+            self.matchRationale = matchRationale
+        }
+    }
 }
 
 extension DataZoneClientTypes {
 
     /// The details of a business glossary term.
     public struct GlossaryTermItem: Swift.Sendable {
+        /// The additional attributes of an Amazon DataZone glossary term.
+        public var additionalAttributes: DataZoneClientTypes.GlossaryTermItemAdditionalAttributes?
         /// The timestamp of when a business glossary term was created.
         public var createdAt: Foundation.Date?
         /// The Amazon DataZone user who created the business glossary.
@@ -19062,6 +19250,7 @@ extension DataZoneClientTypes {
         public var updatedBy: Swift.String?
 
         public init(
+            additionalAttributes: DataZoneClientTypes.GlossaryTermItemAdditionalAttributes? = nil,
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
             domainId: Swift.String? = nil,
@@ -19075,6 +19264,7 @@ extension DataZoneClientTypes {
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil
         ) {
+            self.additionalAttributes = additionalAttributes
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
@@ -19093,7 +19283,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.GlossaryTermItem: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GlossaryTermItem(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), glossaryId: \(Swift.String(describing: glossaryId)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), termRelations: \(Swift.String(describing: termRelations)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), longDescription: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", shortDescription: \"CONTENT_REDACTED\")"}
+        "GlossaryTermItem(additionalAttributes: \(Swift.String(describing: additionalAttributes)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), glossaryId: \(Swift.String(describing: glossaryId)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), termRelations: \(Swift.String(describing: termRelations)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), longDescription: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", shortDescription: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -19254,6 +19444,8 @@ extension DataZoneClientTypes {
 }
 
 public struct SearchListingsOutput: Swift.Sendable {
+    /// Contains computed counts grouped by field values based on the requested aggregation attributes for the matching listings.
+    public var aggregates: [DataZoneClientTypes.AggregationOutput]?
     /// The results of the SearchListings action.
     public var items: [DataZoneClientTypes.SearchResultItem]?
     /// When the number of results is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of results, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to SearchListings to list the next set of results.
@@ -19262,10 +19454,12 @@ public struct SearchListingsOutput: Swift.Sendable {
     public var totalMatchCount: Swift.Int?
 
     public init(
+        aggregates: [DataZoneClientTypes.AggregationOutput]? = nil,
         items: [DataZoneClientTypes.SearchResultItem]? = nil,
         nextToken: Swift.String? = nil,
         totalMatchCount: Swift.Int? = nil
     ) {
+        self.aggregates = aggregates
         self.items = items
         self.nextToken = nextToken
         self.totalMatchCount = totalMatchCount
@@ -20805,6 +20999,8 @@ public struct SearchInput: Swift.Sendable {
 public struct SearchListingsInput: Swift.Sendable {
     /// Specifies additional attributes for the search.
     public var additionalAttributes: [DataZoneClientTypes.SearchOutputAdditionalAttribute]?
+    /// Enables you to specify one or more attributes to compute and return counts grouped by field values.
+    public var aggregations: [DataZoneClientTypes.AggregationListItem]?
     /// The identifier of the domain in which to search listings.
     /// This member is required.
     public var domainIdentifier: Swift.String?
@@ -20823,6 +21019,7 @@ public struct SearchListingsInput: Swift.Sendable {
 
     public init(
         additionalAttributes: [DataZoneClientTypes.SearchOutputAdditionalAttribute]? = nil,
+        aggregations: [DataZoneClientTypes.AggregationListItem]? = nil,
         domainIdentifier: Swift.String? = nil,
         filters: DataZoneClientTypes.FilterClause? = nil,
         maxResults: Swift.Int? = nil,
@@ -20832,6 +21029,7 @@ public struct SearchListingsInput: Swift.Sendable {
         sort: DataZoneClientTypes.SearchSort? = nil
     ) {
         self.additionalAttributes = additionalAttributes
+        self.aggregations = aggregations
         self.domainIdentifier = domainIdentifier
         self.filters = filters
         self.maxResults = maxResults
@@ -24727,6 +24925,7 @@ extension SearchListingsInput {
     static func write(value: SearchListingsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["additionalAttributes"].writeList(value.additionalAttributes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DataZoneClientTypes.SearchOutputAdditionalAttribute>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["aggregations"].writeList(value.aggregations, memberWritingClosure: DataZoneClientTypes.AggregationListItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["filters"].write(value.filters, with: DataZoneClientTypes.FilterClause.write(value:to:))
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
@@ -27212,6 +27411,7 @@ extension SearchListingsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = SearchListingsOutput()
+        value.aggregates = try reader["aggregates"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.AggregationOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.SearchResultItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.totalMatchCount = try reader["totalMatchCount"].readIfPresent()
@@ -34299,6 +34499,54 @@ extension DataZoneClientTypes.DataProductResultItem {
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.firstRevisionCreatedAt = try reader["firstRevisionCreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.firstRevisionCreatedBy = try reader["firstRevisionCreatedBy"].readIfPresent()
+        value.additionalAttributes = try reader["additionalAttributes"].readIfPresent(with: DataZoneClientTypes.DataProductItemAdditionalAttributes.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.DataProductItemAdditionalAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.DataProductItemAdditionalAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.DataProductItemAdditionalAttributes()
+        value.matchRationale = try reader["matchRationale"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MatchRationaleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.MatchRationaleItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MatchRationaleItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "textMatches":
+                return .textmatches(try reader["textMatches"].readList(memberReadingClosure: DataZoneClientTypes.TextMatchItem.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.TextMatchItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.TextMatchItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.TextMatchItem()
+        value.attribute = try reader["attribute"].readIfPresent()
+        value.text = try reader["text"].readIfPresent()
+        value.matchOffsets = try reader["matchOffsets"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MatchOffset.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.MatchOffset {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MatchOffset {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.MatchOffset()
+        value.startOffset = try reader["startOffset"].readIfPresent()
+        value.endOffset = try reader["endOffset"].readIfPresent()
         return value
     }
 }
@@ -34334,6 +34582,7 @@ extension DataZoneClientTypes.AssetItemAdditionalAttributes {
         value.formsOutput = try reader["formsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.readOnlyFormsOutput = try reader["readOnlyFormsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.latestTimeSeriesDataPointFormsOutput = try reader["latestTimeSeriesDataPointFormsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.matchRationale = try reader["matchRationale"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MatchRationaleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -34355,6 +34604,17 @@ extension DataZoneClientTypes.GlossaryTermItem {
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.additionalAttributes = try reader["additionalAttributes"].readIfPresent(with: DataZoneClientTypes.GlossaryTermItemAdditionalAttributes.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GlossaryTermItemAdditionalAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlossaryTermItemAdditionalAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GlossaryTermItemAdditionalAttributes()
+        value.matchRationale = try reader["matchRationale"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MatchRationaleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -34374,6 +34634,17 @@ extension DataZoneClientTypes.GlossaryItem {
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.additionalAttributes = try reader["additionalAttributes"].readIfPresent(with: DataZoneClientTypes.GlossaryItemAdditionalAttributes.read(from:))
+        return value
+    }
+}
+
+extension DataZoneClientTypes.GlossaryItemAdditionalAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.GlossaryItemAdditionalAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.GlossaryItemAdditionalAttributes()
+        value.matchRationale = try reader["matchRationale"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MatchRationaleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -34447,6 +34718,7 @@ extension DataZoneClientTypes.DataProductListingItemAdditionalAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.DataProductListingItemAdditionalAttributes()
         value.forms = try reader["forms"].readIfPresent()
+        value.matchRationale = try reader["matchRationale"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MatchRationaleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -34479,7 +34751,32 @@ extension DataZoneClientTypes.AssetListingItemAdditionalAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.AssetListingItemAdditionalAttributes()
         value.forms = try reader["forms"].readIfPresent()
+        value.matchRationale = try reader["matchRationale"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.MatchRationaleItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.latestTimeSeriesDataPointForms = try reader["latestTimeSeriesDataPointForms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AggregationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AggregationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AggregationOutput()
+        value.attribute = try reader["attribute"].readIfPresent()
+        value.displayValue = try reader["displayValue"].readIfPresent()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.AggregationOutputItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AggregationOutputItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AggregationOutputItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AggregationOutputItem()
+        value.value = try reader["value"].readIfPresent()
+        value.count = try reader["count"].readIfPresent()
+        value.displayValue = try reader["displayValue"].readIfPresent()
         return value
     }
 }
@@ -35008,6 +35305,15 @@ extension DataZoneClientTypes.SearchSort {
         guard let value else { return }
         try writer["attribute"].write(value.attribute)
         try writer["order"].write(value.order)
+    }
+}
+
+extension DataZoneClientTypes.AggregationListItem {
+
+    static func write(value: DataZoneClientTypes.AggregationListItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attribute"].write(value.attribute)
+        try writer["displayValue"].write(value.displayValue)
     }
 }
 

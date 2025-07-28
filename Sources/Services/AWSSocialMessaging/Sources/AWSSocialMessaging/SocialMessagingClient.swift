@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SocialMessagingClient: ClientRuntime.Client {
     public static let clientName = "SocialMessagingClient"
-    public static let version = "1.5.5"
+    public static let version = "1.5.7"
     let client: ClientRuntime.SdkHttpClient
     let config: SocialMessagingClient.SocialMessagingClientConfiguration
     let serviceName = "SocialMessaging"
@@ -383,6 +383,7 @@ extension SocialMessagingClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `DependencyException` : Thrown when performing an action because a dependency would be broken.
     /// - `InvalidParametersException` : One or more parameters provided to the action are not valid.
+    /// - `LimitExceededException` : The request was denied because it would exceed one or more service quotas or limits.
     /// - `ThrottledRequestException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request contains an invalid parameter value.
     public func associateWhatsAppBusinessAccount(input: AssociateWhatsAppBusinessAccountInput) async throws -> AssociateWhatsAppBusinessAccountOutput {
@@ -428,6 +429,225 @@ extension SocialMessagingClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SocialMessaging")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateWhatsAppBusinessAccount")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateWhatsAppMessageTemplate` operation on the `SocialMessaging` service.
+    ///
+    /// Creates a new WhatsApp message template from a custom definition.
+    ///
+    /// - Parameter CreateWhatsAppMessageTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWhatsAppMessageTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DependencyException` : Thrown when performing an action because a dependency would be broken.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `InvalidParametersException` : One or more parameters provided to the action are not valid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ThrottledRequestException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request contains an invalid parameter value.
+    public func createWhatsAppMessageTemplate(input: CreateWhatsAppMessageTemplateInput) async throws -> CreateWhatsAppMessageTemplateOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createWhatsAppMessageTemplate")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "social-messaging")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateWhatsAppMessageTemplateInput, CreateWhatsAppMessageTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateWhatsAppMessageTemplateInput, CreateWhatsAppMessageTemplateOutput>(CreateWhatsAppMessageTemplateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateWhatsAppMessageTemplateInput, CreateWhatsAppMessageTemplateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWhatsAppMessageTemplateInput, CreateWhatsAppMessageTemplateOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateWhatsAppMessageTemplateInput, CreateWhatsAppMessageTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWhatsAppMessageTemplateInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWhatsAppMessageTemplateInput, CreateWhatsAppMessageTemplateOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWhatsAppMessageTemplateOutput>(CreateWhatsAppMessageTemplateOutput.httpOutput(from:), CreateWhatsAppMessageTemplateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWhatsAppMessageTemplateInput, CreateWhatsAppMessageTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateWhatsAppMessageTemplateOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SocialMessaging", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateWhatsAppMessageTemplateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWhatsAppMessageTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateWhatsAppMessageTemplateInput, CreateWhatsAppMessageTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateWhatsAppMessageTemplateInput, CreateWhatsAppMessageTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateWhatsAppMessageTemplateInput, CreateWhatsAppMessageTemplateOutput>(serviceID: serviceName, version: SocialMessagingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SocialMessaging")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateWhatsAppMessageTemplate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateWhatsAppMessageTemplateFromLibrary` operation on the `SocialMessaging` service.
+    ///
+    /// Creates a new WhatsApp message template using a template from Meta's template library.
+    ///
+    /// - Parameter CreateWhatsAppMessageTemplateFromLibraryInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWhatsAppMessageTemplateFromLibraryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DependencyException` : Thrown when performing an action because a dependency would be broken.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `InvalidParametersException` : One or more parameters provided to the action are not valid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ThrottledRequestException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request contains an invalid parameter value.
+    public func createWhatsAppMessageTemplateFromLibrary(input: CreateWhatsAppMessageTemplateFromLibraryInput) async throws -> CreateWhatsAppMessageTemplateFromLibraryOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createWhatsAppMessageTemplateFromLibrary")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "social-messaging")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateWhatsAppMessageTemplateFromLibraryInput, CreateWhatsAppMessageTemplateFromLibraryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateWhatsAppMessageTemplateFromLibraryInput, CreateWhatsAppMessageTemplateFromLibraryOutput>(CreateWhatsAppMessageTemplateFromLibraryInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateWhatsAppMessageTemplateFromLibraryInput, CreateWhatsAppMessageTemplateFromLibraryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWhatsAppMessageTemplateFromLibraryInput, CreateWhatsAppMessageTemplateFromLibraryOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateWhatsAppMessageTemplateFromLibraryInput, CreateWhatsAppMessageTemplateFromLibraryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWhatsAppMessageTemplateFromLibraryInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWhatsAppMessageTemplateFromLibraryInput, CreateWhatsAppMessageTemplateFromLibraryOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWhatsAppMessageTemplateFromLibraryOutput>(CreateWhatsAppMessageTemplateFromLibraryOutput.httpOutput(from:), CreateWhatsAppMessageTemplateFromLibraryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWhatsAppMessageTemplateFromLibraryInput, CreateWhatsAppMessageTemplateFromLibraryOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateWhatsAppMessageTemplateFromLibraryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SocialMessaging", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateWhatsAppMessageTemplateFromLibraryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWhatsAppMessageTemplateFromLibraryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateWhatsAppMessageTemplateFromLibraryInput, CreateWhatsAppMessageTemplateFromLibraryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateWhatsAppMessageTemplateFromLibraryInput, CreateWhatsAppMessageTemplateFromLibraryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateWhatsAppMessageTemplateFromLibraryInput, CreateWhatsAppMessageTemplateFromLibraryOutput>(serviceID: serviceName, version: SocialMessagingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SocialMessaging")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateWhatsAppMessageTemplateFromLibrary")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateWhatsAppMessageTemplateMedia` operation on the `SocialMessaging` service.
+    ///
+    /// Uploads media for use in a WhatsApp message template.
+    ///
+    /// - Parameter CreateWhatsAppMessageTemplateMediaInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWhatsAppMessageTemplateMediaOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DependencyException` : Thrown when performing an action because a dependency would be broken.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `InvalidParametersException` : One or more parameters provided to the action are not valid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ThrottledRequestException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request contains an invalid parameter value.
+    public func createWhatsAppMessageTemplateMedia(input: CreateWhatsAppMessageTemplateMediaInput) async throws -> CreateWhatsAppMessageTemplateMediaOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createWhatsAppMessageTemplateMedia")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "social-messaging")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateWhatsAppMessageTemplateMediaInput, CreateWhatsAppMessageTemplateMediaOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateWhatsAppMessageTemplateMediaInput, CreateWhatsAppMessageTemplateMediaOutput>(CreateWhatsAppMessageTemplateMediaInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateWhatsAppMessageTemplateMediaInput, CreateWhatsAppMessageTemplateMediaOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateWhatsAppMessageTemplateMediaInput, CreateWhatsAppMessageTemplateMediaOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateWhatsAppMessageTemplateMediaInput, CreateWhatsAppMessageTemplateMediaOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateWhatsAppMessageTemplateMediaInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWhatsAppMessageTemplateMediaInput, CreateWhatsAppMessageTemplateMediaOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWhatsAppMessageTemplateMediaOutput>(CreateWhatsAppMessageTemplateMediaOutput.httpOutput(from:), CreateWhatsAppMessageTemplateMediaOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWhatsAppMessageTemplateMediaInput, CreateWhatsAppMessageTemplateMediaOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateWhatsAppMessageTemplateMediaOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SocialMessaging", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateWhatsAppMessageTemplateMediaOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateWhatsAppMessageTemplateMediaOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateWhatsAppMessageTemplateMediaInput, CreateWhatsAppMessageTemplateMediaOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateWhatsAppMessageTemplateMediaInput, CreateWhatsAppMessageTemplateMediaOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateWhatsAppMessageTemplateMediaInput, CreateWhatsAppMessageTemplateMediaOutput>(serviceID: serviceName, version: SocialMessagingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SocialMessaging")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateWhatsAppMessageTemplateMedia")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -500,6 +720,77 @@ extension SocialMessagingClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SocialMessaging")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteWhatsAppMessageMedia")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteWhatsAppMessageTemplate` operation on the `SocialMessaging` service.
+    ///
+    /// Deletes a WhatsApp message template.
+    ///
+    /// - Parameter DeleteWhatsAppMessageTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWhatsAppMessageTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DependencyException` : Thrown when performing an action because a dependency would be broken.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `InvalidParametersException` : One or more parameters provided to the action are not valid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ThrottledRequestException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request contains an invalid parameter value.
+    public func deleteWhatsAppMessageTemplate(input: DeleteWhatsAppMessageTemplateInput) async throws -> DeleteWhatsAppMessageTemplateOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteWhatsAppMessageTemplate")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "social-messaging")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteWhatsAppMessageTemplateInput, DeleteWhatsAppMessageTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteWhatsAppMessageTemplateInput, DeleteWhatsAppMessageTemplateOutput>(DeleteWhatsAppMessageTemplateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWhatsAppMessageTemplateInput, DeleteWhatsAppMessageTemplateOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteWhatsAppMessageTemplateInput, DeleteWhatsAppMessageTemplateOutput>(DeleteWhatsAppMessageTemplateInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWhatsAppMessageTemplateOutput>(DeleteWhatsAppMessageTemplateOutput.httpOutput(from:), DeleteWhatsAppMessageTemplateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWhatsAppMessageTemplateInput, DeleteWhatsAppMessageTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWhatsAppMessageTemplateOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SocialMessaging", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteWhatsAppMessageTemplateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteWhatsAppMessageTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteWhatsAppMessageTemplateInput, DeleteWhatsAppMessageTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteWhatsAppMessageTemplateInput, DeleteWhatsAppMessageTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteWhatsAppMessageTemplateInput, DeleteWhatsAppMessageTemplateOutput>(serviceID: serviceName, version: SocialMessagingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SocialMessaging")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteWhatsAppMessageTemplate")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -798,6 +1089,77 @@ extension SocialMessagingClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetWhatsAppMessageTemplate` operation on the `SocialMessaging` service.
+    ///
+    /// Retrieves a specific WhatsApp message template.
+    ///
+    /// - Parameter GetWhatsAppMessageTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetWhatsAppMessageTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DependencyException` : Thrown when performing an action because a dependency would be broken.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `InvalidParametersException` : One or more parameters provided to the action are not valid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ThrottledRequestException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request contains an invalid parameter value.
+    public func getWhatsAppMessageTemplate(input: GetWhatsAppMessageTemplateInput) async throws -> GetWhatsAppMessageTemplateOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getWhatsAppMessageTemplate")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "social-messaging")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetWhatsAppMessageTemplateInput, GetWhatsAppMessageTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetWhatsAppMessageTemplateInput, GetWhatsAppMessageTemplateOutput>(GetWhatsAppMessageTemplateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetWhatsAppMessageTemplateInput, GetWhatsAppMessageTemplateOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetWhatsAppMessageTemplateInput, GetWhatsAppMessageTemplateOutput>(GetWhatsAppMessageTemplateInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWhatsAppMessageTemplateOutput>(GetWhatsAppMessageTemplateOutput.httpOutput(from:), GetWhatsAppMessageTemplateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWhatsAppMessageTemplateInput, GetWhatsAppMessageTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetWhatsAppMessageTemplateOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SocialMessaging", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetWhatsAppMessageTemplateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetWhatsAppMessageTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetWhatsAppMessageTemplateInput, GetWhatsAppMessageTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetWhatsAppMessageTemplateInput, GetWhatsAppMessageTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetWhatsAppMessageTemplateInput, GetWhatsAppMessageTemplateOutput>(serviceID: serviceName, version: SocialMessagingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SocialMessaging")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetWhatsAppMessageTemplate")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListLinkedWhatsAppBusinessAccounts` operation on the `SocialMessaging` service.
     ///
     /// List all WhatsApp Business Accounts linked to your Amazon Web Services account.
@@ -925,6 +1287,151 @@ extension SocialMessagingClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SocialMessaging")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListTagsForResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListWhatsAppMessageTemplates` operation on the `SocialMessaging` service.
+    ///
+    /// Lists WhatsApp message templates for a specific WhatsApp Business Account.
+    ///
+    /// - Parameter ListWhatsAppMessageTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListWhatsAppMessageTemplatesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DependencyException` : Thrown when performing an action because a dependency would be broken.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `InvalidParametersException` : One or more parameters provided to the action are not valid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ThrottledRequestException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request contains an invalid parameter value.
+    public func listWhatsAppMessageTemplates(input: ListWhatsAppMessageTemplatesInput) async throws -> ListWhatsAppMessageTemplatesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listWhatsAppMessageTemplates")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "social-messaging")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListWhatsAppMessageTemplatesInput, ListWhatsAppMessageTemplatesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListWhatsAppMessageTemplatesInput, ListWhatsAppMessageTemplatesOutput>(ListWhatsAppMessageTemplatesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListWhatsAppMessageTemplatesInput, ListWhatsAppMessageTemplatesOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListWhatsAppMessageTemplatesInput, ListWhatsAppMessageTemplatesOutput>(ListWhatsAppMessageTemplatesInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWhatsAppMessageTemplatesOutput>(ListWhatsAppMessageTemplatesOutput.httpOutput(from:), ListWhatsAppMessageTemplatesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWhatsAppMessageTemplatesInput, ListWhatsAppMessageTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListWhatsAppMessageTemplatesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SocialMessaging", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWhatsAppMessageTemplatesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWhatsAppMessageTemplatesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListWhatsAppMessageTemplatesInput, ListWhatsAppMessageTemplatesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListWhatsAppMessageTemplatesInput, ListWhatsAppMessageTemplatesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListWhatsAppMessageTemplatesInput, ListWhatsAppMessageTemplatesOutput>(serviceID: serviceName, version: SocialMessagingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SocialMessaging")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListWhatsAppMessageTemplates")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ListWhatsAppTemplateLibrary` operation on the `SocialMessaging` service.
+    ///
+    /// Lists templates available in Meta's template library for WhatsApp messaging.
+    ///
+    /// - Parameter ListWhatsAppTemplateLibraryInput : [no documentation found]
+    ///
+    /// - Returns: `ListWhatsAppTemplateLibraryOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DependencyException` : Thrown when performing an action because a dependency would be broken.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `InvalidParametersException` : One or more parameters provided to the action are not valid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ThrottledRequestException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request contains an invalid parameter value.
+    public func listWhatsAppTemplateLibrary(input: ListWhatsAppTemplateLibraryInput) async throws -> ListWhatsAppTemplateLibraryOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listWhatsAppTemplateLibrary")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "social-messaging")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListWhatsAppTemplateLibraryInput, ListWhatsAppTemplateLibraryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListWhatsAppTemplateLibraryInput, ListWhatsAppTemplateLibraryOutput>(ListWhatsAppTemplateLibraryInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListWhatsAppTemplateLibraryInput, ListWhatsAppTemplateLibraryOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<ListWhatsAppTemplateLibraryInput, ListWhatsAppTemplateLibraryOutput>(ListWhatsAppTemplateLibraryInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListWhatsAppTemplateLibraryInput, ListWhatsAppTemplateLibraryOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListWhatsAppTemplateLibraryInput, ListWhatsAppTemplateLibraryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListWhatsAppTemplateLibraryInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWhatsAppTemplateLibraryInput, ListWhatsAppTemplateLibraryOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWhatsAppTemplateLibraryOutput>(ListWhatsAppTemplateLibraryOutput.httpOutput(from:), ListWhatsAppTemplateLibraryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWhatsAppTemplateLibraryInput, ListWhatsAppTemplateLibraryOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListWhatsAppTemplateLibraryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SocialMessaging", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListWhatsAppTemplateLibraryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListWhatsAppTemplateLibraryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListWhatsAppTemplateLibraryInput, ListWhatsAppTemplateLibraryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListWhatsAppTemplateLibraryInput, ListWhatsAppTemplateLibraryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListWhatsAppTemplateLibraryInput, ListWhatsAppTemplateLibraryOutput>(serviceID: serviceName, version: SocialMessagingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SocialMessaging")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListWhatsAppTemplateLibrary")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1285,6 +1792,79 @@ extension SocialMessagingClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SocialMessaging")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateWhatsAppMessageTemplate` operation on the `SocialMessaging` service.
+    ///
+    /// Updates an existing WhatsApp message template.
+    ///
+    /// - Parameter UpdateWhatsAppMessageTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWhatsAppMessageTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DependencyException` : Thrown when performing an action because a dependency would be broken.
+    /// - `InternalServiceException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `InvalidParametersException` : One or more parameters provided to the action are not valid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ThrottledRequestException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request contains an invalid parameter value.
+    public func updateWhatsAppMessageTemplate(input: UpdateWhatsAppMessageTemplateInput) async throws -> UpdateWhatsAppMessageTemplateOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateWhatsAppMessageTemplate")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "social-messaging")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateWhatsAppMessageTemplateInput, UpdateWhatsAppMessageTemplateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateWhatsAppMessageTemplateInput, UpdateWhatsAppMessageTemplateOutput>(UpdateWhatsAppMessageTemplateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateWhatsAppMessageTemplateInput, UpdateWhatsAppMessageTemplateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateWhatsAppMessageTemplateInput, UpdateWhatsAppMessageTemplateOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateWhatsAppMessageTemplateInput, UpdateWhatsAppMessageTemplateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateWhatsAppMessageTemplateInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWhatsAppMessageTemplateInput, UpdateWhatsAppMessageTemplateOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWhatsAppMessageTemplateOutput>(UpdateWhatsAppMessageTemplateOutput.httpOutput(from:), UpdateWhatsAppMessageTemplateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWhatsAppMessageTemplateInput, UpdateWhatsAppMessageTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWhatsAppMessageTemplateOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SocialMessaging", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateWhatsAppMessageTemplateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateWhatsAppMessageTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateWhatsAppMessageTemplateInput, UpdateWhatsAppMessageTemplateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateWhatsAppMessageTemplateInput, UpdateWhatsAppMessageTemplateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateWhatsAppMessageTemplateInput, UpdateWhatsAppMessageTemplateOutput>(serviceID: serviceName, version: SocialMessagingClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SocialMessaging")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateWhatsAppMessageTemplate")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
