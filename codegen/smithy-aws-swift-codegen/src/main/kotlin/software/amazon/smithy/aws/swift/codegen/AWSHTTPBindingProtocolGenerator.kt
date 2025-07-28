@@ -85,7 +85,7 @@ abstract class AWSHTTPBindingProtocolGenerator(
         )
     }
 
-    override fun addCustomizationMiddleware(
+    override fun addServiceSpecificMiddleware(
         ctx: ProtocolGenerator.GenerationContext,
         operation: OperationShape,
     ) {
