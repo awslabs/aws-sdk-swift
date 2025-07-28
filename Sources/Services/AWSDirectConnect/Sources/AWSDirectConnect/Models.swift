@@ -592,6 +592,8 @@ public struct AllocateConnectionOnInterconnectOutput: Swift.Sendable {
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
     /// The ID of the Amazon Web Services account that owns the connection.
     public var ownerAccount: Swift.String?
+    /// Indicates whether the interconnect hosting this connection supports MAC Security (MACsec).
+    public var partnerInterconnectMacSecCapable: Swift.Bool?
     /// The name of the Direct Connect service provider associated with the connection.
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
@@ -622,6 +624,7 @@ public struct AllocateConnectionOnInterconnectOutput: Swift.Sendable {
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
         ownerAccount: Swift.String? = nil,
+        partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
@@ -645,6 +648,7 @@ public struct AllocateConnectionOnInterconnectOutput: Swift.Sendable {
         self.macSecCapable = macSecCapable
         self.macSecKeys = macSecKeys
         self.ownerAccount = ownerAccount
+        self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
@@ -789,6 +793,8 @@ public struct AllocateHostedConnectionOutput: Swift.Sendable {
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
     /// The ID of the Amazon Web Services account that owns the connection.
     public var ownerAccount: Swift.String?
+    /// Indicates whether the interconnect hosting this connection supports MAC Security (MACsec).
+    public var partnerInterconnectMacSecCapable: Swift.Bool?
     /// The name of the Direct Connect service provider associated with the connection.
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
@@ -819,6 +825,7 @@ public struct AllocateHostedConnectionOutput: Swift.Sendable {
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
         ownerAccount: Swift.String? = nil,
+        partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
@@ -842,6 +849,7 @@ public struct AllocateHostedConnectionOutput: Swift.Sendable {
         self.macSecCapable = macSecCapable
         self.macSecKeys = macSecKeys
         self.ownerAccount = ownerAccount
+        self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
@@ -1070,6 +1078,7 @@ extension DirectConnectClientTypes {
         case down
         case pending
         case rejected
+        case testing
         case unknown
         case verifying
         case sdkUnknown(Swift.String)
@@ -1083,6 +1092,7 @@ extension DirectConnectClientTypes {
                 .down,
                 .pending,
                 .rejected,
+                .testing,
                 .unknown,
                 .verifying
             ]
@@ -1102,6 +1112,7 @@ extension DirectConnectClientTypes {
             case .down: return "down"
             case .pending: return "pending"
             case .rejected: return "rejected"
+            case .testing: return "testing"
             case .unknown: return "unknown"
             case .verifying: return "verifying"
             case let .sdkUnknown(s): return s
@@ -1731,6 +1742,8 @@ public struct AssociateConnectionWithLagOutput: Swift.Sendable {
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
     /// The ID of the Amazon Web Services account that owns the connection.
     public var ownerAccount: Swift.String?
+    /// Indicates whether the interconnect hosting this connection supports MAC Security (MACsec).
+    public var partnerInterconnectMacSecCapable: Swift.Bool?
     /// The name of the Direct Connect service provider associated with the connection.
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
@@ -1761,6 +1774,7 @@ public struct AssociateConnectionWithLagOutput: Swift.Sendable {
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
         ownerAccount: Swift.String? = nil,
+        partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
@@ -1784,6 +1798,7 @@ public struct AssociateConnectionWithLagOutput: Swift.Sendable {
         self.macSecCapable = macSecCapable
         self.macSecKeys = macSecKeys
         self.ownerAccount = ownerAccount
+        self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
@@ -1863,6 +1878,8 @@ public struct AssociateHostedConnectionOutput: Swift.Sendable {
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
     /// The ID of the Amazon Web Services account that owns the connection.
     public var ownerAccount: Swift.String?
+    /// Indicates whether the interconnect hosting this connection supports MAC Security (MACsec).
+    public var partnerInterconnectMacSecCapable: Swift.Bool?
     /// The name of the Direct Connect service provider associated with the connection.
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
@@ -1893,6 +1910,7 @@ public struct AssociateHostedConnectionOutput: Swift.Sendable {
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
         ownerAccount: Swift.String? = nil,
+        partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
@@ -1916,6 +1934,7 @@ public struct AssociateHostedConnectionOutput: Swift.Sendable {
         self.macSecCapable = macSecCapable
         self.macSecKeys = macSecKeys
         self.ownerAccount = ownerAccount
+        self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
@@ -1926,14 +1945,14 @@ public struct AssociateHostedConnectionOutput: Swift.Sendable {
 }
 
 public struct AssociateMacSecKeyInput: Swift.Sendable {
-    /// The MAC Security (MACsec) CAK to associate with the dedicated connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the ckn request parameter and not use the secretARN request parameter.
+    /// The MAC Security (MACsec) CAK to associate with the connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the ckn request parameter and not use the secretARN request parameter.
     public var cak: Swift.String?
-    /// The MAC Security (MACsec) CKN to associate with the dedicated connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the cak request parameter and not use the secretARN request parameter.
+    /// The MAC Security (MACsec) CKN to associate with the connection. You can create the CKN/CAK pair using an industry standard tool. The valid values are 64 hexadecimal characters (0-9, A-E). If you use this request parameter, you must use the cak request parameter and not use the secretARN request parameter.
     public var ckn: Swift.String?
-    /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG (dxlag-xxxx). You can use [DescribeConnections] or [DescribeLags] to retrieve connection ID.
+    /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx), or LAG (dxlag-xxxx). You can use [DescribeConnections], [DescribeInterconnects], or [DescribeLags] to retrieve connection ID.
     /// This member is required.
     public var connectionId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key to associate with the dedicated connection. You can use [DescribeConnections] or [DescribeLags] to retrieve the MAC Security (MACsec) secret key. If you use this request parameter, you do not use the ckn and cak request parameters.
+    /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key to associate with the connection. You can use [DescribeConnections] or [DescribeLags] to retrieve the MAC Security (MACsec) secret key. If you use this request parameter, you do not use the ckn and cak request parameters.
     public var secretARN: Swift.String?
 
     public init(
@@ -1950,9 +1969,9 @@ public struct AssociateMacSecKeyInput: Swift.Sendable {
 }
 
 public struct AssociateMacSecKeyOutput: Swift.Sendable {
-    /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG (dxlag-xxxx).
+    /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx), or LAG (dxlag-xxxx).
     public var connectionId: Swift.String?
-    /// The MAC Security (MACsec) security keys associated with the dedicated connection.
+    /// The MAC Security (MACsec) security keys associated with the connection.
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
 
     public init(
@@ -2373,6 +2392,8 @@ extension DirectConnectClientTypes {
         public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
         /// The ID of the Amazon Web Services account that owns the connection.
         public var ownerAccount: Swift.String?
+        /// Indicates whether the interconnect hosting this connection supports MAC Security (MACsec).
+        public var partnerInterconnectMacSecCapable: Swift.Bool?
         /// The name of the Direct Connect service provider associated with the connection.
         public var partnerName: Swift.String?
         /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
@@ -2403,6 +2424,7 @@ extension DirectConnectClientTypes {
             macSecCapable: Swift.Bool? = nil,
             macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
             ownerAccount: Swift.String? = nil,
+            partnerInterconnectMacSecCapable: Swift.Bool? = nil,
             partnerName: Swift.String? = nil,
             portEncryptionStatus: Swift.String? = nil,
             providerName: Swift.String? = nil,
@@ -2426,6 +2448,7 @@ extension DirectConnectClientTypes {
             self.macSecCapable = macSecCapable
             self.macSecKeys = macSecKeys
             self.ownerAccount = ownerAccount
+            self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
             self.partnerName = partnerName
             self.portEncryptionStatus = portEncryptionStatus
             self.providerName = providerName
@@ -2507,7 +2530,7 @@ public struct CreateConnectionInput: Swift.Sendable {
     public var location: Swift.String?
     /// The name of the service provider associated with the requested connection.
     public var providerName: Swift.String?
-    /// Indicates whether you want the connection to support MAC Security (MACsec). MAC Security (MACsec) is only available on dedicated connections. For information about MAC Security (MACsec) prerequisties, see [MACsec prerequisties](https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-prerequisites) in the Direct Connect User Guide.
+    /// Indicates whether you want the connection to support MAC Security (MACsec). MAC Security (MACsec) is unavailable on hosted connections. For information about MAC Security (MACsec) prerequisites, see [MAC Security in Direct Connect](https://docs.aws.amazon.com/directconnect/latest/UserGuide/MACSec.html) in the Direct Connect User Guide.
     public var requestMACSec: Swift.Bool?
     /// The tags to associate with the lag.
     public var tags: [DirectConnectClientTypes.Tag]?
@@ -2584,6 +2607,8 @@ public struct CreateConnectionOutput: Swift.Sendable {
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
     /// The ID of the Amazon Web Services account that owns the connection.
     public var ownerAccount: Swift.String?
+    /// Indicates whether the interconnect hosting this connection supports MAC Security (MACsec).
+    public var partnerInterconnectMacSecCapable: Swift.Bool?
     /// The name of the Direct Connect service provider associated with the connection.
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
@@ -2614,6 +2639,7 @@ public struct CreateConnectionOutput: Swift.Sendable {
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
         ownerAccount: Swift.String? = nil,
+        partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
@@ -2637,6 +2663,7 @@ public struct CreateConnectionOutput: Swift.Sendable {
         self.macSecCapable = macSecCapable
         self.macSecKeys = macSecKeys
         self.ownerAccount = ownerAccount
+        self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
@@ -2926,6 +2953,8 @@ public struct CreateInterconnectInput: Swift.Sendable {
     public var location: Swift.String?
     /// The name of the service provider associated with the interconnect.
     public var providerName: Swift.String?
+    /// Indicates whether you want the interconnect to support MAC Security (MACsec).
+    public var requestMACSec: Swift.Bool?
     /// The tags to associate with the interconnect.
     public var tags: [DirectConnectClientTypes.Tag]?
 
@@ -2935,6 +2964,7 @@ public struct CreateInterconnectInput: Swift.Sendable {
         lagId: Swift.String? = nil,
         location: Swift.String? = nil,
         providerName: Swift.String? = nil,
+        requestMACSec: Swift.Bool? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil
     ) {
         self.bandwidth = bandwidth
@@ -2942,6 +2972,7 @@ public struct CreateInterconnectInput: Swift.Sendable {
         self.lagId = lagId
         self.location = location
         self.providerName = providerName
+        self.requestMACSec = requestMACSec
         self.tags = tags
     }
 }
@@ -3001,6 +3032,8 @@ public struct CreateInterconnectOutput: Swift.Sendable {
     public var awsLogicalDeviceId: Swift.String?
     /// The bandwidth of the connection.
     public var bandwidth: Swift.String?
+    /// The MAC Security (MACsec) encryption mode. The valid values are no_encrypt, should_encrypt, and must_encrypt.
+    public var encryptionMode: Swift.String?
     /// Indicates whether the interconnect supports a secondary BGP in the same address family (IPv4/IPv6).
     public var hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy?
     /// The ID of the interconnect.
@@ -3031,6 +3064,12 @@ public struct CreateInterconnectOutput: Swift.Sendable {
     public var loaIssueTime: Foundation.Date?
     /// The location of the connection.
     public var location: Swift.String?
+    /// Indicates whether the interconnect supports MAC Security (MACsec).
+    public var macSecCapable: Swift.Bool?
+    /// The MAC Security (MACsec) security keys.
+    public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
+    /// The MAC Security (MACsec) port link status. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
+    public var portEncryptionStatus: Swift.String?
     /// The name of the service provider associated with the interconnect.
     public var providerName: Swift.String?
     /// The Amazon Web Services Region where the connection is located.
@@ -3043,6 +3082,7 @@ public struct CreateInterconnectOutput: Swift.Sendable {
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
         bandwidth: Swift.String? = nil,
+        encryptionMode: Swift.String? = nil,
         hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy? = nil,
         interconnectId: Swift.String? = nil,
         interconnectName: Swift.String? = nil,
@@ -3051,6 +3091,9 @@ public struct CreateInterconnectOutput: Swift.Sendable {
         lagId: Swift.String? = nil,
         loaIssueTime: Foundation.Date? = nil,
         location: Swift.String? = nil,
+        macSecCapable: Swift.Bool? = nil,
+        macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
+        portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
         region: Swift.String? = nil,
         tags: [DirectConnectClientTypes.Tag]? = nil
@@ -3059,6 +3102,7 @@ public struct CreateInterconnectOutput: Swift.Sendable {
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
         self.bandwidth = bandwidth
+        self.encryptionMode = encryptionMode
         self.hasLogicalRedundancy = hasLogicalRedundancy
         self.interconnectId = interconnectId
         self.interconnectName = interconnectName
@@ -3067,6 +3111,9 @@ public struct CreateInterconnectOutput: Swift.Sendable {
         self.lagId = lagId
         self.loaIssueTime = loaIssueTime
         self.location = location
+        self.macSecCapable = macSecCapable
+        self.macSecKeys = macSecKeys
+        self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
         self.region = region
         self.tags = tags
@@ -3863,6 +3910,8 @@ public struct DeleteConnectionOutput: Swift.Sendable {
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
     /// The ID of the Amazon Web Services account that owns the connection.
     public var ownerAccount: Swift.String?
+    /// Indicates whether the interconnect hosting this connection supports MAC Security (MACsec).
+    public var partnerInterconnectMacSecCapable: Swift.Bool?
     /// The name of the Direct Connect service provider associated with the connection.
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
@@ -3893,6 +3942,7 @@ public struct DeleteConnectionOutput: Swift.Sendable {
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
         ownerAccount: Swift.String? = nil,
+        partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
@@ -3916,6 +3966,7 @@ public struct DeleteConnectionOutput: Swift.Sendable {
         self.macSecCapable = macSecCapable
         self.macSecKeys = macSecKeys
         self.ownerAccount = ownerAccount
+        self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
@@ -4723,6 +4774,8 @@ extension DirectConnectClientTypes {
         public var awsLogicalDeviceId: Swift.String?
         /// The bandwidth of the connection.
         public var bandwidth: Swift.String?
+        /// The MAC Security (MACsec) encryption mode. The valid values are no_encrypt, should_encrypt, and must_encrypt.
+        public var encryptionMode: Swift.String?
         /// Indicates whether the interconnect supports a secondary BGP in the same address family (IPv4/IPv6).
         public var hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy?
         /// The ID of the interconnect.
@@ -4753,6 +4806,12 @@ extension DirectConnectClientTypes {
         public var loaIssueTime: Foundation.Date?
         /// The location of the connection.
         public var location: Swift.String?
+        /// Indicates whether the interconnect supports MAC Security (MACsec).
+        public var macSecCapable: Swift.Bool?
+        /// The MAC Security (MACsec) security keys.
+        public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
+        /// The MAC Security (MACsec) port link status. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
+        public var portEncryptionStatus: Swift.String?
         /// The name of the service provider associated with the interconnect.
         public var providerName: Swift.String?
         /// The Amazon Web Services Region where the connection is located.
@@ -4765,6 +4824,7 @@ extension DirectConnectClientTypes {
             awsDeviceV2: Swift.String? = nil,
             awsLogicalDeviceId: Swift.String? = nil,
             bandwidth: Swift.String? = nil,
+            encryptionMode: Swift.String? = nil,
             hasLogicalRedundancy: DirectConnectClientTypes.HasLogicalRedundancy? = nil,
             interconnectId: Swift.String? = nil,
             interconnectName: Swift.String? = nil,
@@ -4773,6 +4833,9 @@ extension DirectConnectClientTypes {
             lagId: Swift.String? = nil,
             loaIssueTime: Foundation.Date? = nil,
             location: Swift.String? = nil,
+            macSecCapable: Swift.Bool? = nil,
+            macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
+            portEncryptionStatus: Swift.String? = nil,
             providerName: Swift.String? = nil,
             region: Swift.String? = nil,
             tags: [DirectConnectClientTypes.Tag]? = nil
@@ -4781,6 +4844,7 @@ extension DirectConnectClientTypes {
             self.awsDeviceV2 = awsDeviceV2
             self.awsLogicalDeviceId = awsLogicalDeviceId
             self.bandwidth = bandwidth
+            self.encryptionMode = encryptionMode
             self.hasLogicalRedundancy = hasLogicalRedundancy
             self.interconnectId = interconnectId
             self.interconnectName = interconnectName
@@ -4789,6 +4853,9 @@ extension DirectConnectClientTypes {
             self.lagId = lagId
             self.loaIssueTime = loaIssueTime
             self.location = location
+            self.macSecCapable = macSecCapable
+            self.macSecKeys = macSecKeys
+            self.portEncryptionStatus = portEncryptionStatus
             self.providerName = providerName
             self.region = region
             self.tags = tags
@@ -5272,6 +5339,8 @@ public struct DisassociateConnectionFromLagOutput: Swift.Sendable {
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
     /// The ID of the Amazon Web Services account that owns the connection.
     public var ownerAccount: Swift.String?
+    /// Indicates whether the interconnect hosting this connection supports MAC Security (MACsec).
+    public var partnerInterconnectMacSecCapable: Swift.Bool?
     /// The name of the Direct Connect service provider associated with the connection.
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
@@ -5302,6 +5371,7 @@ public struct DisassociateConnectionFromLagOutput: Swift.Sendable {
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
         ownerAccount: Swift.String? = nil,
+        partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
@@ -5325,6 +5395,7 @@ public struct DisassociateConnectionFromLagOutput: Swift.Sendable {
         self.macSecCapable = macSecCapable
         self.macSecKeys = macSecKeys
         self.ownerAccount = ownerAccount
+        self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
@@ -5335,7 +5406,7 @@ public struct DisassociateConnectionFromLagOutput: Swift.Sendable {
 }
 
 public struct DisassociateMacSecKeyInput: Swift.Sendable {
-    /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG (dxlag-xxxx). You can use [DescribeConnections] or [DescribeLags] to retrieve connection ID.
+    /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx), or LAG (dxlag-xxxx). You can use [DescribeConnections], [DescribeInterconnects], or [DescribeLags] to retrieve connection ID.
     /// This member is required.
     public var connectionId: Swift.String?
     /// The Amazon Resource Name (ARN) of the MAC Security (MACsec) secret key. You can use [DescribeConnections] to retrieve the ARN of the MAC Security (MACsec) secret key.
@@ -5352,9 +5423,9 @@ public struct DisassociateMacSecKeyInput: Swift.Sendable {
 }
 
 public struct DisassociateMacSecKeyOutput: Swift.Sendable {
-    /// The ID of the dedicated connection (dxcon-xxxx), or the ID of the LAG (dxlag-xxxx).
+    /// The ID of the dedicated connection (dxcon-xxxx), interconnect (dxcon-xxxx), or LAG (dxlag-xxxx).
     public var connectionId: Swift.String?
-    /// The MAC Security (MACsec) security keys no longer associated with the dedicated connection.
+    /// The MAC Security (MACsec) security keys no longer associated with the connection.
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
 
     public init(
@@ -5554,7 +5625,7 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 public struct UpdateConnectionInput: Swift.Sendable {
-    /// The ID of the dedicated connection. You can use [DescribeConnections] to retrieve the connection ID.
+    /// The ID of the connection. You can use [DescribeConnections] to retrieve the connection ID.
     /// This member is required.
     public var connectionId: Swift.String?
     /// The name of the connection.
@@ -5626,6 +5697,8 @@ public struct UpdateConnectionOutput: Swift.Sendable {
     public var macSecKeys: [DirectConnectClientTypes.MacSecKey]?
     /// The ID of the Amazon Web Services account that owns the connection.
     public var ownerAccount: Swift.String?
+    /// Indicates whether the interconnect hosting this connection supports MAC Security (MACsec).
+    public var partnerInterconnectMacSecCapable: Swift.Bool?
     /// The name of the Direct Connect service provider associated with the connection.
     public var partnerName: Swift.String?
     /// The MAC Security (MACsec) port link status of the connection. The valid values are Encryption Up, which means that there is an active Connection Key Name, or Encryption Down.
@@ -5656,6 +5729,7 @@ public struct UpdateConnectionOutput: Swift.Sendable {
         macSecCapable: Swift.Bool? = nil,
         macSecKeys: [DirectConnectClientTypes.MacSecKey]? = nil,
         ownerAccount: Swift.String? = nil,
+        partnerInterconnectMacSecCapable: Swift.Bool? = nil,
         partnerName: Swift.String? = nil,
         portEncryptionStatus: Swift.String? = nil,
         providerName: Swift.String? = nil,
@@ -5679,6 +5753,7 @@ public struct UpdateConnectionOutput: Swift.Sendable {
         self.macSecCapable = macSecCapable
         self.macSecKeys = macSecKeys
         self.ownerAccount = ownerAccount
+        self.partnerInterconnectMacSecCapable = partnerInterconnectMacSecCapable
         self.partnerName = partnerName
         self.portEncryptionStatus = portEncryptionStatus
         self.providerName = providerName
@@ -6686,6 +6761,7 @@ extension CreateInterconnectInput {
         try writer["lagId"].write(value.lagId)
         try writer["location"].write(value.location)
         try writer["providerName"].write(value.providerName)
+        try writer["requestMACSec"].write(value.requestMACSec)
         try writer["tags"].writeList(value.tags, memberWritingClosure: DirectConnectClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -7121,6 +7197,7 @@ extension AllocateConnectionOnInterconnectOutput {
         value.macSecCapable = try reader["macSecCapable"].readIfPresent()
         value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.partnerInterconnectMacSecCapable = try reader["partnerInterconnectMacSecCapable"].readIfPresent()
         value.partnerName = try reader["partnerName"].readIfPresent()
         value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
         value.providerName = try reader["providerName"].readIfPresent()
@@ -7154,6 +7231,7 @@ extension AllocateHostedConnectionOutput {
         value.macSecCapable = try reader["macSecCapable"].readIfPresent()
         value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.partnerInterconnectMacSecCapable = try reader["partnerInterconnectMacSecCapable"].readIfPresent()
         value.partnerName = try reader["partnerName"].readIfPresent()
         value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
         value.providerName = try reader["providerName"].readIfPresent()
@@ -7273,6 +7351,7 @@ extension AssociateConnectionWithLagOutput {
         value.macSecCapable = try reader["macSecCapable"].readIfPresent()
         value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.partnerInterconnectMacSecCapable = try reader["partnerInterconnectMacSecCapable"].readIfPresent()
         value.partnerName = try reader["partnerName"].readIfPresent()
         value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
         value.providerName = try reader["providerName"].readIfPresent()
@@ -7306,6 +7385,7 @@ extension AssociateHostedConnectionOutput {
         value.macSecCapable = try reader["macSecCapable"].readIfPresent()
         value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.partnerInterconnectMacSecCapable = try reader["partnerInterconnectMacSecCapable"].readIfPresent()
         value.partnerName = try reader["partnerName"].readIfPresent()
         value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
         value.providerName = try reader["providerName"].readIfPresent()
@@ -7461,6 +7541,7 @@ extension CreateConnectionOutput {
         value.macSecCapable = try reader["macSecCapable"].readIfPresent()
         value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.partnerInterconnectMacSecCapable = try reader["partnerInterconnectMacSecCapable"].readIfPresent()
         value.partnerName = try reader["partnerName"].readIfPresent()
         value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
         value.providerName = try reader["providerName"].readIfPresent()
@@ -7518,6 +7599,7 @@ extension CreateInterconnectOutput {
         value.awsDeviceV2 = try reader["awsDeviceV2"].readIfPresent()
         value.awsLogicalDeviceId = try reader["awsLogicalDeviceId"].readIfPresent()
         value.bandwidth = try reader["bandwidth"].readIfPresent()
+        value.encryptionMode = try reader["encryptionMode"].readIfPresent()
         value.hasLogicalRedundancy = try reader["hasLogicalRedundancy"].readIfPresent()
         value.interconnectId = try reader["interconnectId"].readIfPresent()
         value.interconnectName = try reader["interconnectName"].readIfPresent()
@@ -7526,6 +7608,9 @@ extension CreateInterconnectOutput {
         value.lagId = try reader["lagId"].readIfPresent()
         value.loaIssueTime = try reader["loaIssueTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.location = try reader["location"].readIfPresent()
+        value.macSecCapable = try reader["macSecCapable"].readIfPresent()
+        value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
         value.providerName = try reader["providerName"].readIfPresent()
         value.region = try reader["region"].readIfPresent()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -7686,6 +7771,7 @@ extension DeleteConnectionOutput {
         value.macSecCapable = try reader["macSecCapable"].readIfPresent()
         value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.partnerInterconnectMacSecCapable = try reader["partnerInterconnectMacSecCapable"].readIfPresent()
         value.partnerName = try reader["partnerName"].readIfPresent()
         value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
         value.providerName = try reader["providerName"].readIfPresent()
@@ -8036,6 +8122,7 @@ extension DisassociateConnectionFromLagOutput {
         value.macSecCapable = try reader["macSecCapable"].readIfPresent()
         value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.partnerInterconnectMacSecCapable = try reader["partnerInterconnectMacSecCapable"].readIfPresent()
         value.partnerName = try reader["partnerName"].readIfPresent()
         value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
         value.providerName = try reader["providerName"].readIfPresent()
@@ -8133,6 +8220,7 @@ extension UpdateConnectionOutput {
         value.macSecCapable = try reader["macSecCapable"].readIfPresent()
         value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.partnerInterconnectMacSecCapable = try reader["partnerInterconnectMacSecCapable"].readIfPresent()
         value.partnerName = try reader["partnerName"].readIfPresent()
         value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
         value.providerName = try reader["providerName"].readIfPresent()
@@ -9458,6 +9546,7 @@ extension DirectConnectClientTypes.Connection {
         value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
         value.encryptionMode = try reader["encryptionMode"].readIfPresent()
         value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.partnerInterconnectMacSecCapable = try reader["partnerInterconnectMacSecCapable"].readIfPresent()
         return value
     }
 }
@@ -9520,6 +9609,10 @@ extension DirectConnectClientTypes.Interconnect {
         value.hasLogicalRedundancy = try reader["hasLogicalRedundancy"].readIfPresent()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.providerName = try reader["providerName"].readIfPresent()
+        value.macSecCapable = try reader["macSecCapable"].readIfPresent()
+        value.portEncryptionStatus = try reader["portEncryptionStatus"].readIfPresent()
+        value.encryptionMode = try reader["encryptionMode"].readIfPresent()
+        value.macSecKeys = try reader["macSecKeys"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.MacSecKey.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

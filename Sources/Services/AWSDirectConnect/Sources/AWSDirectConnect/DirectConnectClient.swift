@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DirectConnectClient: ClientRuntime.Client {
     public static let clientName = "DirectConnectClient"
-    public static let version = "1.5.7"
+    public static let version = "1.5.8"
     let client: ClientRuntime.SdkHttpClient
     let config: DirectConnectClient.DirectConnectClientConfiguration
     let serviceName = "Direct Connect"
@@ -932,7 +932,7 @@ extension DirectConnectClient {
 
     /// Performs the `AssociateMacSecKey` operation on the `DirectConnect` service.
     ///
-    /// Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity Association Key (CAK) pair with an Direct Connect dedicated connection. You must supply either the secretARN, or the CKN/CAK (ckn and cak) pair in the request. For information about MAC Security (MACsec) key considerations, see [MACsec pre-shared CKN/CAK key considerations ](https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-key-consideration) in the Direct Connect User Guide.
+    /// Associates a MAC Security (MACsec) Connection Key Name (CKN)/ Connectivity Association Key (CAK) pair with a Direct Connect connection. You must supply either the secretARN, or the CKN/CAK (ckn and cak) pair in the request. For information about MAC Security (MACsec) key considerations, see [MACsec pre-shared CKN/CAK key considerations ](https://docs.aws.amazon.com/directconnect/latest/UserGuide/direct-connect-mac-sec-getting-started.html#mac-sec-key-consideration) in the Direct Connect User Guide.
     ///
     /// - Parameter AssociateMacSecKeyInput : [no documentation found]
     ///
@@ -3997,7 +3997,7 @@ extension DirectConnectClient {
 
     /// Performs the `DisassociateMacSecKey` operation on the `DirectConnect` service.
     ///
-    /// Removes the association between a MAC Security (MACsec) security key and an Direct Connect dedicated connection.
+    /// Removes the association between a MAC Security (MACsec) security key and a Direct Connect connection.
     ///
     /// - Parameter DisassociateMacSecKeyInput : [no documentation found]
     ///
@@ -4413,7 +4413,7 @@ extension DirectConnectClient {
 
     /// Performs the `UpdateConnection` operation on the `DirectConnect` service.
     ///
-    /// Updates the Direct Connect dedicated connection configuration. You can update the following parameters for a connection:
+    /// Updates the Direct Connect connection configuration. You can update the following parameters for a connection:
     ///
     /// * The connection name
     ///
