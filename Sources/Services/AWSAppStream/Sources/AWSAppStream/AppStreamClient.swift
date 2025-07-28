@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppStreamClient: ClientRuntime.Client {
     public static let clientName = "AppStreamClient"
-    public static let version = "1.5.7"
+    public static let version = "1.5.8"
     let client: ClientRuntime.SdkHttpClient
     let config: AppStreamClient.AppStreamClientConfiguration
     let serviceName = "AppStream"

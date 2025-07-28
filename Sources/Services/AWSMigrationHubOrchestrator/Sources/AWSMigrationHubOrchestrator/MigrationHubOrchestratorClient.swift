@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MigrationHubOrchestratorClient: ClientRuntime.Client {
     public static let clientName = "MigrationHubOrchestratorClient"
-    public static let version = "1.5.7"
+    public static let version = "1.5.8"
     let client: ClientRuntime.SdkHttpClient
     let config: MigrationHubOrchestratorClient.MigrationHubOrchestratorClientConfiguration
     let serviceName = "MigrationHubOrchestrator"
