@@ -34,11 +34,6 @@ public struct ConfigFileReader {
         
         let arrayConfigData = stringConfigData.split(separator: "\n")
         
-        enum Sections{
-            case con(String.SubSequence)
-            case cred(String.SubSequence)
-        }
-        
         var sections = [String: ConfigFileSection]()
         var currentSectionName: String? // Keep track of current section name
         let profileSection = try! NSRegularExpression(pattern: "profile", options: .caseInsensitive) // Regex pattern to match any line containing "profile"
@@ -62,7 +57,12 @@ public struct ConfigFileReader {
                     print("Found profile: \(profileName)") // For demonstration
                 }
             case _ where currentSectionName != nil && line.contains("="):
-                    // This case handles key-value pairs within a section
+                //Ignore lines that start with whitespace
+                    guard !line.hasPrefix(" ") && !line.hasPrefix("\t") else {
+                        print("Skipping line due to leading whitespace: '\(line)'") // Optional: for debugging
+                        break // Or `return` if this is inside a function/loop
+                    }
+                // This case handles key-value pairs within a section
                     let components = line.split(separator: "=", maxSplits: 1).map(String.init)
                     if components.count == 2, let currentName = currentSectionName {
                         let key = components[0].trimmingCharacters(in: .whitespaces)
@@ -106,6 +106,7 @@ struct ConfigFile: FileBasedConfiguration {
 struct ConfigFileSection: FileBasedConfigurationSection {
     let name: String
     var keys: [String: String] = ["":""]
+    var properties: [String: ConfigFileSection] = [:]
     
     func property(for name: FileBasedConfigurationKey) -> FileBasedConfigurationProperty? {
         // Replace this function body with code that works.
