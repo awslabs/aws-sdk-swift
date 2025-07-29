@@ -48,6 +48,7 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
+import struct AWSClientRuntime.BedrockAPIKeyInterceptor
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain
@@ -429,6 +430,7 @@ extension BedrockRuntimeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ApplyGuardrailOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ApplyGuardrailOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ApplyGuardrailInput, ApplyGuardrailOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ApplyGuardrailInput, ApplyGuardrailOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -504,6 +506,7 @@ extension BedrockRuntimeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ConverseOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ConverseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ConverseInput, ConverseOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ConverseInput, ConverseOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -579,6 +582,7 @@ extension BedrockRuntimeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ConverseStreamOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ConverseStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ConverseStreamInput, ConverseStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ConverseStreamInput, ConverseStreamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -646,6 +650,7 @@ extension BedrockRuntimeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAsyncInvokeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAsyncInvokeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAsyncInvokeInput, GetAsyncInvokeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAsyncInvokeInput, GetAsyncInvokeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -723,6 +728,7 @@ extension BedrockRuntimeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<InvokeModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InvokeModelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InvokeModelInput, InvokeModelOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InvokeModelInput, InvokeModelOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -801,6 +807,7 @@ extension BedrockRuntimeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<InvokeModelWithBidirectionalStreamOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InvokeModelWithBidirectionalStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InvokeModelWithBidirectionalStreamInput, InvokeModelWithBidirectionalStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InvokeModelWithBidirectionalStreamInput, InvokeModelWithBidirectionalStreamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -879,6 +886,7 @@ extension BedrockRuntimeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<InvokeModelWithResponseStreamOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<InvokeModelWithResponseStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -947,6 +955,7 @@ extension BedrockRuntimeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListAsyncInvokesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListAsyncInvokesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListAsyncInvokesInput, ListAsyncInvokesOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListAsyncInvokesInput, ListAsyncInvokesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
@@ -1022,6 +1031,7 @@ extension BedrockRuntimeClient {
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartAsyncInvokeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.BedrockAPIKeyInterceptor())
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartAsyncInvokeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartAsyncInvokeInput, StartAsyncInvokeOutput>())
         builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartAsyncInvokeInput, StartAsyncInvokeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))

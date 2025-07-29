@@ -96,6 +96,27 @@ class BusinessMetricsTests: XCTestCase {
         XCTAssertEqual(userAgent.businessMetrics?.description, expectedString)
     }
 
+    // MARK: - usesBearerServiceEnvVars
+
+    func test_usesBearerServiceEnvVars_recordsCorrectlyWhenNotSet() {
+        let userAgent = createTestUserAgent()
+
+        // E comes from default retry mode & Z,b comes from checksum defaults
+        // No flag is set for bearer service env vars
+        let expectedString = "m/E,Z,b"
+        XCTAssertEqual(userAgent.businessMetrics?.description, expectedString)
+    }
+
+    func test_usesBearerServiceEnvVars_recordsCorrectlyWhenSet() {
+        context.usesBearerServiceEnvVars = true
+
+        let userAgent = createTestUserAgent()
+
+        // 3 comes from bearer service env var, E comes from default retry mode & Z,b comes from checksum defaults
+        let expectedString = "m/3,E,Z,b"
+        XCTAssertEqual(userAgent.businessMetrics?.description, expectedString)
+    }
+
     // MARK: - Private methods
 
     private func createTestUserAgent() -> AWSUserAgentMetadata {
@@ -111,6 +132,5 @@ class BusinessMetricsTests: XCTestCase {
     private func configureContext(host: String, accountID: String) {
         let selectedAuthScheme = SelectedAuthScheme(schemeID: "aws.auth#sigv4", identity: AWSCredentialIdentity(accessKey: "abc", secret: "def", accountID: accountID), signingProperties: Attributes(), signer: nil)
         context.selectedAuthScheme = selectedAuthScheme
-        let uri = URIBuilder().withScheme(.https).withPath("/").withHost(host).build()
     }
 }

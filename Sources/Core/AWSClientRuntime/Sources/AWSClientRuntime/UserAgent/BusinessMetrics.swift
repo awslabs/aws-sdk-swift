@@ -144,4 +144,9 @@ private func setFlagsIntoContext(
     if headers.value(for: "smithy-protocol") == "rpc-v2-cbor" {
         context.businessMetrics = ["PROTOCOL_RPC_V2_CBOR": "M"]
     }
+
+    // Handle 3
+    if context.usesBearerServiceEnvVars {
+        context.businessMetrics = ["BEARER_SERVICE_ENV_VARS": "3"]
+    }
 }

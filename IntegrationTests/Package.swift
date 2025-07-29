@@ -63,7 +63,7 @@ private var integrationTestTargets: [Target] {
         "AWSBedrockRuntime",
         "AWSCloudWatch",
     ].map { integrationTestTarget($0) }
-    return integrationTests + [.target(name: "AWSIntegrationTestUtils", path: "./AWSIntegrationTestUtils")]
+    return integrationTests + [.target(name: "AWSIntegrationTestUtils", dependencies: [.clientRuntime], path: "./AWSIntegrationTestUtils")]
 }
 
 private func integrationTestTarget(_ name: String) -> Target {
