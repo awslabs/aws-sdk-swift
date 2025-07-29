@@ -1759,7 +1759,7 @@ public struct CreateAnalysisTemplateInput: Swift.Sendable {
     public var name: Swift.String?
     /// A relation within an analysis.
     public var schema: CleanRoomsClientTypes.AnalysisSchema?
-    /// The information in the analysis template. Currently supports text, the query text for the analysis template.
+    /// The information in the analysis template.
     /// This member is required.
     public var source: CleanRoomsClientTypes.AnalysisSource?
     /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
@@ -3074,7 +3074,7 @@ extension CleanRoomsClientTypes {
 }
 
 public struct CreateCollaborationInput: Swift.Sendable {
-    /// The analytics engine.
+    /// The analytics engine. After July 16, 2025, the CLEAN_ROOMS_SQL parameter will no longer be available.
     public var analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine?
     /// The display name of the collaboration creator.
     /// This member is required.
@@ -3173,7 +3173,7 @@ extension CleanRoomsClientTypes {
 
     /// The multi-party data share environment. The collaboration contains metadata about its purpose and participants.
     public struct Collaboration: Swift.Sendable {
-        /// The analytics engine for the collaboration.
+        /// The analytics engine for the collaboration. After July 16, 2025, the CLEAN_ROOMS_SQL parameter will no longer be available.
         public var analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine?
         /// The unique ARN for the collaboration.
         /// This member is required.
@@ -4472,7 +4472,7 @@ extension CleanRoomsClientTypes {
 
     /// The metadata of the collaboration.
     public struct CollaborationSummary: Swift.Sendable {
-        /// The analytics engine.
+        /// The analytics engine. After July 16, 2025, the CLEAN_ROOMS_SQL parameter will no longer be available.
         public var analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine?
         /// The ARN of the collaboration.
         /// This member is required.
@@ -4741,7 +4741,7 @@ public struct ListSchemasOutput: Swift.Sendable {
 }
 
 public struct UpdateCollaborationInput: Swift.Sendable {
-    /// The analytics engine.
+    /// The analytics engine. After July 16, 2025, the CLEAN_ROOMS_SQL parameter will no longer be available.
     public var analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine?
     /// The identifier for the collaboration.
     /// This member is required.
@@ -6123,6 +6123,8 @@ public struct ListConfiguredTablesOutput: Swift.Sendable {
 }
 
 public struct UpdateConfiguredTableInput: Swift.Sendable {
+    /// The columns of the underlying table that can be used by collaborations or analysis rules.
+    public var allowedColumns: [Swift.String]?
     /// The analysis method for the configured table. DIRECT_QUERY allows SQL queries to be run directly on this table. DIRECT_JOB allows PySpark jobs to be run directly on this table. MULTIPLE allows both SQL queries and PySpark jobs to be run directly on this table.
     public var analysisMethod: CleanRoomsClientTypes.AnalysisMethod?
     /// The identifier for the configured table to update. Currently accepts the configured table ID.
@@ -6134,19 +6136,25 @@ public struct UpdateConfiguredTableInput: Swift.Sendable {
     public var name: Swift.String?
     /// The selected analysis methods for the table configuration update.
     public var selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]?
+    /// A pointer to the dataset that underlies this table.
+    public var tableReference: CleanRoomsClientTypes.TableReference?
 
     public init(
+        allowedColumns: [Swift.String]? = nil,
         analysisMethod: CleanRoomsClientTypes.AnalysisMethod? = nil,
         configuredTableIdentifier: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
-        selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]? = nil
+        selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]? = nil,
+        tableReference: CleanRoomsClientTypes.TableReference? = nil
     ) {
+        self.allowedColumns = allowedColumns
         self.analysisMethod = analysisMethod
         self.configuredTableIdentifier = configuredTableIdentifier
         self.description = description
         self.name = name
         self.selectedAnalysisMethods = selectedAnalysisMethods
+        self.tableReference = tableReference
     }
 }
 
@@ -11120,10 +11128,12 @@ extension UpdateConfiguredTableInput {
 
     static func write(value: UpdateConfiguredTableInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["allowedColumns"].writeList(value.allowedColumns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["analysisMethod"].write(value.analysisMethod)
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
         try writer["selectedAnalysisMethods"].writeList(value.selectedAnalysisMethods, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CleanRoomsClientTypes.SelectedAnalysisMethod>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tableReference"].write(value.tableReference, with: CleanRoomsClientTypes.TableReference.write(value:to:))
     }
 }
 
@@ -13524,6 +13534,7 @@ enum UpdateConfiguredTableOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)

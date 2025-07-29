@@ -1607,6 +1607,25 @@ public struct CreateLifecyclePolicyOutput: Swift.Sendable {
 
 extension OpenSearchServerlessClientTypes {
 
+    /// Describes IAM federation options for an OpenSearch Serverless security configuration in the form of a key-value map. These options define how OpenSearch Serverless integrates with external identity providers using federation.
+    public struct IamFederationConfigOptions: Swift.Sendable {
+        /// The group attribute for this IAM federation integration. This attribute is used to map identity provider groups to OpenSearch Serverless permissions.
+        public var groupAttribute: Swift.String?
+        /// The user attribute for this IAM federation integration. This attribute is used to identify users in the federated authentication process.
+        public var userAttribute: Swift.String?
+
+        public init(
+            groupAttribute: Swift.String? = nil,
+            userAttribute: Swift.String? = nil
+        ) {
+            self.groupAttribute = groupAttribute
+            self.userAttribute = userAttribute
+        }
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+
     /// Describes SAML options for an OpenSearch Serverless security configuration in the form of a key-value map.
     public struct SamlConfigOptions: Swift.Sendable {
         /// The group attribute for this SAML integration.
@@ -1614,7 +1633,7 @@ extension OpenSearchServerlessClientTypes {
         /// The XML IdP metadata file generated from your identity provider.
         /// This member is required.
         public var metadata: Swift.String?
-        /// Custom entity id attribute to override default entity id for this saml integration.
+        /// Custom entity ID attribute to override the default entity ID for this SAML integration.
         public var openSearchServerlessEntityId: Swift.String?
         /// The session timeout, in minutes. Default is 60 minutes (12 hours).
         public var sessionTimeout: Swift.Int?
@@ -1640,6 +1659,8 @@ extension OpenSearchServerlessClientTypes {
 extension OpenSearchServerlessClientTypes {
 
     public enum SecurityConfigType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// iam federation
+        case iamfederation
         /// iam identity center
         case iamidentitycenter
         /// saml provider
@@ -1648,6 +1669,7 @@ extension OpenSearchServerlessClientTypes {
 
         public static var allCases: [SecurityConfigType] {
             return [
+                .iamfederation,
                 .iamidentitycenter,
                 .saml
             ]
@@ -1660,6 +1682,7 @@ extension OpenSearchServerlessClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .iamfederation: return "iamfederation"
             case .iamidentitycenter: return "iamidentitycenter"
             case .saml: return "saml"
             case let .sdkUnknown(s): return s
@@ -1673,12 +1696,14 @@ public struct CreateSecurityConfigInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// A description of the security configuration.
     public var description: Swift.String?
+    /// Describes IAM federation options in the form of a key-value map. This field is required if you specify iamFederation for the type parameter.
+    public var iamFederationOptions: OpenSearchServerlessClientTypes.IamFederationConfigOptions?
     /// Describes IAM Identity Center options in the form of a key-value map. This field is required if you specify iamidentitycenter for the type parameter.
     public var iamIdentityCenterOptions: OpenSearchServerlessClientTypes.CreateIamIdentityCenterConfigOptions?
     /// The name of the security configuration.
     /// This member is required.
     public var name: Swift.String?
-    /// Describes SAML options in in the form of a key-value map. This field is required if you specify saml for the type parameter.
+    /// Describes SAML options in in the form of a key-value map. This field is required if you specify SAML for the type parameter.
     public var samlOptions: OpenSearchServerlessClientTypes.SamlConfigOptions?
     /// The type of security configuration.
     /// This member is required.
@@ -1687,6 +1712,7 @@ public struct CreateSecurityConfigInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        iamFederationOptions: OpenSearchServerlessClientTypes.IamFederationConfigOptions? = nil,
         iamIdentityCenterOptions: OpenSearchServerlessClientTypes.CreateIamIdentityCenterConfigOptions? = nil,
         name: Swift.String? = nil,
         samlOptions: OpenSearchServerlessClientTypes.SamlConfigOptions? = nil,
@@ -1694,6 +1720,7 @@ public struct CreateSecurityConfigInput: Swift.Sendable {
     ) {
         self.clientToken = clientToken
         self.description = description
+        self.iamFederationOptions = iamFederationOptions
         self.iamIdentityCenterOptions = iamIdentityCenterOptions
         self.name = name
         self.samlOptions = samlOptions
@@ -1746,6 +1773,8 @@ extension OpenSearchServerlessClientTypes {
         public var createdDate: Swift.Int?
         /// The description of the security configuration.
         public var description: Swift.String?
+        /// Describes IAM federation options in the form of a key-value map. Contains configuration details about how OpenSearch Serverless integrates with external identity providers through federation.
+        public var iamFederationOptions: OpenSearchServerlessClientTypes.IamFederationConfigOptions?
         /// Describes IAM Identity Center options in the form of a key-value map.
         public var iamIdentityCenterOptions: OpenSearchServerlessClientTypes.IamIdentityCenterConfigOptions?
         /// The unique identifier of the security configuration.
@@ -1761,6 +1790,7 @@ extension OpenSearchServerlessClientTypes {
             configVersion: Swift.String? = nil,
             createdDate: Swift.Int? = nil,
             description: Swift.String? = nil,
+            iamFederationOptions: OpenSearchServerlessClientTypes.IamFederationConfigOptions? = nil,
             iamIdentityCenterOptions: OpenSearchServerlessClientTypes.IamIdentityCenterConfigOptions? = nil,
             id: Swift.String? = nil,
             lastModifiedDate: Swift.Int? = nil,
@@ -1770,6 +1800,7 @@ extension OpenSearchServerlessClientTypes {
             self.configVersion = configVersion
             self.createdDate = createdDate
             self.description = description
+            self.iamFederationOptions = iamFederationOptions
             self.iamIdentityCenterOptions = iamIdentityCenterOptions
             self.id = id
             self.lastModifiedDate = lastModifiedDate
@@ -2621,6 +2652,8 @@ public struct UpdateSecurityConfigInput: Swift.Sendable {
     public var configVersion: Swift.String?
     /// A description of the security configuration.
     public var description: Swift.String?
+    /// Describes IAM federation options in the form of a key-value map for updating an existing security configuration. Use this field to modify IAM federation settings for the security configuration.
+    public var iamFederationOptions: OpenSearchServerlessClientTypes.IamFederationConfigOptions?
     /// Describes IAM Identity Center options in the form of a key-value map.
     public var iamIdentityCenterOptionsUpdates: OpenSearchServerlessClientTypes.UpdateIamIdentityCenterConfigOptions?
     /// The security configuration identifier. For SAML the ID will be saml/<accountId>/<idpProviderName>. For example, saml/123456789123/OKTADev.
@@ -2633,6 +2666,7 @@ public struct UpdateSecurityConfigInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         configVersion: Swift.String? = nil,
         description: Swift.String? = nil,
+        iamFederationOptions: OpenSearchServerlessClientTypes.IamFederationConfigOptions? = nil,
         iamIdentityCenterOptionsUpdates: OpenSearchServerlessClientTypes.UpdateIamIdentityCenterConfigOptions? = nil,
         id: Swift.String? = nil,
         samlOptions: OpenSearchServerlessClientTypes.SamlConfigOptions? = nil
@@ -2640,6 +2674,7 @@ public struct UpdateSecurityConfigInput: Swift.Sendable {
         self.clientToken = clientToken
         self.configVersion = configVersion
         self.description = description
+        self.iamFederationOptions = iamFederationOptions
         self.iamIdentityCenterOptionsUpdates = iamIdentityCenterOptionsUpdates
         self.id = id
         self.samlOptions = samlOptions
@@ -3181,6 +3216,7 @@ extension CreateSecurityConfigInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
+        try writer["iamFederationOptions"].write(value.iamFederationOptions, with: OpenSearchServerlessClientTypes.IamFederationConfigOptions.write(value:to:))
         try writer["iamIdentityCenterOptions"].write(value.iamIdentityCenterOptions, with: OpenSearchServerlessClientTypes.CreateIamIdentityCenterConfigOptions.write(value:to:))
         try writer["name"].write(value.name)
         try writer["samlOptions"].write(value.samlOptions, with: OpenSearchServerlessClientTypes.SamlConfigOptions.write(value:to:))
@@ -3451,6 +3487,7 @@ extension UpdateSecurityConfigInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["configVersion"].write(value.configVersion)
         try writer["description"].write(value.description)
+        try writer["iamFederationOptions"].write(value.iamFederationOptions, with: OpenSearchServerlessClientTypes.IamFederationConfigOptions.write(value:to:))
         try writer["iamIdentityCenterOptionsUpdates"].write(value.iamIdentityCenterOptionsUpdates, with: OpenSearchServerlessClientTypes.UpdateIamIdentityCenterConfigOptions.write(value:to:))
         try writer["id"].write(value.id)
         try writer["samlOptions"].write(value.samlOptions, with: OpenSearchServerlessClientTypes.SamlConfigOptions.write(value:to:))
@@ -4762,8 +4799,26 @@ extension OpenSearchServerlessClientTypes.SecurityConfigDetail {
         value.description = try reader["description"].readIfPresent()
         value.samlOptions = try reader["samlOptions"].readIfPresent(with: OpenSearchServerlessClientTypes.SamlConfigOptions.read(from:))
         value.iamIdentityCenterOptions = try reader["iamIdentityCenterOptions"].readIfPresent(with: OpenSearchServerlessClientTypes.IamIdentityCenterConfigOptions.read(from:))
+        value.iamFederationOptions = try reader["iamFederationOptions"].readIfPresent(with: OpenSearchServerlessClientTypes.IamFederationConfigOptions.read(from:))
         value.createdDate = try reader["createdDate"].readIfPresent()
         value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.IamFederationConfigOptions {
+
+    static func write(value: OpenSearchServerlessClientTypes.IamFederationConfigOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["groupAttribute"].write(value.groupAttribute)
+        try writer["userAttribute"].write(value.userAttribute)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.IamFederationConfigOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.IamFederationConfigOptions()
+        value.groupAttribute = try reader["groupAttribute"].readIfPresent()
+        value.userAttribute = try reader["userAttribute"].readIfPresent()
         return value
     }
 }

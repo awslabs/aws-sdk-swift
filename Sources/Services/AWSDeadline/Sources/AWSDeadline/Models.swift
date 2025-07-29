@@ -3624,19 +3624,23 @@ public struct CreateMonitorInput: Swift.Sendable {
     /// The subdomain to use when creating the monitor URL. The full URL of the monitor is subdomain.Region.deadlinecloud.amazonaws.com.
     /// This member is required.
     public var subdomain: Swift.String?
+    /// The tags to add to your monitor. Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         clientToken: Swift.String? = nil,
         displayName: Swift.String? = nil,
         identityCenterInstanceArn: Swift.String? = nil,
         roleArn: Swift.String? = nil,
-        subdomain: Swift.String? = nil
+        subdomain: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.displayName = displayName
         self.identityCenterInstanceArn = identityCenterInstanceArn
         self.roleArn = roleArn
         self.subdomain = subdomain
+        self.tags = tags
     }
 }
 
@@ -14049,6 +14053,7 @@ extension CreateMonitorInput {
         try writer["identityCenterInstanceArn"].write(value.identityCenterInstanceArn)
         try writer["roleArn"].write(value.roleArn)
         try writer["subdomain"].write(value.subdomain)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
