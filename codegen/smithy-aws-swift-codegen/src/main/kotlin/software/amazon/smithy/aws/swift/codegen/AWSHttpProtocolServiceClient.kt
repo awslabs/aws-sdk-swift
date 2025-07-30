@@ -6,7 +6,6 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
-import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentitySupportTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.InternalAWSCommonTypes
 import software.amazon.smithy.codegen.core.Symbol
@@ -64,13 +63,7 @@ class AWSHttpProtocolServiceClient(
                         ConfigProperty(
                             "bearerTokenIdentityResolver",
                             SmithyIdentityTypes.BearerTokenIdentityResolver.toGeneric(),
-                            {
-                                it.format(
-                                    "\$N(identityClientProvider: \$N())",
-                                    AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain,
-                                    AWSSDKIdentitySupportTypes.IdentityClientProvider,
-                                )
-                            },
+                            { it.format("\$N()", AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain) },
                             true,
                         )
                     } else {
@@ -170,11 +163,7 @@ class AWSHttpProtocolServiceClient(
                                     InternalAWSCommonTypes.EmptyAWSCredentialIdentityResolver,
                                 )
                             } else {
-                                writer.write(
-                                    "\$N(identityClientProvider: \$N()),",
-                                    AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain,
-                                    AWSSDKIdentitySupportTypes.IdentityClientProvider,
-                                )
+                                writer.write("\$N(),", AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain)
                             }
                         }
                         "retryStrategyOptions" -> {

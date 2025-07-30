@@ -1,7 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.plugins
 
 import software.amazon.smithy.aws.swift.codegen.AWSAuthUtils
-import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentitySupportTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.InternalAWSCommonTypes
 import software.amazon.smithy.codegen.core.Symbol
@@ -54,16 +53,14 @@ class DefaultAWSAuthSchemePlugin(
                         )
                     } else {
                         writer.write(
-                            "config.awsCredentialIdentityResolver = \$N(identityClientProvider: \$N())",
+                            "config.awsCredentialIdentityResolver = \$N()",
                             AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain,
-                            AWSSDKIdentitySupportTypes.IdentityClientProvider,
                         )
                     }
                     if (AuthUtils(ctx).isSupportedAuthScheme(HttpBearerAuthTrait.ID)) {
                         writer.write(
-                            "config.bearerTokenIdentityResolver = try \$N(identityClientProvider: \$N())",
+                            "config.bearerTokenIdentityResolver = try \$N()",
                             AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain,
-                            AWSSDKIdentitySupportTypes.IdentityClientProvider,
                         )
                     } else {
                         writer.write(

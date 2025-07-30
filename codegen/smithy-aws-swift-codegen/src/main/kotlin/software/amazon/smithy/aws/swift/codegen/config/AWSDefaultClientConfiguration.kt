@@ -7,7 +7,6 @@ package software.amazon.smithy.aws.swift.codegen.config
 
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKChecksumsTypes
-import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentitySupportTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.InternalAWSCommonTypes
 import software.amazon.smithy.codegen.core.Symbol
@@ -39,11 +38,7 @@ class AWSDefaultClientConfiguration : ClientConfiguration {
                     if (ctx.settings.visibility == "package") {
                         it.format("\$N()", InternalAWSCommonTypes.EmptyAWSCredentialIdentityResolver)
                     } else {
-                        it.format(
-                            "\$N(identityClientProvider: \$N())",
-                            AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain,
-                            AWSSDKIdentitySupportTypes.IdentityClientProvider,
-                        )
+                        it.format("\$N()", AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain)
                     }
                 },
             ),
