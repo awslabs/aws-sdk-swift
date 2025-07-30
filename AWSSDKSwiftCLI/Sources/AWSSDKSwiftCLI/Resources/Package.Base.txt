@@ -64,7 +64,7 @@ private var runtimeProducts: [Product] {
         "AWSSDKCommon": ["AWSSDKCommon"],
         "AWSSDKEventStreamsAuth": ["AWSSDKEventStreamsAuth"],
         "AWSSDKHTTPAuth": ["AWSSDKHTTPAuth"],
-        "AWSSDKIdentity": ["AWSSDKIdentity", "AWSSDKIdentitySupport"],
+        "AWSSDKIdentity": ["AWSSDKIdentity"],
         "AWSSDKChecksums": ["AWSSDKChecksums"],
     ]
         .map { .library(name: $0.key, targets: $0.value) }
@@ -136,18 +136,13 @@ private var runtimeTargets: [Target] {
         ),
         .target(
             name: "AWSSDKHTTPAuth",
-            dependencies: [.crt, .smithy, .clientRuntime, .smithyHTTPAuth, "AWSSDKChecksums", "AWSSDKIdentity"],
+            dependencies: [.crt, .smithy, .clientRuntime, .smithyHTTPAuth, "AWSSDKChecksums"],
             path: "Sources/Core/AWSSDKHTTPAuth/Sources"
         ),
         .target(
             name: "AWSSDKIdentity",
-            dependencies: [.crt, .smithy, .clientRuntime, .smithyIdentity, .smithyIdentityAPI, .smithyHTTPAPI, .awsSDKCommon],
+            dependencies: [.crt, .smithy, .clientRuntime, .smithyIdentity, .smithyIdentityAPI, .smithyHTTPAPI, .awsSDKCommon, "InternalAWSSTS", "InternalAWSSSO", "InternalAWSSSOOIDC", ],
             path: "Sources/Core/AWSSDKIdentity/Sources/AWSSDKIdentity"
-        ),
-        .target(
-            name: "AWSSDKIdentitySupport",
-            dependencies: [.awsSDKIdentity, "InternalAWSSTS", "InternalAWSSSO", "InternalAWSSSOOIDC"],
-            path: "Sources/Core/AWSSDKIdentity/Sources/AWSSDKIdentitySupport"
         ),
         .target(
             name: "InternalAWSCommon",
@@ -171,7 +166,6 @@ private var runtimeTargets: [Target] {
                 .smithyChecksums,
                 .smithyWaitersAPI,
                 .awsSDKCommon,
-                .awsSDKIdentity,
                 .awsSDKHTTPAuth,
                 .awsSDKEventStreamsAuth,
                 .awsSDKChecksums,
@@ -196,7 +190,6 @@ private var runtimeTargets: [Target] {
                 .smithyChecksums,
                 .smithyWaitersAPI,
                 .awsSDKCommon,
-                .awsSDKIdentity,
                 .awsSDKHTTPAuth,
                 .awsSDKEventStreamsAuth,
                 .awsSDKChecksums,
@@ -221,7 +214,6 @@ private var runtimeTargets: [Target] {
                 .smithyChecksums,
                 .smithyWaitersAPI,
                 .awsSDKCommon,
-                .awsSDKIdentity,
                 .awsSDKHTTPAuth,
                 .awsSDKEventStreamsAuth,
                 .awsSDKChecksums,
@@ -246,7 +238,7 @@ private var runtimeTestTargets: [Target] {
     return [
         .testTarget(
             name: "AWSClientRuntimeTests",
-            dependencies: [.awsClientRuntime, .clientRuntime, .smithyTestUtils, .awsSDKCommon, "AWSSDKIdentitySupport"],
+            dependencies: [.awsClientRuntime, .clientRuntime, .smithyTestUtils, .awsSDKCommon],
             path: "Sources/Core/AWSClientRuntime/Tests/AWSClientRuntimeTests",
             resources: [.process("Resources")]
         ),
@@ -262,7 +254,7 @@ private var runtimeTestTargets: [Target] {
         ),
         .testTarget(
             name: "AWSSDKIdentityTests",
-            dependencies: [.smithy, .smithyIdentity, "AWSSDKIdentity", "AWSSDKIdentitySupport", .awsClientRuntime],
+            dependencies: [.smithy, .smithyIdentity, "AWSSDKIdentity", .awsClientRuntime],
             path: "Sources/Core/AWSSDKIdentity/Tests/AWSSDKIdentityTests",
             resources: [.process("Resources")]
         ),
@@ -288,13 +280,9 @@ private func target(_ service: String) -> Target {
             .smithyWaitersAPI,
             .awsSDKCommon,
             .awsSDKIdentity,
-            "AWSSDKIdentitySupport",
             .awsSDKHTTPAuth,
             .awsSDKEventStreamsAuth,
             .awsSDKChecksums,
-            "InternalAWSSTS",
-            "InternalAWSSSO",
-            "InternalAWSSSOOIDC",
         ],
         path: "Sources/Services/\(service)/Sources/\(service)"
     )

@@ -29,21 +29,18 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
     private let configFilePath: String?
     private let logger: SwiftLogger = SwiftLogger(label: "SSOBearerTokenIdentityResolver")
     private let credentialFeatureIDs: [String]
-    private let identityClientProvider: IdentityClientProvider
 
     /// - Parameters:
     ///    - profileName: The profile name to use. If not provided it will be resolved internally via the `AWS_PROFILE` environment variable or defaulted to `default` if not configured.
     ///    - configFilePath: The path to the configuration file to use. If not provided it will be resolved internally via the `AWS_CONFIG_FILE` environment variable or defaulted  to `~/.aws/config` if not configured.
     public init(
         profileName: String? = nil,
-        configFilePath: String? = nil,
-        identityClientProvider: IdentityClientProvider
+        configFilePath: String? = nil
     ) {
         self.init(
             profileName: profileName,
             configFilePath: configFilePath,
-            credentialFeatureIDs: [],
-            identityClientProvider: identityClientProvider
+            credentialFeatureIDs: []
         )
     }
 
@@ -51,13 +48,11 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
     internal init(
         profileName: String? = nil,
         configFilePath: String? = nil,
-        credentialFeatureIDs: [String],
-        identityClientProvider: IdentityClientProvider
+        credentialFeatureIDs: [String]
     ) {
         self.profileName = profileName
         self.configFilePath = configFilePath
         self.credentialFeatureIDs = credentialFeatureIDs
-        self.identityClientProvider = identityClientProvider
     }
 
     public func getIdentity(
@@ -66,7 +61,7 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
         let fileBasedConfig = try CRTFileBasedConfiguration(configFilePath: configFilePath)
         let resolvedSSOToken = try await resolveSSOAccessToken(
             fileBasedConfig: fileBasedConfig,
-            ssoOIDCClient: identityClientProvider.ssoOIDCClient
+            ssoOIDCClient: IdentityProvidingSSOOIDCClient()
         )
         return BearerTokenIdentity(token: resolvedSSOToken)
     }

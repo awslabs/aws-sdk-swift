@@ -47,7 +47,6 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
     private let configFilePath: String?
     private let credentialsFilePath: String?
     private let logger = SwiftLogger(label: "ProfileAWSCredentialIdentityResolver")
-    private let identityClientProvider: IdentityClientProvider
 
     /// Creates a credential identity resolver that resolves credentials from a profile in `~/.aws/config` or the shared credentials file `~/.aws/credentials`.
     ///
@@ -58,13 +57,11 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
     public init(
         profileName: String? = nil,
         configFilePath: String? = nil,
-        credentialsFilePath: String? = nil,
-        identityClientProvider: IdentityClientProvider
+        credentialsFilePath: String? = nil
     ) {
         self.profileName = profileName
         self.configFilePath = configFilePath
         self.credentialsFilePath = credentialsFilePath
-        self.identityClientProvider = identityClientProvider
     }
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
@@ -163,8 +160,7 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
                         sourceCredsWithUpdatedFeatureIDs
                     ),
                     roleArn: profile.string(for: .init(stringLiteral: "role_arn"))!,
-                    sessionName: profile.string(for: .init(stringLiteral: "role_session_name")),
-                    identityClientProvider: identityClientProvider
+                    sessionName: profile.string(for: .init(stringLiteral: "role_session_name"))
                 ).getIdentity(identityProperties: identityProperties)
             }
         }
@@ -198,8 +194,7 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
                 return try await STSAssumeRoleAWSCredentialIdentityResolver(
                     awsCredentialIdentityResolver: StaticAWSCredentialIdentityResolver(sourceCreds),
                     roleArn: profile.string(for: .init(stringLiteral: "role_arn"))!,
-                    sessionName: profile.string(for: .init(stringLiteral: "role_session_name")),
-                    identityClientProvider: identityClientProvider
+                    sessionName: profile.string(for: .init(stringLiteral: "role_session_name"))
                 ).getIdentity(identityProperties: identityProperties)
             }
         }
@@ -223,8 +218,7 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
                         sourceCredsWithUpdatedFeatureIDs
                     ),
                     roleArn: profile.string(for: .init(stringLiteral: "role_arn"))!,
-                    sessionName: profile.string(for: .init(stringLiteral: "role_session_name")),
-                    identityClientProvider: identityClientProvider
+                    sessionName: profile.string(for: .init(stringLiteral: "role_session_name"))
                 ).getIdentity(identityProperties: identityProperties)
             }
         }
@@ -236,8 +230,7 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
                     configFilePath: configFilePath,
                     credentialsFilePath: credentialsFilePath,
                     profileName: profile.name,
-                    credentialFeatureIDs: credentialFeatureIDs,
-                    identityClientProvider: identityClientProvider
+                    credentialFeatureIDs: credentialFeatureIDs
                 ).getIdentity(identityProperties: identityProperties)
             }
         }
@@ -249,8 +242,7 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
                     profileName: profile.name,
                     configFilePath: configFilePath,
                     credentialsFilePath: credentialsFilePath,
-                    credentialFeatureIDs: credentialFeatureIDs,
-                    identityClientProvider: identityClientProvider
+                    credentialFeatureIDs: credentialFeatureIDs
                 ).getIdentity(identityProperties: identityProperties)
             }
         }

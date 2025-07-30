@@ -6,7 +6,6 @@
 //
 
 import XCTest
-import struct AWSSDKIdentity.IdentityClientProvider
 import struct AWSSDKIdentity.ProfileAWSCredentialIdentityResolver
 @_spi(FileBasedConfig) @testable import AWSClientRuntime
 
@@ -19,8 +18,7 @@ class ProfileAWSCredentialIdentityResolverTests: XCTestCase {
     func testGetCredentialsWithDefaultProfile() async throws {
         let subject = ProfileAWSCredentialIdentityResolver(
             configFilePath: configPath,
-            credentialsFilePath: credentialsPath,
-            identityClientProvider: IdentityClientProvider()
+            credentialsFilePath: credentialsPath
         )
         let credentials = try await subject.getIdentity()
 
@@ -33,8 +31,7 @@ class ProfileAWSCredentialIdentityResolverTests: XCTestCase {
     func testGetCredentialsWithDefaultProfileContainingProcess() async throws {
         let subject = ProfileAWSCredentialIdentityResolver(
             configFilePath: configWithProcessPath,
-            credentialsFilePath: emptyCredentialsPath,
-            identityClientProvider: IdentityClientProvider()
+            credentialsFilePath: emptyCredentialsPath
         )
         let credentials = try await subject.getIdentity()
 
@@ -48,8 +45,7 @@ class ProfileAWSCredentialIdentityResolverTests: XCTestCase {
         let subject = ProfileAWSCredentialIdentityResolver(
             profileName: "credentials-provider-config-tests-profile",
             configFilePath: configPath,
-            credentialsFilePath: credentialsPath,
-            identityClientProvider: IdentityClientProvider()
+            credentialsFilePath: credentialsPath
         )
         let credentials = try await subject.getIdentity()
         
@@ -62,8 +58,7 @@ class ProfileAWSCredentialIdentityResolverTests: XCTestCase {
         let subject = ProfileAWSCredentialIdentityResolver(
             profileName: "credentials-provider-creds-tests-profile",
             configFilePath: configPath,
-            credentialsFilePath: credentialsPath,
-            identityClientProvider: IdentityClientProvider()
+            credentialsFilePath: credentialsPath
         )
         let credentials = try await subject.getIdentity()
         

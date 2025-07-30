@@ -32,8 +32,7 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
     public init(
         configFilePath: String? = nil,
         credentialsFilePath: String? = nil,
-        source: STSWebIdentitySource,
-        identityClientProvider: IdentityClientProvider
+        source: STSWebIdentitySource
     ) throws {
         self.configFilePath = configFilePath
         self.credentialsFilePath = credentialsFilePath
@@ -45,14 +44,12 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
                 + "STSWebIdentitySource must be .env or .configFile for this initializer."
             )
         }
-        self.identityClientProvider = identityClientProvider
     }
 
     private var inlineRegion: String?
     private var inlineRoleARN: String?
     private var inlineRoleSessionName: String?
     private var inlineTokenFilePath: String?
-    private var identityClientProvider: IdentityClientProvider
 
     public init(
         configFilePath: String? = nil,
@@ -60,8 +57,7 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
         region: String? = nil,
         roleArn: String? = nil,
         roleSessionName: String? = nil,
-        tokenFilePath: String? = nil,
-        identityClientProvider: IdentityClientProvider
+        tokenFilePath: String? = nil
     ) throws {
         self.configFilePath = configFilePath
         self.credentialsFilePath = credentialsFilePath
@@ -71,21 +67,18 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
         self.inlineTokenFilePath = tokenFilePath
         self.source = .mixed
         self.credentialFeatureIDs = []
-        self.identityClientProvider = identityClientProvider
     }
 
     public init(
         configFilePath: String? = nil,
         credentialsFilePath: String? = nil,
-        profileName: String,
-        identityClientProvider: IdentityClientProvider
+        profileName: String
     ) {
         self.configFilePath = configFilePath
         self.credentialsFilePath = credentialsFilePath
         self.profileName = profileName
         self.source = .configFile
         self.credentialFeatureIDs = []
-        self.identityClientProvider = identityClientProvider
     }
 
     // Initializer used by profile chain resolver.
@@ -93,22 +86,20 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
         configFilePath: String? = nil,
         credentialsFilePath: String? = nil,
         profileName: String,
-        credentialFeatureIDs: [String],
-        identityClientProvider: IdentityClientProvider
+        credentialFeatureIDs: [String]
     ) {
         self.configFilePath = configFilePath
         self.credentialsFilePath = credentialsFilePath
         self.profileName = profileName
         self.source = .configFile
         self.credentialFeatureIDs = credentialFeatureIDs
-        self.identityClientProvider = identityClientProvider
     }
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
         let (region, roleARN, tokenFilePath, roleSessionName) = try resolveConfiguration()
         var token = try readToken(from: tokenFilePath)
         let tokenFeatureIDs = resolveTokenFeatureID()
-        let stsClient = identityClientProvider.stsClient
+        let stsClient = IdentityProvidingSTSClient()
 
         var backoff = 0.1
         for _ in 0..<maxRetries {
