@@ -64,37 +64,7 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
     }
 
     override fun renderInternals(ctx: ProtocolGenerator.GenerationContext) {
-        AuthSchemeResolverGenerator(
-            // Skip auth option customization w/ internal service clients for protocol test codegen.
-            // Internal service clients are contained in aws-sdk-swift targets that ARE NOT vended externally
-            //  via a product, meaning service clients generated outside of aws-sdk-swift CANNOT depend on
-            //  the internal service clients. Not to mention it's not even needed for protocol tests.
-            //
-            // Also skip auth option customization for internal service clients themselves.
-            // SSO::getRoleCredentials, SSOOIDC::createToken, and STS::assumeRoleWithWebIdentity are all noAuth.
-            if (ctx.settings.forProtocolTests || ctx.settings.visibility == "package") {
-                null
-            } else {
-                { authOptionName, writer ->
-                    writer
-//                    writer.write(
-//                        "$authOptionName.identityProperties.set(key: \$N.internalSTSClientKey, value: \$N())",
-//                        AWSSDKIdentityTypes.InternalClientKeys,
-//                        InternalClientTypes.IdentityProvidingSTSClient,
-//                    )
-//                    writer.write(
-//                        "$authOptionName.identityProperties.set(key: \$N.internalSSOClientKey, value: \$N())",
-//                        AWSSDKIdentityTypes.InternalClientKeys,
-//                        InternalClientTypes.IdentityProvidingSSOClient,
-//                    )
-//                    writer.write(
-//                        "$authOptionName.identityProperties.set(key: \$N.internalSSOOIDCClientKey, value: \$N())",
-//                        AWSSDKIdentityTypes.InternalClientKeys,
-//                        InternalClientTypes.IdentityProvidingSSOOIDCClient,
-//                    )
-                }
-            },
-        ).render(ctx)
+        AuthSchemeResolverGenerator().render(ctx)
         // Generate rules-based auth scheme resolver for services that depend on endpoint resolver for auth scheme resolution
         if (AuthSchemeResolverGenerator.usesRulesBasedAuthResolver(ctx)) {
             RulesBasedAuthSchemeResolverGenerator().render(ctx)
