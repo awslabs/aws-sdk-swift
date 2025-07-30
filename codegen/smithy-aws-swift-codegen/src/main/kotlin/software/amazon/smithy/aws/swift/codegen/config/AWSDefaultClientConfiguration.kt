@@ -34,10 +34,15 @@ class AWSDefaultClientConfiguration : ClientConfiguration {
                 "awsCredentialIdentityResolver",
                 SmithyIdentityTypes.AWSCredentialIdentityResolver.toGeneric(),
                 {
-                    it.format(
-                        "\$N()",
-                        AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain,
-                    )
+                    if (ctx.settings.visibility == "internal") {
+                        it.format(
+                            "\$N(\$N(accessKey: \"abc\", secret: \"def\"))",
+                            AWSSDKIdentityTypes.StaticAWSCredentialIdentityResolver,
+                            AWSSDKIdentityTypes.AWSCredentialIdentity,
+                        )
+                    } else {
+                        it.format("\$N()", AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain)
+                    }
                 },
             ),
             ConfigProperty(

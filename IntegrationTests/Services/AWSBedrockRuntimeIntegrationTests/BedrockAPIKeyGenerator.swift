@@ -10,12 +10,14 @@ import struct Foundation.TimeInterval
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentityAPI.IdentityResolver
 import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
+import enum AWSSDKIdentity.InternalClientKeys
 import class SmithyHTTPAPI.HTTPRequestBuilder
 import struct SmithyHTTPAPI.Headers
 import struct Smithy.URIQueryItem
 import struct Smithy.Attributes
 import enum SmithyHTTPAuthAPI.SigningPropertyKeys
 import class SmithyHTTPAuth.SigV4Signer
+import InternalAWSSTS
 
 /// Generates API keys for use with Bedrock services.
 ///
@@ -79,9 +81,15 @@ struct BedrockAPIKeyGenerator {
         signingProperties.set(key: SigningPropertyKeys.signatureType, value: .requestQueryParams)
         signingProperties.set(key: SigningPropertyKeys.expiration, value: duration)
 
+        // Create identity properties to inject internal clients into resolvers
+        var identityProperties = Attributes()
+        identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSTSClientKey, value: InternalAWSSTS.IdentityProvidingSTSClient())
+        identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSSOClientKey, value: InternalAWSSSO.IdentityProvidingSSOClient())
+        identityProperties.set(key: AWSSDKIdentity.InternalClientKeys.internalSSOOIDCClientKey, value: InternalAWSSSOOIDC.IdentityProvidingSSOOIDCClient())
+
         // Resolve the AWS credentials to be used for presigning
         let awsCredentialIdentity = try await awsCredentialIdentityResolver
-            .getIdentity(identityProperties: Attributes())
+            .getIdentity(identityProperties: identityProperties)
 
         // Perform the URL presigning, a new request builder is returned with signature applied
         CommonRuntimeKit.initialize()

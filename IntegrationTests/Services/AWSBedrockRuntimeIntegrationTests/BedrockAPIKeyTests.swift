@@ -14,7 +14,7 @@ final class BedrockAPIKeyIntegrationTests: XCTestCase {
     let envVarName = "AWS_BEARER_TOKEN_BEDROCK"
     let apiKeyDuration: TimeInterval = 600.0
 
-    func xtest_apiKey_createsAPIKeyAndCallsWithIt() async throws {
+    func test_apiKey_createsAPIKeyAndCallsWithIt() async throws {
         // Set a Bedrock API token into the environment.
         let generator = BedrockAPIKeyGenerator(region: region, duration: apiKeyDuration)
         let token = try await generator.generate()

@@ -59,8 +59,15 @@ let package = Package(
 // MARK: Products
 
 private var runtimeProducts: [Product] {
-    ["AWSClientRuntime", "AWSSDKCommon", "AWSSDKEventStreamsAuth", "AWSSDKHTTPAuth", "AWSSDKIdentity", "AWSSDKChecksums"]
-        .map { .library(name: $0, targets: [$0]) }
+    [
+        "AWSClientRuntime": ["AWSClientRuntime"],
+        "AWSSDKCommon": ["AWSSDKCommon"],
+        "AWSSDKEventStreamsAuth": ["AWSSDKEventStreamsAuth"],
+        "AWSSDKHTTPAuth": ["AWSSDKHTTPAuth"],
+        "AWSSDKIdentity": ["AWSSDKIdentity", "AWSSDKIdentitySupport"],
+        "AWSSDKChecksums": ["AWSSDKChecksums"],
+    ]
+        .map { .library(name: $0.key, targets: $0.value) }
 }
 
 private func productForService(_ service: String) -> Product {
@@ -136,6 +143,11 @@ private var runtimeTargets: [Target] {
             name: "AWSSDKIdentity",
             dependencies: [.crt, .smithy, .clientRuntime, .smithyIdentity, .smithyIdentityAPI, .smithyHTTPAPI, .awsSDKCommon],
             path: "Sources/Core/AWSSDKIdentity/Sources/AWSSDKIdentity"
+        ),
+        .target(
+            name: "AWSSDKIdentitySupport",
+            dependencies: [.awsSDKIdentity, "InternalAWSSTS", "InternalAWSSSO", "InternalAWSSSOOIDC"],
+            path: "Sources/Core/AWSSDKIdentity/Sources/AWSSDKIdentitySupport"
         ),
         .target(
             name: "InternalAWSSTS",
@@ -226,7 +238,7 @@ private var runtimeTestTargets: [Target] {
     return [
         .testTarget(
             name: "AWSClientRuntimeTests",
-            dependencies: [.awsClientRuntime, .clientRuntime, .smithyTestUtils, .awsSDKCommon],
+            dependencies: [.awsClientRuntime, .clientRuntime, .smithyTestUtils, .awsSDKCommon, "AWSSDKIdentitySupport"],
             path: "Sources/Core/AWSClientRuntime/Tests/AWSClientRuntimeTests",
             resources: [.process("Resources")]
         ),

@@ -43,11 +43,13 @@ public actor DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityRes
 
     private let logger: SwiftLogger = SwiftLogger(label: "DefaultAWSCredentialIdentityResolverChain")
 
-    public init() {
+    public init(
+        identityClientProvider: any IdentityClientProviding
+    ) {
         resolverFactories = [
             { return ( EnvironmentAWSCredentialIdentityResolver()) },
-            { return ( try STSWebIdentityAWSCredentialIdentityResolver(source: .env)) },
-            { return ( ProfileAWSCredentialIdentityResolver()) },
+            { return ( try STSWebIdentityAWSCredentialIdentityResolver(source: .env, identityClientProvider: identityClientProvider)) },
+            { return ( ProfileAWSCredentialIdentityResolver(identityClientProvider: identityClientProvider)) },
             { return ( ECSAWSCredentialIdentityResolver()) },
             { return ( try IMDSAWSCredentialIdentityResolver()) }
         ]

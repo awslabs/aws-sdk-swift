@@ -29,18 +29,21 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
     private let configFilePath: String?
     private let logger: SwiftLogger = SwiftLogger(label: "SSOBearerTokenIdentityResolver")
     private let credentialFeatureIDs: [String]
+    private let identityClientProvider: any IdentityClientProviding
 
     /// - Parameters:
     ///    - profileName: The profile name to use. If not provided it will be resolved internally via the `AWS_PROFILE` environment variable or defaulted to `default` if not configured.
     ///    - configFilePath: The path to the configuration file to use. If not provided it will be resolved internally via the `AWS_CONFIG_FILE` environment variable or defaulted  to `~/.aws/config` if not configured.
     public init(
         profileName: String? = nil,
-        configFilePath: String? = nil
+        configFilePath: String? = nil,
+        identityClientProvider: any IdentityClientProviding
     ) {
         self.init(
             profileName: profileName,
             configFilePath: configFilePath,
-            credentialFeatureIDs: []
+            credentialFeatureIDs: [],
+            identityClientProvider: identityClientProvider
         )
     }
 
@@ -48,29 +51,22 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
     internal init(
         profileName: String? = nil,
         configFilePath: String? = nil,
-        credentialFeatureIDs: [String]
+        credentialFeatureIDs: [String],
+        identityClientProvider: any IdentityClientProviding
     ) {
         self.profileName = profileName
         self.configFilePath = configFilePath
         self.credentialFeatureIDs = credentialFeatureIDs
+        self.identityClientProvider = identityClientProvider
     }
 
     public func getIdentity(
         identityProperties: Smithy.Attributes?
     ) async throws -> SmithyIdentity.BearerTokenIdentity {
-        guard let identityProperties, let internalSSOOIDCClient = identityProperties.get(
-            key: InternalClientKeys.internalSSOOIDCClientKey
-        ) else {
-            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
-                "SSOBearerTokenIdentityResolver: "
-                + "Missing IdentityProvidingSSOOIDCClient in identity properties."
-            )
-        }
-
         let fileBasedConfig = try CRTFileBasedConfiguration(configFilePath: configFilePath)
         let resolvedSSOToken = try await resolveSSOAccessToken(
             fileBasedConfig: fileBasedConfig,
-            ssoOIDCClient: internalSSOOIDCClient
+            ssoOIDCClient: identityClientProvider.ssoOIDCClient
         )
         return BearerTokenIdentity(token: resolvedSSOToken)
     }

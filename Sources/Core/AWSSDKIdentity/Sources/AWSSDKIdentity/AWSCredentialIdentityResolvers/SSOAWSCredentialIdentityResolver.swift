@@ -26,6 +26,7 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
     private let credentialsFilePath: String?
     private let profileName: String?
     private let credentialFeatureIDs: [String]
+    private let identityClientProvider: any IdentityClientProviding
 
     /// - Parameters:
     ///   - profileName: The profile name to use. If not provided it will be resolved internally via the `AWS_PROFILE` environment variable or defaulted to `default` if not configured.
@@ -34,13 +35,15 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
     public init(
         profileName: String? = nil,
         configFilePath: String? = nil,
-        credentialsFilePath: String? = nil
+        credentialsFilePath: String? = nil,
+        identityClientProvider: any IdentityClientProviding
     ) throws {
         try self.init(
             profileName: profileName,
             configFilePath: configFilePath,
             credentialsFilePath: credentialsFilePath,
-            credentialFeatureIDs: []
+            credentialFeatureIDs: [],
+            identityClientProvider: identityClientProvider
         )
     }
 
@@ -49,24 +52,17 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
         profileName: String? = nil,
         configFilePath: String? = nil,
         credentialsFilePath: String? = nil,
-        credentialFeatureIDs: [String]
+        credentialFeatureIDs: [String],
+        identityClientProvider: IdentityClientProviding
     ) throws {
         self.profileName = profileName
         self.configFilePath = configFilePath
         self.credentialsFilePath = credentialsFilePath
         self.credentialFeatureIDs = credentialFeatureIDs
+        self.identityClientProvider = identityClientProvider
     }
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
-        guard let identityProperties, let internalSSOClient = identityProperties.get(
-            key: InternalClientKeys.internalSSOClientKey
-        ) else {
-            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
-                "SSOAWSCredentialIdentityResolver: "
-                + "Missing IdentityProvidingSSOClient in identity properties."
-            )
-        }
-
         let fileBasedConfig = try CRTFileBasedConfiguration(
             configFilePath: configFilePath,
             credentialsFilePath: credentialsFilePath
@@ -86,7 +82,8 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
             ssoToken = try await SSOBearerTokenIdentityResolver(
                 profileName: resolvedProfileName,
                 configFilePath: configFilePath,
-                credentialFeatureIDs: credentialFeatureIDs + tokenFeatureIDs
+                credentialFeatureIDs: credentialFeatureIDs + tokenFeatureIDs,
+                identityClientProvider: identityClientProvider
             ).getIdentity(identityProperties: identityProperties)
         } else { // Handle Legacy token flow.
             region = try getProperty(resolvedProfileName, .profile, "sso_region", fileBasedConfig)
@@ -97,7 +94,7 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
             )
         }
 
-        return try await internalSSOClient.getCredentialsWithSSOToken(
+        return try await identityClientProvider.ssoClient.getCredentialsWithSSOToken(
             region: region,
             accessToken: ssoToken.token,
             accountID: accountID,

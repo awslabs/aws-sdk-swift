@@ -10,6 +10,7 @@ import ClientRuntime
 import SmithyHTTPAPI
 @testable import AWSClientRuntime
 import AWSSDKIdentity
+import AWSSDKIdentitySupport
 import Smithy
 import SmithyIdentity
 
@@ -97,7 +98,7 @@ final class BedrockAPIKeyInterceptorTests: XCTestCase {
         defer { unsetenv(envVarName) }
         let subject = BedrockAPIKeyInterceptor<String, String>()
         let context = Context(attributes: Attributes())
-        context.addIdentityResolver(value: try DefaultBearerTokenIdentityResolverChain(), schemeID: "smithy.api#httpBearerAuth")
+        context.addIdentityResolver(value: try DefaultBearerTokenIdentityResolverChain(identityClientProvider: IdentityClientProvider()), schemeID: "smithy.api#httpBearerAuth")
         let interceptorContext = DefaultInterceptorContext<String, String, HTTPRequest, HTTPResponse>(input: "", attributes: context)
 
         try await subject.readBeforeAttempt(context: interceptorContext)

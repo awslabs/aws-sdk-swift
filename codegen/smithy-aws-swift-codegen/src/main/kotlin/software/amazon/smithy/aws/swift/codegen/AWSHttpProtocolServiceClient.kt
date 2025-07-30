@@ -156,7 +156,15 @@ class AWSHttpProtocolServiceClient(
                             writer.write("region,")
                         }
                         "awsCredentialIdentityResolver" -> {
-                            writer.write("\$N(),", AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain)
+                            if (ctx.settings.visibility == "internal") {
+                                writer.write(
+                                    "\$N(\$N(accessKey: \"abc\", secret: \"def\")),",
+                                    AWSSDKIdentityTypes.StaticAWSCredentialIdentityResolver,
+                                    AWSSDKIdentityTypes.AWSCredentialIdentity
+                                )
+                            } else {
+                                writer.write("\$N(),", AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain)
+                            }
                         }
                         "retryStrategyOptions" -> {
                             writer.write("try AWSClientConfigDefaultsProvider.retryStrategyOptions(),")

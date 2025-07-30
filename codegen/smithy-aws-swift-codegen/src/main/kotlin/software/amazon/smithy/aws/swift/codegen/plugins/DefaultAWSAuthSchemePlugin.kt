@@ -45,10 +45,18 @@ class DefaultAWSAuthSchemePlugin(
                         "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()",
                     )
                     writer.write("config.authSchemes = \$L", AWSAuthUtils(ctx).getModeledAuthSchemesSupportedBySDK(ctx, writer))
-                    writer.write(
-                        "config.awsCredentialIdentityResolver = \$N()",
-                        AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain,
-                    )
+                    if (ctx.settings.visibility == "internal") {
+                        writer.write(
+                            "config.awsCredentialIdentityResolver = \$N(\$N(accessKey: \"abc\", secret: \"def\"))",
+                            AWSSDKIdentityTypes.StaticAWSCredentialIdentityResolver,
+                            AWSSDKIdentityTypes.AWSCredentialIdentity,
+                        )
+                    } else {
+                        writer.write(
+                            "config.awsCredentialIdentityResolver = \$N()",
+                            AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain,
+                        )
+                    }
                     if (AuthUtils(ctx).isSupportedAuthScheme(HttpBearerAuthTrait.ID)) {
                         writer.write(
                             "config.bearerTokenIdentityResolver = try \$N()",

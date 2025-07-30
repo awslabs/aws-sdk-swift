@@ -26,6 +26,7 @@ public struct STSAssumeRoleAWSCredentialIdentityResolver: AWSCredentialIdentityR
     private let roleARN: String
     private let roleSessionName: String
     private let durationSeconds: TimeInterval
+    private let identityClientProvider: any IdentityClientProviding
 
     /// Creates a credential identity resolver that uses another resolver to assume a role from the AWS Security Token Service (STS).
     ///
@@ -38,29 +39,22 @@ public struct STSAssumeRoleAWSCredentialIdentityResolver: AWSCredentialIdentityR
         awsCredentialIdentityResolver: any AWSCredentialIdentityResolver,
         roleArn: String,
         sessionName: String?,
-        durationSeconds: TimeInterval = 900
+        durationSeconds: TimeInterval = 900,
+        identityClientProvider: any IdentityClientProviding
     ) throws {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
         self.roleARN = roleArn
         self.roleSessionName = sessionName ?? UUID().uuidString
         self.durationSeconds = durationSeconds
+        self.identityClientProvider = identityClientProvider
         try validateSessionName(name: roleSessionName, regex: "^[\\w+=,.@-]*$")
     }
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
-        guard let identityProperties, let internalSTSClient = identityProperties.get(
-            key: InternalClientKeys.internalSTSClientKey
-        ) else {
-            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
-                "STSAssumeRoleAWSCredentialIdentityResolver: "
-                + "Missing IdentityProvidingSTSClient in identity properties."
-            )
-        }
-
         let underlyingCreds = try await awsCredentialIdentityResolver.getIdentity(
             identityProperties: identityProperties
         )
-        return try await internalSTSClient.assumeRoleWithCreds(
+        return try await identityClientProvider.stsClient.assumeRoleWithCreds(
             creds: underlyingCreds,
             roleARN: roleARN,
             roleSessionName: roleSessionName,
