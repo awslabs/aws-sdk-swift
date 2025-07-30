@@ -59,15 +59,8 @@ let package = Package(
 // MARK: Products
 
 private var runtimeProducts: [Product] {
-    [
-        "AWSClientRuntime": ["AWSClientRuntime"],
-        "AWSSDKCommon": ["AWSSDKCommon"],
-        "AWSSDKEventStreamsAuth": ["AWSSDKEventStreamsAuth"],
-        "AWSSDKHTTPAuth": ["AWSSDKHTTPAuth"],
-        "AWSSDKIdentity": ["AWSSDKIdentity"],
-        "AWSSDKChecksums": ["AWSSDKChecksums"],
-    ]
-        .map { .library(name: $0.key, targets: $0.value) }
+    ["AWSClientRuntime", "AWSSDKCommon", "AWSSDKEventStreamsAuth", "AWSSDKHTTPAuth", "AWSSDKIdentity", "AWSSDKChecksums"]
+        .map { .library(name: $0, targets: [$0]) }
 }
 
 private func productForService(_ service: String) -> Product {
