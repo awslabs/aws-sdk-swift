@@ -26,7 +26,7 @@ public struct STSAssumeRoleAWSCredentialIdentityResolver: AWSCredentialIdentityR
     private let roleARN: String
     private let roleSessionName: String
     private let durationSeconds: TimeInterval
-    private let identityClientProvider: any IdentityClientProviding
+    private let identityClientProvider: IdentityClientProvider
 
     /// Creates a credential identity resolver that uses another resolver to assume a role from the AWS Security Token Service (STS).
     ///
@@ -40,7 +40,7 @@ public struct STSAssumeRoleAWSCredentialIdentityResolver: AWSCredentialIdentityR
         roleArn: String,
         sessionName: String?,
         durationSeconds: TimeInterval = 900,
-        identityClientProvider: any IdentityClientProviding
+        identityClientProvider: IdentityClientProvider
     ) throws {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
         self.roleARN = roleArn

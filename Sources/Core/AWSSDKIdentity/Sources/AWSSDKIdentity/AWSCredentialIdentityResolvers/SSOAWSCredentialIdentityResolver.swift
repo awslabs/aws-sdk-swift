@@ -26,7 +26,7 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
     private let credentialsFilePath: String?
     private let profileName: String?
     private let credentialFeatureIDs: [String]
-    private let identityClientProvider: any IdentityClientProviding
+    private let identityClientProvider: IdentityClientProvider
 
     /// - Parameters:
     ///   - profileName: The profile name to use. If not provided it will be resolved internally via the `AWS_PROFILE` environment variable or defaulted to `default` if not configured.
@@ -36,7 +36,7 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
         profileName: String? = nil,
         configFilePath: String? = nil,
         credentialsFilePath: String? = nil,
-        identityClientProvider: any IdentityClientProviding
+        identityClientProvider: IdentityClientProvider
     ) throws {
         try self.init(
             profileName: profileName,
@@ -53,7 +53,7 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
         configFilePath: String? = nil,
         credentialsFilePath: String? = nil,
         credentialFeatureIDs: [String],
-        identityClientProvider: IdentityClientProviding
+        identityClientProvider: IdentityClientProvider
     ) throws {
         self.profileName = profileName
         self.configFilePath = configFilePath

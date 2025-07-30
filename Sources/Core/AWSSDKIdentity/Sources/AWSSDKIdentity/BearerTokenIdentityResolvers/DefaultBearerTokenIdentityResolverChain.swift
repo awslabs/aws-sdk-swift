@@ -18,11 +18,11 @@ import enum Smithy.ClientError
 /// 1. SSOTokenProvider
 public struct DefaultBearerTokenIdentityResolverChain: BearerTokenIdentityResolver {
     public var chain: [any BearerTokenIdentityResolver]
-    private let identityClientProvider: any IdentityClientProviding
+    private let identityClientProvider: IdentityClientProvider
 
     public init(
         chain: [any BearerTokenIdentityResolver]? = nil,
-        identityClientProvider: any IdentityClientProviding
+        identityClientProvider: IdentityClientProvider
     ) throws {
         self.chain = chain ?? [SSOBearerTokenIdentityResolver(identityClientProvider: identityClientProvider)]
         self.identityClientProvider = identityClientProvider

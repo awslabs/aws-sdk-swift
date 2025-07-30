@@ -36,7 +36,7 @@ final actor S3ExpressIdentityCachedElement {
     private weak var resolver: DefaultS3ExpressIdentityResolver?
     private let identityProperties: Attributes
     private let cacheKey: CacheKey
-    private var retrieveTask: Task<S3ExpressIdentity, Error>
+    private var retrieveTask: Task<AWSCredentialIdentity, Error>
     private var refreshTask: Task<Void, Error>?
     private var status: Status
 
@@ -57,7 +57,7 @@ final actor S3ExpressIdentityCachedElement {
         refreshTask?.cancel()
     }
 
-    func accessIdentity() async throws -> S3ExpressIdentity {
+    func accessIdentity() async throws -> AWSCredentialIdentity {
         do {
             let identity = try await retrieveTask.value
             status = .accessed
@@ -71,7 +71,7 @@ final actor S3ExpressIdentityCachedElement {
         }
     }
 
-    private static func newRetrieveTask(identityProperties: Attributes) -> Task<S3ExpressIdentity, Error> {
+    private static func newRetrieveTask(identityProperties: Attributes) -> Task<AWSCredentialIdentity, Error> {
         // Note that this task does not capture self, so that the task can be assigned to
         // the retrieveTask property without causing a reference cycle.
         return Task {

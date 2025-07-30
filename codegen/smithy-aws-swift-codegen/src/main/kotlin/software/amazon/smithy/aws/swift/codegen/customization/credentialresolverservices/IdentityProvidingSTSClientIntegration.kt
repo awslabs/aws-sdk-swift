@@ -16,7 +16,8 @@ class IdentityProvidingSTSClientIntegration : SwiftIntegration {
     override fun enabledForService(
         model: Model,
         settings: SwiftSettings,
-    ): Boolean = settings.moduleName == "InternalAWSSTS"
+//    ): Boolean = settings.moduleName == "InternalAWSSTS"
+    ): Boolean = false
 
     override fun writeAdditionalFiles(
         ctx: SwiftCodegenContext,

@@ -26,5 +26,5 @@ public protocol S3ExpressCreateSessionClient: Sendable {
     func createSession(
         clientConfig: DefaultClientConfiguration,
         bucket: String
-    ) async throws -> S3ExpressIdentity
+    ) async throws -> AWSCredentialIdentity
 }

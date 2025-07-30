@@ -13,13 +13,12 @@ import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
-import struct AWSSDKIdentity.AWSCredentialIdentity
-import struct AWSSDKIdentity.StaticAWSCredentialIdentityResolver
+import struct InternalAWSCommon.EmptyAWSCredentialIdentityResolver
 import struct SmithyIdentity.BearerTokenIdentity
 import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-internal class STSClientEndpointPlugin: Plugin {
+package class STSClientEndpointPlugin: Plugin {
     private var endpointResolver: EndpointResolver
 
     public init(endpointResolver: EndpointResolver) {
@@ -37,7 +36,7 @@ internal class STSClientEndpointPlugin: Plugin {
     }
 }
 
-internal class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
+package class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
 
     public init() {}
 
@@ -45,13 +44,13 @@ internal class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
         if let config = clientConfiguration as? STSClient.STSClientConfiguration {
             config.authSchemeResolver = DefaultSTSAuthSchemeResolver()
             config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
-            config.awsCredentialIdentityResolver = AWSSDKIdentity.StaticAWSCredentialIdentityResolver(AWSSDKIdentity.AWSCredentialIdentity(accessKey: "abc", secret: "def"))
+            config.awsCredentialIdentityResolver = InternalAWSCommon.EmptyAWSCredentialIdentityResolver()
             config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
         }
     }
 }
 
-internal class STSClientAuthSchemePlugin: ClientRuntime.Plugin {
+package class STSClientAuthSchemePlugin: ClientRuntime.Plugin {
     private var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
     private var authSchemePreference: [String]
     private var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver?

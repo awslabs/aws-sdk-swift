@@ -1,7 +1,9 @@
 package software.amazon.smithy.aws.swift.codegen.plugins
 
 import software.amazon.smithy.aws.swift.codegen.AWSAuthUtils
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentitySupportTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.InternalAWSCommonTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.traits.HttpBearerAuthTrait
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
@@ -45,22 +47,23 @@ class DefaultAWSAuthSchemePlugin(
                         "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()",
                     )
                     writer.write("config.authSchemes = \$L", AWSAuthUtils(ctx).getModeledAuthSchemesSupportedBySDK(ctx, writer))
-                    if (ctx.settings.visibility == "internal") {
+                    if (ctx.settings.visibility == "package") {
                         writer.write(
-                            "config.awsCredentialIdentityResolver = \$N(\$N(accessKey: \"abc\", secret: \"def\"))",
-                            AWSSDKIdentityTypes.StaticAWSCredentialIdentityResolver,
-                            AWSSDKIdentityTypes.AWSCredentialIdentity,
+                            "config.awsCredentialIdentityResolver = \$N()",
+                            InternalAWSCommonTypes.EmptyAWSCredentialIdentityResolver,
                         )
                     } else {
                         writer.write(
-                            "config.awsCredentialIdentityResolver = \$N()",
+                            "config.awsCredentialIdentityResolver = \$N(identityClientProvider: \$N())",
                             AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain,
+                            AWSSDKIdentitySupportTypes.IdentityClientProvider,
                         )
                     }
                     if (AuthUtils(ctx).isSupportedAuthScheme(HttpBearerAuthTrait.ID)) {
                         writer.write(
-                            "config.bearerTokenIdentityResolver = try \$N()",
+                            "config.bearerTokenIdentityResolver = try \$N(identityClientProvider: \$N())",
                             AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain,
+                            AWSSDKIdentitySupportTypes.IdentityClientProvider,
                         )
                     } else {
                         writer.write(

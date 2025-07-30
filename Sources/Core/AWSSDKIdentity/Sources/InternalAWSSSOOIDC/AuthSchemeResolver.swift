@@ -14,20 +14,20 @@ import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolverParameters
 import struct SmithyHTTPAuthAPI.AuthOption
 
-internal struct SSOOIDCAuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
+package struct SSOOIDCAuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
     public let authSchemePreference: [String]?
     public let operation: Swift.String
     // Region is used for SigV4 auth scheme
     public let region: Swift.String?
 }
 
-internal protocol SSOOIDCAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
+package protocol SSOOIDCAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
     // Intentionally empty.
     // This is the parent protocol that all auth scheme resolver implementations of
     // the service SSOOIDC must conform to.
 }
 
-internal struct DefaultSSOOIDCAuthSchemeResolver: SSOOIDCAuthSchemeResolver {
+package struct DefaultSSOOIDCAuthSchemeResolver: SSOOIDCAuthSchemeResolver {
 
     public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [SmithyHTTPAuthAPI.AuthOption] {
         var validAuthOptions = [SmithyHTTPAuthAPI.AuthOption]()

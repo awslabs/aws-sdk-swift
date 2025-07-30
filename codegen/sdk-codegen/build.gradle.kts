@@ -176,7 +176,7 @@ fun discoverServices(): List<AwsService> {
                     projectionName = "${name}.${version.toLowerCase()}_internal",
                     sdkId = serviceApi.sdkId,
                     gitRepo = "https://github.com/awslabs/aws-sdk-swift",
-                    visibility = "internal"
+                    visibility = "package"
                 )
                 listOf(publicService, internalProjection)
             } else {
@@ -190,13 +190,13 @@ val packageVersion = rootProject.file("Package.version.next").readText(Charset.f
 
 val AwsService.outputDir: String
     get() = when (this.visibility) {
-        "internal" -> project.file("${project.buildDir}/smithyprojections/${project.name}/${projectionName}/swift-codegen/Sources").absolutePath
+        "package" -> project.file("${project.buildDir}/smithyprojections/${project.name}/${projectionName}/swift-codegen/Sources").absolutePath
         else -> project.file("${project.buildDir}/smithyprojections/${project.name}/${projectionName}/swift-codegen").absolutePath
     }
 
 val AwsService.sourcesDir: String
     get() = when (this.visibility) {
-        "internal" -> rootProject.file("Sources/Core/AWSSDKIdentity/Sources").absolutePath
+        "package" -> rootProject.file("Sources/Core/AWSSDKIdentity/Sources").absolutePath
         else -> rootProject.file("Sources/Services/$packageName").absolutePath
     }
 

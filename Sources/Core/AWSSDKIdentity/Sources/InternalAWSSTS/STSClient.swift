@@ -46,8 +46,6 @@ import protocol SmithyIdentity.BearerTokenIdentityResolver
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
-import struct AWSSDKIdentity.AWSCredentialIdentity
-import struct AWSSDKIdentity.StaticAWSCredentialIdentityResolver
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
@@ -57,6 +55,7 @@ import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
+import struct InternalAWSCommon.EmptyAWSCredentialIdentityResolver
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
 import struct SmithyIdentity.StaticBearerTokenIdentityResolver
@@ -64,7 +63,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-internal class STSClient: ClientRuntime.Client {
+package class STSClient: ClientRuntime.Client {
     public static let clientName = "STSClient"
     public static let version = "1.5.9"
     let client: ClientRuntime.SdkHttpClient
@@ -207,7 +206,7 @@ extension STSClient {
                 useFIPS,
                 useDualStack,
                 try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                awsCredentialIdentityResolver ?? AWSSDKIdentity.StaticAWSCredentialIdentityResolver(AWSSDKIdentity.AWSCredentialIdentity(accessKey: "abc", secret: "def")),
+                awsCredentialIdentityResolver ?? InternalAWSCommon.EmptyAWSCredentialIdentityResolver(),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
                 try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
@@ -265,7 +264,7 @@ extension STSClient {
                 useFIPS,
                 useDualStack,
                 try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                awsCredentialIdentityResolver ?? AWSSDKIdentity.StaticAWSCredentialIdentityResolver(AWSSDKIdentity.AWSCredentialIdentity(accessKey: "abc", secret: "def")),
+                awsCredentialIdentityResolver ?? InternalAWSCommon.EmptyAWSCredentialIdentityResolver(),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
                 try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
@@ -327,7 +326,7 @@ extension STSClient {
                 nil,
                 nil,
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                AWSSDKIdentity.StaticAWSCredentialIdentityResolver(AWSSDKIdentity.AWSCredentialIdentity(accessKey: "abc", secret: "def")),
+                InternalAWSCommon.EmptyAWSCredentialIdentityResolver(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 nil,
                 try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),

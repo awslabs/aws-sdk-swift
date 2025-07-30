@@ -14,7 +14,6 @@ object AWSSDKIdentityTypes {
     val S3ExpressClientError = runtimeSymbol("S3ExpressClientError", SwiftDeclaration.ENUM)
     val AWSIdentityPropertyKeys = runtimeSymbol("AWSIdentityPropertyKeys", SwiftDeclaration.ENUM)
     val DefaultAWSCredentialIdentityResolverChain = runtimeSymbol("DefaultAWSCredentialIdentityResolverChain", SwiftDeclaration.CLASS)
-    val StaticAWSCredentialIdentityResolver = runtimeSymbol("StaticAWSCredentialIdentityResolver", SwiftDeclaration.STRUCT)
     val InternalClientKeys = runtimeSymbol("InternalClientKeys", SwiftDeclaration.ENUM)
     val IdentityProvidingSTSClient = runtimeSymbol("IdentityProvidingSTSClient", SwiftDeclaration.PROTOCOL)
     val IdentityProvidingSSOClient = runtimeSymbol("IdentityProvidingSSOClient", SwiftDeclaration.PROTOCOL)

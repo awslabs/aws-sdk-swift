@@ -14,7 +14,7 @@ import struct ClientRuntime.DefaultEndpointResolver
 import struct ClientRuntime.StaticEndpointResolver
 import struct SmithyHTTPAPI.Endpoint
 
-internal struct EndpointParams: Sendable {
+package struct EndpointParams: Sendable {
     /// Override the endpoint used to send this request
     public let endpoint: Swift.String?
     /// The AWS region used to dispatch the request.
@@ -57,7 +57,7 @@ extension EndpointParams: ClientRuntime.EndpointsRequestContextProviding {
     }
 }
 
-internal protocol EndpointResolver {
+package protocol EndpointResolver {
     func resolve(params: EndpointParams) throws -> SmithyHTTPAPI.Endpoint
 }
 

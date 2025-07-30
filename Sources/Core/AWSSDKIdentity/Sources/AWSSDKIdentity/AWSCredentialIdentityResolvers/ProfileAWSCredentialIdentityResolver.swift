@@ -47,7 +47,7 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
     private let configFilePath: String?
     private let credentialsFilePath: String?
     private let logger = SwiftLogger(label: "ProfileAWSCredentialIdentityResolver")
-    private let identityClientProvider: any IdentityClientProviding
+    private let identityClientProvider: IdentityClientProvider
 
     /// Creates a credential identity resolver that resolves credentials from a profile in `~/.aws/config` or the shared credentials file `~/.aws/credentials`.
     ///
@@ -59,7 +59,7 @@ public struct ProfileAWSCredentialIdentityResolver: AWSCredentialIdentityResolve
         profileName: String? = nil,
         configFilePath: String? = nil,
         credentialsFilePath: String? = nil,
-        identityClientProvider: any IdentityClientProviding
+        identityClientProvider: IdentityClientProvider
     ) {
         self.profileName = profileName
         self.configFilePath = configFilePath

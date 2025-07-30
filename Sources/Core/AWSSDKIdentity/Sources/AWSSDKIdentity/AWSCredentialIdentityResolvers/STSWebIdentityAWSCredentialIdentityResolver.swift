@@ -29,12 +29,11 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
     private var profileName: String?
     private let credentialFeatureIDs: [String]
 
-
     public init(
         configFilePath: String? = nil,
         credentialsFilePath: String? = nil,
         source: STSWebIdentitySource,
-        identityClientProvider: any IdentityClientProviding
+        identityClientProvider: IdentityClientProvider
     ) throws {
         self.configFilePath = configFilePath
         self.credentialsFilePath = credentialsFilePath
@@ -53,7 +52,7 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
     private var inlineRoleARN: String?
     private var inlineRoleSessionName: String?
     private var inlineTokenFilePath: String?
-    private var identityClientProvider: any IdentityClientProviding
+    private var identityClientProvider: IdentityClientProvider
 
     public init(
         configFilePath: String? = nil,
@@ -62,7 +61,7 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
         roleArn: String? = nil,
         roleSessionName: String? = nil,
         tokenFilePath: String? = nil,
-        identityClientProvider: any IdentityClientProviding
+        identityClientProvider: IdentityClientProvider
     ) throws {
         self.configFilePath = configFilePath
         self.credentialsFilePath = credentialsFilePath
@@ -79,7 +78,7 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
         configFilePath: String? = nil,
         credentialsFilePath: String? = nil,
         profileName: String,
-        identityClientProvider: any IdentityClientProviding
+        identityClientProvider: IdentityClientProvider
     ) {
         self.configFilePath = configFilePath
         self.credentialsFilePath = credentialsFilePath
@@ -95,7 +94,7 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
         credentialsFilePath: String? = nil,
         profileName: String,
         credentialFeatureIDs: [String],
-        identityClientProvider: any IdentityClientProviding
+        identityClientProvider: IdentityClientProvider
     ) {
         self.configFilePath = configFilePath
         self.credentialsFilePath = credentialsFilePath

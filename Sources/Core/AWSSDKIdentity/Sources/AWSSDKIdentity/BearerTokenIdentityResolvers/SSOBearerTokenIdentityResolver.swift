@@ -29,7 +29,7 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
     private let configFilePath: String?
     private let logger: SwiftLogger = SwiftLogger(label: "SSOBearerTokenIdentityResolver")
     private let credentialFeatureIDs: [String]
-    private let identityClientProvider: any IdentityClientProviding
+    private let identityClientProvider: IdentityClientProvider
 
     /// - Parameters:
     ///    - profileName: The profile name to use. If not provided it will be resolved internally via the `AWS_PROFILE` environment variable or defaulted to `default` if not configured.
@@ -37,7 +37,7 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
     public init(
         profileName: String? = nil,
         configFilePath: String? = nil,
-        identityClientProvider: any IdentityClientProviding
+        identityClientProvider: IdentityClientProvider
     ) {
         self.init(
             profileName: profileName,
@@ -52,7 +52,7 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
         profileName: String? = nil,
         configFilePath: String? = nil,
         credentialFeatureIDs: [String],
-        identityClientProvider: any IdentityClientProviding
+        identityClientProvider: IdentityClientProvider
     ) {
         self.profileName = profileName
         self.configFilePath = configFilePath

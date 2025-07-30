@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import struct AWSSDKIdentity.IdentityClientProvider
 import struct AWSSDKIdentity.SSOAWSCredentialIdentityResolver
 @_spi(FileBasedConfig) @testable import AWSClientRuntime
 
@@ -17,7 +18,8 @@ class SSOAWSCredentialIdentityResolverTests: XCTestCase {
         _ = try SSOAWSCredentialIdentityResolver(
             profileName: "user",
             configFilePath: configPath,
-            credentialsFilePath: credentialsPath
+            credentialsFilePath: credentialsPath,
+            identityClientProvider: IdentityClientProvider()
         )
         // SUCCESS: creation didn't throw error
     }
@@ -26,7 +28,8 @@ class SSOAWSCredentialIdentityResolverTests: XCTestCase {
         _ = try SSOAWSCredentialIdentityResolver(
             profileName: "dev",
             configFilePath: configPath,
-            credentialsFilePath: credentialsPath
+            credentialsFilePath: credentialsPath,
+            identityClientProvider: IdentityClientProvider()
         )
         // SUCCESS: creation didn't throw error
     }

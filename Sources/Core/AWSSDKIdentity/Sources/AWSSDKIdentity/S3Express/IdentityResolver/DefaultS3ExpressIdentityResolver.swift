@@ -6,15 +6,16 @@
 //
 
 import struct Smithy.Attributes
+import protocol SmithyIdentity.AWSCredentialIdentityResolver
 
-public actor DefaultS3ExpressIdentityResolver: S3ExpressIdentityResolver {
+public actor DefaultS3ExpressIdentityResolver: AWSCredentialIdentityResolver {
     private typealias CacheType = [S3ExpressIdentityCachedElement.CacheKey: S3ExpressIdentityCachedElement]
 
     private var cache: CacheType = [:]
 
     public init() {}
 
-    public func getIdentity(identityProperties: Attributes?) async throws -> S3ExpressIdentity {
+    public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
         guard let identityProperties else { throw S3ExpressClientError.missingIdentityProperties }
         let identityCachedElement = try getCachedIdentity(identityProperties: identityProperties)
         return try await identityCachedElement.accessIdentity()

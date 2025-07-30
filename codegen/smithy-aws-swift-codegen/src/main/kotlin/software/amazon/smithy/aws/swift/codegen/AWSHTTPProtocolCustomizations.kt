@@ -9,8 +9,6 @@ import software.amazon.smithy.aws.swift.codegen.customization.RulesBasedAuthSche
 import software.amazon.smithy.aws.swift.codegen.customization.s3.isS3
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKEventStreamsAuthTypes
-import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
-import software.amazon.smithy.aws.swift.codegen.swiftmodules.InternalClientTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
@@ -74,25 +72,26 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
             //
             // Also skip auth option customization for internal service clients themselves.
             // SSO::getRoleCredentials, SSOOIDC::createToken, and STS::assumeRoleWithWebIdentity are all noAuth.
-            if (ctx.settings.forProtocolTests || ctx.settings.visibility == "internal") {
+            if (ctx.settings.forProtocolTests || ctx.settings.visibility == "package") {
                 null
             } else {
                 { authOptionName, writer ->
-                    writer.write(
-                        "$authOptionName.identityProperties.set(key: \$N.internalSTSClientKey, value: \$N())",
-                        AWSSDKIdentityTypes.InternalClientKeys,
-                        InternalClientTypes.IdentityProvidingSTSClient,
-                    )
-                    writer.write(
-                        "$authOptionName.identityProperties.set(key: \$N.internalSSOClientKey, value: \$N())",
-                        AWSSDKIdentityTypes.InternalClientKeys,
-                        InternalClientTypes.IdentityProvidingSSOClient,
-                    )
-                    writer.write(
-                        "$authOptionName.identityProperties.set(key: \$N.internalSSOOIDCClientKey, value: \$N())",
-                        AWSSDKIdentityTypes.InternalClientKeys,
-                        InternalClientTypes.IdentityProvidingSSOOIDCClient,
-                    )
+                    writer
+//                    writer.write(
+//                        "$authOptionName.identityProperties.set(key: \$N.internalSTSClientKey, value: \$N())",
+//                        AWSSDKIdentityTypes.InternalClientKeys,
+//                        InternalClientTypes.IdentityProvidingSTSClient,
+//                    )
+//                    writer.write(
+//                        "$authOptionName.identityProperties.set(key: \$N.internalSSOClientKey, value: \$N())",
+//                        AWSSDKIdentityTypes.InternalClientKeys,
+//                        InternalClientTypes.IdentityProvidingSSOClient,
+//                    )
+//                    writer.write(
+//                        "$authOptionName.identityProperties.set(key: \$N.internalSSOOIDCClientKey, value: \$N())",
+//                        AWSSDKIdentityTypes.InternalClientKeys,
+//                        InternalClientTypes.IdentityProvidingSSOOIDCClient,
+//                    )
                 }
             },
         ).render(ctx)

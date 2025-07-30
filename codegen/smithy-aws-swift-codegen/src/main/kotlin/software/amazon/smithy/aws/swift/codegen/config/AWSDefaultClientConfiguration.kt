@@ -7,7 +7,9 @@ package software.amazon.smithy.aws.swift.codegen.config
 
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKChecksumsTypes
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentitySupportTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.InternalAWSCommonTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.config.ClientConfiguration
 import software.amazon.smithy.swift.codegen.config.ConfigProperty
@@ -34,14 +36,14 @@ class AWSDefaultClientConfiguration : ClientConfiguration {
                 "awsCredentialIdentityResolver",
                 SmithyIdentityTypes.AWSCredentialIdentityResolver.toGeneric(),
                 {
-                    if (ctx.settings.visibility == "internal") {
-                        it.format(
-                            "\$N(\$N(accessKey: \"abc\", secret: \"def\"))",
-                            AWSSDKIdentityTypes.StaticAWSCredentialIdentityResolver,
-                            AWSSDKIdentityTypes.AWSCredentialIdentity,
-                        )
+                    if (ctx.settings.visibility == "package") {
+                        it.format("\$N()", InternalAWSCommonTypes.EmptyAWSCredentialIdentityResolver)
                     } else {
-                        it.format("\$N()", AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain)
+                        it.format(
+                            "\$N(identityClientProvider: \$N())",
+                            AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain,
+                            AWSSDKIdentitySupportTypes.IdentityClientProvider,
+                        )
                     }
                 },
             ),

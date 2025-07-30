@@ -150,6 +150,11 @@ private var runtimeTargets: [Target] {
             path: "Sources/Core/AWSSDKIdentity/Sources/AWSSDKIdentitySupport"
         ),
         .target(
+            name: "InternalAWSCommon",
+            dependencies: [.smithy, .smithyIdentity],
+            path: "Sources/Core/AWSSDKIdentity/Sources/InternalAWSCommon"
+        ),
+        .target(
             name: "InternalAWSSTS",
             dependencies: [
                 .clientRuntime,
@@ -170,6 +175,7 @@ private var runtimeTargets: [Target] {
                 .awsSDKHTTPAuth,
                 .awsSDKEventStreamsAuth,
                 .awsSDKChecksums,
+                "InternalAWSCommon",
             ],
             path: "Sources/Core/AWSSDKIdentity/Sources/InternalAWSSTS"
         ),
@@ -194,6 +200,7 @@ private var runtimeTargets: [Target] {
                 .awsSDKHTTPAuth,
                 .awsSDKEventStreamsAuth,
                 .awsSDKChecksums,
+                "InternalAWSCommon",
             ],
             path: "Sources/Core/AWSSDKIdentity/Sources/InternalAWSSSO"
         ),
@@ -218,6 +225,7 @@ private var runtimeTargets: [Target] {
                 .awsSDKHTTPAuth,
                 .awsSDKEventStreamsAuth,
                 .awsSDKChecksums,
+                "InternalAWSCommon",
             ],
             path: "Sources/Core/AWSSDKIdentity/Sources/InternalAWSSSOOIDC"
         ),
@@ -254,7 +262,7 @@ private var runtimeTestTargets: [Target] {
         ),
         .testTarget(
             name: "AWSSDKIdentityTests",
-            dependencies: [.smithy, .smithyIdentity, "AWSSDKIdentity", .awsClientRuntime],
+            dependencies: [.smithy, .smithyIdentity, "AWSSDKIdentity", "AWSSDKIdentitySupport", .awsClientRuntime],
             path: "Sources/Core/AWSSDKIdentity/Tests/AWSSDKIdentityTests",
             resources: [.process("Resources")]
         ),
@@ -280,6 +288,7 @@ private func target(_ service: String) -> Target {
             .smithyWaitersAPI,
             .awsSDKCommon,
             .awsSDKIdentity,
+            "AWSSDKIdentitySupport",
             .awsSDKHTTPAuth,
             .awsSDKEventStreamsAuth,
             .awsSDKChecksums,

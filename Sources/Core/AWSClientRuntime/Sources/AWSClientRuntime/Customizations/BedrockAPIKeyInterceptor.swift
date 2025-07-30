@@ -6,7 +6,7 @@
 //
 
 import class Foundation.ProcessInfo
-import struct AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain
+// import struct AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain
 import protocol ClientRuntime.Interceptor
 import protocol ClientRuntime.AfterSerialization
 import struct Smithy.Attributes
@@ -37,10 +37,10 @@ public struct BedrockAPIKeyInterceptor<InputType, OutputType>: Interceptor {
         // If so, return immediately & use that instead of the Bedrock API token.
         let identityResolvers = attributes.getIdentityResolvers() ?? Attributes()
         let key = AttributeKey<any BearerTokenIdentityResolver>(name: "smithy.api#httpBearerAuth")
-        guard !identityResolvers.contains(key: key) || identityResolvers.get(key: key) is
-                DefaultBearerTokenIdentityResolverChain else {
-            return
-        }
+//        guard !identityResolvers.contains(key: key) || identityResolvers.get(key: key) is
+//                DefaultBearerTokenIdentityResolverChain else {
+//            return
+//        }
 
         // Create a bearer token identity resolver with the resolved token, then
         // store it in the context.

@@ -6,7 +6,9 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentitySupportTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.InternalAWSCommonTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.traits.HttpBearerAuthTrait
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
@@ -62,7 +64,13 @@ class AWSHttpProtocolServiceClient(
                         ConfigProperty(
                             "bearerTokenIdentityResolver",
                             SmithyIdentityTypes.BearerTokenIdentityResolver.toGeneric(),
-                            { it.format("\$N()", AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain) },
+                            {
+                                it.format(
+                                    "\$N(identityClientProvider: \$N())",
+                                    AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain,
+                                    AWSSDKIdentitySupportTypes.IdentityClientProvider,
+                                )
+                            },
                             true,
                         )
                     } else {
@@ -156,14 +164,17 @@ class AWSHttpProtocolServiceClient(
                             writer.write("region,")
                         }
                         "awsCredentialIdentityResolver" -> {
-                            if (ctx.settings.visibility == "internal") {
+                            if (ctx.settings.visibility == "package") {
                                 writer.write(
-                                    "\$N(\$N(accessKey: \"abc\", secret: \"def\")),",
-                                    AWSSDKIdentityTypes.StaticAWSCredentialIdentityResolver,
-                                    AWSSDKIdentityTypes.AWSCredentialIdentity
+                                    "\$N(),",
+                                    InternalAWSCommonTypes.EmptyAWSCredentialIdentityResolver,
                                 )
                             } else {
-                                writer.write("\$N(),", AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain)
+                                writer.write(
+                                    "\$N(identityClientProvider: \$N()),",
+                                    AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain,
+                                    AWSSDKIdentitySupportTypes.IdentityClientProvider,
+                                )
                             }
                         }
                         "retryStrategyOptions" -> {
