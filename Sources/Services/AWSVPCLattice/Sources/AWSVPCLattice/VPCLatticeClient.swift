@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class VPCLatticeClient: ClientRuntime.Client {
     public static let clientName = "VPCLatticeClient"
-    public static let version = "1.5.9"
+    public static let version = "1.5.10"
     let client: ClientRuntime.SdkHttpClient
     let config: VPCLatticeClient.VPCLatticeClientConfiguration
     let serviceName = "VPC Lattice"
