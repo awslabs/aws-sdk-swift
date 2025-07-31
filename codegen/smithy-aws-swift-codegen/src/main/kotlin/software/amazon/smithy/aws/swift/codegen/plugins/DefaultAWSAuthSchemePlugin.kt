@@ -59,7 +59,8 @@ class DefaultAWSAuthSchemePlugin(
                     }
                     if (AuthUtils(ctx).isSupportedAuthScheme(HttpBearerAuthTrait.ID)) {
                         writer.write(
-                            "config.bearerTokenIdentityResolver = try \$N()",
+                            "config.bearerTokenIdentityResolver = try \$N(\$N())",
+                            SmithyIdentityTypes.ClientConfigDefaultBearerTokenIdentityResolver,
                             AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain,
                         )
                     } else {

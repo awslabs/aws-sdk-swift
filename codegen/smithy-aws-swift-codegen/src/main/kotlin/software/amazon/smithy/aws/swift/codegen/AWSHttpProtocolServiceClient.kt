@@ -63,7 +63,13 @@ class AWSHttpProtocolServiceClient(
                         ConfigProperty(
                             "bearerTokenIdentityResolver",
                             SmithyIdentityTypes.BearerTokenIdentityResolver.toGeneric(),
-                            { it.format("\$N()", AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain) },
+                            {
+                                it.format(
+                                    "\$N(\$N())",
+                                    SmithyIdentityTypes.ClientConfigDefaultBearerTokenIdentityResolver,
+                                    AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain,
+                                )
+                            },
                             true,
                         )
                     } else {
