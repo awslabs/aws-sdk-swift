@@ -163,11 +163,8 @@ class AWSHttpProtocolServiceClient(
                             writer.write("region,")
                         }
                         "awsCredentialIdentityResolver" -> {
-                            if (ctx.settings.visibility == "package") {
-                                writer.write(
-                                    "\$N(),",
-                                    InternalAWSCommonTypes.EmptyAWSCredentialIdentityResolver,
-                                )
+                            if (ctx.settings.internalClient) {
+                                writer.write("\$N(),", InternalAWSCommonTypes.EmptyAWSCredentialIdentityResolver)
                             } else {
                                 writer.write("\$N(),", AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain)
                             }

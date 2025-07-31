@@ -35,7 +35,7 @@ class AWSDefaultClientConfiguration : ClientConfiguration {
                 "awsCredentialIdentityResolver",
                 SmithyIdentityTypes.AWSCredentialIdentityResolver.toGeneric(),
                 {
-                    if (ctx.settings.visibility == "package") {
+                    if (ctx.settings.internalClient) {
                         it.format("\$N()", InternalAWSCommonTypes.EmptyAWSCredentialIdentityResolver)
                     } else {
                         it.format("\$N()", AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain)

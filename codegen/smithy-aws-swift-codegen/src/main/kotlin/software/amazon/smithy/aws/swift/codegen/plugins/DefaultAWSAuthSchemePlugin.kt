@@ -46,7 +46,7 @@ class DefaultAWSAuthSchemePlugin(
                         "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()",
                     )
                     writer.write("config.authSchemes = \$L", AWSAuthUtils(ctx).getModeledAuthSchemesSupportedBySDK(ctx, writer))
-                    if (ctx.settings.visibility == "package") {
+                    if (ctx.settings.internalClient) {
                         writer.write(
                             "config.awsCredentialIdentityResolver = \$N()",
                             InternalAWSCommonTypes.EmptyAWSCredentialIdentityResolver,

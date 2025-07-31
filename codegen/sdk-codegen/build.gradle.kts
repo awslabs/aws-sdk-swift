@@ -73,6 +73,7 @@ data class AwsService(
     val gitRepo: String,
     val sdkId: String,
     val visibility: String,
+    val internalClient: Boolean,
 )
 
 // Generates a smithy-build.json file by creating a new projection.
@@ -163,7 +164,8 @@ fun discoverServices(): List<AwsService> {
                 projectionName = name + "." + version.toLowerCase(),
                 sdkId = serviceApi.sdkId,
                 gitRepo = "https://github.com/awslabs/aws-sdk-swift",
-                visibility = "public"
+                visibility = "public",
+                internalClient = false,
             )
 
             // Codegen internal STS client for use by credential resolvers.
@@ -176,7 +178,8 @@ fun discoverServices(): List<AwsService> {
                     projectionName = "${name}.${version.toLowerCase()}_internal",
                     sdkId = serviceApi.sdkId,
                     gitRepo = "https://github.com/awslabs/aws-sdk-swift",
-                    visibility = "package"
+                    visibility = "package",
+                    internalClient = true,
                 )
                 listOf(publicService, internalProjection)
             } else {

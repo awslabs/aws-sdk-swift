@@ -25,7 +25,7 @@ class InternalModelIntegration : SwiftIntegration {
     override fun enabledForService(
         model: Model,
         settings: SwiftSettings,
-    ): Boolean = settings.visibility == "package"
+    ): Boolean = settings.internalClient
 
     override fun preprocessModel(
         model: Model?,
