@@ -16,7 +16,6 @@ import struct Smithy.URIQueryItem
 import struct Smithy.Attributes
 import enum SmithyHTTPAuthAPI.SigningPropertyKeys
 import class SmithyHTTPAuth.SigV4Signer
-import InternalAWSSTS
 
 /// Generates API keys for use with Bedrock services.
 ///
