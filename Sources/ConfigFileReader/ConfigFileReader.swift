@@ -35,7 +35,9 @@ public struct ConfigFileReader {
         let arrayConfigData = stringConfigData.split(separator: "\n")
         
         var sections = [String: ConfigFileSection]()
+        var properties = [String: ConfigFileSection]()
         var currentSectionName: String? // Keep track of current section name
+        var currentProperty: String? // Keep track of properties
         let profileSection = try! NSRegularExpression(pattern: "profile", options: .caseInsensitive) // Regex pattern to match any line containing "profile"
         
         for line in arrayConfigData{
@@ -70,6 +72,18 @@ public struct ConfigFileReader {
                         sections[currentName]?.keys[key] = value
                         print("  Added key and value '\(key)' = '\(value)' to section '\(currentName)'")
                     }
+            case _ where currentSectionName != nil && line.contains("nested"):
+                let sectionProperty = String(line)
+                currentProperty = sectionProperty
+                let property = ConfigFileSection(name: "property")
+                properties[sectionProperty] = property
+            case _ where currentProperty != nil && line.hasPrefix(" "):
+                let components = line.split(separator: "=", maxSplits: 1).map(String.init)
+                if components.count == 2, let currentValues = currentProperty {
+                    let key = components[0].trimmingCharacters(in: .whitespaces)
+                    let value = components[1].trimmingCharacters(in: .whitespaces)
+                    properties[currentValues]?.keys[key] = value
+                }
             default:
                 print ("No profile found, values will be placed in [default] section")
                 break
