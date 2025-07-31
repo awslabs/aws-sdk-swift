@@ -560,17 +560,17 @@ private var runtimeTargets: [Target] {
         .target(
             name: "AWSSDKCommon",
             dependencies: [.crt],
-            path: "Sources/Core/AWSSDKCommon/Sources"
+            path: "Sources/Core/AWSSDKCommon/Sources/AWSSDKCommon"
         ),
         .target(
             name: "AWSSDKEventStreamsAuth",
             dependencies: [.smithyEventStreamsAPI, .smithyEventStreamsAuthAPI, .smithyEventStreams, .crt, .clientRuntime, "AWSSDKHTTPAuth"],
-            path: "Sources/Core/AWSSDKEventStreamsAuth/Sources"
+            path: "Sources/Core/AWSSDKEventStreamsAuth/Sources/AWSSDKEventStreamsAuth"
         ),
         .target(
             name: "AWSSDKHTTPAuth",
             dependencies: [.crt, .smithy, .clientRuntime, .smithyHTTPAuth, "AWSSDKChecksums"],
-            path: "Sources/Core/AWSSDKHTTPAuth/Sources"
+            path: "Sources/Core/AWSSDKHTTPAuth/Sources/AWSSDKHTTPAuth"
         ),
         .target(
             name: "AWSSDKIdentityAPI",

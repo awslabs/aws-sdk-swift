@@ -17,6 +17,16 @@ class AWSSwiftDependency {
                 "AWSSDKChecksums",
                 SwiftDependency.DistributionMethod.SPR,
             )
+        val AWS_SDK_IDENTITY_API =
+            SwiftDependency(
+                "AWSSDKIdentityAPI",
+                "main",
+                "0.0.1",
+                "aws-sdk-swift",
+                "../../../aws-sdk-swift",
+                "AWSSDKIdentityAPI",
+                SwiftDependency.DistributionMethod.SPR,
+            )
         val AWS_SDK_IDENTITY =
             SwiftDependency(
                 "AWSSDKIdentity",
