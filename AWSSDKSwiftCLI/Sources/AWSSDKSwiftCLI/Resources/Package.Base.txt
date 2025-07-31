@@ -130,7 +130,7 @@ private var runtimeTargets: [Target] {
         ),
         .target(
             name: "AWSSDKHTTPAuth",
-            dependencies: [.crt, .smithy, .clientRuntime, .smithyHTTPAuth, "AWSSDKChecksums"],
+            dependencies: [.crt, .smithy, .clientRuntime, .smithyHTTPAuth, .awsSDKIdentityAPI, "AWSSDKChecksums"],
             path: "Sources/Core/AWSSDKHTTPAuth/Sources/AWSSDKHTTPAuth"
         ),
         .target(
