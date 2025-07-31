@@ -194,13 +194,15 @@ extension Inspector2ClientTypes {
         case awsEc2Instance
         case awsEcrContainerImage
         case awsLambdaFunction
+        case codeRepository
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AggregationResourceType] {
             return [
                 .awsEc2Instance,
                 .awsEcrContainerImage,
-                .awsLambdaFunction
+                .awsLambdaFunction,
+                .codeRepository
             ]
         }
 
@@ -214,6 +216,7 @@ extension Inspector2ClientTypes {
             case .awsEc2Instance: return "AWS_EC2_INSTANCE"
             case .awsEcrContainerImage: return "AWS_ECR_CONTAINER_IMAGE"
             case .awsLambdaFunction: return "AWS_LAMBDA_FUNCTION"
+            case .codeRepository: return "CODE_REPOSITORY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -10726,6 +10729,7 @@ extension Inspector2ClientTypes {
         case codeRepositoryIac
         case codeRepositorySast
         case codeRepositorySca
+        case ec2AgentlessInstanceHours
         case ec2InstanceHours
         case ecrInitialScan
         case ecrRescan
@@ -10738,6 +10742,7 @@ extension Inspector2ClientTypes {
                 .codeRepositoryIac,
                 .codeRepositorySast,
                 .codeRepositorySca,
+                .ec2AgentlessInstanceHours,
                 .ec2InstanceHours,
                 .ecrInitialScan,
                 .ecrRescan,
@@ -10756,6 +10761,7 @@ extension Inspector2ClientTypes {
             case .codeRepositoryIac: return "CODE_REPOSITORY_IAC"
             case .codeRepositorySast: return "CODE_REPOSITORY_SAST"
             case .codeRepositorySca: return "CODE_REPOSITORY_SCA"
+            case .ec2AgentlessInstanceHours: return "EC2_AGENTLESS_INSTANCE_HOURS"
             case .ec2InstanceHours: return "EC2_INSTANCE_HOURS"
             case .ecrInitialScan: return "ECR_INITIAL_SCAN"
             case .ecrRescan: return "ECR_RESCAN"

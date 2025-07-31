@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EntityResolutionClient: ClientRuntime.Client {
     public static let clientName = "EntityResolutionClient"
-    public static let version = "1.5.10"
+    public static let version = "1.5.11"
     let client: ClientRuntime.SdkHttpClient
     let config: EntityResolutionClient.EntityResolutionClientConfiguration
     let serviceName = "EntityResolution"
@@ -656,7 +656,7 @@ extension EntityResolutionClient {
 
     /// Performs the `CreateMatchingWorkflow` operation on the `EntityResolution` service.
     ///
-    /// Creates a MatchingWorkflow object which stores the configuration of the data processing job to be run. It is important to note that there should not be a pre-existing MatchingWorkflow with the same name. To modify an existing workflow, utilize the UpdateMatchingWorkflow API.
+    /// Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use UpdateMatchingWorkflow. For workflows where resolutionType is ML_MATCHING, incremental processing is not supported.
     ///
     /// - Parameter CreateMatchingWorkflowInput : [no documentation found]
     ///
@@ -2862,7 +2862,7 @@ extension EntityResolutionClient {
 
     /// Performs the `UpdateMatchingWorkflow` operation on the `EntityResolution` service.
     ///
-    /// Updates an existing MatchingWorkflow. This method is identical to CreateMatchingWorkflow, except it uses an HTTP PUT request instead of a POST request, and the MatchingWorkflow must already exist for the method to succeed.
+    /// Updates an existing matching workflow. The workflow must already exist for this operation to succeed. For workflows where resolutionType is ML_MATCHING, incremental processing is not supported.
     ///
     /// - Parameter UpdateMatchingWorkflowInput : [no documentation found]
     ///
