@@ -106,7 +106,7 @@ private var runtimeTargets: [Target] {
             dependencies: [
                 .crt,
                 .clientRuntime,
-                .smithyIdentity, 
+                .smithyIdentity,
                 .smithyRetriesAPI,
                 .smithyRetries,
                 .awsSDKCommon,
