@@ -499,7 +499,7 @@ let package = Package(
 // MARK: Products
 
 private var runtimeProducts: [Product] {
-    ["AWSClientRuntime", "AWSSDKCommon", "AWSSDKEventStreamsAuth", "AWSSDKHTTPAuth", "AWSSDKIdentity", "AWSSDKChecksums"]
+    ["AWSClientRuntime", "AWSSDKCommon", "AWSSDKEventStreamsAuth", "AWSSDKHTTPAuth", "AWSSDKIdentityAPI", "AWSSDKIdentity", "AWSSDKChecksums"]
         .map { .library(name: $0, targets: [$0]) }
 }
 
