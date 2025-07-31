@@ -1283,7 +1283,7 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
-    /// A complex type that describes how CloudFront processes requests. You must create at least as many cache behaviors (including the default cache behavior) as you have origins if you want CloudFront to serve objects from all of the origins. Each cache behavior specifies the one origin from which you want CloudFront to get objects. If you have two origins and only the default cache behavior, the default cache behavior will cause CloudFront to get objects from one of the origins, but the other origin is never used. For the current quota (formerly known as limit) on the number of cache behaviors that you can add to a distribution, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) in the Amazon CloudFront Developer Guide. If you don't want to specify any cache behaviors, include only an empty CacheBehaviors element. Don't specify an empty individual CacheBehavior element, because this is invalid. For more information, see [CacheBehaviors](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CacheBehaviors.html). To delete all cache behaviors in an existing distribution, update the distribution configuration and include only an empty CacheBehaviors element. To add, change, or remove one or more cache behaviors, update the distribution configuration and specify all of the cache behaviors that you want to include in the updated distribution. For more information about cache behaviors, see [Cache Behavior Settings](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesCacheBehavior) in the Amazon CloudFront Developer Guide.
+    /// A complex type that describes how CloudFront processes requests. You must create at least as many cache behaviors (including the default cache behavior) as you have origins if you want CloudFront to serve objects from all of the origins. Each cache behavior specifies the one origin from which you want CloudFront to get objects. If you have two origins and only the default cache behavior, the default cache behavior will cause CloudFront to get objects from one of the origins, but the other origin is never used. For the current quota (formerly known as limit) on the number of cache behaviors that you can add to a distribution, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) in the Amazon CloudFront Developer Guide. If you don't want to specify any cache behaviors, include only an empty CacheBehaviors element. Don't specify an empty individual CacheBehavior element, because this is invalid. For more information, see [CacheBehaviors](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CacheBehaviors.html). To delete all cache behaviors in an existing distribution, update the distribution configuration and include only an empty CacheBehaviors element. To add, change, or remove one or more cache behaviors, update the distribution configuration and specify all of the cache behaviors that you want to include in the updated distribution. If your minimum TTL is greater than 0, CloudFront will cache content for at least the duration specified in the cache policy's minimum TTL, even if the Cache-Control: no-cache, no-store, or private directives are present in the origin headers. For more information about cache behaviors, see [Cache Behavior Settings](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesCacheBehavior) in the Amazon CloudFront Developer Guide.
     public struct CacheBehavior: Swift.Sendable, Swift.Equatable {
         /// A complex type that controls which HTTP methods CloudFront processes and forwards to your Amazon S3 bucket or your custom origin. There are three choices:
         ///
@@ -1675,7 +1675,7 @@ extension CloudFrontClientTypes {
     ///
     /// * The values that CloudFront includes in the cache key. These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer.
     ///
-    /// * The default, minimum, and maximum time to live (TTL) values that you want objects to stay in the CloudFront cache.
+    /// * The default, minimum, and maximum time to live (TTL) values that you want objects to stay in the CloudFront cache. If your minimum TTL is greater than 0, CloudFront will cache content for at least the duration specified in the cache policy's minimum TTL, even if the Cache-Control: no-cache, no-store, or private directives are present in the origin headers.
     ///
     ///
     /// The headers, cookies, and query strings that are included in the cache key are also included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find a valid object in its cache that matches the request's cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy.
@@ -3489,7 +3489,7 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
-    /// A complex type that describes the default cache behavior if you don't specify a CacheBehavior element or if request URLs don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
+    /// A complex type that describes the default cache behavior if you don't specify a CacheBehavior element or if request URLs don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior. If your minimum TTL is greater than 0, CloudFront will cache content for at least the duration specified in the cache policy's minimum TTL, even if the Cache-Control: no-cache, no-store, or private directives are present in the origin headers.
     public struct DefaultCacheBehavior: Swift.Sendable, Swift.Equatable {
         /// A complex type that controls which HTTP methods CloudFront processes and forwards to your Amazon S3 bucket or your custom origin. There are three choices:
         ///
@@ -3968,7 +3968,7 @@ extension CloudFrontClientTypes {
         /// * https-only – CloudFront always uses HTTPS to connect to the origin.
         /// This member is required.
         public var originProtocolPolicy: CloudFrontClientTypes.OriginProtocolPolicy?
-        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see [Response timeout (custom origins only)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginResponseTimeout) in the Amazon CloudFront Developer Guide.
+        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see [Response timeout](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginResponseTimeout) in the Amazon CloudFront Developer Guide.
         public var originReadTimeout: Swift.Int?
         /// Specifies the minimum SSL/TLS protocol that CloudFront uses when connecting to your origin over HTTPS. Valid values include SSLv3, TLSv1, TLSv1.1, and TLSv1.2. For more information, see [Minimum Origin SSL Protocol](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginSSLProtocols) in the Amazon CloudFront Developer Guide.
         public var originSslProtocols: CloudFrontClientTypes.OriginSslProtocols?
@@ -4018,11 +4018,15 @@ extension CloudFrontClientTypes {
         /// If you're using origin access control (OAC) instead of origin access identity, specify an empty OriginAccessIdentity element. For more information, see [Restricting access to an Amazon Web Services](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-origin.html) in the Amazon CloudFront Developer Guide. The CloudFront origin access identity to associate with the origin. Use an origin access identity to configure the origin so that viewers can only access objects in an Amazon S3 bucket through CloudFront. The format of the value is: origin-access-identity/cloudfront/ID-of-origin-access-identity The  ID-of-origin-access-identity  is the value that CloudFront returned in the ID element when you created the origin access identity. If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information about the origin access identity, see [Serving Private Content through CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
         /// This member is required.
         public var originAccessIdentity: Swift.String?
+        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see [Response timeout](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginResponseTimeout) in the Amazon CloudFront Developer Guide.
+        public var originReadTimeout: Swift.Int?
 
         public init(
-            originAccessIdentity: Swift.String? = ""
+            originAccessIdentity: Swift.String? = "",
+            originReadTimeout: Swift.Int? = nil
         ) {
             self.originAccessIdentity = originAccessIdentity
+            self.originReadTimeout = originReadTimeout
         }
     }
 }
@@ -4033,7 +4037,7 @@ extension CloudFrontClientTypes {
     public struct VpcOriginConfig: Swift.Sendable, Swift.Equatable {
         /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 5 seconds. For more information, see [Keep-alive timeout (custom origins only)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginKeepaliveTimeout) in the Amazon CloudFront Developer Guide.
         public var originKeepaliveTimeout: Swift.Int?
-        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see [Response timeout (custom origins only)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginResponseTimeout) in the Amazon CloudFront Developer Guide.
+        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see [Response timeout](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginResponseTimeout) in the Amazon CloudFront Developer Guide.
         public var originReadTimeout: Swift.Int?
         /// The VPC origin ID.
         /// This member is required.
@@ -4097,6 +4101,8 @@ extension CloudFrontClientTypes {
         public var originPath: Swift.String?
         /// CloudFront Origin Shield. Using Origin Shield can help reduce the load on your origin. For more information, see [Using Origin Shield](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/origin-shield.html) in the Amazon CloudFront Developer Guide.
         public var originShield: CloudFrontClientTypes.OriginShield?
+        /// The time (in seconds) that a request from CloudFront to the origin can stay open and wait for a response. If the complete response isn't received from the origin by this time, CloudFront ends the connection. The value for ResponseCompletionTimeout must be equal to or greater than the value for OriginReadTimeout. If you don't set a value for ResponseCompletionTimeout, CloudFront doesn't enforce a maximum value. For more information, see [Response completion timeout](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#response-completion-timeout) in the Amazon CloudFront Developer Guide.
+        public var responseCompletionTimeout: Swift.Int?
         /// Use this type to specify an origin that is an Amazon S3 bucket that is not configured with static website hosting. To specify any other type of origin, including an Amazon S3 bucket that is configured with static website hosting, use the CustomOriginConfig type instead.
         public var s3OriginConfig: CloudFrontClientTypes.S3OriginConfig?
         /// The VPC origin configuration.
@@ -4112,6 +4118,7 @@ extension CloudFrontClientTypes {
             originAccessControlId: Swift.String? = nil,
             originPath: Swift.String? = nil,
             originShield: CloudFrontClientTypes.OriginShield? = nil,
+            responseCompletionTimeout: Swift.Int? = nil,
             s3OriginConfig: CloudFrontClientTypes.S3OriginConfig? = nil,
             vpcOriginConfig: CloudFrontClientTypes.VpcOriginConfig? = nil
         ) {
@@ -4124,6 +4131,7 @@ extension CloudFrontClientTypes {
             self.originAccessControlId = originAccessControlId
             self.originPath = originPath
             self.originShield = originShield
+            self.responseCompletionTimeout = responseCompletionTimeout
             self.s3OriginConfig = s3OriginConfig
             self.vpcOriginConfig = vpcOriginConfig
         }
@@ -4535,7 +4543,7 @@ extension CloudFrontClientTypes {
         /// A comment to describe the distribution. The comment cannot be longer than 128 characters.
         /// This member is required.
         public var comment: Swift.String?
-        /// This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants(tenant-only).
+        /// This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants (tenant-only).
         public var connectionMode: CloudFrontClientTypes.ConnectionMode?
         /// This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. The identifier of a continuous deployment policy. For more information, see CreateContinuousDeploymentPolicy.
         public var continuousDeploymentPolicyId: Swift.String?
@@ -12216,7 +12224,7 @@ extension CloudFrontClientTypes {
         /// The comment originally specified when this distribution was created.
         /// This member is required.
         public var comment: Swift.String?
-        /// This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants(tenant-only).
+        /// This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants (tenant-only).
         public var connectionMode: CloudFrontClientTypes.ConnectionMode?
         /// A complex type that contains zero or more CustomErrorResponses elements.
         /// This member is required.
@@ -12480,7 +12488,7 @@ public struct ListDistributionsByCachePolicyIdOutput: Swift.Sendable {
 }
 
 public struct ListDistributionsByConnectionModeInput: Swift.Sendable {
-    /// This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants(tenant-only).
+    /// This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants (tenant-only).
     /// This member is required.
     public var connectionMode: CloudFrontClientTypes.ConnectionMode?
     /// The marker for the next set of distributions to retrieve.
@@ -25786,6 +25794,7 @@ extension CloudFrontClientTypes.Origin {
         try writer["OriginAccessControlId"].write(value.originAccessControlId)
         try writer["OriginPath"].write(value.originPath)
         try writer["OriginShield"].write(value.originShield, with: CloudFrontClientTypes.OriginShield.write(value:to:))
+        try writer["ResponseCompletionTimeout"].write(value.responseCompletionTimeout)
         try writer["S3OriginConfig"].write(value.s3OriginConfig, with: CloudFrontClientTypes.S3OriginConfig.write(value:to:))
         try writer["VpcOriginConfig"].write(value.vpcOriginConfig, with: CloudFrontClientTypes.VpcOriginConfig.write(value:to:))
     }
@@ -25802,6 +25811,7 @@ extension CloudFrontClientTypes.Origin {
         value.vpcOriginConfig = try reader["VpcOriginConfig"].readIfPresent(with: CloudFrontClientTypes.VpcOriginConfig.read(from:))
         value.connectionAttempts = try reader["ConnectionAttempts"].readIfPresent()
         value.connectionTimeout = try reader["ConnectionTimeout"].readIfPresent()
+        value.responseCompletionTimeout = try reader["ResponseCompletionTimeout"].readIfPresent()
         value.originShield = try reader["OriginShield"].readIfPresent(with: CloudFrontClientTypes.OriginShield.read(from:))
         value.originAccessControlId = try reader["OriginAccessControlId"].readIfPresent()
         return value
@@ -25891,12 +25901,14 @@ extension CloudFrontClientTypes.S3OriginConfig {
     static func write(value: CloudFrontClientTypes.S3OriginConfig?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["OriginAccessIdentity"].write(value.originAccessIdentity)
+        try writer["OriginReadTimeout"].write(value.originReadTimeout)
     }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.S3OriginConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.S3OriginConfig()
         value.originAccessIdentity = try reader["OriginAccessIdentity"].readIfPresent() ?? ""
+        value.originReadTimeout = try reader["OriginReadTimeout"].readIfPresent()
         return value
     }
 }

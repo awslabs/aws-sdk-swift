@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DirectoryClient: ClientRuntime.Client {
     public static let clientName = "DirectoryClient"
-    public static let version = "1.5.9"
+    public static let version = "1.5.10"
     let client: ClientRuntime.SdkHttpClient
     let config: DirectoryClient.DirectoryClientConfiguration
     let serviceName = "Directory"
@@ -1096,6 +1096,80 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateHybridAD` operation on the `Directory` service.
+    ///
+    /// Creates a hybrid directory that connects your self-managed Active Directory (AD) infrastructure and Amazon Web Services. You must have a successful directory assessment using [StartADAssessment] to validate your environment compatibility before you use this operation. Updates are applied asynchronously. Use [DescribeDirectories] to monitor the progress of directory creation.
+    ///
+    /// - Parameter CreateHybridADInput : [no documentation found]
+    ///
+    /// - Returns: `CreateHybridADOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ADAssessmentLimitExceededException` : A directory assessment is automatically created when you create a hybrid directory. There are two types of assessments: CUSTOMER and SYSTEM. Your Amazon Web Services account has a limit of 100 CUSTOMER directory assessments. If you attempt to create a hybrid directory; and you already have 100 CUSTOMER directory assessments;, you will encounter an error. Delete assessments to free up capacity before trying again. You can request an increase to your CUSTOMER directory assessment quota by contacting customer support or delete existing CUSTOMER directory assessments; to free up capacity.
+    /// - `ClientException` : A client exception has occurred.
+    /// - `DirectoryLimitExceededException` : The maximum number of directories in the region has been reached. You can use the [GetDirectoryLimits] operation to determine your directory limits in the region.
+    /// - `EntityDoesNotExistException` : The specified entity could not be found.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ServiceException` : An exception has occurred in Directory Service.
+    /// - `UnsupportedOperationException` : The operation is not supported.
+    public func createHybridAD(input: CreateHybridADInput) async throws -> CreateHybridADOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createHybridAD")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ds")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateHybridADInput, CreateHybridADOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateHybridADInput, CreateHybridADOutput>(CreateHybridADInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateHybridADInput, CreateHybridADOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHybridADInput, CreateHybridADOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHybridADOutput>(CreateHybridADOutput.httpOutput(from:), CreateHybridADOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHybridADInput, CreateHybridADOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateHybridADOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Directory", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateHybridADOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateHybridADInput, CreateHybridADOutput>(xAmzTarget: "DirectoryService_20150416.CreateHybridAD"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateHybridADInput, CreateHybridADOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateHybridADInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateHybridADInput, CreateHybridADOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateHybridADOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateHybridADInput, CreateHybridADOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateHybridADInput, CreateHybridADOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateHybridADInput, CreateHybridADOutput>(serviceID: serviceName, version: DirectoryClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Directory")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateHybridAD")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateLogSubscription` operation on the `Directory` service.
     ///
     /// Creates a subscription to forward real-time Directory Service domain controller security logs to the specified Amazon CloudWatch log group in your Amazon Web Services account.
@@ -1374,6 +1448,78 @@ extension DirectoryClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Directory")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTrust")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteADAssessment` operation on the `Directory` service.
+    ///
+    /// Deletes a directory assessment and all associated data. This operation permanently removes the assessment results, validation reports, and configuration information. You cannot delete system-initiated assessments. You can delete customer-created assessments even if they are in progress.
+    ///
+    /// - Parameter DeleteADAssessmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteADAssessmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : A client exception has occurred.
+    /// - `EntityDoesNotExistException` : The specified entity could not be found.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ServiceException` : An exception has occurred in Directory Service.
+    /// - `UnsupportedOperationException` : The operation is not supported.
+    public func deleteADAssessment(input: DeleteADAssessmentInput) async throws -> DeleteADAssessmentOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteADAssessment")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ds")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteADAssessmentInput, DeleteADAssessmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteADAssessmentInput, DeleteADAssessmentOutput>(DeleteADAssessmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteADAssessmentInput, DeleteADAssessmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteADAssessmentInput, DeleteADAssessmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteADAssessmentOutput>(DeleteADAssessmentOutput.httpOutput(from:), DeleteADAssessmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteADAssessmentInput, DeleteADAssessmentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteADAssessmentOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Directory", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteADAssessmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteADAssessmentInput, DeleteADAssessmentOutput>(xAmzTarget: "DirectoryService_20150416.DeleteADAssessment"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteADAssessmentInput, DeleteADAssessmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteADAssessmentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteADAssessmentInput, DeleteADAssessmentOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteADAssessmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteADAssessmentInput, DeleteADAssessmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteADAssessmentInput, DeleteADAssessmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteADAssessmentInput, DeleteADAssessmentOutput>(serviceID: serviceName, version: DirectoryClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Directory")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteADAssessment")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -1889,6 +2035,78 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeADAssessment` operation on the `Directory` service.
+    ///
+    /// Retrieves detailed information about a directory assessment, including its current status, validation results, and configuration details. Use this operation to monitor assessment progress and review results.
+    ///
+    /// - Parameter DescribeADAssessmentInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeADAssessmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : A client exception has occurred.
+    /// - `EntityDoesNotExistException` : The specified entity could not be found.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ServiceException` : An exception has occurred in Directory Service.
+    /// - `UnsupportedOperationException` : The operation is not supported.
+    public func describeADAssessment(input: DescribeADAssessmentInput) async throws -> DescribeADAssessmentOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeADAssessment")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ds")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeADAssessmentInput, DescribeADAssessmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeADAssessmentInput, DescribeADAssessmentOutput>(DescribeADAssessmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeADAssessmentInput, DescribeADAssessmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeADAssessmentInput, DescribeADAssessmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeADAssessmentOutput>(DescribeADAssessmentOutput.httpOutput(from:), DescribeADAssessmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeADAssessmentInput, DescribeADAssessmentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeADAssessmentOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Directory", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeADAssessmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeADAssessmentInput, DescribeADAssessmentOutput>(xAmzTarget: "DirectoryService_20150416.DescribeADAssessment"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeADAssessmentInput, DescribeADAssessmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeADAssessmentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeADAssessmentInput, DescribeADAssessmentOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeADAssessmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeADAssessmentInput, DescribeADAssessmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeADAssessmentInput, DescribeADAssessmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeADAssessmentInput, DescribeADAssessmentOutput>(serviceID: serviceName, version: DirectoryClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Directory")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeADAssessment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeCertificate` operation on the `Directory` service.
     ///
     /// Displays information about the certificate registered for secure LDAP or client certificate authentication.
@@ -2384,6 +2602,79 @@ extension DirectoryClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Directory")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeEventTopics")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeHybridADUpdate` operation on the `Directory` service.
+    ///
+    /// Retrieves information about update activities for a hybrid directory. This operation provides details about configuration changes, administrator account updates, and self-managed instance settings (IDs and DNS IPs).
+    ///
+    /// - Parameter DescribeHybridADUpdateInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeHybridADUpdateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : A client exception has occurred.
+    /// - `DirectoryDoesNotExistException` : The specified directory does not exist in the system.
+    /// - `InvalidNextTokenException` : The NextToken value is not valid.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ServiceException` : An exception has occurred in Directory Service.
+    /// - `UnsupportedOperationException` : The operation is not supported.
+    public func describeHybridADUpdate(input: DescribeHybridADUpdateInput) async throws -> DescribeHybridADUpdateOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeHybridADUpdate")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ds")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeHybridADUpdateInput, DescribeHybridADUpdateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeHybridADUpdateInput, DescribeHybridADUpdateOutput>(DescribeHybridADUpdateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeHybridADUpdateInput, DescribeHybridADUpdateOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeHybridADUpdateInput, DescribeHybridADUpdateOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHybridADUpdateOutput>(DescribeHybridADUpdateOutput.httpOutput(from:), DescribeHybridADUpdateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHybridADUpdateInput, DescribeHybridADUpdateOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHybridADUpdateOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Directory", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeHybridADUpdateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeHybridADUpdateInput, DescribeHybridADUpdateOutput>(xAmzTarget: "DirectoryService_20150416.DescribeHybridADUpdate"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeHybridADUpdateInput, DescribeHybridADUpdateOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeHybridADUpdateInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeHybridADUpdateInput, DescribeHybridADUpdateOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeHybridADUpdateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeHybridADUpdateInput, DescribeHybridADUpdateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeHybridADUpdateInput, DescribeHybridADUpdateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeHybridADUpdateInput, DescribeHybridADUpdateOutput>(serviceID: serviceName, version: DirectoryClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Directory")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeHybridADUpdate")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3777,6 +4068,78 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListADAssessments` operation on the `Directory` service.
+    ///
+    /// Retrieves a list of directory assessments for the specified directory or all assessments in your account. Use this operation to monitor assessment status and manage multiple assessments.
+    ///
+    /// - Parameter ListADAssessmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListADAssessmentsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : A client exception has occurred.
+    /// - `DirectoryDoesNotExistException` : The specified directory does not exist in the system.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ServiceException` : An exception has occurred in Directory Service.
+    /// - `UnsupportedOperationException` : The operation is not supported.
+    public func listADAssessments(input: ListADAssessmentsInput) async throws -> ListADAssessmentsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listADAssessments")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ds")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListADAssessmentsInput, ListADAssessmentsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListADAssessmentsInput, ListADAssessmentsOutput>(ListADAssessmentsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListADAssessmentsInput, ListADAssessmentsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListADAssessmentsInput, ListADAssessmentsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListADAssessmentsOutput>(ListADAssessmentsOutput.httpOutput(from:), ListADAssessmentsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListADAssessmentsInput, ListADAssessmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListADAssessmentsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Directory", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListADAssessmentsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ListADAssessmentsInput, ListADAssessmentsOutput>(xAmzTarget: "DirectoryService_20150416.ListADAssessments"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListADAssessmentsInput, ListADAssessmentsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListADAssessmentsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListADAssessmentsInput, ListADAssessmentsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListADAssessmentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListADAssessmentsInput, ListADAssessmentsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListADAssessmentsInput, ListADAssessmentsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListADAssessmentsInput, ListADAssessmentsOutput>(serviceID: serviceName, version: DirectoryClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Directory")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListADAssessments")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `ListCertificates` operation on the `Directory` service.
     ///
     /// For the specified directory, lists all the certificates registered for a secure LDAP or client certificate authentication.
@@ -4797,6 +5160,79 @@ extension DirectoryClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartADAssessment` operation on the `Directory` service.
+    ///
+    /// Initiates a directory assessment to validate your self-managed AD environment for hybrid domain join. The assessment checks compatibility and connectivity of the self-managed AD environment. A directory assessment is automatically created when you create a hybrid directory. There are two types of assessments: CUSTOMER and SYSTEM. Your Amazon Web Services account has a limit of 100 CUSTOMER directory assessments. The assessment process typically takes 30 minutes or more to complete. The assessment process is asynchronous and you can monitor it with DescribeADAssessment. The InstanceIds must have a one-to-one correspondence with CustomerDnsIps, meaning that if the IP address for instance i-10243410 is 10.24.34.100 and the IP address for instance i-10243420 is 10.24.34.200, then the input arrays must maintain the same order relationship, either [10.24.34.100, 10.24.34.200] paired with [i-10243410, i-10243420] or [10.24.34.200, 10.24.34.100] paired with [i-10243420, i-10243410]. Note: You must provide exactly one DirectoryId or AssessmentConfiguration.
+    ///
+    /// - Parameter StartADAssessmentInput : [no documentation found]
+    ///
+    /// - Returns: `StartADAssessmentOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ADAssessmentLimitExceededException` : A directory assessment is automatically created when you create a hybrid directory. There are two types of assessments: CUSTOMER and SYSTEM. Your Amazon Web Services account has a limit of 100 CUSTOMER directory assessments. If you attempt to create a hybrid directory; and you already have 100 CUSTOMER directory assessments;, you will encounter an error. Delete assessments to free up capacity before trying again. You can request an increase to your CUSTOMER directory assessment quota by contacting customer support or delete existing CUSTOMER directory assessments; to free up capacity.
+    /// - `ClientException` : A client exception has occurred.
+    /// - `DirectoryDoesNotExistException` : The specified directory does not exist in the system.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ServiceException` : An exception has occurred in Directory Service.
+    /// - `UnsupportedOperationException` : The operation is not supported.
+    public func startADAssessment(input: StartADAssessmentInput) async throws -> StartADAssessmentOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startADAssessment")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ds")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartADAssessmentInput, StartADAssessmentOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartADAssessmentInput, StartADAssessmentOutput>(StartADAssessmentInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartADAssessmentInput, StartADAssessmentOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartADAssessmentInput, StartADAssessmentOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartADAssessmentOutput>(StartADAssessmentOutput.httpOutput(from:), StartADAssessmentOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartADAssessmentInput, StartADAssessmentOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartADAssessmentOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Directory", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartADAssessmentOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartADAssessmentInput, StartADAssessmentOutput>(xAmzTarget: "DirectoryService_20150416.StartADAssessment"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartADAssessmentInput, StartADAssessmentOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartADAssessmentInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartADAssessmentInput, StartADAssessmentOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartADAssessmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartADAssessmentInput, StartADAssessmentOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartADAssessmentInput, StartADAssessmentOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartADAssessmentInput, StartADAssessmentOutput>(serviceID: serviceName, version: DirectoryClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Directory")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartADAssessment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `StartSchemaExtension` operation on the `Directory` service.
     ///
     /// Applies a schema extension to a Microsoft AD directory.
@@ -5079,6 +5515,79 @@ extension DirectoryClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Directory")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateDirectorySetup")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateHybridAD` operation on the `Directory` service.
+    ///
+    /// Updates the configuration of an existing hybrid directory. You can recover hybrid directory administrator account or modify self-managed instance settings. Updates are applied asynchronously. Use [DescribeHybridADUpdate] to monitor the progress of configuration changes. The InstanceIds must have a one-to-one correspondence with CustomerDnsIps, meaning that if the IP address for instance i-10243410 is 10.24.34.100 and the IP address for instance i-10243420 is 10.24.34.200, then the input arrays must maintain the same order relationship, either [10.24.34.100, 10.24.34.200] paired with [i-10243410, i-10243420] or [10.24.34.200, 10.24.34.100] paired with [i-10243420, i-10243410]. You must provide at least one update to [UpdateHybridADRequest$HybridAdministratorAccountUpdate] or [UpdateHybridADRequest$SelfManagedInstancesSettings].
+    ///
+    /// - Parameter UpdateHybridADInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateHybridADOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ADAssessmentLimitExceededException` : A directory assessment is automatically created when you create a hybrid directory. There are two types of assessments: CUSTOMER and SYSTEM. Your Amazon Web Services account has a limit of 100 CUSTOMER directory assessments. If you attempt to create a hybrid directory; and you already have 100 CUSTOMER directory assessments;, you will encounter an error. Delete assessments to free up capacity before trying again. You can request an increase to your CUSTOMER directory assessment quota by contacting customer support or delete existing CUSTOMER directory assessments; to free up capacity.
+    /// - `ClientException` : A client exception has occurred.
+    /// - `DirectoryDoesNotExistException` : The specified directory does not exist in the system.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ServiceException` : An exception has occurred in Directory Service.
+    /// - `UnsupportedOperationException` : The operation is not supported.
+    public func updateHybridAD(input: UpdateHybridADInput) async throws -> UpdateHybridADOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateHybridAD")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ds")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateHybridADInput, UpdateHybridADOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateHybridADInput, UpdateHybridADOutput>(UpdateHybridADInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateHybridADInput, UpdateHybridADOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHybridADInput, UpdateHybridADOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHybridADOutput>(UpdateHybridADOutput.httpOutput(from:), UpdateHybridADOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHybridADInput, UpdateHybridADOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateHybridADOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Directory", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateHybridADOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateHybridADInput, UpdateHybridADOutput>(xAmzTarget: "DirectoryService_20150416.UpdateHybridAD"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateHybridADInput, UpdateHybridADOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateHybridADInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateHybridADInput, UpdateHybridADOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateHybridADOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateHybridADInput, UpdateHybridADOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateHybridADInput, UpdateHybridADOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateHybridADInput, UpdateHybridADOutput>(serviceID: serviceName, version: DirectoryClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Directory")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateHybridAD")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

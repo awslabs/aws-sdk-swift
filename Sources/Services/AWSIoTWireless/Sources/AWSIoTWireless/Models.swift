@@ -2061,23 +2061,39 @@ extension IoTWirelessClientTypes {
         public var drMax: Swift.Int?
         /// The DrMin value.
         public var drMin: Swift.Int?
+        /// The maximum number of transmissions. Default: 3
+        public var nbTransMax: Swift.Int?
+        /// The minimum number of transmissions. Default: 0
+        public var nbTransMin: Swift.Int?
         /// The PRAllowed value that describes whether passive roaming is allowed.
         public var prAllowed: Swift.Bool
         /// The RAAllowed value that describes whether roaming activation is allowed.
         public var raAllowed: Swift.Bool
+        /// The Transmit Power Index maximum. Default: 15
+        public var txPowerIndexMax: Swift.Int?
+        /// The Transmit Power Index minimum. Default: 0
+        public var txPowerIndexMin: Swift.Int?
 
         public init(
             addGwMetadata: Swift.Bool = false,
             drMax: Swift.Int? = nil,
             drMin: Swift.Int? = nil,
+            nbTransMax: Swift.Int? = nil,
+            nbTransMin: Swift.Int? = nil,
             prAllowed: Swift.Bool = false,
-            raAllowed: Swift.Bool = false
+            raAllowed: Swift.Bool = false,
+            txPowerIndexMax: Swift.Int? = nil,
+            txPowerIndexMin: Swift.Int? = nil
         ) {
             self.addGwMetadata = addGwMetadata
             self.drMax = drMax
             self.drMin = drMin
+            self.nbTransMax = nbTransMax
+            self.nbTransMin = nbTransMin
             self.prAllowed = prAllowed
             self.raAllowed = raAllowed
+            self.txPowerIndexMax = txPowerIndexMax
+            self.txPowerIndexMin = txPowerIndexMin
         }
     }
 }
@@ -5626,6 +5642,10 @@ extension IoTWirelessClientTypes {
         public var hrAllowed: Swift.Bool
         /// The MinGwDiversity value.
         public var minGwDiversity: Swift.Int?
+        /// The maximum number of transmissions. Default: 3
+        public var nbTransMax: Swift.Int?
+        /// The minimum number of transmissions. Default: 0
+        public var nbTransMin: Swift.Int?
         /// The NwkGeoLoc value.
         public var nwkGeoLoc: Swift.Bool
         /// The PRAllowed value that describes whether passive roaming is allowed.
@@ -5638,6 +5658,10 @@ extension IoTWirelessClientTypes {
         public var reportDevStatusMargin: Swift.Bool
         /// The TargetPER value.
         public var targetPer: Swift.Int
+        /// The Transmit Power Index maximum value. Default: 15
+        public var txPowerIndexMax: Swift.Int?
+        /// The Transmit Power Index minimum value. Default: 0
+        public var txPowerIndexMin: Swift.Int?
         /// The ULBucketSize value.
         public var ulBucketSize: Swift.Int?
         /// The ULRate value.
@@ -5656,12 +5680,16 @@ extension IoTWirelessClientTypes {
             drMin: Swift.Int = 0,
             hrAllowed: Swift.Bool = false,
             minGwDiversity: Swift.Int? = nil,
+            nbTransMax: Swift.Int? = nil,
+            nbTransMin: Swift.Int? = nil,
             nwkGeoLoc: Swift.Bool = false,
             prAllowed: Swift.Bool = false,
             raAllowed: Swift.Bool = false,
             reportDevStatusBattery: Swift.Bool = false,
             reportDevStatusMargin: Swift.Bool = false,
             targetPer: Swift.Int = 0,
+            txPowerIndexMax: Swift.Int? = nil,
+            txPowerIndexMin: Swift.Int? = nil,
             ulBucketSize: Swift.Int? = nil,
             ulRate: Swift.Int? = nil,
             ulRatePolicy: Swift.String? = nil
@@ -5676,12 +5704,16 @@ extension IoTWirelessClientTypes {
             self.drMin = drMin
             self.hrAllowed = hrAllowed
             self.minGwDiversity = minGwDiversity
+            self.nbTransMax = nbTransMax
+            self.nbTransMin = nbTransMin
             self.nwkGeoLoc = nwkGeoLoc
             self.prAllowed = prAllowed
             self.raAllowed = raAllowed
             self.reportDevStatusBattery = reportDevStatusBattery
             self.reportDevStatusMargin = reportDevStatusMargin
             self.targetPer = targetPer
+            self.txPowerIndexMax = txPowerIndexMax
+            self.txPowerIndexMin = txPowerIndexMin
             self.ulBucketSize = ulBucketSize
             self.ulRate = ulRate
             self.ulRatePolicy = ulRatePolicy
@@ -14792,6 +14824,10 @@ extension IoTWirelessClientTypes.LoRaWANGetServiceProfileInfo {
         value.nwkGeoLoc = try reader["NwkGeoLoc"].readIfPresent() ?? false
         value.targetPer = try reader["TargetPer"].readIfPresent() ?? 0
         value.minGwDiversity = try reader["MinGwDiversity"].readIfPresent()
+        value.txPowerIndexMin = try reader["TxPowerIndexMin"].readIfPresent()
+        value.txPowerIndexMax = try reader["TxPowerIndexMax"].readIfPresent()
+        value.nbTransMin = try reader["NbTransMin"].readIfPresent()
+        value.nbTransMax = try reader["NbTransMax"].readIfPresent()
         return value
     }
 }
@@ -15576,8 +15612,12 @@ extension IoTWirelessClientTypes.LoRaWANServiceProfile {
         try writer["AddGwMetadata"].write(value.addGwMetadata)
         try writer["DrMax"].write(value.drMax)
         try writer["DrMin"].write(value.drMin)
+        try writer["NbTransMax"].write(value.nbTransMax)
+        try writer["NbTransMin"].write(value.nbTransMin)
         try writer["PrAllowed"].write(value.prAllowed)
         try writer["RaAllowed"].write(value.raAllowed)
+        try writer["TxPowerIndexMax"].write(value.txPowerIndexMax)
+        try writer["TxPowerIndexMin"].write(value.txPowerIndexMin)
     }
 }
 
