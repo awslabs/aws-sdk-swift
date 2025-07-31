@@ -6,8 +6,6 @@
 //
 
 import struct Smithy.Attributes
-import struct AWSSDKIdentityAPI.S3ExpressIdentity
-import protocol AWSSDKIdentityAPI.S3ExpressIdentityResolver
 
 public actor DefaultS3ExpressIdentityResolver: S3ExpressIdentityResolver {
     private typealias CacheType = [S3ExpressIdentityCachedElement.CacheKey: S3ExpressIdentityCachedElement]

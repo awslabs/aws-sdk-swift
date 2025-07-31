@@ -5,7 +5,6 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import struct AWSSDKIdentityAPI.S3ExpressIdentity
 @_spi(ClientConfigWrapper) import enum ClientRuntime.IdentityPropertyKeys
 import struct Foundation.Date
 import struct Foundation.TimeInterval
