@@ -887,6 +887,29 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
+    /// Describes the IAM federation options configured for the domain.
+    public struct IAMFederationOptionsOutput: Swift.Sendable {
+        /// True if IAM federation is enabled.
+        public var enabled: Swift.Bool?
+        /// The key used for matching the IAM federation roles attribute.
+        public var rolesKey: Swift.String?
+        /// The key used for matching the IAM federation subject attribute.
+        public var subjectKey: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            rolesKey: Swift.String? = nil,
+            subjectKey: Swift.String? = nil
+        ) {
+            self.enabled = enabled
+            self.rolesKey = rolesKey
+            self.subjectKey = subjectKey
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
     /// Describes the JWT options configured for the domain.
     public struct JWTOptionsOutput: Swift.Sendable {
         /// True if JWT use is enabled.
@@ -974,6 +997,8 @@ extension OpenSearchClientTypes {
         public var anonymousAuthEnabled: Swift.Bool?
         /// True if fine-grained access control is enabled.
         public var enabled: Swift.Bool?
+        /// Container for information about the IAM federation configuration for an OpenSearch UI application.
+        public var iamFederationOptions: OpenSearchClientTypes.IAMFederationOptionsOutput?
         /// True if the internal user database is enabled.
         public var internalUserDatabaseEnabled: Swift.Bool?
         /// Container for information about the JWT configuration of the Amazon OpenSearch Service.
@@ -985,6 +1010,7 @@ extension OpenSearchClientTypes {
             anonymousAuthDisableDate: Foundation.Date? = nil,
             anonymousAuthEnabled: Swift.Bool? = nil,
             enabled: Swift.Bool? = nil,
+            iamFederationOptions: OpenSearchClientTypes.IAMFederationOptionsOutput? = nil,
             internalUserDatabaseEnabled: Swift.Bool? = nil,
             jwtOptions: OpenSearchClientTypes.JWTOptionsOutput? = nil,
             samlOptions: OpenSearchClientTypes.SAMLOptionsOutput? = nil
@@ -992,9 +1018,33 @@ extension OpenSearchClientTypes {
             self.anonymousAuthDisableDate = anonymousAuthDisableDate
             self.anonymousAuthEnabled = anonymousAuthEnabled
             self.enabled = enabled
+            self.iamFederationOptions = iamFederationOptions
             self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
             self.jwtOptions = jwtOptions
             self.samlOptions = samlOptions
+        }
+    }
+}
+
+extension OpenSearchClientTypes {
+
+    /// The IAM federation authentication configuration for an Amazon OpenSearch Service domain.
+    public struct IAMFederationOptionsInput: Swift.Sendable {
+        /// True to enable IAM federation authentication for a domain.
+        public var enabled: Swift.Bool?
+        /// Element of the IAM federation assertion to use for backend roles. Default is roles.
+        public var rolesKey: Swift.String?
+        /// Element of the IAM federation assertion to use for the user name. Default is sub.
+        public var subjectKey: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            rolesKey: Swift.String? = nil,
+            subjectKey: Swift.String? = nil
+        ) {
+            self.enabled = enabled
+            self.rolesKey = rolesKey
+            self.subjectKey = subjectKey
         }
     }
 }
@@ -1106,6 +1156,8 @@ extension OpenSearchClientTypes {
         public var anonymousAuthEnabled: Swift.Bool?
         /// True to enable fine-grained access control.
         public var enabled: Swift.Bool?
+        /// Container for information about the IAM federation configuration for an OpenSearch UI application.
+        public var iamFederationOptions: OpenSearchClientTypes.IAMFederationOptionsInput?
         /// True to enable the internal user database.
         public var internalUserDatabaseEnabled: Swift.Bool?
         /// Container for information about the JWT configuration of the Amazon OpenSearch Service.
@@ -1118,6 +1170,7 @@ extension OpenSearchClientTypes {
         public init(
             anonymousAuthEnabled: Swift.Bool? = nil,
             enabled: Swift.Bool? = nil,
+            iamFederationOptions: OpenSearchClientTypes.IAMFederationOptionsInput? = nil,
             internalUserDatabaseEnabled: Swift.Bool? = nil,
             jwtOptions: OpenSearchClientTypes.JWTOptionsInput? = nil,
             masterUserOptions: OpenSearchClientTypes.MasterUserOptions? = nil,
@@ -1125,6 +1178,7 @@ extension OpenSearchClientTypes {
         ) {
             self.anonymousAuthEnabled = anonymousAuthEnabled
             self.enabled = enabled
+            self.iamFederationOptions = iamFederationOptions
             self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
             self.jwtOptions = jwtOptions
             self.masterUserOptions = masterUserOptions
@@ -13525,8 +13579,21 @@ extension OpenSearchClientTypes.AdvancedSecurityOptions {
         value.internalUserDatabaseEnabled = try reader["InternalUserDatabaseEnabled"].readIfPresent()
         value.samlOptions = try reader["SAMLOptions"].readIfPresent(with: OpenSearchClientTypes.SAMLOptionsOutput.read(from:))
         value.jwtOptions = try reader["JWTOptions"].readIfPresent(with: OpenSearchClientTypes.JWTOptionsOutput.read(from:))
+        value.iamFederationOptions = try reader["IAMFederationOptions"].readIfPresent(with: OpenSearchClientTypes.IAMFederationOptionsOutput.read(from:))
         value.anonymousAuthDisableDate = try reader["AnonymousAuthDisableDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.anonymousAuthEnabled = try reader["AnonymousAuthEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchClientTypes.IAMFederationOptionsOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchClientTypes.IAMFederationOptionsOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchClientTypes.IAMFederationOptionsOutput()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.subjectKey = try reader["SubjectKey"].readIfPresent()
+        value.rolesKey = try reader["RolesKey"].readIfPresent()
         return value
     }
 }
@@ -14892,10 +14959,21 @@ extension OpenSearchClientTypes.AdvancedSecurityOptionsInput {
         guard let value else { return }
         try writer["AnonymousAuthEnabled"].write(value.anonymousAuthEnabled)
         try writer["Enabled"].write(value.enabled)
+        try writer["IAMFederationOptions"].write(value.iamFederationOptions, with: OpenSearchClientTypes.IAMFederationOptionsInput.write(value:to:))
         try writer["InternalUserDatabaseEnabled"].write(value.internalUserDatabaseEnabled)
         try writer["JWTOptions"].write(value.jwtOptions, with: OpenSearchClientTypes.JWTOptionsInput.write(value:to:))
         try writer["MasterUserOptions"].write(value.masterUserOptions, with: OpenSearchClientTypes.MasterUserOptions.write(value:to:))
         try writer["SAMLOptions"].write(value.samlOptions, with: OpenSearchClientTypes.SAMLOptionsInput.write(value:to:))
+    }
+}
+
+extension OpenSearchClientTypes.IAMFederationOptionsInput {
+
+    static func write(value: OpenSearchClientTypes.IAMFederationOptionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["RolesKey"].write(value.rolesKey)
+        try writer["SubjectKey"].write(value.subjectKey)
     }
 }
 

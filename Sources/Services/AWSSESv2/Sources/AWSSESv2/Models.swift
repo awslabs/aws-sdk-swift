@@ -3712,6 +3712,118 @@ public struct CreateMultiRegionEndpointOutput: Swift.Sendable {
     }
 }
 
+/// Represents a request to create a tenant. Tenants are logical containers that group related SES resources together. Each tenant can have its own set of resources like email identities, configuration sets, and templates, along with reputation metrics and sending status. This helps isolate and manage email sending for different customers or business units within your Amazon SES API v2 account.
+public struct CreateTenantInput: Swift.Sendable {
+    /// An array of objects that define the tags (keys and values) to associate with the tenant
+    public var tags: [SESv2ClientTypes.Tag]?
+    /// The name of the tenant to create. The name can contain up to 64 alphanumeric characters, including letters, numbers, hyphens (-) and underscores (_) only.
+    /// This member is required.
+    public var tenantName: Swift.String?
+
+    public init(
+        tags: [SESv2ClientTypes.Tag]? = nil,
+        tenantName: Swift.String? = nil
+    ) {
+        self.tags = tags
+        self.tenantName = tenantName
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// The sending status for a reputation entity. This can be one of the following:
+    ///
+    /// * ENABLED – Sending is allowed for this entity.
+    ///
+    /// * DISABLED – Sending is prevented for this entity.
+    ///
+    /// * REINSTATED – Sending is allowed even if there are active reputation findings.
+    public enum SendingStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case reinstated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SendingStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .reinstated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case .reinstated: return "REINSTATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Information about a newly created tenant.
+public struct CreateTenantOutput: Swift.Sendable {
+    /// The date and time when the tenant was created.
+    public var createdTimestamp: Foundation.Date?
+    /// The status of email sending capability for the tenant.
+    public var sendingStatus: SESv2ClientTypes.SendingStatus?
+    /// An array of objects that define the tags (keys and values) associated with the tenant.
+    public var tags: [SESv2ClientTypes.Tag]?
+    /// The Amazon Resource Name (ARN) of the tenant.
+    public var tenantArn: Swift.String?
+    /// A unique identifier for the tenant.
+    public var tenantId: Swift.String?
+    /// The name of the tenant.
+    public var tenantName: Swift.String?
+
+    public init(
+        createdTimestamp: Foundation.Date? = nil,
+        sendingStatus: SESv2ClientTypes.SendingStatus? = nil,
+        tags: [SESv2ClientTypes.Tag]? = nil,
+        tenantArn: Swift.String? = nil,
+        tenantId: Swift.String? = nil,
+        tenantName: Swift.String? = nil
+    ) {
+        self.createdTimestamp = createdTimestamp
+        self.sendingStatus = sendingStatus
+        self.tags = tags
+        self.tenantArn = tenantArn
+        self.tenantId = tenantId
+        self.tenantName = tenantName
+    }
+}
+
+/// Represents a request to associate a resource with a tenant. Resources can be email identities, configuration sets, or email templates. When you associate a resource with a tenant, you can use that resource when sending emails on behalf of that tenant.
+public struct CreateTenantResourceAssociationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource to associate with the tenant.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The name of the tenant to associate the resource with.
+    /// This member is required.
+    public var tenantName: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tenantName: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.tenantName = tenantName
+    }
+}
+
+/// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+public struct CreateTenantResourceAssociationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 extension SESv2ClientTypes {
 
     /// Contains information about a custom verification email template.
@@ -4171,6 +4283,49 @@ public struct DeleteSuppressedDestinationInput: Swift.Sendable {
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
 public struct DeleteSuppressedDestinationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// Represents a request to delete a tenant.
+public struct DeleteTenantInput: Swift.Sendable {
+    /// The name of the tenant to delete.
+    /// This member is required.
+    public var tenantName: Swift.String?
+
+    public init(
+        tenantName: Swift.String? = nil
+    ) {
+        self.tenantName = tenantName
+    }
+}
+
+/// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+public struct DeleteTenantOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// Represents a request to delete an association between a tenant and a resource.
+public struct DeleteTenantResourceAssociationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the resource to remove from the tenant association.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The name of the tenant to remove the resource association from.
+    /// This member is required.
+    public var tenantName: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tenantName: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+        self.tenantName = tenantName
+    }
+}
+
+/// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+public struct DeleteTenantResourceAssociationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -5961,6 +6116,160 @@ public struct GetMultiRegionEndpointOutput: Swift.Sendable {
     }
 }
 
+extension SESv2ClientTypes {
+
+    /// The type of reputation entity. Currently, only RESOURCE type entities are supported, which represent resources in your Amazon SES account that have reputation tracking capabilities.
+    public enum ReputationEntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case resource
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReputationEntityType] {
+            return [
+                .resource
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .resource: return "RESOURCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Represents a request to retrieve information about a specific reputation entity.
+public struct GetReputationEntityInput: Swift.Sendable {
+    /// The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource.
+    /// This member is required.
+    public var reputationEntityReference: Swift.String?
+    /// The type of reputation entity. Currently, only RESOURCE type entities are supported.
+    /// This member is required.
+    public var reputationEntityType: SESv2ClientTypes.ReputationEntityType?
+
+    public init(
+        reputationEntityReference: Swift.String? = nil,
+        reputationEntityType: SESv2ClientTypes.ReputationEntityType? = nil
+    ) {
+        self.reputationEntityReference = reputationEntityReference
+        self.reputationEntityType = reputationEntityType
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// An object that contains status information for a reputation entity, including the current status, cause description, and timestamp.
+    public struct StatusRecord: Swift.Sendable {
+        /// A description of the reason for the current status, or null if no specific cause is available.
+        public var cause: Swift.String?
+        /// The timestamp when this status was last updated.
+        public var lastUpdatedTimestamp: Foundation.Date?
+        /// The current sending status. This can be one of the following:
+        ///
+        /// * ENABLED – Sending is allowed.
+        ///
+        /// * DISABLED – Sending is prevented.
+        ///
+        /// * REINSTATED – Sending is allowed even with active reputation findings.
+        public var status: SESv2ClientTypes.SendingStatus?
+
+        public init(
+            cause: Swift.String? = nil,
+            lastUpdatedTimestamp: Foundation.Date? = nil,
+            status: SESv2ClientTypes.SendingStatus? = nil
+        ) {
+            self.cause = cause
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.status = status
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    public enum RecommendationImpact: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecommendationImpact] {
+            return [
+                .high,
+                .low
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// An object that contains information about a reputation entity, including its reference, type, policy, status records, and reputation impact.
+    public struct ReputationEntity: Swift.Sendable {
+        /// The Amazon Web Services Amazon SES-managed status record for this reputation entity, including the current status, cause description, and last updated timestamp.
+        public var awsSesManagedStatus: SESv2ClientTypes.StatusRecord?
+        /// The customer-managed status record for this reputation entity, including the current status, cause description, and last updated timestamp.
+        public var customerManagedStatus: SESv2ClientTypes.StatusRecord?
+        /// The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource.
+        public var reputationEntityReference: Swift.String?
+        /// The type of reputation entity. Currently, only RESOURCE type entities are supported.
+        public var reputationEntityType: SESv2ClientTypes.ReputationEntityType?
+        /// The reputation impact level for this entity, representing the highest impact reputation finding currently active. Reputation findings can be retrieved using the ListRecommendations operation.
+        public var reputationImpact: SESv2ClientTypes.RecommendationImpact?
+        /// The Amazon Resource Name (ARN) of the reputation management policy applied to this entity. This is an Amazon Web Services Amazon SES-managed policy.
+        public var reputationManagementPolicy: Swift.String?
+        /// The aggregate sending status that determines whether the entity is allowed to send emails. This status is derived from both the customer-managed and Amazon Web Services Amazon SES-managed statuses. If either the customer-managed status or the Amazon Web Services Amazon SES-managed status is DISABLED, the aggregate status will be DISABLED and the entity will not be allowed to send emails. When the customer-managed status is set to REINSTATED, the entity can continue sending even if there are active reputation findings, provided the Amazon Web Services Amazon SES-managed status also permits sending. The entity can only send emails when both statuses permit sending.
+        public var sendingStatusAggregate: SESv2ClientTypes.SendingStatus?
+
+        public init(
+            awsSesManagedStatus: SESv2ClientTypes.StatusRecord? = nil,
+            customerManagedStatus: SESv2ClientTypes.StatusRecord? = nil,
+            reputationEntityReference: Swift.String? = nil,
+            reputationEntityType: SESv2ClientTypes.ReputationEntityType? = nil,
+            reputationImpact: SESv2ClientTypes.RecommendationImpact? = nil,
+            reputationManagementPolicy: Swift.String? = nil,
+            sendingStatusAggregate: SESv2ClientTypes.SendingStatus? = nil
+        ) {
+            self.awsSesManagedStatus = awsSesManagedStatus
+            self.customerManagedStatus = customerManagedStatus
+            self.reputationEntityReference = reputationEntityReference
+            self.reputationEntityType = reputationEntityType
+            self.reputationImpact = reputationImpact
+            self.reputationManagementPolicy = reputationManagementPolicy
+            self.sendingStatusAggregate = sendingStatusAggregate
+        }
+    }
+}
+
+/// Information about the requested reputation entity.
+public struct GetReputationEntityOutput: Swift.Sendable {
+    /// The reputation entity information, including status records, policy configuration, and reputation impact.
+    public var reputationEntity: SESv2ClientTypes.ReputationEntity?
+
+    public init(
+        reputationEntity: SESv2ClientTypes.ReputationEntity? = nil
+    ) {
+        self.reputationEntity = reputationEntity
+    }
+}
+
 /// A request to retrieve information about an email address that's on the suppression list for your account.
 public struct GetSuppressedDestinationInput: Swift.Sendable {
     /// The email address that's on the account suppression list.
@@ -6033,6 +6342,66 @@ public struct GetSuppressedDestinationOutput: Swift.Sendable {
         suppressedDestination: SESv2ClientTypes.SuppressedDestination? = nil
     ) {
         self.suppressedDestination = suppressedDestination
+    }
+}
+
+/// Represents a request to get information about a specific tenant.
+public struct GetTenantInput: Swift.Sendable {
+    /// The name of the tenant to retrieve information about.
+    /// This member is required.
+    public var tenantName: Swift.String?
+
+    public init(
+        tenantName: Swift.String? = nil
+    ) {
+        self.tenantName = tenantName
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// A structure that contains details about a tenant.
+    public struct Tenant: Swift.Sendable {
+        /// The date and time when the tenant was created.
+        public var createdTimestamp: Foundation.Date?
+        /// The status of sending capability for the tenant.
+        public var sendingStatus: SESv2ClientTypes.SendingStatus?
+        /// An array of objects that define the tags (keys and values) associated with the tenant.
+        public var tags: [SESv2ClientTypes.Tag]?
+        /// The Amazon Resource Name (ARN) of the tenant.
+        public var tenantArn: Swift.String?
+        /// A unique identifier for the tenant.
+        public var tenantId: Swift.String?
+        /// The name of the tenant.
+        public var tenantName: Swift.String?
+
+        public init(
+            createdTimestamp: Foundation.Date? = nil,
+            sendingStatus: SESv2ClientTypes.SendingStatus? = nil,
+            tags: [SESv2ClientTypes.Tag]? = nil,
+            tenantArn: Swift.String? = nil,
+            tenantId: Swift.String? = nil,
+            tenantName: Swift.String? = nil
+        ) {
+            self.createdTimestamp = createdTimestamp
+            self.sendingStatus = sendingStatus
+            self.tags = tags
+            self.tenantArn = tenantArn
+            self.tenantId = tenantId
+            self.tenantName = tenantName
+        }
+    }
+}
+
+/// Information about a specific tenant.
+public struct GetTenantOutput: Swift.Sendable {
+    /// A structure that contains details about the tenant.
+    public var tenant: SESv2ClientTypes.Tenant?
+
+    public init(
+        tenant: SESv2ClientTypes.Tenant? = nil
+    ) {
+        self.tenant = tenant
     }
 }
 
@@ -6754,35 +7123,6 @@ public struct ListRecommendationsInput: Swift.Sendable {
 
 extension SESv2ClientTypes {
 
-    public enum RecommendationImpact: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case high
-        case low
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [RecommendationImpact] {
-            return [
-                .high,
-                .low
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .high: return "HIGH"
-            case .low: return "LOW"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension SESv2ClientTypes {
-
     public enum RecommendationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fixed
         case `open`
@@ -6814,18 +7154,24 @@ extension SESv2ClientTypes {
 
     public enum RecommendationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bimi
+        case bounce
         case complaint
         case dkim
         case dmarc
+        case feedback3p
+        case ipListing
         case spf
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RecommendationType] {
             return [
                 .bimi,
+                .bounce,
                 .complaint,
                 .dkim,
                 .dmarc,
+                .feedback3p,
+                .ipListing,
                 .spf
             ]
         }
@@ -6838,9 +7184,12 @@ extension SESv2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .bimi: return "BIMI"
+            case .bounce: return "BOUNCE"
             case .complaint: return "COMPLAINT"
             case .dkim: return "DKIM"
             case .dmarc: return "DMARC"
+            case .feedback3p: return "FEEDBACK_3P"
+            case .ipListing: return "IP_LISTING"
             case .spf: return "SPF"
             case let .sdkUnknown(s): return s
             }
@@ -6900,6 +7249,150 @@ public struct ListRecommendationsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.recommendations = recommendations
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// The filter key to use when listing reputation entities. This can be one of the following:
+    ///
+    /// * ENTITY_TYPE – Filter by entity type.
+    ///
+    /// * REPUTATION_IMPACT – Filter by reputation impact level.
+    ///
+    /// * SENDING_STATUS – Filter by aggregate sending status.
+    ///
+    /// * ENTITY_REFERENCE_PREFIX – Filter by entity reference prefix.
+    public enum ReputationEntityFilterKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case entityReferencePrefix
+        case entityType
+        case reputationImpact
+        case status
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReputationEntityFilterKey] {
+            return [
+                .entityReferencePrefix,
+                .entityType,
+                .reputationImpact,
+                .status
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .entityReferencePrefix: return "ENTITY_REFERENCE_PREFIX"
+            case .entityType: return "ENTITY_TYPE"
+            case .reputationImpact: return "REPUTATION_IMPACT"
+            case .status: return "SENDING_STATUS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Represents a request to list reputation entities with optional filtering.
+public struct ListReputationEntitiesInput: Swift.Sendable {
+    /// An object that contains filters to apply when listing reputation entities. You can filter by entity type, reputation impact, sending status, or entity reference prefix.
+    public var filter: [Swift.String: Swift.String]?
+    /// A token returned from a previous call to ListReputationEntities to indicate the position in the list of reputation entities.
+    public var nextToken: Swift.String?
+    /// The number of results to show in a single call to ListReputationEntities. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+    public var pageSize: Swift.Int?
+
+    public init(
+        filter: [Swift.String: Swift.String]? = nil,
+        nextToken: Swift.String? = nil,
+        pageSize: Swift.Int? = nil
+    ) {
+        self.filter = filter
+        self.nextToken = nextToken
+        self.pageSize = pageSize
+    }
+}
+
+/// A list of reputation entities in your account.
+public struct ListReputationEntitiesOutput: Swift.Sendable {
+    /// A token that indicates that there are additional reputation entities to list. To view additional reputation entities, issue another request to ListReputationEntities, and pass this token in the NextToken parameter.
+    public var nextToken: Swift.String?
+    /// An array that contains information about the reputation entities in your account.
+    public var reputationEntities: [SESv2ClientTypes.ReputationEntity]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        reputationEntities: [SESv2ClientTypes.ReputationEntity]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.reputationEntities = reputationEntities
+    }
+}
+
+/// Represents a request to list tenants associated with a specific resource.
+public struct ListResourceTenantsInput: Swift.Sendable {
+    /// A token returned from a previous call to ListResourceTenants to indicate the position in the list of resource tenants.
+    public var nextToken: Swift.String?
+    /// The number of results to show in a single call to ListResourceTenants. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+    public var pageSize: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the resource to list associated tenants for.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        pageSize: Swift.Int? = nil,
+        resourceArn: Swift.String? = nil
+    ) {
+        self.nextToken = nextToken
+        self.pageSize = pageSize
+        self.resourceArn = resourceArn
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// A structure that contains information about a tenant associated with a resource.
+    public struct ResourceTenantMetadata: Swift.Sendable {
+        /// The date and time when the resource was associated with the tenant.
+        public var associatedTimestamp: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the resource.
+        public var resourceArn: Swift.String?
+        /// A unique identifier for the tenant associated with the resource.
+        public var tenantId: Swift.String?
+        /// The name of the tenant associated with the resource.
+        public var tenantName: Swift.String?
+
+        public init(
+            associatedTimestamp: Foundation.Date? = nil,
+            resourceArn: Swift.String? = nil,
+            tenantId: Swift.String? = nil,
+            tenantName: Swift.String? = nil
+        ) {
+            self.associatedTimestamp = associatedTimestamp
+            self.resourceArn = resourceArn
+            self.tenantId = tenantId
+            self.tenantName = tenantName
+        }
+    }
+}
+
+/// Information about tenants associated with a specific resource.
+public struct ListResourceTenantsOutput: Swift.Sendable {
+    /// A token that indicates that there are additional tenants to list. To view additional tenants, issue another request to ListResourceTenants, and pass this token in the NextToken parameter.
+    public var nextToken: Swift.String?
+    /// An array that contains information about each tenant associated with the resource.
+    public var resourceTenants: [SESv2ClientTypes.ResourceTenantMetadata]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        resourceTenants: [SESv2ClientTypes.ResourceTenantMetadata]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.resourceTenants = resourceTenants
     }
 }
 
@@ -6994,6 +7487,191 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
         tags: [SESv2ClientTypes.Tag]? = nil
     ) {
         self.tags = tags
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// The key used to filter tenant resources. Currently, the only supported filter key is RESOURCE_TYPE.
+    public enum ListTenantResourcesFilterKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case resourceType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListTenantResourcesFilterKey] {
+            return [
+                .resourceType
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .resourceType: return "RESOURCE_TYPE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Represents a request to list resources associated with a specific tenant.
+public struct ListTenantResourcesInput: Swift.Sendable {
+    /// A map of filter keys and values for filtering the list of tenant resources. Currently, the only supported filter key is RESOURCE_TYPE.
+    public var filter: [Swift.String: Swift.String]?
+    /// A token returned from a previous call to ListTenantResources to indicate the position in the list of tenant resources.
+    public var nextToken: Swift.String?
+    /// The number of results to show in a single call to ListTenantResources. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+    public var pageSize: Swift.Int?
+    /// The name of the tenant to list resources for.
+    /// This member is required.
+    public var tenantName: Swift.String?
+
+    public init(
+        filter: [Swift.String: Swift.String]? = nil,
+        nextToken: Swift.String? = nil,
+        pageSize: Swift.Int? = nil,
+        tenantName: Swift.String? = nil
+    ) {
+        self.filter = filter
+        self.nextToken = nextToken
+        self.pageSize = pageSize
+        self.tenantName = tenantName
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// The type of resource that can be associated with a tenant. Can be one of the following:
+    ///
+    /// * EMAIL_IDENTITY - An email address or domain that you use to send email.
+    ///
+    /// * CONFIGURATION_SET - A set of rules that you can apply to emails you send.
+    ///
+    /// * EMAIL_TEMPLATE - A template that defines the content of an email message.
+    public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case configurationSet
+        case emailIdentity
+        case emailTemplate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceType] {
+            return [
+                .configurationSet,
+                .emailIdentity,
+                .emailTemplate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .configurationSet: return "CONFIGURATION_SET"
+            case .emailIdentity: return "EMAIL_IDENTITY"
+            case .emailTemplate: return "EMAIL_TEMPLATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// A structure that contains information about a resource associated with a tenant.
+    public struct TenantResource: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the resource associated with the tenant.
+        public var resourceArn: Swift.String?
+        /// The type of resource associated with the tenant. Valid values are EMAIL_IDENTITY, CONFIGURATION_SET, or EMAIL_TEMPLATE.
+        public var resourceType: SESv2ClientTypes.ResourceType?
+
+        public init(
+            resourceArn: Swift.String? = nil,
+            resourceType: SESv2ClientTypes.ResourceType? = nil
+        ) {
+            self.resourceArn = resourceArn
+            self.resourceType = resourceType
+        }
+    }
+}
+
+/// Information about resources associated with a specific tenant.
+public struct ListTenantResourcesOutput: Swift.Sendable {
+    /// A token that indicates that there are additional resources to list. To view additional resources, issue another request to ListTenantResources, and pass this token in the NextToken parameter.
+    public var nextToken: Swift.String?
+    /// An array that contains information about each resource associated with the tenant.
+    public var tenantResources: [SESv2ClientTypes.TenantResource]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        tenantResources: [SESv2ClientTypes.TenantResource]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.tenantResources = tenantResources
+    }
+}
+
+/// Represents a request to list all tenants associated with your account in the current Amazon Web Services Region.
+public struct ListTenantsInput: Swift.Sendable {
+    /// A token returned from a previous call to ListTenants to indicate the position in the list of tenants.
+    public var nextToken: Swift.String?
+    /// The number of results to show in a single call to ListTenants. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
+    public var pageSize: Swift.Int?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        pageSize: Swift.Int? = nil
+    ) {
+        self.nextToken = nextToken
+        self.pageSize = pageSize
+    }
+}
+
+extension SESv2ClientTypes {
+
+    /// A structure that contains basic information about a tenant.
+    public struct TenantInfo: Swift.Sendable {
+        /// The date and time when the tenant was created.
+        public var createdTimestamp: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the tenant.
+        public var tenantArn: Swift.String?
+        /// A unique identifier for the tenant.
+        public var tenantId: Swift.String?
+        /// The name of the tenant.
+        public var tenantName: Swift.String?
+
+        public init(
+            createdTimestamp: Foundation.Date? = nil,
+            tenantArn: Swift.String? = nil,
+            tenantId: Swift.String? = nil,
+            tenantName: Swift.String? = nil
+        ) {
+            self.createdTimestamp = createdTimestamp
+            self.tenantArn = tenantArn
+            self.tenantId = tenantId
+            self.tenantName = tenantName
+        }
+    }
+}
+
+/// Information about tenants associated with your account.
+public struct ListTenantsOutput: Swift.Sendable {
+    /// A token that indicates that there are additional tenants to list. To view additional tenants, issue another request to ListTenants, and pass this token in the NextToken parameter.
+    public var nextToken: Swift.String?
+    /// An array that contains basic information about each tenant.
+    public var tenants: [SESv2ClientTypes.TenantInfo]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        tenants: [SESv2ClientTypes.TenantInfo]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.tenants = tenants
     }
 }
 
@@ -7593,6 +8271,8 @@ public struct SendBulkEmailInput: Swift.Sendable {
     public var fromEmailAddressIdentityArn: Swift.String?
     /// The "Reply-to" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply.
     public var replyToAddresses: [Swift.String]?
+    /// The name of the tenant through which this bulk email will be sent. The email sending operation will only succeed if all referenced resources (identities, configuration sets, and templates) are associated with this tenant.
+    public var tenantName: Swift.String?
 
     public init(
         bulkEmailEntries: [SESv2ClientTypes.BulkEmailEntry]? = nil,
@@ -7604,7 +8284,8 @@ public struct SendBulkEmailInput: Swift.Sendable {
         feedbackForwardingEmailAddressIdentityArn: Swift.String? = nil,
         fromEmailAddress: Swift.String? = nil,
         fromEmailAddressIdentityArn: Swift.String? = nil,
-        replyToAddresses: [Swift.String]? = nil
+        replyToAddresses: [Swift.String]? = nil,
+        tenantName: Swift.String? = nil
     ) {
         self.bulkEmailEntries = bulkEmailEntries
         self.configurationSetName = configurationSetName
@@ -7616,6 +8297,7 @@ public struct SendBulkEmailInput: Swift.Sendable {
         self.fromEmailAddress = fromEmailAddress
         self.fromEmailAddressIdentityArn = fromEmailAddressIdentityArn
         self.replyToAddresses = replyToAddresses
+        self.tenantName = tenantName
     }
 }
 
@@ -7691,6 +8373,8 @@ public struct SendEmailInput: Swift.Sendable {
     public var listManagementOptions: SESv2ClientTypes.ListManagementOptions?
     /// The "Reply-to" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply.
     public var replyToAddresses: [Swift.String]?
+    /// The name of the tenant through which this email will be sent. The email sending operation will only succeed if all referenced resources (identities, configuration sets, and templates) are associated with this tenant.
+    public var tenantName: Swift.String?
 
     public init(
         configurationSetName: Swift.String? = nil,
@@ -7703,7 +8387,8 @@ public struct SendEmailInput: Swift.Sendable {
         fromEmailAddress: Swift.String? = nil,
         fromEmailAddressIdentityArn: Swift.String? = nil,
         listManagementOptions: SESv2ClientTypes.ListManagementOptions? = nil,
-        replyToAddresses: [Swift.String]? = nil
+        replyToAddresses: [Swift.String]? = nil,
+        tenantName: Swift.String? = nil
     ) {
         self.configurationSetName = configurationSetName
         self.content = content
@@ -7716,6 +8401,7 @@ public struct SendEmailInput: Swift.Sendable {
         self.fromEmailAddressIdentityArn = fromEmailAddressIdentityArn
         self.listManagementOptions = listManagementOptions
         self.replyToAddresses = replyToAddresses
+        self.tenantName = tenantName
     }
 }
 
@@ -7991,6 +8677,70 @@ public struct UpdateEmailTemplateOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Represents a request to update the customer-managed sending status for a reputation entity.
+public struct UpdateReputationEntityCustomerManagedStatusInput: Swift.Sendable {
+    /// The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource.
+    /// This member is required.
+    public var reputationEntityReference: Swift.String?
+    /// The type of reputation entity. Currently, only RESOURCE type entities are supported.
+    /// This member is required.
+    public var reputationEntityType: SESv2ClientTypes.ReputationEntityType?
+    /// The new customer-managed sending status for the reputation entity. This can be one of the following:
+    ///
+    /// * ENABLED – Allow sending for this entity.
+    ///
+    /// * DISABLED – Prevent sending for this entity.
+    ///
+    /// * REINSTATED – Allow sending even if there are active reputation findings.
+    /// This member is required.
+    public var sendingStatus: SESv2ClientTypes.SendingStatus?
+
+    public init(
+        reputationEntityReference: Swift.String? = nil,
+        reputationEntityType: SESv2ClientTypes.ReputationEntityType? = nil,
+        sendingStatus: SESv2ClientTypes.SendingStatus? = nil
+    ) {
+        self.reputationEntityReference = reputationEntityReference
+        self.reputationEntityType = reputationEntityType
+        self.sendingStatus = sendingStatus
+    }
+}
+
+/// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+public struct UpdateReputationEntityCustomerManagedStatusOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// Represents a request to update the reputation management policy for a reputation entity.
+public struct UpdateReputationEntityPolicyInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the reputation management policy to apply to this entity. This is an Amazon Web Services Amazon SES-managed policy.
+    /// This member is required.
+    public var reputationEntityPolicy: Swift.String?
+    /// The unique identifier for the reputation entity. For resource-type entities, this is the Amazon Resource Name (ARN) of the resource.
+    /// This member is required.
+    public var reputationEntityReference: Swift.String?
+    /// The type of reputation entity. Currently, only RESOURCE type entities are supported.
+    /// This member is required.
+    public var reputationEntityType: SESv2ClientTypes.ReputationEntityType?
+
+    public init(
+        reputationEntityPolicy: Swift.String? = nil,
+        reputationEntityReference: Swift.String? = nil,
+        reputationEntityType: SESv2ClientTypes.ReputationEntityType? = nil
+    ) {
+        self.reputationEntityPolicy = reputationEntityPolicy
+        self.reputationEntityReference = reputationEntityReference
+        self.reputationEntityType = reputationEntityType
+    }
+}
+
+/// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+public struct UpdateReputationEntityPolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 extension BatchGetMetricDataInput {
 
     static func urlPathProvider(_ value: BatchGetMetricDataInput) -> Swift.String? {
@@ -8111,6 +8861,20 @@ extension CreateMultiRegionEndpointInput {
     }
 }
 
+extension CreateTenantInput {
+
+    static func urlPathProvider(_ value: CreateTenantInput) -> Swift.String? {
+        return "/v2/email/tenants"
+    }
+}
+
+extension CreateTenantResourceAssociationInput {
+
+    static func urlPathProvider(_ value: CreateTenantResourceAssociationInput) -> Swift.String? {
+        return "/v2/email/tenants/resources"
+    }
+}
+
 extension DeleteConfigurationSetInput {
 
     static func urlPathProvider(_ value: DeleteConfigurationSetInput) -> Swift.String? {
@@ -8227,6 +8991,20 @@ extension DeleteSuppressedDestinationInput {
             return nil
         }
         return "/v2/email/suppression/addresses/\(emailAddress.urlPercentEncoding())"
+    }
+}
+
+extension DeleteTenantInput {
+
+    static func urlPathProvider(_ value: DeleteTenantInput) -> Swift.String? {
+        return "/v2/email/tenants/delete"
+    }
+}
+
+extension DeleteTenantResourceAssociationInput {
+
+    static func urlPathProvider(_ value: DeleteTenantResourceAssociationInput) -> Swift.String? {
+        return "/v2/email/tenants/resources/delete"
     }
 }
 
@@ -8487,6 +9265,19 @@ extension GetMultiRegionEndpointInput {
     }
 }
 
+extension GetReputationEntityInput {
+
+    static func urlPathProvider(_ value: GetReputationEntityInput) -> Swift.String? {
+        guard let reputationEntityType = value.reputationEntityType else {
+            return nil
+        }
+        guard let reputationEntityReference = value.reputationEntityReference else {
+            return nil
+        }
+        return "/v2/email/reputation/entities/\(reputationEntityType.rawValue.urlPercentEncoding())/\(reputationEntityReference.urlPercentEncoding())"
+    }
+}
+
 extension GetSuppressedDestinationInput {
 
     static func urlPathProvider(_ value: GetSuppressedDestinationInput) -> Swift.String? {
@@ -8494,6 +9285,13 @@ extension GetSuppressedDestinationInput {
             return nil
         }
         return "/v2/email/suppression/addresses/\(emailAddress.urlPercentEncoding())"
+    }
+}
+
+extension GetTenantInput {
+
+    static func urlPathProvider(_ value: GetTenantInput) -> Swift.String? {
+        return "/v2/email/tenants/get"
     }
 }
 
@@ -8750,6 +9548,20 @@ extension ListRecommendationsInput {
     }
 }
 
+extension ListReputationEntitiesInput {
+
+    static func urlPathProvider(_ value: ListReputationEntitiesInput) -> Swift.String? {
+        return "/v2/email/reputation/entities"
+    }
+}
+
+extension ListResourceTenantsInput {
+
+    static func urlPathProvider(_ value: ListResourceTenantsInput) -> Swift.String? {
+        return "/v2/email/resources/tenants/list"
+    }
+}
+
 extension ListSuppressedDestinationsInput {
 
     static func urlPathProvider(_ value: ListSuppressedDestinationsInput) -> Swift.String? {
@@ -8805,6 +9617,20 @@ extension ListTagsForResourceInput {
         let resourceArnQueryItem = Smithy.URIQueryItem(name: "ResourceArn".urlPercentEncoding(), value: Swift.String(resourceArn).urlPercentEncoding())
         items.append(resourceArnQueryItem)
         return items
+    }
+}
+
+extension ListTenantResourcesInput {
+
+    static func urlPathProvider(_ value: ListTenantResourcesInput) -> Swift.String? {
+        return "/v2/email/tenants/resources/list"
+    }
+}
+
+extension ListTenantsInput {
+
+    static func urlPathProvider(_ value: ListTenantsInput) -> Swift.String? {
+        return "/v2/email/tenants/list"
     }
 }
 
@@ -9143,6 +9969,32 @@ extension UpdateEmailTemplateInput {
     }
 }
 
+extension UpdateReputationEntityCustomerManagedStatusInput {
+
+    static func urlPathProvider(_ value: UpdateReputationEntityCustomerManagedStatusInput) -> Swift.String? {
+        guard let reputationEntityType = value.reputationEntityType else {
+            return nil
+        }
+        guard let reputationEntityReference = value.reputationEntityReference else {
+            return nil
+        }
+        return "/v2/email/reputation/entities/\(reputationEntityType.rawValue.urlPercentEncoding())/\(reputationEntityReference.urlPercentEncoding())/customer-managed-status"
+    }
+}
+
+extension UpdateReputationEntityPolicyInput {
+
+    static func urlPathProvider(_ value: UpdateReputationEntityPolicyInput) -> Swift.String? {
+        guard let reputationEntityType = value.reputationEntityType else {
+            return nil
+        }
+        guard let reputationEntityReference = value.reputationEntityReference else {
+            return nil
+        }
+        return "/v2/email/reputation/entities/\(reputationEntityType.rawValue.urlPercentEncoding())/\(reputationEntityReference.urlPercentEncoding())/policy"
+    }
+}
+
 extension BatchGetMetricDataInput {
 
     static func write(value: BatchGetMetricDataInput?, to writer: SmithyJSON.Writer) throws {
@@ -9288,6 +10140,49 @@ extension CreateMultiRegionEndpointInput {
     }
 }
 
+extension CreateTenantInput {
+
+    static func write(value: CreateTenantInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: SESv2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TenantName"].write(value.tenantName)
+    }
+}
+
+extension CreateTenantResourceAssociationInput {
+
+    static func write(value: CreateTenantResourceAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+        try writer["TenantName"].write(value.tenantName)
+    }
+}
+
+extension DeleteTenantInput {
+
+    static func write(value: DeleteTenantInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TenantName"].write(value.tenantName)
+    }
+}
+
+extension DeleteTenantResourceAssociationInput {
+
+    static func write(value: DeleteTenantResourceAssociationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+        try writer["TenantName"].write(value.tenantName)
+    }
+}
+
+extension GetTenantInput {
+
+    static func write(value: GetTenantInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TenantName"].write(value.tenantName)
+    }
+}
+
 extension ListContactsInput {
 
     static func write(value: ListContactsInput?, to writer: SmithyJSON.Writer) throws {
@@ -9324,6 +10219,46 @@ extension ListRecommendationsInput {
     static func write(value: ListRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Filter"].writeMap(value.filter, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["PageSize"].write(value.pageSize)
+    }
+}
+
+extension ListReputationEntitiesInput {
+
+    static func write(value: ListReputationEntitiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filter"].writeMap(value.filter, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["PageSize"].write(value.pageSize)
+    }
+}
+
+extension ListResourceTenantsInput {
+
+    static func write(value: ListResourceTenantsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NextToken"].write(value.nextToken)
+        try writer["PageSize"].write(value.pageSize)
+        try writer["ResourceArn"].write(value.resourceArn)
+    }
+}
+
+extension ListTenantResourcesInput {
+
+    static func write(value: ListTenantResourcesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filter"].writeMap(value.filter, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["PageSize"].write(value.pageSize)
+        try writer["TenantName"].write(value.tenantName)
+    }
+}
+
+extension ListTenantsInput {
+
+    static func write(value: ListTenantsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
         try writer["NextToken"].write(value.nextToken)
         try writer["PageSize"].write(value.pageSize)
     }
@@ -9531,6 +10466,7 @@ extension SendBulkEmailInput {
         try writer["FromEmailAddress"].write(value.fromEmailAddress)
         try writer["FromEmailAddressIdentityArn"].write(value.fromEmailAddressIdentityArn)
         try writer["ReplyToAddresses"].writeList(value.replyToAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TenantName"].write(value.tenantName)
     }
 }
 
@@ -9559,6 +10495,7 @@ extension SendEmailInput {
         try writer["FromEmailAddressIdentityArn"].write(value.fromEmailAddressIdentityArn)
         try writer["ListManagementOptions"].write(value.listManagementOptions, with: SESv2ClientTypes.ListManagementOptions.write(value:to:))
         try writer["ReplyToAddresses"].writeList(value.replyToAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TenantName"].write(value.tenantName)
     }
 }
 
@@ -9631,6 +10568,22 @@ extension UpdateEmailTemplateInput {
     static func write(value: UpdateEmailTemplateInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["TemplateContent"].write(value.templateContent, with: SESv2ClientTypes.EmailTemplateContent.write(value:to:))
+    }
+}
+
+extension UpdateReputationEntityCustomerManagedStatusInput {
+
+    static func write(value: UpdateReputationEntityCustomerManagedStatusInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SendingStatus"].write(value.sendingStatus)
+    }
+}
+
+extension UpdateReputationEntityPolicyInput {
+
+    static func write(value: UpdateReputationEntityPolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ReputationEntityPolicy"].write(value.reputationEntityPolicy)
     }
 }
 
@@ -9774,6 +10727,30 @@ extension CreateMultiRegionEndpointOutput {
     }
 }
 
+extension CreateTenantOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTenantOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTenantOutput()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.sendingStatus = try reader["SendingStatus"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tenantArn = try reader["TenantArn"].readIfPresent()
+        value.tenantId = try reader["TenantId"].readIfPresent()
+        value.tenantName = try reader["TenantName"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateTenantResourceAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTenantResourceAssociationOutput {
+        return CreateTenantResourceAssociationOutput()
+    }
+}
+
 extension DeleteConfigurationSetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConfigurationSetOutput {
@@ -9853,6 +10830,20 @@ extension DeleteSuppressedDestinationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteSuppressedDestinationOutput {
         return DeleteSuppressedDestinationOutput()
+    }
+}
+
+extension DeleteTenantOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTenantOutput {
+        return DeleteTenantOutput()
+    }
+}
+
+extension DeleteTenantResourceAssociationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTenantResourceAssociationOutput {
+        return DeleteTenantResourceAssociationOutput()
     }
 }
 
@@ -10185,6 +11176,18 @@ extension GetMultiRegionEndpointOutput {
     }
 }
 
+extension GetReputationEntityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetReputationEntityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetReputationEntityOutput()
+        value.reputationEntity = try reader["ReputationEntity"].readIfPresent(with: SESv2ClientTypes.ReputationEntity.read(from:))
+        return value
+    }
+}
+
 extension GetSuppressedDestinationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSuppressedDestinationOutput {
@@ -10193,6 +11196,18 @@ extension GetSuppressedDestinationOutput {
         let reader = responseReader
         var value = GetSuppressedDestinationOutput()
         value.suppressedDestination = try reader["SuppressedDestination"].readIfPresent(with: SESv2ClientTypes.SuppressedDestination.read(from:))
+        return value
+    }
+}
+
+extension GetTenantOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTenantOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTenantOutput()
+        value.tenant = try reader["Tenant"].readIfPresent(with: SESv2ClientTypes.Tenant.read(from:))
         return value
     }
 }
@@ -10366,6 +11381,32 @@ extension ListRecommendationsOutput {
     }
 }
 
+extension ListReputationEntitiesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListReputationEntitiesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListReputationEntitiesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.reputationEntities = try reader["ReputationEntities"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.ReputationEntity.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListResourceTenantsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListResourceTenantsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListResourceTenantsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.resourceTenants = try reader["ResourceTenants"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.ResourceTenantMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListSuppressedDestinationsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSuppressedDestinationsOutput {
@@ -10387,6 +11428,32 @@ extension ListTagsForResourceOutput {
         let reader = responseReader
         var value = ListTagsForResourceOutput()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListTenantResourcesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTenantResourcesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTenantResourcesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.tenantResources = try reader["TenantResources"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.TenantResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListTenantsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTenantsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTenantsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.tenants = try reader["Tenants"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.TenantInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10652,6 +11719,20 @@ extension UpdateEmailTemplateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateEmailTemplateOutput {
         return UpdateEmailTemplateOutput()
+    }
+}
+
+extension UpdateReputationEntityCustomerManagedStatusOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateReputationEntityCustomerManagedStatusOutput {
+        return UpdateReputationEntityCustomerManagedStatusOutput()
+    }
+}
+
+extension UpdateReputationEntityPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateReputationEntityPolicyOutput {
+        return UpdateReputationEntityPolicyOutput()
     }
 }
 
@@ -10921,6 +12002,40 @@ enum CreateMultiRegionEndpointOutputError {
     }
 }
 
+enum CreateTenantOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateTenantResourceAssociationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteConfigurationSetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11087,6 +12202,38 @@ enum DeleteMultiRegionEndpointOutputError {
 }
 
 enum DeleteSuppressedDestinationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteTenantOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteTenantResourceAssociationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -11437,7 +12584,39 @@ enum GetMultiRegionEndpointOutputError {
     }
 }
 
+enum GetReputationEntityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetSuppressedDestinationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTenantOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -11652,6 +12831,37 @@ enum ListRecommendationsOutputError {
     }
 }
 
+enum ListReputationEntitiesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListResourceTenantsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListSuppressedDestinationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11678,6 +12888,37 @@ enum ListTagsForResourceOutputError {
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListTenantResourcesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListTenantsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -12244,6 +13485,38 @@ enum UpdateEmailTemplateOutputError {
     }
 }
 
+enum UpdateReputationEntityCustomerManagedStatusOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateReputationEntityPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension BadRequestException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
@@ -12453,6 +13726,23 @@ extension SESv2ClientTypes.DkimAttributes {
     }
 }
 
+extension SESv2ClientTypes.Tag {
+
+    static func write(value: SESv2ClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension SESv2ClientTypes.SendQuota {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SendQuota {
@@ -12626,23 +13916,6 @@ extension SESv2ClientTypes.SendingOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SESv2ClientTypes.SendingOptions()
         value.sendingEnabled = try reader["SendingEnabled"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension SESv2ClientTypes.Tag {
-
-    static func write(value: SESv2ClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESv2ClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13400,6 +14673,34 @@ extension SESv2ClientTypes.Route {
     }
 }
 
+extension SESv2ClientTypes.ReputationEntity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ReputationEntity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.ReputationEntity()
+        value.reputationEntityReference = try reader["ReputationEntityReference"].readIfPresent()
+        value.reputationEntityType = try reader["ReputationEntityType"].readIfPresent()
+        value.reputationManagementPolicy = try reader["ReputationManagementPolicy"].readIfPresent()
+        value.customerManagedStatus = try reader["CustomerManagedStatus"].readIfPresent(with: SESv2ClientTypes.StatusRecord.read(from:))
+        value.awsSesManagedStatus = try reader["AwsSesManagedStatus"].readIfPresent(with: SESv2ClientTypes.StatusRecord.read(from:))
+        value.sendingStatusAggregate = try reader["SendingStatusAggregate"].readIfPresent()
+        value.reputationImpact = try reader["ReputationImpact"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.StatusRecord {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.StatusRecord {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.StatusRecord()
+        value.status = try reader["Status"].readIfPresent()
+        value.cause = try reader["Cause"].readIfPresent()
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension SESv2ClientTypes.SuppressedDestination {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SuppressedDestination {
@@ -13420,6 +14721,21 @@ extension SESv2ClientTypes.SuppressedDestinationAttributes {
         var value = SESv2ClientTypes.SuppressedDestinationAttributes()
         value.messageId = try reader["MessageId"].readIfPresent()
         value.feedbackId = try reader["FeedbackId"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.Tenant {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.Tenant {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.Tenant()
+        value.tenantName = try reader["TenantName"].readIfPresent()
+        value.tenantId = try reader["TenantId"].readIfPresent()
+        value.tenantArn = try reader["TenantArn"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: SESv2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sendingStatus = try reader["SendingStatus"].readIfPresent()
         return value
     }
 }
@@ -13547,6 +14863,19 @@ extension SESv2ClientTypes.Recommendation {
     }
 }
 
+extension SESv2ClientTypes.ResourceTenantMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.ResourceTenantMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.ResourceTenantMetadata()
+        value.tenantName = try reader["TenantName"].readIfPresent()
+        value.tenantId = try reader["TenantId"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.associatedTimestamp = try reader["AssociatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension SESv2ClientTypes.SuppressedDestinationSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.SuppressedDestinationSummary {
@@ -13555,6 +14884,30 @@ extension SESv2ClientTypes.SuppressedDestinationSummary {
         value.emailAddress = try reader["EmailAddress"].readIfPresent() ?? ""
         value.reason = try reader["Reason"].readIfPresent() ?? .sdkUnknown("")
         value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension SESv2ClientTypes.TenantResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.TenantResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.TenantResource()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension SESv2ClientTypes.TenantInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SESv2ClientTypes.TenantInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESv2ClientTypes.TenantInfo()
+        value.tenantName = try reader["TenantName"].readIfPresent()
+        value.tenantId = try reader["TenantId"].readIfPresent()
+        value.tenantArn = try reader["TenantArn"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }

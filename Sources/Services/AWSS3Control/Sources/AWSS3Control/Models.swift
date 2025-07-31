@@ -1445,6 +1445,8 @@ public struct CreateAccessPointInput: Swift.Sendable {
     public var publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration?
     /// For directory buckets, you can filter access control to specific prefixes, API operations, or a combination of both. For more information, see [Managing access to shared datasets in directory buckets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html) in the Amazon S3 User Guide. Scope is only supported for access points attached to directory buckets.
     public var scope: S3ControlClientTypes.Scope?
+    /// An array of tags that you can apply to an access point. Tags are key-value pairs of metadata used to control access to your access points. For more information about tags, see [Using tags with Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html). For information about tagging access points, see [Using tags for attribute-based access control (ABAC)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html#using-tags-for-abac).
+    public var tags: [S3ControlClientTypes.Tag]?
     /// If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC). This is required for creating an access point for Amazon S3 on Outposts buckets.
     public var vpcConfiguration: S3ControlClientTypes.VpcConfiguration?
 
@@ -1455,6 +1457,7 @@ public struct CreateAccessPointInput: Swift.Sendable {
         name: Swift.String? = nil,
         publicAccessBlockConfiguration: S3ControlClientTypes.PublicAccessBlockConfiguration? = nil,
         scope: S3ControlClientTypes.Scope? = nil,
+        tags: [S3ControlClientTypes.Tag]? = nil,
         vpcConfiguration: S3ControlClientTypes.VpcConfiguration? = nil
     ) {
         self.accountId = accountId
@@ -1463,6 +1466,7 @@ public struct CreateAccessPointInput: Swift.Sendable {
         self.name = name
         self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
         self.scope = scope
+        self.tags = tags
         self.vpcConfiguration = vpcConfiguration
     }
 }
@@ -10600,6 +10604,7 @@ extension CreateAccessPointInput {
         try writer["BucketAccountId"].write(value.bucketAccountId)
         try writer["PublicAccessBlockConfiguration"].write(value.publicAccessBlockConfiguration, with: S3ControlClientTypes.PublicAccessBlockConfiguration.write(value:to:))
         try writer["Scope"].write(value.scope, with: S3ControlClientTypes.Scope.write(value:to:))
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ControlClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["VpcConfiguration"].write(value.vpcConfiguration, with: S3ControlClientTypes.VpcConfiguration.write(value:to:))
     }
 }

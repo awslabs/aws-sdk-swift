@@ -21187,6 +21187,36 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    /// The parameters that are required to connect to a Impala data source.
+    public struct ImpalaParameters: Swift.Sendable {
+        /// The database of the Impala data source.
+        public var database: Swift.String?
+        /// The host name of the Impala data source.
+        /// This member is required.
+        public var host: Swift.String?
+        /// The port of the Impala data source.
+        /// This member is required.
+        public var port: Swift.Int?
+        /// The HTTP path of the Impala data source.
+        /// This member is required.
+        public var sqlEndpointPath: Swift.String?
+
+        public init(
+            database: Swift.String? = nil,
+            host: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            sqlEndpointPath: Swift.String? = nil
+        ) {
+            self.database = database
+            self.host = host
+            self.port = port
+            self.sqlEndpointPath = sqlEndpointPath
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The parameters for Jira.
     public struct JiraParameters: Swift.Sendable {
         /// The base URL of the Jira site.
@@ -21838,6 +21868,8 @@ extension QuickSightClientTypes {
         case trinoparameters(QuickSightClientTypes.TrinoParameters)
         /// The parameters that are required to connect to a Google BigQuery data source.
         case bigqueryparameters(QuickSightClientTypes.BigQueryParameters)
+        /// The parameters for Impala.
+        case impalaparameters(QuickSightClientTypes.ImpalaParameters)
         case sdkUnknown(Swift.String)
     }
 }
@@ -67359,6 +67391,8 @@ extension QuickSightClientTypes.DataSourceParameters {
                 try writer["DatabricksParameters"].write(databricksparameters, with: QuickSightClientTypes.DatabricksParameters.write(value:to:))
             case let .exasolparameters(exasolparameters):
                 try writer["ExasolParameters"].write(exasolparameters, with: QuickSightClientTypes.ExasolParameters.write(value:to:))
+            case let .impalaparameters(impalaparameters):
+                try writer["ImpalaParameters"].write(impalaparameters, with: QuickSightClientTypes.ImpalaParameters.write(value:to:))
             case let .jiraparameters(jiraparameters):
                 try writer["JiraParameters"].write(jiraparameters, with: QuickSightClientTypes.JiraParameters.write(value:to:))
             case let .mariadbparameters(mariadbparameters):
@@ -67454,9 +67488,32 @@ extension QuickSightClientTypes.DataSourceParameters {
                 return .trinoparameters(try reader["TrinoParameters"].read(with: QuickSightClientTypes.TrinoParameters.read(from:)))
             case "BigQueryParameters":
                 return .bigqueryparameters(try reader["BigQueryParameters"].read(with: QuickSightClientTypes.BigQueryParameters.read(from:)))
+            case "ImpalaParameters":
+                return .impalaparameters(try reader["ImpalaParameters"].read(with: QuickSightClientTypes.ImpalaParameters.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension QuickSightClientTypes.ImpalaParameters {
+
+    static func write(value: QuickSightClientTypes.ImpalaParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Database"].write(value.database)
+        try writer["Host"].write(value.host)
+        try writer["Port"].write(value.port)
+        try writer["SqlEndpointPath"].write(value.sqlEndpointPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.ImpalaParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.ImpalaParameters()
+        value.host = try reader["Host"].readIfPresent() ?? ""
+        value.port = try reader["Port"].readIfPresent() ?? 0
+        value.database = try reader["Database"].readIfPresent()
+        value.sqlEndpointPath = try reader["SqlEndpointPath"].readIfPresent() ?? ""
+        return value
     }
 }
 

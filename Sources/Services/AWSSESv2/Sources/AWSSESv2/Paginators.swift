@@ -325,6 +325,68 @@ extension ListRecommendationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension SESv2Client {
+    /// Paginate over `[ListReputationEntitiesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListReputationEntitiesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListReputationEntitiesOutput`
+    public func listReputationEntitiesPaginated(input: ListReputationEntitiesInput) -> ClientRuntime.PaginatorSequence<ListReputationEntitiesInput, ListReputationEntitiesOutput> {
+        return ClientRuntime.PaginatorSequence<ListReputationEntitiesInput, ListReputationEntitiesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listReputationEntities(input:))
+    }
+}
+
+extension ListReputationEntitiesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListReputationEntitiesInput {
+        return ListReputationEntitiesInput(
+            filter: self.filter,
+            nextToken: token,
+            pageSize: self.pageSize
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListReputationEntitiesInput, OperationStackOutput == ListReputationEntitiesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listReputationEntitiesPaginated`
+    /// to access the nested member `[SESv2ClientTypes.ReputationEntity]`
+    /// - Returns: `[SESv2ClientTypes.ReputationEntity]`
+    public func reputationEntities() async throws -> [SESv2ClientTypes.ReputationEntity] {
+        return try await self.asyncCompactMap { item in item.reputationEntities }
+    }
+}
+extension SESv2Client {
+    /// Paginate over `[ListResourceTenantsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListResourceTenantsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceTenantsOutput`
+    public func listResourceTenantsPaginated(input: ListResourceTenantsInput) -> ClientRuntime.PaginatorSequence<ListResourceTenantsInput, ListResourceTenantsOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourceTenantsInput, ListResourceTenantsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResourceTenants(input:))
+    }
+}
+
+extension ListResourceTenantsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListResourceTenantsInput {
+        return ListResourceTenantsInput(
+            nextToken: token,
+            pageSize: self.pageSize,
+            resourceArn: self.resourceArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListResourceTenantsInput, OperationStackOutput == ListResourceTenantsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listResourceTenantsPaginated`
+    /// to access the nested member `[SESv2ClientTypes.ResourceTenantMetadata]`
+    /// - Returns: `[SESv2ClientTypes.ResourceTenantMetadata]`
+    public func resourceTenants() async throws -> [SESv2ClientTypes.ResourceTenantMetadata] {
+        return try await self.asyncCompactMap { item in item.resourceTenants }
+    }
+}
+extension SESv2Client {
     /// Paginate over `[ListSuppressedDestinationsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -347,4 +409,66 @@ extension ListSuppressedDestinationsInput: ClientRuntime.PaginateToken {
             reasons: self.reasons,
             startDate: self.startDate
         )}
+}
+extension SESv2Client {
+    /// Paginate over `[ListTenantResourcesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTenantResourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTenantResourcesOutput`
+    public func listTenantResourcesPaginated(input: ListTenantResourcesInput) -> ClientRuntime.PaginatorSequence<ListTenantResourcesInput, ListTenantResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListTenantResourcesInput, ListTenantResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTenantResources(input:))
+    }
+}
+
+extension ListTenantResourcesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTenantResourcesInput {
+        return ListTenantResourcesInput(
+            filter: self.filter,
+            nextToken: token,
+            pageSize: self.pageSize,
+            tenantName: self.tenantName
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListTenantResourcesInput, OperationStackOutput == ListTenantResourcesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTenantResourcesPaginated`
+    /// to access the nested member `[SESv2ClientTypes.TenantResource]`
+    /// - Returns: `[SESv2ClientTypes.TenantResource]`
+    public func tenantResources() async throws -> [SESv2ClientTypes.TenantResource] {
+        return try await self.asyncCompactMap { item in item.tenantResources }
+    }
+}
+extension SESv2Client {
+    /// Paginate over `[ListTenantsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTenantsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTenantsOutput`
+    public func listTenantsPaginated(input: ListTenantsInput) -> ClientRuntime.PaginatorSequence<ListTenantsInput, ListTenantsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTenantsInput, ListTenantsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTenants(input:))
+    }
+}
+
+extension ListTenantsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTenantsInput {
+        return ListTenantsInput(
+            nextToken: token,
+            pageSize: self.pageSize
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListTenantsInput, OperationStackOutput == ListTenantsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTenantsPaginated`
+    /// to access the nested member `[SESv2ClientTypes.TenantInfo]`
+    /// - Returns: `[SESv2ClientTypes.TenantInfo]`
+    public func tenants() async throws -> [SESv2ClientTypes.TenantInfo] {
+        return try await self.asyncCompactMap { item in item.tenants }
+    }
 }
