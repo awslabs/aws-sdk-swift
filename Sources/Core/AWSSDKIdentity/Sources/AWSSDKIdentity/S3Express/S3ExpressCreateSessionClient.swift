@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import struct AWSSDKIdentityAPI.S3ExpressIdentity
 import protocol ClientRuntime.DefaultClientConfiguration
 
 /// Protocol that allows a S3 client to be created & used by the S3Express identity resolver without taking
@@ -26,5 +27,5 @@ public protocol S3ExpressCreateSessionClient: Sendable {
     func createSession(
         clientConfig: DefaultClientConfiguration,
         bucket: String
-    ) async throws -> AWSCredentialIdentity
+    ) async throws -> S3ExpressIdentity
 }

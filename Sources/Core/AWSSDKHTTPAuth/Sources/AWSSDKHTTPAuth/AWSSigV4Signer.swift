@@ -5,6 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import struct AWSSDKIdentityAPI.S3ExpressIdentity
 import class AwsCommonRuntimeKit.HTTPRequestBase
 import class AwsCommonRuntimeKit.Signer
 import class SmithyHTTPAPI.HTTPRequest
@@ -49,7 +50,7 @@ public final class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer, Sendable {
             )
         }
 
-        guard let identity = identity as? AWSCredentialIdentity else {
+        guard let identity = identity.asAWSCredentialIdentity else {
             throw Smithy.ClientError.authError(
                 "Identity passed to the AWSSigV4Signer must be of type Credentials."
             )
@@ -277,5 +278,20 @@ extension SigningConfig {
         default:
             return false
         }
+    }
+}
+
+private extension Identity {
+
+    var asAWSCredentialIdentity: AWSCredentialIdentity? {
+        (self as? AWSCredentialIdentity) ??
+        (self as? S3ExpressIdentity)?.awsCredentialIdentity
+    }
+}
+
+private extension S3ExpressIdentity {
+
+    var awsCredentialIdentity: AWSCredentialIdentity {
+        .init(accessKey: accessKeyID, secret: secretAccessKey, expiration: expiration, sessionToken: sessionToken)
     }
 }
