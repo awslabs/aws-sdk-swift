@@ -6,7 +6,6 @@
 //
 
 import class Foundation.ProcessInfo
-import struct AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain
 import protocol ClientRuntime.Interceptor
 import protocol ClientRuntime.AfterSerialization
 import struct Smithy.Attributes
@@ -14,6 +13,7 @@ import struct Smithy.AttributeKey
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 import protocol SmithyIdentity.BearerTokenIdentityResolver
+import struct SmithyIdentity.ClientConfigDefaultBearerTokenIdentityResolver
 import struct SmithyIdentity.BearerTokenIdentity
 import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 
@@ -38,7 +38,8 @@ public struct BedrockAPIKeyInterceptor<InputType, OutputType>: Interceptor {
         let identityResolvers = attributes.getIdentityResolvers() ?? Attributes()
         let key = AttributeKey<any BearerTokenIdentityResolver>(name: "smithy.api#httpBearerAuth")
         guard !identityResolvers.contains(key: key) || identityResolvers.get(key: key) is
-                DefaultBearerTokenIdentityResolverChain else {
+            ClientConfigDefaultBearerTokenIdentityResolver
+        else {
             return
         }
 

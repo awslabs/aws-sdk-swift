@@ -28,7 +28,7 @@ import protocol ClientRuntime.ModeledError
 extension STSClientTypes {
 
     /// The identifiers for the temporary security credentials that the operation returns.
-    internal struct AssumedRoleUser: Swift.Sendable {
+    package struct AssumedRoleUser: Swift.Sendable {
         /// The ARN of the temporary security credentials that are returned from the [AssumeRole] action. For more information about ARNs and how to use them in policies, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the IAM User Guide.
         /// This member is required.
         public var arn: Swift.String?
@@ -47,9 +47,9 @@ extension STSClientTypes {
 }
 
 /// The web identity token that was passed is expired or is not valid. Get a new identity token from the identity provider and then retry the request.
-internal struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+package struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    internal struct Properties: Swift.Sendable {
+    package struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -70,9 +70,9 @@ internal struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRunt
 }
 
 /// The request was rejected because the policy document was malformed. The error message describes the specific error.
-internal struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+package struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    internal struct Properties: Swift.Sendable {
+    package struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -93,9 +93,9 @@ internal struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AW
 }
 
 /// The request was rejected because the total packed size of the session policies and session tags combined was too large. An Amazon Web Services conversion compresses the session policy document, session policy ARNs, and session tags into a packed binary format that has a separate limit. The error message indicates by percentage how close the policies and tags are to the upper size limit. For more information, see [Passing Session Tags in STS](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html) in the IAM User Guide. You could receive this error even though you meet other defined session policy and session tag limits. For more information, see [IAM and STS Entity Character Limits](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html#reference_iam-limits-entity-length) in the IAM User Guide.
-internal struct PackedPolicyTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+package struct PackedPolicyTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    internal struct Properties: Swift.Sendable {
+    package struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -116,9 +116,9 @@ internal struct PackedPolicyTooLargeException: ClientRuntime.ModeledError, AWSCl
 }
 
 /// STS is not activated in the requested region for the account that is being asked to generate credentials. The account administrator must use the IAM console to activate STS in that region. For more information, see [Activating and Deactivating STS in an Amazon Web Services Region](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_enable-regions.html) in the IAM User Guide.
-internal struct RegionDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+package struct RegionDisabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    internal struct Properties: Swift.Sendable {
+    package struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -141,7 +141,7 @@ internal struct RegionDisabledException: ClientRuntime.ModeledError, AWSClientRu
 extension STSClientTypes {
 
     /// A reference to the IAM managed policy that is passed as a session policy for a role session or a federated user session.
-    internal struct PolicyDescriptorType: Swift.Sendable {
+    package struct PolicyDescriptorType: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the IAM managed policy to use as a session policy for the role. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
 
@@ -156,7 +156,7 @@ extension STSClientTypes {
 extension STSClientTypes {
 
     /// Contains information about the provided context. This includes the signed and encrypted trusted context assertion and the context provider ARN from which the trusted context assertion was generated.
-    internal struct ProvidedContext: Swift.Sendable {
+    package struct ProvidedContext: Swift.Sendable {
         /// The signed and encrypted trusted context assertion generated by the context provider. The trusted context assertion is signed and encrypted by Amazon Web Services STS.
         public var contextAssertion: Swift.String?
         /// The context provider ARN from which the trusted context assertion was generated.
@@ -175,7 +175,7 @@ extension STSClientTypes {
 extension STSClientTypes {
 
     /// You can pass custom key-value pair attributes when you assume a role or federate a user. These are called session tags. You can then use the session tags to control access to resources. For more information, see [Tagging Amazon Web Services STS Sessions](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html) in the IAM User Guide.
-    internal struct Tag: Swift.Sendable {
+    package struct Tag: Swift.Sendable {
         /// The key for a session tag. You can pass up to 50 session tags. The plain text session tag keys can’t exceed 128 characters. For these and additional limits, see [IAM and STS Character Limits](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html#reference_iam-limits-entity-length) in the IAM User Guide.
         /// This member is required.
         public var key: Swift.String?
@@ -193,7 +193,7 @@ extension STSClientTypes {
     }
 }
 
-internal struct AssumeRoleInput: Swift.Sendable {
+package struct AssumeRoleInput: Swift.Sendable {
     /// The duration, in seconds, of the role session. The value specified can range from 900 seconds (15 minutes) up to the maximum session duration set for the role. The maximum session duration setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting or the administrator setting (whichever is lower), the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. Role chaining limits your Amazon Web Services CLI or Amazon Web Services API role session to a maximum of one hour. When you use the AssumeRole API operation to assume a role, you can specify the duration of your role session with the DurationSeconds parameter. You can specify a parameter value of up to 43200 seconds (12 hours), depending on the maximum session duration setting for your role. However, if you assume a role using role chaining and provide a DurationSeconds parameter value greater than one hour, the operation fails. To learn how to view the maximum value for your role, see [Update the maximum session duration for a role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_update-role-settings.html#id_roles_update-session-duration). By default, the value is set to 3600 seconds. The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see [Creating a URL that Enables Federated Users to Access the Amazon Web Services Management Console](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html) in the IAM User Guide.
     public var durationSeconds: Swift.Int?
     /// A unique identifier that might be required when you assume a role in another account. If the administrator of the account to which the role belongs provided you with an external ID, then provide that value in the ExternalId parameter. This value can be any string, such as a passphrase or account number. A cross-account role is usually set up to trust everyone in an account. Therefore, the administrator of the trusting account might send an external ID to the administrator of the trusted account. That way, only someone with the ID can assume the role, rather than everyone in the account. For more information about the external ID, see [How to Use an External ID When Granting Access to Your Amazon Web Services Resources to a Third Party](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user_externalid.html) in the IAM User Guide. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
@@ -253,7 +253,7 @@ internal struct AssumeRoleInput: Swift.Sendable {
 extension STSClientTypes {
 
     /// Amazon Web Services credentials for API authentication.
-    internal struct Credentials: Swift.Sendable {
+    package struct Credentials: Swift.Sendable {
         /// The access key ID that identifies the temporary security credentials.
         /// This member is required.
         public var accessKeyId: Swift.String?
@@ -287,7 +287,7 @@ extension STSClientTypes.Credentials: Swift.CustomDebugStringConvertible {
 }
 
 /// Contains the response to a successful [AssumeRole] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
-internal struct AssumeRoleOutput: Swift.Sendable {
+package struct AssumeRoleOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) and the assumed role ID, which are identifiers that you can use to refer to the resulting temporary security credentials. For example, you can reference these credentials as a principal in a resource-based policy by using the ARN or assumed role ID. The ARN and ID include the RoleSessionName that you specified when you called AssumeRole.
     public var assumedRoleUser: STSClientTypes.AssumedRoleUser?
     /// The temporary security credentials, which include an access key ID, a secret access key, and a security (or session) token. The size of the security token that STS API operations return is not fixed. We strongly recommend that you make no assumptions about the maximum size.
@@ -311,9 +311,9 @@ internal struct AssumeRoleOutput: Swift.Sendable {
 }
 
 /// The request could not be fulfilled because the identity provider (IDP) that was asked to verify the incoming identity token could not be reached. This is often a transient error caused by network conditions. Retry the request a limited number of times so that you don't exceed the request rate. If the error persists, the identity provider might be down or not responding.
-internal struct IDPCommunicationErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+package struct IDPCommunicationErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    internal struct Properties: Swift.Sendable {
+    package struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -334,9 +334,9 @@ internal struct IDPCommunicationErrorException: ClientRuntime.ModeledError, AWSC
 }
 
 /// The identity provider (IdP) reported that authentication failed. This might be because the claim is invalid. If this error is returned for the AssumeRoleWithWebIdentity operation, it can also mean that the claim has expired or has been explicitly revoked.
-internal struct IDPRejectedClaimException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+package struct IDPRejectedClaimException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    internal struct Properties: Swift.Sendable {
+    package struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -357,9 +357,9 @@ internal struct IDPRejectedClaimException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// The web identity token that was passed could not be validated by Amazon Web Services. Get a new identity token from the identity provider and then retry the request.
-internal struct InvalidIdentityTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+package struct InvalidIdentityTokenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    internal struct Properties: Swift.Sendable {
+    package struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -379,7 +379,7 @@ internal struct InvalidIdentityTokenException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-internal struct AssumeRoleWithWebIdentityInput: Swift.Sendable {
+package struct AssumeRoleWithWebIdentityInput: Swift.Sendable {
     /// The duration, in seconds, of the role session. The value can range from 900 seconds (15 minutes) up to the maximum session duration setting for the role. This setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting, the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails. To learn how to view the maximum value for your role, see [View the Maximum Session Duration Setting for a Role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html#id_roles_use_view-role-max-session) in the IAM User Guide. By default, the value is set to 3600 seconds. The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see [Creating a URL that Enables Federated Users to Access the Amazon Web Services Management Console](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html) in the IAM User Guide.
     public var durationSeconds: Swift.Int?
     /// An IAM policy in JSON format that you want to use as an inline session policy. This parameter is optional. Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent Amazon Web Services API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters. For more information about role session permissions, see [Session policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session). An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.
@@ -423,7 +423,7 @@ extension AssumeRoleWithWebIdentityInput: Swift.CustomDebugStringConvertible {
 }
 
 /// Contains the response to a successful [AssumeRoleWithWebIdentity] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
-internal struct AssumeRoleWithWebIdentityOutput: Swift.Sendable {
+package struct AssumeRoleWithWebIdentityOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) and the assumed role ID, which are identifiers that you can use to refer to the resulting temporary security credentials. For example, you can reference these credentials as a principal in a resource-based policy by using the ARN or assumed role ID. The ARN and ID include the RoleSessionName that you specified when you called AssumeRole.
     public var assumedRoleUser: STSClientTypes.AssumedRoleUser?
     /// The intended audience (also known as client ID) of the web identity token. This is traditionally the client identifier issued to the application that requested the web identity token.
@@ -720,4 +720,4 @@ extension STSClientTypes.ProvidedContext {
     }
 }
 
-internal enum STSClientTypes {}
+package enum STSClientTypes {}

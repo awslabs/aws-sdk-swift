@@ -10,7 +10,6 @@
 import class AWSClientRuntime.AWSClientConfigDefaultsProvider
 import class AWSClientRuntime.AmzSdkRequestMiddleware
 import class AWSClientRuntime.DefaultAWSClientPlugin
-import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import class ClientRuntime.ClientBuilder
 import class ClientRuntime.DefaultClientPlugin
 import class ClientRuntime.HttpClientConfiguration
@@ -56,6 +55,7 @@ import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
+import struct InternalAWSCommon.EmptyAWSCredentialIdentityResolver
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
 import struct SmithyIdentity.StaticBearerTokenIdentityResolver
@@ -63,7 +63,7 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-internal class SSOOIDCClient: ClientRuntime.Client {
+package class SSOOIDCClient: ClientRuntime.Client {
     public static let clientName = "SSOOIDCClient"
     public static let version = "1.5.12"
     let client: ClientRuntime.SdkHttpClient
@@ -202,7 +202,7 @@ extension SSOOIDCClient {
                 useFIPS,
                 useDualStack,
                 try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
+                awsCredentialIdentityResolver ?? InternalAWSCommon.EmptyAWSCredentialIdentityResolver(),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
                 try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
@@ -258,7 +258,7 @@ extension SSOOIDCClient {
                 useFIPS,
                 useDualStack,
                 try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                awsCredentialIdentityResolver ?? AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
+                awsCredentialIdentityResolver ?? InternalAWSCommon.EmptyAWSCredentialIdentityResolver(),
                 try awsRetryMode ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 maxAttempts,
                 try requestChecksumCalculation ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.requestChecksumCalculation(requestChecksumCalculation),
@@ -318,7 +318,7 @@ extension SSOOIDCClient {
                 nil,
                 nil,
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
-                AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain(),
+                InternalAWSCommon.EmptyAWSCredentialIdentityResolver(),
                 try AWSClientRuntime.AWSClientConfigDefaultsProvider.retryMode(),
                 nil,
                 try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),

@@ -24,9 +24,9 @@ import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
 
 /// Indicates that a problem occurred with the input to the request. For example, a required parameter might be missing or out of range.
-internal struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+package struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    internal struct Properties: Swift.Sendable {
+    package struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -47,9 +47,9 @@ internal struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRu
 }
 
 /// The specified resource doesn't exist.
-internal struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+package struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    internal struct Properties: Swift.Sendable {
+    package struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -70,9 +70,9 @@ internal struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClient
 }
 
 /// Indicates that the request is being made too frequently and is more than what the server can handle.
-internal struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+package struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    internal struct Properties: Swift.Sendable {
+    package struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -93,9 +93,9 @@ internal struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientR
 }
 
 /// Indicates that the request is not authorized. This can happen due to an invalid access token in the request.
-internal struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+package struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    internal struct Properties: Swift.Sendable {
+    package struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -115,7 +115,7 @@ internal struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-internal struct GetRoleCredentialsInput: Swift.Sendable {
+package struct GetRoleCredentialsInput: Swift.Sendable {
     /// The token issued by the CreateToken API call. For more information, see [CreateToken](https://docs.aws.amazon.com/singlesignon/latest/OIDCAPIReference/API_CreateToken.html) in the IAM Identity Center OIDC API Reference Guide.
     /// This member is required.
     public var accessToken: Swift.String?
@@ -145,7 +145,7 @@ extension GetRoleCredentialsInput: Swift.CustomDebugStringConvertible {
 extension SSOClientTypes {
 
     /// Provides information about the role credentials that are assigned to the user.
-    internal struct RoleCredentials: Swift.Sendable {
+    package struct RoleCredentials: Swift.Sendable {
         /// The identifier used for the temporary security credentials. For more information, see [Using Temporary Security Credentials to Request Access to AWS Resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html) in the AWS IAM User Guide.
         public var accessKeyId: Swift.String?
         /// The date on which temporary security credentials expire.
@@ -174,7 +174,7 @@ extension SSOClientTypes.RoleCredentials: Swift.CustomDebugStringConvertible {
         "RoleCredentials(accessKeyId: \(Swift.String(describing: accessKeyId)), expiration: \(Swift.String(describing: expiration)), secretAccessKey: \"CONTENT_REDACTED\", sessionToken: \"CONTENT_REDACTED\")"}
 }
 
-internal struct GetRoleCredentialsOutput: Swift.Sendable {
+package struct GetRoleCredentialsOutput: Swift.Sendable {
     /// The credentials for the role that is assigned to the user.
     public var roleCredentials: SSOClientTypes.RoleCredentials?
 
@@ -317,4 +317,4 @@ extension SSOClientTypes.RoleCredentials {
     }
 }
 
-internal enum SSOClientTypes {}
+package enum SSOClientTypes {}

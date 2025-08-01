@@ -7,6 +7,7 @@ package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.InternalAWSCommonTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.traits.HttpBearerAuthTrait
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
@@ -62,7 +63,13 @@ class AWSHttpProtocolServiceClient(
                         ConfigProperty(
                             "bearerTokenIdentityResolver",
                             SmithyIdentityTypes.BearerTokenIdentityResolver.toGeneric(),
-                            { it.format("\$N()", AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain) },
+                            {
+                                it.format(
+                                    "\$N(\$N())",
+                                    SmithyIdentityTypes.ClientConfigDefaultBearerTokenIdentityResolver,
+                                    AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain,
+                                )
+                            },
                             true,
                         )
                     } else {
@@ -156,7 +163,11 @@ class AWSHttpProtocolServiceClient(
                             writer.write("region,")
                         }
                         "awsCredentialIdentityResolver" -> {
-                            writer.write("\$N(),", AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain)
+                            if (ctx.settings.internalClient) {
+                                writer.write("\$N(),", InternalAWSCommonTypes.EmptyAWSCredentialIdentityResolver)
+                            } else {
+                                writer.write("\$N(),", AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain)
+                            }
                         }
                         "retryStrategyOptions" -> {
                             writer.write("try AWSClientConfigDefaultsProvider.retryStrategyOptions(),")

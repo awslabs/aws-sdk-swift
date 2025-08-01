@@ -96,22 +96,15 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
     }
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
-        guard let identityProperties, let internalSTSClient = identityProperties.get(
-            key: InternalClientKeys.internalSTSClientKey
-        ) else {
-            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
-                "STSWebIdentityAWSCredentialIdentityResolver: "
-                + "Missing IdentityProvidingSTSClient in identity properties."
-            )
-        }
         let (region, roleARN, tokenFilePath, roleSessionName) = try resolveConfiguration()
         var token = try readToken(from: tokenFilePath)
         let tokenFeatureIDs = resolveTokenFeatureID()
+        let stsClient = IdentityProvidingSTSClient()
 
         var backoff = 0.1
         for _ in 0..<maxRetries {
             do {
-                return try await internalSTSClient.getCredentialsWithWebIdentity(
+                return try await stsClient.getCredentialsWithWebIdentity(
                     region: region,
                     roleARN: roleARN,
                     roleSessionName: roleSessionName,
@@ -132,7 +125,7 @@ public actor STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentityR
             }
         }
 
-        return try await internalSTSClient.getCredentialsWithWebIdentity(
+        return try await stsClient.getCredentialsWithWebIdentity(
             region: region,
             roleARN: roleARN,
             roleSessionName: roleSessionName,
