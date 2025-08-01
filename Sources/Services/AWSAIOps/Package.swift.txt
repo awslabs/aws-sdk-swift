@@ -116,10 +116,6 @@ let package = Package(
                     name: "SmithyTestUtil",
                     package: "smithy-swift"
                 ),
-                .product(
-                    name: "SmithyTimestamps",
-                    package: "smithy-swift"
-                ),
             ]
         ),
         .testTarget(

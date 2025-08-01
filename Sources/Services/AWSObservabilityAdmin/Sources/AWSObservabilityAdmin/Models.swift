@@ -26,6 +26,16 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 
+public struct DeleteTelemetryRuleForOrganizationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteTelemetryRuleOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct GetTelemetryEvaluationStatusForOrganizationInput: Swift.Sendable {
 
     public init() { }
@@ -76,7 +86,17 @@ public struct StopTelemetryEvaluationOutput: Swift.Sendable {
     public init() { }
 }
 
-/// Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for AWS resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
+public struct TagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UntagResourceOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// Indicates you don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see [Access management for Amazon Web Services resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/access.html) in the IAM user guide.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -99,6 +119,29 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
         message: Swift.String? = nil
     ) {
         self.properties.amznErrorType = amznErrorType
+        self.properties.message = message
+    }
+}
+
+/// The requested operation conflicts with the current state of the specified resource or with another request.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
         self.properties.message = message
     }
 }
@@ -130,62 +173,53 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-extension ObservabilityAdminClientTypes {
+/// The requested operation would exceed the allowed quota for the specified resource type.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
-    public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case failedStart
-        case failedStop
-        case notStarted
-        case running
-        case starting
-        case stopped
-        case stopping
-        case sdkUnknown(Swift.String)
+    public struct Properties: Swift.Sendable {
+        /// The name of the exception.
+        public internal(set) var amznErrorType: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
 
-        public static var allCases: [Status] {
-            return [
-                .failedStart,
-                .failedStop,
-                .notStarted,
-                .running,
-                .starting,
-                .stopped,
-                .stopping
-            ]
-        }
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
 
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .failedStart: return "FAILED_START"
-            case .failedStop: return "FAILED_STOP"
-            case .notStarted: return "NOT_STARTED"
-            case .running: return "RUNNING"
-            case .starting: return "STARTING"
-            case .stopped: return "STOPPED"
-            case .stopping: return "STOPPING"
-            case let .sdkUnknown(s): return s
-            }
-        }
+    public init(
+        amznErrorType: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.amznErrorType = amznErrorType
+        self.properties.message = message
     }
 }
 
-public struct GetTelemetryEvaluationStatusOutput: Swift.Sendable {
-    /// Describes the reason for the failure status. The field will only be populated if Status is FAILED_START or FAILED_STOP.
-    public var failureReason: Swift.String?
-    /// The onboarding status of the telemetry config feature.
-    public var status: ObservabilityAdminClientTypes.Status?
+/// The request throughput limit was exceeded.
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyRequestsException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
 
     public init(
-        failureReason: Swift.String? = nil,
-        status: ObservabilityAdminClientTypes.Status? = nil
+        message: Swift.String? = nil
     ) {
-        self.failureReason = failureReason
-        self.status = status
+        self.properties.message = message
     }
 }
 
@@ -212,18 +246,79 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-public struct GetTelemetryEvaluationStatusForOrganizationOutput: Swift.Sendable {
-    /// This field describes the reason for the failure status. The field will only be populated if Status is FAILED_START or FAILED_STOP.
-    public var failureReason: Swift.String?
-    /// The onboarding status of the telemetry config feature for the organization.
-    public var status: ObservabilityAdminClientTypes.Status?
+extension ObservabilityAdminClientTypes {
 
-    public init(
-        failureReason: Swift.String? = nil,
-        status: ObservabilityAdminClientTypes.Status? = nil
-    ) {
-        self.failureReason = failureReason
-        self.status = status
+    public enum DestinationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cloudwatchLogs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DestinationType] {
+            return [
+                .cloudwatchLogs
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudwatchLogs: return "cloud-watch-logs"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// Configuration parameters specific to VPC Flow Logs.
+    public struct VPCFlowLogParameters: Swift.Sendable {
+        /// The format in which VPC Flow Log entries should be logged.
+        public var logFormat: Swift.String?
+        /// The maximum interval in seconds between the capture of flow log records.
+        public var maxAggregationInterval: Swift.Int?
+        /// The type of traffic to log (ACCEPT, REJECT, or ALL).
+        public var trafficType: Swift.String?
+
+        public init(
+            logFormat: Swift.String? = nil,
+            maxAggregationInterval: Swift.Int? = nil,
+            trafficType: Swift.String? = nil
+        ) {
+            self.logFormat = logFormat
+            self.maxAggregationInterval = maxAggregationInterval
+            self.trafficType = trafficType
+        }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// Configuration specifying where and how telemetry data should be delivered for Amazon Web Services resources.
+    public struct TelemetryDestinationConfiguration: Swift.Sendable {
+        /// The pattern used to generate the destination path or name, supporting macros like <resourceId> and <accountId>.
+        public var destinationPattern: Swift.String?
+        /// The type of destination for the telemetry data (e.g., "Amazon CloudWatch Logs", "S3").
+        public var destinationType: ObservabilityAdminClientTypes.DestinationType?
+        /// The number of days to retain the telemetry data in the destination.
+        public var retentionInDays: Swift.Int?
+        /// Configuration parameters specific to VPC Flow Logs when VPC is the resource type.
+        public var vpcFlowLogParameters: ObservabilityAdminClientTypes.VPCFlowLogParameters?
+
+        public init(
+            destinationPattern: Swift.String? = nil,
+            destinationType: ObservabilityAdminClientTypes.DestinationType? = nil,
+            retentionInDays: Swift.Int? = nil,
+            vpcFlowLogParameters: ObservabilityAdminClientTypes.VPCFlowLogParameters? = nil
+        ) {
+            self.destinationPattern = destinationPattern
+            self.destinationType = destinationType
+            self.retentionInDays = retentionInDays
+            self.vpcFlowLogParameters = vpcFlowLogParameters
+        }
     }
 }
 
@@ -288,6 +383,301 @@ extension ObservabilityAdminClientTypes {
             case let .sdkUnknown(s): return s
             }
         }
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// Defines how telemetry should be configured for specific Amazon Web Services resources.
+    public struct TelemetryRule: Swift.Sendable {
+        /// Configuration specifying where and how the telemetry data should be delivered.
+        public var destinationConfiguration: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration?
+        /// The type of Amazon Web Services resource to configure telemetry for (e.g., "AWS::EC2::VPC").
+        public var resourceType: ObservabilityAdminClientTypes.ResourceType?
+        /// The organizational scope to which the rule applies, specified using accounts or organizational units.
+        public var scope: Swift.String?
+        /// Criteria for selecting which resources the rule applies to, such as resource tags.
+        public var selectionCriteria: Swift.String?
+        /// The type of telemetry to collect (Logs, Metrics, or Traces).
+        /// This member is required.
+        public var telemetryType: ObservabilityAdminClientTypes.TelemetryType?
+
+        public init(
+            destinationConfiguration: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration? = nil,
+            resourceType: ObservabilityAdminClientTypes.ResourceType? = nil,
+            scope: Swift.String? = nil,
+            selectionCriteria: Swift.String? = nil,
+            telemetryType: ObservabilityAdminClientTypes.TelemetryType? = nil
+        ) {
+            self.destinationConfiguration = destinationConfiguration
+            self.resourceType = resourceType
+            self.scope = scope
+            self.selectionCriteria = selectionCriteria
+            self.telemetryType = telemetryType
+        }
+    }
+}
+
+public struct CreateTelemetryRuleInput: Swift.Sendable {
+    /// The configuration details for the telemetry rule, including the resource type, telemetry type, destination configuration, and selection criteria for which resources the rule applies to.
+    /// This member is required.
+    public var rule: ObservabilityAdminClientTypes.TelemetryRule?
+    /// A unique name for the telemetry rule being created.
+    /// This member is required.
+    public var ruleName: Swift.String?
+    /// The key-value pairs to associate with the telemetry rule resource for categorization and management purposes.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        rule: ObservabilityAdminClientTypes.TelemetryRule? = nil,
+        ruleName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.rule = rule
+        self.ruleName = ruleName
+        self.tags = tags
+    }
+}
+
+public struct CreateTelemetryRuleOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the created telemetry rule.
+    public var ruleArn: Swift.String?
+
+    public init(
+        ruleArn: Swift.String? = nil
+    ) {
+        self.ruleArn = ruleArn
+    }
+}
+
+public struct CreateTelemetryRuleForOrganizationInput: Swift.Sendable {
+    /// The configuration details for the organization-wide telemetry rule, including the resource type, telemetry type, destination configuration, and selection criteria for which resources the rule applies to across the organization.
+    /// This member is required.
+    public var rule: ObservabilityAdminClientTypes.TelemetryRule?
+    /// A unique name for the organization-wide telemetry rule being created.
+    /// This member is required.
+    public var ruleName: Swift.String?
+    /// The key-value pairs to associate with the organization telemetry rule resource for categorization and management purposes.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        rule: ObservabilityAdminClientTypes.TelemetryRule? = nil,
+        ruleName: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.rule = rule
+        self.ruleName = ruleName
+        self.tags = tags
+    }
+}
+
+public struct CreateTelemetryRuleForOrganizationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the created organization telemetry rule.
+    public var ruleArn: Swift.String?
+
+    public init(
+        ruleArn: Swift.String? = nil
+    ) {
+        self.ruleArn = ruleArn
+    }
+}
+
+/// The specified resource (such as a telemetry rule) could not be found.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteTelemetryRuleInput: Swift.Sendable {
+    /// The identifier (name or ARN) of the telemetry rule to delete.
+    /// This member is required.
+    public var ruleIdentifier: Swift.String?
+
+    public init(
+        ruleIdentifier: Swift.String? = nil
+    ) {
+        self.ruleIdentifier = ruleIdentifier
+    }
+}
+
+public struct DeleteTelemetryRuleForOrganizationInput: Swift.Sendable {
+    /// The identifier (name or ARN) of the organization telemetry rule to delete.
+    /// This member is required.
+    public var ruleIdentifier: Swift.String?
+
+    public init(
+        ruleIdentifier: Swift.String? = nil
+    ) {
+        self.ruleIdentifier = ruleIdentifier
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failedStart
+        case failedStop
+        case notStarted
+        case running
+        case starting
+        case stopped
+        case stopping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Status] {
+            return [
+                .failedStart,
+                .failedStop,
+                .notStarted,
+                .running,
+                .starting,
+                .stopped,
+                .stopping
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failedStart: return "FAILED_START"
+            case .failedStop: return "FAILED_STOP"
+            case .notStarted: return "NOT_STARTED"
+            case .running: return "RUNNING"
+            case .starting: return "STARTING"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetTelemetryEvaluationStatusOutput: Swift.Sendable {
+    /// Describes the reason for the failure status. The field will only be populated if Status is FAILED_START or FAILED_STOP.
+    public var failureReason: Swift.String?
+    /// The onboarding status of the telemetry config feature.
+    public var status: ObservabilityAdminClientTypes.Status?
+
+    public init(
+        failureReason: Swift.String? = nil,
+        status: ObservabilityAdminClientTypes.Status? = nil
+    ) {
+        self.failureReason = failureReason
+        self.status = status
+    }
+}
+
+public struct GetTelemetryEvaluationStatusForOrganizationOutput: Swift.Sendable {
+    /// This field describes the reason for the failure status. The field will only be populated if Status is FAILED_START or FAILED_STOP.
+    public var failureReason: Swift.String?
+    /// The onboarding status of the telemetry config feature for the organization.
+    public var status: ObservabilityAdminClientTypes.Status?
+
+    public init(
+        failureReason: Swift.String? = nil,
+        status: ObservabilityAdminClientTypes.Status? = nil
+    ) {
+        self.failureReason = failureReason
+        self.status = status
+    }
+}
+
+public struct GetTelemetryRuleInput: Swift.Sendable {
+    /// The identifier (name or ARN) of the telemetry rule to retrieve.
+    /// This member is required.
+    public var ruleIdentifier: Swift.String?
+
+    public init(
+        ruleIdentifier: Swift.String? = nil
+    ) {
+        self.ruleIdentifier = ruleIdentifier
+    }
+}
+
+public struct GetTelemetryRuleOutput: Swift.Sendable {
+    /// The timestamp when the telemetry rule was created.
+    public var createdTimeStamp: Swift.Int?
+    /// The timestamp when the telemetry rule was last updated.
+    public var lastUpdateTimeStamp: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the telemetry rule.
+    public var ruleArn: Swift.String?
+    /// The name of the telemetry rule.
+    public var ruleName: Swift.String?
+    /// The configuration details of the telemetry rule.
+    public var telemetryRule: ObservabilityAdminClientTypes.TelemetryRule?
+
+    public init(
+        createdTimeStamp: Swift.Int? = nil,
+        lastUpdateTimeStamp: Swift.Int? = nil,
+        ruleArn: Swift.String? = nil,
+        ruleName: Swift.String? = nil,
+        telemetryRule: ObservabilityAdminClientTypes.TelemetryRule? = nil
+    ) {
+        self.createdTimeStamp = createdTimeStamp
+        self.lastUpdateTimeStamp = lastUpdateTimeStamp
+        self.ruleArn = ruleArn
+        self.ruleName = ruleName
+        self.telemetryRule = telemetryRule
+    }
+}
+
+public struct GetTelemetryRuleForOrganizationInput: Swift.Sendable {
+    /// The identifier (name or ARN) of the organization telemetry rule to retrieve.
+    /// This member is required.
+    public var ruleIdentifier: Swift.String?
+
+    public init(
+        ruleIdentifier: Swift.String? = nil
+    ) {
+        self.ruleIdentifier = ruleIdentifier
+    }
+}
+
+public struct GetTelemetryRuleForOrganizationOutput: Swift.Sendable {
+    /// The timestamp when the organization telemetry rule was created.
+    public var createdTimeStamp: Swift.Int?
+    /// The timestamp when the organization telemetry rule was last updated.
+    public var lastUpdateTimeStamp: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the organization telemetry rule.
+    public var ruleArn: Swift.String?
+    /// The name of the organization telemetry rule.
+    public var ruleName: Swift.String?
+    /// The configuration details of the organization telemetry rule.
+    public var telemetryRule: ObservabilityAdminClientTypes.TelemetryRule?
+
+    public init(
+        createdTimeStamp: Swift.Int? = nil,
+        lastUpdateTimeStamp: Swift.Int? = nil,
+        ruleArn: Swift.String? = nil,
+        ruleName: Swift.String? = nil,
+        telemetryRule: ObservabilityAdminClientTypes.TelemetryRule? = nil
+    ) {
+        self.createdTimeStamp = createdTimeStamp
+        self.lastUpdateTimeStamp = lastUpdateTimeStamp
+        self.ruleArn = ruleArn
+        self.ruleName = ruleName
+        self.telemetryRule = telemetryRule
     }
 }
 
@@ -366,7 +756,7 @@ extension ObservabilityAdminClientTypes {
         public var resourceIdentifier: Swift.String?
         /// Tags associated with the resource, for example { Name: "ExampleInstance", Environment: "Development" }.
         public var resourceTags: [Swift.String: Swift.String]?
-        /// The type of resource, for example AWS::EC2::Instance.
+        /// The type of resource, for example Amazon Web Services::EC2::Instance.
         public var resourceType: ObservabilityAdminClientTypes.ResourceType?
         /// The configuration state for the resource, for example { Logs: NotApplicable; Metrics: Enabled; Traces: NotApplicable; }.
         public var telemetryConfigurationState: [Swift.String: ObservabilityAdminClientTypes.TelemetryState]?
@@ -392,7 +782,7 @@ extension ObservabilityAdminClientTypes {
 public struct ListResourceTelemetryOutput: Swift.Sendable {
     /// The token for the next set of items to return. A previous call generates this token.
     public var nextToken: Swift.String?
-    /// A list of telemetry configurations for AWS resources supported by telemetry config in the caller's account.
+    /// A list of telemetry configurations for Amazon Web Services resources supported by telemetry config in the caller's account.
     public var telemetryConfigurations: [ObservabilityAdminClientTypes.TelemetryConfiguration]?
 
     public init(
@@ -405,7 +795,7 @@ public struct ListResourceTelemetryOutput: Swift.Sendable {
 }
 
 public struct ListResourceTelemetryForOrganizationInput: Swift.Sendable {
-    /// A list of AWS account IDs used to filter the resources to those associated with the specified accounts.
+    /// A list of Amazon Web Services accounts used to filter the resources to those associated with the specified accounts.
     public var accountIdentifiers: [Swift.String]?
     /// A number field used to limit the number of results within the returned list.
     public var maxResults: Swift.Int?
@@ -442,7 +832,7 @@ public struct ListResourceTelemetryForOrganizationInput: Swift.Sendable {
 public struct ListResourceTelemetryForOrganizationOutput: Swift.Sendable {
     /// The token for the next set of items to return. A previous call provides this token.
     public var nextToken: Swift.String?
-    /// A list of telemetry configurations for AWS resources supported by telemetry config in the organization.
+    /// A list of telemetry configurations for Amazon Web Services resources supported by telemetry config in the organization.
     public var telemetryConfigurations: [ObservabilityAdminClientTypes.TelemetryConfiguration]?
 
     public init(
@@ -451,6 +841,259 @@ public struct ListResourceTelemetryForOrganizationOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.telemetryConfigurations = telemetryConfigurations
+    }
+}
+
+public struct ListTagsForResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the telemetry rule resource whose tags you want to list.
+    /// This member is required.
+    public var resourceARN: Swift.String?
+
+    public init(
+        resourceARN: Swift.String? = nil
+    ) {
+        self.resourceARN = resourceARN
+    }
+}
+
+public struct ListTagsForResourceOutput: Swift.Sendable {
+    /// The list of tags associated with the telemetry rule resource.
+    /// This member is required.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.tags = tags
+    }
+}
+
+public struct ListTelemetryRulesInput: Swift.Sendable {
+    /// The maximum number of telemetry rules to return in a single call.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. A previous call generates this token.
+    public var nextToken: Swift.String?
+    /// A string to filter telemetry rules whose names begin with the specified prefix.
+    public var ruleNamePrefix: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        ruleNamePrefix: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.ruleNamePrefix = ruleNamePrefix
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
+    /// A summary of a telemetry rule's key properties.
+    public struct TelemetryRuleSummary: Swift.Sendable {
+        /// The timestamp when the telemetry rule was created.
+        public var createdTimeStamp: Swift.Int?
+        /// The timestamp when the telemetry rule was last modified.
+        public var lastUpdateTimeStamp: Swift.Int?
+        /// The type of Amazon Web Services resource the rule applies to.
+        public var resourceType: ObservabilityAdminClientTypes.ResourceType?
+        /// The Amazon Resource Name (ARN) of the telemetry rule.
+        public var ruleArn: Swift.String?
+        /// The name of the telemetry rule.
+        public var ruleName: Swift.String?
+        /// The type of telemetry (Logs, Metrics, or Traces) the rule configures.
+        public var telemetryType: ObservabilityAdminClientTypes.TelemetryType?
+
+        public init(
+            createdTimeStamp: Swift.Int? = nil,
+            lastUpdateTimeStamp: Swift.Int? = nil,
+            resourceType: ObservabilityAdminClientTypes.ResourceType? = nil,
+            ruleArn: Swift.String? = nil,
+            ruleName: Swift.String? = nil,
+            telemetryType: ObservabilityAdminClientTypes.TelemetryType? = nil
+        ) {
+            self.createdTimeStamp = createdTimeStamp
+            self.lastUpdateTimeStamp = lastUpdateTimeStamp
+            self.resourceType = resourceType
+            self.ruleArn = ruleArn
+            self.ruleName = ruleName
+            self.telemetryType = telemetryType
+        }
+    }
+}
+
+public struct ListTelemetryRulesOutput: Swift.Sendable {
+    /// A token to resume pagination of results.
+    public var nextToken: Swift.String?
+    /// A list of telemetry rule summaries.
+    public var telemetryRuleSummaries: [ObservabilityAdminClientTypes.TelemetryRuleSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        telemetryRuleSummaries: [ObservabilityAdminClientTypes.TelemetryRuleSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.telemetryRuleSummaries = telemetryRuleSummaries
+    }
+}
+
+public struct ListTelemetryRulesForOrganizationInput: Swift.Sendable {
+    /// The maximum number of organization telemetry rules to return in a single call.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. A previous call generates this token.
+    public var nextToken: Swift.String?
+    /// A string to filter organization telemetry rules whose names begin with the specified prefix.
+    public var ruleNamePrefix: Swift.String?
+    /// The list of account IDs to filter organization telemetry rules by their source accounts.
+    public var sourceAccountIds: [Swift.String]?
+    /// The list of organizational unit IDs to filter organization telemetry rules by their source organizational units.
+    public var sourceOrganizationUnitIds: [Swift.String]?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        ruleNamePrefix: Swift.String? = nil,
+        sourceAccountIds: [Swift.String]? = nil,
+        sourceOrganizationUnitIds: [Swift.String]? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.ruleNamePrefix = ruleNamePrefix
+        self.sourceAccountIds = sourceAccountIds
+        self.sourceOrganizationUnitIds = sourceOrganizationUnitIds
+    }
+}
+
+public struct ListTelemetryRulesForOrganizationOutput: Swift.Sendable {
+    /// A token to resume pagination of results.
+    public var nextToken: Swift.String?
+    /// A list of organization telemetry rule summaries.
+    public var telemetryRuleSummaries: [ObservabilityAdminClientTypes.TelemetryRuleSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        telemetryRuleSummaries: [ObservabilityAdminClientTypes.TelemetryRuleSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.telemetryRuleSummaries = telemetryRuleSummaries
+    }
+}
+
+public struct TagResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the telemetry rule resource to tag.
+    /// This member is required.
+    public var resourceARN: Swift.String?
+    /// The key-value pairs to add or update for the telemetry rule resource.
+    /// This member is required.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        resourceARN: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.resourceARN = resourceARN
+        self.tags = tags
+    }
+}
+
+public struct UntagResourceInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the telemetry rule resource to remove tags from.
+    /// This member is required.
+    public var resourceARN: Swift.String?
+    /// The list of tag keys to remove from the telemetry rule resource.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        resourceARN: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    ) {
+        self.resourceARN = resourceARN
+        self.tagKeys = tagKeys
+    }
+}
+
+public struct UpdateTelemetryRuleInput: Swift.Sendable {
+    /// The new configuration details for the telemetry rule.
+    /// This member is required.
+    public var rule: ObservabilityAdminClientTypes.TelemetryRule?
+    /// The identifier (name or ARN) of the telemetry rule to update.
+    /// This member is required.
+    public var ruleIdentifier: Swift.String?
+
+    public init(
+        rule: ObservabilityAdminClientTypes.TelemetryRule? = nil,
+        ruleIdentifier: Swift.String? = nil
+    ) {
+        self.rule = rule
+        self.ruleIdentifier = ruleIdentifier
+    }
+}
+
+public struct UpdateTelemetryRuleOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the updated telemetry rule.
+    public var ruleArn: Swift.String?
+
+    public init(
+        ruleArn: Swift.String? = nil
+    ) {
+        self.ruleArn = ruleArn
+    }
+}
+
+public struct UpdateTelemetryRuleForOrganizationInput: Swift.Sendable {
+    /// The new configuration details for the organization telemetry rule, including resource type, telemetry type, and destination configuration.
+    /// This member is required.
+    public var rule: ObservabilityAdminClientTypes.TelemetryRule?
+    /// The identifier (name or ARN) of the organization telemetry rule to update.
+    /// This member is required.
+    public var ruleIdentifier: Swift.String?
+
+    public init(
+        rule: ObservabilityAdminClientTypes.TelemetryRule? = nil,
+        ruleIdentifier: Swift.String? = nil
+    ) {
+        self.rule = rule
+        self.ruleIdentifier = ruleIdentifier
+    }
+}
+
+public struct UpdateTelemetryRuleForOrganizationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the updated organization telemetry rule.
+    public var ruleArn: Swift.String?
+
+    public init(
+        ruleArn: Swift.String? = nil
+    ) {
+        self.ruleArn = ruleArn
+    }
+}
+
+extension CreateTelemetryRuleInput {
+
+    static func urlPathProvider(_ value: CreateTelemetryRuleInput) -> Swift.String? {
+        return "/CreateTelemetryRule"
+    }
+}
+
+extension CreateTelemetryRuleForOrganizationInput {
+
+    static func urlPathProvider(_ value: CreateTelemetryRuleForOrganizationInput) -> Swift.String? {
+        return "/CreateTelemetryRuleForOrganization"
+    }
+}
+
+extension DeleteTelemetryRuleInput {
+
+    static func urlPathProvider(_ value: DeleteTelemetryRuleInput) -> Swift.String? {
+        return "/DeleteTelemetryRule"
+    }
+}
+
+extension DeleteTelemetryRuleForOrganizationInput {
+
+    static func urlPathProvider(_ value: DeleteTelemetryRuleForOrganizationInput) -> Swift.String? {
+        return "/DeleteTelemetryRuleForOrganization"
     }
 }
 
@@ -468,6 +1111,20 @@ extension GetTelemetryEvaluationStatusForOrganizationInput {
     }
 }
 
+extension GetTelemetryRuleInput {
+
+    static func urlPathProvider(_ value: GetTelemetryRuleInput) -> Swift.String? {
+        return "/GetTelemetryRule"
+    }
+}
+
+extension GetTelemetryRuleForOrganizationInput {
+
+    static func urlPathProvider(_ value: GetTelemetryRuleForOrganizationInput) -> Swift.String? {
+        return "/GetTelemetryRuleForOrganization"
+    }
+}
+
 extension ListResourceTelemetryInput {
 
     static func urlPathProvider(_ value: ListResourceTelemetryInput) -> Swift.String? {
@@ -479,6 +1136,27 @@ extension ListResourceTelemetryForOrganizationInput {
 
     static func urlPathProvider(_ value: ListResourceTelemetryForOrganizationInput) -> Swift.String? {
         return "/ListResourceTelemetryForOrganization"
+    }
+}
+
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        return "/ListTagsForResource"
+    }
+}
+
+extension ListTelemetryRulesInput {
+
+    static func urlPathProvider(_ value: ListTelemetryRulesInput) -> Swift.String? {
+        return "/ListTelemetryRules"
+    }
+}
+
+extension ListTelemetryRulesForOrganizationInput {
+
+    static func urlPathProvider(_ value: ListTelemetryRulesForOrganizationInput) -> Swift.String? {
+        return "/ListTelemetryRulesForOrganization"
     }
 }
 
@@ -510,6 +1188,86 @@ extension StopTelemetryEvaluationForOrganizationInput {
     }
 }
 
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        return "/TagResource"
+    }
+}
+
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        return "/UntagResource"
+    }
+}
+
+extension UpdateTelemetryRuleInput {
+
+    static func urlPathProvider(_ value: UpdateTelemetryRuleInput) -> Swift.String? {
+        return "/UpdateTelemetryRule"
+    }
+}
+
+extension UpdateTelemetryRuleForOrganizationInput {
+
+    static func urlPathProvider(_ value: UpdateTelemetryRuleForOrganizationInput) -> Swift.String? {
+        return "/UpdateTelemetryRuleForOrganization"
+    }
+}
+
+extension CreateTelemetryRuleInput {
+
+    static func write(value: CreateTelemetryRuleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Rule"].write(value.rule, with: ObservabilityAdminClientTypes.TelemetryRule.write(value:to:))
+        try writer["RuleName"].write(value.ruleName)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateTelemetryRuleForOrganizationInput {
+
+    static func write(value: CreateTelemetryRuleForOrganizationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Rule"].write(value.rule, with: ObservabilityAdminClientTypes.TelemetryRule.write(value:to:))
+        try writer["RuleName"].write(value.ruleName)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension DeleteTelemetryRuleInput {
+
+    static func write(value: DeleteTelemetryRuleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RuleIdentifier"].write(value.ruleIdentifier)
+    }
+}
+
+extension DeleteTelemetryRuleForOrganizationInput {
+
+    static func write(value: DeleteTelemetryRuleForOrganizationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RuleIdentifier"].write(value.ruleIdentifier)
+    }
+}
+
+extension GetTelemetryRuleInput {
+
+    static func write(value: GetTelemetryRuleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RuleIdentifier"].write(value.ruleIdentifier)
+    }
+}
+
+extension GetTelemetryRuleForOrganizationInput {
+
+    static func write(value: GetTelemetryRuleForOrganizationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RuleIdentifier"].write(value.ruleIdentifier)
+    }
+}
+
 extension ListResourceTelemetryInput {
 
     static func write(value: ListResourceTelemetryInput?, to writer: SmithyJSON.Writer) throws {
@@ -534,6 +1292,110 @@ extension ListResourceTelemetryForOrganizationInput {
         try writer["ResourceTags"].writeMap(value.resourceTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["ResourceTypes"].writeList(value.resourceTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ObservabilityAdminClientTypes.ResourceType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TelemetryConfigurationState"].writeMap(value.telemetryConfigurationState, valueWritingClosure: SmithyReadWrite.WritingClosureBox<ObservabilityAdminClientTypes.TelemetryState>().write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension ListTagsForResourceInput {
+
+    static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
+    }
+}
+
+extension ListTelemetryRulesInput {
+
+    static func write(value: ListTelemetryRulesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["RuleNamePrefix"].write(value.ruleNamePrefix)
+    }
+}
+
+extension ListTelemetryRulesForOrganizationInput {
+
+    static func write(value: ListTelemetryRulesForOrganizationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["RuleNamePrefix"].write(value.ruleNamePrefix)
+        try writer["SourceAccountIds"].writeList(value.sourceAccountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SourceOrganizationUnitIds"].writeList(value.sourceOrganizationUnitIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension TagResourceInput {
+
+    static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension UntagResourceInput {
+
+    static func write(value: UntagResourceInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceARN"].write(value.resourceARN)
+        try writer["TagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateTelemetryRuleInput {
+
+    static func write(value: UpdateTelemetryRuleInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Rule"].write(value.rule, with: ObservabilityAdminClientTypes.TelemetryRule.write(value:to:))
+        try writer["RuleIdentifier"].write(value.ruleIdentifier)
+    }
+}
+
+extension UpdateTelemetryRuleForOrganizationInput {
+
+    static func write(value: UpdateTelemetryRuleForOrganizationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Rule"].write(value.rule, with: ObservabilityAdminClientTypes.TelemetryRule.write(value:to:))
+        try writer["RuleIdentifier"].write(value.ruleIdentifier)
+    }
+}
+
+extension CreateTelemetryRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTelemetryRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTelemetryRuleOutput()
+        value.ruleArn = try reader["RuleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateTelemetryRuleForOrganizationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTelemetryRuleForOrganizationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTelemetryRuleForOrganizationOutput()
+        value.ruleArn = try reader["RuleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteTelemetryRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTelemetryRuleOutput {
+        return DeleteTelemetryRuleOutput()
+    }
+}
+
+extension DeleteTelemetryRuleForOrganizationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTelemetryRuleForOrganizationOutput {
+        return DeleteTelemetryRuleForOrganizationOutput()
     }
 }
 
@@ -563,6 +1425,38 @@ extension GetTelemetryEvaluationStatusForOrganizationOutput {
     }
 }
 
+extension GetTelemetryRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTelemetryRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTelemetryRuleOutput()
+        value.createdTimeStamp = try reader["CreatedTimeStamp"].readIfPresent()
+        value.lastUpdateTimeStamp = try reader["LastUpdateTimeStamp"].readIfPresent()
+        value.ruleArn = try reader["RuleArn"].readIfPresent()
+        value.ruleName = try reader["RuleName"].readIfPresent()
+        value.telemetryRule = try reader["TelemetryRule"].readIfPresent(with: ObservabilityAdminClientTypes.TelemetryRule.read(from:))
+        return value
+    }
+}
+
+extension GetTelemetryRuleForOrganizationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTelemetryRuleForOrganizationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTelemetryRuleForOrganizationOutput()
+        value.createdTimeStamp = try reader["CreatedTimeStamp"].readIfPresent()
+        value.lastUpdateTimeStamp = try reader["LastUpdateTimeStamp"].readIfPresent()
+        value.ruleArn = try reader["RuleArn"].readIfPresent()
+        value.ruleName = try reader["RuleName"].readIfPresent()
+        value.telemetryRule = try reader["TelemetryRule"].readIfPresent(with: ObservabilityAdminClientTypes.TelemetryRule.read(from:))
+        return value
+    }
+}
+
 extension ListResourceTelemetryOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListResourceTelemetryOutput {
@@ -585,6 +1479,44 @@ extension ListResourceTelemetryForOrganizationOutput {
         var value = ListResourceTelemetryForOrganizationOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.telemetryConfigurations = try reader["TelemetryConfigurations"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.TelemetryConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListTagsForResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTagsForResourceOutput()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension ListTelemetryRulesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTelemetryRulesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTelemetryRulesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.telemetryRuleSummaries = try reader["TelemetryRuleSummaries"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.TelemetryRuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListTelemetryRulesForOrganizationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTelemetryRulesForOrganizationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTelemetryRulesForOrganizationOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.telemetryRuleSummaries = try reader["TelemetryRuleSummaries"].readListIfPresent(memberReadingClosure: ObservabilityAdminClientTypes.TelemetryRuleSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -617,6 +1549,118 @@ extension StopTelemetryEvaluationForOrganizationOutput {
     }
 }
 
+extension TagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
+        return TagResourceOutput()
+    }
+}
+
+extension UntagResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
+        return UntagResourceOutput()
+    }
+}
+
+extension UpdateTelemetryRuleOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTelemetryRuleOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateTelemetryRuleOutput()
+        value.ruleArn = try reader["RuleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateTelemetryRuleForOrganizationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTelemetryRuleForOrganizationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateTelemetryRuleForOrganizationOutput()
+        value.ruleArn = try reader["RuleArn"].readIfPresent()
+        return value
+    }
+}
+
+enum CreateTelemetryRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateTelemetryRuleForOrganizationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteTelemetryRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteTelemetryRuleForOrganizationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetTelemetryEvaluationStatusOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -627,6 +1671,7 @@ enum GetTelemetryEvaluationStatusOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -642,6 +1687,43 @@ enum GetTelemetryEvaluationStatusForOrganizationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTelemetryRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTelemetryRuleForOrganizationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -658,6 +1740,7 @@ enum ListResourceTelemetryOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -674,6 +1757,59 @@ enum ListResourceTelemetryForOrganizationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListTagsForResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListTelemetryRulesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListTelemetryRulesForOrganizationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -690,6 +1826,7 @@ enum StartTelemetryEvaluationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -706,6 +1843,7 @@ enum StartTelemetryEvaluationForOrganizationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -722,6 +1860,7 @@ enum StopTelemetryEvaluationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -738,6 +1877,82 @@ enum StopTelemetryEvaluationForOrganizationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum TagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UntagResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateTelemetryRuleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateTelemetryRuleForOrganizationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -753,6 +1968,19 @@ extension AccessDeniedException {
         if let amznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
             value.properties.amznErrorType = amznErrorTypeHeaderValue
         }
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -778,6 +2006,36 @@ extension InternalServerException {
     }
 }
 
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
+        var value = ServiceQuotaExceededException()
+        if let amznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
+            value.properties.amznErrorType = amznErrorTypeHeaderValue
+        }
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyRequestsException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+        let reader = baseError.errorBodyReader
+        var value = TooManyRequestsException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ValidationException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
@@ -787,6 +2045,82 @@ extension ValidationException {
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.TelemetryRule {
+
+    static func write(value: ObservabilityAdminClientTypes.TelemetryRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationConfiguration"].write(value.destinationConfiguration, with: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration.write(value:to:))
+        try writer["ResourceType"].write(value.resourceType)
+        try writer["Scope"].write(value.scope)
+        try writer["SelectionCriteria"].write(value.selectionCriteria)
+        try writer["TelemetryType"].write(value.telemetryType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.TelemetryRule()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.telemetryType = try reader["TelemetryType"].readIfPresent() ?? .sdkUnknown("")
+        value.destinationConfiguration = try reader["DestinationConfiguration"].readIfPresent(with: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration.read(from:))
+        value.scope = try reader["Scope"].readIfPresent()
+        value.selectionCriteria = try reader["SelectionCriteria"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.TelemetryDestinationConfiguration {
+
+    static func write(value: ObservabilityAdminClientTypes.TelemetryDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationPattern"].write(value.destinationPattern)
+        try writer["DestinationType"].write(value.destinationType)
+        try writer["RetentionInDays"].write(value.retentionInDays)
+        try writer["VPCFlowLogParameters"].write(value.vpcFlowLogParameters, with: ObservabilityAdminClientTypes.VPCFlowLogParameters.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryDestinationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.TelemetryDestinationConfiguration()
+        value.destinationType = try reader["DestinationType"].readIfPresent()
+        value.destinationPattern = try reader["DestinationPattern"].readIfPresent()
+        value.retentionInDays = try reader["RetentionInDays"].readIfPresent()
+        value.vpcFlowLogParameters = try reader["VPCFlowLogParameters"].readIfPresent(with: ObservabilityAdminClientTypes.VPCFlowLogParameters.read(from:))
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.VPCFlowLogParameters {
+
+    static func write(value: ObservabilityAdminClientTypes.VPCFlowLogParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LogFormat"].write(value.logFormat)
+        try writer["MaxAggregationInterval"].write(value.maxAggregationInterval)
+        try writer["TrafficType"].write(value.trafficType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.VPCFlowLogParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.VPCFlowLogParameters()
+        value.logFormat = try reader["LogFormat"].readIfPresent()
+        value.trafficType = try reader["TrafficType"].readIfPresent()
+        value.maxAggregationInterval = try reader["MaxAggregationInterval"].readIfPresent()
         return value
     }
 }
@@ -802,6 +2136,21 @@ extension ObservabilityAdminClientTypes.TelemetryConfiguration {
         value.resourceIdentifier = try reader["ResourceIdentifier"].readIfPresent()
         value.resourceTags = try reader["ResourceTags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.lastUpdateTimeStamp = try reader["LastUpdateTimeStamp"].readIfPresent()
+        return value
+    }
+}
+
+extension ObservabilityAdminClientTypes.TelemetryRuleSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ObservabilityAdminClientTypes.TelemetryRuleSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ObservabilityAdminClientTypes.TelemetryRuleSummary()
+        value.ruleName = try reader["RuleName"].readIfPresent()
+        value.ruleArn = try reader["RuleArn"].readIfPresent()
+        value.createdTimeStamp = try reader["CreatedTimeStamp"].readIfPresent()
+        value.lastUpdateTimeStamp = try reader["LastUpdateTimeStamp"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.telemetryType = try reader["TelemetryType"].readIfPresent()
         return value
     }
 }
