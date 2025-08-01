@@ -85,6 +85,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSAPIGateway](../../../../../swift/api/awsapigateway/latest)
 
+[AWSARCRegionswitch](../../../../../swift/api/awsarcregionswitch/latest)
+
 [AWSARCZonalShift](../../../../../swift/api/awsarczonalshift/latest)
 
 [AWSAccessAnalyzer](../../../../../swift/api/awsaccessanalyzer/latest)

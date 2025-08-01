@@ -27,6 +27,7 @@ let serviceTargets: [String] = [
     "AWSACMPCA",
     "AWSAIOps",
     "AWSAPIGateway",
+    "AWSARCRegionswitch",
     "AWSARCZonalShift",
     "AWSAccessAnalyzer",
     "AWSAccount",
