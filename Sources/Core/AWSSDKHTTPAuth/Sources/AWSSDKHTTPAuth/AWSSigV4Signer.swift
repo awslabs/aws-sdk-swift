@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import struct AWSSDKIdentity.S3ExpressIdentity
+import struct AWSSDKIdentityAPI.S3ExpressIdentity
 import class AwsCommonRuntimeKit.HTTPRequestBase
 import class AwsCommonRuntimeKit.Signer
 import class SmithyHTTPAPI.HTTPRequest

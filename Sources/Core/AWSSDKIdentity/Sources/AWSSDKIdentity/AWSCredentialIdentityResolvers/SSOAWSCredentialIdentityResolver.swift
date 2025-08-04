@@ -58,15 +58,6 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
     }
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
-        guard let identityProperties, let internalSSOClient = identityProperties.get(
-            key: InternalClientKeys.internalSSOClientKey
-        ) else {
-            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
-                "SSOAWSCredentialIdentityResolver: "
-                + "Missing IdentityProvidingSSOClient in identity properties."
-            )
-        }
-
         let fileBasedConfig = try CRTFileBasedConfiguration(
             configFilePath: configFilePath,
             credentialsFilePath: credentialsFilePath
@@ -97,7 +88,7 @@ public struct SSOAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
             )
         }
 
-        return try await internalSSOClient.getCredentialsWithSSOToken(
+        return try await IdentityProvidingSSOClient().getCredentialsWithSSOToken(
             region: region,
             accessToken: ssoToken.token,
             accountID: accountID,

@@ -58,19 +58,10 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
     public func getIdentity(
         identityProperties: Smithy.Attributes?
     ) async throws -> SmithyIdentity.BearerTokenIdentity {
-        guard let identityProperties, let internalSSOOIDCClient = identityProperties.get(
-            key: InternalClientKeys.internalSSOOIDCClientKey
-        ) else {
-            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
-                "SSOBearerTokenIdentityResolver: "
-                + "Missing IdentityProvidingSSOOIDCClient in identity properties."
-            )
-        }
-
         let fileBasedConfig = try CRTFileBasedConfiguration(configFilePath: configFilePath)
         let resolvedSSOToken = try await resolveSSOAccessToken(
             fileBasedConfig: fileBasedConfig,
-            ssoOIDCClient: internalSSOOIDCClient
+            ssoOIDCClient: IdentityProvidingSSOOIDCClient()
         )
         return BearerTokenIdentity(token: resolvedSSOToken)
     }

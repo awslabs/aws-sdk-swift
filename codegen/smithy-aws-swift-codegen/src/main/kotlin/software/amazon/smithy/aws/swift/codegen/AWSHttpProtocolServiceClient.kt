@@ -62,7 +62,9 @@ class AWSHttpProtocolServiceClient(
                         ConfigProperty(
                             "bearerTokenIdentityResolver",
                             SmithyIdentityTypes.BearerTokenIdentityResolver.toGeneric(),
-                            { it.format("\$N()", AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain) },
+                            {
+                                it.format("\$N()", AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain)
+                            },
                             true,
                         )
                     } else {
@@ -156,7 +158,11 @@ class AWSHttpProtocolServiceClient(
                             writer.write("region,")
                         }
                         "awsCredentialIdentityResolver" -> {
-                            writer.write("\$N(),", AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain)
+                            if (ctx.settings.internalClient) {
+                                writer.write("\$N(),", SmithyIdentityTypes.StaticAWSCredentialIdentityResolver)
+                            } else {
+                                writer.write("\$N(),", AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain)
+                            }
                         }
                         "retryStrategyOptions" -> {
                             writer.write("try AWSClientConfigDefaultsProvider.retryStrategyOptions(),")

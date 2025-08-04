@@ -7,6 +7,7 @@
 
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 import struct SmithyIdentity.BearerTokenIdentity
+@_spi(ClientConfigDefaultIdentityResolver) import protocol SmithyIdentityAPI.ClientConfigDefaultIdentityResolver
 import struct Smithy.Attributes
 import enum Smithy.ClientError
 
@@ -18,9 +19,16 @@ import enum Smithy.ClientError
 /// 1. SSOTokenProvider
 public struct DefaultBearerTokenIdentityResolverChain: BearerTokenIdentityResolver {
     public var chain: [any BearerTokenIdentityResolver]
+    @_spi(ClientConfigDefaultIdentityResolver) public let isClientConfigDefault: Bool
+
+    package init() {
+        self.chain = [SSOBearerTokenIdentityResolver()]
+        self.isClientConfigDefault = true
+    }
 
     public init(chain: [any BearerTokenIdentityResolver]? = nil) throws {
         self.chain = chain ?? [SSOBearerTokenIdentityResolver()]
+        self.isClientConfigDefault = false
     }
 
     public func getIdentity(
@@ -33,3 +41,6 @@ public struct DefaultBearerTokenIdentityResolverChain: BearerTokenIdentityResolv
         throw ClientError.authError("Bearer token identity could not be resolved.")
     }
 }
+
+@_spi(ClientConfigDefaultIdentityResolver)
+extension DefaultBearerTokenIdentityResolverChain: ClientConfigDefaultIdentityResolver {}

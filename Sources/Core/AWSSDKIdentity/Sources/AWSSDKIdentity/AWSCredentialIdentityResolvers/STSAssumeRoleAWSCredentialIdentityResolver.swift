@@ -48,19 +48,10 @@ public struct STSAssumeRoleAWSCredentialIdentityResolver: AWSCredentialIdentityR
     }
 
     public func getIdentity(identityProperties: Attributes?) async throws -> AWSCredentialIdentity {
-        guard let identityProperties, let internalSTSClient = identityProperties.get(
-            key: InternalClientKeys.internalSTSClientKey
-        ) else {
-            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
-                "STSAssumeRoleAWSCredentialIdentityResolver: "
-                + "Missing IdentityProvidingSTSClient in identity properties."
-            )
-        }
-
         let underlyingCreds = try await awsCredentialIdentityResolver.getIdentity(
             identityProperties: identityProperties
         )
-        return try await internalSTSClient.assumeRoleWithCreds(
+        return try await IdentityProvidingSTSClient().assumeRoleWithCreds(
             creds: underlyingCreds,
             roleARN: roleARN,
             roleSessionName: roleSessionName,
