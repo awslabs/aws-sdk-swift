@@ -72,7 +72,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockAgentCoreClient: ClientRuntime.Client {
     public static let clientName = "BedrockAgentCoreClient"
-    public static let version = "1.5.12"
+    public static let version = "1.5.13"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockAgentCoreClient.BedrockAgentCoreClientConfiguration
     let serviceName = "Bedrock AgentCore"
@@ -376,7 +376,7 @@ extension BedrockAgentCoreClient {
 extension BedrockAgentCoreClient {
     /// Performs the `CreateEvent` operation on the `BedrockAgentCore` service.
     ///
-    /// Creates an event in a memory store. Events represent interactions or activities that occur within a session and are associated with specific actors. To use this operation, you must have the genesismemory:CreateEvent permission. This operation is subject to request rate limiting.
+    /// Creates an event in an AgentCore Memory resource. Events represent interactions or activities that occur within a session and are associated with specific actors. To use this operation, you must have the bedrock-agentcore:CreateEvent permission. This operation is subject to request rate limiting.
     ///
     /// - Parameter CreateEventInput : [no documentation found]
     ///
@@ -450,7 +450,7 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `DeleteEvent` operation on the `BedrockAgentCore` service.
     ///
-    /// Deletes an event from a memory store. When you delete an event, it is permanently removed. To use this operation, you must have the genesismemory:DeleteEvent permission.
+    /// Deletes an event from an AgentCore Memory resource. When you delete an event, it is permanently removed. To use this operation, you must have the bedrock-agentcore:DeleteEvent permission.
     ///
     /// - Parameter DeleteEventInput : [no documentation found]
     ///
@@ -520,7 +520,7 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `DeleteMemoryRecord` operation on the `BedrockAgentCore` service.
     ///
-    /// Deletes a memory record from a memory store. When you delete a memory record, it is permanently removed. To use this operation, you must have the genesismemory:DeleteMemoryRecord permission.
+    /// Deletes a memory record from an AgentCore Memory resource. When you delete a memory record, it is permanently removed. To use this operation, you must have the bedrock-agentcore:DeleteMemoryRecord permission.
     ///
     /// - Parameter DeleteMemoryRecordInput : [no documentation found]
     ///
@@ -740,7 +740,7 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `GetEvent` operation on the `BedrockAgentCore` service.
     ///
-    /// Retrieves information about a specific event in a memory store. To use this operation, you must have the genesismemory:GetEvent permission.
+    /// Retrieves information about a specific event in an AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:GetEvent permission.
     ///
     /// - Parameter GetEventInput : [no documentation found]
     ///
@@ -810,7 +810,7 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `GetMemoryRecord` operation on the `BedrockAgentCore` service.
     ///
-    /// Retrieves a specific memory record from a memory store. To use this operation, you must have the genesismemory:GetMemoryRecord permission.
+    /// Retrieves a specific memory record from an AgentCore Memory resource. To use this operation, you must have the bedrock-agentcore:GetMemoryRecord permission.
     ///
     /// - Parameter GetMemoryRecordInput : [no documentation found]
     ///
@@ -952,7 +952,7 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `GetResourceOauth2Token` operation on the `BedrockAgentCore` service.
     ///
-    /// Reaturns the Oauth2Token of the provided resource
+    /// Returns the OAuth 2.0 token of the provided resource
     ///
     /// - Parameter GetResourceOauth2TokenInput : [no documentation found]
     ///
@@ -1240,7 +1240,7 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `InvokeAgentRuntime` operation on the `BedrockAgentCore` service.
     ///
-    /// Sends a request to an agent runtime in Amazon Bedrock and receives responses in real-time. The agent processes the request using the configured foundation model and any associated knowledge bases or action groups. To invoke an agent runtime, you must specify the agent runtime ARN and provide a payload containing your request. You can optionally specify a qualifier to target a specific version or alias of the agent. This operation supports streaming responses, allowing you to receive partial responses as they become available. We recommend using pagination to ensure that the operation returns quickly and successfully when processing large responses.
+    /// Sends a request to an agent or tool hosted in an Amazon Bedrock AgentCore Runtime and receives responses in real-time. To invoke an agent you must specify the AgentCore Runtime ARN and provide a payload containing your request. You can optionally specify a qualifier to target a specific version or endpoint of the agent. This operation supports streaming responses, allowing you to receive partial responses as they become available. We recommend using pagination to ensure that the operation returns quickly and successfully when processing large responses. For example code, see [Invoke an AgentCore Runtime agent](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-invoke-agent.html). If you're integrating your agent with OAuth, you can't use the Amazon Web Services SDK to call InvokeAgentRuntime. Instead, make a HTTPS request to InvokeAgentRuntime. For an example, see [Authenticate and authorize with Inbound Auth and Outbound Auth](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-oauth.html). To use this operation, you must have the bedrock-agentcore:InvokeAgentRuntime permission.
     ///
     /// - Parameter InvokeAgentRuntimeInput : [no documentation found]
     ///
@@ -1394,7 +1394,7 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `ListActors` operation on the `BedrockAgentCore` service.
     ///
-    /// Lists all actors in a memory store. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the genesismemory:ListActors permission.
+    /// Lists all actors in an AgentCore Memory resource. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListActors permission.
     ///
     /// - Parameter ListActorsInput : [no documentation found]
     ///
@@ -1617,7 +1617,7 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `ListEvents` operation on the `BedrockAgentCore` service.
     ///
-    /// Lists events in a memory store based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the genesismemory:ListEvents permission.
+    /// Lists events in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListEvents permission.
     ///
     /// - Parameter ListEventsInput : [no documentation found]
     ///
@@ -1690,7 +1690,7 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `ListMemoryRecords` operation on the `BedrockAgentCore` service.
     ///
-    /// Lists memory records in a memory store based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the genesismemory:ListMemoryRecords permission.
+    /// Lists memory records in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListMemoryRecords permission.
     ///
     /// - Parameter ListMemoryRecordsInput : [no documentation found]
     ///
@@ -1763,7 +1763,7 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `ListSessions` operation on the `BedrockAgentCore` service.
     ///
-    /// Lists sessions in a memory store based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the genesismemory:ListSessions permission.
+    /// Lists sessions in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListSessions permission.
     ///
     /// - Parameter ListSessionsInput : [no documentation found]
     ///
@@ -1836,7 +1836,7 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `RetrieveMemoryRecords` operation on the `BedrockAgentCore` service.
     ///
-    /// Searches for and retrieves memory records from a memory store based on specified search criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the genesismemory:RetrieveMemoryRecords permission.
+    /// Searches for and retrieves memory records from an AgentCore Memory resource based on specified search criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:RetrieveMemoryRecords permission.
     ///
     /// - Parameter RetrieveMemoryRecordsInput : [no documentation found]
     ///

@@ -769,6 +769,37 @@ extension PaginatorSequence where OperationStackInput == ListGatewaysInput, Oper
     }
 }
 extension IoTSiteWiseClient {
+    /// Paginate over `[ListInterfaceRelationshipsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListInterfaceRelationshipsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListInterfaceRelationshipsOutput`
+    public func listInterfaceRelationshipsPaginated(input: ListInterfaceRelationshipsInput) -> ClientRuntime.PaginatorSequence<ListInterfaceRelationshipsInput, ListInterfaceRelationshipsOutput> {
+        return ClientRuntime.PaginatorSequence<ListInterfaceRelationshipsInput, ListInterfaceRelationshipsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listInterfaceRelationships(input:))
+    }
+}
+
+extension ListInterfaceRelationshipsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListInterfaceRelationshipsInput {
+        return ListInterfaceRelationshipsInput(
+            interfaceAssetModelId: self.interfaceAssetModelId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListInterfaceRelationshipsInput, OperationStackOutput == ListInterfaceRelationshipsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listInterfaceRelationshipsPaginated`
+    /// to access the nested member `[IoTSiteWiseClientTypes.InterfaceRelationshipSummary]`
+    /// - Returns: `[IoTSiteWiseClientTypes.InterfaceRelationshipSummary]`
+    public func interfaceRelationshipSummaries() async throws -> [IoTSiteWiseClientTypes.InterfaceRelationshipSummary] {
+        return try await self.asyncCompactMap { item in item.interfaceRelationshipSummaries }
+    }
+}
+extension IoTSiteWiseClient {
     /// Paginate over `[ListPortalsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

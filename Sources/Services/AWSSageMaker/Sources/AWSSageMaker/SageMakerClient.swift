@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SageMakerClient: ClientRuntime.Client {
     public static let clientName = "SageMakerClient"
-    public static let version = "1.5.12"
+    public static let version = "1.5.13"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerClient.SageMakerClientConfiguration
     let serviceName = "SageMaker"
@@ -559,6 +559,74 @@ extension SageMakerClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateTrialComponent")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `AttachClusterNodeVolume` operation on the `SageMaker` service.
+    ///
+    /// Attaches your Amazon Elastic Block Store (Amazon EBS) volume to a node in your EKS-orchestrated HyperPod cluster. This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters.
+    ///
+    /// - Parameter AttachClusterNodeVolumeInput : [no documentation found]
+    ///
+    /// - Returns: `AttachClusterNodeVolumeOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFound` : Resource being access is not found.
+    public func attachClusterNodeVolume(input: AttachClusterNodeVolumeInput) async throws -> AttachClusterNodeVolumeOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "attachClusterNodeVolume")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AttachClusterNodeVolumeInput, AttachClusterNodeVolumeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AttachClusterNodeVolumeInput, AttachClusterNodeVolumeOutput>(AttachClusterNodeVolumeInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AttachClusterNodeVolumeInput, AttachClusterNodeVolumeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachClusterNodeVolumeInput, AttachClusterNodeVolumeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachClusterNodeVolumeOutput>(AttachClusterNodeVolumeOutput.httpOutput(from:), AttachClusterNodeVolumeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachClusterNodeVolumeInput, AttachClusterNodeVolumeOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AttachClusterNodeVolumeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SageMaker", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AttachClusterNodeVolumeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<AttachClusterNodeVolumeInput, AttachClusterNodeVolumeOutput>(xAmzTarget: "SageMaker.AttachClusterNodeVolume"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AttachClusterNodeVolumeInput, AttachClusterNodeVolumeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AttachClusterNodeVolumeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AttachClusterNodeVolumeInput, AttachClusterNodeVolumeOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AttachClusterNodeVolumeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AttachClusterNodeVolumeInput, AttachClusterNodeVolumeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AttachClusterNodeVolumeInput, AttachClusterNodeVolumeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AttachClusterNodeVolumeInput, AttachClusterNodeVolumeOutput>(serviceID: serviceName, version: SageMakerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AttachClusterNodeVolume")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -13583,6 +13651,74 @@ extension SageMakerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DetachClusterNodeVolume` operation on the `SageMaker` service.
+    ///
+    /// Detaches your Amazon Elastic Block Store (Amazon EBS) volume from a node in your EKS-orchestrated SageMaker HyperPod cluster. This API works with the Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver to manage the lifecycle of persistent storage in your HyperPod EKS clusters.
+    ///
+    /// - Parameter DetachClusterNodeVolumeInput : [no documentation found]
+    ///
+    /// - Returns: `DetachClusterNodeVolumeOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFound` : Resource being access is not found.
+    public func detachClusterNodeVolume(input: DetachClusterNodeVolumeInput) async throws -> DetachClusterNodeVolumeOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "detachClusterNodeVolume")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DetachClusterNodeVolumeInput, DetachClusterNodeVolumeOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DetachClusterNodeVolumeInput, DetachClusterNodeVolumeOutput>(DetachClusterNodeVolumeInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DetachClusterNodeVolumeInput, DetachClusterNodeVolumeOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachClusterNodeVolumeInput, DetachClusterNodeVolumeOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachClusterNodeVolumeOutput>(DetachClusterNodeVolumeOutput.httpOutput(from:), DetachClusterNodeVolumeOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachClusterNodeVolumeInput, DetachClusterNodeVolumeOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DetachClusterNodeVolumeOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SageMaker", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DetachClusterNodeVolumeOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DetachClusterNodeVolumeInput, DetachClusterNodeVolumeOutput>(xAmzTarget: "SageMaker.DetachClusterNodeVolume"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DetachClusterNodeVolumeInput, DetachClusterNodeVolumeOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DetachClusterNodeVolumeInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DetachClusterNodeVolumeInput, DetachClusterNodeVolumeOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DetachClusterNodeVolumeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DetachClusterNodeVolumeInput, DetachClusterNodeVolumeOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DetachClusterNodeVolumeInput, DetachClusterNodeVolumeOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DetachClusterNodeVolumeInput, DetachClusterNodeVolumeOutput>(serviceID: serviceName, version: SageMakerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DetachClusterNodeVolume")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DisableSagemakerServicecatalogPortfolio` operation on the `SageMaker` service.
     ///
     /// Disables using Service Catalog in SageMaker. Service Catalog is used to create SageMaker projects.
@@ -24602,7 +24738,7 @@ extension SageMakerClient {
 
     /// Performs the `UpdateWorkforce` operation on the `SageMaker` service.
     ///
-    /// Use this operation to update your workforce. You can use this operation to require that workers use specific IP addresses to work on tasks and to update your OpenID Connect (OIDC) Identity Provider (IdP) workforce configuration. The worker portal is now supported in VPC and public internet. Use SourceIpConfig to restrict worker access to tasks to a specific range of IP addresses. You specify allowed IP addresses by creating a list of up to ten [CIDRs](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html). By default, a workforce isn't restricted to specific IP addresses. If you specify a range of IP addresses, workers who attempt to access tasks using any IP address outside the specified range are denied and get a Not Found error message on the worker portal. To restrict access to all the workers in public internet, add the SourceIpConfig CIDR value as "10.0.0.0/16". Amazon SageMaker does not support Source Ip restriction for worker portals in VPC. Use OidcConfig to update the configuration of a workforce created using your own OIDC IdP. You can only update your OIDC IdP configuration when there are no work teams associated with your workforce. You can delete work teams using the [DeleteWorkteam](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DeleteWorkteam.html) operation. After restricting access to a range of IP addresses or updating your OIDC IdP configuration with this operation, you can view details about your update workforce using the [DescribeWorkforce](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeWorkforce.html) operation. This operation only applies to private workforces.
+    /// Use this operation to update your workforce. You can use this operation to require that workers use specific IP addresses to work on tasks and to update your OpenID Connect (OIDC) Identity Provider (IdP) workforce configuration. The worker portal is now supported in VPC and public internet. Use SourceIpConfig to restrict worker access to tasks to a specific range of IP addresses. You specify allowed IP addresses by creating a list of up to ten [CIDRs](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html). By default, a workforce isn't restricted to specific IP addresses. If you specify a range of IP addresses, workers who attempt to access tasks using any IP address outside the specified range are denied and get a Not Found error message on the worker portal. To restrict public internet access for all workers, configure the SourceIpConfig CIDR value. For example, when using SourceIpConfig with an IpAddressType of IPv4, you can restrict access to the IPv4 CIDR block "10.0.0.0/16". When using an IpAddressType of dualstack, you can specify both the IPv4 and IPv6 CIDR blocks, such as "10.0.0.0/16" for IPv4 only, "2001:db8:1234:1a00::/56" for IPv6 only, or "10.0.0.0/16" and "2001:db8:1234:1a00::/56" for dual stack. Amazon SageMaker does not support Source Ip restriction for worker portals in VPC. Use OidcConfig to update the configuration of a workforce created using your own OIDC IdP. You can only update your OIDC IdP configuration when there are no work teams associated with your workforce. You can delete work teams using the [DeleteWorkteam](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DeleteWorkteam.html) operation. After restricting access to a range of IP addresses or updating your OIDC IdP configuration with this operation, you can view details about your update workforce using the [DescribeWorkforce](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_DescribeWorkforce.html) operation. This operation only applies to private workforces.
     ///
     /// - Parameter UpdateWorkforceInput : [no documentation found]
     ///

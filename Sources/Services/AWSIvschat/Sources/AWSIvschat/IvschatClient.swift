@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IvschatClient: ClientRuntime.Client {
     public static let clientName = "IvschatClient"
-    public static let version = "1.5.12"
+    public static let version = "1.5.13"
     let client: ClientRuntime.SdkHttpClient
     let config: IvschatClient.IvschatClientConfiguration
     let serviceName = "ivschat"

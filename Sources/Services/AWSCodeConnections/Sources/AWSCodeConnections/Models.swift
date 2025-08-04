@@ -176,6 +176,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
 extension CodeConnectionsClientTypes {
 
     public enum ProviderType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case azureDevOps
         case bitbucket
         case github
         case githubEnterpriseServer
@@ -185,6 +186,7 @@ extension CodeConnectionsClientTypes {
 
         public static var allCases: [ProviderType] {
             return [
+                .azureDevOps,
                 .bitbucket,
                 .github,
                 .githubEnterpriseServer,
@@ -200,6 +202,7 @@ extension CodeConnectionsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .azureDevOps: return "AzureDevOps"
             case .bitbucket: return "Bitbucket"
             case .github: return "GitHub"
             case .githubEnterpriseServer: return "GitHubEnterpriseServer"
@@ -957,7 +960,7 @@ extension CodeConnectionsClientTypes {
 
     /// A resource that is used to connect third-party source providers with services like CodePipeline. Note: A connection created through CloudFormation, the CLI, or the SDK is in `PENDING` status by default. You can make its status `AVAILABLE` by updating the connection in the console.
     public struct Connection: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the connection reference when the connection is shared between Amazon Web Servicesservices. The ARN is never reused if the connection is deleted.
+        /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the connection reference when the connection is shared between Amazon Web Services services. The ARN is never reused if the connection is deleted.
         public var connectionArn: Swift.String?
         /// The name of the connection. Connection names must be unique in an Amazon Web Services account.
         public var connectionName: Swift.String?

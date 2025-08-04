@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RolesAnywhereClient: ClientRuntime.Client {
     public static let clientName = "RolesAnywhereClient"
-    public static let version = "1.5.12"
+    public static let version = "1.5.13"
     let client: ClientRuntime.SdkHttpClient
     let config: RolesAnywhereClient.RolesAnywhereClientConfiguration
     let serviceName = "RolesAnywhere"
