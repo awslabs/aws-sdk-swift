@@ -6,7 +6,7 @@ import software.amazon.smithy.swift.codegen.SwiftDeclaration
 import software.amazon.smithy.swift.codegen.swiftmodules.SwiftSymbol
 
 object AWSSDKIdentityTypes {
-    val DefaultBearerTokenIdentityResolverChain = runtimeSymbol("DefaultBearerTokenIdentityResolverChain", SwiftDeclaration.STRUCT)
+    val DefaultBearerTokenIdentityResolverChain = runtimeSymbol("DefaultBearerTokenIdentityResolverChain", SwiftDeclaration.STRUCT, spiNames = listOf("ClientConfigDefaultIdentityResolver"))
     val DefaultS3ExpressIdentityResolver = runtimeSymbol("DefaultS3ExpressIdentityResolver", SwiftDeclaration.CLASS)
     val S3ExpressCreateSessionClient = runtimeSymbol("S3ExpressCreateSessionClient", SwiftDeclaration.PROTOCOL)
     val S3ExpressClientError = runtimeSymbol("S3ExpressClientError", SwiftDeclaration.ENUM)
@@ -22,11 +22,12 @@ object AWSSDKIdentityTypes {
 private fun runtimeSymbol(
     name: String,
     declaration: SwiftDeclaration? = null,
+    spiNames: List<String> = listOf(),
 ): Symbol =
     SwiftSymbol.make(
         name,
         declaration,
         AWSSwiftDependency.AWS_SDK_IDENTITY,
         emptyList(),
-        emptyList(),
+        spiNames,
     )

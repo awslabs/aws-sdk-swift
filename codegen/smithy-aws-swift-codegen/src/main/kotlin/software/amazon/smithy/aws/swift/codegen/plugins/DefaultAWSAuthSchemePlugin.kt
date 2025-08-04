@@ -2,7 +2,6 @@ package software.amazon.smithy.aws.swift.codegen.plugins
 
 import software.amazon.smithy.aws.swift.codegen.AWSAuthUtils
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
-import software.amazon.smithy.aws.swift.codegen.swiftmodules.InternalAWSCommonTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.traits.HttpBearerAuthTrait
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
@@ -49,7 +48,7 @@ class DefaultAWSAuthSchemePlugin(
                     if (ctx.settings.internalClient) {
                         writer.write(
                             "config.awsCredentialIdentityResolver = \$N()",
-                            InternalAWSCommonTypes.EmptyAWSCredentialIdentityResolver,
+                            SmithyIdentityTypes.StaticAWSCredentialIdentityResolver,
                         )
                     } else {
                         writer.write(
@@ -59,15 +58,13 @@ class DefaultAWSAuthSchemePlugin(
                     }
                     if (AuthUtils(ctx).isSupportedAuthScheme(HttpBearerAuthTrait.ID)) {
                         writer.write(
-                            "config.bearerTokenIdentityResolver = try \$N(\$N())",
-                            SmithyIdentityTypes.ClientConfigDefaultBearerTokenIdentityResolver,
+                            "config.bearerTokenIdentityResolver = try \$N()",
                             AWSSDKIdentityTypes.DefaultBearerTokenIdentityResolverChain,
                         )
                     } else {
                         writer.write(
-                            "config.bearerTokenIdentityResolver = \$N(token: \$N(token: \"\"))",
+                            "config.bearerTokenIdentityResolver = \$N()",
                             SmithyIdentityTypes.StaticBearerTokenIdentityResolver,
-                            SmithyIdentityTypes.BearerTokenIdentity,
                         )
                     }
                 }

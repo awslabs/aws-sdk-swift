@@ -585,11 +585,6 @@ private var runtimeTargets: [Target] {
             path: "Sources/Core/AWSSDKIdentity/Sources/AWSSDKIdentity"
         ),
         .target(
-            name: "InternalAWSCommon",
-            dependencies: [.smithy, .smithyIdentity],
-            path: "Sources/Core/AWSSDKIdentity/Sources/InternalAWSCommon"
-        ),
-        .target(
             name: "InternalAWSSTS",
             dependencies: [
                 .clientRuntime,
@@ -609,7 +604,6 @@ private var runtimeTargets: [Target] {
                 .awsSDKHTTPAuth,
                 .awsSDKEventStreamsAuth,
                 .awsSDKChecksums,
-                "InternalAWSCommon",
             ],
             path: "Sources/Core/AWSSDKIdentity/Sources/InternalAWSSTS"
         ),
@@ -633,7 +627,6 @@ private var runtimeTargets: [Target] {
                 .awsSDKHTTPAuth,
                 .awsSDKEventStreamsAuth,
                 .awsSDKChecksums,
-                "InternalAWSCommon",
             ],
             path: "Sources/Core/AWSSDKIdentity/Sources/InternalAWSSSO"
         ),
@@ -657,7 +650,6 @@ private var runtimeTargets: [Target] {
                 .awsSDKHTTPAuth,
                 .awsSDKEventStreamsAuth,
                 .awsSDKChecksums,
-                "InternalAWSCommon",
             ],
             path: "Sources/Core/AWSSDKIdentity/Sources/InternalAWSSSOOIDC"
         ),

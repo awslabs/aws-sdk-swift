@@ -12,8 +12,8 @@ import struct Smithy.Attributes
 import struct Smithy.AttributeKey
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
+@_spi(ClientConfigDefaultIdentityResolver) import protocol SmithyIdentityAPI.ClientConfigDefaultIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-import struct SmithyIdentity.ClientConfigDefaultBearerTokenIdentityResolver
 import struct SmithyIdentity.BearerTokenIdentity
 import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 
@@ -37,11 +37,10 @@ public struct BedrockAPIKeyInterceptor<InputType, OutputType>: Interceptor {
         // If so, return immediately & use that instead of the Bedrock API token.
         let identityResolvers = attributes.getIdentityResolvers() ?? Attributes()
         let key = AttributeKey<any BearerTokenIdentityResolver>(name: "smithy.api#httpBearerAuth")
-        guard !identityResolvers.contains(key: key) || identityResolvers.get(key: key) is
-            ClientConfigDefaultBearerTokenIdentityResolver
-        else {
-            return
-        }
+        let configuredResolver = identityResolvers.get(key: key)
+        let clientConfigDefaultIdentityResolver = configuredResolver as? any ClientConfigDefaultIdentityResolver
+        let configuredResolverIsDefault = clientConfigDefaultIdentityResolver?.isClientConfigDefault ?? false
+        guard configuredResolver == nil || configuredResolverIsDefault else { return }
 
         // Create a bearer token identity resolver with the resolved token, then
         // store it in the context.

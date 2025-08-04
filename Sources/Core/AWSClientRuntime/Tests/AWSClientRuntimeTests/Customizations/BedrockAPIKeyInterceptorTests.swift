@@ -97,7 +97,7 @@ final class BedrockAPIKeyInterceptorTests: XCTestCase {
         defer { unsetenv(envVarName) }
         let subject = BedrockAPIKeyInterceptor<String, String>()
         let context = Context(attributes: Attributes())
-        let resolver = ClientConfigDefaultBearerTokenIdentityResolver(try DefaultBearerTokenIdentityResolverChain())
+        let resolver = DefaultBearerTokenIdentityResolverChain()
         context.addIdentityResolver(value: resolver, schemeID: "smithy.api#httpBearerAuth")
         let interceptorContext = DefaultInterceptorContext<String, String, HTTPRequest, HTTPResponse>(input: "", attributes: context)
 

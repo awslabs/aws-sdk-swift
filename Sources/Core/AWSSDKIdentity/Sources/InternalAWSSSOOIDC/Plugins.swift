@@ -10,12 +10,11 @@
 import protocol ClientRuntime.ClientConfiguration
 import protocol ClientRuntime.Plugin
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
-import struct InternalAWSCommon.EmptyAWSCredentialIdentityResolver
-import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticAWSCredentialIdentityResolver) import struct SmithyIdentity.StaticAWSCredentialIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 package class SSOOIDCClientEndpointPlugin: Plugin {
@@ -44,8 +43,8 @@ package class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
         if let config = clientConfiguration as? SSOOIDCClient.SSOOIDCClientConfiguration {
             config.authSchemeResolver = DefaultSSOOIDCAuthSchemeResolver()
             config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
-            config.awsCredentialIdentityResolver = InternalAWSCommon.EmptyAWSCredentialIdentityResolver()
-            config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            config.awsCredentialIdentityResolver = SmithyIdentity.StaticAWSCredentialIdentityResolver()
+            config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver()
         }
     }
 }
