@@ -37,16 +37,6 @@ class AWSSwiftDependency {
                 "AWSSDKIdentity",
                 SwiftDependency.DistributionMethod.SPR,
             )
-        val INTERNAL_AWS_COMMON =
-            SwiftDependency(
-                "InternalAWSCommon",
-                "main",
-                "0.0.1",
-                "aws-sdk-swift",
-                "../../../aws-sdk-swift",
-                "AWSSDKIdentity",
-                SwiftDependency.DistributionMethod.SPR,
-            )
         val AWS_SDK_HTTP_AUTH =
             SwiftDependency(
                 "AWSSDKHTTPAuth",
@@ -75,36 +65,6 @@ class AWSSwiftDependency {
                 "aws-sdk-swift",
                 "../../../aws-sdk-swift",
                 "AWSClientRuntime",
-                SwiftDependency.DistributionMethod.SPR,
-            )
-        val INTERNAL_AWS_STS =
-            SwiftDependency(
-                "InternalAWSSTS",
-                "main",
-                "0.0.1",
-                "aws-sdk-swift",
-                "../../../aws-sdk-swift",
-                "InternalAWSSTS",
-                SwiftDependency.DistributionMethod.SPR,
-            )
-        val INTERNAL_AWS_SSO =
-            SwiftDependency(
-                "InternalAWSSSO",
-                "main",
-                "0.0.1",
-                "aws-sdk-swift",
-                "../../../aws-sdk-swift",
-                "InternalAWSSSO",
-                SwiftDependency.DistributionMethod.SPR,
-            )
-        val INTERNAL_AWS_SSO_OIDC =
-            SwiftDependency(
-                "InternalAWSSSOOIDC",
-                "main",
-                "0.0.1",
-                "aws-sdk-swift",
-                "../../../aws-sdk-swift",
-                "InternalAWSSSOOIDC",
                 SwiftDependency.DistributionMethod.SPR,
             )
     }

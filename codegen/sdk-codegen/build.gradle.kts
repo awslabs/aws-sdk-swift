@@ -193,14 +193,14 @@ val discoveredServices: List<AwsService> by lazy { discoverServices() }
 val packageVersion = rootProject.file("Package.version.next").readText(Charset.forName("UTF-8")).trim()
 
 val AwsService.outputDir: String
-    get() = when (this.visibility) {
-        "package" -> project.file("${project.buildDir}/smithyprojections/${project.name}/${projectionName}/swift-codegen/Sources").absolutePath
+    get() = when (this.internalClient) {
+        true -> project.file("${project.buildDir}/smithyprojections/${project.name}/${projectionName}/swift-codegen/Sources").absolutePath
         else -> project.file("${project.buildDir}/smithyprojections/${project.name}/${projectionName}/swift-codegen").absolutePath
     }
 
 val AwsService.sourcesDir: String
-    get() = when (this.visibility) {
-        "package" -> rootProject.file("Sources/Core/AWSSDKIdentity/Sources").absolutePath
+    get() = when (this.internalClient) {
+        true -> rootProject.file("Sources/Core/AWSSDKIdentity/Sources").absolutePath
         else -> rootProject.file("Sources/Services/$packageName").absolutePath
     }
 
