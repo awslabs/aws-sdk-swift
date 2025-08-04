@@ -62,7 +62,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Contains summary information about an actor in a memory store.
+    /// Contains summary information about an actor in an AgentCore Memory resource.
     public struct ActorSummary: Swift.Sendable {
         /// The unique identifier of the actor.
         /// This member is required.
@@ -298,7 +298,7 @@ public struct InvokeAgentRuntimeInput: Swift.Sendable {
     /// The input data to send to the agent runtime. The format of this data depends on the specific agent configuration and must match the specified content type. For most agents, this is a JSON object containing the user's request.
     /// This member is required.
     public var payload: Foundation.Data?
-    /// The qualifier to use for the agent runtime. This can be a version number or an alias name that points to a specific version. If not specified, Amazon Bedrock uses the default version of the agent runtime.
+    /// The qualifier to use for the agent runtime. This can be a version number or an endpoint name that points to a specific version. If not specified, Amazon Bedrock uses the default version of the agent runtime.
     public var qualifier: Swift.String?
     /// The identifier of the runtime session.
     public var runtimeSessionId: Swift.String?
@@ -1234,8 +1234,6 @@ public struct GetResourceOauth2TokenInput: Swift.Sendable {
     /// The OAuth scopes requested
     /// This member is required.
     public var scopes: [Swift.String]?
-    /// The user ID of the user you're retrieving the token on behalf of.
-    public var userId: Swift.String?
     /// The identity token of the workload you want to retrive the Oauth2 Token of.
     /// This member is required.
     public var workloadIdentityToken: Swift.String?
@@ -1247,7 +1245,6 @@ public struct GetResourceOauth2TokenInput: Swift.Sendable {
         resourceCredentialProviderName: Swift.String? = nil,
         resourceOauth2ReturnUrl: Swift.String? = nil,
         scopes: [Swift.String]? = nil,
-        userId: Swift.String? = nil,
         workloadIdentityToken: Swift.String? = nil
     ) {
         self.customParameters = customParameters
@@ -1256,14 +1253,13 @@ public struct GetResourceOauth2TokenInput: Swift.Sendable {
         self.resourceCredentialProviderName = resourceCredentialProviderName
         self.resourceOauth2ReturnUrl = resourceOauth2ReturnUrl
         self.scopes = scopes
-        self.userId = userId
         self.workloadIdentityToken = workloadIdentityToken
     }
 }
 
 extension GetResourceOauth2TokenInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetResourceOauth2TokenInput(forceAuthentication: \(Swift.String(describing: forceAuthentication)), oauth2Flow: \(Swift.String(describing: oauth2Flow)), resourceCredentialProviderName: \(Swift.String(describing: resourceCredentialProviderName)), resourceOauth2ReturnUrl: \(Swift.String(describing: resourceOauth2ReturnUrl)), scopes: \(Swift.String(describing: scopes)), userId: \(Swift.String(describing: userId)), customParameters: [keys: \(Swift.String(describing: customParameters?.keys)), values: \"CONTENT_REDACTED\"], workloadIdentityToken: \"CONTENT_REDACTED\")"}
+        "GetResourceOauth2TokenInput(forceAuthentication: \(Swift.String(describing: forceAuthentication)), oauth2Flow: \(Swift.String(describing: oauth2Flow)), resourceCredentialProviderName: \(Swift.String(describing: resourceCredentialProviderName)), resourceOauth2ReturnUrl: \(Swift.String(describing: resourceOauth2ReturnUrl)), scopes: \(Swift.String(describing: scopes)), customParameters: [keys: \(Swift.String(describing: customParameters?.keys)), values: \"CONTENT_REDACTED\"], workloadIdentityToken: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetResourceOauth2TokenOutput: Swift.Sendable {
@@ -1912,7 +1908,7 @@ public struct ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.A
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Contains information about a branch in a memory store. Branches allow for organizing events into different conversation threads or paths.
+    /// Contains information about a branch in an AgentCore Memory resource. Branches allow for organizing events into different conversation threads or paths.
     public struct Branch: Swift.Sendable {
         /// The name of the branch.
         /// This member is required.
@@ -2019,7 +2015,7 @@ public struct CreateEventInput: Swift.Sendable {
     /// The timestamp when the event occurred. If not specified, the current time is used.
     /// This member is required.
     public var eventTimestamp: Foundation.Date?
-    /// The identifier of the memory store in which to create the event.
+    /// The identifier of the AgentCore Memory resource in which to create the event.
     /// This member is required.
     public var memoryId: Swift.String?
     /// The content payload of the event. This can include conversational data or binary content.
@@ -2049,7 +2045,7 @@ public struct CreateEventInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Contains information about an event in a memory store.
+    /// Contains information about an event in an AgentCore Memory resource.
     public struct Event: Swift.Sendable {
         /// The identifier of the actor associated with the event.
         /// This member is required.
@@ -2062,7 +2058,7 @@ extension BedrockAgentCoreClientTypes {
         /// The timestamp when the event occurred.
         /// This member is required.
         public var eventTimestamp: Foundation.Date?
-        /// The identifier of the memory store containing the event.
+        /// The identifier of the AgentCore Memory resource containing the event.
         /// This member is required.
         public var memoryId: Swift.String?
         /// The content payload of the event.
@@ -2111,7 +2107,7 @@ public struct DeleteEventInput: Swift.Sendable {
     /// The identifier of the event to delete.
     /// This member is required.
     public var eventId: Swift.String?
-    /// The identifier of the memory store from which to delete the event.
+    /// The identifier of the AgentCore Memory resource from which to delete the event.
     /// This member is required.
     public var memoryId: Swift.String?
     /// The identifier of the session containing the event to delete.
@@ -2144,7 +2140,7 @@ public struct DeleteEventOutput: Swift.Sendable {
 }
 
 public struct DeleteMemoryRecordInput: Swift.Sendable {
-    /// The identifier of the memory store from which to delete the memory record.
+    /// The identifier of the AgentCore Memory resource from which to delete the memory record.
     /// This member is required.
     public var memoryId: Swift.String?
     /// The identifier of the memory record to delete.
@@ -2179,7 +2175,7 @@ public struct GetEventInput: Swift.Sendable {
     /// The identifier of the event to retrieve.
     /// This member is required.
     public var eventId: Swift.String?
-    /// The identifier of the memory store containing the event.
+    /// The identifier of the AgentCore Memory resource containing the event.
     /// This member is required.
     public var memoryId: Swift.String?
     /// The identifier of the session containing the event.
@@ -2212,7 +2208,7 @@ public struct GetEventOutput: Swift.Sendable {
 }
 
 public struct GetMemoryRecordInput: Swift.Sendable {
-    /// The identifier of the memory store containing the memory record.
+    /// The identifier of the AgentCore Memory resource containing the memory record.
     /// This member is required.
     public var memoryId: Swift.String?
     /// The identifier of the memory record to retrieve.
@@ -2240,7 +2236,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Contains information about a memory record in a memory store.
+    /// Contains information about a memory record in an AgentCore Memory resource.
     public struct MemoryRecord: Swift.Sendable {
         /// The content of the memory record.
         /// This member is required.
@@ -2289,7 +2285,7 @@ public struct GetMemoryRecordOutput: Swift.Sendable {
 public struct ListActorsInput: Swift.Sendable {
     /// The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
     public var maxResults: Swift.Int?
-    /// The identifier of the memory store for which to list actors.
+    /// The identifier of the AgentCore Memory resource for which to list actors.
     /// This member is required.
     public var memoryId: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -2367,7 +2363,7 @@ public struct ListEventsInput: Swift.Sendable {
     public var includePayloads: Swift.Bool?
     /// The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
     public var maxResults: Swift.Int?
-    /// The identifier of the memory store for which to list events.
+    /// The identifier of the AgentCore Memory resource for which to list events.
     /// This member is required.
     public var memoryId: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -2414,7 +2410,7 @@ public struct ListEventsOutput: Swift.Sendable {
 public struct ListMemoryRecordsInput: Swift.Sendable {
     /// The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
     public var maxResults: Swift.Int?
-    /// The identifier of the memory store for which to list memory records.
+    /// The identifier of the AgentCore Memory resource for which to list memory records.
     /// This member is required.
     public var memoryId: Swift.String?
     /// The memory strategy identifier to filter memory records by. If specified, only memory records with this strategy ID are returned.
@@ -2502,7 +2498,7 @@ public struct ListSessionsInput: Swift.Sendable {
     public var actorId: Swift.String?
     /// The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
     public var maxResults: Swift.Int?
-    /// The identifier of the memory store for which to list sessions.
+    /// The identifier of the AgentCore Memory resource for which to list sessions.
     /// This member is required.
     public var memoryId: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -2523,7 +2519,7 @@ public struct ListSessionsInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// Contains summary information about a session in a memory store.
+    /// Contains summary information about a session in an AgentCore Memory resource.
     public struct SessionSummary: Swift.Sendable {
         /// The identifier of the actor associated with the session.
         /// This member is required.
@@ -2595,7 +2591,7 @@ extension BedrockAgentCoreClientTypes.SearchCriteria: Swift.CustomDebugStringCon
 public struct RetrieveMemoryRecordsInput: Swift.Sendable {
     /// The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
     public var maxResults: Swift.Int?
-    /// The identifier of the memory store from which to retrieve memory records.
+    /// The identifier of the AgentCore Memory resource from which to retrieve memory records.
     /// This member is required.
     public var memoryId: Swift.String?
     /// The namespace to filter memory records by. If specified, only memory records in this namespace are searched.
@@ -3079,7 +3075,6 @@ extension GetResourceOauth2TokenInput {
         try writer["resourceCredentialProviderName"].write(value.resourceCredentialProviderName)
         try writer["resourceOauth2ReturnUrl"].write(value.resourceOauth2ReturnUrl)
         try writer["scopes"].writeList(value.scopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["userId"].write(value.userId)
         try writer["workloadIdentityToken"].write(value.workloadIdentityToken)
     }
 }

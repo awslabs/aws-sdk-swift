@@ -371,7 +371,7 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes {
 
-    /// The resource the action will be taken on.
+    /// The resource the action will be taken on. This can include asset-based resources and computation model resources.
     public struct TargetResource: Swift.Sendable {
         /// The ID of the asset, in UUID format.
         public var assetId: Swift.String?
@@ -390,7 +390,7 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes {
 
-    /// Contains the summary of the actions.
+    /// Contains the summary of the actions, including information about where the action resolves to.
     public struct ActionSummary: Swift.Sendable {
         /// The ID of the action definition.
         public var actionDefinitionId: Swift.String?
@@ -1218,21 +1218,19 @@ extension IoTSiteWiseClientTypes {
     /// Contains an asset metric property. With metrics, you can calculate aggregate functions, such as an average, maximum, or minimum, as specified through an expression. A metric maps several values to a single value (such as a sum). The maximum number of dependent/cascading variables used in any one metric calculation is 10. Therefore, a root metric can have up to 10 cascading metrics in its computational dependency tree. Additionally, a metric can only have a data type of DOUBLE and consume properties with data types of INTEGER or DOUBLE. For more information, see [Metrics](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html#metrics) in the IoT SiteWise User Guide.
     public struct Metric: Swift.Sendable {
         /// The mathematical expression that defines the metric aggregation function. You can specify up to 10 variables per expression. You can specify up to 10 functions per expression. For more information, see [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html) in the IoT SiteWise User Guide.
-        /// This member is required.
         public var expression: Swift.String?
         /// The processing configuration for the given metric property. You can configure metrics to be computed at the edge or in the Amazon Web Services Cloud. By default, metrics are forwarded to the cloud.
         public var processingConfig: IoTSiteWiseClientTypes.MetricProcessingConfig?
         /// The list of variables used in the expression.
-        /// This member is required.
         public var variables: [IoTSiteWiseClientTypes.ExpressionVariable]?
         /// The window (time interval) over which IoT SiteWise computes the metric's aggregation expression. IoT SiteWise computes one data point per window.
         /// This member is required.
         public var window: IoTSiteWiseClientTypes.MetricWindow?
 
         public init(
-            expression: Swift.String? = nil,
+            expression: Swift.String? = "",
             processingConfig: IoTSiteWiseClientTypes.MetricProcessingConfig? = nil,
-            variables: [IoTSiteWiseClientTypes.ExpressionVariable]? = nil,
+            variables: [IoTSiteWiseClientTypes.ExpressionVariable]? = [],
             window: IoTSiteWiseClientTypes.MetricWindow? = nil
         ) {
             self.expression = expression
@@ -1644,7 +1642,28 @@ extension IoTSiteWiseClientTypes {
 
 extension IoTSiteWiseClientTypes {
 
-    /// Contains a summary of a property associated with a model.
+    /// Contains summary information about an interface that a property belongs to.
+    public struct InterfaceSummary: Swift.Sendable {
+        /// The ID of the interface asset model that contains this property.
+        /// This member is required.
+        public var interfaceAssetModelId: Swift.String?
+        /// The ID of the property in the interface asset model that corresponds to this property.
+        /// This member is required.
+        public var interfaceAssetModelPropertyId: Swift.String?
+
+        public init(
+            interfaceAssetModelId: Swift.String? = nil,
+            interfaceAssetModelPropertyId: Swift.String? = nil
+        ) {
+            self.interfaceAssetModelId = interfaceAssetModelId
+            self.interfaceAssetModelPropertyId = interfaceAssetModelPropertyId
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains a summary of a property associated with a model. This includes information about which interfaces the property belongs to, if any.
     public struct AssetModelPropertySummary: Swift.Sendable {
         /// The ID of the composite model that contains the asset model property.
         public var assetModelCompositeModelId: Swift.String?
@@ -1657,6 +1676,8 @@ extension IoTSiteWiseClientTypes {
         public var externalId: Swift.String?
         /// The ID of the property.
         public var id: Swift.String?
+        /// A list of interface summaries that describe which interfaces this property belongs to, including the interface asset model ID and the corresponding property ID in the interface.
+        public var interfaceSummaries: [IoTSiteWiseClientTypes.InterfaceSummary]?
         /// The name of the property.
         /// This member is required.
         public var name: Swift.String?
@@ -1674,6 +1695,7 @@ extension IoTSiteWiseClientTypes {
             dataTypeSpec: Swift.String? = nil,
             externalId: Swift.String? = nil,
             id: Swift.String? = nil,
+            interfaceSummaries: [IoTSiteWiseClientTypes.InterfaceSummary]? = nil,
             name: Swift.String? = nil,
             path: [IoTSiteWiseClientTypes.AssetModelPropertyPathSegment]? = nil,
             type: IoTSiteWiseClientTypes.PropertyType? = nil,
@@ -1684,6 +1706,7 @@ extension IoTSiteWiseClientTypes {
             self.dataTypeSpec = dataTypeSpec
             self.externalId = externalId
             self.id = id
+            self.interfaceSummaries = interfaceSummaries
             self.name = name
             self.path = path
             self.type = type
@@ -1862,12 +1885,14 @@ extension IoTSiteWiseClientTypes {
     public enum AssetModelType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case assetModel
         case componentModel
+        case interface
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AssetModelType] {
             return [
                 .assetModel,
-                .componentModel
+                .componentModel,
+                .interface
             ]
         }
 
@@ -1880,6 +1905,7 @@ extension IoTSiteWiseClientTypes {
             switch self {
             case .assetModel: return "ASSET_MODEL"
             case .componentModel: return "COMPONENT_MODEL"
+            case .interface: return "INTERFACE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5242,6 +5268,54 @@ public struct DeleteAssetModelCompositeModelOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteAssetModelInterfaceRelationshipInput: Swift.Sendable {
+    /// The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+    /// This member is required.
+    public var assetModelId: Swift.String?
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    public var clientToken: Swift.String?
+    /// The ID of the interface asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+    /// This member is required.
+    public var interfaceAssetModelId: Swift.String?
+
+    public init(
+        assetModelId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        interfaceAssetModelId: Swift.String? = nil
+    ) {
+        self.assetModelId = assetModelId
+        self.clientToken = clientToken
+        self.interfaceAssetModelId = interfaceAssetModelId
+    }
+}
+
+public struct DeleteAssetModelInterfaceRelationshipOutput: Swift.Sendable {
+    /// The ARN of the asset model, which has the following format. arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}
+    /// This member is required.
+    public var assetModelArn: Swift.String?
+    /// The ID of the asset model.
+    /// This member is required.
+    public var assetModelId: Swift.String?
+    /// Contains current status information for an asset model. For more information, see [Asset and model states](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-and-model-states.html) in the IoT SiteWise User Guide.
+    /// This member is required.
+    public var assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus?
+    /// The ID of the interface asset model.
+    /// This member is required.
+    public var interfaceAssetModelId: Swift.String?
+
+    public init(
+        assetModelArn: Swift.String? = nil,
+        assetModelId: Swift.String? = nil,
+        assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus? = nil,
+        interfaceAssetModelId: Swift.String? = nil
+    ) {
+        self.assetModelArn = assetModelArn
+        self.assetModelId = assetModelId
+        self.assetModelStatus = assetModelStatus
+        self.interfaceAssetModelId = interfaceAssetModelId
+    }
+}
+
 public struct DeleteComputationModelInput: Swift.Sendable {
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
@@ -5681,6 +5755,22 @@ public struct DescribeAssetModelInput: Swift.Sendable {
     }
 }
 
+extension IoTSiteWiseClientTypes {
+
+    /// Contains information about the relationship between an asset model and an interface asset model that is applied to it.
+    public struct InterfaceRelationship: Swift.Sendable {
+        /// The ID of the asset model that has the interface applied to it.
+        /// This member is required.
+        public var id: Swift.String?
+
+        public init(
+            id: Swift.String? = nil
+        ) {
+            self.id = id
+        }
+    }
+}
+
 public struct DescribeAssetModelOutput: Swift.Sendable {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the asset model, which has the following format. arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}
     /// This member is required.
@@ -5725,6 +5815,8 @@ public struct DescribeAssetModelOutput: Swift.Sendable {
     public var assetModelVersion: Swift.String?
     /// The entity tag (ETag) is a hash of the retrieved version of the asset model. It's used to make concurrent updates safely to the resource. See [Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html) in the IoT SiteWise User Guide. See [ Optimistic locking for asset model writes](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/opt-locking-for-model.html) in the IoT SiteWise User Guide.
     public var eTag: Swift.String?
+    /// A list of interface details that describe the interfaces implemented by this asset model, including interface asset model IDs and property mappings.
+    public var interfaceDetails: [IoTSiteWiseClientTypes.InterfaceRelationship]?
 
     public init(
         assetModelArn: Swift.String? = nil,
@@ -5741,7 +5833,8 @@ public struct DescribeAssetModelOutput: Swift.Sendable {
         assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus? = nil,
         assetModelType: IoTSiteWiseClientTypes.AssetModelType? = nil,
         assetModelVersion: Swift.String? = nil,
-        eTag: Swift.String? = nil
+        eTag: Swift.String? = nil,
+        interfaceDetails: [IoTSiteWiseClientTypes.InterfaceRelationship]? = nil
     ) {
         self.assetModelArn = assetModelArn
         self.assetModelCompositeModelSummaries = assetModelCompositeModelSummaries
@@ -5758,6 +5851,7 @@ public struct DescribeAssetModelOutput: Swift.Sendable {
         self.assetModelType = assetModelType
         self.assetModelVersion = assetModelVersion
         self.eTag = eTag
+        self.interfaceDetails = interfaceDetails
     }
 }
 
@@ -5868,6 +5962,92 @@ public struct DescribeAssetModelCompositeModelOutput: Swift.Sendable {
         self.assetModelCompositeModelType = assetModelCompositeModelType
         self.assetModelId = assetModelId
         self.compositionDetails = compositionDetails
+    }
+}
+
+public struct DescribeAssetModelInterfaceRelationshipInput: Swift.Sendable {
+    /// The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+    /// This member is required.
+    public var assetModelId: Swift.String?
+    /// The ID of the interface asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+    /// This member is required.
+    public var interfaceAssetModelId: Swift.String?
+
+    public init(
+        assetModelId: Swift.String? = nil,
+        interfaceAssetModelId: Swift.String? = nil
+    ) {
+        self.assetModelId = assetModelId
+        self.interfaceAssetModelId = interfaceAssetModelId
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Maps a hierarchy from an interface asset model to a hierarchy in the asset model where the interface is applied.
+    public struct HierarchyMapping: Swift.Sendable {
+        /// The ID of the hierarchy in the asset model where the interface is applied.
+        /// This member is required.
+        public var assetModelHierarchyId: Swift.String?
+        /// The ID of the hierarchy in the interface asset model.
+        /// This member is required.
+        public var interfaceAssetModelHierarchyId: Swift.String?
+
+        public init(
+            assetModelHierarchyId: Swift.String? = nil,
+            interfaceAssetModelHierarchyId: Swift.String? = nil
+        ) {
+            self.assetModelHierarchyId = assetModelHierarchyId
+            self.interfaceAssetModelHierarchyId = interfaceAssetModelHierarchyId
+        }
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Maps a property from an interface asset model to a property in the asset model where the interface is applied.
+    public struct PropertyMapping: Swift.Sendable {
+        /// The ID of the property in the asset model where the interface is applied.
+        /// This member is required.
+        public var assetModelPropertyId: Swift.String?
+        /// The ID of the property in the interface asset model.
+        /// This member is required.
+        public var interfaceAssetModelPropertyId: Swift.String?
+
+        public init(
+            assetModelPropertyId: Swift.String? = nil,
+            interfaceAssetModelPropertyId: Swift.String? = nil
+        ) {
+            self.assetModelPropertyId = assetModelPropertyId
+            self.interfaceAssetModelPropertyId = interfaceAssetModelPropertyId
+        }
+    }
+}
+
+public struct DescribeAssetModelInterfaceRelationshipOutput: Swift.Sendable {
+    /// The ID of the asset model.
+    /// This member is required.
+    public var assetModelId: Swift.String?
+    /// A list of hierarchy mappings between the interface asset model and the asset model where the interface is applied.
+    /// This member is required.
+    public var hierarchyMappings: [IoTSiteWiseClientTypes.HierarchyMapping]?
+    /// The ID of the interface asset model.
+    /// This member is required.
+    public var interfaceAssetModelId: Swift.String?
+    /// A list of property mappings between the interface asset model and the asset model where the interface is applied.
+    /// This member is required.
+    public var propertyMappings: [IoTSiteWiseClientTypes.PropertyMapping]?
+
+    public init(
+        assetModelId: Swift.String? = nil,
+        hierarchyMappings: [IoTSiteWiseClientTypes.HierarchyMapping]? = nil,
+        interfaceAssetModelId: Swift.String? = nil,
+        propertyMappings: [IoTSiteWiseClientTypes.PropertyMapping]? = nil
+    ) {
+        self.assetModelId = assetModelId
+        self.hierarchyMappings = hierarchyMappings
+        self.interfaceAssetModelId = interfaceAssetModelId
+        self.propertyMappings = propertyMappings
     }
 }
 
@@ -6504,7 +6684,7 @@ public struct DescribeExecutionOutput: Swift.Sendable {
     public var executionStatus: IoTSiteWiseClientTypes.ExecutionStatus?
     /// The detailed resource this execution resolves to.
     public var resolveTo: IoTSiteWiseClientTypes.ResolveTo?
-    /// The resource the action will be taken on.
+    /// The resource the action will be taken on. This can include asset-based resources and computation model resources.
     /// This member is required.
     public var targetResource: IoTSiteWiseClientTypes.TargetResource?
     /// The version of the target resource.
@@ -8277,6 +8457,8 @@ public struct ListAssetModelsInput: Swift.Sendable {
     /// * ASSET_MODEL – An asset model that you can use to create assets. Can't be included as a component in another asset model.
     ///
     /// * COMPONENT_MODEL – A reusable component that you can include in the composite models of other asset models. You can't create assets directly from this type of asset model.
+    ///
+    /// * INTERFACE – An interface is a type of model that defines a standard structure that can be applied to different asset models.
     public var assetModelTypes: [IoTSiteWiseClientTypes.AssetModelType]?
     /// The version alias that specifies the latest or active version of the asset model. The details are returned in the response. The default value is LATEST. See [ Asset model versions](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/model-active-version.html) in the IoT SiteWise User Guide.
     public var assetModelVersion: Swift.String?
@@ -9288,7 +9470,7 @@ extension IoTSiteWiseClientTypes {
         public var executionStatus: IoTSiteWiseClientTypes.ExecutionStatus?
         /// The detailed resource this execution resolves to.
         public var resolveTo: IoTSiteWiseClientTypes.ResolveTo?
-        /// The resource the action will be taken on.
+        /// The resource the action will be taken on. This can include asset-based resources and computation model resources.
         /// This member is required.
         public var targetResource: IoTSiteWiseClientTypes.TargetResource?
         /// The version of the target resource.
@@ -9405,6 +9587,58 @@ public struct ListGatewaysOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.gatewaySummaries = gatewaySummaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListInterfaceRelationshipsInput: Swift.Sendable {
+    /// The ID of the interface asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+    /// This member is required.
+    public var interfaceAssetModelId: Swift.String?
+    /// The maximum number of results to return for each paginated request. Default: 50
+    public var maxResults: Swift.Int?
+    /// The token to be used for the next set of paginated results.
+    public var nextToken: Swift.String?
+
+    public init(
+        interfaceAssetModelId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.interfaceAssetModelId = interfaceAssetModelId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains summary information about an interface relationship, which defines how an interface is applied to an asset model. This summary provides the essential identifiers needed to retrieve detailed information about the relationship.
+    public struct InterfaceRelationshipSummary: Swift.Sendable {
+        /// The ID of the asset model that has the interface applied to it.
+        /// This member is required.
+        public var id: Swift.String?
+
+        public init(
+            id: Swift.String? = nil
+        ) {
+            self.id = id
+        }
+    }
+}
+
+public struct ListInterfaceRelationshipsOutput: Swift.Sendable {
+    /// A list that summarizes each interface relationship.
+    /// This member is required.
+    public var interfaceRelationshipSummaries: [IoTSiteWiseClientTypes.InterfaceRelationshipSummary]?
+    /// The token for the next set of results, or null if there are no additional results.
+    public var nextToken: Swift.String?
+
+    public init(
+        interfaceRelationshipSummaries: [IoTSiteWiseClientTypes.InterfaceRelationshipSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.interfaceRelationshipSummaries = interfaceRelationshipSummaries
         self.nextToken = nextToken
     }
 }
@@ -9767,6 +10001,82 @@ public struct ListTimeSeriesOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.timeSeriesSummaries = timeSeriesSummaries
+    }
+}
+
+extension IoTSiteWiseClientTypes {
+
+    /// Contains configuration options for mapping properties from an interface asset model to an asset model where the interface is applied.
+    public struct PropertyMappingConfiguration: Swift.Sendable {
+        /// If true, missing properties from the interface asset model are automatically created in the asset model where the interface is applied.
+        public var createMissingProperty: Swift.Bool
+        /// If true, properties are matched by name between the interface asset model and the asset model where the interface is applied.
+        public var matchByPropertyName: Swift.Bool
+        /// A list of specific property mappings that override the automatic mapping by name when an interface is applied to an asset model.
+        public var overrides: [IoTSiteWiseClientTypes.PropertyMapping]?
+
+        public init(
+            createMissingProperty: Swift.Bool = false,
+            matchByPropertyName: Swift.Bool = false,
+            overrides: [IoTSiteWiseClientTypes.PropertyMapping]? = nil
+        ) {
+            self.createMissingProperty = createMissingProperty
+            self.matchByPropertyName = matchByPropertyName
+            self.overrides = overrides
+        }
+    }
+}
+
+public struct PutAssetModelInterfaceRelationshipInput: Swift.Sendable {
+    /// The ID of the asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+    /// This member is required.
+    public var assetModelId: Swift.String?
+    /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+    public var clientToken: Swift.String?
+    /// The ID of the interface asset model. This can be either the actual ID in UUID format, or else externalId: followed by the external ID.
+    /// This member is required.
+    public var interfaceAssetModelId: Swift.String?
+    /// The configuration for mapping properties from the interface asset model to the asset model where the interface is applied. This configuration controls how properties are matched and created during the interface application process.
+    /// This member is required.
+    public var propertyMappingConfiguration: IoTSiteWiseClientTypes.PropertyMappingConfiguration?
+
+    public init(
+        assetModelId: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        interfaceAssetModelId: Swift.String? = nil,
+        propertyMappingConfiguration: IoTSiteWiseClientTypes.PropertyMappingConfiguration? = nil
+    ) {
+        self.assetModelId = assetModelId
+        self.clientToken = clientToken
+        self.interfaceAssetModelId = interfaceAssetModelId
+        self.propertyMappingConfiguration = propertyMappingConfiguration
+    }
+}
+
+public struct PutAssetModelInterfaceRelationshipOutput: Swift.Sendable {
+    /// The ARN of the asset model, which has the following format. arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}
+    /// This member is required.
+    public var assetModelArn: Swift.String?
+    /// The ID of the asset model.
+    /// This member is required.
+    public var assetModelId: Swift.String?
+    /// Contains current status information for an asset model. For more information, see [Asset and model states](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-and-model-states.html) in the IoT SiteWise User Guide.
+    /// This member is required.
+    public var assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus?
+    /// The ID of the interface asset model.
+    /// This member is required.
+    public var interfaceAssetModelId: Swift.String?
+
+    public init(
+        assetModelArn: Swift.String? = nil,
+        assetModelId: Swift.String? = nil,
+        assetModelStatus: IoTSiteWiseClientTypes.AssetModelStatus? = nil,
+        interfaceAssetModelId: Swift.String? = nil
+    ) {
+        self.assetModelArn = assetModelArn
+        self.assetModelId = assetModelId
+        self.assetModelStatus = assetModelStatus
+        self.interfaceAssetModelId = interfaceAssetModelId
     }
 }
 
@@ -11065,6 +11375,31 @@ extension DeleteAssetModelCompositeModelInput {
     }
 }
 
+extension DeleteAssetModelInterfaceRelationshipInput {
+
+    static func urlPathProvider(_ value: DeleteAssetModelInterfaceRelationshipInput) -> Swift.String? {
+        guard let assetModelId = value.assetModelId else {
+            return nil
+        }
+        guard let interfaceAssetModelId = value.interfaceAssetModelId else {
+            return nil
+        }
+        return "/asset-models/\(assetModelId.urlPercentEncoding())/interface/\(interfaceAssetModelId.urlPercentEncoding())/asset-model-interface-relationship"
+    }
+}
+
+extension DeleteAssetModelInterfaceRelationshipInput {
+
+    static func queryItemProvider(_ value: DeleteAssetModelInterfaceRelationshipInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension DeleteComputationModelInput {
 
     static func urlPathProvider(_ value: DeleteComputationModelInput) -> Swift.String? {
@@ -11315,6 +11650,19 @@ extension DescribeAssetModelCompositeModelInput {
             items.append(assetModelVersionQueryItem)
         }
         return items
+    }
+}
+
+extension DescribeAssetModelInterfaceRelationshipInput {
+
+    static func urlPathProvider(_ value: DescribeAssetModelInterfaceRelationshipInput) -> Swift.String? {
+        guard let assetModelId = value.assetModelId else {
+            return nil
+        }
+        guard let interfaceAssetModelId = value.interfaceAssetModelId else {
+            return nil
+        }
+        return "/asset-models/\(assetModelId.urlPercentEncoding())/interface/\(interfaceAssetModelId.urlPercentEncoding())/asset-model-interface-relationship"
     }
 }
 
@@ -12341,6 +12689,32 @@ extension ListGatewaysInput {
     }
 }
 
+extension ListInterfaceRelationshipsInput {
+
+    static func urlPathProvider(_ value: ListInterfaceRelationshipsInput) -> Swift.String? {
+        guard let interfaceAssetModelId = value.interfaceAssetModelId else {
+            return nil
+        }
+        return "/interface/\(interfaceAssetModelId.urlPercentEncoding())/asset-models"
+    }
+}
+
+extension ListInterfaceRelationshipsInput {
+
+    static func queryItemProvider(_ value: ListInterfaceRelationshipsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListPortalsInput {
 
     static func urlPathProvider(_ value: ListPortalsInput) -> Swift.String? {
@@ -12472,6 +12846,19 @@ extension ListTimeSeriesInput {
             items.append(aliasPrefixQueryItem)
         }
         return items
+    }
+}
+
+extension PutAssetModelInterfaceRelationshipInput {
+
+    static func urlPathProvider(_ value: PutAssetModelInterfaceRelationshipInput) -> Swift.String? {
+        guard let assetModelId = value.assetModelId else {
+            return nil
+        }
+        guard let interfaceAssetModelId = value.interfaceAssetModelId else {
+            return nil
+        }
+        return "/asset-models/\(assetModelId.urlPercentEncoding())/interface/\(interfaceAssetModelId.urlPercentEncoding())/asset-model-interface-relationship"
     }
 }
 
@@ -13003,6 +13390,15 @@ extension ListComputationModelDataBindingUsagesInput {
     }
 }
 
+extension PutAssetModelInterfaceRelationshipInput {
+
+    static func write(value: PutAssetModelInterfaceRelationshipInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["propertyMappingConfiguration"].write(value.propertyMappingConfiguration, with: IoTSiteWiseClientTypes.PropertyMappingConfiguration.write(value:to:))
+    }
+}
+
 extension PutDefaultEncryptionConfigurationInput {
 
     static func write(value: PutDefaultEncryptionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
@@ -13469,6 +13865,21 @@ extension DeleteAssetModelCompositeModelOutput {
     }
 }
 
+extension DeleteAssetModelInterfaceRelationshipOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAssetModelInterfaceRelationshipOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteAssetModelInterfaceRelationshipOutput()
+        value.assetModelArn = try reader["assetModelArn"].readIfPresent() ?? ""
+        value.assetModelId = try reader["assetModelId"].readIfPresent() ?? ""
+        value.assetModelStatus = try reader["assetModelStatus"].readIfPresent(with: IoTSiteWiseClientTypes.AssetModelStatus.read(from:))
+        value.interfaceAssetModelId = try reader["interfaceAssetModelId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension DeleteComputationModelOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteComputationModelOutput {
@@ -13637,6 +14048,7 @@ extension DescribeAssetModelOutput {
         value.assetModelStatus = try reader["assetModelStatus"].readIfPresent(with: IoTSiteWiseClientTypes.AssetModelStatus.read(from:))
         value.assetModelType = try reader["assetModelType"].readIfPresent()
         value.assetModelVersion = try reader["assetModelVersion"].readIfPresent()
+        value.interfaceDetails = try reader["interfaceDetails"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.InterfaceRelationship.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -13659,6 +14071,21 @@ extension DescribeAssetModelCompositeModelOutput {
         value.assetModelCompositeModelType = try reader["assetModelCompositeModelType"].readIfPresent() ?? ""
         value.assetModelId = try reader["assetModelId"].readIfPresent() ?? ""
         value.compositionDetails = try reader["compositionDetails"].readIfPresent(with: IoTSiteWiseClientTypes.CompositionDetails.read(from:))
+        return value
+    }
+}
+
+extension DescribeAssetModelInterfaceRelationshipOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAssetModelInterfaceRelationshipOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeAssetModelInterfaceRelationshipOutput()
+        value.assetModelId = try reader["assetModelId"].readIfPresent() ?? ""
+        value.hierarchyMappings = try reader["hierarchyMappings"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.HierarchyMapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.interfaceAssetModelId = try reader["interfaceAssetModelId"].readIfPresent() ?? ""
+        value.propertyMappings = try reader["propertyMappings"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.PropertyMapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -14286,6 +14713,19 @@ extension ListGatewaysOutput {
     }
 }
 
+extension ListInterfaceRelationshipsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListInterfaceRelationshipsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListInterfaceRelationshipsOutput()
+        value.interfaceRelationshipSummaries = try reader["interfaceRelationshipSummaries"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.InterfaceRelationshipSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListPortalsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListPortalsOutput {
@@ -14346,6 +14786,21 @@ extension ListTimeSeriesOutput {
         var value = ListTimeSeriesOutput()
         value.timeSeriesSummaries = try reader["TimeSeriesSummaries"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.TimeSeriesSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension PutAssetModelInterfaceRelationshipOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutAssetModelInterfaceRelationshipOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutAssetModelInterfaceRelationshipOutput()
+        value.assetModelArn = try reader["assetModelArn"].readIfPresent() ?? ""
+        value.assetModelId = try reader["assetModelId"].readIfPresent() ?? ""
+        value.assetModelStatus = try reader["assetModelStatus"].readIfPresent(with: IoTSiteWiseClientTypes.AssetModelStatus.read(from:))
+        value.interfaceAssetModelId = try reader["interfaceAssetModelId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -14955,6 +15410,24 @@ enum DeleteAssetModelCompositeModelOutputError {
     }
 }
 
+enum DeleteAssetModelInterfaceRelationshipOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteComputationModelOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15165,6 +15638,23 @@ enum DescribeAssetModelOutputError {
 }
 
 enum DescribeAssetModelCompositeModelOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeAssetModelInterfaceRelationshipOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -15903,6 +16393,23 @@ enum ListGatewaysOutputError {
     }
 }
 
+enum ListInterfaceRelationshipsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListPortalsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15981,6 +16488,25 @@ enum ListTimeSeriesOutputError {
         switch baseError.code {
             case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutAssetModelInterfaceRelationshipOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictingOperationException": return try ConflictingOperationException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -17536,6 +18062,16 @@ extension IoTSiteWiseClientTypes.AssetModelCompositeModelSummary {
     }
 }
 
+extension IoTSiteWiseClientTypes.InterfaceRelationship {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.InterfaceRelationship {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.InterfaceRelationship()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension IoTSiteWiseClientTypes.CompositionDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.CompositionDetails {
@@ -17552,6 +18088,34 @@ extension IoTSiteWiseClientTypes.CompositionRelationshipItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTSiteWiseClientTypes.CompositionRelationshipItem()
         value.id = try reader["id"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.PropertyMapping {
+
+    static func write(value: IoTSiteWiseClientTypes.PropertyMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetModelPropertyId"].write(value.assetModelPropertyId)
+        try writer["interfaceAssetModelPropertyId"].write(value.interfaceAssetModelPropertyId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PropertyMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.PropertyMapping()
+        value.assetModelPropertyId = try reader["assetModelPropertyId"].readIfPresent() ?? ""
+        value.interfaceAssetModelPropertyId = try reader["interfaceAssetModelPropertyId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.HierarchyMapping {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.HierarchyMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.HierarchyMapping()
+        value.assetModelHierarchyId = try reader["assetModelHierarchyId"].readIfPresent() ?? ""
+        value.interfaceAssetModelHierarchyId = try reader["interfaceAssetModelHierarchyId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -18306,6 +18870,18 @@ extension IoTSiteWiseClientTypes.AssetModelPropertySummary {
         value.type = try reader["type"].readIfPresent(with: IoTSiteWiseClientTypes.PropertyType.read(from:))
         value.assetModelCompositeModelId = try reader["assetModelCompositeModelId"].readIfPresent()
         value.path = try reader["path"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.AssetModelPropertyPathSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.interfaceSummaries = try reader["interfaceSummaries"].readListIfPresent(memberReadingClosure: IoTSiteWiseClientTypes.InterfaceSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTSiteWiseClientTypes.InterfaceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.InterfaceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.InterfaceSummary()
+        value.interfaceAssetModelId = try reader["interfaceAssetModelId"].readIfPresent() ?? ""
+        value.interfaceAssetModelPropertyId = try reader["interfaceAssetModelPropertyId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -18553,6 +19129,16 @@ extension IoTSiteWiseClientTypes.GatewaySummary {
     }
 }
 
+extension IoTSiteWiseClientTypes.InterfaceRelationshipSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.InterfaceRelationshipSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTSiteWiseClientTypes.InterfaceRelationshipSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension IoTSiteWiseClientTypes.PortalSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTSiteWiseClientTypes.PortalSummary {
@@ -18747,6 +19333,16 @@ extension IoTSiteWiseClientTypes.AssetBindingValueFilter {
     static func write(value: IoTSiteWiseClientTypes.AssetBindingValueFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["assetId"].write(value.assetId)
+    }
+}
+
+extension IoTSiteWiseClientTypes.PropertyMappingConfiguration {
+
+    static func write(value: IoTSiteWiseClientTypes.PropertyMappingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["createMissingProperty"].write(value.createMissingProperty)
+        try writer["matchByPropertyName"].write(value.matchByPropertyName)
+        try writer["overrides"].writeList(value.overrides, memberWritingClosure: IoTSiteWiseClientTypes.PropertyMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

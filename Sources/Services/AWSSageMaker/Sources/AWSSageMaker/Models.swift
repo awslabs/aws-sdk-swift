@@ -6141,6 +6141,103 @@ extension SageMakerClientTypes {
     }
 }
 
+public struct AttachClusterNodeVolumeInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster containing the target node. Your cluster must use EKS as the orchestration and be in the InService state.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The unique identifier of the cluster node to which you want to attach the volume. The node must belong to your specified HyperPod cluster and cannot be part of a Restricted Instance Group (RIG).
+    /// This member is required.
+    public var nodeId: Swift.String?
+    /// The unique identifier of your EBS volume to attach. The volume must be in the available state.
+    /// This member is required.
+    public var volumeId: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        nodeId: Swift.String? = nil,
+        volumeId: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.nodeId = nodeId
+        self.volumeId = volumeId
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum VolumeAttachmentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case attached
+        case attaching
+        case busy
+        case detached
+        case detaching
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VolumeAttachmentStatus] {
+            return [
+                .attached,
+                .attaching,
+                .busy,
+                .detached,
+                .detaching
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .attached: return "attached"
+            case .attaching: return "attaching"
+            case .busy: return "busy"
+            case .detached: return "detached"
+            case .detaching: return "detaching"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AttachClusterNodeVolumeOutput: Swift.Sendable {
+    /// The timestamp when the volume attachment operation was initiated by the SageMaker HyperPod service.
+    /// This member is required.
+    public var attachTime: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster where the volume attachment operation was performed.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The device name assigned to your attached volume on the target instance.
+    /// This member is required.
+    public var deviceName: Swift.String?
+    /// The unique identifier of the cluster node where your volume was attached.
+    /// This member is required.
+    public var nodeId: Swift.String?
+    /// The current status of your volume attachment operation.
+    /// This member is required.
+    public var status: SageMakerClientTypes.VolumeAttachmentStatus?
+    /// The unique identifier of your EBS volume that was attached.
+    /// This member is required.
+    public var volumeId: Swift.String?
+
+    public init(
+        attachTime: Foundation.Date? = nil,
+        clusterArn: Swift.String? = nil,
+        deviceName: Swift.String? = nil,
+        nodeId: Swift.String? = nil,
+        status: SageMakerClientTypes.VolumeAttachmentStatus? = nil,
+        volumeId: Swift.String? = nil
+    ) {
+        self.attachTime = attachTime
+        self.clusterArn = clusterArn
+        self.deviceName = deviceName
+        self.nodeId = nodeId
+        self.status = status
+        self.volumeId = volumeId
+    }
+}
+
 extension SageMakerClientTypes {
 
     public enum AuthMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -16160,7 +16257,7 @@ extension SageMakerClientTypes {
         public var projectId: Swift.String?
         /// The location where Amazon S3 stores temporary execution data and other artifacts for the project that corresponds to the domain.
         public var projectS3Path: Swift.String?
-        /// The ARN of the application managed by SageMaker AI and SageMaker Unified Studio in the Amazon Web Services IAM Identity Center.
+        /// The ARN of the Amazon DataZone application managed by Amazon SageMaker Unified Studio in the Amazon Web Services IAM Identity Center.
         public var singleSignOnApplicationArn: Swift.String?
         /// Sets whether you can access the domain in Amazon SageMaker Studio: ENABLED You can access the domain in Amazon SageMaker Studio. If you migrate the domain to Amazon SageMaker Unified Studio, you can access it in both studio interfaces. DISABLED You can't access the domain in Amazon SageMaker Studio. If you migrate the domain to Amazon SageMaker Unified Studio, you can access it only in that studio interface. To migrate a domain to Amazon SageMaker Unified Studio, you specify the UnifiedStudioSettings data type when you use the UpdateDomain action.
         public var studioWebPortalAccess: SageMakerClientTypes.FeatureStatus?
@@ -37588,6 +37685,65 @@ extension SageMakerClientTypes {
     }
 }
 
+public struct DetachClusterNodeVolumeInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster containing the target node. Your cluster must use EKS as the orchestration and be in the InService state.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The unique identifier of the cluster node from which you want to detach the volume.
+    /// This member is required.
+    public var nodeId: Swift.String?
+    /// The unique identifier of your EBS volume that you want to detach. Your volume must be currently attached to the specified node.
+    /// This member is required.
+    public var volumeId: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        nodeId: Swift.String? = nil,
+        volumeId: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.nodeId = nodeId
+        self.volumeId = volumeId
+    }
+}
+
+public struct DetachClusterNodeVolumeOutput: Swift.Sendable {
+    /// The original timestamp when your volume was initially attached to the node.
+    /// This member is required.
+    public var attachTime: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of your SageMaker HyperPod cluster where the volume detachment operation was performed.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The device name assigned to your attached volume on the target instance.
+    /// This member is required.
+    public var deviceName: Swift.String?
+    /// The unique identifier of the cluster node from which your volume was detached.
+    /// This member is required.
+    public var nodeId: Swift.String?
+    /// The current status of your volume detachment operation.
+    /// This member is required.
+    public var status: SageMakerClientTypes.VolumeAttachmentStatus?
+    /// The unique identifier of your EBS volume that was detached.
+    /// This member is required.
+    public var volumeId: Swift.String?
+
+    public init(
+        attachTime: Foundation.Date? = nil,
+        clusterArn: Swift.String? = nil,
+        deviceName: Swift.String? = nil,
+        nodeId: Swift.String? = nil,
+        status: SageMakerClientTypes.VolumeAttachmentStatus? = nil,
+        volumeId: Swift.String? = nil
+    ) {
+        self.attachTime = attachTime
+        self.clusterArn = clusterArn
+        self.deviceName = deviceName
+        self.nodeId = nodeId
+        self.status = status
+        self.volumeId = volumeId
+    }
+}
+
 extension SageMakerClientTypes {
 
     /// Information of a particular device.
@@ -53424,6 +53580,13 @@ extension AssociateTrialComponentInput {
     }
 }
 
+extension AttachClusterNodeVolumeInput {
+
+    static func urlPathProvider(_ value: AttachClusterNodeVolumeInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension BatchDeleteClusterNodesInput {
 
     static func urlPathProvider(_ value: BatchDeleteClusterNodesInput) -> Swift.String? {
@@ -54761,6 +54924,13 @@ extension DescribeWorkteamInput {
     }
 }
 
+extension DetachClusterNodeVolumeInput {
+
+    static func urlPathProvider(_ value: DetachClusterNodeVolumeInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DisableSagemakerServicecatalogPortfolioInput {
 
     static func urlPathProvider(_ value: DisableSagemakerServicecatalogPortfolioInput) -> Swift.String? {
@@ -55962,6 +56132,16 @@ extension AssociateTrialComponentInput {
         guard let value else { return }
         try writer["TrialComponentName"].write(value.trialComponentName)
         try writer["TrialName"].write(value.trialName)
+    }
+}
+
+extension AttachClusterNodeVolumeInput {
+
+    static func write(value: AttachClusterNodeVolumeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterArn"].write(value.clusterArn)
+        try writer["NodeId"].write(value.nodeId)
+        try writer["VolumeId"].write(value.volumeId)
     }
 }
 
@@ -57970,6 +58150,16 @@ extension DescribeWorkteamInput {
     static func write(value: DescribeWorkteamInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["WorkteamName"].write(value.workteamName)
+    }
+}
+
+extension DetachClusterNodeVolumeInput {
+
+    static func write(value: DetachClusterNodeVolumeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterArn"].write(value.clusterArn)
+        try writer["NodeId"].write(value.nodeId)
+        try writer["VolumeId"].write(value.volumeId)
     }
 }
 
@@ -60157,6 +60347,23 @@ extension AssociateTrialComponentOutput {
         var value = AssociateTrialComponentOutput()
         value.trialArn = try reader["TrialArn"].readIfPresent()
         value.trialComponentArn = try reader["TrialComponentArn"].readIfPresent()
+        return value
+    }
+}
+
+extension AttachClusterNodeVolumeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AttachClusterNodeVolumeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AttachClusterNodeVolumeOutput()
+        value.attachTime = try reader["AttachTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.clusterArn = try reader["ClusterArn"].readIfPresent() ?? ""
+        value.deviceName = try reader["DeviceName"].readIfPresent() ?? ""
+        value.nodeId = try reader["NodeId"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.volumeId = try reader["VolumeId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -63026,6 +63233,23 @@ extension DescribeWorkteamOutput {
     }
 }
 
+extension DetachClusterNodeVolumeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DetachClusterNodeVolumeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DetachClusterNodeVolumeOutput()
+        value.attachTime = try reader["AttachTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.clusterArn = try reader["ClusterArn"].readIfPresent() ?? ""
+        value.deviceName = try reader["DeviceName"].readIfPresent() ?? ""
+        value.nodeId = try reader["NodeId"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.volumeId = try reader["VolumeId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension DisableSagemakerServicecatalogPortfolioOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisableSagemakerServicecatalogPortfolioOutput {
@@ -65071,6 +65295,20 @@ enum AssociateTrialComponentOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AttachClusterNodeVolumeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
             case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -67777,6 +68015,20 @@ enum DescribeWorkteamOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DetachClusterNodeVolumeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }

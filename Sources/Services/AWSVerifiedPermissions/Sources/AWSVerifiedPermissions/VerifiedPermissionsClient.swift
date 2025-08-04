@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class VerifiedPermissionsClient: ClientRuntime.Client {
     public static let clientName = "VerifiedPermissionsClient"
-    public static let version = "1.5.12"
+    public static let version = "1.5.13"
     let client: ClientRuntime.SdkHttpClient
     let config: VerifiedPermissionsClient.VerifiedPermissionsClientConfiguration
     let serviceName = "VerifiedPermissions"

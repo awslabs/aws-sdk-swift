@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EvsClient: ClientRuntime.Client {
     public static let clientName = "EvsClient"
-    public static let version = "1.5.12"
+    public static let version = "1.5.13"
     let client: ClientRuntime.SdkHttpClient
     let config: EvsClient.EvsClientConfiguration
     let serviceName = "evs"
@@ -371,7 +371,7 @@ extension EvsClient {
 extension EvsClient {
     /// Performs the `CreateEnvironment` operation on the `Evs` service.
     ///
-    /// Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server. During environment creation, Amazon EVS performs validations on DNS settings, provisions VLAN subnets and hosts, and deploys the supplied version of VCF. It can take several hours to create an environment. After the deployment completes, you can configure VCF according to your unique requirements. You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironment action. This results in a ValidationException response. EC2 instances created through Amazon EVS do not support associating an IAM instance profile.
+    /// Amazon EVS is in public preview release and is subject to change. Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server. During environment creation, Amazon EVS performs validations on DNS settings, provisions VLAN subnets and hosts, and deploys the supplied version of VCF. It can take several hours to create an environment. After the deployment completes, you can configure VCF in the vSphere user interface according to your needs. You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironment action. This results in a ValidationException response.
     ///
     /// - Parameter CreateEnvironmentInput : [no documentation found]
     ///
@@ -440,7 +440,7 @@ extension EvsClient {
 
     /// Performs the `CreateEnvironmentHost` operation on the `Evs` service.
     ///
-    /// Creates an ESXi host and adds it to an Amazon EVS environment. Amazon EVS supports 4-16 hosts per environment. This action can only be used after the Amazon EVS environment is deployed. All Amazon EVS hosts are created with the latest AMI release version for the respective VCF version of the environment. You can use the dedicatedHostId parameter to specify an Amazon EC2 Dedicated Host for ESXi host creation. You can use the placementGroupId parameter to specify a cluster or partition placement group to launch EC2 instances into. You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironmentHost action. This results in a ValidationException response. EC2 instances created through Amazon EVS do not support associating an IAM instance profile.
+    /// Amazon EVS is in public preview release and is subject to change. Creates an ESXi host and adds it to an Amazon EVS environment. Amazon EVS supports 4-16 hosts per environment. This action can only be used after the Amazon EVS environment is deployed. All Amazon EVS hosts are created with the latest AMI release version for the respective VCF version of the environment. Amazon EVS hosts are commissioned in the SDDC Manager inventory as unassigned hosts. You can use the dedicatedHostId parameter to specify an Amazon EC2 Dedicated Host for ESXi host creation. You can use the placementGroupId parameter to specify a cluster or partition placement group to launch EC2 instances into. You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironmentHost action. This results in a ValidationException response.
     ///
     /// - Parameter CreateEnvironmentHostInput : [no documentation found]
     ///
@@ -510,7 +510,7 @@ extension EvsClient {
 
     /// Performs the `DeleteEnvironment` operation on the `Evs` service.
     ///
-    /// Deletes an Amazon EVS environment. Amazon EVS environments will only be enabled for deletion once the hosts are deleted. You can delete hosts using the DeleteEnvironmentHost action. Environment deletion also deletes the associated Amazon EVS VLAN subnets. Other associated Amazon Web Services resources are not deleted. These resources may continue to incur costs.
+    /// Amazon EVS is in public preview release and is subject to change. Deletes an Amazon EVS environment. Amazon EVS environments will only be enabled for deletion once the hosts are deleted. You can delete hosts using the DeleteEnvironmentHost action. Environment deletion also deletes the associated Amazon EVS VLAN subnets. Other associated Amazon Web Services resources are not deleted. These resources may continue to incur costs.
     ///
     /// - Parameter DeleteEnvironmentInput : [no documentation found]
     ///
@@ -580,7 +580,7 @@ extension EvsClient {
 
     /// Performs the `DeleteEnvironmentHost` operation on the `Evs` service.
     ///
-    /// Deletes a host from an Amazon EVS environment. Before deleting a host, you must unassign and decommission the host from within the SDDC Manager user interface. Not doing so could impact the availability of your virtual machines or result in data loss.
+    /// Amazon EVS is in public preview release and is subject to change. Deletes a host from an Amazon EVS environment. Before deleting a host, you must unassign and decommission the host from within the SDDC Manager user interface. Not doing so could impact the availability of your virtual machines or result in data loss.
     ///
     /// - Parameter DeleteEnvironmentHostInput : [no documentation found]
     ///
@@ -650,7 +650,7 @@ extension EvsClient {
 
     /// Performs the `GetEnvironment` operation on the `Evs` service.
     ///
-    /// Returns a description of the specified environment.
+    /// Amazon EVS is in public preview release and is subject to change. Returns a description of the specified environment.
     ///
     /// - Parameter GetEnvironmentInput : [no documentation found]
     ///
@@ -719,7 +719,7 @@ extension EvsClient {
 
     /// Performs the `ListEnvironmentHosts` operation on the `Evs` service.
     ///
-    /// List the hosts within an environment.
+    /// Amazon EVS is in public preview release and is subject to change. List the hosts within an environment.
     ///
     /// - Parameter ListEnvironmentHostsInput : [no documentation found]
     ///
@@ -788,7 +788,7 @@ extension EvsClient {
 
     /// Performs the `ListEnvironmentVlans` operation on the `Evs` service.
     ///
-    /// Lists environment VLANs that are associated with the specified environment.
+    /// Amazon EVS is in public preview release and is subject to change. Lists environment VLANs that are associated with the specified environment.
     ///
     /// - Parameter ListEnvironmentVlansInput : [no documentation found]
     ///
@@ -857,7 +857,7 @@ extension EvsClient {
 
     /// Performs the `ListEnvironments` operation on the `Evs` service.
     ///
-    /// Lists the Amazon EVS environments in your Amazon Web Services account in the specified Amazon Web Services Region.
+    /// Amazon EVS is in public preview release and is subject to change. Lists the Amazon EVS environments in your Amazon Web Services account in the specified Amazon Web Services Region.
     ///
     /// - Parameter ListEnvironmentsInput : [no documentation found]
     ///
@@ -925,7 +925,7 @@ extension EvsClient {
 
     /// Performs the `ListTagsForResource` operation on the `Evs` service.
     ///
-    /// Lists the tags for an Amazon EVS resource.
+    /// Amazon EVS is in public preview release and is subject to change. Lists the tags for an Amazon EVS resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
@@ -993,7 +993,7 @@ extension EvsClient {
 
     /// Performs the `TagResource` operation on the `Evs` service.
     ///
-    /// Associates the specified tags to an Amazon EVS resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. Tags that you create for Amazon EVS resources don't propagate to any other resources associated with the environment. For example, if you tag an environment with this operation, that tag doesn't automatically propagate to the VLAN subnets and hosts associated with the environment.
+    /// Amazon EVS is in public preview release and is subject to change. Associates the specified tags to an Amazon EVS resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. Tags that you create for Amazon EVS resources don't propagate to any other resources associated with the environment. For example, if you tag an environment with this operation, that tag doesn't automatically propagate to the VLAN subnets and hosts associated with the environment.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -1003,8 +1003,9 @@ extension EvsClient {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : A service resource associated with the request could not be found. The resource might not be specified correctly, or it may have a state of DELETED.
-    /// - `TagPolicyException` : The request doesn't comply with IAM tag policy. Correct your request and then retry it.
-    /// - `TooManyTagsException` : A service resource associated with the request has more than 200 tags.
+    /// - `ServiceQuotaExceededException` : The number of one or more Amazon EVS resources exceeds the maximum allowed. For a list of Amazon EVS quotas, see [Amazon EVS endpoints and quotas](https://docs.aws.amazon.com/evs/latest/userguide/service-quotas-evs.html) in the Amazon EVS User Guide. Delete some resources or request an increase in your service quota. To request an increase, see [Amazon Web Services Service Quotas](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) in the Amazon Web Services General Reference Guide.
+    /// - `TagPolicyException` : TagPolicyException is deprecated. See [ValidationException](https://docs.aws.amazon.com/evs/latest/APIReference/API_ValidationException.html) instead. The request doesn't comply with IAM tag policy. Correct your request and then retry it.
+    /// - `TooManyTagsException` : TooManyTagsException is deprecated. See [ServiceQuotaExceededException](https://docs.aws.amazon.com/evs/latest/APIReference/API_ServiceQuotaExceededException.html) instead. A service resource associated with the request has more than 200 tags.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1063,7 +1064,7 @@ extension EvsClient {
 
     /// Performs the `UntagResource` operation on the `Evs` service.
     ///
-    /// Deletes specified tags from an Amazon EVS resource.
+    /// Amazon EVS is in public preview release and is subject to change. Deletes specified tags from an Amazon EVS resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
@@ -1073,7 +1074,7 @@ extension EvsClient {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : A service resource associated with the request could not be found. The resource might not be specified correctly, or it may have a state of DELETED.
-    /// - `TagPolicyException` : The request doesn't comply with IAM tag policy. Correct your request and then retry it.
+    /// - `TagPolicyException` : TagPolicyException is deprecated. See [ValidationException](https://docs.aws.amazon.com/evs/latest/APIReference/API_ValidationException.html) instead. The request doesn't comply with IAM tag policy. Correct your request and then retry it.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
