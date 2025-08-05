@@ -1867,7 +1867,7 @@ extension Inspector2ClientTypes {
         case findingType
         case imageLayer
         case lambdaLayer
-        case package
+        case `package`
         case repository
         case title
         case sdkUnknown(Swift.String)
@@ -6561,7 +6561,7 @@ extension Inspector2ClientTypes {
     public enum ScanType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case code
         case network
-        case package
+        case `package`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ScanType] {

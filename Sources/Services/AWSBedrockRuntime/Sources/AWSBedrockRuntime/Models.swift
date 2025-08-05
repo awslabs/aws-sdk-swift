@@ -836,6 +836,356 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    /// References a specific automated reasoning policy rule that was applied during evaluation.
+    public struct GuardrailAutomatedReasoningRule: Swift.Sendable {
+        /// The unique identifier of the automated reasoning rule.
+        public var identifier: Swift.String?
+        /// The ARN of the automated reasoning policy version that contains this rule.
+        public var policyVersionArn: Swift.String?
+
+        public init(
+            identifier: Swift.String? = nil,
+            policyVersionArn: Swift.String? = nil
+        ) {
+            self.identifier = identifier
+            self.policyVersionArn = policyVersionArn
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// A logical statement that includes both formal logic representation and natural language explanation.
+    public struct GuardrailAutomatedReasoningStatement: Swift.Sendable {
+        /// The formal logical representation of the statement.
+        public var logic: Swift.String?
+        /// The natural language explanation of the logical statement.
+        public var naturalLanguage: Swift.String?
+
+        public init(
+            logic: Swift.String? = nil,
+            naturalLanguage: Swift.String? = nil
+        ) {
+            self.logic = logic
+            self.naturalLanguage = naturalLanguage
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailAutomatedReasoningStatement: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailAutomatedReasoningStatement(logic: \"CONTENT_REDACTED\", naturalLanguage: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockRuntimeClientTypes {
+
+    public enum GuardrailAutomatedReasoningLogicWarningType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alwaysFalse
+        case alwaysTrue
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GuardrailAutomatedReasoningLogicWarningType] {
+            return [
+                .alwaysFalse,
+                .alwaysTrue
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .alwaysFalse: return "ALWAYS_FALSE"
+            case .alwaysTrue: return "ALWAYS_TRUE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Identifies logical issues in the translated statements that exist independent of any policy rules, such as statements that are always true or always false.
+    public struct GuardrailAutomatedReasoningLogicWarning: Swift.Sendable {
+        /// The logical statements that are validated while assuming the policy and premises.
+        public var claims: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningStatement]?
+        /// The logical statements that serve as premises under which the claims are validated.
+        public var premises: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningStatement]?
+        /// The category of the detected logical issue, such as statements that are always true or always false.
+        public var type: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningLogicWarningType?
+
+        public init(
+            claims: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningStatement]? = nil,
+            premises: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningStatement]? = nil,
+            type: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningLogicWarningType? = nil
+        ) {
+            self.claims = claims
+            self.premises = premises
+            self.type = type
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// References a portion of the original input text that corresponds to logical elements.
+    public struct GuardrailAutomatedReasoningInputTextReference: Swift.Sendable {
+        /// The specific text from the original input that this reference points to.
+        public var text: Swift.String?
+
+        public init(
+            text: Swift.String? = nil
+        ) {
+            self.text = text
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailAutomatedReasoningInputTextReference: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GuardrailAutomatedReasoningInputTextReference(text: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Contains the logical translation of natural language input into formal logical statements, including premises, claims, and confidence scores.
+    public struct GuardrailAutomatedReasoningTranslation: Swift.Sendable {
+        /// The logical statements that are being validated against the premises and policy rules.
+        public var claims: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningStatement]?
+        /// A confidence score between 0 and 1 indicating how certain the system is about the logical translation.
+        public var confidence: Swift.Double?
+        /// The logical statements that serve as the foundation or assumptions for the claims.
+        public var premises: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningStatement]?
+        /// References to portions of the original input text that correspond to the claims but could not be fully translated.
+        public var untranslatedClaims: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningInputTextReference]?
+        /// References to portions of the original input text that correspond to the premises but could not be fully translated.
+        public var untranslatedPremises: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningInputTextReference]?
+
+        public init(
+            claims: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningStatement]? = nil,
+            confidence: Swift.Double? = nil,
+            premises: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningStatement]? = nil,
+            untranslatedClaims: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningInputTextReference]? = nil,
+            untranslatedPremises: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningInputTextReference]? = nil
+        ) {
+            self.claims = claims
+            self.confidence = confidence
+            self.premises = premises
+            self.untranslatedClaims = untranslatedClaims
+            self.untranslatedPremises = untranslatedPremises
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Indicates that no valid claims can be made due to logical contradictions in the premises or rules.
+    public struct GuardrailAutomatedReasoningImpossibleFinding: Swift.Sendable {
+        /// The automated reasoning policy rules that contradict the claims and/or premises in the input.
+        public var contradictingRules: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningRule]?
+        /// Indication of a logic issue with the translation without needing to consider the automated reasoning policy rules.
+        public var logicWarning: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningLogicWarning?
+        /// The logical translation of the input that this finding evaluates.
+        public var translation: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslation?
+
+        public init(
+            contradictingRules: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningRule]? = nil,
+            logicWarning: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningLogicWarning? = nil,
+            translation: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslation? = nil
+        ) {
+            self.contradictingRules = contradictingRules
+            self.logicWarning = logicWarning
+            self.translation = translation
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Indicates that the claims are logically false and contradictory to the established rules or premises.
+    public struct GuardrailAutomatedReasoningInvalidFinding: Swift.Sendable {
+        /// The automated reasoning policy rules that contradict the claims in the input.
+        public var contradictingRules: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningRule]?
+        /// Indication of a logic issue with the translation without needing to consider the automated reasoning policy rules.
+        public var logicWarning: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningLogicWarning?
+        /// The logical translation of the input that this finding invalidates.
+        public var translation: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslation?
+
+        public init(
+            contradictingRules: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningRule]? = nil,
+            logicWarning: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningLogicWarning? = nil,
+            translation: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslation? = nil
+        ) {
+            self.contradictingRules = contradictingRules
+            self.logicWarning = logicWarning
+            self.translation = translation
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Indicates that no relevant logical information could be extracted from the input for validation.
+    public struct GuardrailAutomatedReasoningNoTranslationsFinding: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Represents a logical scenario where claims can be evaluated as true or false, containing specific logical assignments.
+    public struct GuardrailAutomatedReasoningScenario: Swift.Sendable {
+        /// List of logical assignments and statements that define this scenario.
+        public var statements: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningStatement]?
+
+        public init(
+            statements: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningStatement]? = nil
+        ) {
+            self.statements = statements
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Indicates that the claims could be either true or false depending on additional assumptions not provided in the input.
+    public struct GuardrailAutomatedReasoningSatisfiableFinding: Swift.Sendable {
+        /// An example scenario demonstrating how the claims could be logically false.
+        public var claimsFalseScenario: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningScenario?
+        /// An example scenario demonstrating how the claims could be logically true.
+        public var claimsTrueScenario: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningScenario?
+        /// Indication of a logic issue with the translation without needing to consider the automated reasoning policy rules.
+        public var logicWarning: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningLogicWarning?
+        /// The logical translation of the input that this finding evaluates.
+        public var translation: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslation?
+
+        public init(
+            claimsFalseScenario: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningScenario? = nil,
+            claimsTrueScenario: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningScenario? = nil,
+            logicWarning: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningLogicWarning? = nil,
+            translation: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslation? = nil
+        ) {
+            self.claimsFalseScenario = claimsFalseScenario
+            self.claimsTrueScenario = claimsTrueScenario
+            self.logicWarning = logicWarning
+            self.translation = translation
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Indicates that the input exceeds the processing capacity due to the volume or complexity of the logical information.
+    public struct GuardrailAutomatedReasoningTooComplexFinding: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Represents one possible logical interpretation of ambiguous input content.
+    public struct GuardrailAutomatedReasoningTranslationOption: Swift.Sendable {
+        /// Example translations that provide this possible interpretation of the input.
+        public var translations: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslation]?
+
+        public init(
+            translations: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslation]? = nil
+        ) {
+            self.translations = translations
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Indicates that the input has multiple valid logical interpretations, requiring additional context or clarification.
+    public struct GuardrailAutomatedReasoningTranslationAmbiguousFinding: Swift.Sendable {
+        /// Scenarios showing how the different translation options differ in meaning.
+        public var differenceScenarios: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningScenario]?
+        /// Different logical interpretations that were detected during translation of the input.
+        public var options: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslationOption]?
+
+        public init(
+            differenceScenarios: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningScenario]? = nil,
+            options: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslationOption]? = nil
+        ) {
+            self.differenceScenarios = differenceScenarios
+            self.options = options
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Indicates that the claims are definitively true and logically implied by the premises, with no possible alternative interpretations.
+    public struct GuardrailAutomatedReasoningValidFinding: Swift.Sendable {
+        /// An example scenario demonstrating how the claims are logically true.
+        public var claimsTrueScenario: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningScenario?
+        /// Indication of a logic issue with the translation without needing to consider the automated reasoning policy rules.
+        public var logicWarning: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningLogicWarning?
+        /// The automated reasoning policy rules that support why this result is considered valid.
+        public var supportingRules: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningRule]?
+        /// The logical translation of the input that this finding validates.
+        public var translation: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslation?
+
+        public init(
+            claimsTrueScenario: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningScenario? = nil,
+            logicWarning: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningLogicWarning? = nil,
+            supportingRules: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningRule]? = nil,
+            translation: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslation? = nil
+        ) {
+            self.claimsTrueScenario = claimsTrueScenario
+            self.logicWarning = logicWarning
+            self.supportingRules = supportingRules
+            self.translation = translation
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Represents a logical validation result from automated reasoning policy evaluation. The finding indicates whether claims in the input are logically valid, invalid, satisfiable, impossible, or have other logical issues.
+    public enum GuardrailAutomatedReasoningFinding: Swift.Sendable {
+        /// Indicates that the claims are definitively true and logically implied by the premises, with no possible alternative interpretations.
+        case valid(BedrockRuntimeClientTypes.GuardrailAutomatedReasoningValidFinding)
+        /// Indicates that the claims are logically false and contradictory to the established rules or premises.
+        case invalid(BedrockRuntimeClientTypes.GuardrailAutomatedReasoningInvalidFinding)
+        /// Indicates that the claims could be either true or false depending on additional assumptions not provided in the input.
+        case satisfiable(BedrockRuntimeClientTypes.GuardrailAutomatedReasoningSatisfiableFinding)
+        /// Indicates that no valid claims can be made due to logical contradictions in the premises or rules.
+        case impossible(BedrockRuntimeClientTypes.GuardrailAutomatedReasoningImpossibleFinding)
+        /// Indicates that the input has multiple valid logical interpretations, requiring additional context or clarification.
+        case translationambiguous(BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslationAmbiguousFinding)
+        /// Indicates that the input exceeds the processing capacity due to the volume or complexity of the logical information.
+        case toocomplex(BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTooComplexFinding)
+        /// Indicates that no relevant logical information could be extracted from the input for validation.
+        case notranslations(BedrockRuntimeClientTypes.GuardrailAutomatedReasoningNoTranslationsFinding)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Contains the results of automated reasoning policy evaluation, including logical findings about the validity of claims made in the input content.
+    public struct GuardrailAutomatedReasoningPolicyAssessment: Swift.Sendable {
+        /// List of logical validation results produced by evaluating the input content against automated reasoning policies.
+        public var findings: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningFinding]?
+
+        public init(
+            findings: [BedrockRuntimeClientTypes.GuardrailAutomatedReasoningFinding]? = nil
+        ) {
+            self.findings = findings
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     public enum GuardrailContentPolicyAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case blocked
         case `none`
@@ -1193,6 +1543,10 @@ extension BedrockRuntimeClientTypes {
 
     /// The details on the use of the guardrail.
     public struct GuardrailUsage: Swift.Sendable {
+        /// The number of automated reasoning policies that were processed during the guardrail evaluation.
+        public var automatedReasoningPolicies: Swift.Int?
+        /// The number of text units processed by the automated reasoning policy.
+        public var automatedReasoningPolicyUnits: Swift.Int?
         /// The content policy image units processed by the guardrail.
         public var contentPolicyImageUnits: Swift.Int?
         /// The content policy units processed by the guardrail.
@@ -1215,6 +1569,8 @@ extension BedrockRuntimeClientTypes {
         public var wordPolicyUnits: Swift.Int?
 
         public init(
+            automatedReasoningPolicies: Swift.Int? = nil,
+            automatedReasoningPolicyUnits: Swift.Int? = nil,
             contentPolicyImageUnits: Swift.Int? = nil,
             contentPolicyUnits: Swift.Int? = nil,
             contextualGroundingPolicyUnits: Swift.Int? = nil,
@@ -1223,6 +1579,8 @@ extension BedrockRuntimeClientTypes {
             topicPolicyUnits: Swift.Int? = nil,
             wordPolicyUnits: Swift.Int? = nil
         ) {
+            self.automatedReasoningPolicies = automatedReasoningPolicies
+            self.automatedReasoningPolicyUnits = automatedReasoningPolicyUnits
             self.contentPolicyImageUnits = contentPolicyImageUnits
             self.contentPolicyUnits = contentPolicyUnits
             self.contextualGroundingPolicyUnits = contextualGroundingPolicyUnits
@@ -1724,6 +2082,8 @@ extension BedrockRuntimeClientTypes {
 
     /// A behavior assessment of the guardrail policies used in a call to the Converse API.
     public struct GuardrailAssessment: Swift.Sendable {
+        /// The automated reasoning policy assessment results, including logical validation findings for the input content.
+        public var automatedReasoningPolicy: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningPolicyAssessment?
         /// The content policy.
         public var contentPolicy: BedrockRuntimeClientTypes.GuardrailContentPolicyAssessment?
         /// The contextual grounding policy used for the guardrail assessment.
@@ -1738,6 +2098,7 @@ extension BedrockRuntimeClientTypes {
         public var wordPolicy: BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment?
 
         public init(
+            automatedReasoningPolicy: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningPolicyAssessment? = nil,
             contentPolicy: BedrockRuntimeClientTypes.GuardrailContentPolicyAssessment? = nil,
             contextualGroundingPolicy: BedrockRuntimeClientTypes.GuardrailContextualGroundingPolicyAssessment? = nil,
             invocationMetrics: BedrockRuntimeClientTypes.GuardrailInvocationMetrics? = nil,
@@ -1745,6 +2106,7 @@ extension BedrockRuntimeClientTypes {
             topicPolicy: BedrockRuntimeClientTypes.GuardrailTopicPolicyAssessment? = nil,
             wordPolicy: BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment? = nil
         ) {
+            self.automatedReasoningPolicy = automatedReasoningPolicy
             self.contentPolicy = contentPolicy
             self.contextualGroundingPolicy = contextualGroundingPolicy
             self.invocationMetrics = invocationMetrics
@@ -4991,6 +5353,8 @@ extension BedrockRuntimeClientTypes.GuardrailUsage {
         value.sensitiveInformationPolicyFreeUnits = try reader["sensitiveInformationPolicyFreeUnits"].readIfPresent() ?? 0
         value.contextualGroundingPolicyUnits = try reader["contextualGroundingPolicyUnits"].readIfPresent() ?? 0
         value.contentPolicyImageUnits = try reader["contentPolicyImageUnits"].readIfPresent()
+        value.automatedReasoningPolicyUnits = try reader["automatedReasoningPolicyUnits"].readIfPresent()
+        value.automatedReasoningPolicies = try reader["automatedReasoningPolicies"].readIfPresent()
         return value
     }
 }
@@ -5015,6 +5379,7 @@ extension BedrockRuntimeClientTypes.GuardrailAssessment {
         value.wordPolicy = try reader["wordPolicy"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailWordPolicyAssessment.read(from:))
         value.sensitiveInformationPolicy = try reader["sensitiveInformationPolicy"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailSensitiveInformationPolicyAssessment.read(from:))
         value.contextualGroundingPolicy = try reader["contextualGroundingPolicy"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailContextualGroundingPolicyAssessment.read(from:))
+        value.automatedReasoningPolicy = try reader["automatedReasoningPolicy"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningPolicyAssessment.read(from:))
         value.invocationMetrics = try reader["invocationMetrics"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailInvocationMetrics.read(from:))
         return value
     }
@@ -5061,6 +5426,197 @@ extension BedrockRuntimeClientTypes.GuardrailTextCharactersCoverage {
         var value = BedrockRuntimeClientTypes.GuardrailTextCharactersCoverage()
         value.guarded = try reader["guarded"].readIfPresent()
         value.total = try reader["total"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailAutomatedReasoningPolicyAssessment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailAutomatedReasoningPolicyAssessment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailAutomatedReasoningPolicyAssessment()
+        value.findings = try reader["findings"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningFinding.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailAutomatedReasoningFinding {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailAutomatedReasoningFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "valid":
+                return .valid(try reader["valid"].read(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningValidFinding.read(from:)))
+            case "invalid":
+                return .invalid(try reader["invalid"].read(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningInvalidFinding.read(from:)))
+            case "satisfiable":
+                return .satisfiable(try reader["satisfiable"].read(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningSatisfiableFinding.read(from:)))
+            case "impossible":
+                return .impossible(try reader["impossible"].read(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningImpossibleFinding.read(from:)))
+            case "translationAmbiguous":
+                return .translationambiguous(try reader["translationAmbiguous"].read(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslationAmbiguousFinding.read(from:)))
+            case "tooComplex":
+                return .toocomplex(try reader["tooComplex"].read(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTooComplexFinding.read(from:)))
+            case "noTranslations":
+                return .notranslations(try reader["noTranslations"].read(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningNoTranslationsFinding.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailAutomatedReasoningNoTranslationsFinding {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailAutomatedReasoningNoTranslationsFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return BedrockRuntimeClientTypes.GuardrailAutomatedReasoningNoTranslationsFinding()
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTooComplexFinding {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTooComplexFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTooComplexFinding()
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslationAmbiguousFinding {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslationAmbiguousFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslationAmbiguousFinding()
+        value.options = try reader["options"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslationOption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.differenceScenarios = try reader["differenceScenarios"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningScenario.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailAutomatedReasoningScenario {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailAutomatedReasoningScenario {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailAutomatedReasoningScenario()
+        value.statements = try reader["statements"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningStatement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailAutomatedReasoningStatement {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailAutomatedReasoningStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailAutomatedReasoningStatement()
+        value.logic = try reader["logic"].readIfPresent()
+        value.naturalLanguage = try reader["naturalLanguage"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslationOption {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslationOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslationOption()
+        value.translations = try reader["translations"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslation()
+        value.premises = try reader["premises"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningStatement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.claims = try reader["claims"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningStatement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.untranslatedPremises = try reader["untranslatedPremises"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningInputTextReference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.untranslatedClaims = try reader["untranslatedClaims"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningInputTextReference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.confidence = try reader["confidence"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailAutomatedReasoningInputTextReference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailAutomatedReasoningInputTextReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailAutomatedReasoningInputTextReference()
+        value.text = try reader["text"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailAutomatedReasoningImpossibleFinding {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailAutomatedReasoningImpossibleFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailAutomatedReasoningImpossibleFinding()
+        value.translation = try reader["translation"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslation.read(from:))
+        value.contradictingRules = try reader["contradictingRules"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.logicWarning = try reader["logicWarning"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningLogicWarning.read(from:))
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailAutomatedReasoningLogicWarning {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailAutomatedReasoningLogicWarning {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailAutomatedReasoningLogicWarning()
+        value.type = try reader["type"].readIfPresent()
+        value.premises = try reader["premises"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningStatement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.claims = try reader["claims"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningStatement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailAutomatedReasoningRule {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailAutomatedReasoningRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailAutomatedReasoningRule()
+        value.identifier = try reader["identifier"].readIfPresent()
+        value.policyVersionArn = try reader["policyVersionArn"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailAutomatedReasoningSatisfiableFinding {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailAutomatedReasoningSatisfiableFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailAutomatedReasoningSatisfiableFinding()
+        value.translation = try reader["translation"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslation.read(from:))
+        value.claimsTrueScenario = try reader["claimsTrueScenario"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningScenario.read(from:))
+        value.claimsFalseScenario = try reader["claimsFalseScenario"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningScenario.read(from:))
+        value.logicWarning = try reader["logicWarning"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningLogicWarning.read(from:))
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailAutomatedReasoningInvalidFinding {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailAutomatedReasoningInvalidFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailAutomatedReasoningInvalidFinding()
+        value.translation = try reader["translation"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslation.read(from:))
+        value.contradictingRules = try reader["contradictingRules"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.logicWarning = try reader["logicWarning"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningLogicWarning.read(from:))
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.GuardrailAutomatedReasoningValidFinding {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.GuardrailAutomatedReasoningValidFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.GuardrailAutomatedReasoningValidFinding()
+        value.translation = try reader["translation"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslation.read(from:))
+        value.claimsTrueScenario = try reader["claimsTrueScenario"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningScenario.read(from:))
+        value.supportingRules = try reader["supportingRules"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.logicWarning = try reader["logicWarning"].readIfPresent(with: BedrockRuntimeClientTypes.GuardrailAutomatedReasoningLogicWarning.read(from:))
         return value
     }
 }

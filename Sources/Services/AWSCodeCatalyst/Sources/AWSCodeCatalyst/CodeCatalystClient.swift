@@ -41,13 +41,13 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
-import struct AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain
+@_spi(ClientConfigDefaultIdentityResolver) import struct AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain
 import struct ClientRuntime.AuthSchemeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
 import struct ClientRuntime.ContentLengthMiddleware
@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeCatalystClient: ClientRuntime.Client {
     public static let clientName = "CodeCatalystClient"
-    public static let version = "1.5.13"
+    public static let version = "1.5.14"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeCatalystClient.CodeCatalystClientConfiguration
     let serviceName = "CodeCatalyst"

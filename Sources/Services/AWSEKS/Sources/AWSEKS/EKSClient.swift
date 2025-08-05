@@ -40,7 +40,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -60,14 +60,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EKSClient: ClientRuntime.Client {
     public static let clientName = "EKSClient"
-    public static let version = "1.5.13"
+    public static let version = "1.5.14"
     let client: ClientRuntime.SdkHttpClient
     let config: EKSClient.EKSClientConfiguration
     let serviceName = "EKS"
@@ -1246,6 +1246,7 @@ extension EKSClient {
     ///
     /// __Possible Exceptions:__
     /// - `ClientException` : These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an [IAM principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html) that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+    /// - `InvalidRequestException` : The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     /// - `ResourceInUseException` : The specified resource is in use.
     /// - `ResourceNotFoundException` : The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Amazon Web Services Region specific.
     /// - `ServerException` : These errors are usually caused by a server-side issue.

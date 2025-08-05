@@ -838,7 +838,7 @@ public struct CreateJobForDevicesOutput: Swift.Sendable {
 extension PanoramaClientTypes {
 
     public enum JobResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case package
+        case `package`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [JobResourceType] {
