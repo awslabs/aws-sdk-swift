@@ -150,7 +150,7 @@ struct PackageManifestBuilder {
         var lines: [String] = []
         lines += ["let serviceTargets: [String: [Target.Dependency]] = ["]
         lines += services.map {
-            let jsonFilePath = "Sources/Services/\($0.name)/Package.swift.json"
+            let jsonFilePath = "Sources/Services/\($0.name)/Dependencies.json"
             let dependencies = clientDependencies(service: $0, jsonFilePath: jsonFilePath)
             return "    \($0.name.wrappedInQuotes()): \(dependencies),"
         }
@@ -171,7 +171,7 @@ struct PackageManifestBuilder {
     }
 
     private func buildInternalClientDependencies(name: String) -> String {
-        let jsonFilePath = "Sources/Core/AWSSDKIdentity/InternalClients/Internal\(name)/Package.swift.json"
+        let jsonFilePath = "Sources/Core/AWSSDKIdentity/InternalClients/Internal\(name)/Dependencies.json"
         let service = Service(name: name)
         let dependencies = clientDependencies(service: service, jsonFilePath: jsonFilePath)
         var lines: [String] = []
