@@ -595,6 +595,42 @@ public struct AddAssociationOutput: Swift.Sendable {
 
 extension SageMakerClientTypes {
 
+    /// Specifies an instance group and the number of nodes to add to it.
+    public struct AddClusterNodeSpecification: Swift.Sendable {
+        /// The number of nodes to add to the specified instance group. The total number of nodes across all instance groups in a single request cannot exceed 50.
+        /// This member is required.
+        public var incrementTargetCountBy: Swift.Int?
+        /// The name of the instance group to which you want to add nodes.
+        /// This member is required.
+        public var instanceGroupName: Swift.String?
+
+        public init(
+            incrementTargetCountBy: Swift.Int? = nil,
+            instanceGroupName: Swift.String? = nil
+        ) {
+            self.incrementTargetCountBy = incrementTargetCountBy
+            self.instanceGroupName = instanceGroupName
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Information about additional Elastic Network Interfaces (ENIs) associated with an instance.
+    public struct AdditionalEnis: Swift.Sendable {
+        /// A list of Elastic Fabric Adapter (EFA) ENIs associated with the instance.
+        public var efaEnis: [Swift.String]?
+
+        public init(
+            efaEnis: [Swift.String]? = nil
+        ) {
+            self.efaEnis = efaEnis
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum CompressionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case gzip
         case `none`
@@ -8396,6 +8432,173 @@ extension SageMakerClientTypes {
     }
 }
 
+public struct BatchAddClusterNodesInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token is valid for 8 hours. If you retry the request with the same client token within this timeframe and the same parameters, the API returns the same set of NodeLogicalIds with their latest status.
+    public var clientToken: Swift.String?
+    /// The name of the HyperPod cluster to which you want to add nodes.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// A list of instance groups and the number of nodes to add to each. You can specify up to 5 instance groups in a single request, with a maximum of 50 nodes total across all instance groups.
+    /// This member is required.
+    public var nodesToAdd: [SageMakerClientTypes.AddClusterNodeSpecification]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        clusterName: Swift.String? = nil,
+        nodesToAdd: [SageMakerClientTypes.AddClusterNodeSpecification]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.clusterName = clusterName
+        self.nodesToAdd = nodesToAdd
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum BatchAddClusterNodesErrorCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case instanceGroupNotFound
+        case invalidInstanceGroupStatus
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BatchAddClusterNodesErrorCode] {
+            return [
+                .instanceGroupNotFound,
+                .invalidInstanceGroupStatus
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .instanceGroupNotFound: return "InstanceGroupNotFound"
+            case .invalidInstanceGroupStatus: return "InvalidInstanceGroupStatus"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Information about an error that occurred during the node addition operation.
+    public struct BatchAddClusterNodesError: Swift.Sendable {
+        /// The error code associated with the failure. Possible values include InstanceGroupNotFound and InvalidInstanceGroupState.
+        /// This member is required.
+        public var errorCode: SageMakerClientTypes.BatchAddClusterNodesErrorCode?
+        /// The number of nodes that failed to be added to the specified instance group.
+        /// This member is required.
+        public var failedCount: Swift.Int?
+        /// The name of the instance group for which the error occurred.
+        /// This member is required.
+        public var instanceGroupName: Swift.String?
+        /// A descriptive message providing additional details about the error.
+        public var message: Swift.String?
+
+        public init(
+            errorCode: SageMakerClientTypes.BatchAddClusterNodesErrorCode? = nil,
+            failedCount: Swift.Int? = nil,
+            instanceGroupName: Swift.String? = nil,
+            message: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.failedCount = failedCount
+            self.instanceGroupName = instanceGroupName
+            self.message = message
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ClusterInstanceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deepHealthCheckInProgress
+        case failure
+        case notFound
+        case pending
+        case running
+        case shuttingDown
+        case systemUpdating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterInstanceStatus] {
+            return [
+                .deepHealthCheckInProgress,
+                .failure,
+                .notFound,
+                .pending,
+                .running,
+                .shuttingDown,
+                .systemUpdating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deepHealthCheckInProgress: return "DeepHealthCheckInProgress"
+            case .failure: return "Failure"
+            case .notFound: return "NotFound"
+            case .pending: return "Pending"
+            case .running: return "Running"
+            case .shuttingDown: return "ShuttingDown"
+            case .systemUpdating: return "SystemUpdating"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Information about a node that was successfully added to the cluster.
+    public struct NodeAdditionResult: Swift.Sendable {
+        /// The name of the instance group to which the node was added.
+        /// This member is required.
+        public var instanceGroupName: Swift.String?
+        /// A unique identifier assigned to the node that can be used to track its provisioning status through the DescribeClusterNode operation.
+        /// This member is required.
+        public var nodeLogicalId: Swift.String?
+        /// The current status of the node. Possible values include Pending, Running, Failed, ShuttingDown, SystemUpdating, DeepHealthCheckInProgress, and NotFound.
+        /// This member is required.
+        public var status: SageMakerClientTypes.ClusterInstanceStatus?
+
+        public init(
+            instanceGroupName: Swift.String? = nil,
+            nodeLogicalId: Swift.String? = nil,
+            status: SageMakerClientTypes.ClusterInstanceStatus? = nil
+        ) {
+            self.instanceGroupName = instanceGroupName
+            self.nodeLogicalId = nodeLogicalId
+            self.status = status
+        }
+    }
+}
+
+public struct BatchAddClusterNodesOutput: Swift.Sendable {
+    /// A list of errors that occurred during the node addition operation. Each entry includes the instance group name, error code, number of failed additions, and an error message.
+    /// This member is required.
+    public var failed: [SageMakerClientTypes.BatchAddClusterNodesError]?
+    /// A list of NodeLogicalIDs that were successfully added to the cluster. The NodeLogicalID is unique per cluster and does not change between instance replacements. Each entry includes a NodeLogicalId that can be used to track the node's provisioning status (with DescribeClusterNode), the instance group name, and the current status of the node.
+    /// This member is required.
+    public var successful: [SageMakerClientTypes.NodeAdditionResult]?
+
+    public init(
+        failed: [SageMakerClientTypes.BatchAddClusterNodesError]? = nil,
+        successful: [SageMakerClientTypes.NodeAdditionResult]? = nil
+    ) {
+        self.failed = failed
+        self.successful = successful
+    }
+}
+
 extension SageMakerClientTypes {
 
     /// Configuration to control how SageMaker captures inference data for batch transform jobs.
@@ -8425,26 +8628,6 @@ extension SageMakerClientTypes {
             self.generateInferenceId = generateInferenceId
             self.kmsKeyId = kmsKeyId
         }
-    }
-}
-
-public struct BatchDeleteClusterNodesInput: Swift.Sendable {
-    /// The name of the SageMaker HyperPod cluster from which to delete the specified nodes.
-    /// This member is required.
-    public var clusterName: Swift.String?
-    /// A list of node IDs to be deleted from the specified cluster.
-    ///
-    /// * For SageMaker HyperPod clusters using the Slurm workload manager, you cannot remove instances that are configured as Slurm controller nodes.
-    ///
-    /// * If you need to delete more than 99 instances, contact [Support](http://aws.amazon.com/contact-us/) for assistance.
-    public var nodeIds: [Swift.String]?
-
-    public init(
-        clusterName: Swift.String? = nil,
-        nodeIds: [Swift.String]? = nil
-    ) {
-        self.clusterName = clusterName
-        self.nodeIds = nodeIds
     }
 }
 
@@ -8482,6 +8665,56 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// Information about an error that occurred when attempting to delete a node identified by its NodeLogicalId.
+    public struct BatchDeleteClusterNodeLogicalIdsError: Swift.Sendable {
+        /// The error code associated with the failure. Possible values include NodeLogicalIdNotFound, InvalidNodeStatus, and InternalError.
+        /// This member is required.
+        public var code: SageMakerClientTypes.BatchDeleteClusterNodesErrorCode?
+        /// A descriptive message providing additional details about the error.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The NodeLogicalId of the node that could not be deleted.
+        /// This member is required.
+        public var nodeLogicalId: Swift.String?
+
+        public init(
+            code: SageMakerClientTypes.BatchDeleteClusterNodesErrorCode? = nil,
+            message: Swift.String? = nil,
+            nodeLogicalId: Swift.String? = nil
+        ) {
+            self.code = code
+            self.message = message
+            self.nodeLogicalId = nodeLogicalId
+        }
+    }
+}
+
+public struct BatchDeleteClusterNodesInput: Swift.Sendable {
+    /// The name of the SageMaker HyperPod cluster from which to delete the specified nodes.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// A list of node IDs to be deleted from the specified cluster.
+    ///
+    /// * For SageMaker HyperPod clusters using the Slurm workload manager, you cannot remove instances that are configured as Slurm controller nodes.
+    ///
+    /// * If you need to delete more than 99 instances, contact [Support](http://aws.amazon.com/contact-us/) for assistance.
+    public var nodeIds: [Swift.String]?
+    /// A list of NodeLogicalIds identifying the nodes to be deleted. You can specify up to 50 NodeLogicalIds. You must specify either NodeLogicalIds, InstanceIds, or both, with a combined maximum of 50 identifiers.
+    public var nodeLogicalIds: [Swift.String]?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        nodeIds: [Swift.String]? = nil,
+        nodeLogicalIds: [Swift.String]? = nil
+    ) {
+        self.clusterName = clusterName
+        self.nodeIds = nodeIds
+        self.nodeLogicalIds = nodeLogicalIds
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Represents an error encountered when deleting a node from a SageMaker HyperPod cluster.
     public struct BatchDeleteClusterNodesError: Swift.Sendable {
         /// The error code associated with the error encountered when deleting a node. The code provides information about the specific issue encountered, such as the node not being found, the node's status being invalid for deletion, or the node ID being in use by another process.
@@ -8509,15 +8742,23 @@ extension SageMakerClientTypes {
 public struct BatchDeleteClusterNodesOutput: Swift.Sendable {
     /// A list of errors encountered when deleting the specified nodes.
     public var failed: [SageMakerClientTypes.BatchDeleteClusterNodesError]?
+    /// A list of NodeLogicalIds that could not be deleted, along with error information explaining why the deletion failed.
+    public var failedNodeLogicalIds: [SageMakerClientTypes.BatchDeleteClusterNodeLogicalIdsError]?
     /// A list of node IDs that were successfully deleted from the specified cluster.
     public var successful: [Swift.String]?
+    /// A list of NodeLogicalIds that were successfully deleted from the cluster.
+    public var successfulNodeLogicalIds: [Swift.String]?
 
     public init(
         failed: [SageMakerClientTypes.BatchDeleteClusterNodesError]? = nil,
-        successful: [Swift.String]? = nil
+        failedNodeLogicalIds: [SageMakerClientTypes.BatchDeleteClusterNodeLogicalIdsError]? = nil,
+        successful: [Swift.String]? = nil,
+        successfulNodeLogicalIds: [Swift.String]? = nil
     ) {
         self.failed = failed
+        self.failedNodeLogicalIds = failedNodeLogicalIds
         self.successful = successful
+        self.successfulNodeLogicalIds = successfulNodeLogicalIds
     }
 }
 
@@ -9441,6 +9682,54 @@ extension SageMakerClientTypes {
             self.modelRegisterSettings = modelRegisterSettings
             self.timeSeriesForecastingSettings = timeSeriesForecastingSettings
             self.workspaceSettings = workspaceSettings
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum CapacityReservationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case crg
+        case odcr
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityReservationType] {
+            return [
+                .crg,
+                .odcr
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .crg: return "CRG"
+            case .odcr: return "ODCR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Information about the Capacity Reservation used by an instance or instance group.
+    public struct CapacityReservation: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Capacity Reservation.
+        public var arn: Swift.String?
+        /// The type of Capacity Reservation. Valid values are ODCR (On-Demand Capacity Reservation) or CRG (Capacity Reservation Group).
+        public var type: SageMakerClientTypes.CapacityReservationType?
+
+        public init(
+            arn: Swift.String? = nil,
+            type: SageMakerClientTypes.CapacityReservationType? = nil
+        ) {
+            self.arn = arn
+            self.type = type
         }
     }
 }
@@ -10390,6 +10679,285 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// Metadata information about a SageMaker HyperPod cluster showing information about the cluster level operations, such as creating, updating, and deleting.
+    public struct ClusterMetadata: Swift.Sendable {
+        /// A list of Amazon EKS IAM role ARNs associated with the cluster. This is created by SageMaker HyperPod on your behalf and only applies for EKS-orchestrated clusters.
+        public var eksRoleAccessEntries: [Swift.String]?
+        /// An error message describing why the cluster level operation (such as creating, updating, or deleting) failed.
+        public var failureMessage: Swift.String?
+        /// The Service-Linked Role (SLR) associated with the cluster. This is created by SageMaker HyperPod on your behalf and only applies for EKS-orchestrated clusters.
+        public var slrAccessEntry: Swift.String?
+
+        public init(
+            eksRoleAccessEntries: [Swift.String]? = nil,
+            failureMessage: Swift.String? = nil,
+            slrAccessEntry: Swift.String? = nil
+        ) {
+            self.eksRoleAccessEntries = eksRoleAccessEntries
+            self.failureMessage = failureMessage
+            self.slrAccessEntry = slrAccessEntry
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Metadata information about an instance in a HyperPod cluster.
+    public struct InstanceMetadata: Swift.Sendable {
+        /// Information about additional Elastic Network Interfaces (ENIs) associated with the instance.
+        public var additionalEnis: SageMakerClientTypes.AdditionalEnis?
+        /// Information about the Capacity Reservation used by the instance.
+        public var capacityReservation: SageMakerClientTypes.CapacityReservation?
+        /// The ID of the customer-managed Elastic Network Interface (ENI) associated with the instance.
+        public var customerEni: Swift.String?
+        /// An error message describing why the instance creation or update failed, if applicable.
+        public var failureMessage: Swift.String?
+        /// The execution state of the Lifecycle Script (LCS) for the instance.
+        public var lcsExecutionState: Swift.String?
+        /// The unique logical identifier of the node within the cluster. The ID used here is the same object as in the BatchAddClusterNodes API.
+        public var nodeLogicalId: Swift.String?
+
+        public init(
+            additionalEnis: SageMakerClientTypes.AdditionalEnis? = nil,
+            capacityReservation: SageMakerClientTypes.CapacityReservation? = nil,
+            customerEni: Swift.String? = nil,
+            failureMessage: Swift.String? = nil,
+            lcsExecutionState: Swift.String? = nil,
+            nodeLogicalId: Swift.String? = nil
+        ) {
+            self.additionalEnis = additionalEnis
+            self.capacityReservation = capacityReservation
+            self.customerEni = customerEni
+            self.failureMessage = failureMessage
+            self.lcsExecutionState = lcsExecutionState
+            self.nodeLogicalId = nodeLogicalId
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Metadata information about an instance group in a SageMaker HyperPod cluster.
+    public struct InstanceGroupMetadata: Swift.Sendable {
+        /// If you use a custom Amazon Machine Image (AMI) for the instance group, this field shows the ID of the custom AMI.
+        public var amiOverride: Swift.String?
+        /// The ID of the Availability Zone where the instance group is located.
+        public var availabilityZoneId: Swift.String?
+        /// Information about the Capacity Reservation used by the instance group.
+        public var capacityReservation: SageMakerClientTypes.CapacityReservation?
+        /// An error message describing why the instance group level operation (such as creating, scaling, or deleting) failed.
+        public var failureMessage: Swift.String?
+        /// A list of security group IDs associated with the instance group.
+        public var securityGroupIds: [Swift.String]?
+        /// The ID of the subnet where the instance group is located.
+        public var subnetId: Swift.String?
+
+        public init(
+            amiOverride: Swift.String? = nil,
+            availabilityZoneId: Swift.String? = nil,
+            capacityReservation: SageMakerClientTypes.CapacityReservation? = nil,
+            failureMessage: Swift.String? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            subnetId: Swift.String? = nil
+        ) {
+            self.amiOverride = amiOverride
+            self.availabilityZoneId = availabilityZoneId
+            self.capacityReservation = capacityReservation
+            self.failureMessage = failureMessage
+            self.securityGroupIds = securityGroupIds
+            self.subnetId = subnetId
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Metadata information about scaling operations for an instance group.
+    public struct InstanceGroupScalingMetadata: Swift.Sendable {
+        /// An error message describing why the scaling operation failed, if applicable.
+        public var failureMessage: Swift.String?
+        /// The current number of instances in the group.
+        public var instanceCount: Swift.Int?
+        /// The desired number of instances for the group after scaling.
+        public var targetCount: Swift.Int?
+
+        public init(
+            failureMessage: Swift.String? = nil,
+            instanceCount: Swift.Int? = nil,
+            targetCount: Swift.Int? = nil
+        ) {
+            self.failureMessage = failureMessage
+            self.instanceCount = instanceCount
+            self.targetCount = targetCount
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Metadata associated with a cluster event, which may include details about various resource types.
+    public enum EventMetadata: Swift.Sendable {
+        /// Metadata specific to cluster-level events.
+        case cluster(SageMakerClientTypes.ClusterMetadata)
+        /// Metadata specific to instance group-level events.
+        case instancegroup(SageMakerClientTypes.InstanceGroupMetadata)
+        /// Metadata related to instance group scaling events.
+        case instancegroupscaling(SageMakerClientTypes.InstanceGroupScalingMetadata)
+        /// Metadata specific to instance-level events.
+        case instance(SageMakerClientTypes.InstanceMetadata)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Detailed information about a specific event, including event metadata.
+    public struct EventDetails: Swift.Sendable {
+        /// Metadata specific to the event, which may include information about the cluster, instance group, or instance involved.
+        public var eventMetadata: SageMakerClientTypes.EventMetadata?
+
+        public init(
+            eventMetadata: SageMakerClientTypes.EventMetadata? = nil
+        ) {
+            self.eventMetadata = eventMetadata
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ClusterEventResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cluster
+        case instance
+        case instanceGroup
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterEventResourceType] {
+            return [
+                .cluster,
+                .instance,
+                .instanceGroup
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cluster: return "Cluster"
+            case .instance: return "Instance"
+            case .instanceGroup: return "InstanceGroup"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Detailed information about a specific event in a HyperPod cluster.
+    public struct ClusterEventDetail: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster associated with the event.
+        /// This member is required.
+        public var clusterArn: Swift.String?
+        /// The name of the SageMaker HyperPod cluster associated with the event.
+        /// This member is required.
+        public var clusterName: Swift.String?
+        /// A human-readable description of the event.
+        public var description: Swift.String?
+        /// Additional details about the event, including event-specific metadata.
+        public var eventDetails: SageMakerClientTypes.EventDetails?
+        /// The unique identifier (UUID) of the event.
+        /// This member is required.
+        public var eventId: Swift.String?
+        /// The timestamp when the event occurred.
+        /// This member is required.
+        public var eventTime: Foundation.Date?
+        /// The name of the instance group associated with the event, if applicable.
+        public var instanceGroupName: Swift.String?
+        /// The EC2 instance ID associated with the event, if applicable.
+        public var instanceId: Swift.String?
+        /// The type of resource associated with the event. Valid values are "Cluster", "InstanceGroup", or "Instance".
+        /// This member is required.
+        public var resourceType: SageMakerClientTypes.ClusterEventResourceType?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            clusterName: Swift.String? = nil,
+            description: Swift.String? = nil,
+            eventDetails: SageMakerClientTypes.EventDetails? = nil,
+            eventId: Swift.String? = nil,
+            eventTime: Foundation.Date? = nil,
+            instanceGroupName: Swift.String? = nil,
+            instanceId: Swift.String? = nil,
+            resourceType: SageMakerClientTypes.ClusterEventResourceType? = nil
+        ) {
+            self.clusterArn = clusterArn
+            self.clusterName = clusterName
+            self.description = description
+            self.eventDetails = eventDetails
+            self.eventId = eventId
+            self.eventTime = eventTime
+            self.instanceGroupName = instanceGroupName
+            self.instanceId = instanceId
+            self.resourceType = resourceType
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A summary of an event in a SageMaker HyperPod cluster.
+    public struct ClusterEventSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster associated with the event.
+        /// This member is required.
+        public var clusterArn: Swift.String?
+        /// The name of the SageMaker HyperPod cluster associated with the event.
+        /// This member is required.
+        public var clusterName: Swift.String?
+        /// A brief, human-readable description of the event.
+        public var description: Swift.String?
+        /// The unique identifier (UUID) of the event.
+        /// This member is required.
+        public var eventId: Swift.String?
+        /// The timestamp when the event occurred.
+        /// This member is required.
+        public var eventTime: Foundation.Date?
+        /// The name of the instance group associated with the event, if applicable.
+        public var instanceGroupName: Swift.String?
+        /// The EC2 instance ID associated with the event, if applicable.
+        public var instanceId: Swift.String?
+        /// The type of resource associated with the event. Valid values are "Cluster", "InstanceGroup", or "Instance".
+        /// This member is required.
+        public var resourceType: SageMakerClientTypes.ClusterEventResourceType?
+
+        public init(
+            clusterArn: Swift.String? = nil,
+            clusterName: Swift.String? = nil,
+            description: Swift.String? = nil,
+            eventId: Swift.String? = nil,
+            eventTime: Foundation.Date? = nil,
+            instanceGroupName: Swift.String? = nil,
+            instanceId: Swift.String? = nil,
+            resourceType: SageMakerClientTypes.ClusterEventResourceType? = nil
+        ) {
+            self.clusterArn = clusterArn
+            self.clusterName = clusterName
+            self.description = description
+            self.eventId = eventId
+            self.eventTime = eventTime
+            self.instanceGroupName = instanceGroupName
+            self.instanceId = instanceId
+            self.resourceType = resourceType
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Defines the configuration for attaching additional storage to the instances in the SageMaker HyperPod cluster instance group. To learn more, see [SageMaker HyperPod release notes: June 20, 2024](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-release-notes.html#sagemaker-hyperpod-release-notes-20240620).
     public enum ClusterInstanceStorageConfig: Swift.Sendable {
         /// Defines the configuration for attaching additional Amazon Elastic Block Store (EBS) volumes to the instances in the SageMaker HyperPod cluster instance group. The additional EBS volume is attached to each instance within the SageMaker HyperPod cluster instance group and mounted to /opt/sagemaker.
@@ -10920,6 +11488,10 @@ extension SageMakerClientTypes {
     public struct ClusterInstanceGroupDetails: Swift.Sendable {
         /// The number of instances that are currently in the instance group of a SageMaker HyperPod cluster.
         public var currentCount: Swift.Int?
+        /// The ID of the Amazon Machine Image (AMI) currently in use by the instance group.
+        public var currentImageId: Swift.String?
+        /// The ID of the Amazon Machine Image (AMI) desired for the instance group.
+        public var desiredImageId: Swift.String?
         /// The execution role for the instance group to assume.
         public var executionRole: Swift.String?
         /// The name of the instance group of a SageMaker HyperPod cluster.
@@ -10961,6 +11533,8 @@ extension SageMakerClientTypes {
 
         public init(
             currentCount: Swift.Int? = nil,
+            currentImageId: Swift.String? = nil,
+            desiredImageId: Swift.String? = nil,
             executionRole: Swift.String? = nil,
             instanceGroupName: Swift.String? = nil,
             instanceStorageConfigs: [SageMakerClientTypes.ClusterInstanceStorageConfig]? = nil,
@@ -10976,6 +11550,8 @@ extension SageMakerClientTypes {
             trainingPlanStatus: Swift.String? = nil
         ) {
             self.currentCount = currentCount
+            self.currentImageId = currentImageId
+            self.desiredImageId = desiredImageId
             self.executionRole = executionRole
             self.instanceGroupName = instanceGroupName
             self.instanceStorageConfigs = instanceStorageConfigs
@@ -11000,6 +11576,26 @@ extension SageMakerClientTypes {
         /// Specifies an IAM execution role to be assumed by the instance group.
         /// This member is required.
         public var executionRole: Swift.String?
+        /// When configuring your HyperPod cluster, you can specify an image ID using one of the following options:
+        ///
+        /// * HyperPodPublicAmiId: Use a HyperPod public AMI
+        ///
+        /// * CustomAmiId: Use your custom AMI
+        ///
+        /// * default: Use the default latest system image
+        ///
+        ///
+        /// f you choose to use a custom AMI (CustomAmiId), ensure it meets the following requirements:
+        ///
+        /// * Encryption: The custom AMI must be unencrypted.
+        ///
+        /// * Ownership: The custom AMI must be owned by the same Amazon Web Services account that is creating the HyperPod cluster.
+        ///
+        /// * Volume support: Only the primary AMI snapshot volume is supported; additional AMI volumes are not supported.
+        ///
+        ///
+        /// When updating the instance group's AMI through the UpdateClusterSoftware operation, if an instance group uses a custom AMI, you must provide an ImageId or use the default as input.
+        public var imageId: Swift.String?
         /// Specifies the number of instances to add to the instance group of a SageMaker HyperPod cluster.
         /// This member is required.
         public var instanceCount: Swift.Int?
@@ -11040,6 +11636,7 @@ extension SageMakerClientTypes {
 
         public init(
             executionRole: Swift.String? = nil,
+            imageId: Swift.String? = nil,
             instanceCount: Swift.Int? = nil,
             instanceGroupName: Swift.String? = nil,
             instanceStorageConfigs: [SageMakerClientTypes.ClusterInstanceStorageConfig]? = nil,
@@ -11052,6 +11649,7 @@ extension SageMakerClientTypes {
             trainingPlanArn: Swift.String? = nil
         ) {
             self.executionRole = executionRole
+            self.imageId = imageId
             self.instanceCount = instanceCount
             self.instanceGroupName = instanceGroupName
             self.instanceStorageConfigs = instanceStorageConfigs
@@ -11087,47 +11685,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    public enum ClusterInstanceStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case deepHealthCheckInProgress
-        case failure
-        case pending
-        case running
-        case shuttingDown
-        case systemUpdating
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ClusterInstanceStatus] {
-            return [
-                .deepHealthCheckInProgress,
-                .failure,
-                .pending,
-                .running,
-                .shuttingDown,
-                .systemUpdating
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .deepHealthCheckInProgress: return "DeepHealthCheckInProgress"
-            case .failure: return "Failure"
-            case .pending: return "Pending"
-            case .running: return "Running"
-            case .shuttingDown: return "ShuttingDown"
-            case .systemUpdating: return "SystemUpdating"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension SageMakerClientTypes {
-
     /// Details of an instance in a SageMaker HyperPod cluster.
     public struct ClusterInstanceStatusDetails: Swift.Sendable {
         /// The message from an instance in a SageMaker HyperPod cluster.
@@ -11150,6 +11707,10 @@ extension SageMakerClientTypes {
 
     /// Details of an instance (also called a node interchangeably) in a SageMaker HyperPod cluster.
     public struct ClusterNodeDetails: Swift.Sendable {
+        /// The ID of the Amazon Machine Image (AMI) currently in use by the node.
+        public var currentImageId: Swift.String?
+        /// The ID of the Amazon Machine Image (AMI) desired for the node.
+        public var desiredImageId: Swift.String?
         /// The instance group name in which the instance is.
         public var instanceGroupName: Swift.String?
         /// The ID of the instance.
@@ -11166,6 +11727,8 @@ extension SageMakerClientTypes {
         public var launchTime: Foundation.Date?
         /// The LifeCycle configuration applied to the instance.
         public var lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig?
+        /// A unique identifier for the node that persists throughout its lifecycle, from provisioning request to termination. This identifier can be used to track the node even before it has an assigned InstanceId.
+        public var nodeLogicalId: Swift.String?
         /// The customized Amazon VPC configuration at the instance group level that overrides the default Amazon VPC configuration of the SageMaker HyperPod cluster.
         public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
         /// The placement details of the SageMaker HyperPod cluster node.
@@ -11180,6 +11743,8 @@ extension SageMakerClientTypes {
         public var threadsPerCore: Swift.Int?
 
         public init(
+            currentImageId: Swift.String? = nil,
+            desiredImageId: Swift.String? = nil,
             instanceGroupName: Swift.String? = nil,
             instanceId: Swift.String? = nil,
             instanceStatus: SageMakerClientTypes.ClusterInstanceStatusDetails? = nil,
@@ -11188,6 +11753,7 @@ extension SageMakerClientTypes {
             lastSoftwareUpdateTime: Foundation.Date? = nil,
             launchTime: Foundation.Date? = nil,
             lifeCycleConfig: SageMakerClientTypes.ClusterLifeCycleConfig? = nil,
+            nodeLogicalId: Swift.String? = nil,
             overrideVpcConfig: SageMakerClientTypes.VpcConfig? = nil,
             placement: SageMakerClientTypes.ClusterInstancePlacement? = nil,
             privateDnsHostname: Swift.String? = nil,
@@ -11195,6 +11761,8 @@ extension SageMakerClientTypes {
             privatePrimaryIpv6: Swift.String? = nil,
             threadsPerCore: Swift.Int? = nil
         ) {
+            self.currentImageId = currentImageId
+            self.desiredImageId = desiredImageId
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
             self.instanceStatus = instanceStatus
@@ -11203,12 +11771,39 @@ extension SageMakerClientTypes {
             self.lastSoftwareUpdateTime = lastSoftwareUpdateTime
             self.launchTime = launchTime
             self.lifeCycleConfig = lifeCycleConfig
+            self.nodeLogicalId = nodeLogicalId
             self.overrideVpcConfig = overrideVpcConfig
             self.placement = placement
             self.privateDnsHostname = privateDnsHostname
             self.privatePrimaryIp = privatePrimaryIp
             self.privatePrimaryIpv6 = privatePrimaryIpv6
             self.threadsPerCore = threadsPerCore
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ClusterNodeProvisioningMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case continuous
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterNodeProvisioningMode] {
+            return [
+                .continuous
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .continuous: return "Continuous"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -11263,6 +11858,8 @@ extension SageMakerClientTypes {
         /// The time when the instance is launched.
         /// This member is required.
         public var launchTime: Foundation.Date?
+        /// A unique identifier for the node that persists throughout its lifecycle, from provisioning request to termination. This identifier can be used to track the node even before it has an assigned InstanceId. This field is only included when IncludeNodeLogicalIds is set to True in the ListClusterNodes request.
+        public var nodeLogicalId: Swift.String?
 
         public init(
             instanceGroupName: Swift.String? = nil,
@@ -11270,7 +11867,8 @@ extension SageMakerClientTypes {
             instanceStatus: SageMakerClientTypes.ClusterInstanceStatusDetails? = nil,
             instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
             lastSoftwareUpdateTime: Foundation.Date? = nil,
-            launchTime: Foundation.Date? = nil
+            launchTime: Foundation.Date? = nil,
+            nodeLogicalId: Swift.String? = nil
         ) {
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
@@ -11278,6 +11876,7 @@ extension SageMakerClientTypes {
             self.instanceType = instanceType
             self.lastSoftwareUpdateTime = lastSoftwareUpdateTime
             self.launchTime = launchTime
+            self.nodeLogicalId = nodeLogicalId
         }
     }
 }
@@ -13771,6 +14370,10 @@ public struct CreateClusterInput: Swift.Sendable {
     public var clusterName: Swift.String?
     /// The instance groups to be created in the SageMaker HyperPod cluster.
     public var instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]?
+    /// The mode for provisioning nodes in the cluster. You can specify the following modes:
+    ///
+    /// * Continuous: Scaling behavior that enables 1) concurrent operation execution within instance groups, 2) continuous retry mechanisms for failed operations, 3) enhanced customer visibility into cluster events through detailed event streams, 4) partial provisioning capabilities. Your clusters and instance groups remain InService while scaling. This mode is only supported for EKS orchestrated clusters.
+    public var nodeProvisioningMode: SageMakerClientTypes.ClusterNodeProvisioningMode?
     /// The node recovery mode for the SageMaker HyperPod cluster. When set to Automatic, SageMaker HyperPod will automatically reboot or replace faulty nodes when issues are detected. When set to None, cluster administrators will need to manually manage any faulty cluster instances.
     public var nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery?
     /// The type of orchestrator to use for the SageMaker HyperPod cluster. Currently, the only supported value is "eks", which is to use an Amazon Elastic Kubernetes Service (EKS) cluster as the orchestrator.
@@ -13798,6 +14401,7 @@ public struct CreateClusterInput: Swift.Sendable {
     public init(
         clusterName: Swift.String? = nil,
         instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]? = nil,
+        nodeProvisioningMode: SageMakerClientTypes.ClusterNodeProvisioningMode? = nil,
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
         orchestrator: SageMakerClientTypes.ClusterOrchestrator? = nil,
         restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]? = nil,
@@ -13806,6 +14410,7 @@ public struct CreateClusterInput: Swift.Sendable {
     ) {
         self.clusterName = clusterName
         self.instanceGroups = instanceGroups
+        self.nodeProvisioningMode = nodeProvisioningMode
         self.nodeRecovery = nodeRecovery
         self.orchestrator = orchestrator
         self.restrictedInstanceGroups = restrictedInstanceGroups
@@ -29003,6 +29608,8 @@ public struct DescribeClusterOutput: Swift.Sendable {
     /// The instance groups of the SageMaker HyperPod cluster.
     /// This member is required.
     public var instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupDetails]?
+    /// The mode used for provisioning nodes in the cluster.
+    public var nodeProvisioningMode: SageMakerClientTypes.ClusterNodeProvisioningMode?
     /// The node recovery mode configured for the SageMaker HyperPod cluster.
     public var nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery?
     /// The type of orchestrator used for the SageMaker HyperPod cluster.
@@ -29019,6 +29626,7 @@ public struct DescribeClusterOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         failureMessage: Swift.String? = nil,
         instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupDetails]? = nil,
+        nodeProvisioningMode: SageMakerClientTypes.ClusterNodeProvisioningMode? = nil,
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
         orchestrator: SageMakerClientTypes.ClusterOrchestrator? = nil,
         restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupDetails]? = nil,
@@ -29030,10 +29638,39 @@ public struct DescribeClusterOutput: Swift.Sendable {
         self.creationTime = creationTime
         self.failureMessage = failureMessage
         self.instanceGroups = instanceGroups
+        self.nodeProvisioningMode = nodeProvisioningMode
         self.nodeRecovery = nodeRecovery
         self.orchestrator = orchestrator
         self.restrictedInstanceGroups = restrictedInstanceGroups
         self.vpcConfig = vpcConfig
+    }
+}
+
+public struct DescribeClusterEventInput: Swift.Sendable {
+    /// The name or Amazon Resource Name (ARN) of the HyperPod cluster associated with the event.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// The unique identifier (UUID) of the event to describe. This ID can be obtained from the ListClusterEvents operation.
+    /// This member is required.
+    public var eventId: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        eventId: Swift.String? = nil
+    ) {
+        self.clusterName = clusterName
+        self.eventId = eventId
+    }
+}
+
+public struct DescribeClusterEventOutput: Swift.Sendable {
+    /// Detailed information about the requested cluster event, including event metadata for various resource types such as Cluster, InstanceGroup, Instance, and their associated attributes.
+    public var eventDetails: SageMakerClientTypes.ClusterEventDetail?
+
+    public init(
+        eventDetails: SageMakerClientTypes.ClusterEventDetail? = nil
+    ) {
+        self.eventDetails = eventDetails
     }
 }
 
@@ -29043,13 +29680,17 @@ public struct DescribeClusterNodeInput: Swift.Sendable {
     public var clusterName: Swift.String?
     /// The ID of the SageMaker HyperPod cluster node.
     public var nodeId: Swift.String?
+    /// The logical identifier of the node to describe. You can specify either NodeLogicalId or InstanceId, but not both. NodeLogicalId can be used to describe nodes that are still being provisioned and don't yet have an InstanceId assigned.
+    public var nodeLogicalId: Swift.String?
 
     public init(
         clusterName: Swift.String? = nil,
-        nodeId: Swift.String? = nil
+        nodeId: Swift.String? = nil,
+        nodeLogicalId: Swift.String? = nil
     ) {
         self.clusterName = clusterName
         self.nodeId = nodeId
+        self.nodeLogicalId = nodeLogicalId
     }
 }
 
@@ -38750,6 +39391,32 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum EventSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case eventTime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventSortBy] {
+            return [
+                .eventTime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .eventTime: return "EventTime"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// The properties of an experiment as returned by the [Search](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html) API. For information about experiments, see the [CreateExperiment](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateExperiment.html) API.
     public struct Experiment: Swift.Sendable {
         /// Who created the experiment.
@@ -41470,6 +42137,69 @@ public struct ListCandidatesForAutoMLJobOutput: Swift.Sendable {
     }
 }
 
+public struct ListClusterEventsInput: Swift.Sendable {
+    /// The name or Amazon Resource Name (ARN) of the HyperPod cluster for which to list events.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// The start of the time range for filtering events. Only events that occurred after this time are included in the results.
+    public var eventTimeAfter: Foundation.Date?
+    /// The end of the time range for filtering events. Only events that occurred before this time are included in the results.
+    public var eventTimeBefore: Foundation.Date?
+    /// The name of the instance group to filter events. If specified, only events related to this instance group are returned.
+    public var instanceGroupName: Swift.String?
+    /// The maximum number of events to return in the response. Valid range is 1 to 100.
+    public var maxResults: Swift.Int?
+    /// A token to retrieve the next set of results. This token is obtained from the output of a previous ListClusterEvents call.
+    public var nextToken: Swift.String?
+    /// The EC2 instance ID to filter events. If specified, only events related to this instance are returned.
+    public var nodeId: Swift.String?
+    /// The type of resource for which to filter events. Valid values are Cluster, InstanceGroup, or Instance.
+    public var resourceType: SageMakerClientTypes.ClusterEventResourceType?
+    /// The field to use for sorting the event list. Currently, the only supported value is EventTime.
+    public var sortBy: SageMakerClientTypes.EventSortBy?
+    /// The order in which to sort the results. Valid values are Ascending or Descending (the default is Descending).
+    public var sortOrder: SageMakerClientTypes.SortOrder?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        eventTimeAfter: Foundation.Date? = nil,
+        eventTimeBefore: Foundation.Date? = nil,
+        instanceGroupName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        nodeId: Swift.String? = nil,
+        resourceType: SageMakerClientTypes.ClusterEventResourceType? = nil,
+        sortBy: SageMakerClientTypes.EventSortBy? = nil,
+        sortOrder: SageMakerClientTypes.SortOrder? = nil
+    ) {
+        self.clusterName = clusterName
+        self.eventTimeAfter = eventTimeAfter
+        self.eventTimeBefore = eventTimeBefore
+        self.instanceGroupName = instanceGroupName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.nodeId = nodeId
+        self.resourceType = resourceType
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+    }
+}
+
+public struct ListClusterEventsOutput: Swift.Sendable {
+    /// A list of event summaries matching the specified criteria.
+    public var events: [SageMakerClientTypes.ClusterEventSummary]?
+    /// A token to retrieve the next set of results. Include this token in subsequent ListClusterEvents calls to fetch more events.
+    public var nextToken: Swift.String?
+
+    public init(
+        events: [SageMakerClientTypes.ClusterEventSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.events = events
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListClusterNodesInput: Swift.Sendable {
     /// The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster in which you want to retrieve the list of nodes.
     /// This member is required.
@@ -41489,6 +42219,8 @@ public struct ListClusterNodesInput: Swift.Sendable {
     public var creationTimeAfter: Foundation.Date?
     /// A filter that returns nodes in a SageMaker HyperPod cluster created before the specified time. The acceptable formats are the same as the timestamp formats for CreationTimeAfter. For more information about the timestamp format, see [Timestamp](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp) in the Amazon Web Services Command Line Interface User Guide.
     public var creationTimeBefore: Foundation.Date?
+    /// Specifies whether to include nodes that are still being provisioned in the response. When set to true, the response includes all nodes regardless of their provisioning status. When set to False (default), only nodes with assigned InstanceIds are returned.
+    public var includeNodeLogicalIds: Swift.Bool?
     /// A filter that returns the instance groups whose name contain a specified string.
     public var instanceGroupNameContains: Swift.String?
     /// The maximum number of nodes to return in the response.
@@ -41504,6 +42236,7 @@ public struct ListClusterNodesInput: Swift.Sendable {
         clusterName: Swift.String? = nil,
         creationTimeAfter: Foundation.Date? = nil,
         creationTimeBefore: Foundation.Date? = nil,
+        includeNodeLogicalIds: Swift.Bool? = nil,
         instanceGroupNameContains: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
@@ -41513,6 +42246,7 @@ public struct ListClusterNodesInput: Swift.Sendable {
         self.clusterName = clusterName
         self.creationTimeAfter = creationTimeAfter
         self.creationTimeBefore = creationTimeBefore
+        self.includeNodeLogicalIds = includeNodeLogicalIds
         self.instanceGroupNameContains = instanceGroupNameContains
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -51773,16 +52507,38 @@ public struct UpdateClusterSoftwareInput: Swift.Sendable {
     public var clusterName: Swift.String?
     /// The configuration to use when updating the AMI versions.
     public var deploymentConfig: SageMakerClientTypes.DeploymentConfiguration?
+    /// When configuring your HyperPod cluster, you can specify an image ID using one of the following options:
+    ///
+    /// * HyperPodPublicAmiId: Use a HyperPod public AMI
+    ///
+    /// * CustomAmiId: Use your custom AMI
+    ///
+    /// * default: Use the default latest system image
+    ///
+    ///
+    /// f you choose to use a custom AMI (CustomAmiId), ensure it meets the following requirements:
+    ///
+    /// * Encryption: The custom AMI must be unencrypted.
+    ///
+    /// * Ownership: The custom AMI must be owned by the same Amazon Web Services account that is creating the HyperPod cluster.
+    ///
+    /// * Volume support: Only the primary AMI snapshot volume is supported; additional AMI volumes are not supported.
+    ///
+    ///
+    /// When updating the instance group's AMI through the UpdateClusterSoftware operation, if an instance group uses a custom AMI, you must provide an ImageId or use the default as input.
+    public var imageId: Swift.String?
     /// The array of instance groups for which to update AMI versions.
     public var instanceGroups: [SageMakerClientTypes.UpdateClusterSoftwareInstanceGroupSpecification]?
 
     public init(
         clusterName: Swift.String? = nil,
         deploymentConfig: SageMakerClientTypes.DeploymentConfiguration? = nil,
+        imageId: Swift.String? = nil,
         instanceGroups: [SageMakerClientTypes.UpdateClusterSoftwareInstanceGroupSpecification]? = nil
     ) {
         self.clusterName = clusterName
         self.deploymentConfig = deploymentConfig
+        self.imageId = imageId
         self.instanceGroups = instanceGroups
     }
 }
@@ -53587,6 +54343,13 @@ extension AttachClusterNodeVolumeInput {
     }
 }
 
+extension BatchAddClusterNodesInput {
+
+    static func urlPathProvider(_ value: BatchAddClusterNodesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension BatchDeleteClusterNodesInput {
 
     static func urlPathProvider(_ value: BatchDeleteClusterNodesInput) -> Swift.String? {
@@ -54511,6 +55274,13 @@ extension DescribeClusterInput {
     }
 }
 
+extension DescribeClusterEventInput {
+
+    static func urlPathProvider(_ value: DescribeClusterEventInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeClusterNodeInput {
 
     static func urlPathProvider(_ value: DescribeClusterNodeInput) -> Swift.String? {
@@ -55060,6 +55830,13 @@ extension ListAutoMLJobsInput {
 extension ListCandidatesForAutoMLJobInput {
 
     static func urlPathProvider(_ value: ListCandidatesForAutoMLJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListClusterEventsInput {
+
+    static func urlPathProvider(_ value: ListClusterEventsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -56145,12 +56922,23 @@ extension AttachClusterNodeVolumeInput {
     }
 }
 
+extension BatchAddClusterNodesInput {
+
+    static func write(value: BatchAddClusterNodesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+        try writer["ClusterName"].write(value.clusterName)
+        try writer["NodesToAdd"].writeList(value.nodesToAdd, memberWritingClosure: SageMakerClientTypes.AddClusterNodeSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension BatchDeleteClusterNodesInput {
 
     static func write(value: BatchDeleteClusterNodesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ClusterName"].write(value.clusterName)
         try writer["NodeIds"].writeList(value.nodeIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NodeLogicalIds"].writeList(value.nodeLogicalIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -56272,6 +57060,7 @@ extension CreateClusterInput {
         guard let value else { return }
         try writer["ClusterName"].write(value.clusterName)
         try writer["InstanceGroups"].writeList(value.instanceGroups, memberWritingClosure: SageMakerClientTypes.ClusterInstanceGroupSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NodeProvisioningMode"].write(value.nodeProvisioningMode)
         try writer["NodeRecovery"].write(value.nodeRecovery)
         try writer["Orchestrator"].write(value.orchestrator, with: SageMakerClientTypes.ClusterOrchestrator.write(value:to:))
         try writer["RestrictedInstanceGroups"].writeList(value.restrictedInstanceGroups, memberWritingClosure: SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -57663,12 +58452,22 @@ extension DescribeClusterInput {
     }
 }
 
+extension DescribeClusterEventInput {
+
+    static func write(value: DescribeClusterEventInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterName"].write(value.clusterName)
+        try writer["EventId"].write(value.eventId)
+    }
+}
+
 extension DescribeClusterNodeInput {
 
     static func write(value: DescribeClusterNodeInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ClusterName"].write(value.clusterName)
         try writer["NodeId"].write(value.nodeId)
+        try writer["NodeLogicalId"].write(value.nodeLogicalId)
     }
 }
 
@@ -58395,6 +59194,23 @@ extension ListCandidatesForAutoMLJobInput {
     }
 }
 
+extension ListClusterEventsInput {
+
+    static func write(value: ListClusterEventsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterName"].write(value.clusterName)
+        try writer["EventTimeAfter"].writeTimestamp(value.eventTimeAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["EventTimeBefore"].writeTimestamp(value.eventTimeBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["InstanceGroupName"].write(value.instanceGroupName)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["NodeId"].write(value.nodeId)
+        try writer["ResourceType"].write(value.resourceType)
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
 extension ListClusterNodesInput {
 
     static func write(value: ListClusterNodesInput?, to writer: SmithyJSON.Writer) throws {
@@ -58402,6 +59218,7 @@ extension ListClusterNodesInput {
         try writer["ClusterName"].write(value.clusterName)
         try writer["CreationTimeAfter"].writeTimestamp(value.creationTimeAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["CreationTimeBefore"].writeTimestamp(value.creationTimeBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["IncludeNodeLogicalIds"].write(value.includeNodeLogicalIds)
         try writer["InstanceGroupNameContains"].write(value.instanceGroupNameContains)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
@@ -59846,6 +60663,7 @@ extension UpdateClusterSoftwareInput {
         guard let value else { return }
         try writer["ClusterName"].write(value.clusterName)
         try writer["DeploymentConfig"].write(value.deploymentConfig, with: SageMakerClientTypes.DeploymentConfiguration.write(value:to:))
+        try writer["ImageId"].write(value.imageId)
         try writer["InstanceGroups"].writeList(value.instanceGroups, memberWritingClosure: SageMakerClientTypes.UpdateClusterSoftwareInstanceGroupSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -60368,6 +61186,19 @@ extension AttachClusterNodeVolumeOutput {
     }
 }
 
+extension BatchAddClusterNodesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchAddClusterNodesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchAddClusterNodesOutput()
+        value.failed = try reader["Failed"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.BatchAddClusterNodesError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.successful = try reader["Successful"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.NodeAdditionResult.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension BatchDeleteClusterNodesOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchDeleteClusterNodesOutput {
@@ -60376,7 +61207,9 @@ extension BatchDeleteClusterNodesOutput {
         let reader = responseReader
         var value = BatchDeleteClusterNodesOutput()
         value.failed = try reader["Failed"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.BatchDeleteClusterNodesError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failedNodeLogicalIds = try reader["FailedNodeLogicalIds"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.BatchDeleteClusterNodeLogicalIdsError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.successful = try reader["Successful"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.successfulNodeLogicalIds = try reader["SuccessfulNodeLogicalIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -61826,10 +62659,23 @@ extension DescribeClusterOutput {
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.failureMessage = try reader["FailureMessage"].readIfPresent()
         value.instanceGroups = try reader["InstanceGroups"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterInstanceGroupDetails.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nodeProvisioningMode = try reader["NodeProvisioningMode"].readIfPresent()
         value.nodeRecovery = try reader["NodeRecovery"].readIfPresent()
         value.orchestrator = try reader["Orchestrator"].readIfPresent(with: SageMakerClientTypes.ClusterOrchestrator.read(from:))
         value.restrictedInstanceGroups = try reader["RestrictedInstanceGroups"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterRestrictedInstanceGroupDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: SageMakerClientTypes.VpcConfig.read(from:))
+        return value
+    }
+}
+
+extension DescribeClusterEventOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeClusterEventOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeClusterEventOutput()
+        value.eventDetails = try reader["EventDetails"].readIfPresent(with: SageMakerClientTypes.ClusterEventDetail.read(from:))
         return value
     }
 }
@@ -63488,6 +64334,19 @@ extension ListCandidatesForAutoMLJobOutput {
         let reader = responseReader
         var value = ListCandidatesForAutoMLJobOutput()
         value.candidates = try reader["Candidates"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.AutoMLCandidate.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListClusterEventsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListClusterEventsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListClusterEventsOutput()
+        value.events = try reader["Events"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterEventSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -65309,6 +66168,21 @@ enum AttachClusterNodeVolumeOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchAddClusterNodesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceLimitExceeded": return try ResourceLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -67206,6 +68080,20 @@ enum DescribeClusterOutputError {
     }
 }
 
+enum DescribeClusterEventOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeClusterNodeOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -68279,6 +69167,20 @@ enum ListAutoMLJobsOutputError {
 }
 
 enum ListCandidatesForAutoMLJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListClusterEventsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -70436,6 +71338,31 @@ extension SageMakerClientTypes.Tag {
     }
 }
 
+extension SageMakerClientTypes.NodeAdditionResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.NodeAdditionResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.NodeAdditionResult()
+        value.nodeLogicalId = try reader["NodeLogicalId"].readIfPresent() ?? ""
+        value.instanceGroupName = try reader["InstanceGroupName"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension SageMakerClientTypes.BatchAddClusterNodesError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.BatchAddClusterNodesError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.BatchAddClusterNodesError()
+        value.instanceGroupName = try reader["InstanceGroupName"].readIfPresent() ?? ""
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? .sdkUnknown("")
+        value.failedCount = try reader["FailedCount"].readIfPresent() ?? 0
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
 extension SageMakerClientTypes.BatchDeleteClusterNodesError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.BatchDeleteClusterNodesError {
@@ -70444,6 +71371,18 @@ extension SageMakerClientTypes.BatchDeleteClusterNodesError {
         value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
         value.message = try reader["Message"].readIfPresent() ?? ""
         value.nodeId = try reader["NodeId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SageMakerClientTypes.BatchDeleteClusterNodeLogicalIdsError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.BatchDeleteClusterNodeLogicalIdsError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.BatchDeleteClusterNodeLogicalIdsError()
+        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        value.nodeLogicalId = try reader["NodeLogicalId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -72193,6 +73132,8 @@ extension SageMakerClientTypes.ClusterInstanceGroupDetails {
         value.trainingPlanStatus = try reader["TrainingPlanStatus"].readIfPresent()
         value.overrideVpcConfig = try reader["OverrideVpcConfig"].readIfPresent(with: SageMakerClientTypes.VpcConfig.read(from:))
         value.scheduledUpdateConfig = try reader["ScheduledUpdateConfig"].readIfPresent(with: SageMakerClientTypes.ScheduledUpdateConfig.read(from:))
+        value.currentImageId = try reader["CurrentImageId"].readIfPresent()
+        value.desiredImageId = try reader["DesiredImageId"].readIfPresent()
         return value
     }
 }
@@ -72419,6 +73360,129 @@ extension SageMakerClientTypes.ClusterOrchestratorEksConfig {
     }
 }
 
+extension SageMakerClientTypes.ClusterEventDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterEventDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ClusterEventDetail()
+        value.eventId = try reader["EventId"].readIfPresent() ?? ""
+        value.clusterArn = try reader["ClusterArn"].readIfPresent() ?? ""
+        value.clusterName = try reader["ClusterName"].readIfPresent() ?? ""
+        value.instanceGroupName = try reader["InstanceGroupName"].readIfPresent()
+        value.instanceId = try reader["InstanceId"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.eventTime = try reader["EventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.eventDetails = try reader["EventDetails"].readIfPresent(with: SageMakerClientTypes.EventDetails.read(from:))
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.EventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.EventDetails()
+        value.eventMetadata = try reader["EventMetadata"].readIfPresent(with: SageMakerClientTypes.EventMetadata.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.EventMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.EventMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Cluster":
+                return .cluster(try reader["Cluster"].read(with: SageMakerClientTypes.ClusterMetadata.read(from:)))
+            case "InstanceGroup":
+                return .instancegroup(try reader["InstanceGroup"].read(with: SageMakerClientTypes.InstanceGroupMetadata.read(from:)))
+            case "InstanceGroupScaling":
+                return .instancegroupscaling(try reader["InstanceGroupScaling"].read(with: SageMakerClientTypes.InstanceGroupScalingMetadata.read(from:)))
+            case "Instance":
+                return .instance(try reader["Instance"].read(with: SageMakerClientTypes.InstanceMetadata.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension SageMakerClientTypes.InstanceMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InstanceMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.InstanceMetadata()
+        value.customerEni = try reader["CustomerEni"].readIfPresent()
+        value.additionalEnis = try reader["AdditionalEnis"].readIfPresent(with: SageMakerClientTypes.AdditionalEnis.read(from:))
+        value.capacityReservation = try reader["CapacityReservation"].readIfPresent(with: SageMakerClientTypes.CapacityReservation.read(from:))
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        value.lcsExecutionState = try reader["LcsExecutionState"].readIfPresent()
+        value.nodeLogicalId = try reader["NodeLogicalId"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.CapacityReservation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.CapacityReservation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.CapacityReservation()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.AdditionalEnis {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AdditionalEnis {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.AdditionalEnis()
+        value.efaEnis = try reader["EfaEnis"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.InstanceGroupScalingMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InstanceGroupScalingMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.InstanceGroupScalingMetadata()
+        value.instanceCount = try reader["InstanceCount"].readIfPresent()
+        value.targetCount = try reader["TargetCount"].readIfPresent()
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.InstanceGroupMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InstanceGroupMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.InstanceGroupMetadata()
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        value.availabilityZoneId = try reader["AvailabilityZoneId"].readIfPresent()
+        value.capacityReservation = try reader["CapacityReservation"].readIfPresent(with: SageMakerClientTypes.CapacityReservation.read(from:))
+        value.subnetId = try reader["SubnetId"].readIfPresent()
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.amiOverride = try reader["AmiOverride"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ClusterMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ClusterMetadata()
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        value.eksRoleAccessEntries = try reader["EksRoleAccessEntries"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.slrAccessEntry = try reader["SlrAccessEntry"].readIfPresent()
+        return value
+    }
+}
+
 extension SageMakerClientTypes.ClusterNodeDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterNodeDetails {
@@ -72426,6 +73490,7 @@ extension SageMakerClientTypes.ClusterNodeDetails {
         var value = SageMakerClientTypes.ClusterNodeDetails()
         value.instanceGroupName = try reader["InstanceGroupName"].readIfPresent()
         value.instanceId = try reader["InstanceId"].readIfPresent()
+        value.nodeLogicalId = try reader["NodeLogicalId"].readIfPresent()
         value.instanceStatus = try reader["InstanceStatus"].readIfPresent(with: SageMakerClientTypes.ClusterInstanceStatusDetails.read(from:))
         value.instanceType = try reader["InstanceType"].readIfPresent()
         value.launchTime = try reader["LaunchTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -72438,6 +73503,8 @@ extension SageMakerClientTypes.ClusterNodeDetails {
         value.privatePrimaryIpv6 = try reader["PrivatePrimaryIpv6"].readIfPresent()
         value.privateDnsHostname = try reader["PrivateDnsHostname"].readIfPresent()
         value.placement = try reader["Placement"].readIfPresent(with: SageMakerClientTypes.ClusterInstancePlacement.read(from:))
+        value.currentImageId = try reader["CurrentImageId"].readIfPresent()
+        value.desiredImageId = try reader["DesiredImageId"].readIfPresent()
         return value
     }
 }
@@ -79165,6 +80232,23 @@ extension SageMakerClientTypes.AutoMLJobSummary {
     }
 }
 
+extension SageMakerClientTypes.ClusterEventSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterEventSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ClusterEventSummary()
+        value.eventId = try reader["EventId"].readIfPresent() ?? ""
+        value.clusterArn = try reader["ClusterArn"].readIfPresent() ?? ""
+        value.clusterName = try reader["ClusterName"].readIfPresent() ?? ""
+        value.instanceGroupName = try reader["InstanceGroupName"].readIfPresent()
+        value.instanceId = try reader["InstanceId"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.eventTime = try reader["EventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
 extension SageMakerClientTypes.ClusterNodeSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterNodeSummary {
@@ -79172,6 +80256,7 @@ extension SageMakerClientTypes.ClusterNodeSummary {
         var value = SageMakerClientTypes.ClusterNodeSummary()
         value.instanceGroupName = try reader["InstanceGroupName"].readIfPresent() ?? ""
         value.instanceId = try reader["InstanceId"].readIfPresent() ?? ""
+        value.nodeLogicalId = try reader["NodeLogicalId"].readIfPresent()
         value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
         value.launchTime = try reader["LaunchTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastSoftwareUpdateTime = try reader["LastSoftwareUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -81209,11 +82294,21 @@ extension SageMakerClientTypes.ReservedCapacityOffering {
     }
 }
 
+extension SageMakerClientTypes.AddClusterNodeSpecification {
+
+    static func write(value: SageMakerClientTypes.AddClusterNodeSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IncrementTargetCountBy"].write(value.incrementTargetCountBy)
+        try writer["InstanceGroupName"].write(value.instanceGroupName)
+    }
+}
+
 extension SageMakerClientTypes.ClusterInstanceGroupSpecification {
 
     static func write(value: SageMakerClientTypes.ClusterInstanceGroupSpecification?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ExecutionRole"].write(value.executionRole)
+        try writer["ImageId"].write(value.imageId)
         try writer["InstanceCount"].write(value.instanceCount)
         try writer["InstanceGroupName"].write(value.instanceGroupName)
         try writer["InstanceStorageConfigs"].writeList(value.instanceStorageConfigs, memberWritingClosure: SageMakerClientTypes.ClusterInstanceStorageConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)

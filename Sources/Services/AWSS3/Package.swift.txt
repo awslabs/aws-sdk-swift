@@ -28,15 +28,7 @@ let package = Package(
             exact: "0.0.1"
         ),
         .package(
-            id: "aws-sdk-swift.InternalAWSSSO",
-            exact: "0.0.1"
-        ),
-        .package(
-            id: "aws-sdk-swift.InternalAWSSSOOIDC",
-            exact: "0.0.1"
-        ),
-        .package(
-            id: "aws-sdk-swift.InternalAWSSTS",
+            id: "aws-sdk-swift.AWSSDKIdentityAPI",
             exact: "0.0.1"
         ),
         .package(
@@ -65,20 +57,12 @@ let package = Package(
                     package: "aws-sdk-swift.AWSSDKIdentity"
                 ),
                 .product(
+                    name: "AWSSDKIdentityAPI",
+                    package: "aws-sdk-swift.AWSSDKIdentityAPI"
+                ),
+                .product(
                     name: "ClientRuntime",
                     package: "smithy-swift"
-                ),
-                .product(
-                    name: "InternalAWSSSO",
-                    package: "aws-sdk-swift.InternalAWSSSO"
-                ),
-                .product(
-                    name: "InternalAWSSSOOIDC",
-                    package: "aws-sdk-swift.InternalAWSSSOOIDC"
-                ),
-                .product(
-                    name: "InternalAWSSTS",
-                    package: "aws-sdk-swift.InternalAWSSTS"
                 ),
                 .product(
                     name: "Smithy",

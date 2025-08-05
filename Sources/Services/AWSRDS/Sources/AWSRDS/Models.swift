@@ -3190,11 +3190,11 @@ extension RDSClientTypes {
 
 extension RDSClientTypes {
 
-    /// Specifies any Aurora Serverless v2 properties or limits that differ between Aurora engine versions. You can test the values of this attribute when deciding which Aurora version to use in a new or upgraded DB cluster. You can also retrieve the version of an existing DB cluster and check whether that version supports certain Aurora Serverless v2 features before you attempt to use those features.
+    /// Specifies any Aurora Serverless v2 properties or limits that differ between Aurora engine versions and platform versions. You can test the values of this attribute when deciding which Aurora version to use in a new or upgraded DB cluster. You can also retrieve the version of an existing DB cluster and check whether that version supports certain Aurora Serverless v2 features before you attempt to use those features.
     public struct ServerlessV2FeaturesSupport: Swift.Sendable {
-        /// Specifies the upper Aurora Serverless v2 capacity limit for a particular engine version. Depending on the engine version, the maximum capacity for an Aurora Serverless v2 cluster might be 256 or 128.
+        /// Specifies the upper Aurora Serverless v2 capacity limit for a particular engine version or platform version. Depending on the engine version, the maximum capacity for an Aurora Serverless v2 cluster might be 256 or 128.
         public var maxCapacity: Swift.Double?
-        /// If the minimum capacity is 0 ACUs, the engine version supports the automatic pause/resume feature of Aurora Serverless v2.
+        /// If the minimum capacity is 0 ACUs, the engine version or platform version supports the automatic pause/resume feature of Aurora Serverless v2.
         public var minCapacity: Swift.Double?
 
         public init(
@@ -3877,7 +3877,7 @@ extension RDSClientTypes {
 
     /// Contains the scaling configuration of an Aurora Serverless v2 DB cluster. For more information, see [Using Amazon Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html) in the Amazon Aurora User Guide.
     public struct ServerlessV2ScalingConfiguration: Swift.Sendable {
-        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions.
+        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions. You can check the attributes of your engine version or platform version to determine the specific maximum capacity supported.
         public var maxCapacity: Swift.Double?
         /// The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0. For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5.
         public var minCapacity: Swift.Double?
@@ -4703,7 +4703,7 @@ extension RDSClientTypes {
 
     /// The scaling configuration for an Aurora Serverless v2 DB cluster. For more information, see [Using Amazon Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html) in the Amazon Aurora User Guide.
     public struct ServerlessV2ScalingConfigurationInfo: Swift.Sendable {
-        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions.
+        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions. You can check the attributes of your engine version or platform version to determine the specific maximum capacity supported.
         public var maxCapacity: Swift.Double?
         /// The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0. For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5.
         public var minCapacity: Swift.Double?
@@ -4912,6 +4912,8 @@ extension RDSClientTypes {
         public var replicationSourceIdentifier: Swift.String?
         /// The scaling configuration for an Aurora DB cluster in serverless DB engine mode. For more information, see [Using Amazon Aurora Serverless v1](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html) in the Amazon Aurora User Guide.
         public var scalingConfigurationInfo: RDSClientTypes.ScalingConfigurationInfo?
+        /// The version of the Aurora Serverless V2 platform used by the DB cluster. For more information, see [Using Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html) in the Amazon Aurora User Guide.
+        public var serverlessV2PlatformVersion: Swift.String?
         /// The scaling configuration for an Aurora Serverless v2 DB cluster. For more information, see [Using Amazon Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html) in the Amazon Aurora User Guide.
         public var serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfigurationInfo?
         /// The current state of this DB cluster.
@@ -5005,6 +5007,7 @@ extension RDSClientTypes {
             readerEndpoint: Swift.String? = nil,
             replicationSourceIdentifier: Swift.String? = nil,
             scalingConfigurationInfo: RDSClientTypes.ScalingConfigurationInfo? = nil,
+            serverlessV2PlatformVersion: Swift.String? = nil,
             serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfigurationInfo? = nil,
             status: Swift.String? = nil,
             statusInfos: [RDSClientTypes.DBClusterStatusInfo]? = nil,
@@ -5089,6 +5092,7 @@ extension RDSClientTypes {
             self.readerEndpoint = readerEndpoint
             self.replicationSourceIdentifier = replicationSourceIdentifier
             self.scalingConfigurationInfo = scalingConfigurationInfo
+            self.serverlessV2PlatformVersion = serverlessV2PlatformVersion
             self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
             self.status = status
             self.statusInfos = statusInfos
@@ -5962,7 +5966,11 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     public var monitoringInterval: Swift.Int?
     /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, see [Setting Up and Enabling Enhanced Monitoring](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Monitoring.OS.html#USER_Monitoring.OS.Enabling) in the Amazon RDS User Guide. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value. This setting doesn't apply to RDS Custom DB instances.
     public var monitoringRoleArn: Swift.String?
-    /// Specifies whether the DB instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. This setting doesn't apply to Amazon Aurora because the DB instance Availability Zones (AZs) are managed by the DB cluster.
+    /// Specifies whether the DB instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. This setting doesn't apply to the following DB instances:
+    ///
+    /// * Amazon Aurora (DB instance Availability Zones (AZs) are managed by the DB cluster.)
+    ///
+    /// * RDS Custom
     public var multiAZ: Swift.Bool?
     /// Specifies whether to use the multi-tenant configuration or the single-tenant configuration (default). This parameter only applies to RDS for Oracle container database (CDB) engines. Note the following restrictions:
     ///
@@ -32764,6 +32772,7 @@ extension RDSClientTypes.DBCluster {
         value.performanceInsightsKMSKeyId = try reader["PerformanceInsightsKMSKeyId"].readIfPresent()
         value.performanceInsightsRetentionPeriod = try reader["PerformanceInsightsRetentionPeriod"].readIfPresent()
         value.serverlessV2ScalingConfiguration = try reader["ServerlessV2ScalingConfiguration"].readIfPresent(with: RDSClientTypes.ServerlessV2ScalingConfigurationInfo.read(from:))
+        value.serverlessV2PlatformVersion = try reader["ServerlessV2PlatformVersion"].readIfPresent()
         value.networkType = try reader["NetworkType"].readIfPresent()
         value.dbSystemId = try reader["DBSystemId"].readIfPresent()
         value.masterUserSecret = try reader["MasterUserSecret"].readIfPresent(with: RDSClientTypes.MasterUserSecret.read(from:))

@@ -1196,6 +1196,7 @@ extension EKSClientTypes {
         case clusterLogging
         case computeConfig
         case configurationValues
+        case deletionProtection
         case desiredSize
         case encryptionConfig
         case endpointPrivateAccess
@@ -1236,6 +1237,7 @@ extension EKSClientTypes {
                 .clusterLogging,
                 .computeConfig,
                 .configurationValues,
+                .deletionProtection,
                 .desiredSize,
                 .encryptionConfig,
                 .endpointPrivateAccess,
@@ -1282,6 +1284,7 @@ extension EKSClientTypes {
             case .clusterLogging: return "ClusterLogging"
             case .computeConfig: return "ComputeConfig"
             case .configurationValues: return "ConfigurationValues"
+            case .deletionProtection: return "DeletionProtection"
             case .desiredSize: return "DesiredSize"
             case .encryptionConfig: return "EncryptionConfig"
             case .endpointPrivateAccess: return "EndpointPrivateAccess"
@@ -1382,6 +1385,7 @@ extension EKSClientTypes {
         case associateIdentityProviderConfig
         case autoModeUpdate
         case configUpdate
+        case deletionProtectionUpdate
         case disassociateIdentityProviderConfig
         case endpointAccessUpdate
         case loggingUpdate
@@ -1400,6 +1404,7 @@ extension EKSClientTypes {
                 .associateIdentityProviderConfig,
                 .autoModeUpdate,
                 .configUpdate,
+                .deletionProtectionUpdate,
                 .disassociateIdentityProviderConfig,
                 .endpointAccessUpdate,
                 .loggingUpdate,
@@ -1424,6 +1429,7 @@ extension EKSClientTypes {
             case .associateIdentityProviderConfig: return "AssociateIdentityProviderConfig"
             case .autoModeUpdate: return "AutoModeUpdate"
             case .configUpdate: return "ConfigUpdate"
+            case .deletionProtectionUpdate: return "DeletionProtectionUpdate"
             case .disassociateIdentityProviderConfig: return "DisassociateIdentityProviderConfig"
             case .endpointAccessUpdate: return "EndpointAccessUpdate"
             case .loggingUpdate: return "LoggingUpdate"
@@ -2282,6 +2288,8 @@ public struct CreateClusterInput: Swift.Sendable {
     public var clientRequestToken: Swift.String?
     /// Enable or disable the compute capability of EKS Auto Mode when creating your EKS Auto Mode cluster. If the compute capability is enabled, EKS Auto Mode will create and delete EC2 Managed Instances in your Amazon Web Services account
     public var computeConfig: EKSClientTypes.ComputeConfigRequest?
+    /// Indicates whether to enable deletion protection for the cluster. When enabled, the cluster cannot be deleted unless deletion protection is first disabled. This helps prevent accidental cluster deletion. Default value is false.
+    public var deletionProtection: Swift.Bool?
     /// The encryption configuration for the cluster.
     public var encryptionConfig: [EKSClientTypes.EncryptionConfig]?
     /// The Kubernetes network configuration for the cluster.
@@ -2317,6 +2325,7 @@ public struct CreateClusterInput: Swift.Sendable {
         bootstrapSelfManagedAddons: Swift.Bool? = nil,
         clientRequestToken: Swift.String? = nil,
         computeConfig: EKSClientTypes.ComputeConfigRequest? = nil,
+        deletionProtection: Swift.Bool? = nil,
         encryptionConfig: [EKSClientTypes.EncryptionConfig]? = nil,
         kubernetesNetworkConfig: EKSClientTypes.KubernetesNetworkConfigRequest? = nil,
         logging: EKSClientTypes.Logging? = nil,
@@ -2335,6 +2344,7 @@ public struct CreateClusterInput: Swift.Sendable {
         self.bootstrapSelfManagedAddons = bootstrapSelfManagedAddons
         self.clientRequestToken = clientRequestToken
         self.computeConfig = computeConfig
+        self.deletionProtection = deletionProtection
         self.encryptionConfig = encryptionConfig
         self.kubernetesNetworkConfig = kubernetesNetworkConfig
         self.logging = logging
@@ -2797,6 +2807,8 @@ extension EKSClientTypes {
         public var connectorConfig: EKSClientTypes.ConnectorConfigResponse?
         /// The Unix epoch timestamp at object creation.
         public var createdAt: Foundation.Date?
+        /// The current deletion protection setting for the cluster. When true, deletion protection is enabled and the cluster cannot be deleted until protection is disabled. When false, the cluster can be deleted normally. This setting only applies to clusters in an active state.
+        public var deletionProtection: Swift.Bool?
         /// The encryption configuration for the cluster.
         public var encryptionConfig: [EKSClientTypes.EncryptionConfig]?
         /// The endpoint for your Kubernetes API server.
@@ -2844,6 +2856,7 @@ extension EKSClientTypes {
             computeConfig: EKSClientTypes.ComputeConfigResponse? = nil,
             connectorConfig: EKSClientTypes.ConnectorConfigResponse? = nil,
             createdAt: Foundation.Date? = nil,
+            deletionProtection: Swift.Bool? = nil,
             encryptionConfig: [EKSClientTypes.EncryptionConfig]? = nil,
             endpoint: Swift.String? = nil,
             health: EKSClientTypes.ClusterHealth? = nil,
@@ -2871,6 +2884,7 @@ extension EKSClientTypes {
             self.computeConfig = computeConfig
             self.connectorConfig = connectorConfig
             self.createdAt = createdAt
+            self.deletionProtection = deletionProtection
             self.encryptionConfig = encryptionConfig
             self.endpoint = endpoint
             self.health = health
@@ -6317,6 +6331,8 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
     public var clientRequestToken: Swift.String?
     /// Update the configuration of the compute capability of your EKS Auto Mode cluster. For example, enable the capability.
     public var computeConfig: EKSClientTypes.ComputeConfigRequest?
+    /// Specifies whether to enable or disable deletion protection for the cluster. When enabled (true), the cluster cannot be deleted until deletion protection is explicitly disabled. When disabled (false), the cluster can be deleted normally.
+    public var deletionProtection: Swift.Bool?
     /// The Kubernetes network configuration for the cluster.
     public var kubernetesNetworkConfig: EKSClientTypes.KubernetesNetworkConfigRequest?
     /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs . By default, cluster control plane logs aren't exported to CloudWatch Logs . For more information, see [Amazon EKS cluster control plane logs](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) in the Amazon EKS User Guide . CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/).
@@ -6339,6 +6355,7 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
         accessConfig: EKSClientTypes.UpdateAccessConfigRequest? = nil,
         clientRequestToken: Swift.String? = nil,
         computeConfig: EKSClientTypes.ComputeConfigRequest? = nil,
+        deletionProtection: Swift.Bool? = nil,
         kubernetesNetworkConfig: EKSClientTypes.KubernetesNetworkConfigRequest? = nil,
         logging: EKSClientTypes.Logging? = nil,
         name: Swift.String? = nil,
@@ -6351,6 +6368,7 @@ public struct UpdateClusterConfigInput: Swift.Sendable {
         self.accessConfig = accessConfig
         self.clientRequestToken = clientRequestToken
         self.computeConfig = computeConfig
+        self.deletionProtection = deletionProtection
         self.kubernetesNetworkConfig = kubernetesNetworkConfig
         self.logging = logging
         self.name = name
@@ -7676,6 +7694,7 @@ extension CreateClusterInput {
         try writer["bootstrapSelfManagedAddons"].write(value.bootstrapSelfManagedAddons)
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["computeConfig"].write(value.computeConfig, with: EKSClientTypes.ComputeConfigRequest.write(value:to:))
+        try writer["deletionProtection"].write(value.deletionProtection)
         try writer["encryptionConfig"].writeList(value.encryptionConfig, memberWritingClosure: EKSClientTypes.EncryptionConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["kubernetesNetworkConfig"].write(value.kubernetesNetworkConfig, with: EKSClientTypes.KubernetesNetworkConfigRequest.write(value:to:))
         try writer["logging"].write(value.logging, with: EKSClientTypes.Logging.write(value:to:))
@@ -7834,6 +7853,7 @@ extension UpdateClusterConfigInput {
         try writer["accessConfig"].write(value.accessConfig, with: EKSClientTypes.UpdateAccessConfigRequest.write(value:to:))
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["computeConfig"].write(value.computeConfig, with: EKSClientTypes.ComputeConfigRequest.write(value:to:))
+        try writer["deletionProtection"].write(value.deletionProtection)
         try writer["kubernetesNetworkConfig"].write(value.kubernetesNetworkConfig, with: EKSClientTypes.KubernetesNetworkConfigRequest.write(value:to:))
         try writer["logging"].write(value.logging, with: EKSClientTypes.Logging.write(value:to:))
         try writer["remoteNetworkConfig"].write(value.remoteNetworkConfig, with: EKSClientTypes.RemoteNetworkConfigRequest.write(value:to:))
@@ -8819,6 +8839,7 @@ enum DeleteClusterOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
@@ -9994,6 +10015,7 @@ extension EKSClientTypes.Cluster {
         value.remoteNetworkConfig = try reader["remoteNetworkConfig"].readIfPresent(with: EKSClientTypes.RemoteNetworkConfigResponse.read(from:))
         value.computeConfig = try reader["computeConfig"].readIfPresent(with: EKSClientTypes.ComputeConfigResponse.read(from:))
         value.storageConfig = try reader["storageConfig"].readIfPresent(with: EKSClientTypes.StorageConfigResponse.read(from:))
+        value.deletionProtection = try reader["deletionProtection"].readIfPresent()
         return value
     }
 }

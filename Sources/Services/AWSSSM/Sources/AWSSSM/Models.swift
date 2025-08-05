@@ -2052,7 +2052,7 @@ extension SSMClientTypes {
         case conformancepacktemplate
         case deploymentstrategy
         case manualapprovalpolicy
-        case package
+        case `package`
         case policy
         case problemanalysis
         case problemanalysistemplate

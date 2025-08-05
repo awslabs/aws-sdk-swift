@@ -10,12 +10,12 @@
 import enum AWSSDKIdentity.S3ExpressClientError
 import protocol AWSSDKIdentity.S3ExpressCreateSessionClient
 import protocol ClientRuntime.DefaultClientConfiguration
-import struct AWSSDKIdentity.S3ExpressIdentity
+import struct AWSSDKIdentityAPI.S3ExpressIdentity
 
 
 public struct S3ExpressCreateSessionClient: AWSSDKIdentity.S3ExpressCreateSessionClient, Swift.Sendable {
 
-    public func createSession(clientConfig: ClientRuntime.DefaultClientConfiguration, bucket: Swift.String) async throws -> AWSSDKIdentity.S3ExpressIdentity {
+    public func createSession(clientConfig: ClientRuntime.DefaultClientConfiguration, bucket: Swift.String) async throws -> AWSSDKIdentityAPI.S3ExpressIdentity {
         guard let config = clientConfig as? S3Client.Config else {
             throw AWSSDKIdentity.S3ExpressClientError.clientConfigNotProvided
         }
@@ -23,7 +23,7 @@ public struct S3ExpressCreateSessionClient: AWSSDKIdentity.S3ExpressCreateSessio
         let input = CreateSessionInput(bucket: bucket)
         let output = try await client.createSession(input: input)
         guard let creds = output.credentials, let accessKeyID = creds.accessKeyId, let secretAccessKey = creds.secretAccessKey, let sessionToken = creds.sessionToken else { fatalError() }
-        return AWSSDKIdentity.S3ExpressIdentity(
+        return AWSSDKIdentityAPI.S3ExpressIdentity(
             accessKeyID: accessKeyID,
             secretAccessKey: secretAccessKey,
             sessionToken: sessionToken,

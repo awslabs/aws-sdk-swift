@@ -38,7 +38,7 @@ import enum Smithy.ClientError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol AWSSDKIdentity.S3ExpressIdentityResolver
+import protocol AWSSDKIdentityAPI.S3ExpressIdentityResolver
 import protocol ClientRuntime.Client
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
@@ -49,7 +49,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -79,14 +79,14 @@ import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.AttributeKey
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class S3Client: ClientRuntime.Client {
     public static let clientName = "S3Client"
-    public static let version = "1.5.13"
+    public static let version = "1.5.14"
     let client: ClientRuntime.SdkHttpClient
     let config: S3Client.S3ClientConfiguration
     let serviceName = "S3"
@@ -110,7 +110,7 @@ public class S3Client: ClientRuntime.Client {
 extension S3Client {
 
     public class S3ClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
-        public var s3ExpressIdentityResolver: any AWSSDKIdentity.S3ExpressIdentityResolver
+        public var s3ExpressIdentityResolver: any AWSSDKIdentityAPI.S3ExpressIdentityResolver
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?
@@ -145,7 +145,7 @@ extension S3Client {
         public let logger: Smithy.LogAgent
 
         private init(
-            _ s3ExpressIdentityResolver: any AWSSDKIdentity.S3ExpressIdentityResolver,
+            _ s3ExpressIdentityResolver: any AWSSDKIdentityAPI.S3ExpressIdentityResolver,
             _ useFIPS: Swift.Bool?,
             _ useDualStack: Swift.Bool?,
             _ appID: Swift.String?,
@@ -214,7 +214,7 @@ extension S3Client {
         }
 
         public convenience init(
-            s3ExpressIdentityResolver: (any AWSSDKIdentity.S3ExpressIdentityResolver)? = nil,
+            s3ExpressIdentityResolver: (any AWSSDKIdentityAPI.S3ExpressIdentityResolver)? = nil,
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -284,7 +284,7 @@ extension S3Client {
         }
 
         public convenience init(
-            s3ExpressIdentityResolver: (any AWSSDKIdentity.S3ExpressIdentityResolver)? = nil,
+            s3ExpressIdentityResolver: (any AWSSDKIdentityAPI.S3ExpressIdentityResolver)? = nil,
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,

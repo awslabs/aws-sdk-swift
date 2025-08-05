@@ -43,7 +43,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -51,7 +51,7 @@ import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.BedrockAPIKeyInterceptor
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
-import struct AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain
+@_spi(ClientConfigDefaultIdentityResolver) import struct AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain
 import struct ClientRuntime.AuthSchemeMiddleware
 import struct ClientRuntime.BlobBodyMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
@@ -75,7 +75,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockRuntimeClient: ClientRuntime.Client {
     public static let clientName = "BedrockRuntimeClient"
-    public static let version = "1.5.13"
+    public static let version = "1.5.14"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockRuntimeClient.BedrockRuntimeClientConfiguration
     let serviceName = "Bedrock Runtime"
