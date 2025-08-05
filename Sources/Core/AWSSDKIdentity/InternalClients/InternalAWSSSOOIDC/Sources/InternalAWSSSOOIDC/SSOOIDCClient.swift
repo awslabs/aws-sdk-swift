@@ -20,6 +20,7 @@ import class Smithy.Context
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
+@_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -40,15 +41,17 @@ import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 @_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
+@_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
 import struct AWSClientRuntime.UserAgentMiddleware
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
 import struct ClientRuntime.AuthSchemeMiddleware
+@_spi(SmithyReadWrite) import struct ClientRuntime.BodyMiddleware
+import struct ClientRuntime.ContentLengthMiddleware
+import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
-import struct ClientRuntime.HeaderMiddleware
 import struct ClientRuntime.LoggerMiddleware
-import struct ClientRuntime.QueryItemMiddleware
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
@@ -60,32 +63,32 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-package class SSOClient: ClientRuntime.Client {
-    public static let clientName = "SSOClient"
-    public static let version = "1.5.13"
+package class SSOOIDCClient: ClientRuntime.Client {
+    public static let clientName = "SSOOIDCClient"
+    public static let version = "1.5.14"
     let client: ClientRuntime.SdkHttpClient
-    let config: SSOClient.SSOClientConfiguration
-    let serviceName = "SSO"
+    let config: SSOOIDCClient.SSOOIDCClientConfiguration
+    let serviceName = "SSO OIDC"
 
-    public required init(config: SSOClient.SSOClientConfiguration) {
+    public required init(config: SSOOIDCClient.SSOOIDCClientConfiguration) {
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
     }
 
     public convenience init(region: Swift.String) throws {
-        let config = try SSOClient.SSOClientConfiguration(region: region)
+        let config = try SSOOIDCClient.SSOOIDCClientConfiguration(region: region)
         self.init(config: config)
     }
 
     public convenience required init() async throws {
-        let config = try await SSOClient.SSOClientConfiguration()
+        let config = try await SSOOIDCClient.SSOOIDCClientConfiguration()
         self.init(config: config)
     }
 }
 
-extension SSOClient {
+extension SSOOIDCClient {
 
-    public class SSOClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
+    public class SSOOIDCClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?
@@ -165,7 +168,7 @@ extension SSOClient {
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
             self.interceptorProviders = interceptorProviders
             self.httpInterceptorProviders = httpInterceptorProviders
-            self.logger = telemetryProvider.loggerProvider.getLogger(name: SSOClient.clientName)
+            self.logger = telemetryProvider.loggerProvider.getLogger(name: SSOOIDCClient.clientName)
         }
 
         public convenience init(
@@ -217,7 +220,7 @@ extension SSOClient {
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultSSOAuthSchemeResolver(),
+                authSchemeResolver ?? DefaultSSOOIDCAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
@@ -273,7 +276,7 @@ extension SSOClient {
                 httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 authSchemes ?? [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 authSchemePreference ?? nil,
-                authSchemeResolver ?? DefaultSSOAuthSchemeResolver(),
+                authSchemeResolver ?? DefaultSSOOIDCAuthSchemeResolver(),
                 bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
@@ -333,7 +336,7 @@ extension SSOClient {
                 AWSClientConfigDefaultsProvider.httpClientConfiguration(),
                 [AWSSDKHTTPAuth.SigV4AuthScheme()],
                 nil,
-                DefaultSSOAuthSchemeResolver(),
+                DefaultSSOOIDCAuthSchemeResolver(),
                 SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: "")),
                 [],
                 []
@@ -341,7 +344,7 @@ extension SSOClient {
         }
 
         public var partitionID: String? {
-            return "\(SSOClient.clientName) - \(region ?? "")"
+            return "\(SSOOIDCClient.clientName) - \(region ?? "")"
         }
 
         public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
@@ -354,8 +357,8 @@ extension SSOClient {
 
     }
 
-    public static func builder() -> ClientRuntime.ClientBuilder<SSOClient> {
-        return ClientRuntime.ClientBuilder<SSOClient>(defaultPlugins: [
+    public static func builder() -> ClientRuntime.ClientBuilder<SSOOIDCClient> {
+        return ClientRuntime.ClientBuilder<SSOOIDCClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
             AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
             DefaultAWSAuthSchemePlugin()
@@ -363,27 +366,34 @@ extension SSOClient {
     }
 }
 
-extension SSOClient {
-    /// Performs the `GetRoleCredentials` operation on the `SSO` service.
+extension SSOOIDCClient {
+    /// Performs the `CreateToken` operation on the `SSOOIDC` service.
     ///
-    /// Returns the STS short-term credentials for a given role name that is assigned to the user.
+    /// Creates and returns access and refresh tokens for clients that are authenticated using client secrets. The access token can be used to fetch short-lived credentials for the assigned AWS accounts or to access application APIs using bearer authentication.
     ///
-    /// - Parameter GetRoleCredentialsInput : [no documentation found]
+    /// - Parameter CreateTokenInput : [no documentation found]
     ///
-    /// - Returns: `GetRoleCredentialsOutput` : [no documentation found]
+    /// - Returns: `CreateTokenOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InvalidRequestException` : Indicates that a problem occurred with the input to the request. For example, a required parameter might be missing or out of range.
-    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
-    /// - `TooManyRequestsException` : Indicates that the request is being made too frequently and is more than what the server can handle.
-    /// - `UnauthorizedException` : Indicates that the request is not authorized. This can happen due to an invalid access token in the request.
-    public func getRoleCredentials(input: GetRoleCredentialsInput) async throws -> GetRoleCredentialsOutput {
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `AuthorizationPendingException` : Indicates that a request to authorize a client with an access user session token is pending.
+    /// - `ExpiredTokenException` : Indicates that the token issued by the service is expired and is no longer valid.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `InvalidClientException` : Indicates that the clientId or clientSecret in the request is invalid. For example, this can occur when a client sends an incorrect clientId or an expired clientSecret.
+    /// - `InvalidGrantException` : Indicates that a request contains an invalid grant. This can occur if a client makes a [CreateToken] request with an invalid grant type.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a required parameter might be missing or out of range.
+    /// - `InvalidScopeException` : Indicates that the scope provided in the request is invalid.
+    /// - `SlowDownException` : Indicates that the client is making the request too frequently and is more than the service can handle.
+    /// - `UnauthorizedClientException` : Indicates that the client is not currently authorized to make the request. This can happen when a clientId is not issued for a public client.
+    /// - `UnsupportedGrantTypeException` : Indicates that the grant type in the request is not supported by the service.
+    public func createToken(input: CreateTokenInput) async throws -> CreateTokenOutput {
         let context = Smithy.ContextBuilder()
-                      .withMethod(value: .get)
+                      .withMethod(value: .post)
                       .withServiceName(value: serviceName)
-                      .withOperation(value: "getRoleCredentials")
+                      .withOperation(value: "createToken")
                       .withUnsignedPayloadTrait(value: false)
                       .withSmithyDefaultConfig(config)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
@@ -391,34 +401,35 @@ extension SSOClient {
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .build()
-        let builder = ClientRuntime.OrchestratorBuilder<GetRoleCredentialsInput, GetRoleCredentialsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateTokenInput, CreateTokenOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
-        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRoleCredentialsInput, GetRoleCredentialsOutput>(GetRoleCredentialsInput.urlPathProvider(_:)))
-        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRoleCredentialsInput, GetRoleCredentialsOutput>())
-        builder.serialize(ClientRuntime.HeaderMiddleware<GetRoleCredentialsInput, GetRoleCredentialsOutput>(GetRoleCredentialsInput.headerProvider(_:)))
-        builder.serialize(ClientRuntime.QueryItemMiddleware<GetRoleCredentialsInput, GetRoleCredentialsOutput>(GetRoleCredentialsInput.queryItemProvider(_:)))
-        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRoleCredentialsOutput>(GetRoleCredentialsOutput.httpOutput(from:), GetRoleCredentialsOutputError.httpError(from:)))
-        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRoleCredentialsInput, GetRoleCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateTokenInput, CreateTokenOutput>(CreateTokenInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTokenInput, CreateTokenOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTokenInput, CreateTokenOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateTokenInput, CreateTokenOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTokenInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTokenInput, CreateTokenOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTokenOutput>(CreateTokenOutput.httpOutput(from:), CreateTokenOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTokenInput, CreateTokenOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
-        builder.applySigner(ClientRuntime.SignerMiddleware<GetRoleCredentialsOutput>())
-        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSO", config.ignoreConfiguredEndpointURLs)
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateTokenOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SSO OIDC", config.ignoreConfiguredEndpointURLs)
         let endpointParamsBlock = { [config] (context: Smithy.Context) in
             EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetRoleCredentialsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
-        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetRoleCredentialsOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetRoleCredentialsInput, GetRoleCredentialsOutput>())
-        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetRoleCredentialsInput, GetRoleCredentialsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
-        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetRoleCredentialsInput, GetRoleCredentialsOutput>(serviceID: serviceName, version: SSOClient.version, config: config))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTokenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTokenInput, CreateTokenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTokenInput, CreateTokenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTokenInput, CreateTokenOutput>(serviceID: serviceName, version: SSOOIDCClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSO")
-        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetRoleCredentials")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SSOOIDC")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateToken")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

@@ -76,6 +76,12 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSDKPartitions](../../../../../swift/api/awssdkpartitions/latest)
 
+[InternalInternalAWSSSO](../../../../../swift/api/internalinternalawssso/latest)
+
+[InternalInternalAWSSSOOIDC](../../../../../swift/api/internalinternalawsssooidc/latest)
+
+[InternalInternalAWSSTS](../../../../../swift/api/internalinternalawssts/latest)
+
 
 ## Service Documentation
 

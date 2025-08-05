@@ -107,6 +107,11 @@ struct PackageManifestBuilder {
             // Add the generated content that defines the list of services to include
             buildServiceTargets(),
             "",
+            // Add the dependencies for the internal clients
+            buildInternalAWSSTSDependencies(),
+            buildInternalAWSSSODependencies(),
+            buildInternalAWSSSOOIDCDependencies(),
+            "",
         ]
         return contents.joined(separator: .newline)
     }
@@ -140,9 +145,41 @@ struct PackageManifestBuilder {
     /// and calls the `addServiceTarget` for each item.
     private func buildServiceTargets() -> String {
         var lines: [String] = []
-        lines += ["let serviceTargets: [String] = ["]
-        lines += services.map { "    \($0.name.wrappedInQuotes())," }
+        lines += ["let serviceTargets: [String: [Target.Dependency]] = ["]
+        lines += services.map {
+            let jsonFilePath = "Sources/Services/\($0.name)/Package.swift.json"
+            let dependencies = clientDependencies(service: $0, jsonFilePath: jsonFilePath)
+            return "    \($0.name.wrappedInQuotes()): \(dependencies),"
+        }
         lines += ["]"]
         return lines.joined(separator: .newline)
     }
+
+    private func buildInternalAWSSTSDependencies() -> String {
+        buildInternalClientDependencies(name: "AWSSTS")
+    }
+
+    private func buildInternalAWSSSODependencies() -> String {
+        buildInternalClientDependencies(name: "AWSSSO")
+    }
+
+    private func buildInternalAWSSSOOIDCDependencies() -> String {
+        buildInternalClientDependencies(name: "AWSSSOOIDC")
+    }
+
+    private func buildInternalClientDependencies(name: String) -> String {
+        let jsonFilePath = "Sources/Core/AWSSDKIdentity/InternalClients/Internal\(name)/Package.swift.json"
+        let service = Service(name: name)
+        let dependencies = clientDependencies(service: service, jsonFilePath: jsonFilePath)
+        var lines: [String] = []
+        lines += ["let internal\(name)Dependencies: [Target.Dependency] = \(dependencies)"]
+        return lines.joined(separator: .newline)
+    }
+
+    private func clientDependencies(service: Service, jsonFilePath: String) -> String {
+        let jsonFileData = FileManager.default.contents(atPath: jsonFilePath)!
+        let dependencies = try! JSONDecoder().decode([String].self, from: jsonFileData)
+        return "[" + dependencies.map { ".\($0)" }.joined(separator: ", ") + "]"
+    }
 }
+
