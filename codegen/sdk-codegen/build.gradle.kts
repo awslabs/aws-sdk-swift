@@ -194,10 +194,6 @@ val packageVersion = rootProject.file("Package.version.next").readText(Charset.f
 
 val AwsService.outputDir: String
     get() = project.file("${project.buildDir}/smithyprojections/${project.name}/${projectionName}/swift-codegen").absolutePath
-//    get() = when (this.internalClient) {
-//        true -> project.file("${project.buildDir}/smithyprojections/${project.name}/${projectionName}/swift-codegen").absolutePath
-//        else -> project.file("${project.buildDir}/smithyprojections/${project.name}/${projectionName}/swift-codegen").absolutePath
-//    }
 
 val AwsService.sourcesDir: String
     get() = when (this.internalClient) {
