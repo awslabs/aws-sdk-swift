@@ -180,6 +180,7 @@ struct PackageManifestBuilder {
     private func clientDependencies(service: Service, jsonFilePath: String) -> String {
         let jsonFileData = FileManager.default.contents(atPath: jsonFilePath) ?? Data("[]".utf8)
         let dependencies = try! JSONDecoder().decode([String].self, from: jsonFileData)
+            .filter { $0 != "SmithyTestUtil" }  // links to test files only
         return "[" + dependencies.map { ".\($0)" }.joined(separator: ", ") + "]"
     }
 }
