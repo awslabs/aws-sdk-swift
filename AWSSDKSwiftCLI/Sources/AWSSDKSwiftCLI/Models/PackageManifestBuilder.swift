@@ -144,6 +144,9 @@ struct PackageManifestBuilder {
     /// This generates an array of strings, where the each item is a name of a service
     /// and calls the `addServiceTarget` for each item.
     private func buildServiceTargets() -> String {
+        guard !services.isEmpty else {
+            return "let serviceTargets: [String: [Target.Dependency]] = [:]"
+        }
         var lines: [String] = []
         lines += ["let serviceTargets: [String: [Target.Dependency]] = ["]
         lines += services.map {
@@ -177,7 +180,7 @@ struct PackageManifestBuilder {
     }
 
     private func clientDependencies(service: Service, jsonFilePath: String) -> String {
-        let jsonFileData = FileManager.default.contents(atPath: jsonFilePath)!
+        let jsonFileData = FileManager.default.contents(atPath: jsonFilePath) ?? Data("[]".utf8)
         let dependencies = try! JSONDecoder().decode([String].self, from: jsonFileData)
         return "[" + dependencies.map { ".\($0)" }.joined(separator: ", ") + "]"
     }
