@@ -5,8 +5,6 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import Foundation
-
 struct AdditionalMetadata {
     let name: String
     let value: String?

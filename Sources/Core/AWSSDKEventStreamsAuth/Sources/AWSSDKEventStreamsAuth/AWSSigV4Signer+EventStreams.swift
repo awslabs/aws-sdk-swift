@@ -9,7 +9,6 @@ import AWSSDKHTTPAuth
 import Smithy
 import SmithyEventStreamsAPI
 import SmithyEventStreamsAuthAPI
-import SmithyHTTPAuthAPI
 import struct Foundation.Data
 import class AwsCommonRuntimeKit.Signer
 import SmithyHTTPAuth

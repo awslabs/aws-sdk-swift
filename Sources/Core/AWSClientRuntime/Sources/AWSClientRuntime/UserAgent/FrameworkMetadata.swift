@@ -5,8 +5,6 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import ClientRuntime
-
 struct FrameworkMetadata {
     let name: String
     let version: String?
