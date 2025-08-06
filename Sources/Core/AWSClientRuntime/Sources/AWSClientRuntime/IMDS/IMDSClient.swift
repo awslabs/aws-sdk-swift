@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import AwsCommonRuntimeKit
+import class AwsCommonRuntimeKit.IMDSClient
 import ClientRuntime
 
 /// IMDSv2 Client

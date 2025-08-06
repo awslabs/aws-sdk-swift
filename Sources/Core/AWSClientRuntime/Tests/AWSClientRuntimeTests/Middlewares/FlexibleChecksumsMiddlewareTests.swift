@@ -9,7 +9,8 @@ import Smithy
 import SmithyChecksumsAPI
 import SmithyHTTPAPI
 import XCTest
-import AwsCommonRuntimeKit
+import struct AwsCommonRuntimeKit.CommonRuntimeKit
+import struct AwsCommonRuntimeKit.SigningConfig
 @_spi(SmithyReadWrite) import SmithyTestUtil
 @testable import ClientRuntime
 import class SmithyStreams.BufferedStream

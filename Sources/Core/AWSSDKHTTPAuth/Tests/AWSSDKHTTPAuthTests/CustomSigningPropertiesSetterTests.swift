@@ -11,7 +11,6 @@ import SmithyHTTPAuthAPI
 import AWSSDKHTTPAuth
 import XCTest
 import SmithyTestUtil
-import ClientRuntime
 
 class CustomSigningPropertiesSetterTests: XCTestCase {
     private var customSetter: AWSSDKHTTPAuth.CustomSigningPropertiesSetter!

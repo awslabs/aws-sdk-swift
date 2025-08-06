@@ -565,6 +565,7 @@ private var runtimeTargets: [Target] {
             dependencies: [
                 .CRT,
                 .ClientRuntime,
+                .SmithyIdentityAPI,
                 .SmithyIdentity,
                 .SmithyRetriesAPI,
                 .SmithyRetries,
@@ -592,7 +593,6 @@ private var runtimeTargets: [Target] {
                 .SmithyEventStreamsAuthAPI,
                 .SmithyEventStreams,
                 .CRT,
-                .ClientRuntime,
                 .AWSSDKHTTPAuth,
             ],
             path: "Sources/Core/AWSSDKEventStreamsAuth/Sources/AWSSDKEventStreamsAuth"
@@ -602,7 +602,6 @@ private var runtimeTargets: [Target] {
             dependencies: [
                 .CRT,
                 .Smithy,
-                .ClientRuntime,
                 .SmithyHTTPAuth,
                 .AWSSDKIdentityAPI,
                 .AWSSDKChecksums,
@@ -621,7 +620,6 @@ private var runtimeTargets: [Target] {
             name: "AWSSDKIdentity",
             dependencies: [
                 .AWSSDKIdentityAPI,
-                .CRT,
                 .Smithy,
                 .ClientRuntime,
                 .SmithyIdentity,
@@ -654,8 +652,6 @@ private var runtimeTargets: [Target] {
             dependencies: [
                 .CRT,
                 .Smithy,
-                .ClientRuntime,
-                .SmithyChecksumsAPI,
                 .SmithyChecksums,
                 .SmithyHTTPAPI,
             ],
@@ -686,8 +682,8 @@ private var runtimeTestTargets: [Target] {
         .testTarget(
             name: "AWSSDKEventStreamsAuthTests",
             dependencies: [
-                .AWSClientRuntime,
                 .AWSSDKEventStreamsAuth,
+                .AWSClientRuntime,
                 .AWSSDKIdentity,
                 .SmithyStreams,
                 .SmithyTestUtil,
@@ -701,7 +697,6 @@ private var runtimeTestTargets: [Target] {
                 .AWSClientRuntime,
                 .AWSSDKEventStreamsAuth,
                 .CRT,
-                .ClientRuntime,
                 .SmithyTestUtil,
             ],
             path: "Sources/Core/AWSSDKHTTPAuth/Tests/AWSSDKHTTPAuthTests"
@@ -712,7 +707,6 @@ private var runtimeTestTargets: [Target] {
                 .AWSSDKIdentity,
                 .Smithy,
                 .SmithyIdentity,
-                .AWSClientRuntime,
             ],
             path: "Sources/Core/AWSSDKIdentity/Tests/AWSSDKIdentityTests",
             resources: [.process("Resources")]

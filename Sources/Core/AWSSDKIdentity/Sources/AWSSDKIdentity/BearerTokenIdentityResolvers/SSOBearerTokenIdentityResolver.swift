@@ -16,7 +16,6 @@ import struct Foundation.TimeInterval
 import class Foundation.JSONDecoder
 import class Foundation.JSONEncoder
 import struct Smithy.Attributes
-import AwsCommonRuntimeKit
 import enum Smithy.ClientError
 import func Foundation.NSHomeDirectory
 @_spi(FileBasedConfig) import AWSSDKCommon
@@ -94,7 +93,7 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
     ) throws -> (ssoSessionName: String, SSOToken) {
         // Get sso session name connected to given profile name; or to default profile name, if no profile name was given.
         let ssoSessionName = fileBasedConfig.getSection(
-            name: profileName ?? FileBasedConfiguration.defaultProfileName, sectionType: .profile
+            name: profileName ?? "default", sectionType: .profile
         )?.getProperty(name: "sso_session")?.value
 
         // Get SHA1 hash of the name

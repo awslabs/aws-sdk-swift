@@ -9,7 +9,6 @@ import Smithy
 import SmithyHTTPAPI
 import XCTest
 import ClientRuntime
-import AwsCommonRuntimeKit
 import SmithyTestUtil
 @testable import AWSClientRuntime
 import class SmithyStreams.BufferedStream

@@ -5,8 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import AWSSDKHTTPAuth
-import ClientRuntime
+//import AWSSDKHTTPAuth
 import Smithy
 import SmithyEventStreamsAPI
 import SmithyHTTPAPI

@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import AwsCommonRuntimeKit
+import struct AwsCommonRuntimeKit.CommonRuntimeKit
 import class AWSSDKHTTPAuth.AWSSigV4Signer
 import ClientRuntime
 import Smithy
