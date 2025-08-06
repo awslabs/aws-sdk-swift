@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
+
+jobs:
+  amplify-canary:
+    if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
+    runs-on: macos-15
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Checkout aws-sdk-swift
+        uses: actions/checkout@v4
+        with:
+          path: aws-sdk-swift
+      - name: Checkout amplify-swift
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: amplify-swift
+      - name: Setup local aws-sdk-swift
+        run: |
+          cd amplify-swift
+          swift package edit aws-sdk-swift --path ../aws-sdk-swift
+      - name: Build amplify-swift with local aws-sdk-swift
+        run: |
+          cd amplify-swift
+          swift test
+
+
