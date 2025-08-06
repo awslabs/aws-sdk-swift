@@ -7,7 +7,6 @@
 
 import struct AwsCommonRuntimeKit.CommonRuntimeKit
 import class AWSSDKHTTPAuth.AWSSigV4Signer
-import ClientRuntime
 import Smithy
 import SmithyHTTPAPI
 import SmithyHTTPAuth
