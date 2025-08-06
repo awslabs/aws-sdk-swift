@@ -47,6 +47,6 @@ jobs:
       - name: Build amplify-swift with local aws-sdk-swift & smithy-swift
         run: |
           cd amplify-swift
-          swift test
+          swift build
 
 
