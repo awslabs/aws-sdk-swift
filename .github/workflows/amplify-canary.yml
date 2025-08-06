@@ -20,16 +20,22 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: aws-sdk-swift
+      - name: Checkout smithy-swift with composite action
+        uses: ./aws-sdk-swift/.github/actions/checkout-smithy-swift-composite-action
+        with:
+          AUTOMATION_USER_SSH_PRIVATE_KEY: ${{ secrets.AUTOMATION_USER_SSH_PRIVATE_KEY }}
+          STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
       - name: Checkout amplify-swift
         uses: actions/checkout@v4
         with:
           ref: main
           path: amplify-swift
-      - name: Setup local aws-sdk-swift
+      - name: Setup local aws-sdk-swift & smithy-swift
         run: |
           cd amplify-swift
           swift package edit aws-sdk-swift --path ../aws-sdk-swift
-      - name: Build amplify-swift with local aws-sdk-swift
+          swift package edit smithy-swift --path ../smithy-swift
+      - name: Build amplify-swift with local aws-sdk-swift & smithy-swift
         run: |
           cd amplify-swift
           swift test
