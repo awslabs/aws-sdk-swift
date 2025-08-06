@@ -6,6 +6,10 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   amplify-canary:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
@@ -32,10 +36,13 @@ jobs:
         run: |
           cd amplify-swift
           swift package resolve
-      - name: Setup local aws-sdk-swift & smithy-swift
+      - name: Setup local aws-sdk-swift
         run: |
           cd amplify-swift
           swift package edit aws-sdk-swift --path ../aws-sdk-swift
+      - name: Setup local smithy-swift
+        run: |
+          cd amplify-swift
           swift package edit smithy-swift --path ../smithy-swift
       - name: Build amplify-swift with local aws-sdk-swift & smithy-swift
         run: |
