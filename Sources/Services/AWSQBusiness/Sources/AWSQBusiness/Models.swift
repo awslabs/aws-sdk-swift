@@ -5351,7 +5351,7 @@ public struct BatchDeleteDocumentOutput: Swift.Sendable {
 
 extension QBusinessClientTypes {
 
-    /// The contents of a document.
+    /// The contents of a document. Documents have size limitations. The maximum file size for a document is 50 MB. The maximum amount of text that can be extracted from a single document is 5 MB. For more information, see [Supported document formats in Amazon Q Business](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/doc-types.html).
     public enum DocumentContent: Swift.Sendable {
         /// The contents of the document. Documents passed to the blob parameter must be base64 encoded. Your code might not need to encode the document file bytes if you're using an Amazon Web Services SDK to call Amazon Q Business APIs. If you are calling the Amazon Q Business endpoint directly using REST, you must base64 encode the contents before sending.
         case blob(Foundation.Data)
@@ -5907,6 +5907,12 @@ extension QBusinessClientTypes {
     public struct SourceAttribution: Swift.Sendable {
         /// The number attached to a citation in an Amazon Q Business generated response.
         public var citationNumber: Swift.Int?
+        /// The identifier of the data source from which the document was ingested. This field is not present if the document is ingested by directly calling the BatchPutDocument API (similar to checkDocumentAccess). If the document is from a file-upload data source, the datasource will be "uploaded-docs-file-stat-datasourceid".
+        public var datasourceId: Swift.String?
+        /// The unique identifier of the source document used in the citation, obtained from the Amazon Q Business index during chat response generation. This ID is used as input to the GetDocumentContent API to retrieve the actual document content for user verification.
+        public var documentId: Swift.String?
+        /// The identifier of the index containing the source document's metadata and access control information. This links the citation back to the specific Amazon Q Business index where the document's searchable content and permissions are stored.
+        public var indexId: Swift.String?
         /// The content extract from the document on which the generated response is based.
         public var snippet: Swift.String?
         /// A text extract from a source document that is used for source attribution.
@@ -5920,6 +5926,9 @@ extension QBusinessClientTypes {
 
         public init(
             citationNumber: Swift.Int? = nil,
+            datasourceId: Swift.String? = nil,
+            documentId: Swift.String? = nil,
+            indexId: Swift.String? = nil,
             snippet: Swift.String? = nil,
             textMessageSegments: [QBusinessClientTypes.TextSegment]? = nil,
             title: Swift.String? = nil,
@@ -5927,6 +5936,9 @@ extension QBusinessClientTypes {
             url: Swift.String? = nil
         ) {
             self.citationNumber = citationNumber
+            self.datasourceId = datasourceId
+            self.documentId = documentId
+            self.indexId = indexId
             self.snippet = snippet
             self.textMessageSegments = textMessageSegments
             self.title = title
@@ -7406,6 +7418,79 @@ public struct GetChatResponseConfigurationOutput: Swift.Sendable {
         self.displayName = displayName
         self.inUseConfiguration = inUseConfiguration
         self.lastUpdateConfiguration = lastUpdateConfiguration
+    }
+}
+
+extension QBusinessClientTypes {
+
+    public enum OutputFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case raw
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OutputFormat] {
+            return [
+                .raw
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .raw: return "RAW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetDocumentContentInput: Swift.Sendable {
+    /// The unique identifier of the Amazon Q Business application containing the document. This ensures the request is scoped to the correct application environment and its associated security policies.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The identifier of the data source from which the document was ingested. This field is not present if the document is ingested by directly calling the BatchPutDocument API. If the document is from a file-upload data source, the datasource will be "uploaded-docs-file-stat-datasourceid".
+    public var dataSourceId: Swift.String?
+    /// The unique identifier of the document that is indexed via BatchPutDocument API or file-upload or connector sync. It is also found in chat or chatSync response.
+    /// This member is required.
+    public var documentId: Swift.String?
+    /// The identifier of the index where documents are indexed.
+    /// This member is required.
+    public var indexId: Swift.String?
+    /// Raw document outputFormat.
+    public var outputFormat: QBusinessClientTypes.OutputFormat?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        dataSourceId: Swift.String? = nil,
+        documentId: Swift.String? = nil,
+        indexId: Swift.String? = nil,
+        outputFormat: QBusinessClientTypes.OutputFormat? = nil
+    ) {
+        self.applicationId = applicationId
+        self.dataSourceId = dataSourceId
+        self.documentId = documentId
+        self.indexId = indexId
+        self.outputFormat = outputFormat
+    }
+}
+
+public struct GetDocumentContentOutput: Swift.Sendable {
+    /// The MIME type of the document content (e.g., application/pdf, text/plain, application/vnd.openxmlformats-officedocument.wordprocessingml.document).
+    /// This member is required.
+    public var mimeType: Swift.String?
+    /// A pre-signed URL that provides temporary access to download the document content directly from Amazon Q Business. The URL expires after 5 minutes for security purposes. This URL is generated only after successful ACL validation.
+    /// This member is required.
+    public var presignedUrl: Swift.String?
+
+    public init(
+        mimeType: Swift.String? = nil,
+        presignedUrl: Swift.String? = nil
+    ) {
+        self.mimeType = mimeType
+        self.presignedUrl = presignedUrl
     }
 }
 
@@ -9902,6 +9987,38 @@ extension GetDataSourceInput {
     }
 }
 
+extension GetDocumentContentInput {
+
+    static func urlPathProvider(_ value: GetDocumentContentInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let indexId = value.indexId else {
+            return nil
+        }
+        guard let documentId = value.documentId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/index/\(indexId.urlPercentEncoding())/documents/\(documentId.urlPercentEncoding())/content"
+    }
+}
+
+extension GetDocumentContentInput {
+
+    static func queryItemProvider(_ value: GetDocumentContentInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let dataSourceId = value.dataSourceId {
+            let dataSourceIdQueryItem = Smithy.URIQueryItem(name: "dataSourceId".urlPercentEncoding(), value: Swift.String(dataSourceId).urlPercentEncoding())
+            items.append(dataSourceIdQueryItem)
+        }
+        if let outputFormat = value.outputFormat {
+            let outputFormatQueryItem = Smithy.URIQueryItem(name: "outputFormat".urlPercentEncoding(), value: Swift.String(outputFormat.rawValue).urlPercentEncoding())
+            items.append(outputFormatQueryItem)
+        }
+        return items
+    }
+}
+
 extension GetGroupInput {
 
     static func urlPathProvider(_ value: GetGroupInput) -> Swift.String? {
@@ -11637,6 +11754,19 @@ extension GetDataSourceOutput {
     }
 }
 
+extension GetDocumentContentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDocumentContentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDocumentContentOutput()
+        value.mimeType = try reader["mimeType"].readIfPresent() ?? ""
+        value.presignedUrl = try reader["presignedUrl"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension GetGroupOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetGroupOutput {
@@ -12891,6 +13021,24 @@ enum GetDataSourceOutputError {
     }
 }
 
+enum GetDocumentContentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetGroupOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -14103,6 +14251,9 @@ extension QBusinessClientTypes.SourceAttribution {
         value.citationNumber = try reader["citationNumber"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.textMessageSegments = try reader["textMessageSegments"].readListIfPresent(memberReadingClosure: QBusinessClientTypes.TextSegment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.documentId = try reader["documentId"].readIfPresent()
+        value.indexId = try reader["indexId"].readIfPresent()
+        value.datasourceId = try reader["datasourceId"].readIfPresent()
         return value
     }
 }

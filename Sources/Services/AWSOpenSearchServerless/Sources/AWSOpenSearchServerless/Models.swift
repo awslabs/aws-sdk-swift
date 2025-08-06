@@ -1564,6 +1564,32 @@ extension OpenSearchServerlessClientTypes {
     }
 }
 
+public struct CreateIndexInput: Swift.Sendable {
+    /// The unique identifier of the collection in which to create the index.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the index to create. Index names must be lowercase and can't begin with underscores (_) or hyphens (-).
+    /// This member is required.
+    public var indexName: Swift.String?
+    /// The JSON schema definition for the index, including field mappings and settings.
+    public var indexSchema: Smithy.Document?
+
+    public init(
+        id: Swift.String? = nil,
+        indexName: Swift.String? = nil,
+        indexSchema: Smithy.Document? = nil
+    ) {
+        self.id = id
+        self.indexName = indexName
+        self.indexSchema = indexSchema
+    }
+}
+
+public struct CreateIndexOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct CreateLifecyclePolicyInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
@@ -1996,6 +2022,28 @@ public struct CreateVpcEndpointOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteIndexInput: Swift.Sendable {
+    /// The unique identifier of the collection containing the index to delete.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the index to delete.
+    /// This member is required.
+    public var indexName: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        indexName: Swift.String? = nil
+    ) {
+        self.id = id
+        self.indexName = indexName
+    }
+}
+
+public struct DeleteIndexOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteLifecyclePolicyInput: Swift.Sendable {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
@@ -2135,6 +2183,34 @@ public struct GetAccountSettingsOutput: Swift.Sendable {
     }
 }
 
+public struct GetIndexInput: Swift.Sendable {
+    /// The unique identifier of the collection containing the index.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the index to retrieve information about.
+    /// This member is required.
+    public var indexName: Swift.String?
+
+    public init(
+        id: Swift.String? = nil,
+        indexName: Swift.String? = nil
+    ) {
+        self.id = id
+        self.indexName = indexName
+    }
+}
+
+public struct GetIndexOutput: Swift.Sendable {
+    /// The JSON schema definition for the index, including field mappings and settings.
+    public var indexSchema: Smithy.Document?
+
+    public init(
+        indexSchema: Smithy.Document? = nil
+    ) {
+        self.indexSchema = indexSchema
+    }
+}
+
 public struct GetPoliciesStatsInput: Swift.Sendable {
 
     public init() { }
@@ -2265,6 +2341,32 @@ public struct GetSecurityPolicyOutput: Swift.Sendable {
     ) {
         self.securityPolicyDetail = securityPolicyDetail
     }
+}
+
+public struct UpdateIndexInput: Swift.Sendable {
+    /// The unique identifier of the collection containing the index to update.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the index to update.
+    /// This member is required.
+    public var indexName: Swift.String?
+    /// The updated JSON schema definition for the index, including field mappings and settings.
+    public var indexSchema: Smithy.Document?
+
+    public init(
+        id: Swift.String? = nil,
+        indexName: Swift.String? = nil,
+        indexSchema: Smithy.Document? = nil
+    ) {
+        self.id = id
+        self.indexName = indexName
+        self.indexSchema = indexSchema
+    }
+}
+
+public struct UpdateIndexOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct ListLifecyclePoliciesInput: Swift.Sendable {
@@ -2923,6 +3025,13 @@ extension CreateCollectionInput {
     }
 }
 
+extension CreateIndexInput {
+
+    static func urlPathProvider(_ value: CreateIndexInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateLifecyclePolicyInput {
 
     static func urlPathProvider(_ value: CreateLifecyclePolicyInput) -> Swift.String? {
@@ -2965,6 +3074,13 @@ extension DeleteCollectionInput {
     }
 }
 
+extension DeleteIndexInput {
+
+    static func urlPathProvider(_ value: DeleteIndexInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteLifecyclePolicyInput {
 
     static func urlPathProvider(_ value: DeleteLifecyclePolicyInput) -> Swift.String? {
@@ -3003,6 +3119,13 @@ extension GetAccessPolicyInput {
 extension GetAccountSettingsInput {
 
     static func urlPathProvider(_ value: GetAccountSettingsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetIndexInput {
+
+    static func urlPathProvider(_ value: GetIndexInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3112,6 +3235,13 @@ extension UpdateCollectionInput {
     }
 }
 
+extension UpdateIndexInput {
+
+    static func urlPathProvider(_ value: UpdateIndexInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateLifecyclePolicyInput {
 
     static func urlPathProvider(_ value: UpdateLifecyclePolicyInput) -> Swift.String? {
@@ -3198,6 +3328,16 @@ extension CreateCollectionInput {
     }
 }
 
+extension CreateIndexInput {
+
+    static func write(value: CreateIndexInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["indexName"].write(value.indexName)
+        try writer["indexSchema"].write(value.indexSchema)
+    }
+}
+
 extension CreateLifecyclePolicyInput {
 
     static func write(value: CreateLifecyclePolicyInput?, to writer: SmithyJSON.Writer) throws {
@@ -3267,6 +3407,15 @@ extension DeleteCollectionInput {
     }
 }
 
+extension DeleteIndexInput {
+
+    static func write(value: DeleteIndexInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["indexName"].write(value.indexName)
+    }
+}
+
 extension DeleteLifecyclePolicyInput {
 
     static func write(value: DeleteLifecyclePolicyInput?, to writer: SmithyJSON.Writer) throws {
@@ -3319,6 +3468,15 @@ extension GetAccountSettingsInput {
     static func write(value: GetAccountSettingsInput?, to writer: SmithyJSON.Writer) throws {
         guard value != nil else { return }
         _ = writer[""]  // create an empty structure
+    }
+}
+
+extension GetIndexInput {
+
+    static func write(value: GetIndexInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["indexName"].write(value.indexName)
     }
 }
 
@@ -3467,6 +3625,16 @@ extension UpdateCollectionInput {
     }
 }
 
+extension UpdateIndexInput {
+
+    static func write(value: UpdateIndexInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["indexName"].write(value.indexName)
+        try writer["indexSchema"].write(value.indexSchema)
+    }
+}
+
 extension UpdateLifecyclePolicyInput {
 
     static func write(value: UpdateLifecyclePolicyInput?, to writer: SmithyJSON.Writer) throws {
@@ -3596,6 +3764,13 @@ extension CreateCollectionOutput {
     }
 }
 
+extension CreateIndexOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIndexOutput {
+        return CreateIndexOutput()
+    }
+}
+
 extension CreateLifecyclePolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateLifecyclePolicyOutput {
@@ -3663,6 +3838,13 @@ extension DeleteCollectionOutput {
     }
 }
 
+extension DeleteIndexOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteIndexOutput {
+        return DeleteIndexOutput()
+    }
+}
+
 extension DeleteLifecyclePolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteLifecyclePolicyOutput {
@@ -3716,6 +3898,18 @@ extension GetAccountSettingsOutput {
         let reader = responseReader
         var value = GetAccountSettingsOutput()
         value.accountSettingsDetail = try reader["accountSettingsDetail"].readIfPresent(with: OpenSearchServerlessClientTypes.AccountSettingsDetail.read(from:))
+        return value
+    }
+}
+
+extension GetIndexOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIndexOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetIndexOutput()
+        value.indexSchema = try reader["indexSchema"].readIfPresent()
         return value
     }
 }
@@ -3900,6 +4094,13 @@ extension UpdateCollectionOutput {
     }
 }
 
+extension UpdateIndexOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateIndexOutput {
+        return UpdateIndexOutput()
+    }
+}
+
 extension UpdateLifecyclePolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateLifecyclePolicyOutput {
@@ -4043,6 +4244,23 @@ enum CreateCollectionOutputError {
     }
 }
 
+enum CreateIndexOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateLifecyclePolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4145,6 +4363,22 @@ enum DeleteCollectionOutputError {
     }
 }
 
+enum DeleteIndexOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteLifecyclePolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4238,6 +4472,22 @@ enum GetAccountSettingsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetIndexOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -4473,6 +4723,22 @@ enum UpdateCollectionOutputError {
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateIndexOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
