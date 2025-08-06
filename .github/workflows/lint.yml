@@ -29,6 +29,14 @@ jobs:
           swiftlint --version
       - name: Run swiftlint
         run: swiftlint --strict --reporter github-actions-logging
+      - name: Eliminate AWS service clients
+        run: |
+          rm -rf Sources/Services/*
+          cd AWSSDKSwiftCLI
+          swift run AWSSDKSwiftCLI generate-package-manifest ..
+          cd ..
+          echo
+          cat Package.swift
       - name: Compile project with Xcode
         run: xcodebuild -scheme aws-sdk-swift-Package -destination platform=macOS > xcodebuild.log
       - name: Run swiftlint analyzer
