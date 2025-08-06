@@ -6,7 +6,6 @@
 //
 
 import ClientRuntime
-import SmithyTestUtil
 import XCTest
 @_spi(DefaultRegionResolver) @testable import AWSClientRuntime
 @_spi(FileBasedConfig) @testable import AWSSDKCommon

@@ -7,7 +7,6 @@
 
 import XCTest
 import struct AWSSDKIdentity.ProcessAWSCredentialIdentityResolver
-@_spi(FileBasedConfig) @testable import AWSClientRuntime
 import struct AWSSDKIdentity.ProfileAWSCredentialIdentityResolver
 
 class ProcessAWSCredentialIdentityResolverTests: XCTestCase {

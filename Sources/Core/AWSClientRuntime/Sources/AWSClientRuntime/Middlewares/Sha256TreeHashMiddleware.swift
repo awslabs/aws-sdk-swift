@@ -3,7 +3,6 @@
 
 import class Smithy.Context
 import AwsCCal
-import AwsCommonRuntimeKit
 import ClientRuntime
 import SmithyHTTPAPI
 import struct Foundation.Data

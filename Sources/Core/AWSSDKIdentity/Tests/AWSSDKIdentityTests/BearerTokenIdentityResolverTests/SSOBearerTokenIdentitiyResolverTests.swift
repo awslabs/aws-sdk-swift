@@ -6,7 +6,6 @@
 //
 
 @testable import struct AWSSDKIdentity.SSOBearerTokenIdentityResolver
-import struct Smithy.Attributes
 import XCTest
 
 class SSOBearerTokenIdentityResolverTests: XCTestCase {

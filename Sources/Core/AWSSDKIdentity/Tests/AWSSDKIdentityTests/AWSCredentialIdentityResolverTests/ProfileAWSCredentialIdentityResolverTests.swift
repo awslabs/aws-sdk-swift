@@ -7,7 +7,6 @@
 
 import XCTest
 import struct AWSSDKIdentity.ProfileAWSCredentialIdentityResolver
-@_spi(FileBasedConfig) @testable import AWSClientRuntime
 
 class ProfileAWSCredentialIdentityResolverTests: XCTestCase {
     let configPath = Bundle.module.path(forResource: "config", ofType: nil)!

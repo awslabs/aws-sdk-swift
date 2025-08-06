@@ -5,18 +5,16 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import struct Smithy.Attributes
-import struct Smithy.AttributeKey
 import enum Smithy.ByteStream
 import enum Smithy.ClientError
 import struct SmithyHTTPAPI.Headers
 import class SmithyHTTPAPI.HTTPRequestBuilder
-import enum SmithyChecksumsAPI.ChecksumAlgorithm
 import class SmithyChecksums.ChunkedStream
 import class Smithy.Context
-import AwsCommonRuntimeKit
+import struct AwsCommonRuntimeKit.SigningConfig
 
 extension HTTPRequestBuilder {
+
     public func setAwsChunkedHeaders() throws {
 
         // Check if self.body is of the case ByteStream.stream(let stream)
@@ -42,7 +40,6 @@ extension HTTPRequestBuilder {
     ) throws {
         switch self.body {
         case .stream(let stream):
-
             let chunkedStream = try ChunkedStream(
                 inputStream: stream,
                 signingConfig: signingConfig,

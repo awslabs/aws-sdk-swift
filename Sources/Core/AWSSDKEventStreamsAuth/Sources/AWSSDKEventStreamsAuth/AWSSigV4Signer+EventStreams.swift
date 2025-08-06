@@ -11,7 +11,7 @@ import SmithyEventStreamsAPI
 import SmithyEventStreamsAuthAPI
 import SmithyHTTPAuthAPI
 import struct Foundation.Data
-import AwsCommonRuntimeKit
+import class AwsCommonRuntimeKit.Signer
 import SmithyHTTPAuth
 
 extension AWSSigV4Signer: MessageDataSigner {

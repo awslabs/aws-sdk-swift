@@ -12,7 +12,7 @@ import SmithyHTTPAuth
 import SmithyHTTPAPI
 import SmithyIdentity
 import SmithyTestUtil
-import AwsCommonRuntimeKit
+import struct AwsCommonRuntimeKit.CommonRuntimeKit
 import SmithyTimestamps
 import SmithyEventStreams
 import SmithyEventStreamsAPI

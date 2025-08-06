@@ -6,8 +6,6 @@
 //
 
 import struct Foundation.Date
-import class AwsCommonRuntimeKit.CredentialsProvider
-import ClientRuntime
 import protocol SmithyIdentity.AWSCredentialIdentityResolvedByCRT
 @_spi(FileBasedConfig) import AWSSDKCommon
 import protocol SmithyIdentity.AWSCredentialIdentityResolver

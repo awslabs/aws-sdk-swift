@@ -5,8 +5,6 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import class AwsCommonRuntimeKit.CredentialsProvider
-import ClientRuntime
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct Foundation.UUID
 import struct Smithy.Attributes

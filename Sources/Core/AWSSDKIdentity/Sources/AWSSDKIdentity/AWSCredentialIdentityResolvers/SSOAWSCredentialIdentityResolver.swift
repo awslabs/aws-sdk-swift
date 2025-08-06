@@ -7,7 +7,6 @@
 
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct Smithy.Attributes
-import ClientRuntime
 import class Foundation.ProcessInfo
 import enum Smithy.ClientError
 import struct SmithyIdentity.BearerTokenIdentity
