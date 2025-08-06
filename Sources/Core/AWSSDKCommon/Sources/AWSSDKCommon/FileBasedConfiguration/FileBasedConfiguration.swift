@@ -17,12 +17,6 @@ public enum FileBasedConfigurationSectionType {
 }
 
 @_spi(FileBasedConfig)
-public struct FileBasedConfigurationSources: Hashable {
-    let configPath: String
-    let credentialPath: String
-}
-
-@_spi(FileBasedConfig)
 public typealias FileBasedConfigurationProviding = (
     _ configFilePath: String?,
     _ credentialsFilePath: String?

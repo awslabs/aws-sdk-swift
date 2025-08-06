@@ -6,7 +6,6 @@
 //
 
 import Smithy
-import SmithyEventStreamsAPI
 import SmithyHTTPAPI
 import SmithyHTTPAuthAPI
 import SmithyIdentity
