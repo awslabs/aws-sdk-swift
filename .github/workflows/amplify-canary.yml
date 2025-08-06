@@ -25,6 +25,7 @@ jobs:
       - name: Checkout amplify-swift
         uses: actions/checkout@v4
         with:
+          repository: aws-amplify/amplify-swift
           ref: main
           path: amplify-swift
       - name: Resolve amplify-swift dependencies
