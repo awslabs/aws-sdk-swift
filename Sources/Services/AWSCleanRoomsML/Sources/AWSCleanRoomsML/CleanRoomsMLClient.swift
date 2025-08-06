@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CleanRoomsMLClient: ClientRuntime.Client {
     public static let clientName = "CleanRoomsMLClient"
-    public static let version = "1.5.14"
+    public static let version = "1.5.15"
     let client: ClientRuntime.SdkHttpClient
     let config: CleanRoomsMLClient.CleanRoomsMLClientConfiguration
     let serviceName = "CleanRoomsML"
