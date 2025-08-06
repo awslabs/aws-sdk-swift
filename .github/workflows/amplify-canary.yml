@@ -6,9 +6,6 @@ on:
   pull_request:
   workflow_dispatch:
 
-env:
-  AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
-
 jobs:
   amplify-canary:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
@@ -30,6 +27,10 @@ jobs:
         with:
           ref: main
           path: amplify-swift
+      - name: Resolve amplify-swift dependencies
+        run: |
+          cd amplify-swift
+          swift package resolve
       - name: Setup local aws-sdk-swift & smithy-swift
         run: |
           cd amplify-swift
