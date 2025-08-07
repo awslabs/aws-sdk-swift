@@ -15,7 +15,7 @@ import struct SmithyIdentity.AWSCredentialIdentity
 class CognitoCredentialResolverTests: XCTestCase {
     
     // Mock implementation of IdentityProvidingCognitoIdentityClient for testing
-    class MockCognitoClient: CognitoIdentityClientProtocol {
+    class MockCognitoClient: CognitoIdentityClientProtocol, @unchecked Sendable {
         var getIdCalls: [(identityPoolId: String, accountId: String?, logins: [String: String]?)] = []
         var getCredentialsCalls: [(identityId: String, logins: [String: String]?, customRoleArn: String?)] = []
         

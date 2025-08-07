@@ -8,14 +8,13 @@
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import class AwsCommonRuntimeKit.CredentialsProvider
 import struct Smithy.Attributes
-import ClientRuntime
 import class Foundation.ProcessInfo
 import enum Smithy.ClientError
 
 import struct Foundation.Date
 @_spi(FileBasedConfig) import AWSSDKCommon
 
-protocol CognitoIdentityClientProtocol {
+protocol CognitoIdentityClientProtocol: Sendable {
     func getId(
         identityPoolId: String,
         logins: [String: String]?,
