@@ -14,22 +14,6 @@ import enum Smithy.ClientError
 import struct Foundation.Date
 @_spi(FileBasedConfig) import AWSSDKCommon
 
-protocol CognitoIdentityClientProtocol: Sendable {
-    func getId(
-        identityPoolId: String,
-        logins: [String: String]?,
-        region: String
-    ) async throws -> String
-
-    func getCredentialsForIdentity(
-        identityId: String,
-        logins: [String: String]?,
-        region: String
-    ) async throws -> AWSCredentialIdentity
-}
-
-extension IdentityProvidingCognitoIdentityClient: CognitoIdentityClientProtocol {}
-
 /// A credential identity resolver that resolves credentials using AWS Cognito Identity.
 public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
     private let config: CognitoCredentialsConfiguration

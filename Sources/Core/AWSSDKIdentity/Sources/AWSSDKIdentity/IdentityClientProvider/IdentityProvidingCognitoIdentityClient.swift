@@ -7,7 +7,21 @@
 
 import InternalAWSCognitoIdentity
 
-struct IdentityProvidingCognitoIdentityClient: Swift.Sendable {
+protocol CognitoIdentityClientProtocol: Sendable {
+    func getId(
+        identityPoolId: String,
+        logins: [String: String]?,
+        region: String
+    ) async throws -> String
+
+    func getCredentialsForIdentity(
+        identityId: String,
+        logins: [String: String]?,
+        region: String
+    ) async throws -> AWSCredentialIdentity
+}
+
+struct IdentityProvidingCognitoIdentityClient: CognitoIdentityClientProtocol, Swift.Sendable {
     func getId(
         identityPoolId: String,
         logins: [String: String]?,
