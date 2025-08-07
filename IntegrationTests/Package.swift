@@ -94,7 +94,7 @@ private func integrationTestTarget(_ name: String) -> Target {
     case "AWSSTS":
         additionalDependencies = ["AWSIAM", "AWSCognitoIdentity"]
     case "AWSCognitoIdentity":
-        additionalDependencies = ["AWSSTS"]
+        additionalDependencies = ["AWSSTS", "AWSIAM"]
     default:
         break
     }

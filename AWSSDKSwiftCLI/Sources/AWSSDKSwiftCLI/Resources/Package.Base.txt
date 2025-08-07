@@ -185,6 +185,7 @@ private var runtimeTargets: [Target] {
                 "InternalAWSSTS",
                 "InternalAWSSSO",
                 "InternalAWSSSOOIDC",
+                "InternalAWSCognitoIdentity",
             ],
             path: "Sources/Core/AWSSDKIdentity/Sources/AWSSDKIdentity"
         ),
@@ -202,6 +203,11 @@ private var runtimeTargets: [Target] {
             name: "InternalAWSSSOOIDC",
             dependencies: internalAWSSSOOIDCDependencies,
             path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSSSOOIDC/Sources/InternalAWSSSOOIDC"
+        ),
+        .target(
+            name: "InternalAWSCognitoIdentity",
+            dependencies: internalAWSCognitoIdentityDependencies,
+            path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSCognitoIdentity/Sources/InternalAWSCognitoIdentity"
         ),
         .target(
             name: "AWSSDKChecksums",
