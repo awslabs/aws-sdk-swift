@@ -4363,6 +4363,7 @@ extension CloudFrontClientTypes {
         case tlsv122018
         case tlsv122019
         case tlsv122021
+        case tlsv132025
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MinimumProtocolVersion] {
@@ -4373,7 +4374,8 @@ extension CloudFrontClientTypes {
                 .tlsv12016,
                 .tlsv122018,
                 .tlsv122019,
-                .tlsv122021
+                .tlsv122021,
+                .tlsv132025
             ]
         }
 
@@ -4391,6 +4393,7 @@ extension CloudFrontClientTypes {
             case .tlsv122018: return "TLSv1.2_2018"
             case .tlsv122019: return "TLSv1.2_2019"
             case .tlsv122021: return "TLSv1.2_2021"
+            case .tlsv132025: return "TLSv1.3_2025"
             case let .sdkUnknown(s): return s
             }
         }

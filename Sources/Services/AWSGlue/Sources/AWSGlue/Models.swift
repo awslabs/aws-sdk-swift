@@ -8698,6 +8698,10 @@ extension GlueClientTypes {
 
     /// The configuration for an Iceberg compaction optimizer. This configuration defines parameters for optimizing the layout of data files in Iceberg tables.
     public struct IcebergCompactionConfiguration: Swift.Sendable {
+        /// The minimum number of deletes that must be present in a data file to make it eligible for compaction. This parameter helps optimize compaction by focusing on files that contain a significant number of delete operations, which can improve query performance by removing deleted records. If an input is not provided, the default value 1 will be used.
+        public var deleteFileThreshold: Swift.Int?
+        /// The minimum number of data files that must be present in a partition before compaction will actually compact files. This parameter helps control when compaction is triggered, preventing unnecessary compaction operations on partitions with few files. If an input is not provided, the default value 100 will be used.
+        public var minInputFiles: Swift.Int?
         /// The strategy to use for compaction. Valid values are:
         ///
         /// * binpack: Combines small files into larger files, typically targeting sizes over 100MB, while applying any pending deletes. This is the recommended compaction strategy for most use cases.
@@ -8711,8 +8715,12 @@ extension GlueClientTypes {
         public var strategy: GlueClientTypes.CompactionStrategy?
 
         public init(
+            deleteFileThreshold: Swift.Int? = nil,
+            minInputFiles: Swift.Int? = nil,
             strategy: GlueClientTypes.CompactionStrategy? = nil
         ) {
+            self.deleteFileThreshold = deleteFileThreshold
+            self.minInputFiles = minInputFiles
             self.strategy = strategy
         }
     }
@@ -8741,13 +8749,17 @@ extension GlueClientTypes {
         public var location: Swift.String?
         /// The number of days that orphan files should be retained before file deletion. If an input is not provided, the default value 3 will be used.
         public var orphanFileRetentionPeriodInDays: Swift.Int?
+        /// The interval in hours between orphan file deletion job runs. This parameter controls how frequently the orphan file deletion optimizer will run to clean up orphan files. The value must be between 3 and 168 hours (7 days). If an input is not provided, the default value 24 will be used.
+        public var runRateInHours: Swift.Int?
 
         public init(
             location: Swift.String? = nil,
-            orphanFileRetentionPeriodInDays: Swift.Int? = nil
+            orphanFileRetentionPeriodInDays: Swift.Int? = nil,
+            runRateInHours: Swift.Int? = nil
         ) {
             self.location = location
             self.orphanFileRetentionPeriodInDays = orphanFileRetentionPeriodInDays
+            self.runRateInHours = runRateInHours
         }
     }
 }
@@ -8775,16 +8787,20 @@ extension GlueClientTypes {
         public var cleanExpiredFiles: Swift.Bool?
         /// The number of Iceberg snapshots to retain within the retention period. If an input is not provided, the corresponding Iceberg table configuration field will be used or if not present, the default value 1 will be used.
         public var numberOfSnapshotsToRetain: Swift.Int?
+        /// The interval in hours between retention job runs. This parameter controls how frequently the retention optimizer will run to clean up expired snapshots. The value must be between 3 and 168 hours (7 days). If an input is not provided, the default value 24 will be used.
+        public var runRateInHours: Swift.Int?
         /// The number of days to retain the Iceberg snapshots. If an input is not provided, the corresponding Iceberg table configuration field will be used or if not present, the default value 5 will be used.
         public var snapshotRetentionPeriodInDays: Swift.Int?
 
         public init(
             cleanExpiredFiles: Swift.Bool? = nil,
             numberOfSnapshotsToRetain: Swift.Int? = nil,
+            runRateInHours: Swift.Int? = nil,
             snapshotRetentionPeriodInDays: Swift.Int? = nil
         ) {
             self.cleanExpiredFiles = cleanExpiredFiles
             self.numberOfSnapshotsToRetain = numberOfSnapshotsToRetain
+            self.runRateInHours = runRateInHours
             self.snapshotRetentionPeriodInDays = snapshotRetentionPeriodInDays
         }
     }
@@ -8846,6 +8862,35 @@ extension GlueClientTypes {
             self.retentionConfiguration = retentionConfiguration
             self.roleArn = roleArn
             self.vpcConfiguration = vpcConfiguration
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum ConfigurationSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case catalog
+        case table
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConfigurationSource] {
+            return [
+                .catalog,
+                .table
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .catalog: return "catalog"
+            case .table: return "table"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -9110,6 +9155,8 @@ extension GlueClientTypes {
     public struct TableOptimizer: Swift.Sendable {
         /// A TableOptimizerConfiguration object that was specified when creating or updating a table optimizer.
         public var configuration: GlueClientTypes.TableOptimizerConfiguration?
+        /// Specifies the source of the optimizer configuration. This indicates how the table optimizer was configured and which entity or service initiated the configuration.
+        public var configurationSource: GlueClientTypes.ConfigurationSource?
         /// A TableOptimizerRun object representing the last run of the table optimizer.
         public var lastRun: GlueClientTypes.TableOptimizerRun?
         /// The type of table optimizer. The valid values are:
@@ -9123,10 +9170,12 @@ extension GlueClientTypes {
 
         public init(
             configuration: GlueClientTypes.TableOptimizerConfiguration? = nil,
+            configurationSource: GlueClientTypes.ConfigurationSource? = nil,
             lastRun: GlueClientTypes.TableOptimizerRun? = nil,
             type: GlueClientTypes.TableOptimizerType? = nil
         ) {
             self.configuration = configuration
+            self.configurationSource = configurationSource
             self.lastRun = lastRun
             self.type = type
         }
@@ -10713,19 +10762,50 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    /// A structure that specifies Iceberg table optimization properties for the catalog, including configurations for compaction, retention, and orphan file deletion operations.
+    public struct IcebergOptimizationProperties: Swift.Sendable {
+        /// A map of key-value pairs that specify configuration parameters for Iceberg table compaction operations, which optimize the layout of data files to improve query performance.
+        public var compaction: [Swift.String: Swift.String]?
+        /// A map of key-value pairs that specify configuration parameters for Iceberg orphan file deletion operations, which identify and remove files that are no longer referenced by the table metadata.
+        public var orphanFileDeletion: [Swift.String: Swift.String]?
+        /// A map of key-value pairs that specify configuration parameters for Iceberg table retention operations, which manage the lifecycle of table snapshots to control storage costs.
+        public var retention: [Swift.String: Swift.String]?
+        /// The Amazon Resource Name (ARN) of the IAM role that will be assumed to perform Iceberg table optimization operations.
+        public var roleArn: Swift.String?
+
+        public init(
+            compaction: [Swift.String: Swift.String]? = nil,
+            orphanFileDeletion: [Swift.String: Swift.String]? = nil,
+            retention: [Swift.String: Swift.String]? = nil,
+            roleArn: Swift.String? = nil
+        ) {
+            self.compaction = compaction
+            self.orphanFileDeletion = orphanFileDeletion
+            self.retention = retention
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// A structure that specifies data lake access properties and other custom properties.
     public struct CatalogProperties: Swift.Sendable {
         /// Additional key-value properties for the catalog, such as column statistics optimizations.
         public var customProperties: [Swift.String: Swift.String]?
         /// A DataLakeAccessProperties object that specifies properties to configure data lake access for your catalog resource in the Glue Data Catalog.
         public var dataLakeAccessProperties: GlueClientTypes.DataLakeAccessProperties?
+        /// A structure that specifies Iceberg table optimization properties for the catalog. This includes configuration for compaction, retention, and orphan file deletion operations that can be applied to Iceberg tables in this catalog.
+        public var icebergOptimizationProperties: GlueClientTypes.IcebergOptimizationProperties?
 
         public init(
             customProperties: [Swift.String: Swift.String]? = nil,
-            dataLakeAccessProperties: GlueClientTypes.DataLakeAccessProperties? = nil
+            dataLakeAccessProperties: GlueClientTypes.DataLakeAccessProperties? = nil,
+            icebergOptimizationProperties: GlueClientTypes.IcebergOptimizationProperties? = nil
         ) {
             self.customProperties = customProperties
             self.dataLakeAccessProperties = dataLakeAccessProperties
+            self.icebergOptimizationProperties = icebergOptimizationProperties
         }
     }
 }
@@ -17028,19 +17108,54 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    /// A structure that contains the output properties of Iceberg table optimization configuration for your catalog resource in the Glue Data Catalog.
+    public struct IcebergOptimizationPropertiesOutput: Swift.Sendable {
+        /// A map of key-value pairs that specify configuration parameters for Iceberg table compaction operations, which optimize the layout of data files to improve query performance.
+        public var compaction: [Swift.String: Swift.String]?
+        /// The timestamp when the Iceberg optimization properties were last updated.
+        public var lastUpdatedTime: Foundation.Date?
+        /// A map of key-value pairs that specify configuration parameters for Iceberg orphan file deletion operations, which identify and remove files that are no longer referenced by the table metadata.
+        public var orphanFileDeletion: [Swift.String: Swift.String]?
+        /// A map of key-value pairs that specify configuration parameters for Iceberg table retention operations, which manage the lifecycle of table snapshots to control storage costs.
+        public var retention: [Swift.String: Swift.String]?
+        /// The Amazon Resource Name (ARN) of the IAM role that is used to perform Iceberg table optimization operations.
+        public var roleArn: Swift.String?
+
+        public init(
+            compaction: [Swift.String: Swift.String]? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
+            orphanFileDeletion: [Swift.String: Swift.String]? = nil,
+            retention: [Swift.String: Swift.String]? = nil,
+            roleArn: Swift.String? = nil
+        ) {
+            self.compaction = compaction
+            self.lastUpdatedTime = lastUpdatedTime
+            self.orphanFileDeletion = orphanFileDeletion
+            self.retention = retention
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// Property attributes that include configuration properties for the catalog resource.
     public struct CatalogPropertiesOutput: Swift.Sendable {
         /// Additional key-value properties for the catalog, such as column statistics optimizations.
         public var customProperties: [Swift.String: Swift.String]?
         /// A DataLakeAccessProperties object with input properties to configure data lake access for your catalog resource in the Glue Data Catalog.
         public var dataLakeAccessProperties: GlueClientTypes.DataLakeAccessPropertiesOutput?
+        /// An IcebergOptimizationPropertiesOutput object that specifies Iceberg table optimization settings for the catalog, including configurations for compaction, retention, and orphan file deletion operations.
+        public var icebergOptimizationProperties: GlueClientTypes.IcebergOptimizationPropertiesOutput?
 
         public init(
             customProperties: [Swift.String: Swift.String]? = nil,
-            dataLakeAccessProperties: GlueClientTypes.DataLakeAccessPropertiesOutput? = nil
+            dataLakeAccessProperties: GlueClientTypes.DataLakeAccessPropertiesOutput? = nil,
+            icebergOptimizationProperties: GlueClientTypes.IcebergOptimizationPropertiesOutput? = nil
         ) {
             self.customProperties = customProperties
             self.dataLakeAccessProperties = dataLakeAccessProperties
+            self.icebergOptimizationProperties = icebergOptimizationProperties
         }
     }
 }
@@ -27743,7 +27858,7 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
-    /// Contains the update operations to be applied to an existing Iceberg table in AWS Glue Data Catalog, defining the new state of the table metadata.
+    /// Contains the update operations to be applied to an existing Iceberg table inGlue Data Catalog, defining the new state of the table metadata.
     public struct UpdateIcebergTableInput: Swift.Sendable {
         /// The list of table update operations that specify the changes to be made to the Iceberg table, including schema modifications, partition specifications, and table properties.
         /// This member is required.
@@ -45713,6 +45828,7 @@ extension GlueClientTypes.TableOptimizer {
         value.type = try reader["type"].readIfPresent()
         value.configuration = try reader["configuration"].readIfPresent(with: GlueClientTypes.TableOptimizerConfiguration.read(from:))
         value.lastRun = try reader["lastRun"].readIfPresent(with: GlueClientTypes.TableOptimizerRun.read(from:))
+        value.configurationSource = try reader["configurationSource"].readIfPresent()
         return value
     }
 }
@@ -45866,6 +45982,7 @@ extension GlueClientTypes.IcebergOrphanFileDeletionConfiguration {
         guard let value else { return }
         try writer["location"].write(value.location)
         try writer["orphanFileRetentionPeriodInDays"].write(value.orphanFileRetentionPeriodInDays)
+        try writer["runRateInHours"].write(value.runRateInHours)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergOrphanFileDeletionConfiguration {
@@ -45873,6 +45990,7 @@ extension GlueClientTypes.IcebergOrphanFileDeletionConfiguration {
         var value = GlueClientTypes.IcebergOrphanFileDeletionConfiguration()
         value.orphanFileRetentionPeriodInDays = try reader["orphanFileRetentionPeriodInDays"].readIfPresent()
         value.location = try reader["location"].readIfPresent()
+        value.runRateInHours = try reader["runRateInHours"].readIfPresent()
         return value
     }
 }
@@ -45898,6 +46016,7 @@ extension GlueClientTypes.IcebergRetentionConfiguration {
         guard let value else { return }
         try writer["cleanExpiredFiles"].write(value.cleanExpiredFiles)
         try writer["numberOfSnapshotsToRetain"].write(value.numberOfSnapshotsToRetain)
+        try writer["runRateInHours"].write(value.runRateInHours)
         try writer["snapshotRetentionPeriodInDays"].write(value.snapshotRetentionPeriodInDays)
     }
 
@@ -45907,6 +46026,7 @@ extension GlueClientTypes.IcebergRetentionConfiguration {
         value.snapshotRetentionPeriodInDays = try reader["snapshotRetentionPeriodInDays"].readIfPresent()
         value.numberOfSnapshotsToRetain = try reader["numberOfSnapshotsToRetain"].readIfPresent()
         value.cleanExpiredFiles = try reader["cleanExpiredFiles"].readIfPresent()
+        value.runRateInHours = try reader["runRateInHours"].readIfPresent()
         return value
     }
 }
@@ -45930,6 +46050,8 @@ extension GlueClientTypes.IcebergCompactionConfiguration {
 
     static func write(value: GlueClientTypes.IcebergCompactionConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["deleteFileThreshold"].write(value.deleteFileThreshold)
+        try writer["minInputFiles"].write(value.minInputFiles)
         try writer["strategy"].write(value.strategy)
     }
 
@@ -45937,6 +46059,8 @@ extension GlueClientTypes.IcebergCompactionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.IcebergCompactionConfiguration()
         value.strategy = try reader["strategy"].readIfPresent()
+        value.minInputFiles = try reader["minInputFiles"].readIfPresent()
+        value.deleteFileThreshold = try reader["deleteFileThreshold"].readIfPresent()
         return value
     }
 }
@@ -46699,7 +46823,22 @@ extension GlueClientTypes.CatalogPropertiesOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.CatalogPropertiesOutput()
         value.dataLakeAccessProperties = try reader["DataLakeAccessProperties"].readIfPresent(with: GlueClientTypes.DataLakeAccessPropertiesOutput.read(from:))
+        value.icebergOptimizationProperties = try reader["IcebergOptimizationProperties"].readIfPresent(with: GlueClientTypes.IcebergOptimizationPropertiesOutput.read(from:))
         value.customProperties = try reader["CustomProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.IcebergOptimizationPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergOptimizationPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IcebergOptimizationPropertiesOutput()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.compaction = try reader["Compaction"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.retention = try reader["Retention"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.orphanFileDeletion = try reader["OrphanFileDeletion"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -48562,6 +48701,18 @@ extension GlueClientTypes.CatalogProperties {
         guard let value else { return }
         try writer["CustomProperties"].writeMap(value.customProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["DataLakeAccessProperties"].write(value.dataLakeAccessProperties, with: GlueClientTypes.DataLakeAccessProperties.write(value:to:))
+        try writer["IcebergOptimizationProperties"].write(value.icebergOptimizationProperties, with: GlueClientTypes.IcebergOptimizationProperties.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.IcebergOptimizationProperties {
+
+    static func write(value: GlueClientTypes.IcebergOptimizationProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Compaction"].writeMap(value.compaction, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["OrphanFileDeletion"].writeMap(value.orphanFileDeletion, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Retention"].writeMap(value.retention, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["RoleArn"].write(value.roleArn)
     }
 }
 

@@ -485,6 +485,8 @@ extension GameLiftStreamsClientTypes {
     ///
     /// * Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)
     ///
+    /// * Proton 9.0-2 (Type=PROTON, Version=20250516)
+    ///
     /// * Proton 8.0-5 (Type=PROTON, Version=20241007)
     ///
     /// * Proton 8.0-2c (Type=PROTON, Version=20230704)
@@ -534,6 +536,8 @@ public struct CreateApplicationInput: Swift.Sendable {
     /// * For Windows applications
     ///
     /// * Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)
+    ///
+    /// * Proton 9.0-2 (Type=PROTON, Version=20250516)
     ///
     /// * Proton 8.0-5 (Type=PROTON, Version=20241007)
     ///
@@ -649,6 +653,8 @@ public struct CreateApplicationOutput: Swift.Sendable {
     ///
     /// * Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)
     ///
+    /// * Proton 9.0-2 (Type=PROTON, Version=20250516)
+    ///
     /// * Proton 8.0-5 (Type=PROTON, Version=20241007)
     ///
     /// * Proton 8.0-2c (Type=PROTON, Version=20230704)
@@ -762,6 +768,8 @@ public struct GetApplicationOutput: Swift.Sendable {
     ///
     /// * Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)
     ///
+    /// * Proton 9.0-2 (Type=PROTON, Version=20250516)
+    ///
     /// * Proton 8.0-5 (Type=PROTON, Version=20241007)
     ///
     /// * Proton 8.0-2c (Type=PROTON, Version=20230704)
@@ -856,6 +864,8 @@ extension GameLiftStreamsClientTypes {
         /// * For Windows applications
         ///
         /// * Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)
+        ///
+        /// * Proton 9.0-2 (Type=PROTON, Version=20250516)
         ///
         /// * Proton 8.0-5 (Type=PROTON, Version=20241007)
         ///
@@ -969,6 +979,8 @@ public struct UpdateApplicationOutput: Swift.Sendable {
     /// * For Windows applications
     ///
     /// * Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)
+    ///
+    /// * Proton 9.0-2 (Type=PROTON, Version=20250516)
     ///
     /// * Proton 8.0-5 (Type=PROTON, Version=20241007)
     ///
@@ -1334,9 +1346,9 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     public var status: GameLiftStreamsClientTypes.StreamGroupStatus?
     /// A short description of the reason that the stream group is in ERROR status. The possible reasons can be one of the following:
     ///
-    /// * internalError: The request can't process right now bcause of an issue with the server. Try again later. Reach out to the Amazon GameLift Streams team for more help.
+    /// * internalError: The request can't process right now because of an issue with the server. Try again later.
     ///
-    /// * noAvailableInstances: Amazon GameLift Streams does not currently have enough available On-Demand capacity to fulfill your request. Wait a few minutes and retry the request as capacity can shift frequently. You can also try to make the request using a different stream class or in another region.
+    /// * noAvailableInstances: Amazon GameLift Streams does not currently have enough available on-demand capacity to fulfill your request. Wait a few minutes and retry the request as capacity can shift frequently. You can also try to make the request using a different stream class or in another region.
     public var statusReason: GameLiftStreamsClientTypes.StreamGroupStatusReason?
     /// The target stream quality for the stream group. A stream class can be one of the following:
     ///
@@ -2031,7 +2043,7 @@ public struct StartStreamSessionInput: Swift.Sendable {
     public var applicationIdentifier: Swift.String?
     /// A unique identifier that represents a client request. The request is idempotent, which ensures that an API request completes only once. When users send a request, Amazon GameLift Streams automatically populates this field.
     public var clientToken: Swift.String?
-    /// Length of time (in seconds) that Amazon GameLift Streams should wait for a client to connect to the stream session. This time span starts when the stream session reaches ACTIVE status. If no client connects before the timeout, Amazon GameLift Streams stops the stream session with status of TERMINATED. Default value is 120.
+    /// Length of time (in seconds) that Amazon GameLift Streams should wait for a client to connect or reconnect to the stream session. This time span starts when the stream session reaches ACTIVE status. If no client connects before the timeout, Amazon GameLift Streams stops the stream session with status of TERMINATED. Default value is 120.
     public var connectionTimeoutSeconds: Swift.Int?
     /// A human-readable label for the stream session. You can update this value later.
     public var description: Swift.String?
@@ -2231,9 +2243,9 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     public var status: GameLiftStreamsClientTypes.StreamGroupStatus?
     /// A short description of the reason that the stream group is in ERROR status. The possible reasons can be one of the following:
     ///
-    /// * internalError: The request can't process right now bcause of an issue with the server. Try again later. Reach out to the Amazon GameLift Streams team for more help.
+    /// * internalError: The request can't process right now because of an issue with the server. Try again later.
     ///
-    /// * noAvailableInstances: Amazon GameLift Streams does not currently have enough available On-Demand capacity to fulfill your request. Wait a few minutes and retry the request as capacity can shift frequently. You can also try to make the request using a different stream class or in another region.
+    /// * noAvailableInstances: Amazon GameLift Streams does not currently have enough available on-demand capacity to fulfill your request. Wait a few minutes and retry the request as capacity can shift frequently. You can also try to make the request using a different stream class or in another region.
     public var statusReason: GameLiftStreamsClientTypes.StreamGroupStatusReason?
     /// The target stream quality for the stream group. A stream class can be one of the following:
     ///
@@ -2563,9 +2575,9 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     public var status: GameLiftStreamsClientTypes.StreamGroupStatus?
     /// A short description of the reason that the stream group is in ERROR status. The possible reasons can be one of the following:
     ///
-    /// * internalError: The request can't process right now bcause of an issue with the server. Try again later. Reach out to the Amazon GameLift Streams team for more help.
+    /// * internalError: The request can't process right now because of an issue with the server. Try again later.
     ///
-    /// * noAvailableInstances: Amazon GameLift Streams does not currently have enough available On-Demand capacity to fulfill your request. Wait a few minutes and retry the request as capacity can shift frequently. You can also try to make the request using a different stream class or in another region.
+    /// * noAvailableInstances: Amazon GameLift Streams does not currently have enough available on-demand capacity to fulfill your request. Wait a few minutes and retry the request as capacity can shift frequently. You can also try to make the request using a different stream class or in another region.
     public var statusReason: GameLiftStreamsClientTypes.StreamGroupStatusReason?
     /// The target stream quality for the stream group. A stream class can be one of the following:
     ///
