@@ -94,7 +94,7 @@ public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver
         let identityId = try await client.getId(
             identityPoolId: poolId,
             logins: logins,
-            region: config.cognitoPoolRegion
+            region: config.identityPoolRegion
         )
 
         // Update cache
