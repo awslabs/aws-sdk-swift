@@ -43,7 +43,7 @@ class CognitoCredentialResolverTests: XCTestCase {
         let mockClient = MockCognitoClient()
         var resolver = try CognitoAWSCredentialIdentityResolver(
             identityPoolId: "us-west-2:test-pool",
-            cognitoPoolRegion: "us-west-2",
+            identityPoolRegion: "us-west-2",
             cognitoClient: mockClient
         )
         
@@ -65,7 +65,7 @@ class CognitoCredentialResolverTests: XCTestCase {
         let mockClient = MockCognitoClient()
         var resolver = try CognitoAWSCredentialIdentityResolver(
             identityId: "us-west-2:example-id",
-            cognitoPoolRegion: "us-west-2",
+            identityPoolRegion: "us-west-2",
             cognitoClient: mockClient
         )
         
@@ -85,7 +85,7 @@ class CognitoCredentialResolverTests: XCTestCase {
     func testTC3_NeitherIdentityPoolIdNorIdentityIdProvided() {
         // TC3: Neither IdentityPoolId nor IdentityId provided results in error
         XCTAssertThrowsError(try CognitoAWSCredentialIdentityResolver(
-            cognitoPoolRegion: "us-west-2"
+            identityPoolRegion: "us-west-2"
         )) { error in
             XCTAssertTrue(error is ClientError)
         }
@@ -96,7 +96,7 @@ class CognitoCredentialResolverTests: XCTestCase {
         let mockClient = MockCognitoClient()
         var resolver = try CognitoAWSCredentialIdentityResolver(
             identityId: "us-west-2:12345678-1234-1234-1234-123456789012",
-            cognitoPoolRegion: "us-west-2",
+            identityPoolRegion: "us-west-2",
             cognitoClient: mockClient
         )
 
@@ -136,7 +136,7 @@ class CognitoCredentialResolverTests: XCTestCase {
         let mockClient = MockCognitoClient()
         var resolver = try CognitoAWSCredentialIdentityResolver(
             identityPoolId: "us-west-2:test-pool",
-            cognitoPoolRegion: "us-west-2",
+            identityPoolRegion: "us-west-2",
             cognitoClient: mockClient
         )
 
@@ -171,7 +171,7 @@ class CognitoCredentialResolverTests: XCTestCase {
         var resolver = try CognitoAWSCredentialIdentityResolver(
             identityPoolId: "us-west-2:test-pool",
             logins: ["accounts.google.com": "google-token"],
-            cognitoPoolRegion: "us-west-2",
+            identityPoolRegion: "us-west-2",
             cognitoClient: mockClient
         )
         

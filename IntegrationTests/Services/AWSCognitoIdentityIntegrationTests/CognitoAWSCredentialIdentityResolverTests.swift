@@ -89,7 +89,7 @@ class CognitoAWSCredentialIdentityResolverTests: XCTestCase {
         // Create CognitoAWSCredentialIdentityResolver
         let cognitoCredentialResolver = try CognitoAWSCredentialIdentityResolver(
             identityPoolId: identityPoolId,
-            cognitoPoolRegion: region // us-west-2
+            identityPoolRegion: region // us-west-2
         )
 
         // Configure STS client with Cognito credentials

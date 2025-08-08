@@ -27,14 +27,14 @@ public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver
         accountId: String? = nil,
         logins: [String: String]? = nil,
         customRoleArn: String? = nil,
-        cognitoPoolRegion: String? = nil
+        identityPoolRegion: String? = nil
     ) throws {
         self.config = try CognitoCredentialsConfiguration(
             identityPoolId: identityPoolId,
             identityId: identityId,
             accountId: accountId,
             customRoleArn: customRoleArn,
-            cognitoPoolRegion: cognitoPoolRegion
+            identityPoolRegion: identityPoolRegion
         )
         self.client = IdentityProvidingCognitoIdentityClient()
         self.logins = logins
@@ -70,7 +70,7 @@ public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver
         return try await client.getCredentialsForIdentity(
             identityId: identityId,
             logins: logins,
-            region: config.cognitoPoolRegion
+            region: config.identityPoolRegion
         )
     }
 
@@ -109,14 +109,14 @@ public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver
         let identityId: String?
         let accountId: String?
         let customRoleArn: String?
-        let cognitoPoolRegion: String
+        let identityPoolRegion: String
 
         init(
             identityPoolId: String?,
             identityId: String?,
             accountId: String?,
             customRoleArn: String?,
-            cognitoPoolRegion: String?
+            identityPoolRegion: String?
         ) throws {
             let fileConfig = try CRTFileBasedConfiguration()
             let resolver = ConfigurationResolver(fileConfig: fileConfig)
@@ -147,10 +147,10 @@ public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver
             )
 
             // Resolve region with fallback
-            guard let region = resolver.resolveRegion(cognitoPoolRegion) else {
+            guard let region = resolver.resolveRegion(identityPoolRegion) else {
                 throw ClientError.dataNotFound("AWS region not configured")
             }
-            self.cognitoPoolRegion = region
+            self.identityPoolRegion = region
 
             // Ensure only one of identityPoolId and identityId are provided
             try validateIdentityConfiguration()
@@ -211,11 +211,11 @@ public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver
             ).value
         }
 
-        func resolveRegion(_ cognitoPoolRegion: String?) -> String? {
+        func resolveRegion(_ identityPoolRegion: String?) -> String? {
             if let region = resolveOptional(
-                cognitoPoolRegion,
-                env: "AWS_COGNITO_POOL_REGION",
-                config: "cognito_pool_region"
+                identityPoolRegion,
+                env: "AWS_COGNITO_IDENTITY_POOL_REGION",
+                config: "cognito_identity_pool_region"
             ) {
                 return region
             }
@@ -236,7 +236,7 @@ public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver
         accountId: String? = nil,
         logins: [String: String]? = nil,
         customRoleArn: String? = nil,
-        cognitoPoolRegion: String? = nil,
+        identityPoolRegion: String? = nil,
         cognitoClient: CognitoIdentityClientProtocol
     ) throws {
         self.config = try CognitoCredentialsConfiguration(
@@ -244,7 +244,7 @@ public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver
             identityId: identityId,
             accountId: accountId,
             customRoleArn: customRoleArn,
-            cognitoPoolRegion: cognitoPoolRegion
+            identityPoolRegion: identityPoolRegion
         )
         self.client = cognitoClient
         self.logins = logins
