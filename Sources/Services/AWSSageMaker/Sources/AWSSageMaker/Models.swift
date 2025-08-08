@@ -3164,6 +3164,7 @@ extension SageMakerClientTypes {
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlP6eGb20036xlarge
         case mlP6B20048xlarge
         case mlR5d12xlarge
         case mlR5d16xlarge
@@ -3304,6 +3305,7 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlP6eGb20036xlarge,
                 .mlP6B20048xlarge,
                 .mlR5d12xlarge,
                 .mlR5d16xlarge,
@@ -3450,6 +3452,7 @@ extension SageMakerClientTypes {
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP6eGb20036xlarge: return "ml.p6e-gb200.36xlarge"
             case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
             case .mlR5d16xlarge: return "ml.r5d.16xlarge"
@@ -3518,12 +3521,53 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// Specifies how instances should be placed on a specific UltraServer.
+    public struct PlacementSpecification: Swift.Sendable {
+        /// The number of ML compute instances required to be placed together on the same UltraServer. Minimum value of 1.
+        /// This member is required.
+        public var instanceCount: Swift.Int?
+        /// The unique identifier of the UltraServer where instances should be placed.
+        public var ultraServerId: Swift.String?
+
+        public init(
+            instanceCount: Swift.Int? = nil,
+            ultraServerId: Swift.String? = nil
+        ) {
+            self.instanceCount = instanceCount
+            self.ultraServerId = ultraServerId
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Configuration for how instances are placed and allocated within UltraServers. This is only applicable for UltraServer capacity.
+    public struct InstancePlacementConfig: Swift.Sendable {
+        /// If set to true, allows multiple jobs to share the same UltraServer instances. If set to false, ensures this job's instances are placed on an UltraServer exclusively, with no other jobs sharing the same UltraServer. Default is false.
+        public var enableMultipleJobs: Swift.Bool?
+        /// A list of specifications for how instances should be placed on specific UltraServers. Maximum of 10 items is supported.
+        public var placementSpecifications: [SageMakerClientTypes.PlacementSpecification]?
+
+        public init(
+            enableMultipleJobs: Swift.Bool? = nil,
+            placementSpecifications: [SageMakerClientTypes.PlacementSpecification]? = nil
+        ) {
+            self.enableMultipleJobs = enableMultipleJobs
+            self.placementSpecifications = placementSpecifications
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Describes the resources, including machine learning (ML) compute instances and ML storage volumes, to use for model training.
     public struct ResourceConfig: Swift.Sendable {
         /// The number of ML compute instances to use. For distributed training, provide a value greater than 1.
         public var instanceCount: Swift.Int?
         /// The configuration of a heterogeneous cluster in JSON format.
         public var instanceGroups: [SageMakerClientTypes.InstanceGroup]?
+        /// Configuration for how training job instances are placed and allocated within UltraServers. Only applicable for UltraServer capacity.
+        public var instancePlacementConfig: SageMakerClientTypes.InstancePlacementConfig?
         /// The ML compute instance type.
         public var instanceType: SageMakerClientTypes.TrainingInstanceType?
         /// The duration of time in seconds to retain configured resources in a warm pool for subsequent training jobs.
@@ -3543,6 +3587,7 @@ extension SageMakerClientTypes {
         public init(
             instanceCount: Swift.Int? = nil,
             instanceGroups: [SageMakerClientTypes.InstanceGroup]? = nil,
+            instancePlacementConfig: SageMakerClientTypes.InstancePlacementConfig? = nil,
             instanceType: SageMakerClientTypes.TrainingInstanceType? = nil,
             keepAlivePeriodInSeconds: Swift.Int? = nil,
             trainingPlanArn: Swift.String? = nil,
@@ -3551,6 +3596,7 @@ extension SageMakerClientTypes {
         ) {
             self.instanceCount = instanceCount
             self.instanceGroups = instanceGroups
+            self.instancePlacementConfig = instancePlacementConfig
             self.instanceType = instanceType
             self.keepAlivePeriodInSeconds = keepAlivePeriodInSeconds
             self.trainingPlanArn = trainingPlanArn
@@ -10679,13 +10725,13 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// Metadata information about a SageMaker HyperPod cluster showing information about the cluster level operations, such as creating, updating, and deleting.
+    /// Metadata information about a HyperPod cluster showing information about the cluster level operations, such as creating, updating, and deleting.
     public struct ClusterMetadata: Swift.Sendable {
-        /// A list of Amazon EKS IAM role ARNs associated with the cluster. This is created by SageMaker HyperPod on your behalf and only applies for EKS-orchestrated clusters.
+        /// A list of Amazon EKS IAM role ARNs associated with the cluster. This is created by HyperPod on your behalf and only applies for EKS orchestrated clusters.
         public var eksRoleAccessEntries: [Swift.String]?
         /// An error message describing why the cluster level operation (such as creating, updating, or deleting) failed.
         public var failureMessage: Swift.String?
-        /// The Service-Linked Role (SLR) associated with the cluster. This is created by SageMaker HyperPod on your behalf and only applies for EKS-orchestrated clusters.
+        /// The Service-Linked Role (SLR) associated with the cluster. This is created by HyperPod on your behalf and only applies for EKS orchestrated clusters.
         public var slrAccessEntry: Swift.String?
 
         public init(
@@ -10737,7 +10783,7 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// Metadata information about an instance group in a SageMaker HyperPod cluster.
+    /// Metadata information about an instance group in a HyperPod cluster.
     public struct InstanceGroupMetadata: Swift.Sendable {
         /// If you use a custom Amazon Machine Image (AMI) for the instance group, this field shows the ID of the custom AMI.
         public var amiOverride: Swift.String?
@@ -10860,10 +10906,10 @@ extension SageMakerClientTypes {
 
     /// Detailed information about a specific event in a HyperPod cluster.
     public struct ClusterEventDetail: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster associated with the event.
+        /// The Amazon Resource Name (ARN) of the HyperPod cluster associated with the event.
         /// This member is required.
         public var clusterArn: Swift.String?
-        /// The name of the SageMaker HyperPod cluster associated with the event.
+        /// The name of the HyperPod cluster associated with the event.
         /// This member is required.
         public var clusterName: Swift.String?
         /// A human-readable description of the event.
@@ -10880,7 +10926,7 @@ extension SageMakerClientTypes {
         public var instanceGroupName: Swift.String?
         /// The EC2 instance ID associated with the event, if applicable.
         public var instanceId: Swift.String?
-        /// The type of resource associated with the event. Valid values are "Cluster", "InstanceGroup", or "Instance".
+        /// The type of resource associated with the event. Valid values are Cluster, InstanceGroup, or Instance.
         /// This member is required.
         public var resourceType: SageMakerClientTypes.ClusterEventResourceType?
 
@@ -10910,12 +10956,12 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// A summary of an event in a SageMaker HyperPod cluster.
+    /// A summary of an event in a HyperPod cluster.
     public struct ClusterEventSummary: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster associated with the event.
+        /// The Amazon Resource Name (ARN) of the HyperPod cluster associated with the event.
         /// This member is required.
         public var clusterArn: Swift.String?
-        /// The name of the SageMaker HyperPod cluster associated with the event.
+        /// The name of the HyperPod cluster associated with the event.
         /// This member is required.
         public var clusterName: Swift.String?
         /// A brief, human-readable description of the event.
@@ -10928,9 +10974,9 @@ extension SageMakerClientTypes {
         public var eventTime: Foundation.Date?
         /// The name of the instance group associated with the event, if applicable.
         public var instanceGroupName: Swift.String?
-        /// The EC2 instance ID associated with the event, if applicable.
+        /// The Amazon Elastic Compute Cloud (EC2) instance ID associated with the event, if applicable.
         public var instanceId: Swift.String?
-        /// The type of resource associated with the event. Valid values are "Cluster", "InstanceGroup", or "Instance".
+        /// The type of resource associated with the event. Valid values are Cluster, InstanceGroup, or Instance.
         /// This member is required.
         public var resourceType: SageMakerClientTypes.ClusterEventResourceType?
 
@@ -11705,6 +11751,21 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// Contains information about the UltraServer object.
+    public struct UltraServerInfo: Swift.Sendable {
+        /// The unique identifier of the UltraServer.
+        public var id: Swift.String?
+
+        public init(
+            id: Swift.String? = nil
+        ) {
+            self.id = id
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Details of an instance (also called a node interchangeably) in a SageMaker HyperPod cluster.
     public struct ClusterNodeDetails: Swift.Sendable {
         /// The ID of the Amazon Machine Image (AMI) currently in use by the node.
@@ -11741,6 +11802,8 @@ extension SageMakerClientTypes {
         public var privatePrimaryIpv6: Swift.String?
         /// The number of threads per CPU core you specified under CreateCluster.
         public var threadsPerCore: Swift.Int?
+        /// Contains information about the UltraServer.
+        public var ultraServerInfo: SageMakerClientTypes.UltraServerInfo?
 
         public init(
             currentImageId: Swift.String? = nil,
@@ -11759,7 +11822,8 @@ extension SageMakerClientTypes {
             privateDnsHostname: Swift.String? = nil,
             privatePrimaryIp: Swift.String? = nil,
             privatePrimaryIpv6: Swift.String? = nil,
-            threadsPerCore: Swift.Int? = nil
+            threadsPerCore: Swift.Int? = nil,
+            ultraServerInfo: SageMakerClientTypes.UltraServerInfo? = nil
         ) {
             self.currentImageId = currentImageId
             self.desiredImageId = desiredImageId
@@ -11778,6 +11842,7 @@ extension SageMakerClientTypes {
             self.privatePrimaryIp = privatePrimaryIp
             self.privatePrimaryIpv6 = privatePrimaryIpv6
             self.threadsPerCore = threadsPerCore
+            self.ultraServerInfo = ultraServerInfo
         }
     }
 }
@@ -11860,6 +11925,8 @@ extension SageMakerClientTypes {
         public var launchTime: Foundation.Date?
         /// A unique identifier for the node that persists throughout its lifecycle, from provisioning request to termination. This identifier can be used to track the node even before it has an assigned InstanceId. This field is only included when IncludeNodeLogicalIds is set to True in the ListClusterNodes request.
         public var nodeLogicalId: Swift.String?
+        /// Contains information about the UltraServer.
+        public var ultraServerInfo: SageMakerClientTypes.UltraServerInfo?
 
         public init(
             instanceGroupName: Swift.String? = nil,
@@ -11868,7 +11935,8 @@ extension SageMakerClientTypes {
             instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
             lastSoftwareUpdateTime: Foundation.Date? = nil,
             launchTime: Foundation.Date? = nil,
-            nodeLogicalId: Swift.String? = nil
+            nodeLogicalId: Swift.String? = nil,
+            ultraServerInfo: SageMakerClientTypes.UltraServerInfo? = nil
         ) {
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
@@ -11877,6 +11945,7 @@ extension SageMakerClientTypes {
             self.lastSoftwareUpdateTime = lastSoftwareUpdateTime
             self.launchTime = launchTime
             self.nodeLogicalId = nodeLogicalId
+            self.ultraServerInfo = ultraServerInfo
         }
     }
 }
@@ -14376,7 +14445,7 @@ public struct CreateClusterInput: Swift.Sendable {
     public var nodeProvisioningMode: SageMakerClientTypes.ClusterNodeProvisioningMode?
     /// The node recovery mode for the SageMaker HyperPod cluster. When set to Automatic, SageMaker HyperPod will automatically reboot or replace faulty nodes when issues are detected. When set to None, cluster administrators will need to manually manage any faulty cluster instances.
     public var nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery?
-    /// The type of orchestrator to use for the SageMaker HyperPod cluster. Currently, the only supported value is "eks", which is to use an Amazon Elastic Kubernetes Service (EKS) cluster as the orchestrator.
+    /// The type of orchestrator to use for the SageMaker HyperPod cluster. Currently, the only supported value is "eks", which is to use an Amazon Elastic Kubernetes Service cluster as the orchestrator.
     public var orchestrator: SageMakerClientTypes.ClusterOrchestrator?
     /// The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
     public var restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]?
@@ -26758,6 +26827,8 @@ public struct CreateTrainingJobOutput: Swift.Sendable {
 }
 
 public struct CreateTrainingPlanInput: Swift.Sendable {
+    /// Number of spare instances to reserve per UltraServer for enhanced resiliency. Default is 1.
+    public var spareInstanceCountPerUltraServer: Swift.Int?
     /// An array of key-value pairs to apply to this training plan.
     public var tags: [SageMakerClientTypes.Tag]?
     /// The name of the training plan to create.
@@ -26768,10 +26839,12 @@ public struct CreateTrainingPlanInput: Swift.Sendable {
     public var trainingPlanOfferingId: Swift.String?
 
     public init(
+        spareInstanceCountPerUltraServer: Swift.Int? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         trainingPlanName: Swift.String? = nil,
         trainingPlanOfferingId: Swift.String? = nil
     ) {
+        self.spareInstanceCountPerUltraServer = spareInstanceCountPerUltraServer
         self.tags = tags
         self.trainingPlanName = trainingPlanName
         self.trainingPlanOfferingId = trainingPlanOfferingId
@@ -36395,6 +36468,230 @@ public struct DescribeProjectOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeReservedCapacityInput: Swift.Sendable {
+    /// ARN of the reserved capacity to describe.
+    /// This member is required.
+    public var reservedCapacityArn: Swift.String?
+
+    public init(
+        reservedCapacityArn: Swift.String? = nil
+    ) {
+        self.reservedCapacityArn = reservedCapacityArn
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ReservedCapacityInstanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mlP4de24xlarge
+        case mlP4d24xlarge
+        case mlP5en48xlarge
+        case mlP5e48xlarge
+        case mlP548xlarge
+        case mlP6eGb20036xlarge
+        case mlP6B20048xlarge
+        case mlTrn132xlarge
+        case mlTrn248xlarge
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReservedCapacityInstanceType] {
+            return [
+                .mlP4de24xlarge,
+                .mlP4d24xlarge,
+                .mlP5en48xlarge,
+                .mlP5e48xlarge,
+                .mlP548xlarge,
+                .mlP6eGb20036xlarge,
+                .mlP6B20048xlarge,
+                .mlTrn132xlarge,
+                .mlTrn248xlarge
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mlP4de24xlarge: return "ml.p4de.24xlarge"
+            case .mlP4d24xlarge: return "ml.p4d.24xlarge"
+            case .mlP5en48xlarge: return "ml.p5en.48xlarge"
+            case .mlP5e48xlarge: return "ml.p5e.48xlarge"
+            case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP6eGb20036xlarge: return "ml.p6e-gb200.36xlarge"
+            case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
+            case .mlTrn132xlarge: return "ml.trn1.32xlarge"
+            case .mlTrn248xlarge: return "ml.trn2.48xlarge"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ReservedCapacityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case instance
+        case ultraserver
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReservedCapacityType] {
+            return [
+                .instance,
+                .ultraserver
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .instance: return "Instance"
+            case .ultraserver: return "UltraServer"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ReservedCapacityStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case expired
+        case failed
+        case pending
+        case scheduled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReservedCapacityStatus] {
+            return [
+                .active,
+                .expired,
+                .failed,
+                .pending,
+                .scheduled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "Active"
+            case .expired: return "Expired"
+            case .failed: return "Failed"
+            case .pending: return "Pending"
+            case .scheduled: return "Scheduled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// A summary of UltraServer resources and their current status.
+    public struct UltraServerSummary: Swift.Sendable {
+        /// The number of available spare instances in the UltraServers.
+        public var availableSpareInstanceCount: Swift.Int?
+        /// The Amazon EC2 instance type used in the UltraServer.
+        /// This member is required.
+        public var instanceType: SageMakerClientTypes.ReservedCapacityInstanceType?
+        /// The number of UltraServers of this type.
+        public var ultraServerCount: Swift.Int?
+        /// The type of UltraServer, such as ml.u-p6e-gb200x72.
+        /// This member is required.
+        public var ultraServerType: Swift.String?
+        /// The total number of instances across all UltraServers of this type that are currently in an unhealthy state.
+        public var unhealthyInstanceCount: Swift.Int?
+
+        public init(
+            availableSpareInstanceCount: Swift.Int? = nil,
+            instanceType: SageMakerClientTypes.ReservedCapacityInstanceType? = nil,
+            ultraServerCount: Swift.Int? = nil,
+            ultraServerType: Swift.String? = nil,
+            unhealthyInstanceCount: Swift.Int? = nil
+        ) {
+            self.availableSpareInstanceCount = availableSpareInstanceCount
+            self.instanceType = instanceType
+            self.ultraServerCount = ultraServerCount
+            self.ultraServerType = ultraServerType
+            self.unhealthyInstanceCount = unhealthyInstanceCount
+        }
+    }
+}
+
+public struct DescribeReservedCapacityOutput: Swift.Sendable {
+    /// The Availability Zone where the reserved capacity is provisioned.
+    public var availabilityZone: Swift.String?
+    /// The number of instances currently available for use in this reserved capacity.
+    public var availableInstanceCount: Swift.Int?
+    /// The total duration of the reserved capacity in hours.
+    public var durationHours: Swift.Int?
+    /// The number of minutes for the duration of the reserved capacity. For example, if a reserved capacity starts at 08:55 and ends at 11:30, the minutes field would be 35.
+    public var durationMinutes: Swift.Int?
+    /// The timestamp when the reserved capacity expires.
+    public var endTime: Foundation.Date?
+    /// The number of instances currently in use from this reserved capacity.
+    public var inUseInstanceCount: Swift.Int?
+    /// The Amazon EC2 instance type used in the reserved capacity.
+    /// This member is required.
+    public var instanceType: SageMakerClientTypes.ReservedCapacityInstanceType?
+    /// ARN of the reserved capacity.
+    /// This member is required.
+    public var reservedCapacityArn: Swift.String?
+    /// The type of reserved capacity.
+    public var reservedCapacityType: SageMakerClientTypes.ReservedCapacityType?
+    /// The timestamp when the reserved capacity becomes active.
+    public var startTime: Foundation.Date?
+    /// The current status of the reserved capacity.
+    public var status: SageMakerClientTypes.ReservedCapacityStatus?
+    /// The total number of instances allocated to this reserved capacity.
+    /// This member is required.
+    public var totalInstanceCount: Swift.Int?
+    /// A summary of the UltraServer associated with this reserved capacity.
+    public var ultraServerSummary: SageMakerClientTypes.UltraServerSummary?
+
+    public init(
+        availabilityZone: Swift.String? = nil,
+        availableInstanceCount: Swift.Int? = nil,
+        durationHours: Swift.Int? = nil,
+        durationMinutes: Swift.Int? = nil,
+        endTime: Foundation.Date? = nil,
+        inUseInstanceCount: Swift.Int? = nil,
+        instanceType: SageMakerClientTypes.ReservedCapacityInstanceType? = nil,
+        reservedCapacityArn: Swift.String? = nil,
+        reservedCapacityType: SageMakerClientTypes.ReservedCapacityType? = nil,
+        startTime: Foundation.Date? = nil,
+        status: SageMakerClientTypes.ReservedCapacityStatus? = nil,
+        totalInstanceCount: Swift.Int? = nil,
+        ultraServerSummary: SageMakerClientTypes.UltraServerSummary? = nil
+    ) {
+        self.availabilityZone = availabilityZone
+        self.availableInstanceCount = availableInstanceCount
+        self.durationHours = durationHours
+        self.durationMinutes = durationMinutes
+        self.endTime = endTime
+        self.inUseInstanceCount = inUseInstanceCount
+        self.instanceType = instanceType
+        self.reservedCapacityArn = reservedCapacityArn
+        self.reservedCapacityType = reservedCapacityType
+        self.startTime = startTime
+        self.status = status
+        self.totalInstanceCount = totalInstanceCount
+        self.ultraServerSummary = ultraServerSummary
+    }
+}
+
 public struct DescribeSpaceInput: Swift.Sendable {
     /// The ID of the associated domain.
     /// This member is required.
@@ -37212,91 +37509,6 @@ public struct DescribeTrainingPlanInput: Swift.Sendable {
 
 extension SageMakerClientTypes {
 
-    public enum ReservedCapacityInstanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case mlP4de24xlarge
-        case mlP4d24xlarge
-        case mlP5en48xlarge
-        case mlP5e48xlarge
-        case mlP548xlarge
-        case mlP6B20048xlarge
-        case mlTrn132xlarge
-        case mlTrn248xlarge
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ReservedCapacityInstanceType] {
-            return [
-                .mlP4de24xlarge,
-                .mlP4d24xlarge,
-                .mlP5en48xlarge,
-                .mlP5e48xlarge,
-                .mlP548xlarge,
-                .mlP6B20048xlarge,
-                .mlTrn132xlarge,
-                .mlTrn248xlarge
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .mlP4de24xlarge: return "ml.p4de.24xlarge"
-            case .mlP4d24xlarge: return "ml.p4d.24xlarge"
-            case .mlP5en48xlarge: return "ml.p5en.48xlarge"
-            case .mlP5e48xlarge: return "ml.p5e.48xlarge"
-            case .mlP548xlarge: return "ml.p5.48xlarge"
-            case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
-            case .mlTrn132xlarge: return "ml.trn1.32xlarge"
-            case .mlTrn248xlarge: return "ml.trn2.48xlarge"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension SageMakerClientTypes {
-
-    public enum ReservedCapacityStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case active
-        case expired
-        case failed
-        case pending
-        case scheduled
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ReservedCapacityStatus] {
-            return [
-                .active,
-                .expired,
-                .failed,
-                .pending,
-                .scheduled
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .active: return "Active"
-            case .expired: return "Expired"
-            case .failed: return "Failed"
-            case .pending: return "Pending"
-            case .scheduled: return "Scheduled"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension SageMakerClientTypes {
-
     /// Details of a reserved capacity for the training plan. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
     public struct ReservedCapacitySummary: Swift.Sendable {
         /// The availability zone for the reserved capacity.
@@ -37313,6 +37525,8 @@ extension SageMakerClientTypes {
         /// The Amazon Resource Name (ARN); of the reserved capacity.
         /// This member is required.
         public var reservedCapacityArn: Swift.String?
+        /// The type of reserved capacity.
+        public var reservedCapacityType: SageMakerClientTypes.ReservedCapacityType?
         /// The start time of the reserved capacity.
         public var startTime: Foundation.Date?
         /// The current status of the reserved capacity.
@@ -37321,6 +37535,10 @@ extension SageMakerClientTypes {
         /// The total number of instances in the reserved capacity.
         /// This member is required.
         public var totalInstanceCount: Swift.Int?
+        /// The number of UltraServers included in this reserved capacity.
+        public var ultraServerCount: Swift.Int?
+        /// The type of UltraServer included in this reserved capacity, such as ml.u-p6e-gb200x72.
+        public var ultraServerType: Swift.String?
 
         public init(
             availabilityZone: Swift.String? = nil,
@@ -37329,9 +37547,12 @@ extension SageMakerClientTypes {
             endTime: Foundation.Date? = nil,
             instanceType: SageMakerClientTypes.ReservedCapacityInstanceType? = nil,
             reservedCapacityArn: Swift.String? = nil,
+            reservedCapacityType: SageMakerClientTypes.ReservedCapacityType? = nil,
             startTime: Foundation.Date? = nil,
             status: SageMakerClientTypes.ReservedCapacityStatus? = nil,
-            totalInstanceCount: Swift.Int? = nil
+            totalInstanceCount: Swift.Int? = nil,
+            ultraServerCount: Swift.Int? = nil,
+            ultraServerType: Swift.String? = nil
         ) {
             self.availabilityZone = availabilityZone
             self.durationHours = durationHours
@@ -37339,9 +37560,12 @@ extension SageMakerClientTypes {
             self.endTime = endTime
             self.instanceType = instanceType
             self.reservedCapacityArn = reservedCapacityArn
+            self.reservedCapacityType = reservedCapacityType
             self.startTime = startTime
             self.status = status
             self.totalInstanceCount = totalInstanceCount
+            self.ultraServerCount = ultraServerCount
+            self.ultraServerType = ultraServerType
         }
     }
 }
@@ -37416,6 +37640,8 @@ extension SageMakerClientTypes {
 public struct DescribeTrainingPlanOutput: Swift.Sendable {
     /// The number of instances currently available for use in this training plan.
     public var availableInstanceCount: Swift.Int?
+    /// The number of available spare instances in the training plan.
+    public var availableSpareInstanceCount: Swift.Int?
     /// The currency code for the upfront fee (e.g., USD).
     public var currencyCode: Swift.String?
     /// The number of whole hours in the total duration for this training plan.
@@ -37443,17 +37669,22 @@ public struct DescribeTrainingPlanOutput: Swift.Sendable {
     public var targetResources: [SageMakerClientTypes.SageMakerResourceName]?
     /// The total number of instances reserved in this training plan.
     public var totalInstanceCount: Swift.Int?
+    /// The total number of UltraServers reserved to this training plan.
+    public var totalUltraServerCount: Swift.Int?
     /// The Amazon Resource Name (ARN); of the training plan.
     /// This member is required.
     public var trainingPlanArn: Swift.String?
     /// The name of the training plan.
     /// This member is required.
     public var trainingPlanName: Swift.String?
+    /// The number of instances in the training plan that are currently in an unhealthy state.
+    public var unhealthyInstanceCount: Swift.Int?
     /// The upfront fee for the training plan.
     public var upfrontFee: Swift.String?
 
     public init(
         availableInstanceCount: Swift.Int? = nil,
+        availableSpareInstanceCount: Swift.Int? = nil,
         currencyCode: Swift.String? = nil,
         durationHours: Swift.Int? = nil,
         durationMinutes: Swift.Int? = nil,
@@ -37465,11 +37696,14 @@ public struct DescribeTrainingPlanOutput: Swift.Sendable {
         statusMessage: Swift.String? = nil,
         targetResources: [SageMakerClientTypes.SageMakerResourceName]? = nil,
         totalInstanceCount: Swift.Int? = nil,
+        totalUltraServerCount: Swift.Int? = nil,
         trainingPlanArn: Swift.String? = nil,
         trainingPlanName: Swift.String? = nil,
+        unhealthyInstanceCount: Swift.Int? = nil,
         upfrontFee: Swift.String? = nil
     ) {
         self.availableInstanceCount = availableInstanceCount
+        self.availableSpareInstanceCount = availableSpareInstanceCount
         self.currencyCode = currencyCode
         self.durationHours = durationHours
         self.durationMinutes = durationMinutes
@@ -37481,8 +37715,10 @@ public struct DescribeTrainingPlanOutput: Swift.Sendable {
         self.statusMessage = statusMessage
         self.targetResources = targetResources
         self.totalInstanceCount = totalInstanceCount
+        self.totalUltraServerCount = totalUltraServerCount
         self.trainingPlanArn = trainingPlanArn
         self.trainingPlanName = trainingPlanName
+        self.unhealthyInstanceCount = unhealthyInstanceCount
         self.upfrontFee = upfrontFee
     }
 }
@@ -48893,6 +49129,8 @@ extension SageMakerClientTypes {
         public var targetResources: [SageMakerClientTypes.SageMakerResourceName]?
         /// The total number of instances reserved in this training plan.
         public var totalInstanceCount: Swift.Int?
+        /// The total number of UltraServers allocated to this training plan.
+        public var totalUltraServerCount: Swift.Int?
         /// The Amazon Resource Name (ARN); of the training plan.
         /// This member is required.
         public var trainingPlanArn: Swift.String?
@@ -48915,6 +49153,7 @@ extension SageMakerClientTypes {
             statusMessage: Swift.String? = nil,
             targetResources: [SageMakerClientTypes.SageMakerResourceName]? = nil,
             totalInstanceCount: Swift.Int? = nil,
+            totalUltraServerCount: Swift.Int? = nil,
             trainingPlanArn: Swift.String? = nil,
             trainingPlanName: Swift.String? = nil,
             upfrontFee: Swift.String? = nil
@@ -48931,6 +49170,7 @@ extension SageMakerClientTypes {
             self.statusMessage = statusMessage
             self.targetResources = targetResources
             self.totalInstanceCount = totalInstanceCount
+            self.totalUltraServerCount = totalUltraServerCount
             self.trainingPlanArn = trainingPlanArn
             self.trainingPlanName = trainingPlanName
             self.upfrontFee = upfrontFee
@@ -49323,6 +49563,134 @@ public struct ListTrialsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.trialSummaries = trialSummaries
+    }
+}
+
+public struct ListUltraServersByReservedCapacityInput: Swift.Sendable {
+    /// The maximum number of UltraServers to return in the response. The default value is 10.
+    public var maxResults: Swift.Int?
+    /// If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
+    public var nextToken: Swift.String?
+    /// The ARN of the reserved capacity to list UltraServers for.
+    /// This member is required.
+    public var reservedCapacityArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        reservedCapacityArn: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.reservedCapacityArn = reservedCapacityArn
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum UltraServerHealthStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case impaired
+        case insufficientData
+        case ok
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UltraServerHealthStatus] {
+            return [
+                .impaired,
+                .insufficientData,
+                .ok
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .impaired: return "Impaired"
+            case .insufficientData: return "Insufficient-Data"
+            case .ok: return "OK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Represents a high-performance compute server used for distributed training in SageMaker AI. An UltraServer consists of multiple instances within a shared NVLink interconnect domain.
+    public struct UltraServer: Swift.Sendable {
+        /// The name of the Availability Zone where the UltraServer is provisioned.
+        /// This member is required.
+        public var availabilityZone: Swift.String?
+        /// The number of instances currently available for use in this UltraServer.
+        public var availableInstanceCount: Swift.Int?
+        /// The number of available spare instances in the UltraServer.
+        public var availableSpareInstanceCount: Swift.Int?
+        /// The number of spare instances configured for this UltraServer to provide enhanced resiliency.
+        public var configuredSpareInstanceCount: Swift.Int?
+        /// The overall health status of the UltraServer.
+        public var healthStatus: SageMakerClientTypes.UltraServerHealthStatus?
+        /// The number of instances currently in use in this UltraServer.
+        public var inUseInstanceCount: Swift.Int?
+        /// The Amazon EC2 instance type used in the UltraServer.
+        /// This member is required.
+        public var instanceType: SageMakerClientTypes.ReservedCapacityInstanceType?
+        /// The total number of instances in this UltraServer.
+        /// This member is required.
+        public var totalInstanceCount: Swift.Int?
+        /// The unique identifier for the UltraServer.
+        /// This member is required.
+        public var ultraServerId: Swift.String?
+        /// The type of UltraServer, such as ml.u-p6e-gb200x72.
+        /// This member is required.
+        public var ultraServerType: Swift.String?
+        /// The number of instances in this UltraServer that are currently in an unhealthy state.
+        public var unhealthyInstanceCount: Swift.Int?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            availableInstanceCount: Swift.Int? = nil,
+            availableSpareInstanceCount: Swift.Int? = nil,
+            configuredSpareInstanceCount: Swift.Int? = nil,
+            healthStatus: SageMakerClientTypes.UltraServerHealthStatus? = nil,
+            inUseInstanceCount: Swift.Int? = nil,
+            instanceType: SageMakerClientTypes.ReservedCapacityInstanceType? = nil,
+            totalInstanceCount: Swift.Int? = nil,
+            ultraServerId: Swift.String? = nil,
+            ultraServerType: Swift.String? = nil,
+            unhealthyInstanceCount: Swift.Int? = nil
+        ) {
+            self.availabilityZone = availabilityZone
+            self.availableInstanceCount = availableInstanceCount
+            self.availableSpareInstanceCount = availableSpareInstanceCount
+            self.configuredSpareInstanceCount = configuredSpareInstanceCount
+            self.healthStatus = healthStatus
+            self.inUseInstanceCount = inUseInstanceCount
+            self.instanceType = instanceType
+            self.totalInstanceCount = totalInstanceCount
+            self.ultraServerId = ultraServerId
+            self.ultraServerType = ultraServerType
+            self.unhealthyInstanceCount = unhealthyInstanceCount
+        }
+    }
+}
+
+public struct ListUltraServersByReservedCapacityOutput: Swift.Sendable {
+    /// If the response is truncated, SageMaker returns this token. Use it in the next request to retrieve the next set of UltraServers.
+    public var nextToken: Swift.String?
+    /// A list of UltraServers that are part of the specified reserved capacity.
+    /// This member is required.
+    public var ultraServers: [SageMakerClientTypes.UltraServer]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        ultraServers: [SageMakerClientTypes.UltraServer]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.ultraServers = ultraServers
     }
 }
 
@@ -51020,8 +51388,14 @@ extension SageMakerClientTypes {
         /// The instance type for the reserved capacity offering.
         /// This member is required.
         public var instanceType: SageMakerClientTypes.ReservedCapacityInstanceType?
+        /// The type of reserved capacity offering.
+        public var reservedCapacityType: SageMakerClientTypes.ReservedCapacityType?
         /// The start time of the reserved capacity offering.
         public var startTime: Foundation.Date?
+        /// The number of UltraServers included in this reserved capacity offering.
+        public var ultraServerCount: Swift.Int?
+        /// The type of UltraServer included in this reserved capacity offering, such as ml.u-p6e-gb200x72.
+        public var ultraServerType: Swift.String?
 
         public init(
             availabilityZone: Swift.String? = nil,
@@ -51030,7 +51404,10 @@ extension SageMakerClientTypes {
             endTime: Foundation.Date? = nil,
             instanceCount: Swift.Int? = nil,
             instanceType: SageMakerClientTypes.ReservedCapacityInstanceType? = nil,
-            startTime: Foundation.Date? = nil
+            reservedCapacityType: SageMakerClientTypes.ReservedCapacityType? = nil,
+            startTime: Foundation.Date? = nil,
+            ultraServerCount: Swift.Int? = nil,
+            ultraServerType: Swift.String? = nil
         ) {
             self.availabilityZone = availabilityZone
             self.durationHours = durationHours
@@ -51038,7 +51415,10 @@ extension SageMakerClientTypes {
             self.endTime = endTime
             self.instanceCount = instanceCount
             self.instanceType = instanceType
+            self.reservedCapacityType = reservedCapacityType
             self.startTime = startTime
+            self.ultraServerCount = ultraServerCount
+            self.ultraServerType = ultraServerType
         }
     }
 }
@@ -51715,6 +52095,10 @@ public struct SearchTrainingPlanOfferingsInput: Swift.Sendable {
     /// * A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.
     /// This member is required.
     public var targetResources: [SageMakerClientTypes.SageMakerResourceName]?
+    /// The number of UltraServers to search for.
+    public var ultraServerCount: Swift.Int?
+    /// The type of UltraServer to search for, such as ml.u-p6e-gb200x72.
+    public var ultraServerType: Swift.String?
 
     public init(
         durationHours: Swift.Int? = nil,
@@ -51722,7 +52106,9 @@ public struct SearchTrainingPlanOfferingsInput: Swift.Sendable {
         instanceCount: Swift.Int? = nil,
         instanceType: SageMakerClientTypes.ReservedCapacityInstanceType? = nil,
         startTimeAfter: Foundation.Date? = nil,
-        targetResources: [SageMakerClientTypes.SageMakerResourceName]? = nil
+        targetResources: [SageMakerClientTypes.SageMakerResourceName]? = nil,
+        ultraServerCount: Swift.Int? = nil,
+        ultraServerType: Swift.String? = nil
     ) {
         self.durationHours = durationHours
         self.endTimeBefore = endTimeBefore
@@ -51730,6 +52116,8 @@ public struct SearchTrainingPlanOfferingsInput: Swift.Sendable {
         self.instanceType = instanceType
         self.startTimeAfter = startTimeAfter
         self.targetResources = targetResources
+        self.ultraServerCount = ultraServerCount
+        self.ultraServerType = ultraServerType
     }
 }
 
@@ -55617,6 +56005,13 @@ extension DescribeProjectInput {
     }
 }
 
+extension DescribeReservedCapacityInput {
+
+    static func urlPathProvider(_ value: DescribeReservedCapacityInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeSpaceInput {
 
     static func urlPathProvider(_ value: DescribeSpaceInput) -> Swift.String? {
@@ -56327,6 +56722,13 @@ extension ListTrialComponentsInput {
 extension ListTrialsInput {
 
     static func urlPathProvider(_ value: ListTrialsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListUltraServersByReservedCapacityInput {
+
+    static func urlPathProvider(_ value: ListUltraServersByReservedCapacityInput) -> Swift.String? {
         return "/"
     }
 }
@@ -57818,6 +58220,7 @@ extension CreateTrainingPlanInput {
 
     static func write(value: CreateTrainingPlanInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["SpareInstanceCountPerUltraServer"].write(value.spareInstanceCountPerUltraServer)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TrainingPlanName"].write(value.trainingPlanName)
         try writer["TrainingPlanOfferingId"].write(value.trainingPlanOfferingId)
@@ -58859,6 +59262,14 @@ extension DescribeProjectInput {
     static func write(value: DescribeProjectInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ProjectName"].write(value.projectName)
+    }
+}
+
+extension DescribeReservedCapacityInput {
+
+    static func write(value: DescribeReservedCapacityInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ReservedCapacityArn"].write(value.reservedCapacityArn)
     }
 }
 
@@ -60263,6 +60674,16 @@ extension ListTrialsInput {
     }
 }
 
+extension ListUltraServersByReservedCapacityInput {
+
+    static func write(value: ListUltraServersByReservedCapacityInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ReservedCapacityArn"].write(value.reservedCapacityArn)
+    }
+}
+
 extension ListUserProfilesInput {
 
     static func write(value: ListUserProfilesInput?, to writer: SmithyJSON.Writer) throws {
@@ -60379,6 +60800,8 @@ extension SearchTrainingPlanOfferingsInput {
         try writer["InstanceType"].write(value.instanceType)
         try writer["StartTimeAfter"].writeTimestamp(value.startTimeAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["TargetResources"].writeList(value.targetResources, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerClientTypes.SageMakerResourceName>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UltraServerCount"].write(value.ultraServerCount)
+        try writer["UltraServerType"].write(value.ultraServerType)
     }
 }
 
@@ -63818,6 +64241,30 @@ extension DescribeProjectOutput {
     }
 }
 
+extension DescribeReservedCapacityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeReservedCapacityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeReservedCapacityOutput()
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.availableInstanceCount = try reader["AvailableInstanceCount"].readIfPresent()
+        value.durationHours = try reader["DurationHours"].readIfPresent()
+        value.durationMinutes = try reader["DurationMinutes"].readIfPresent()
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.inUseInstanceCount = try reader["InUseInstanceCount"].readIfPresent()
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.reservedCapacityArn = try reader["ReservedCapacityArn"].readIfPresent() ?? ""
+        value.reservedCapacityType = try reader["ReservedCapacityType"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.totalInstanceCount = try reader["TotalInstanceCount"].readIfPresent() ?? 0
+        value.ultraServerSummary = try reader["UltraServerSummary"].readIfPresent(with: SageMakerClientTypes.UltraServerSummary.read(from:))
+        return value
+    }
+}
+
 extension DescribeSpaceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeSpaceOutput {
@@ -63933,6 +64380,7 @@ extension DescribeTrainingPlanOutput {
         let reader = responseReader
         var value = DescribeTrainingPlanOutput()
         value.availableInstanceCount = try reader["AvailableInstanceCount"].readIfPresent()
+        value.availableSpareInstanceCount = try reader["AvailableSpareInstanceCount"].readIfPresent()
         value.currencyCode = try reader["CurrencyCode"].readIfPresent()
         value.durationHours = try reader["DurationHours"].readIfPresent()
         value.durationMinutes = try reader["DurationMinutes"].readIfPresent()
@@ -63944,8 +64392,10 @@ extension DescribeTrainingPlanOutput {
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         value.targetResources = try reader["TargetResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.SageMakerResourceName>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.totalInstanceCount = try reader["TotalInstanceCount"].readIfPresent()
+        value.totalUltraServerCount = try reader["TotalUltraServerCount"].readIfPresent()
         value.trainingPlanArn = try reader["TrainingPlanArn"].readIfPresent() ?? ""
         value.trainingPlanName = try reader["TrainingPlanName"].readIfPresent() ?? ""
+        value.unhealthyInstanceCount = try reader["UnhealthyInstanceCount"].readIfPresent()
         value.upfrontFee = try reader["UpfrontFee"].readIfPresent()
         return value
     }
@@ -65258,6 +65708,19 @@ extension ListTrialsOutput {
         var value = ListTrialsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.trialSummaries = try reader["TrialSummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.TrialSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListUltraServersByReservedCapacityOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListUltraServersByReservedCapacityOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListUltraServersByReservedCapacityOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.ultraServers = try reader["UltraServers"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.UltraServer.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -68756,6 +69219,20 @@ enum DescribeProjectOutputError {
     }
 }
 
+enum DescribeReservedCapacityOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeSpaceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -70109,6 +70586,20 @@ enum ListTrialComponentsOutputError {
 }
 
 enum ListTrialsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListUltraServersByReservedCapacityOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -72056,6 +72547,7 @@ extension SageMakerClientTypes.ResourceConfig {
         guard let value else { return }
         try writer["InstanceCount"].write(value.instanceCount)
         try writer["InstanceGroups"].writeList(value.instanceGroups, memberWritingClosure: SageMakerClientTypes.InstanceGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InstancePlacementConfig"].write(value.instancePlacementConfig, with: SageMakerClientTypes.InstancePlacementConfig.write(value:to:))
         try writer["InstanceType"].write(value.instanceType)
         try writer["KeepAlivePeriodInSeconds"].write(value.keepAlivePeriodInSeconds)
         try writer["TrainingPlanArn"].write(value.trainingPlanArn)
@@ -72073,6 +72565,41 @@ extension SageMakerClientTypes.ResourceConfig {
         value.keepAlivePeriodInSeconds = try reader["KeepAlivePeriodInSeconds"].readIfPresent()
         value.instanceGroups = try reader["InstanceGroups"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.InstanceGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.trainingPlanArn = try reader["TrainingPlanArn"].readIfPresent()
+        value.instancePlacementConfig = try reader["InstancePlacementConfig"].readIfPresent(with: SageMakerClientTypes.InstancePlacementConfig.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.InstancePlacementConfig {
+
+    static func write(value: SageMakerClientTypes.InstancePlacementConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnableMultipleJobs"].write(value.enableMultipleJobs)
+        try writer["PlacementSpecifications"].writeList(value.placementSpecifications, memberWritingClosure: SageMakerClientTypes.PlacementSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InstancePlacementConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.InstancePlacementConfig()
+        value.enableMultipleJobs = try reader["EnableMultipleJobs"].readIfPresent()
+        value.placementSpecifications = try reader["PlacementSpecifications"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.PlacementSpecification.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.PlacementSpecification {
+
+    static func write(value: SageMakerClientTypes.PlacementSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceCount"].write(value.instanceCount)
+        try writer["UltraServerId"].write(value.ultraServerId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PlacementSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.PlacementSpecification()
+        value.ultraServerId = try reader["UltraServerId"].readIfPresent()
+        value.instanceCount = try reader["InstanceCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -73505,6 +74032,17 @@ extension SageMakerClientTypes.ClusterNodeDetails {
         value.placement = try reader["Placement"].readIfPresent(with: SageMakerClientTypes.ClusterInstancePlacement.read(from:))
         value.currentImageId = try reader["CurrentImageId"].readIfPresent()
         value.desiredImageId = try reader["DesiredImageId"].readIfPresent()
+        value.ultraServerInfo = try reader["UltraServerInfo"].readIfPresent(with: SageMakerClientTypes.UltraServerInfo.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.UltraServerInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.UltraServerInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.UltraServerInfo()
+        value.id = try reader["Id"].readIfPresent()
         return value
     }
 }
@@ -79040,6 +79578,20 @@ extension SageMakerClientTypes.CfnStackParameter {
     }
 }
 
+extension SageMakerClientTypes.UltraServerSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.UltraServerSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.UltraServerSummary()
+        value.ultraServerType = try reader["UltraServerType"].readIfPresent() ?? ""
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.ultraServerCount = try reader["UltraServerCount"].readIfPresent()
+        value.availableSpareInstanceCount = try reader["AvailableSpareInstanceCount"].readIfPresent()
+        value.unhealthyInstanceCount = try reader["UnhealthyInstanceCount"].readIfPresent()
+        return value
+    }
+}
+
 extension SageMakerClientTypes.SpaceSettings {
 
     static func write(value: SageMakerClientTypes.SpaceSettings?, to writer: SmithyJSON.Writer) throws {
@@ -79580,6 +80132,9 @@ extension SageMakerClientTypes.ReservedCapacitySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ReservedCapacitySummary()
         value.reservedCapacityArn = try reader["ReservedCapacityArn"].readIfPresent() ?? ""
+        value.reservedCapacityType = try reader["ReservedCapacityType"].readIfPresent()
+        value.ultraServerType = try reader["UltraServerType"].readIfPresent()
+        value.ultraServerCount = try reader["UltraServerCount"].readIfPresent()
         value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
         value.totalInstanceCount = try reader["TotalInstanceCount"].readIfPresent() ?? 0
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
@@ -80261,6 +80816,7 @@ extension SageMakerClientTypes.ClusterNodeSummary {
         value.launchTime = try reader["LaunchTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastSoftwareUpdateTime = try reader["LastSoftwareUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.instanceStatus = try reader["InstanceStatus"].readIfPresent(with: SageMakerClientTypes.ClusterInstanceStatusDetails.read(from:))
+        value.ultraServerInfo = try reader["UltraServerInfo"].readIfPresent(with: SageMakerClientTypes.UltraServerInfo.read(from:))
         return value
     }
 }
@@ -81533,6 +82089,7 @@ extension SageMakerClientTypes.TrainingPlanSummary {
         value.totalInstanceCount = try reader["TotalInstanceCount"].readIfPresent()
         value.availableInstanceCount = try reader["AvailableInstanceCount"].readIfPresent()
         value.inUseInstanceCount = try reader["InUseInstanceCount"].readIfPresent()
+        value.totalUltraServerCount = try reader["TotalUltraServerCount"].readIfPresent()
         value.targetResources = try reader["TargetResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SageMakerClientTypes.SageMakerResourceName>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.reservedCapacitySummaries = try reader["ReservedCapacitySummaries"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ReservedCapacitySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -81586,6 +82143,26 @@ extension SageMakerClientTypes.TrialSummary {
         value.trialSource = try reader["TrialSource"].readIfPresent(with: SageMakerClientTypes.TrialSource.read(from:))
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.UltraServer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.UltraServer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.UltraServer()
+        value.ultraServerId = try reader["UltraServerId"].readIfPresent() ?? ""
+        value.ultraServerType = try reader["UltraServerType"].readIfPresent() ?? ""
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent() ?? ""
+        value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.totalInstanceCount = try reader["TotalInstanceCount"].readIfPresent() ?? 0
+        value.configuredSpareInstanceCount = try reader["ConfiguredSpareInstanceCount"].readIfPresent()
+        value.availableInstanceCount = try reader["AvailableInstanceCount"].readIfPresent()
+        value.inUseInstanceCount = try reader["InUseInstanceCount"].readIfPresent()
+        value.availableSpareInstanceCount = try reader["AvailableSpareInstanceCount"].readIfPresent()
+        value.unhealthyInstanceCount = try reader["UnhealthyInstanceCount"].readIfPresent()
+        value.healthStatus = try reader["HealthStatus"].readIfPresent()
         return value
     }
 }
@@ -82283,6 +82860,9 @@ extension SageMakerClientTypes.ReservedCapacityOffering {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ReservedCapacityOffering {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ReservedCapacityOffering()
+        value.reservedCapacityType = try reader["ReservedCapacityType"].readIfPresent()
+        value.ultraServerType = try reader["UltraServerType"].readIfPresent()
+        value.ultraServerCount = try reader["UltraServerCount"].readIfPresent()
         value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
         value.instanceCount = try reader["InstanceCount"].readIfPresent() ?? 0
         value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KMSClient: ClientRuntime.Client {
     public static let clientName = "KMSClient"
-    public static let version = "1.5.16"
+    public static let version = "1.5.17"
     let client: ClientRuntime.SdkHttpClient
     let config: KMSClient.KMSClientConfiguration
     let serviceName = "KMS"

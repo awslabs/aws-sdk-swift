@@ -27,6 +27,11 @@ import struct SmithyHTTPAPI.Header
 import struct SmithyHTTPAPI.Headers
 
 
+public struct DeleteConnectionOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct PublishOutput: Swift.Sendable {
 
     public init() { }
@@ -42,6 +47,29 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The caller isn't authorized to make the request.
+public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ForbiddenException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -104,8 +132,8 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-/// The specified combination of HTTP verb and URI is not supported.
-public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+/// The specified resource does not exist.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// The message for the exception.
@@ -113,7 +141,7 @@ public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRu
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "MethodNotAllowedException" }
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -128,8 +156,8 @@ public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// The specified resource does not exist.
-public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+/// The rate exceeds the limit.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// The message for the exception.
@@ -137,7 +165,51 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct DeleteConnectionInput: Swift.Sendable {
+    /// Specifies whether to remove the client's session state when disconnecting. Set to TRUE to delete all session information, including subscriptions and queued messages. Set to FALSE to preserve the session state. By default, this is set to FALSE (preserves the session state).
+    public var cleanSession: Swift.Bool?
+    /// The unique identifier of the MQTT client to disconnect. The client ID can't start with a dollar sign ($).
+    /// This member is required.
+    public var clientId: Swift.String?
+    /// Controls if Amazon Web Services IoT Core publishes the client's Last Will and Testament (LWT) message upon disconnection. Set to TRUE to prevent publishing the LWT message. Set to FALSE to allow publishing. By default, this is set to FALSE (allows publishing the LWT message).
+    public var preventWillMessage: Swift.Bool?
+
+    public init(
+        cleanSession: Swift.Bool? = false,
+        clientId: Swift.String? = nil,
+        preventWillMessage: Swift.Bool? = false
+    ) {
+        self.cleanSession = cleanSession
+        self.clientId = clientId
+        self.preventWillMessage = preventWillMessage
+    }
+}
+
+/// The specified combination of HTTP verb and URI is not supported.
+public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The message for the exception.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MethodNotAllowedException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -163,30 +235,6 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ServiceUnavailableException" }
     public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The rate exceeds the limit.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// The message for the exception.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ThrottlingException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
@@ -580,6 +628,32 @@ public struct UpdateThingShadowOutput: Swift.Sendable {
     }
 }
 
+extension DeleteConnectionInput {
+
+    static func urlPathProvider(_ value: DeleteConnectionInput) -> Swift.String? {
+        guard let clientId = value.clientId else {
+            return nil
+        }
+        return "/connections/\(clientId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteConnectionInput {
+
+    static func queryItemProvider(_ value: DeleteConnectionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let preventWillMessage = value.preventWillMessage {
+            let preventWillMessageQueryItem = Smithy.URIQueryItem(name: "preventWillMessage".urlPercentEncoding(), value: Swift.String(preventWillMessage).urlPercentEncoding())
+            items.append(preventWillMessageQueryItem)
+        }
+        if let cleanSession = value.cleanSession {
+            let cleanSessionQueryItem = Smithy.URIQueryItem(name: "cleanSession".urlPercentEncoding(), value: Swift.String(cleanSession).urlPercentEncoding())
+            items.append(cleanSessionQueryItem)
+        }
+        return items
+    }
+}
+
 extension DeleteThingShadowInput {
 
     static func urlPathProvider(_ value: DeleteThingShadowInput) -> Swift.String? {
@@ -780,6 +854,13 @@ extension UpdateThingShadowInput {
     }
 }
 
+extension DeleteConnectionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConnectionOutput {
+        return DeleteConnectionOutput()
+    }
+}
+
 extension DeleteThingShadowOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteThingShadowOutput {
@@ -875,6 +956,24 @@ extension UpdateThingShadowOutput {
             value.payload = nil
         }
         return value
+    }
+}
+
+enum DeleteConnectionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalFailureException": return try InternalFailureException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -1019,6 +1118,19 @@ enum UpdateThingShadowOutputError {
     }
 }
 
+extension ForbiddenException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ForbiddenException {
+        let reader = baseError.errorBodyReader
+        var value = ForbiddenException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InternalFailureException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
@@ -1045,19 +1157,6 @@ extension InvalidRequestException {
     }
 }
 
-extension MethodNotAllowedException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MethodNotAllowedException {
-        let reader = baseError.errorBodyReader
-        var value = MethodNotAllowedException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
@@ -1071,11 +1170,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension ServiceUnavailableException {
+extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
-        var value = ServiceUnavailableException()
+        var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -1084,11 +1183,24 @@ extension ServiceUnavailableException {
     }
 }
 
-extension ThrottlingException {
+extension MethodNotAllowedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> MethodNotAllowedException {
         let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
+        var value = MethodNotAllowedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceUnavailableException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceUnavailableException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
