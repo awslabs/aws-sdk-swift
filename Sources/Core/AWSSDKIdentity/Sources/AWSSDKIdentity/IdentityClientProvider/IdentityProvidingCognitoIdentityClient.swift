@@ -6,6 +6,7 @@
 //
 
 import InternalAWSCognitoIdentity
+import Smithy
 
 protocol CognitoIdentityClientProtocol: Sendable {
     func getId(
@@ -58,6 +59,12 @@ struct IdentityProvidingCognitoIdentityClient: CognitoIdentityClientProtocol, Sw
                 "CognitoAWSCredentialIdentityResolver: Failed to get credentials from Cognito Identity"
             )
         }
+
+        var properties = Attributes()
+        properties.set(
+            key: AWSIdentityPropertyKeys.credentialFeatureIDs,
+            value: [CredentialFeatureID.CREDENTIALS_COGNITO.rawValue]
+        )
 
         return AWSCredentialIdentity(
             accessKey: accessKey,
