@@ -2808,6 +2808,37 @@ extension PaginatorSequence where OperationStackInput == ListTrialsInput, Operat
     }
 }
 extension SageMakerClient {
+    /// Paginate over `[ListUltraServersByReservedCapacityOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListUltraServersByReservedCapacityInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListUltraServersByReservedCapacityOutput`
+    public func listUltraServersByReservedCapacityPaginated(input: ListUltraServersByReservedCapacityInput) -> ClientRuntime.PaginatorSequence<ListUltraServersByReservedCapacityInput, ListUltraServersByReservedCapacityOutput> {
+        return ClientRuntime.PaginatorSequence<ListUltraServersByReservedCapacityInput, ListUltraServersByReservedCapacityOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listUltraServersByReservedCapacity(input:))
+    }
+}
+
+extension ListUltraServersByReservedCapacityInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListUltraServersByReservedCapacityInput {
+        return ListUltraServersByReservedCapacityInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            reservedCapacityArn: self.reservedCapacityArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListUltraServersByReservedCapacityInput, OperationStackOutput == ListUltraServersByReservedCapacityOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listUltraServersByReservedCapacityPaginated`
+    /// to access the nested member `[SageMakerClientTypes.UltraServer]`
+    /// - Returns: `[SageMakerClientTypes.UltraServer]`
+    public func ultraServers() async throws -> [SageMakerClientTypes.UltraServer] {
+        return try await self.asyncCompactMap { item in item.ultraServers }
+    }
+}
+extension SageMakerClient {
     /// Paginate over `[ListUserProfilesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

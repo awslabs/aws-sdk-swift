@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectClient: ClientRuntime.Client {
     public static let clientName = "ConnectClient"
-    public static let version = "1.5.15"
+    public static let version = "1.5.17"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectClient.ConnectClientConfiguration
     let serviceName = "Connect"
@@ -1097,7 +1097,7 @@ extension ConnectClient {
 
     /// Performs the `AssociateQueueQuickConnects` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Associates a set of quick connects with a queue.
+    /// Associates a set of quick connects with a queue.
     ///
     /// - Parameter AssociateQueueQuickConnectsInput : [no documentation found]
     ///
@@ -1958,7 +1958,7 @@ extension ConnectClient {
 
     /// Performs the `CreateAgentStatus` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Creates an agent status for the specified Amazon Connect instance.
+    /// Creates an agent status for the specified Amazon Connect instance.
     ///
     /// - Parameter CreateAgentStatusInput : [no documentation found]
     ///
@@ -2489,7 +2489,7 @@ extension ConnectClient {
 
     /// Performs the `CreateHoursOfOperation` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Creates hours of operation.
+    /// Creates hours of operation.
     ///
     /// - Parameter CreateHoursOfOperationInput : [no documentation found]
     ///
@@ -2562,7 +2562,7 @@ extension ConnectClient {
 
     /// Performs the `CreateHoursOfOperationOverride` operation on the `Connect` service.
     ///
-    /// Creates an hours of operation override in an Amazon Connect hours of operation resource
+    /// Creates an hours of operation override in an Amazon Connect hours of operation resource.
     ///
     /// - Parameter CreateHoursOfOperationOverrideInput : [no documentation found]
     ///
@@ -3731,7 +3731,7 @@ extension ConnectClient {
 
     /// Performs the `CreateUser` operation on the `Connect` service.
     ///
-    /// Creates a user account for the specified Amazon Connect instance. Certain [UserIdentityInfo](https://docs.aws.amazon.com/connect/latest/APIReference/API_UserIdentityInfo.html) parameters are required in some situations. For example, Email is required if you are using SAML for identity management. FirstName and LastName are required if you are using Amazon Connect or SAML for identity management. For information about how to create users using the Amazon Connect admin website, see [Add Users](https://docs.aws.amazon.com/connect/latest/adminguide/user-management.html) in the Amazon Connect Administrator Guide.
+    /// Creates a user account for the specified Amazon Connect instance. Certain [UserIdentityInfo](https://docs.aws.amazon.com/connect/latest/APIReference/API_UserIdentityInfo.html) parameters are required in some situations. For example, Email, FirstName and LastName are required if you are using Amazon Connect or SAML for identity management. For information about how to create users using the Amazon Connect admin website, see [Add Users](https://docs.aws.amazon.com/connect/latest/adminguide/user-management.html) in the Amazon Connect Administrator Guide.
     ///
     /// - Parameter CreateUserInput : [no documentation found]
     ///
@@ -3891,7 +3891,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
@@ -3965,7 +3965,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
@@ -4658,7 +4658,7 @@ extension ConnectClient {
 
     /// Performs the `DeleteHoursOfOperation` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Deletes an hours of operation.
+    /// Deletes an hours of operation.
     ///
     /// - Parameter DeleteHoursOfOperationInput : [no documentation found]
     ///
@@ -4726,7 +4726,7 @@ extension ConnectClient {
 
     /// Performs the `DeleteHoursOfOperationOverride` operation on the `Connect` service.
     ///
-    /// Deletes an hours of operation override in an Amazon Connect hours of operation resource
+    /// Deletes an hours of operation override in an Amazon Connect hours of operation resource.
     ///
     /// - Parameter DeleteHoursOfOperationOverrideInput : [no documentation found]
     ///
@@ -4941,7 +4941,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deletePredefinedAttribute(input: DeletePredefinedAttributeInput) async throws -> DeletePredefinedAttributeOutput {
@@ -5147,7 +5147,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteQueue(input: DeleteQueueInput) async throws -> DeleteQueueOutput {
@@ -5290,7 +5290,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteRoutingProfile(input: DeleteRoutingProfileInput) async throws -> DeleteRoutingProfileOutput {
@@ -5428,7 +5428,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteSecurityProfile(input: DeleteSecurityProfileInput) async throws -> DeleteSecurityProfileOutput {
@@ -5565,7 +5565,7 @@ extension ConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteTrafficDistributionGroup(input: DeleteTrafficDistributionGroupInput) async throws -> DeleteTrafficDistributionGroupOutput {
         let context = Smithy.ContextBuilder()
@@ -5774,7 +5774,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteUserHierarchyGroup(input: DeleteUserHierarchyGroupInput) async throws -> DeleteUserHierarchyGroupOutput {
@@ -5844,7 +5844,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
     public func deleteView(input: DeleteViewInput) async throws -> DeleteViewOutput {
@@ -5914,7 +5914,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
     public func deleteViewVersion(input: DeleteViewVersionInput) async throws -> DeleteViewVersionOutput {
@@ -5983,7 +5983,7 @@ extension ConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteVocabulary(input: DeleteVocabularyInput) async throws -> DeleteVocabularyOutput {
@@ -6040,7 +6040,7 @@ extension ConnectClient {
 
     /// Performs the `DescribeAgentStatus` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Describes an agent status.
+    /// Describes an agent status.
     ///
     /// - Parameter DescribeAgentStatusInput : [no documentation found]
     ///
@@ -6590,7 +6590,7 @@ extension ConnectClient {
 
     /// Performs the `DescribeHoursOfOperation` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Describes the hours of operation.
+    /// Describes the hours of operation.
     ///
     /// - Parameter DescribeHoursOfOperationInput : [no documentation found]
     ///
@@ -7133,7 +7133,7 @@ extension ConnectClient {
 
     /// Performs the `DescribeQueue` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified queue.
+    /// Describes the specified queue.
     ///
     /// - Parameter DescribeQueueInput : [no documentation found]
     ///
@@ -8442,7 +8442,7 @@ extension ConnectClient {
 
     /// Performs the `DisassociateQueueQuickConnects` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Disassociates a set of quick connects from a queue.
+    /// Disassociates a set of quick connects from a queue.
     ///
     /// - Parameter DisassociateQueueQuickConnectsInput : [no documentation found]
     ///
@@ -9000,9 +9000,105 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetContactMetrics` operation on the `Connect` service.
+    ///
+    /// Gets the real-time metrics of the specified contact. Use cases Following are common uses cases for this API:
+    ///
+    /// * You can use this API to retrieve the position of the contact in the queue.
+    ///
+    ///
+    /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+    ///
+    /// - Parameter GetContactMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `GetContactMetricsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func getContactMetrics(input: GetContactMetricsInput) async throws -> GetContactMetricsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getContactMetrics")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetContactMetricsInput, GetContactMetricsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetContactMetricsInput, GetContactMetricsOutput>(GetContactMetricsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetContactMetricsInput, GetContactMetricsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetContactMetricsInput, GetContactMetricsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetContactMetricsInput, GetContactMetricsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetContactMetricsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContactMetricsInput, GetContactMetricsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContactMetricsOutput>(GetContactMetricsOutput.httpOutput(from:), GetContactMetricsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContactMetricsInput, GetContactMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetContactMetricsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetContactMetricsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetContactMetricsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetContactMetricsInput, GetContactMetricsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetContactMetricsInput, GetContactMetricsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetContactMetricsInput, GetContactMetricsOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetContactMetrics")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetCurrentMetricData` operation on the `Connect` service.
     ///
-    /// Gets the real-time metric data from the specified Amazon Connect instance. For a description of each metric, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide.
+    /// Gets the real-time metric data from the specified Amazon Connect instance. For a description of each metric, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide. When you make a successful API request, you can expect the following metric values in the response:
+    ///
+    /// * Metric value is null: The calculation cannot be performed due to divide by zero or insufficient data
+    ///
+    /// * Metric value is a number (including 0) of defined type: The number provided is the calculation result
+    ///
+    /// * MetricResult list is empty: The request cannot find any data in the system
+    ///
+    ///
+    /// The following guidelines can help you work with the API:
+    ///
+    /// * Each dimension in the metric response must contain a value
+    ///
+    /// * Each item in MetricResult must include all requested metrics
+    ///
+    /// * If the response is slow due to large result sets, try these approaches:
+    ///
+    /// * Narrow the time range of your request
+    ///
+    /// * Add filters to reduce the amount of data returned
     ///
     /// - Parameter GetCurrentMetricDataInput : [no documentation found]
     ///
@@ -9422,7 +9518,26 @@ extension ConnectClient {
 
     /// Performs the `GetMetricDataV2` operation on the `Connect` service.
     ///
-    /// Gets metric data from the specified Amazon Connect instance. GetMetricDataV2 offers more features than [GetMetricData](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricData.html), the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals. It does not support agent queues. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide.
+    /// Gets metric data from the specified Amazon Connect instance. GetMetricDataV2 offers more features than [GetMetricData](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricData.html), the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals. It does not support agent queues. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide. When you make a successful API request, you can expect the following metric values in the response:
+    ///
+    /// * Metric value is null: The calculation cannot be performed due to divide by zero or insufficient data
+    ///
+    /// * Metric value is a number (including 0) of defined type: The number provided is the calculation result
+    ///
+    /// * MetricResult list is empty: The request cannot find any data in the system
+    ///
+    ///
+    /// The following guidelines can help you work with the API:
+    ///
+    /// * Each dimension in the metric response must contain a value
+    ///
+    /// * Each item in MetricResult must include all requested metrics
+    ///
+    /// * If the response is slow due to large result sets, try these approaches:
+    ///
+    /// * Narrow the time range of your request
+    ///
+    /// * Add filters to reduce the amount of data returned
     ///
     /// - Parameter GetMetricDataV2Input : [no documentation found]
     ///
@@ -9771,7 +9886,7 @@ extension ConnectClient {
 
     /// Performs the `ListAgentStatuses` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Lists agent statuses.
+    /// Lists agent statuses.
     ///
     /// - Parameter ListAgentStatusesInput : [no documentation found]
     ///
@@ -11709,7 +11824,7 @@ extension ConnectClient {
 
     /// Performs the `ListQueueQuickConnects` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Lists the quick connects associated with a queue.
+    /// Lists the quick connects associated with a queue.
     ///
     /// - Parameter ListQueueQuickConnectsInput : [no documentation found]
     ///
@@ -13393,7 +13508,7 @@ extension ConnectClient {
     /// - `IdempotencyException` : An entity with the same name already exists.
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func releasePhoneNumber(input: ReleasePhoneNumberInput) async throws -> ReleasePhoneNumberOutput {
@@ -16750,7 +16865,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateAgentStatus` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates agent status.
+    /// Updates agent status.
     ///
     /// - Parameter UpdateAgentStatusInput : [no documentation found]
     ///
@@ -17759,7 +17874,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateHoursOfOperation` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the hours of operation.
+    /// Updates the hours of operation.
     ///
     /// - Parameter UpdateHoursOfOperationInput : [no documentation found]
     ///
@@ -18224,7 +18339,7 @@ extension ConnectClient {
     /// - `IdempotencyException` : An entity with the same name already exists.
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updatePhoneNumber(input: UpdatePhoneNumberInput) async throws -> UpdatePhoneNumberOutput {
@@ -18299,7 +18414,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updatePhoneNumberMetadata(input: UpdatePhoneNumberMetadataInput) async throws -> UpdatePhoneNumberMetadataOutput {
@@ -18502,7 +18617,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateQueueHoursOfOperation` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the hours of operation for the specified queue.
+    /// Updates the hours of operation for the specified queue.
     ///
     /// - Parameter UpdateQueueHoursOfOperationInput : [no documentation found]
     ///
@@ -18573,7 +18688,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateQueueMaxContacts` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the maximum number of contacts allowed in a queue before it is considered full.
+    /// Updates the maximum number of contacts allowed in a queue before it is considered full.
     ///
     /// - Parameter UpdateQueueMaxContactsInput : [no documentation found]
     ///
@@ -18644,7 +18759,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateQueueName` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the name and description of a queue. At least Name or Description must be provided.
+    /// Updates the name and description of a queue. At least Name or Description must be provided.
     ///
     /// - Parameter UpdateQueueNameInput : [no documentation found]
     ///
@@ -18716,7 +18831,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateQueueOutboundCallerConfig` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue.
+    /// Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue.
     ///
     /// * If the phone number is claimed to a traffic distribution group that was created in the same Region as the Amazon Connect instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId. However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
     ///
@@ -18866,7 +18981,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateQueueStatus` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the status of the queue.
+    /// Updates the status of the queue.
     ///
     /// - Parameter UpdateQueueStatusInput : [no documentation found]
     ///
@@ -19877,7 +19992,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateUserHierarchyStructure(input: UpdateUserHierarchyStructureInput) async throws -> UpdateUserHierarchyStructureOutput {
@@ -20305,7 +20420,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
     public func updateViewContent(input: UpdateViewContentInput) async throws -> UpdateViewContentOutput {
@@ -20379,7 +20494,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
     public func updateViewMetadata(input: UpdateViewMetadataInput) async throws -> UpdateViewMetadataOutput {

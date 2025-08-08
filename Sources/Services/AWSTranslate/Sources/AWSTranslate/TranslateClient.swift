@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TranslateClient: ClientRuntime.Client {
     public static let clientName = "TranslateClient"
-    public static let version = "1.5.15"
+    public static let version = "1.5.17"
     let client: ClientRuntime.SdkHttpClient
     let config: TranslateClient.TranslateClientConfiguration
     let serviceName = "Translate"

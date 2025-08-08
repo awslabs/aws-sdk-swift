@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BCMPricingCalculatorClient: ClientRuntime.Client {
     public static let clientName = "BCMPricingCalculatorClient"
-    public static let version = "1.5.15"
+    public static let version = "1.5.17"
     let client: ClientRuntime.SdkHttpClient
     let config: BCMPricingCalculatorClient.BCMPricingCalculatorClientConfiguration
     let serviceName = "BCM Pricing Calculator"

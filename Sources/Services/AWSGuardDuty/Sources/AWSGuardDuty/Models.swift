@@ -775,17 +775,21 @@ extension GuardDutyClientTypes {
         public var domainWithSuffix: Swift.String?
         /// The network connection protocol observed in the activity that prompted GuardDuty to generate the finding.
         public var `protocol`: Swift.String?
+        /// The Amazon Web Services account ID that owns the VPC through which the DNS request was made.
+        public var vpcOwnerAccountId: Swift.String?
 
         public init(
             blocked: Swift.Bool? = nil,
             domain: Swift.String? = nil,
             domainWithSuffix: Swift.String? = nil,
-            `protocol`: Swift.String? = nil
+            `protocol`: Swift.String? = nil,
+            vpcOwnerAccountId: Swift.String? = nil
         ) {
             self.blocked = blocked
             self.domain = domain
             self.domainWithSuffix = domainWithSuffix
             self.`protocol` = `protocol`
+            self.vpcOwnerAccountId = vpcOwnerAccountId
         }
     }
 }
@@ -3047,6 +3051,8 @@ public struct CreateFilterInput: Swift.Sendable {
     /// * service.action.dnsRequestAction.domain
     ///
     /// * service.action.dnsRequestAction.domainWithSuffix
+    ///
+    /// * service.action.dnsRequestAction.vpcOwnerAccountId
     ///
     /// * service.action.networkConnectionAction.blocked
     ///
@@ -15435,6 +15441,7 @@ extension GuardDutyClientTypes.DnsRequestAction {
         value.`protocol` = try reader["protocol"].readIfPresent()
         value.blocked = try reader["blocked"].readIfPresent()
         value.domainWithSuffix = try reader["domainWithSuffix"].readIfPresent()
+        value.vpcOwnerAccountId = try reader["vpcOwnerAccountId"].readIfPresent()
         return value
     }
 }
