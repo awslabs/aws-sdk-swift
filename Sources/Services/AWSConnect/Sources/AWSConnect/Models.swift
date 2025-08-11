@@ -1463,54 +1463,6 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    public enum HierarchyGroupMatchType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case exact
-        case withChildGroups
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [HierarchyGroupMatchType] {
-            return [
-                .exact,
-                .withChildGroups
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .exact: return "EXACT"
-            case .withChildGroups: return "WITH_CHILD_GROUPS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
-    /// A leaf node condition which can be used to specify a hierarchy group condition.
-    public struct HierarchyGroupCondition: Swift.Sendable {
-        /// The type of hierarchy group match.
-        public var hierarchyGroupMatchType: ConnectClientTypes.HierarchyGroupMatchType?
-        /// The value in the hierarchy group condition.
-        public var value: Swift.String?
-
-        public init(
-            hierarchyGroupMatchType: ConnectClientTypes.HierarchyGroupMatchType? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.hierarchyGroupMatchType = hierarchyGroupMatchType
-            self.value = value
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
     /// A leaf node condition which can be used to specify a tag condition, for example, HAVE BPO = 123.
     public struct TagCondition: Swift.Sendable {
         /// The tag key in the tag condition.
@@ -1532,16 +1484,12 @@ extension ConnectClientTypes {
 
     /// A list of conditions which would be applied together with an AND condition.
     public struct CommonAttributeAndCondition: Swift.Sendable {
-        /// A leaf node condition which can be used to specify a hierarchy group condition.
-        public var hierarchyGroupCondition: ConnectClientTypes.HierarchyGroupCondition?
         /// A leaf node condition which can be used to specify a tag condition.
         public var tagConditions: [ConnectClientTypes.TagCondition]?
 
         public init(
-            hierarchyGroupCondition: ConnectClientTypes.HierarchyGroupCondition? = nil,
             tagConditions: [ConnectClientTypes.TagCondition]? = nil
         ) {
-            self.hierarchyGroupCondition = hierarchyGroupCondition
             self.tagConditions = tagConditions
         }
     }
@@ -20346,6 +20294,54 @@ public struct SearchUserHierarchyGroupsOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    public enum HierarchyGroupMatchType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exact
+        case withChildGroups
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HierarchyGroupMatchType] {
+            return [
+                .exact,
+                .withChildGroups
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exact: return "EXACT"
+            case .withChildGroups: return "WITH_CHILD_GROUPS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// A leaf node condition which can be used to specify a hierarchy group condition.
+    public struct HierarchyGroupCondition: Swift.Sendable {
+        /// The type of hierarchy group match.
+        public var hierarchyGroupMatchType: ConnectClientTypes.HierarchyGroupMatchType?
+        /// The value in the hierarchy group condition.
+        public var value: Swift.String?
+
+        public init(
+            hierarchyGroupMatchType: ConnectClientTypes.HierarchyGroupMatchType? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.hierarchyGroupMatchType = hierarchyGroupMatchType
+            self.value = value
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     public enum NumberComparisonType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case equal
         case greater
@@ -24818,8 +24814,6 @@ extension ConnectClientTypes {
     public struct UserHierarchyGroupSearchCriteria: Swift.Sendable {
         /// A list of conditions which would be applied together with an AND condition.
         public var andConditions: [ConnectClientTypes.UserHierarchyGroupSearchCriteria]?
-        /// A leaf node condition which can be used to specify a hierarchy group condition.
-        public var hierarchyGroupCondition: ConnectClientTypes.HierarchyGroupCondition?
         /// A list of conditions which would be applied together with an OR condition.
         public var orConditions: [ConnectClientTypes.UserHierarchyGroupSearchCriteria]?
         /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are name,   parentId, levelId, and resourceID.
@@ -24827,12 +24821,10 @@ extension ConnectClientTypes {
 
         public init(
             andConditions: [ConnectClientTypes.UserHierarchyGroupSearchCriteria]? = nil,
-            hierarchyGroupCondition: ConnectClientTypes.HierarchyGroupCondition? = nil,
             orConditions: [ConnectClientTypes.UserHierarchyGroupSearchCriteria]? = nil,
             stringCondition: ConnectClientTypes.StringCondition? = nil
         ) {
             self.andConditions = andConditions
-            self.hierarchyGroupCondition = hierarchyGroupCondition
             self.orConditions = orConditions
             self.stringCondition = stringCondition
         }
@@ -45013,17 +45005,7 @@ extension ConnectClientTypes.CommonAttributeAndCondition {
 
     static func write(value: ConnectClientTypes.CommonAttributeAndCondition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["HierarchyGroupCondition"].write(value.hierarchyGroupCondition, with: ConnectClientTypes.HierarchyGroupCondition.write(value:to:))
         try writer["TagConditions"].writeList(value.tagConditions, memberWritingClosure: ConnectClientTypes.TagCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ConnectClientTypes.HierarchyGroupCondition {
-
-    static func write(value: ConnectClientTypes.HierarchyGroupCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HierarchyGroupMatchType"].write(value.hierarchyGroupMatchType)
-        try writer["Value"].write(value.value)
     }
 }
 
@@ -45397,7 +45379,6 @@ extension ConnectClientTypes.UserHierarchyGroupSearchCriteria {
     static func write(value: ConnectClientTypes.UserHierarchyGroupSearchCriteria?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AndConditions"].writeList(value.andConditions, memberWritingClosure: ConnectClientTypes.UserHierarchyGroupSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["HierarchyGroupCondition"].write(value.hierarchyGroupCondition, with: ConnectClientTypes.HierarchyGroupCondition.write(value:to:))
         try writer["OrConditions"].writeList(value.orConditions, memberWritingClosure: ConnectClientTypes.UserHierarchyGroupSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["StringCondition"].write(value.stringCondition, with: ConnectClientTypes.StringCondition.write(value:to:))
     }
@@ -45420,6 +45401,15 @@ extension ConnectClientTypes.ControlPlaneUserAttributeFilter {
         try writer["HierarchyGroupCondition"].write(value.hierarchyGroupCondition, with: ConnectClientTypes.HierarchyGroupCondition.write(value:to:))
         try writer["OrConditions"].writeList(value.orConditions, memberWritingClosure: ConnectClientTypes.AttributeAndCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TagCondition"].write(value.tagCondition, with: ConnectClientTypes.TagCondition.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.HierarchyGroupCondition {
+
+    static func write(value: ConnectClientTypes.HierarchyGroupCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HierarchyGroupMatchType"].write(value.hierarchyGroupMatchType)
+        try writer["Value"].write(value.value)
     }
 }
 
