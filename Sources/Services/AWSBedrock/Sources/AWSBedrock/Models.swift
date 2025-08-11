@@ -1675,7 +1675,7 @@ extension BedrockClientTypes {
 
     /// A mutation operation that adds a new rule to the policy definition during the build process.
     public struct AutomatedReasoningPolicyAddRuleMutation: Swift.Sendable {
-        /// Represents a formal logic rule in an Automated Reasoning policy. For example, rules can be expressed as if-then statements that define logical constraints.
+        /// The rule definition that specifies the formal logical expression and metadata for the new rule being added to the policy.
         /// This member is required.
         public var rule: BedrockClientTypes.AutomatedReasoningPolicyDefinitionRule?
 
@@ -1691,7 +1691,7 @@ extension BedrockClientTypes {
 
     /// A mutation operation that adds a new custom type to the policy definition during the build process.
     public struct AutomatedReasoningPolicyAddTypeMutation: Swift.Sendable {
-        /// Represents a custom user-defined viarble type in an Automated Reasoning policy. Types are enum-based and provide additional context beyond predefined variable types.
+        /// The type definition that specifies the name, description, and possible values for the new custom type being added to the policy.
         /// This member is required.
         public var type: BedrockClientTypes.AutomatedReasoningPolicyDefinitionType?
 
@@ -1707,7 +1707,7 @@ extension BedrockClientTypes {
 
     /// A mutation operation that adds a new variable to the policy definition during the build process.
     public struct AutomatedReasoningPolicyAddVariableMutation: Swift.Sendable {
-        /// Represents a variable in an Automated Reasoning policy. Variables represent concepts that can have values assigned during natural language translation.
+        /// The variable definition that specifies the name, type, and description for the new variable being added to the policy.
         /// This member is required.
         public var variable: BedrockClientTypes.AutomatedReasoningPolicyDefinitionVariable?
 
@@ -1781,7 +1781,7 @@ extension BedrockClientTypes {
 
     /// A mutation operation that modifies an existing rule in the policy definition during the build process.
     public struct AutomatedReasoningPolicyUpdateRuleMutation: Swift.Sendable {
-        /// Represents a formal logic rule in an Automated Reasoning policy. For example, rules can be expressed as if-then statements that define logical constraints.
+        /// The updated rule definition containing the modified formal logical expression and any changed metadata for the existing rule.
         /// This member is required.
         public var rule: BedrockClientTypes.AutomatedReasoningPolicyDefinitionRule?
 
@@ -1797,7 +1797,7 @@ extension BedrockClientTypes {
 
     /// A mutation operation that modifies an existing custom type in the policy definition during the build process.
     public struct AutomatedReasoningPolicyUpdateTypeMutation: Swift.Sendable {
-        /// Represents a custom user-defined viarble type in an Automated Reasoning policy. Types are enum-based and provide additional context beyond predefined variable types.
+        /// The updated type definition containing the modified name, description, or values for the existing custom type.
         /// This member is required.
         public var type: BedrockClientTypes.AutomatedReasoningPolicyDefinitionType?
 
@@ -1813,7 +1813,7 @@ extension BedrockClientTypes {
 
     /// A mutation operation that modifies an existing variable in the policy definition during the build process.
     public struct AutomatedReasoningPolicyUpdateVariableMutation: Swift.Sendable {
-        /// Represents a variable in an Automated Reasoning policy. Variables represent concepts that can have values assigned during natural language translation.
+        /// The updated variable definition containing the modified name, type, or description for the existing variable.
         /// This member is required.
         public var variable: BedrockClientTypes.AutomatedReasoningPolicyDefinitionVariable?
 
@@ -1929,11 +1929,11 @@ extension BedrockClientTypes {
 
     /// Represents a single element in an Automated Reasoning policy definition, such as a rule, variable, or type definition.
     public enum AutomatedReasoningPolicyDefinitionElement: Swift.Sendable {
-        /// Represents a variable in an Automated Reasoning policy. Variables represent concepts that can have values assigned during natural language translation.
+        /// A variable element within the policy definition that represents a concept used in logical expressions and rules.
         case policydefinitionvariable(BedrockClientTypes.AutomatedReasoningPolicyDefinitionVariable)
-        /// Represents a custom user-defined viarble type in an Automated Reasoning policy. Types are enum-based and provide additional context beyond predefined variable types.
+        /// A custom type element within the policy definition that defines a set of possible values for variables.
         case policydefinitiontype(BedrockClientTypes.AutomatedReasoningPolicyDefinitionType)
-        /// Represents a formal logic rule in an Automated Reasoning policy. For example, rules can be expressed as if-then statements that define logical constraints.
+        /// A rule element within the policy definition that contains a formal logical expression used for validation.
         case policydefinitionrule(BedrockClientTypes.AutomatedReasoningPolicyDefinitionRule)
         case sdkUnknown(Swift.String)
     }
@@ -2147,7 +2147,7 @@ extension BedrockClientTypes {
 
     /// Contains the various assets generated during a policy build workflow, including logs, quality reports, and the final policy definition.
     public enum AutomatedReasoningPolicyBuildResultAssets: Swift.Sendable {
-        /// Contains the formal logic rules, variables, and custom variable types that define an Automated Reasoning policy. The policy definition specifies the constraints used to validate foundation model responses for accuracy and logical consistency.
+        /// The complete policy definition generated by the build workflow, containing all rules, variables, and custom types extracted from the source documents.
         case policydefinition(BedrockClientTypes.AutomatedReasoningPolicyDefinition)
         /// A comprehensive report analyzing the quality of the generated policy, including metrics about rule coverage, potential conflicts, and unused elements.
         case qualityreport(BedrockClientTypes.AutomatedReasoningPolicyDefinitionQualityReport)
@@ -2765,7 +2765,7 @@ extension BedrockClientTypes {
         /// The Amazon Resource Name (ARN) of the Automated Reasoning policy that was tested.
         /// This member is required.
         public var policyArn: Swift.String?
-        /// Represents a test for validating an Automated Reasoning policy. tests contain sample inputs and expected outcomes to verify policy behavior.
+        /// The test case that was executed, including the input content, expected results, and configuration parameters used during validation.
         /// This member is required.
         public var testCase: BedrockClientTypes.AutomatedReasoningPolicyTestCase?
         /// Detailed findings from the test run, including any issues, violations, or unexpected behaviors discovered.
@@ -3117,7 +3117,7 @@ extension BedrockClientTypes {
 
     /// Defines the source content for a policy build workflow, which can include documents, repair instructions, or other input materials.
     public struct AutomatedReasoningPolicyBuildWorkflowSource: Swift.Sendable {
-        /// Contains the formal logic rules, variables, and custom variable types that define an Automated Reasoning policy. The policy definition specifies the constraints used to validate foundation model responses for accuracy and logical consistency.
+        /// An existing policy definition that serves as the starting point for the build workflow, typically used in policy repair or update scenarios.
         public var policyDefinition: BedrockClientTypes.AutomatedReasoningPolicyDefinition?
         /// The actual content to be processed in the build workflow, such as documents to analyze or repair instructions to apply.
         public var workflowContent: BedrockClientTypes.AutomatedReasoningPolicyWorkflowTypeContent?
@@ -15844,6 +15844,7 @@ enum CreateAutomatedReasoningPolicyVersionOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "TooManyTagsException": return try TooManyTagsException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }

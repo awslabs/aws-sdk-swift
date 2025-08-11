@@ -3213,12 +3213,14 @@ extension DeadlineClientTypes {
     public enum Ec2MarketType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case onDemand
         case spot
+        case waitAndSave
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Ec2MarketType] {
             return [
                 .onDemand,
-                .spot
+                .spot,
+                .waitAndSave
             ]
         }
 
@@ -3231,6 +3233,7 @@ extension DeadlineClientTypes {
             switch self {
             case .onDemand: return "on-demand"
             case .spot: return "spot"
+            case .waitAndSave: return "wait-and-save"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4376,6 +4379,7 @@ extension DeadlineClientTypes {
         case active
         case createFailed
         case createInProgress
+        case suspended
         case updateFailed
         case updateInProgress
         case sdkUnknown(Swift.String)
@@ -4385,6 +4389,7 @@ extension DeadlineClientTypes {
                 .active,
                 .createFailed,
                 .createInProgress,
+                .suspended,
                 .updateFailed,
                 .updateInProgress
             ]
@@ -4400,6 +4405,7 @@ extension DeadlineClientTypes {
             case .active: return "ACTIVE"
             case .createFailed: return "CREATE_FAILED"
             case .createInProgress: return "CREATE_IN_PROGRESS"
+            case .suspended: return "SUSPENDED"
             case .updateFailed: return "UPDATE_FAILED"
             case .updateInProgress: return "UPDATE_IN_PROGRESS"
             case let .sdkUnknown(s): return s
@@ -4447,6 +4453,8 @@ public struct GetFleetOutput: Swift.Sendable {
     /// The status of the fleet.
     /// This member is required.
     public var status: DeadlineClientTypes.FleetStatus?
+    /// A message that communicates a suspended status of the fleet.
+    public var statusMessage: Swift.String?
     /// The number of target workers in the fleet.
     public var targetWorkerCount: Swift.Int?
     /// The date and time the resource was updated.
@@ -4472,6 +4480,7 @@ public struct GetFleetOutput: Swift.Sendable {
         minWorkerCount: Swift.Int? = nil,
         roleArn: Swift.String? = nil,
         status: DeadlineClientTypes.FleetStatus? = nil,
+        statusMessage: Swift.String? = nil,
         targetWorkerCount: Swift.Int? = nil,
         updatedAt: Foundation.Date? = nil,
         updatedBy: Swift.String? = nil,
@@ -4491,6 +4500,7 @@ public struct GetFleetOutput: Swift.Sendable {
         self.minWorkerCount = minWorkerCount
         self.roleArn = roleArn
         self.status = status
+        self.statusMessage = statusMessage
         self.targetWorkerCount = targetWorkerCount
         self.updatedAt = updatedAt
         self.updatedBy = updatedBy
@@ -4500,7 +4510,7 @@ public struct GetFleetOutput: Swift.Sendable {
 
 extension GetFleetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetFleetOutput(autoScalingStatus: \(Swift.String(describing: autoScalingStatus)), capabilities: \(Swift.String(describing: capabilities)), configuration: \(Swift.String(describing: configuration)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), fleetId: \(Swift.String(describing: fleetId)), hostConfiguration: \(Swift.String(describing: hostConfiguration)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), targetWorkerCount: \(Swift.String(describing: targetWorkerCount)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), workerCount: \(Swift.String(describing: workerCount)), description: \"CONTENT_REDACTED\")"}
+        "GetFleetOutput(autoScalingStatus: \(Swift.String(describing: autoScalingStatus)), capabilities: \(Swift.String(describing: capabilities)), configuration: \(Swift.String(describing: configuration)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), fleetId: \(Swift.String(describing: fleetId)), hostConfiguration: \(Swift.String(describing: hostConfiguration)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), minWorkerCount: \(Swift.String(describing: minWorkerCount)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), statusMessage: \(Swift.String(describing: statusMessage)), targetWorkerCount: \(Swift.String(describing: targetWorkerCount)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), workerCount: \(Swift.String(describing: workerCount)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListFleetMembersInput: Swift.Sendable {
@@ -4650,6 +4660,8 @@ extension DeadlineClientTypes {
         /// The status of the fleet.
         /// This member is required.
         public var status: DeadlineClientTypes.FleetStatus?
+        /// A message that communicates a suspended status of the fleet.
+        public var statusMessage: Swift.String?
         /// The target number of workers in a fleet.
         public var targetWorkerCount: Swift.Int?
         /// The date and time the resource was updated.
@@ -4671,6 +4683,7 @@ extension DeadlineClientTypes {
             maxWorkerCount: Swift.Int? = nil,
             minWorkerCount: Swift.Int? = nil,
             status: DeadlineClientTypes.FleetStatus? = nil,
+            statusMessage: Swift.String? = nil,
             targetWorkerCount: Swift.Int? = nil,
             updatedAt: Foundation.Date? = nil,
             updatedBy: Swift.String? = nil,
@@ -4686,6 +4699,7 @@ extension DeadlineClientTypes {
             self.maxWorkerCount = maxWorkerCount
             self.minWorkerCount = minWorkerCount
             self.status = status
+            self.statusMessage = statusMessage
             self.targetWorkerCount = targetWorkerCount
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
@@ -14802,6 +14816,7 @@ extension GetFleetOutput {
         value.minWorkerCount = try reader["minWorkerCount"].readIfPresent() ?? 0
         value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
         value.targetWorkerCount = try reader["targetWorkerCount"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
@@ -19039,6 +19054,7 @@ extension DeadlineClientTypes.FleetSummary {
         value.farmId = try reader["farmId"].readIfPresent() ?? ""
         value.displayName = try reader["displayName"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
         value.autoScalingStatus = try reader["autoScalingStatus"].readIfPresent()
         value.targetWorkerCount = try reader["targetWorkerCount"].readIfPresent()
         value.workerCount = try reader["workerCount"].readIfPresent() ?? 0

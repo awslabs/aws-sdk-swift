@@ -28,7 +28,7 @@ import protocol ClientRuntime.ModeledError
 
 extension EvsClientTypes {
 
-    /// Amazon EVS is in public preview release and is subject to change. Stores information about a field passed inside a request that resulted in an exception.
+    /// Stores information about a field passed inside a request that resulted in an exception.
     public struct ValidationExceptionField: Swift.Sendable {
         /// A message describing why the field failed validation.
         /// This member is required.
@@ -118,7 +118,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension EvsClientTypes {
 
-    /// Amazon EVS is in public preview release and is subject to change. The connectivity configuration for the environment. Amazon EVS requires that you specify two route server peer IDs. During environment creation, the route server endpoints peer with the NSX uplink VLAN for connectivity to the NSX overlay network.
+    /// The connectivity configuration for the environment. Amazon EVS requires that you specify two route server peer IDs. During environment creation, the route server endpoints peer with the NSX uplink VLAN for connectivity to the NSX overlay network.
     public struct ConnectivityInfo: Swift.Sendable {
         /// The unique IDs for private route server peers.
         /// This member is required.
@@ -160,7 +160,7 @@ extension EvsClientTypes {
 
 extension EvsClientTypes {
 
-    /// Amazon EVS is in public preview release and is subject to change. An object that represents a host. You cannot use dedicatedHostId and placementGroupId together in the same HostInfoForCreateobject. This results in a ValidationException response.
+    /// An object that represents a host. You cannot use dedicatedHostId and placementGroupId together in the same HostInfoForCreateobject. This results in a ValidationException response.
     public struct HostInfoForCreate: Swift.Sendable {
         /// The unique ID of the Amazon EC2 Dedicated Host.
         public var dedicatedHostId: Swift.String?
@@ -194,7 +194,7 @@ extension EvsClientTypes {
 
 extension EvsClientTypes {
 
-    /// Amazon EVS is in public preview release and is subject to change. An object that represents an initial VLAN subnet for the Amazon EVS environment. Amazon EVS creates initial VLAN subnets when you first create the environment. Amazon EVS creates the following 10 VLAN subnets: host management VLAN, vMotion VLAN, vSAN VLAN, VTEP VLAN, Edge VTEP VLAN, Management VM VLAN, HCX uplink VLAN, NSX uplink VLAN, expansion VLAN 1, expansion VLAN 2. For each Amazon EVS VLAN subnet, you must specify a non-overlapping CIDR block. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24.
+    /// An object that represents an initial VLAN subnet for the Amazon EVS environment. Amazon EVS creates initial VLAN subnets when you first create the environment. Amazon EVS creates the following 10 VLAN subnets: host management VLAN, vMotion VLAN, vSAN VLAN, VTEP VLAN, Edge VTEP VLAN, Management VM VLAN, HCX uplink VLAN, NSX uplink VLAN, expansion VLAN 1, expansion VLAN 2. For each Amazon EVS VLAN subnet, you must specify a non-overlapping CIDR block. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24.
     public struct InitialVlanInfo: Swift.Sendable {
         /// The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC.
         /// This member is required.
@@ -210,7 +210,7 @@ extension EvsClientTypes {
 
 extension EvsClientTypes {
 
-    /// Amazon EVS is in public preview release and is subject to change. The initial VLAN subnets for the environment. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC.
+    /// The initial VLAN subnets for the environment. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC.
     public struct InitialVlans: Swift.Sendable {
         /// The edge VTEP VLAN subnet. This VLAN subnet manages traffic flowing between the internal network and external networks, including internet access and other site connections.
         /// This member is required.
@@ -271,7 +271,7 @@ extension EvsClientTypes {
 
 extension EvsClientTypes {
 
-    /// Amazon EVS is in public preview release and is subject to change. The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key.
+    /// The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key.
     public struct LicenseInfo: Swift.Sendable {
         /// The VCF solution key. This license unlocks VMware VCF product features, including vSphere, NSX, SDDC Manager, and vCenter Server. The VCF solution key must cover a minimum of 256 cores.
         /// This member is required.
@@ -292,7 +292,7 @@ extension EvsClientTypes {
 
 extension EvsClientTypes {
 
-    /// Amazon EVS is in public preview release and is subject to change. The security groups that allow traffic between the Amazon EVS control plane and your VPC for Amazon EVS service access. If a security group is not specified, Amazon EVS uses the default security group in your account for service access.
+    /// The security groups that allow traffic between the Amazon EVS control plane and your VPC for Amazon EVS service access. If a security group is not specified, Amazon EVS uses the default security group in your account for service access.
     public struct ServiceAccessSecurityGroups: Swift.Sendable {
         /// The security groups that allow service access.
         public var securityGroups: [Swift.String]?
@@ -307,7 +307,7 @@ extension EvsClientTypes {
 
 extension EvsClientTypes {
 
-    /// Amazon EVS is in public preview release and is subject to change. The DNS hostnames that Amazon EVS uses to install VMware vCenter Server, NSX, SDDC Manager, and Cloud Builder. Each hostname must be unique, and resolve to a domain name that you've registered in your DNS service of choice. Hostnames cannot be changed. VMware VCF requires the deployment of two NSX Edge nodes, and three NSX Manager virtual machines.
+    /// The DNS hostnames that Amazon EVS uses to install VMware vCenter Server, NSX, SDDC Manager, and Cloud Builder. Each hostname must be unique, and resolve to a domain name that you've registered in your DNS service of choice. Hostnames cannot be changed. VMware VCF requires the deployment of two NSX Edge nodes, and three NSX Manager virtual machines.
     public struct VcfHostnames: Swift.Sendable {
         /// The hostname for VMware Cloud Builder.
         /// This member is required.
@@ -542,7 +542,7 @@ extension EvsClientTypes {
 
 extension EvsClientTypes {
 
-    /// Amazon EVS is in public preview release and is subject to change. A check on the environment to identify environment health and validate VMware VCF licensing compliance.
+    /// A check on the environment to identify environment health and validate VMware VCF licensing compliance.
     public struct Check: Swift.Sendable {
         /// The time when environment health began to be impaired.
         public var impairedSince: Foundation.Date?
@@ -573,7 +573,7 @@ extension EvsClientTypes {
 
 extension EvsClientTypes {
 
-    /// Amazon EVS is in public preview release and is subject to change. A managed secret that contains the credentials for installing vCenter Server, NSX, and SDDC Manager. During environment creation, the Amazon EVS control plane uses Amazon Web Services Secrets Manager to create, encrypt, validate, and store secrets. If you choose to delete your environment, Amazon EVS also deletes the secrets that are associated with your environment. Amazon EVS does not provide managed rotation of secrets. We recommend that you rotate secrets regularly to ensure that secrets are not long-lived.
+    /// A managed secret that contains the credentials for installing vCenter Server, NSX, and SDDC Manager. During environment creation, the Amazon EVS control plane uses Amazon Web Services Secrets Manager to create, encrypt, validate, and store secrets. If you choose to delete your environment, Amazon EVS also deletes the secrets that are associated with your environment. Amazon EVS does not provide managed rotation of secrets. We recommend that you rotate secrets regularly to ensure that secrets are not long-lived.
     public struct Secret: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the secret.
         public var secretArn: Swift.String?
@@ -626,7 +626,7 @@ extension EvsClientTypes {
 
 extension EvsClientTypes {
 
-    /// Amazon EVS is in public preview release and is subject to change. An object that represents an Amazon EVS environment.
+    /// An object that represents an Amazon EVS environment.
     public struct Environment: Swift.Sendable {
         /// A check on the environment to identify instance health and VMware VCF licensing issues.
         public var checks: [EvsClientTypes.Check]?
@@ -778,7 +778,7 @@ public struct CreateEnvironmentHostInput: Swift.Sendable {
 
 extension EvsClientTypes {
 
-    /// Amazon EVS is in public preview release and is subject to change. A list of environments with summarized environment details.
+    /// A list of environments with summarized environment details.
     public struct EnvironmentSummary: Swift.Sendable {
         /// The date and time that the environment was created.
         public var createdAt: Foundation.Date?
@@ -865,7 +865,7 @@ extension EvsClientTypes {
 
 extension EvsClientTypes {
 
-    /// Amazon EVS is in public preview release and is subject to change. An elastic network interface (ENI) that connects hosts to the VLAN subnets. Amazon EVS provisions two identically configured ENIs in the VMkernel management subnet during host creation. One ENI is active, and the other is in standby mode for automatic switchover during a failure scenario.
+    /// An elastic network interface (ENI) that connects hosts to the VLAN subnets. Amazon EVS provisions two identically configured ENIs in the VMkernel management subnet during host creation. One ENI is active, and the other is in standby mode for automatic switchover during a failure scenario.
     public struct NetworkInterface: Swift.Sendable {
         /// The unique ID of the elastic network interface.
         public var networkInterfaceId: Swift.String?
@@ -880,7 +880,7 @@ extension EvsClientTypes {
 
 extension EvsClientTypes {
 
-    /// Amazon EVS is in public preview release and is subject to change. An ESXi host that runs on an Amazon EC2 bare metal instance. Four hosts are created in an Amazon EVS environment during environment creation. You can add hosts to an environment using the CreateEnvironmentHost operation. Amazon EVS supports 4-16 hosts per environment.
+    /// An ESXi host that runs on an Amazon EC2 bare metal instance. Four hosts are created in an Amazon EVS environment during environment creation. You can add hosts to an environment using the CreateEnvironmentHost operation. Amazon EVS supports 4-16 hosts per environment.
     public struct Host: Swift.Sendable {
         /// The date and time that the host was created.
         public var createdAt: Foundation.Date?
@@ -1202,7 +1202,7 @@ extension EvsClientTypes {
 
 extension EvsClientTypes {
 
-    /// Amazon EVS is in public preview release and is subject to change. The VLANs that Amazon EVS creates during environment creation.
+    /// The VLANs that Amazon EVS creates during environment creation.
     public struct Vlan: Swift.Sendable {
         /// The availability zone of the VLAN.
         public var availabilityZone: Swift.String?

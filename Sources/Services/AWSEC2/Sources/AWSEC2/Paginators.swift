@@ -3027,6 +3027,7 @@ extension DescribeSpotPriceHistoryInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeSpotPriceHistoryInput {
         return DescribeSpotPriceHistoryInput(
             availabilityZone: self.availabilityZone,
+            availabilityZoneId: self.availabilityZoneId,
             dryRun: self.dryRun,
             endTime: self.endTime,
             filters: self.filters,

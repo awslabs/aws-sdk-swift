@@ -71,7 +71,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockClient: ClientRuntime.Client {
     public static let clientName = "BedrockClient"
-    public static let version = "1.5.17"
+    public static let version = "1.5.18"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockClient.BedrockClientConfiguration
     let serviceName = "Bedrock"
@@ -683,6 +683,7 @@ extension BedrockClient {
     /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `TooManyTagsException` : The request contains more tags than can be associated with a resource (50 tags per resource). The maximum number of tags includes both existing tags and those included in your current request.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func createAutomatedReasoningPolicyVersion(input: CreateAutomatedReasoningPolicyVersionInput) async throws -> CreateAutomatedReasoningPolicyVersionOutput {
         let context = Smithy.ContextBuilder()
