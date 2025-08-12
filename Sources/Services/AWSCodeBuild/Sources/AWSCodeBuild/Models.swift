@@ -3431,6 +3431,129 @@ extension CodeBuildClientTypes {
 
 extension CodeBuildClientTypes {
 
+    public enum PullRequestBuildApproverRole: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bitbucketAdmin
+        case bitbucketRead
+        case bitbucketWrite
+        case githubAdmin
+        case githubMaintain
+        case githubRead
+        case githubTriage
+        case githubWrite
+        case gitlabDeveloper
+        case gitlabGuest
+        case gitlabMaintainer
+        case gitlabOwner
+        case gitlabPlanner
+        case gitlabReporter
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PullRequestBuildApproverRole] {
+            return [
+                .bitbucketAdmin,
+                .bitbucketRead,
+                .bitbucketWrite,
+                .githubAdmin,
+                .githubMaintain,
+                .githubRead,
+                .githubTriage,
+                .githubWrite,
+                .gitlabDeveloper,
+                .gitlabGuest,
+                .gitlabMaintainer,
+                .gitlabOwner,
+                .gitlabPlanner,
+                .gitlabReporter
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bitbucketAdmin: return "BITBUCKET_ADMIN"
+            case .bitbucketRead: return "BITBUCKET_READ"
+            case .bitbucketWrite: return "BITBUCKET_WRITE"
+            case .githubAdmin: return "GITHUB_ADMIN"
+            case .githubMaintain: return "GITHUB_MAINTAIN"
+            case .githubRead: return "GITHUB_READ"
+            case .githubTriage: return "GITHUB_TRIAGE"
+            case .githubWrite: return "GITHUB_WRITE"
+            case .gitlabDeveloper: return "GITLAB_DEVELOPER"
+            case .gitlabGuest: return "GITLAB_GUEST"
+            case .gitlabMaintainer: return "GITLAB_MAINTAINER"
+            case .gitlabOwner: return "GITLAB_OWNER"
+            case .gitlabPlanner: return "GITLAB_PLANNER"
+            case .gitlabReporter: return "GITLAB_REPORTER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+
+    public enum PullRequestBuildCommentApproval: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allPullRequests
+        case disabled
+        case forkPullRequests
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PullRequestBuildCommentApproval] {
+            return [
+                .allPullRequests,
+                .disabled,
+                .forkPullRequests
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allPullRequests: return "ALL_PULL_REQUESTS"
+            case .disabled: return "DISABLED"
+            case .forkPullRequests: return "FORK_PULL_REQUESTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+
+    /// A PullRequestBuildPolicy object that defines comment-based approval requirements for triggering builds on pull requests. This policy helps control when automated builds are executed based on contributor permissions and approval workflows.
+    public struct PullRequestBuildPolicy: Swift.Sendable {
+        /// List of repository roles that have approval privileges for pull request builds when comment approval is required. Only users with these roles can provide valid comment approvals. If a pull request contributor is one of these roles, their pull request builds will trigger automatically. This field is only applicable when requiresCommentApproval is not DISABLED.
+        public var approverRoles: [CodeBuildClientTypes.PullRequestBuildApproverRole]?
+        /// Specifies when comment-based approval is required before triggering a build on pull requests. This setting determines whether builds run automatically or require explicit approval through comments.
+        ///
+        /// * DISABLED: Builds trigger automatically without requiring comment approval
+        ///
+        /// * ALL_PULL_REQUESTS: All pull requests require comment approval before builds execute (unless contributor is one of the approver roles)
+        ///
+        /// * FORK_PULL_REQUESTS: Only pull requests from forked repositories require comment approval (unless contributor is one of the approver roles)
+        /// This member is required.
+        public var requiresCommentApproval: CodeBuildClientTypes.PullRequestBuildCommentApproval?
+
+        public init(
+            approverRoles: [CodeBuildClientTypes.PullRequestBuildApproverRole]? = nil,
+            requiresCommentApproval: CodeBuildClientTypes.PullRequestBuildCommentApproval? = nil
+        ) {
+            self.approverRoles = approverRoles
+            self.requiresCommentApproval = requiresCommentApproval
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+
     public enum WebhookScopeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case githubGlobal
         case githubOrganization
@@ -3537,6 +3660,8 @@ extension CodeBuildClientTypes {
         public var manualCreation: Swift.Bool?
         /// The CodeBuild endpoint where webhook events are sent.
         public var payloadUrl: Swift.String?
+        /// A PullRequestBuildPolicy object that defines comment-based approval requirements for triggering builds on pull requests. This policy helps control when automated builds are executed based on contributor permissions and approval workflows.
+        public var pullRequestBuildPolicy: CodeBuildClientTypes.PullRequestBuildPolicy?
         /// The scope configuration for global or organization webhooks. Global or organization webhooks are only available for GitHub and Github Enterprise webhooks.
         public var scopeConfiguration: CodeBuildClientTypes.ScopeConfiguration?
         /// The secret token of the associated repository. A Bitbucket webhook does not support secret.
@@ -3563,6 +3688,7 @@ extension CodeBuildClientTypes {
             lastModifiedSecret: Foundation.Date? = nil,
             manualCreation: Swift.Bool? = nil,
             payloadUrl: Swift.String? = nil,
+            pullRequestBuildPolicy: CodeBuildClientTypes.PullRequestBuildPolicy? = nil,
             scopeConfiguration: CodeBuildClientTypes.ScopeConfiguration? = nil,
             secret: Swift.String? = nil,
             status: CodeBuildClientTypes.WebhookStatus? = nil,
@@ -3575,6 +3701,7 @@ extension CodeBuildClientTypes {
             self.lastModifiedSecret = lastModifiedSecret
             self.manualCreation = manualCreation
             self.payloadUrl = payloadUrl
+            self.pullRequestBuildPolicy = pullRequestBuildPolicy
             self.scopeConfiguration = scopeConfiguration
             self.secret = secret
             self.status = status
@@ -4779,129 +4906,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil
     ) {
         self.properties.message = message
-    }
-}
-
-extension CodeBuildClientTypes {
-
-    public enum PullRequestBuildApproverRole: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case bitbucketAdmin
-        case bitbucketRead
-        case bitbucketWrite
-        case githubAdmin
-        case githubMaintain
-        case githubRead
-        case githubTriage
-        case githubWrite
-        case gitlabDeveloper
-        case gitlabGuest
-        case gitlabMaintainer
-        case gitlabOwner
-        case gitlabPlanner
-        case gitlabReporter
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [PullRequestBuildApproverRole] {
-            return [
-                .bitbucketAdmin,
-                .bitbucketRead,
-                .bitbucketWrite,
-                .githubAdmin,
-                .githubMaintain,
-                .githubRead,
-                .githubTriage,
-                .githubWrite,
-                .gitlabDeveloper,
-                .gitlabGuest,
-                .gitlabMaintainer,
-                .gitlabOwner,
-                .gitlabPlanner,
-                .gitlabReporter
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .bitbucketAdmin: return "BITBUCKET_ADMIN"
-            case .bitbucketRead: return "BITBUCKET_READ"
-            case .bitbucketWrite: return "BITBUCKET_WRITE"
-            case .githubAdmin: return "GITHUB_ADMIN"
-            case .githubMaintain: return "GITHUB_MAINTAIN"
-            case .githubRead: return "GITHUB_READ"
-            case .githubTriage: return "GITHUB_TRIAGE"
-            case .githubWrite: return "GITHUB_WRITE"
-            case .gitlabDeveloper: return "GITLAB_DEVELOPER"
-            case .gitlabGuest: return "GITLAB_GUEST"
-            case .gitlabMaintainer: return "GITLAB_MAINTAINER"
-            case .gitlabOwner: return "GITLAB_OWNER"
-            case .gitlabPlanner: return "GITLAB_PLANNER"
-            case .gitlabReporter: return "GITLAB_REPORTER"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension CodeBuildClientTypes {
-
-    public enum PullRequestBuildCommentApproval: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case allPullRequests
-        case disabled
-        case forkPullRequests
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [PullRequestBuildCommentApproval] {
-            return [
-                .allPullRequests,
-                .disabled,
-                .forkPullRequests
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .allPullRequests: return "ALL_PULL_REQUESTS"
-            case .disabled: return "DISABLED"
-            case .forkPullRequests: return "FORK_PULL_REQUESTS"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension CodeBuildClientTypes {
-
-    /// Configuration policy that defines comment-based approval requirements for triggering builds on pull requests. This policy helps control when automated builds are executed based on contributor permissions and approval workflows.
-    public struct PullRequestBuildPolicy: Swift.Sendable {
-        /// List of repository roles that have approval privileges for pull request builds when comment approval is required. Only users with these roles can provide valid comment approvals. If a pull request contributor is one of these roles, their pull request builds will trigger automatically. This field is only applicable when requiresCommentApproval is not DISABLED.
-        public var approverRoles: [CodeBuildClientTypes.PullRequestBuildApproverRole]?
-        /// Specifies when comment-based approval is required before triggering a build on pull requests. This setting determines whether builds run automatically or require explicit approval through comments.
-        ///
-        /// * DISABLED: Builds trigger automatically without requiring comment approval
-        ///
-        /// * ALL_PULL_REQUESTS: All pull requests require comment approval before builds execute (unless contributor is one of the approver roles)
-        ///
-        /// * FORK_PULL_REQUESTS: Only pull requests from forked repositories require comment approval (unless contributor is one of the approver roles)
-        /// This member is required.
-        public var requiresCommentApproval: CodeBuildClientTypes.PullRequestBuildCommentApproval?
-
-        public init(
-            approverRoles: [CodeBuildClientTypes.PullRequestBuildApproverRole]? = nil,
-            requiresCommentApproval: CodeBuildClientTypes.PullRequestBuildCommentApproval? = nil
-        ) {
-            self.approverRoles = approverRoles
-            self.requiresCommentApproval = requiresCommentApproval
-        }
     }
 }
 
@@ -11179,6 +11183,24 @@ extension CodeBuildClientTypes.Webhook {
         value.scopeConfiguration = try reader["scopeConfiguration"].readIfPresent(with: CodeBuildClientTypes.ScopeConfiguration.read(from:))
         value.status = try reader["status"].readIfPresent()
         value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.pullRequestBuildPolicy = try reader["pullRequestBuildPolicy"].readIfPresent(with: CodeBuildClientTypes.PullRequestBuildPolicy.read(from:))
+        return value
+    }
+}
+
+extension CodeBuildClientTypes.PullRequestBuildPolicy {
+
+    static func write(value: CodeBuildClientTypes.PullRequestBuildPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["approverRoles"].writeList(value.approverRoles, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CodeBuildClientTypes.PullRequestBuildApproverRole>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["requiresCommentApproval"].write(value.requiresCommentApproval)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.PullRequestBuildPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeBuildClientTypes.PullRequestBuildPolicy()
+        value.requiresCommentApproval = try reader["requiresCommentApproval"].readIfPresent() ?? .sdkUnknown("")
+        value.approverRoles = try reader["approverRoles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CodeBuildClientTypes.PullRequestBuildApproverRole>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11549,15 +11571,6 @@ extension CodeBuildClientTypes.ScalingConfigurationInput {
         try writer["maxCapacity"].write(value.maxCapacity)
         try writer["scalingType"].write(value.scalingType)
         try writer["targetTrackingScalingConfigs"].writeList(value.targetTrackingScalingConfigs, memberWritingClosure: CodeBuildClientTypes.TargetTrackingScalingConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension CodeBuildClientTypes.PullRequestBuildPolicy {
-
-    static func write(value: CodeBuildClientTypes.PullRequestBuildPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["approverRoles"].writeList(value.approverRoles, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CodeBuildClientTypes.PullRequestBuildApproverRole>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["requiresCommentApproval"].write(value.requiresCommentApproval)
     }
 }
 
