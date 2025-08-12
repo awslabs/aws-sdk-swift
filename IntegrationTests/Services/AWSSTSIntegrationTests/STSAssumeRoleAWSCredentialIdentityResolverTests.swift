@@ -79,6 +79,7 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
 
     // Right now opentelemetry-swift doesnt support linux or visionos
     #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
+    #if AWS_SWIFT_SDK_ENABLE_OPENTELEMETRY
     // OpenTelemetry Tracing works as expected
     func testGetCallerIdentityWithOTelTracing() async throws {
         let inMemoryExporter = InMemoryExporter()
@@ -108,6 +109,7 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
             "Expected STS.GetCallerIdentity span not found"
         )
     }
+    #endif
     #endif
 
     // MARK: - Setup & teardown
