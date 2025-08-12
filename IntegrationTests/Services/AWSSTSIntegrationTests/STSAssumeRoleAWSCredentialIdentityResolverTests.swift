@@ -78,7 +78,7 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
     }
 
     // Right now opentelemetry-swift doesnt support linux or visionos
-    #if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
+    #if AWS_SWIFT_SDK_ENABLE_OPENTELEMETRY && (os(macOS) || os(iOS) || os(watchOS) || os(tvOS))
     // OpenTelemetry Tracing works as expected
     func testGetCallerIdentityWithOTelTracing() async throws {
         let inMemoryExporter = InMemoryExporter()
