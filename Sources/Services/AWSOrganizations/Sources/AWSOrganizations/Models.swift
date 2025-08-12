@@ -14,6 +14,7 @@ import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
 import enum ClientRuntime.ErrorFault
 import enum SmithyReadWrite.ReaderError
+@_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
 import protocol AWSClientRuntime.AWSServiceError
@@ -3280,6 +3281,69 @@ public struct ListAccountsForParentOutput: Swift.Sendable {
     }
 }
 
+public struct ListAccountsWithInvalidEffectivePolicyInput: Swift.Sendable {
+    /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    public var maxResults: Swift.Int?
+    /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
+    public var nextToken: Swift.String?
+    /// The type of policy that you want information about. You can specify one of the following values:
+    ///
+    /// * [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
+    ///
+    /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
+    ///
+    /// * [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
+    ///
+    /// * [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
+    ///
+    /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+    ///
+    /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    /// This member is required.
+    public var policyType: OrganizationsClientTypes.EffectivePolicyType?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        policyType: OrganizationsClientTypes.EffectivePolicyType? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.policyType = policyType
+    }
+}
+
+public struct ListAccountsWithInvalidEffectivePolicyOutput: Swift.Sendable {
+    /// The accounts in the organization which have an invalid effective policy for the specified policy type.
+    public var accounts: [OrganizationsClientTypes.Account]?
+    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
+    public var nextToken: Swift.String?
+    /// The specified policy type. One of the following values:
+    ///
+    /// * [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
+    ///
+    /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
+    ///
+    /// * [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
+    ///
+    /// * [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
+    ///
+    /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+    ///
+    /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    public var policyType: OrganizationsClientTypes.EffectivePolicyType?
+
+    public init(
+        accounts: [OrganizationsClientTypes.Account]? = nil,
+        nextToken: Swift.String? = nil,
+        policyType: OrganizationsClientTypes.EffectivePolicyType? = nil
+    ) {
+        self.accounts = accounts
+        self.nextToken = nextToken
+        self.policyType = policyType
+    }
+}
+
 public struct ListAWSServiceAccessForOrganizationInput: Swift.Sendable {
     /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
@@ -3592,6 +3656,113 @@ public struct ListDelegatedServicesForAccountOutput: Swift.Sendable {
     ) {
         self.delegatedServices = delegatedServices
         self.nextToken = nextToken
+    }
+}
+
+public struct ListEffectivePolicyValidationErrorsInput: Swift.Sendable {
+    /// The ID of the account that you want details about. Specifying an organization root or organizational unit (OU) as the target is not supported.
+    /// This member is required.
+    public var accountId: Swift.String?
+    /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Organizations might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    public var maxResults: Swift.Int?
+    /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
+    public var nextToken: Swift.String?
+    /// The type of policy that you want information about. You can specify one of the following values:
+    ///
+    /// * [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
+    ///
+    /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
+    ///
+    /// * [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
+    ///
+    /// * [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
+    ///
+    /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+    ///
+    /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    /// This member is required.
+    public var policyType: OrganizationsClientTypes.EffectivePolicyType?
+
+    public init(
+        accountId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        policyType: OrganizationsClientTypes.EffectivePolicyType? = nil
+    ) {
+        self.accountId = accountId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.policyType = policyType
+    }
+}
+
+extension OrganizationsClientTypes {
+
+    /// Contains details about the validation errors that occurred when generating or enforcing an [effective policy](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_effective.html), such as which policies contributed to the error and location of the error.
+    public struct EffectivePolicyValidationError: Swift.Sendable {
+        /// The individual policies [inherited](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_inheritance_mgmt.html) and [attached](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_policies_attach.html) to the account which contributed to the validation error.
+        public var contributingPolicies: [Swift.String]?
+        /// The error code for the validation error. For example, ELEMENTS_TOO_MANY.
+        public var errorCode: Swift.String?
+        /// The error message for the validation error.
+        public var errorMessage: Swift.String?
+        /// The path within the effective policy where the validation error occurred.
+        public var pathToError: Swift.String?
+
+        public init(
+            contributingPolicies: [Swift.String]? = nil,
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            pathToError: Swift.String? = nil
+        ) {
+            self.contributingPolicies = contributingPolicies
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.pathToError = pathToError
+        }
+    }
+}
+
+public struct ListEffectivePolicyValidationErrorsOutput: Swift.Sendable {
+    /// The ID of the specified account.
+    public var accountId: Swift.String?
+    /// The EffectivePolicyValidationError object contains details about the validation errors that occurred when generating or enforcing an effective policy, such as which policies contributed to the error and location of the error.
+    public var effectivePolicyValidationErrors: [OrganizationsClientTypes.EffectivePolicyValidationError]?
+    /// The time when the latest effective policy was generated for the specified account.
+    public var evaluationTimestamp: Foundation.Date?
+    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
+    public var nextToken: Swift.String?
+    /// The path in the organization where the specified account exists.
+    public var path: Swift.String?
+    /// The specified policy type. One of the following values:
+    ///
+    /// * [DECLARATIVE_POLICY_EC2](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html)
+    ///
+    /// * [BACKUP_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html)
+    ///
+    /// * [TAG_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html)
+    ///
+    /// * [CHATBOT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html)
+    ///
+    /// * [AISERVICES_OPT_OUT_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html)
+    ///
+    /// * [SECURITYHUB_POLICY](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_security_hub.html)
+    public var policyType: OrganizationsClientTypes.EffectivePolicyType?
+
+    public init(
+        accountId: Swift.String? = nil,
+        effectivePolicyValidationErrors: [OrganizationsClientTypes.EffectivePolicyValidationError]? = nil,
+        evaluationTimestamp: Foundation.Date? = nil,
+        nextToken: Swift.String? = nil,
+        path: Swift.String? = nil,
+        policyType: OrganizationsClientTypes.EffectivePolicyType? = nil
+    ) {
+        self.accountId = accountId
+        self.effectivePolicyValidationErrors = effectivePolicyValidationErrors
+        self.evaluationTimestamp = evaluationTimestamp
+        self.nextToken = nextToken
+        self.path = path
+        self.policyType = policyType
     }
 }
 
@@ -4782,6 +4953,13 @@ extension ListAccountsForParentInput {
     }
 }
 
+extension ListAccountsWithInvalidEffectivePolicyInput {
+
+    static func urlPathProvider(_ value: ListAccountsWithInvalidEffectivePolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListAWSServiceAccessForOrganizationInput {
 
     static func urlPathProvider(_ value: ListAWSServiceAccessForOrganizationInput) -> Swift.String? {
@@ -4813,6 +4991,13 @@ extension ListDelegatedAdministratorsInput {
 extension ListDelegatedServicesForAccountInput {
 
     static func urlPathProvider(_ value: ListDelegatedServicesForAccountInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListEffectivePolicyValidationErrorsInput {
+
+    static func urlPathProvider(_ value: ListEffectivePolicyValidationErrorsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5225,6 +5410,16 @@ extension ListAccountsForParentInput {
     }
 }
 
+extension ListAccountsWithInvalidEffectivePolicyInput {
+
+    static func write(value: ListAccountsWithInvalidEffectivePolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["PolicyType"].write(value.policyType)
+    }
+}
+
 extension ListAWSServiceAccessForOrganizationInput {
 
     static func write(value: ListAWSServiceAccessForOrganizationInput?, to writer: SmithyJSON.Writer) throws {
@@ -5272,6 +5467,17 @@ extension ListDelegatedServicesForAccountInput {
         try writer["AccountId"].write(value.accountId)
         try writer["MaxResults"].write(value.maxResults)
         try writer["NextToken"].write(value.nextToken)
+    }
+}
+
+extension ListEffectivePolicyValidationErrorsInput {
+
+    static func write(value: ListEffectivePolicyValidationErrorsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccountId"].write(value.accountId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["PolicyType"].write(value.policyType)
     }
 }
 
@@ -5781,6 +5987,20 @@ extension ListAccountsForParentOutput {
     }
 }
 
+extension ListAccountsWithInvalidEffectivePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAccountsWithInvalidEffectivePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAccountsWithInvalidEffectivePolicyOutput()
+        value.accounts = try reader["Accounts"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.Account.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.policyType = try reader["PolicyType"].readIfPresent()
+        return value
+    }
+}
+
 extension ListAWSServiceAccessForOrganizationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAWSServiceAccessForOrganizationOutput {
@@ -5842,6 +6062,23 @@ extension ListDelegatedServicesForAccountOutput {
         var value = ListDelegatedServicesForAccountOutput()
         value.delegatedServices = try reader["DelegatedServices"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.DelegatedService.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListEffectivePolicyValidationErrorsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListEffectivePolicyValidationErrorsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListEffectivePolicyValidationErrorsOutput()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.effectivePolicyValidationErrors = try reader["EffectivePolicyValidationErrors"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.EffectivePolicyValidationError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.evaluationTimestamp = try reader["EvaluationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.path = try reader["Path"].readIfPresent()
+        value.policyType = try reader["PolicyType"].readIfPresent()
         return value
     }
 }
@@ -6745,6 +6982,27 @@ enum ListAccountsForParentOutputError {
     }
 }
 
+enum ListAccountsWithInvalidEffectivePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AWSOrganizationsNotInUseException": return try AWSOrganizationsNotInUseException.makeError(baseError: baseError)
+            case "ConstraintViolationException": return try ConstraintViolationException.makeError(baseError: baseError)
+            case "EffectivePolicyNotFoundException": return try EffectivePolicyNotFoundException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnsupportedAPIEndpointException": return try UnsupportedAPIEndpointException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListAWSServiceAccessForOrganizationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6836,6 +7094,28 @@ enum ListDelegatedServicesForAccountOutputError {
             case "AccountNotRegisteredException": return try AccountNotRegisteredException.makeError(baseError: baseError)
             case "AWSOrganizationsNotInUseException": return try AWSOrganizationsNotInUseException.makeError(baseError: baseError)
             case "ConstraintViolationException": return try ConstraintViolationException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnsupportedAPIEndpointException": return try UnsupportedAPIEndpointException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListEffectivePolicyValidationErrorsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AccountNotFoundException": return try AccountNotFoundException.makeError(baseError: baseError)
+            case "AWSOrganizationsNotInUseException": return try AWSOrganizationsNotInUseException.makeError(baseError: baseError)
+            case "ConstraintViolationException": return try ConstraintViolationException.makeError(baseError: baseError)
+            case "EffectivePolicyNotFoundException": return try EffectivePolicyNotFoundException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -8047,6 +8327,19 @@ extension OrganizationsClientTypes.DelegatedService {
         var value = OrganizationsClientTypes.DelegatedService()
         value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent()
         value.delegationEnabledDate = try reader["DelegationEnabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.EffectivePolicyValidationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EffectivePolicyValidationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.EffectivePolicyValidationError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.pathToError = try reader["PathToError"].readIfPresent()
+        value.contributingPolicies = try reader["ContributingPolicies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

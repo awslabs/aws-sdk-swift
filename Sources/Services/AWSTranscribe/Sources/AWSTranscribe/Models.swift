@@ -2505,6 +2505,8 @@ extension TranscribeClientTypes {
         public var languageCode: TranscribeClientTypes.MedicalScribeLanguageCode?
         /// Describes the Amazon S3 location of the media file you want to use in your request. For information on supported media formats, refer to the MediaFormat parameter or the [Media formats](https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio) section in the Amazon S3 Developer Guide.
         public var media: TranscribeClientTypes.Media?
+        /// Indicates whether the MedicalScribeContext object was provided when the Medical Scribe job was started.
+        public var medicalScribeContextProvided: Swift.Bool?
         /// The name of the Medical Scribe job. Job names are case sensitive and must be unique within an Amazon Web Services account.
         public var medicalScribeJobName: Swift.String?
         /// Provides the status of the specified Medical Scribe job. If the status is COMPLETED, the job is finished and you can find the results at the location specified in MedicalScribeOutput If the status is FAILED, FailureReason provides details on why your Medical Scribe job failed.
@@ -2515,7 +2517,7 @@ extension TranscribeClientTypes {
         public var settings: TranscribeClientTypes.MedicalScribeSettings?
         /// The date and time your Medical Scribe job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a Medical Scribe job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public var startTime: Foundation.Date?
-        /// Adds one or more custom tags, each in the form of a key:value pair, to the Medica Scribe job. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
+        /// Adds one or more custom tags, each in the form of a key:value pair, to the Medical Scribe job. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
         public var tags: [TranscribeClientTypes.Tag]?
 
         public init(
@@ -2526,6 +2528,7 @@ extension TranscribeClientTypes {
             failureReason: Swift.String? = nil,
             languageCode: TranscribeClientTypes.MedicalScribeLanguageCode? = nil,
             media: TranscribeClientTypes.Media? = nil,
+            medicalScribeContextProvided: Swift.Bool? = nil,
             medicalScribeJobName: Swift.String? = nil,
             medicalScribeJobStatus: TranscribeClientTypes.MedicalScribeJobStatus? = nil,
             medicalScribeOutput: TranscribeClientTypes.MedicalScribeOutput? = nil,
@@ -2540,6 +2543,7 @@ extension TranscribeClientTypes {
             self.failureReason = failureReason
             self.languageCode = languageCode
             self.media = media
+            self.medicalScribeContextProvided = medicalScribeContextProvided
             self.medicalScribeJobName = medicalScribeJobName
             self.medicalScribeJobStatus = medicalScribeJobStatus
             self.medicalScribeOutput = medicalScribeOutput
@@ -3915,6 +3919,73 @@ public struct ListVocabularyFiltersOutput: Swift.Sendable {
     }
 }
 
+extension TranscribeClientTypes {
+
+    public enum Pronouns: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case heHim
+        case sheHer
+        case theyThem
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Pronouns] {
+            return [
+                .heHim,
+                .sheHer,
+                .theyThem
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .heHim: return "HE_HIM"
+            case .sheHer: return "SHE_HER"
+            case .theyThem: return "THEY_THEM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TranscribeClientTypes {
+
+    /// Contains patient-specific information used to customize the clinical note generation.
+    public struct MedicalScribePatientContext: Swift.Sendable {
+        /// The patient's preferred pronouns that the user wants to provide as a context for clinical note generation.
+        public var pronouns: TranscribeClientTypes.Pronouns?
+
+        public init(
+            pronouns: TranscribeClientTypes.Pronouns? = nil
+        ) {
+            self.pronouns = pronouns
+        }
+    }
+}
+
+extension TranscribeClientTypes.MedicalScribePatientContext: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MedicalScribePatientContext(pronouns: \"CONTENT_REDACTED\")"}
+}
+
+extension TranscribeClientTypes {
+
+    /// The MedicalScribeContext object that contains contextual information used to generate customized clinical notes.
+    public struct MedicalScribeContext: Swift.Sendable {
+        /// Contains patient-specific information.
+        public var patientContext: TranscribeClientTypes.MedicalScribePatientContext?
+
+        public init(
+            patientContext: TranscribeClientTypes.MedicalScribePatientContext? = nil
+        ) {
+            self.patientContext = patientContext
+        }
+    }
+}
+
 public struct StartCallAnalyticsJobInput: Swift.Sendable {
     /// A unique name, chosen by you, for your Call Analytics job. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new job with the same name as an existing job, you get a ConflictException error.
     /// This member is required.
@@ -3926,7 +3997,25 @@ public struct StartCallAnalyticsJobInput: Swift.Sendable {
     /// Describes the Amazon S3 location of the media file you want to use in your Call Analytics request.
     /// This member is required.
     public var media: TranscribeClientTypes.Media?
-    /// The Amazon Resource Name (ARN) of a KMS key that you want to use to encrypt your Call Analytics output. KMS key ARNs have the format arn:partition:kms:region:account:key/key-id. For example: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab. For more information, see [ KMS key ARNs](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN). If you do not specify an encryption key, your output is encrypted with the default Amazon S3 key (SSE-S3). Note that the role making the request and the role specified in the DataAccessRoleArn request parameter (if present) must have permission to use the specified KMS key.
+    /// The KMS key you want to use to encrypt your Call Analytics output. If using a key located in the current Amazon Web Services account, you can specify your KMS key in one of four ways:
+    ///
+    /// * Use the KMS key ID itself. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.
+    ///
+    /// * Use an alias for the KMS key ID. For example, alias/ExampleAlias.
+    ///
+    /// * Use the Amazon Resource Name (ARN) for the KMS key ID. For example, arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.
+    ///
+    /// * Use the ARN for the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.
+    ///
+    ///
+    /// If using a key located in a different Amazon Web Services account than the current Amazon Web Services account, you can specify your KMS key in one of two ways:
+    ///
+    /// * Use the ARN for the KMS key ID. For example, arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.
+    ///
+    /// * Use the ARN for the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.
+    ///
+    ///
+    /// If you do not specify an encryption key, your output is encrypted with the default Amazon S3 key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output location using the OutputLocation parameter. Note that the role making the request must have permission to use the specified KMS key.
     public var outputEncryptionKMSKeyId: Swift.String?
     /// The Amazon S3 location where you want your Call Analytics transcription output stored. You can use any of the following formats to specify the output location:
     ///
@@ -3987,18 +4076,38 @@ public struct StartMedicalScribeJobInput: Swift.Sendable {
     /// Describes the Amazon S3 location of the media file you want to use in your request. For information on supported media formats, refer to the MediaFormat parameter or the [Media formats](https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio) section in the Amazon S3 Developer Guide.
     /// This member is required.
     public var media: TranscribeClientTypes.Media?
+    /// The MedicalScribeContext object that contains contextual information which is used during clinical note generation to add relevant context to the note.
+    public var medicalScribeContext: TranscribeClientTypes.MedicalScribeContext?
     /// A unique name, chosen by you, for your Medical Scribe job. This name is case sensitive, cannot contain spaces, and must be unique within an Amazon Web Services account. If you try to create a new job with the same name as an existing job, you get a ConflictException error.
     /// This member is required.
     public var medicalScribeJobName: Swift.String?
     /// The name of the Amazon S3 bucket where you want your Medical Scribe output stored. Do not include the S3:// prefix of the specified bucket. Note that the role specified in the DataAccessRoleArn request parameter must have permission to use the specified location. You can change Amazon S3 permissions using the [Amazon Web Services Management Console](https://console.aws.amazon.com/s3). See also [Permissions Required for IAM User Roles](https://docs.aws.amazon.com/transcribe/latest/dg/security_iam_id-based-policy-examples.html#auth-role-iam-user).
     /// This member is required.
     public var outputBucketName: Swift.String?
-    /// The Amazon Resource Name (ARN) of a KMS key that you want to use to encrypt your Medical Scribe output. KMS key ARNs have the format arn:partition:kms:region:account:key/key-id. For example: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab. For more information, see [ KMS key ARNs](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN). If you do not specify an encryption key, your output is encrypted with the default Amazon S3 key (SSE-S3). Note that the role making the request and the role specified in the DataAccessRoleArn request parameter (if present) must have permission to use the specified KMS key.
+    /// The KMS key you want to use to encrypt your Medical Scribe output. If using a key located in the current Amazon Web Services account, you can specify your KMS key in one of four ways:
+    ///
+    /// * Use the KMS key ID itself. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.
+    ///
+    /// * Use an alias for the KMS key ID. For example, alias/ExampleAlias.
+    ///
+    /// * Use the Amazon Resource Name (ARN) for the KMS key ID. For example, arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.
+    ///
+    /// * Use the ARN for the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.
+    ///
+    ///
+    /// If using a key located in a different Amazon Web Services account than the current Amazon Web Services account, you can specify your KMS key in one of two ways:
+    ///
+    /// * Use the ARN for the KMS key ID. For example, arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.
+    ///
+    /// * Use the ARN for the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.
+    ///
+    ///
+    /// If you do not specify an encryption key, your output is encrypted with the default Amazon S3 key (SSE-S3). Note that the role specified in the DataAccessRoleArn request parameter must have permission to use the specified KMS key.
     public var outputEncryptionKMSKeyId: Swift.String?
     /// Makes it possible to control how your Medical Scribe job is processed using a MedicalScribeSettings object. Specify ChannelIdentification if ChannelDefinitions are set. Enabled ShowSpeakerLabels if ChannelIdentification and ChannelDefinitions are not set. One and only one of ChannelIdentification and ShowSpeakerLabels must be set. If ShowSpeakerLabels is set, MaxSpeakerLabels must also be set. Use Settings to specify a vocabulary or vocabulary filter or both using VocabularyName, VocabularyFilterName. VocabularyFilterMethod must be specified if VocabularyFilterName is set.
     /// This member is required.
     public var settings: TranscribeClientTypes.MedicalScribeSettings?
-    /// Adds one or more custom tags, each in the form of a key:value pair, to the Medica Scribe job. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
+    /// Adds one or more custom tags, each in the form of a key:value pair, to the Medical Scribe job. To learn more about using tags with Amazon Transcribe, refer to [Tagging resources](https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html).
     public var tags: [TranscribeClientTypes.Tag]?
 
     public init(
@@ -4006,6 +4115,7 @@ public struct StartMedicalScribeJobInput: Swift.Sendable {
         dataAccessRoleArn: Swift.String? = nil,
         kmsEncryptionContext: [Swift.String: Swift.String]? = nil,
         media: TranscribeClientTypes.Media? = nil,
+        medicalScribeContext: TranscribeClientTypes.MedicalScribeContext? = nil,
         medicalScribeJobName: Swift.String? = nil,
         outputBucketName: Swift.String? = nil,
         outputEncryptionKMSKeyId: Swift.String? = nil,
@@ -4016,6 +4126,7 @@ public struct StartMedicalScribeJobInput: Swift.Sendable {
         self.dataAccessRoleArn = dataAccessRoleArn
         self.kmsEncryptionContext = kmsEncryptionContext
         self.media = media
+        self.medicalScribeContext = medicalScribeContext
         self.medicalScribeJobName = medicalScribeJobName
         self.outputBucketName = outputBucketName
         self.outputEncryptionKMSKeyId = outputEncryptionKMSKeyId
@@ -4056,7 +4167,25 @@ public struct StartMedicalTranscriptionJobInput: Swift.Sendable {
     /// The name of the Amazon S3 bucket where you want your medical transcription output stored. Do not include the S3:// prefix of the specified bucket. If you want your output to go to a sub-folder of this bucket, specify it using the OutputKey parameter; OutputBucketName only accepts the name of a bucket. For example, if you want your output stored in S3://DOC-EXAMPLE-BUCKET, set OutputBucketName to DOC-EXAMPLE-BUCKET. However, if you want your output stored in S3://DOC-EXAMPLE-BUCKET/test-files/, set OutputBucketName to DOC-EXAMPLE-BUCKET and OutputKey to test-files/. Note that Amazon Transcribe must have permission to use the specified location. You can change Amazon S3 permissions using the [Amazon Web Services Management Console](https://console.aws.amazon.com/s3). See also [Permissions Required for IAM User Roles](https://docs.aws.amazon.com/transcribe/latest/dg/security_iam_id-based-policy-examples.html#auth-role-iam-user).
     /// This member is required.
     public var outputBucketName: Swift.String?
-    /// The Amazon Resource Name (ARN) of a KMS key that you want to use to encrypt your medical transcription output. KMS key ARNs have the format arn:partition:kms:region:account:key/key-id. For example: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab. For more information, see [ KMS key ARNs](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN). If you do not specify an encryption key, your output is encrypted with the default Amazon S3 key (SSE-S3). Note that the role making the request and the role specified in the DataAccessRoleArn request parameter (if present) must have permission to use the specified KMS key.
+    /// The KMS key you want to use to encrypt your medical transcription output. If using a key located in the current Amazon Web Services account, you can specify your KMS key in one of four ways:
+    ///
+    /// * Use the KMS key ID itself. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.
+    ///
+    /// * Use an alias for the KMS key ID. For example, alias/ExampleAlias.
+    ///
+    /// * Use the Amazon Resource Name (ARN) for the KMS key ID. For example, arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.
+    ///
+    /// * Use the ARN for the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.
+    ///
+    ///
+    /// If using a key located in a different Amazon Web Services account than the current Amazon Web Services account, you can specify your KMS key in one of two ways:
+    ///
+    /// * Use the ARN for the KMS key ID. For example, arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.
+    ///
+    /// * Use the ARN for the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.
+    ///
+    ///
+    /// If you do not specify an encryption key, your output is encrypted with the default Amazon S3 key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output location using the OutputLocation parameter. Note that the role making the request must have permission to use the specified KMS key.
     public var outputEncryptionKMSKeyId: Swift.String?
     /// Use in combination with OutputBucketName to specify the output location of your transcript and, optionally, a unique name for your output file. The default name for your transcription output is the same as the name you specified for your medical transcription job (MedicalTranscriptionJobName). Here are some examples of how you can use OutputKey:
     ///
@@ -4173,7 +4302,25 @@ public struct StartTranscriptionJobInput: Swift.Sendable {
     public var modelSettings: TranscribeClientTypes.ModelSettings?
     /// The name of the Amazon S3 bucket where you want your transcription output stored. Do not include the S3:// prefix of the specified bucket. If you want your output to go to a sub-folder of this bucket, specify it using the OutputKey parameter; OutputBucketName only accepts the name of a bucket. For example, if you want your output stored in S3://DOC-EXAMPLE-BUCKET, set OutputBucketName to DOC-EXAMPLE-BUCKET. However, if you want your output stored in S3://DOC-EXAMPLE-BUCKET/test-files/, set OutputBucketName to DOC-EXAMPLE-BUCKET and OutputKey to test-files/. Note that Amazon Transcribe must have permission to use the specified location. You can change Amazon S3 permissions using the [Amazon Web Services Management Console](https://console.aws.amazon.com/s3). See also [Permissions Required for IAM User Roles](https://docs.aws.amazon.com/transcribe/latest/dg/security_iam_id-based-policy-examples.html#auth-role-iam-user). If you do not specify OutputBucketName, your transcript is placed in a service-managed Amazon S3 bucket and you are provided with a URI to access your transcript.
     public var outputBucketName: Swift.String?
-    /// The Amazon Resource Name (ARN) of a KMS key that you want to use to encrypt your transcription output. KMS key ARNs have the format arn:partition:kms:region:account:key/key-id. For example: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab. For more information, see [ KMS key ARNs](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id-key-ARN). If you do not specify an encryption key, your output is encrypted with the default Amazon S3 key (SSE-S3). Note that the role making the request and the role specified in the DataAccessRoleArn request parameter (if present) must have permission to use the specified KMS key.
+    /// The KMS key you want to use to encrypt your transcription output. If using a key located in the current Amazon Web Services account, you can specify your KMS key in one of four ways:
+    ///
+    /// * Use the KMS key ID itself. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.
+    ///
+    /// * Use an alias for the KMS key ID. For example, alias/ExampleAlias.
+    ///
+    /// * Use the Amazon Resource Name (ARN) for the KMS key ID. For example, arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.
+    ///
+    /// * Use the ARN for the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.
+    ///
+    ///
+    /// If using a key located in a different Amazon Web Services account than the current Amazon Web Services account, you can specify your KMS key in one of two ways:
+    ///
+    /// * Use the ARN for the KMS key ID. For example, arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.
+    ///
+    /// * Use the ARN for the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.
+    ///
+    ///
+    /// If you do not specify an encryption key, your output is encrypted with the default Amazon S3 key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output location using the OutputLocation parameter. Note that the role making the request must have permission to use the specified KMS key.
     public var outputEncryptionKMSKeyId: Swift.String?
     /// Use in combination with OutputBucketName to specify the output location of your transcript and, optionally, a unique name for your output file. The default name for your transcription output is the same as the name you specified for your transcription job (TranscriptionJobName). Here are some examples of how you can use OutputKey:
     ///
@@ -5167,6 +5314,7 @@ extension StartMedicalScribeJobInput {
         try writer["DataAccessRoleArn"].write(value.dataAccessRoleArn)
         try writer["KMSEncryptionContext"].writeMap(value.kmsEncryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Media"].write(value.media, with: TranscribeClientTypes.Media.write(value:to:))
+        try writer["MedicalScribeContext"].write(value.medicalScribeContext, with: TranscribeClientTypes.MedicalScribeContext.write(value:to:))
         try writer["MedicalScribeJobName"].write(value.medicalScribeJobName)
         try writer["OutputBucketName"].write(value.outputBucketName)
         try writer["OutputEncryptionKMSKeyId"].write(value.outputEncryptionKMSKeyId)
@@ -7014,6 +7162,7 @@ extension TranscribeClientTypes.MedicalScribeJob {
         value.settings = try reader["Settings"].readIfPresent(with: TranscribeClientTypes.MedicalScribeSettings.read(from:))
         value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
         value.channelDefinitions = try reader["ChannelDefinitions"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.MedicalScribeChannelDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.medicalScribeContextProvided = try reader["MedicalScribeContextProvided"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TranscribeClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -7380,6 +7529,22 @@ extension TranscribeClientTypes.VocabularyFilterInfo {
         value.languageCode = try reader["LanguageCode"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
+    }
+}
+
+extension TranscribeClientTypes.MedicalScribeContext {
+
+    static func write(value: TranscribeClientTypes.MedicalScribeContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PatientContext"].write(value.patientContext, with: TranscribeClientTypes.MedicalScribePatientContext.write(value:to:))
+    }
+}
+
+extension TranscribeClientTypes.MedicalScribePatientContext {
+
+    static func write(value: TranscribeClientTypes.MedicalScribePatientContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Pronouns"].write(value.pronouns)
     }
 }
 

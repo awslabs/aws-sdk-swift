@@ -69,14 +69,7 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
-                    ]
-                ]
-            ]
+            [:]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://backup-search-fips.us-east-1.api.aws", headers: headers, properties: properties)
@@ -95,14 +88,7 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-east-1"
-                    ]
-                ]
-            ]
+            [:]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://backup-search.us-east-1.api.aws", headers: headers, properties: properties)
@@ -121,14 +107,7 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "cn-northwest-1"
-                    ]
-                ]
-            ]
+            [:]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://backup-search-fips.cn-northwest-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
@@ -147,14 +126,7 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "cn-northwest-1"
-                    ]
-                ]
-            ]
+            [:]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://backup-search.cn-northwest-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
@@ -173,14 +145,7 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-gov-west-1"
-                    ]
-                ]
-            ]
+            [:]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://backup-search-fips.us-gov-west-1.api.aws", headers: headers, properties: properties)
@@ -199,14 +164,7 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-gov-west-1"
-                    ]
-                ]
-            ]
+            [:]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://backup-search.us-gov-west-1.api.aws", headers: headers, properties: properties)

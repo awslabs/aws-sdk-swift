@@ -16917,6 +16917,26 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The Trusted Identity Propagation (TIP) settings for the SageMaker domain. These settings determine how user identities from IAM Identity Center are propagated through the domain to TIP enabled Amazon Web Services services.
+    public struct TrustedIdentityPropagationSettings: Swift.Sendable {
+        /// The status of Trusted Identity Propagation (TIP) at the SageMaker domain level. When disabled, standard IAM role-based access is used. When enabled:
+        ///
+        /// * User identities from IAM Identity Center are propagated through the application to TIP enabled Amazon Web Services services.
+        ///
+        /// * New applications or existing applications that are automatically patched, will use the domain level configuration.
+        /// This member is required.
+        public var status: SageMakerClientTypes.FeatureStatus?
+
+        public init(
+            status: SageMakerClientTypes.FeatureStatus? = nil
+        ) {
+            self.status = status
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// The settings that apply to an Amazon SageMaker AI domain when you use it in Amazon SageMaker Unified Studio.
     public struct UnifiedStudioSettings: Swift.Sendable {
         /// The ID of the Amazon Web Services account that has the Amazon SageMaker Unified Studio domain. The default value, if you don't specify an ID, is the ID of the account that has the Amazon SageMaker AI domain.
@@ -16972,6 +16992,8 @@ extension SageMakerClientTypes {
         public var rStudioServerProDomainSettings: SageMakerClientTypes.RStudioServerProDomainSettings?
         /// The security groups for the Amazon Virtual Private Cloud that the Domain uses for communication between Domain-level apps and user apps.
         public var securityGroupIds: [Swift.String]?
+        /// The Trusted Identity Propagation (TIP) settings for the SageMaker domain. These settings determine how user identities from IAM Identity Center are propagated through the domain to TIP enabled Amazon Web Services services.
+        public var trustedIdentityPropagationSettings: SageMakerClientTypes.TrustedIdentityPropagationSettings?
         /// The settings that apply to an SageMaker AI domain when you use it in Amazon SageMaker Unified Studio.
         public var unifiedStudioSettings: SageMakerClientTypes.UnifiedStudioSettings?
 
@@ -16981,6 +17003,7 @@ extension SageMakerClientTypes {
             executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig? = nil,
             rStudioServerProDomainSettings: SageMakerClientTypes.RStudioServerProDomainSettings? = nil,
             securityGroupIds: [Swift.String]? = nil,
+            trustedIdentityPropagationSettings: SageMakerClientTypes.TrustedIdentityPropagationSettings? = nil,
             unifiedStudioSettings: SageMakerClientTypes.UnifiedStudioSettings? = nil
         ) {
             self.amazonQSettings = amazonQSettings
@@ -16988,6 +17011,7 @@ extension SageMakerClientTypes {
             self.executionRoleIdentityConfig = executionRoleIdentityConfig
             self.rStudioServerProDomainSettings = rStudioServerProDomainSettings
             self.securityGroupIds = securityGroupIds
+            self.trustedIdentityPropagationSettings = trustedIdentityPropagationSettings
             self.unifiedStudioSettings = unifiedStudioSettings
         }
     }
@@ -22648,7 +22672,7 @@ public struct CreateLabelingJobInput: Swift.Sendable {
     ///
     /// * If you are using one of the following [built-in task types](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-task-types.html), the attribute name must end with "-ref". If the task type you are using is not listed below, the attribute name must not end with "-ref".
     ///
-    /// * Image semantic segmentation (SemanticSegmentation), and adjustment (AdjustmentSemanticSegmentation) and verification (VerificationSemanticSegmentation) labeling jobs for this task type.
+    /// * Verification (VerificationSemanticSegmentation) labeling jobs for this task type.
     ///
     /// * Video frame object detection (VideoObjectDetection), and adjustment and verification (AdjustmentVideoObjectDetection) labeling jobs for this task type.
     ///
@@ -29223,6 +29247,8 @@ public struct DescribeAppOutput: Swift.Sendable {
     public var creationTime: Foundation.Date?
     /// The domain ID.
     public var domainId: Swift.String?
+    /// The effective status of Trusted Identity Propagation (TIP) for this application. When enabled, user identities from IAM Identity Center are being propagated through the application to TIP enabled Amazon Web Services services. When disabled, standard IAM role-based access is used.
+    public var effectiveTrustedIdentityPropagationStatus: SageMakerClientTypes.FeatureStatus?
     /// The failure reason.
     public var failureReason: Swift.String?
     /// The timestamp of the last health check.
@@ -29247,6 +29273,7 @@ public struct DescribeAppOutput: Swift.Sendable {
         builtInLifecycleConfigArn: Swift.String? = nil,
         creationTime: Foundation.Date? = nil,
         domainId: Swift.String? = nil,
+        effectiveTrustedIdentityPropagationStatus: SageMakerClientTypes.FeatureStatus? = nil,
         failureReason: Swift.String? = nil,
         lastHealthCheckTimestamp: Foundation.Date? = nil,
         lastUserActivityTimestamp: Foundation.Date? = nil,
@@ -29262,6 +29289,7 @@ public struct DescribeAppOutput: Swift.Sendable {
         self.builtInLifecycleConfigArn = builtInLifecycleConfigArn
         self.creationTime = creationTime
         self.domainId = domainId
+        self.effectiveTrustedIdentityPropagationStatus = effectiveTrustedIdentityPropagationStatus
         self.failureReason = failureReason
         self.lastHealthCheckTimestamp = lastHealthCheckTimestamp
         self.lastUserActivityTimestamp = lastUserActivityTimestamp
@@ -39021,6 +39049,8 @@ extension SageMakerClientTypes {
         public var rStudioServerProDomainSettingsForUpdate: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate?
         /// The security groups for the Amazon Virtual Private Cloud that the Domain uses for communication between Domain-level apps and user apps.
         public var securityGroupIds: [Swift.String]?
+        /// The Trusted Identity Propagation (TIP) settings for the SageMaker domain. These settings determine how user identities from IAM Identity Center are propagated through the domain to TIP enabled Amazon Web Services services.
+        public var trustedIdentityPropagationSettings: SageMakerClientTypes.TrustedIdentityPropagationSettings?
         /// The settings that apply to an SageMaker AI domain when you use it in Amazon SageMaker Unified Studio.
         public var unifiedStudioSettings: SageMakerClientTypes.UnifiedStudioSettings?
 
@@ -39030,6 +39060,7 @@ extension SageMakerClientTypes {
             executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig? = nil,
             rStudioServerProDomainSettingsForUpdate: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate? = nil,
             securityGroupIds: [Swift.String]? = nil,
+            trustedIdentityPropagationSettings: SageMakerClientTypes.TrustedIdentityPropagationSettings? = nil,
             unifiedStudioSettings: SageMakerClientTypes.UnifiedStudioSettings? = nil
         ) {
             self.amazonQSettings = amazonQSettings
@@ -39037,6 +39068,7 @@ extension SageMakerClientTypes {
             self.executionRoleIdentityConfig = executionRoleIdentityConfig
             self.rStudioServerProDomainSettingsForUpdate = rStudioServerProDomainSettingsForUpdate
             self.securityGroupIds = securityGroupIds
+            self.trustedIdentityPropagationSettings = trustedIdentityPropagationSettings
             self.unifiedStudioSettings = unifiedStudioSettings
         }
     }
@@ -62951,6 +62983,7 @@ extension DescribeAppOutput {
         value.builtInLifecycleConfigArn = try reader["BuiltInLifecycleConfigArn"].readIfPresent()
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.domainId = try reader["DomainId"].readIfPresent()
+        value.effectiveTrustedIdentityPropagationStatus = try reader["EffectiveTrustedIdentityPropagationStatus"].readIfPresent()
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.lastHealthCheckTimestamp = try reader["LastHealthCheckTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUserActivityTimestamp = try reader["LastUserActivityTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -75333,6 +75366,7 @@ extension SageMakerClientTypes.DomainSettings {
         try writer["ExecutionRoleIdentityConfig"].write(value.executionRoleIdentityConfig)
         try writer["RStudioServerProDomainSettings"].write(value.rStudioServerProDomainSettings, with: SageMakerClientTypes.RStudioServerProDomainSettings.write(value:to:))
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TrustedIdentityPropagationSettings"].write(value.trustedIdentityPropagationSettings, with: SageMakerClientTypes.TrustedIdentityPropagationSettings.write(value:to:))
         try writer["UnifiedStudioSettings"].write(value.unifiedStudioSettings, with: SageMakerClientTypes.UnifiedStudioSettings.write(value:to:))
     }
 
@@ -75342,6 +75376,7 @@ extension SageMakerClientTypes.DomainSettings {
         value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.rStudioServerProDomainSettings = try reader["RStudioServerProDomainSettings"].readIfPresent(with: SageMakerClientTypes.RStudioServerProDomainSettings.read(from:))
         value.executionRoleIdentityConfig = try reader["ExecutionRoleIdentityConfig"].readIfPresent()
+        value.trustedIdentityPropagationSettings = try reader["TrustedIdentityPropagationSettings"].readIfPresent(with: SageMakerClientTypes.TrustedIdentityPropagationSettings.read(from:))
         value.dockerSettings = try reader["DockerSettings"].readIfPresent(with: SageMakerClientTypes.DockerSettings.read(from:))
         value.amazonQSettings = try reader["AmazonQSettings"].readIfPresent(with: SageMakerClientTypes.AmazonQSettings.read(from:))
         value.unifiedStudioSettings = try reader["UnifiedStudioSettings"].readIfPresent(with: SageMakerClientTypes.UnifiedStudioSettings.read(from:))
@@ -75408,6 +75443,21 @@ extension SageMakerClientTypes.DockerSettings {
         var value = SageMakerClientTypes.DockerSettings()
         value.enableDockerAccess = try reader["EnableDockerAccess"].readIfPresent()
         value.vpcOnlyTrustedAccounts = try reader["VpcOnlyTrustedAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.TrustedIdentityPropagationSettings {
+
+    static func write(value: SageMakerClientTypes.TrustedIdentityPropagationSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrustedIdentityPropagationSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.TrustedIdentityPropagationSettings()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -83241,6 +83291,7 @@ extension SageMakerClientTypes.DomainSettingsForUpdate {
         try writer["ExecutionRoleIdentityConfig"].write(value.executionRoleIdentityConfig)
         try writer["RStudioServerProDomainSettingsForUpdate"].write(value.rStudioServerProDomainSettingsForUpdate, with: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate.write(value:to:))
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TrustedIdentityPropagationSettings"].write(value.trustedIdentityPropagationSettings, with: SageMakerClientTypes.TrustedIdentityPropagationSettings.write(value:to:))
         try writer["UnifiedStudioSettings"].write(value.unifiedStudioSettings, with: SageMakerClientTypes.UnifiedStudioSettings.write(value:to:))
     }
 }
