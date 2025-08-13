@@ -13078,18 +13078,30 @@ extension SageMakerClientTypes {
 
     /// Configuration of the resources used for the compute allocation definition.
     public struct ComputeQuotaResourceConfig: Swift.Sendable {
+        /// The number of accelerators to allocate. If you don't specify a value for vCPU and MemoryInGiB, SageMaker AI automatically allocates ratio-based values for those parameters based on the number of accelerators you provide. For example, if you allocate 16 out of 32 total accelerators, SageMaker AI uses the ratio of 0.5 and allocates values to vCPU and MemoryInGiB.
+        public var accelerators: Swift.Int?
         /// The number of instances to add to the instance group of a SageMaker HyperPod cluster.
         public var count: Swift.Int?
         /// The instance type of the instance group for the cluster.
         /// This member is required.
         public var instanceType: SageMakerClientTypes.ClusterInstanceType?
+        /// The amount of memory in GiB to allocate. If you specify a value only for this parameter, SageMaker AI automatically allocates a ratio-based value for vCPU based on this memory that you provide. For example, if you allocate 200 out of 400 total memory in GiB, SageMaker AI uses the ratio of 0.5 and allocates values to vCPU. Accelerators are set to 0.
+        public var memoryInGiB: Swift.Float?
+        /// The number of vCPU to allocate. If you specify a value only for vCPU, SageMaker AI automatically allocates ratio-based values for MemoryInGiB based on this vCPU parameter. For example, if you allocate 20 out of 40 total vCPU, SageMaker AI uses the ratio of 0.5 and allocates values to MemoryInGiB. Accelerators are set to 0.
+        public var vCpu: Swift.Float?
 
         public init(
+            accelerators: Swift.Int? = nil,
             count: Swift.Int? = nil,
-            instanceType: SageMakerClientTypes.ClusterInstanceType? = nil
+            instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
+            memoryInGiB: Swift.Float? = nil,
+            vCpu: Swift.Float? = nil
         ) {
+            self.accelerators = accelerators
             self.count = count
             self.instanceType = instanceType
+            self.memoryInGiB = memoryInGiB
+            self.vCpu = vCpu
         }
     }
 }
@@ -74305,8 +74317,11 @@ extension SageMakerClientTypes.ComputeQuotaResourceConfig {
 
     static func write(value: SageMakerClientTypes.ComputeQuotaResourceConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Accelerators"].write(value.accelerators)
         try writer["Count"].write(value.count)
         try writer["InstanceType"].write(value.instanceType)
+        try writer["MemoryInGiB"].write(value.memoryInGiB)
+        try writer["VCpu"].write(value.vCpu)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ComputeQuotaResourceConfig {
@@ -74314,6 +74329,9 @@ extension SageMakerClientTypes.ComputeQuotaResourceConfig {
         var value = SageMakerClientTypes.ComputeQuotaResourceConfig()
         value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
         value.count = try reader["Count"].readIfPresent()
+        value.accelerators = try reader["Accelerators"].readIfPresent()
+        value.vCpu = try reader["VCpu"].readIfPresent()
+        value.memoryInGiB = try reader["MemoryInGiB"].readIfPresent()
         return value
     }
 }

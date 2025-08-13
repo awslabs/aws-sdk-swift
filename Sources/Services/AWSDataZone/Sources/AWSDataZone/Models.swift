@@ -780,6 +780,138 @@ extension AcceptSubscriptionRequestOutput: Swift.CustomDebugStringConvertible {
 
 extension DataZoneClientTypes {
 
+    /// The account information within an account pool.
+    public struct AccountInfo: Swift.Sendable {
+        /// The account ID.
+        /// This member is required.
+        public var awsAccountId: Swift.String?
+        /// The account name.
+        public var awsAccountName: Swift.String?
+        /// The regions supported for an account within an account pool.
+        /// This member is required.
+        public var supportedRegions: [Swift.String]?
+
+        public init(
+            awsAccountId: Swift.String? = nil,
+            awsAccountName: Swift.String? = nil,
+            supportedRegions: [Swift.String]? = nil
+        ) {
+            self.awsAccountId = awsAccountId
+            self.awsAccountName = awsAccountName
+            self.supportedRegions = supportedRegions
+        }
+    }
+}
+
+extension DataZoneClientTypes.AccountInfo: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AccountInfo(awsAccountId: \(Swift.String(describing: awsAccountId)), supportedRegions: \(Swift.String(describing: supportedRegions)), awsAccountName: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    public enum ResolutionStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case manual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResolutionStrategy] {
+            return [
+                .manual
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .manual: return "MANUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The summary of the account pool.
+    public struct AccountPoolSummary: Swift.Sendable {
+        /// The user who created the account pool.
+        public var createdBy: Swift.String?
+        /// The ID of the domain.
+        public var domainId: Swift.String?
+        /// The ID of the domain unit.
+        public var domainUnitId: Swift.String?
+        /// The ID of the account pool.
+        public var id: Swift.String?
+        /// The name of the account pool.
+        public var name: Swift.String?
+        /// The mechanism used to resolve the account selection from the account pool.
+        public var resolutionStrategy: DataZoneClientTypes.ResolutionStrategy?
+        /// The user who updated the account pool.
+        public var updatedBy: Swift.String?
+
+        public init(
+            createdBy: Swift.String? = nil,
+            domainId: Swift.String? = nil,
+            domainUnitId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            resolutionStrategy: DataZoneClientTypes.ResolutionStrategy? = nil,
+            updatedBy: Swift.String? = nil
+        ) {
+            self.createdBy = createdBy
+            self.domainId = domainId
+            self.domainUnitId = domainUnitId
+            self.id = id
+            self.name = name
+            self.resolutionStrategy = resolutionStrategy
+            self.updatedBy = updatedBy
+        }
+    }
+}
+
+extension DataZoneClientTypes.AccountPoolSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AccountPoolSummary(createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), id: \(Swift.String(describing: id)), resolutionStrategy: \(Swift.String(describing: resolutionStrategy)), updatedBy: \(Swift.String(describing: updatedBy)), name: \"CONTENT_REDACTED\")"}
+}
+
+extension DataZoneClientTypes {
+
+    /// The custom Amazon Web Services Lambda handler within an account pool.
+    public struct CustomAccountPoolHandler: Swift.Sendable {
+        /// The ARN of the IAM role that enables Amazon SageMaker Unified Studio to invoke the Amazon Web Services Lambda funtion if the account source is the custom account pool handler.
+        public var lambdaExecutionRoleArn: Swift.String?
+        /// The ARN of the Amazon Web Services Lambda function for the custom Amazon Web Services Lambda handler.
+        /// This member is required.
+        public var lambdaFunctionArn: Swift.String?
+
+        public init(
+            lambdaExecutionRoleArn: Swift.String? = nil,
+            lambdaFunctionArn: Swift.String? = nil
+        ) {
+            self.lambdaExecutionRoleArn = lambdaExecutionRoleArn
+            self.lambdaFunctionArn = lambdaFunctionArn
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The source of accounts for the account pool. In the current release, it's either a static list of accounts provided by the customer or a custom Amazon Web Services Lambda handler.
+    public enum AccountSource: Swift.Sendable {
+        /// The static list of accounts within an account pool.
+        case accounts([DataZoneClientTypes.AccountInfo])
+        /// The custom Amazon Web Services Lambda handler within an account pool.
+        case customaccountpoolhandler(DataZoneClientTypes.CustomAccountPoolHandler)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The parameters of the console link specified as part of the environment action.
     public struct AwsConsoleLinkParameters: Swift.Sendable {
         /// The URI of the console link specified as part of the environment action.
@@ -5327,6 +5459,100 @@ extension DataZoneClientTypes {
     }
 }
 
+public struct CreateAccountPoolInput: Swift.Sendable {
+    /// The source of accounts for the account pool. In the current release, it's either a static list of accounts provided by the customer or a custom Amazon Web Services Lambda handler.
+    /// This member is required.
+    public var accountSource: DataZoneClientTypes.AccountSource?
+    /// The description of the account pool.
+    public var description: Swift.String?
+    /// The ID of the domain where the account pool is created.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The name of the account pool.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The mechanism used to resolve the account selection from the account pool.
+    /// This member is required.
+    public var resolutionStrategy: DataZoneClientTypes.ResolutionStrategy?
+
+    public init(
+        accountSource: DataZoneClientTypes.AccountSource? = nil,
+        description: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        name: Swift.String? = nil,
+        resolutionStrategy: DataZoneClientTypes.ResolutionStrategy? = nil
+    ) {
+        self.accountSource = accountSource
+        self.description = description
+        self.domainIdentifier = domainIdentifier
+        self.name = name
+        self.resolutionStrategy = resolutionStrategy
+    }
+}
+
+extension CreateAccountPoolInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateAccountPoolInput(accountSource: \(Swift.String(describing: accountSource)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), resolutionStrategy: \(Swift.String(describing: resolutionStrategy)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateAccountPoolOutput: Swift.Sendable {
+    /// The source of accounts for the account pool. In the current release, it's either a static list of accounts provided by the customer or a custom Amazon Web Services Lambda handler.
+    /// This member is required.
+    public var accountSource: DataZoneClientTypes.AccountSource?
+    /// The timestamp at which the account pool was created.
+    public var createdAt: Foundation.Date?
+    /// The user who created the account pool.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The description of the account pool.
+    public var description: Swift.String?
+    /// The ID of the domain where the account pool is created.
+    public var domainId: Swift.String?
+    /// The ID of the domain where the account pool is created.
+    public var domainUnitId: Swift.String?
+    /// The ID of the account pool.
+    public var id: Swift.String?
+    /// The timestamp at which the account pool was last updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The name of the account pool.
+    public var name: Swift.String?
+    /// The mechanism used to resolve the account selection from the account pool.
+    public var resolutionStrategy: DataZoneClientTypes.ResolutionStrategy?
+    /// The user who last updated the account pool.
+    public var updatedBy: Swift.String?
+
+    public init(
+        accountSource: DataZoneClientTypes.AccountSource? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        domainUnitId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        resolutionStrategy: DataZoneClientTypes.ResolutionStrategy? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.accountSource = accountSource
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.domainId = domainId
+        self.domainUnitId = domainUnitId
+        self.id = id
+        self.lastUpdatedAt = lastUpdatedAt
+        self.name = name
+        self.resolutionStrategy = resolutionStrategy
+        self.updatedBy = updatedBy
+    }
+}
+
+extension CreateAccountPoolOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateAccountPoolOutput(accountSource: \(Swift.String(describing: accountSource)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), resolutionStrategy: \(Swift.String(describing: resolutionStrategy)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
 public struct CreateConnectionInput: Swift.Sendable {
     /// The location where the connection is created.
     public var awsLocation: DataZoneClientTypes.AwsLocation?
@@ -8236,6 +8462,31 @@ public struct CreateListingChangeSetOutput: Swift.Sendable {
 
 extension DataZoneClientTypes {
 
+    /// Specifies the account/Region that is to be used during project creation for a particular blueprint.
+    public struct EnvironmentResolvedAccount: Swift.Sendable {
+        /// The ID of the resolved account.
+        /// This member is required.
+        public var awsAccountId: Swift.String?
+        /// The name of the resolved Region.
+        /// This member is required.
+        public var regionName: Swift.String?
+        /// The ID of the account pool.
+        public var sourceAccountPoolId: Swift.String?
+
+        public init(
+            awsAccountId: Swift.String? = nil,
+            regionName: Swift.String? = nil,
+            sourceAccountPoolId: Swift.String? = nil
+        ) {
+            self.awsAccountId = awsAccountId
+            self.regionName = regionName
+            self.sourceAccountPoolId = sourceAccountPoolId
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The environment configuration user parameters.
     public struct EnvironmentConfigurationUserParameter: Swift.Sendable {
         /// The environment configuration name.
@@ -8244,22 +8495,26 @@ extension DataZoneClientTypes {
         public var environmentId: Swift.String?
         /// The environment parameters.
         public var environmentParameters: [DataZoneClientTypes.EnvironmentParameter]?
+        /// Specifies the account/Region that is to be used during project creation for a particular blueprint.
+        public var environmentResolvedAccount: DataZoneClientTypes.EnvironmentResolvedAccount?
 
         public init(
             environmentConfigurationName: Swift.String? = nil,
             environmentId: Swift.String? = nil,
-            environmentParameters: [DataZoneClientTypes.EnvironmentParameter]? = nil
+            environmentParameters: [DataZoneClientTypes.EnvironmentParameter]? = nil,
+            environmentResolvedAccount: DataZoneClientTypes.EnvironmentResolvedAccount? = nil
         ) {
             self.environmentConfigurationName = environmentConfigurationName
             self.environmentId = environmentId
             self.environmentParameters = environmentParameters
+            self.environmentResolvedAccount = environmentResolvedAccount
         }
     }
 }
 
 extension DataZoneClientTypes.EnvironmentConfigurationUserParameter: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EnvironmentConfigurationUserParameter(environmentId: \(Swift.String(describing: environmentId)), environmentParameters: \(Swift.String(describing: environmentParameters)), environmentConfigurationName: \"CONTENT_REDACTED\")"}
+        "EnvironmentConfigurationUserParameter(environmentId: \(Swift.String(describing: environmentId)), environmentParameters: \(Swift.String(describing: environmentParameters)), environmentResolvedAccount: \(Swift.String(describing: environmentResolvedAccount)), environmentConfigurationName: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateProjectInput: Swift.Sendable {
@@ -8663,11 +8918,11 @@ extension DataZoneClientTypes {
 
     /// The configuration of an environment.
     public struct EnvironmentConfiguration: Swift.Sendable {
+        /// The account pools used by a custom project profile.
+        public var accountPools: [Swift.String]?
         /// The Amazon Web Services account of the environment.
-        /// This member is required.
         public var awsAccount: DataZoneClientTypes.AwsAccount?
         /// The Amazon Web Services Region of the environment.
-        /// This member is required.
         public var awsRegion: DataZoneClientTypes.Region?
         /// The configuration parameters of the environment.
         public var configurationParameters: DataZoneClientTypes.EnvironmentConfigurationParametersDetails?
@@ -8687,6 +8942,7 @@ extension DataZoneClientTypes {
         public var name: Swift.String?
 
         public init(
+            accountPools: [Swift.String]? = nil,
             awsAccount: DataZoneClientTypes.AwsAccount? = nil,
             awsRegion: DataZoneClientTypes.Region? = nil,
             configurationParameters: DataZoneClientTypes.EnvironmentConfigurationParametersDetails? = nil,
@@ -8697,6 +8953,7 @@ extension DataZoneClientTypes {
             id: Swift.String? = nil,
             name: Swift.String? = nil
         ) {
+            self.accountPools = accountPools
             self.awsAccount = awsAccount
             self.awsRegion = awsRegion
             self.configurationParameters = configurationParameters
@@ -8712,7 +8969,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.EnvironmentConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EnvironmentConfiguration(awsAccount: \(Swift.String(describing: awsAccount)), awsRegion: \(Swift.String(describing: awsRegion)), configurationParameters: \(Swift.String(describing: configurationParameters)), deploymentMode: \(Swift.String(describing: deploymentMode)), deploymentOrder: \(Swift.String(describing: deploymentOrder)), environmentBlueprintId: \(Swift.String(describing: environmentBlueprintId)), description: \"CONTENT_REDACTED\", id: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "EnvironmentConfiguration(accountPools: \(Swift.String(describing: accountPools)), awsAccount: \(Swift.String(describing: awsAccount)), awsRegion: \(Swift.String(describing: awsRegion)), configurationParameters: \(Swift.String(describing: configurationParameters)), deploymentMode: \(Swift.String(describing: deploymentMode)), deploymentOrder: \(Swift.String(describing: deploymentOrder)), environmentBlueprintId: \(Swift.String(describing: environmentBlueprintId)), description: \"CONTENT_REDACTED\", id: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -11644,6 +11901,28 @@ extension DataZoneClientTypes.DataSourceRunActivity: Swift.CustomDebugStringConv
         "DataSourceRunActivity(createdAt: \(Swift.String(describing: createdAt)), dataAssetId: \(Swift.String(describing: dataAssetId)), dataAssetStatus: \(Swift.String(describing: dataAssetStatus)), dataSourceRunId: \(Swift.String(describing: dataSourceRunId)), errorMessage: \(Swift.String(describing: errorMessage)), lineageSummary: \(Swift.String(describing: lineageSummary)), projectId: \(Swift.String(describing: projectId)), updatedAt: \(Swift.String(describing: updatedAt)), database: \"CONTENT_REDACTED\", technicalDescription: \"CONTENT_REDACTED\", technicalName: \"CONTENT_REDACTED\")"}
 }
 
+public struct DeleteAccountPoolInput: Swift.Sendable {
+    /// The ID of the domain where the account pool is deleted.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the account pool to be deleted.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+public struct DeleteAccountPoolOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteAssetFilterInput: Swift.Sendable {
     /// The ID of the data asset.
     /// This member is required.
@@ -12990,6 +13269,81 @@ public struct GetFormTypeOutput: Swift.Sendable {
 extension GetFormTypeOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "GetFormTypeOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), imports: \(Swift.String(describing: imports)), originDomainId: \(Swift.String(describing: originDomainId)), originProjectId: \(Swift.String(describing: originProjectId)), owningProjectId: \(Swift.String(describing: owningProjectId)), revision: \(Swift.String(describing: revision)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetAccountPoolInput: Swift.Sendable {
+    /// The ID of the domain in which the account pool lives whose details are to be displayed.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the account pool whose details are to be displayed.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+public struct GetAccountPoolOutput: Swift.Sendable {
+    /// The source of accounts for the account pool. In the current release, it's either a static list of accounts provided by the customer or a custom Amazon Web Services Lambda handler.
+    /// This member is required.
+    public var accountSource: DataZoneClientTypes.AccountSource?
+    /// The timestamp at which the account pool was created.
+    public var createdAt: Foundation.Date?
+    /// The user who created the account pool.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The description of the account pool.
+    public var description: Swift.String?
+    /// The ID of the domain in which the account pool lives whose details are to be displayed.
+    public var domainId: Swift.String?
+    /// The domain unit ID of the account pool.
+    public var domainUnitId: Swift.String?
+    /// The ID of the account pool.
+    public var id: Swift.String?
+    /// The timestamp at which the account pool was last updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The name of the account pool.
+    public var name: Swift.String?
+    /// The mechanism used to resolve the account selection from the account pool.
+    public var resolutionStrategy: DataZoneClientTypes.ResolutionStrategy?
+    /// The user who last updated the account pool.
+    public var updatedBy: Swift.String?
+
+    public init(
+        accountSource: DataZoneClientTypes.AccountSource? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        domainUnitId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        resolutionStrategy: DataZoneClientTypes.ResolutionStrategy? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.accountSource = accountSource
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.domainId = domainId
+        self.domainUnitId = domainUnitId
+        self.id = id
+        self.lastUpdatedAt = lastUpdatedAt
+        self.name = name
+        self.resolutionStrategy = resolutionStrategy
+        self.updatedBy = updatedBy
+    }
+}
+
+extension GetAccountPoolOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetAccountPoolOutput(accountSource: \(Swift.String(describing: accountSource)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), resolutionStrategy: \(Swift.String(describing: resolutionStrategy)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetAssetFilterInput: Swift.Sendable {
@@ -15001,6 +15355,153 @@ extension UpdateGlossaryTermOutput: Swift.CustomDebugStringConvertible {
         "UpdateGlossaryTermOutput(domainId: \(Swift.String(describing: domainId)), glossaryId: \(Swift.String(describing: glossaryId)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), termRelations: \(Swift.String(describing: termRelations)), longDescription: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", shortDescription: \"CONTENT_REDACTED\")"}
 }
 
+extension DataZoneClientTypes {
+
+    public enum SortFieldAccountPool: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case name
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortFieldAccountPool] {
+            return [
+                .name
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .name: return "NAME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ascending
+        case descending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortOrder] {
+            return [
+                .ascending,
+                .descending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ascending: return "ASCENDING"
+            case .descending: return "DESCENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ListAccountPoolsInput: Swift.Sendable {
+    /// The ID of the domain where exsting account pools are to be listed.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The maximum number of account pools to return in a single call to ListAccountPools. When the number of account pools to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListAccountPools to list the next set of account pools.
+    public var maxResults: Swift.Int?
+    /// The name of the account pool to be listed.
+    public var name: Swift.String?
+    /// When the number of account pools is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of account pools, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListAccountPools to list the next set of account pools.
+    public var nextToken: Swift.String?
+    /// The sort by mechanism in which the existing account pools are to be listed.
+    public var sortBy: DataZoneClientTypes.SortFieldAccountPool?
+    /// The sort order in which the existing account pools are to be listed.
+    public var sortOrder: DataZoneClientTypes.SortOrder?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        name: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        sortBy: DataZoneClientTypes.SortFieldAccountPool? = nil,
+        sortOrder: DataZoneClientTypes.SortOrder? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.maxResults = maxResults
+        self.name = name
+        self.nextToken = nextToken
+        self.sortBy = sortBy
+        self.sortOrder = sortOrder
+    }
+}
+
+extension ListAccountPoolsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListAccountPoolsInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), sortBy: \(Swift.String(describing: sortBy)), sortOrder: \(Swift.String(describing: sortOrder)), name: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListAccountPoolsOutput: Swift.Sendable {
+    /// The results of the ListAccountPools operation.
+    public var items: [DataZoneClientTypes.AccountPoolSummary]?
+    /// When the number of account pools is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of account pools, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListAccountPools to list the next set of account pools.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DataZoneClientTypes.AccountPoolSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAccountsInAccountPoolInput: Swift.Sendable {
+    /// The ID of the domain in which the accounts in the specified account pool are to be listed.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the account pool whose accounts are to be listed.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The maximum number of accounts to return in a single call to ListAccountsInAccountPool. When the number of accounts to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListAccountsInAccountPool to list the next set of accounts.
+    public var maxResults: Swift.Int?
+    /// When the number of accounts is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of accounts, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListAccountsInAccountPool to list the next set of accounts.
+    public var nextToken: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListAccountsInAccountPoolOutput: Swift.Sendable {
+    /// The results of the ListAccountsInAccountPool operation.
+    public var items: [DataZoneClientTypes.AccountInfo]?
+    /// When the number of accounts is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of accounts, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListAccountsInAccountPool to list the next set of accounts.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DataZoneClientTypes.AccountInfo]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListAssetFiltersInput: Swift.Sendable {
     /// The ID of the data asset.
     /// This member is required.
@@ -15106,35 +15607,6 @@ extension DataZoneClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .name: return "NAME"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DataZoneClientTypes {
-
-    public enum SortOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case ascending
-        case descending
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SortOrder] {
-            return [
-                .ascending,
-                .descending
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .ascending: return "ASCENDING"
-            case .descending: return "DESCENDING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -19831,6 +20303,102 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateAccountPoolInput: Swift.Sendable {
+    /// The source of accounts for the account pool. In the current release, it's either a static list of accounts provided by the customer or a custom Amazon Web Services Lambda handler.
+    public var accountSource: DataZoneClientTypes.AccountSource?
+    /// The description of the account pool that is to be udpated.
+    public var description: Swift.String?
+    /// The domain ID where the account pool that is to be updated lives.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the account pool that is to be updated.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The name of the account pool that is to be updated.
+    public var name: Swift.String?
+    /// The mechanism used to resolve the account selection from the account pool.
+    public var resolutionStrategy: DataZoneClientTypes.ResolutionStrategy?
+
+    public init(
+        accountSource: DataZoneClientTypes.AccountSource? = nil,
+        description: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        name: Swift.String? = nil,
+        resolutionStrategy: DataZoneClientTypes.ResolutionStrategy? = nil
+    ) {
+        self.accountSource = accountSource
+        self.description = description
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+        self.name = name
+        self.resolutionStrategy = resolutionStrategy
+    }
+}
+
+extension UpdateAccountPoolInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateAccountPoolInput(accountSource: \(Swift.String(describing: accountSource)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), identifier: \(Swift.String(describing: identifier)), resolutionStrategy: \(Swift.String(describing: resolutionStrategy)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateAccountPoolOutput: Swift.Sendable {
+    /// The source of accounts for the account pool. In the current release, it's either a static list of accounts provided by the customer or a custom Amazon Web Services Lambda handler.
+    /// This member is required.
+    public var accountSource: DataZoneClientTypes.AccountSource?
+    /// The timestamp at which the account pool was created.
+    public var createdAt: Foundation.Date?
+    /// The user who created the account pool.
+    /// This member is required.
+    public var createdBy: Swift.String?
+    /// The description of the account pool that is to be udpated.
+    public var description: Swift.String?
+    /// The domain ID where the account pool that is to be updated lives.
+    public var domainId: Swift.String?
+    /// The domain ID in which the account pool that is to be updated lives.
+    public var domainUnitId: Swift.String?
+    /// The ID of the account pool that is to be updated.
+    public var id: Swift.String?
+    /// The timestamp at which the account pool was last updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The name of the account pool that is to be updated.
+    public var name: Swift.String?
+    /// The mechanism used to resolve the account selection from the account pool.
+    public var resolutionStrategy: DataZoneClientTypes.ResolutionStrategy?
+    /// The user who last updated the account pool.
+    public var updatedBy: Swift.String?
+
+    public init(
+        accountSource: DataZoneClientTypes.AccountSource? = nil,
+        createdAt: Foundation.Date? = nil,
+        createdBy: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        domainUnitId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        resolutionStrategy: DataZoneClientTypes.ResolutionStrategy? = nil,
+        updatedBy: Swift.String? = nil
+    ) {
+        self.accountSource = accountSource
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.description = description
+        self.domainId = domainId
+        self.domainUnitId = domainUnitId
+        self.id = id
+        self.lastUpdatedAt = lastUpdatedAt
+        self.name = name
+        self.resolutionStrategy = resolutionStrategy
+        self.updatedBy = updatedBy
+    }
+}
+
+extension UpdateAccountPoolOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateAccountPoolOutput(accountSource: \(Swift.String(describing: accountSource)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), resolutionStrategy: \(Swift.String(describing: resolutionStrategy)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
 public struct UpdateConnectionInput: Swift.Sendable {
     /// The location where a connection is to be updated.
     public var awsLocation: DataZoneClientTypes.AwsLocation?
@@ -21472,6 +22040,16 @@ extension CancelSubscriptionInput {
     }
 }
 
+extension CreateAccountPoolInput {
+
+    static func urlPathProvider(_ value: CreateAccountPoolInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/account-pools"
+    }
+}
+
 extension CreateAssetInput {
 
     static func urlPathProvider(_ value: CreateAssetInput) -> Swift.String? {
@@ -21744,6 +22322,19 @@ extension CreateUserProfileInput {
             return nil
         }
         return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/user-profiles"
+    }
+}
+
+extension DeleteAccountPoolInput {
+
+    static func urlPathProvider(_ value: DeleteAccountPoolInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/account-pools/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -22143,6 +22734,19 @@ extension DisassociateEnvironmentRoleInput {
             return nil
         }
         return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/environments/\(environmentIdentifier.urlPercentEncoding())/roles/\(environmentRoleArn.urlPercentEncoding())"
+    }
+}
+
+extension GetAccountPoolInput {
+
+    static func urlPathProvider(_ value: GetAccountPoolInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/account-pools/\(identifier.urlPercentEncoding())"
     }
 }
 
@@ -22714,6 +23318,73 @@ extension GetUserProfileInput {
         if let type = value.type {
             let typeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
             items.append(typeQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAccountPoolsInput {
+
+    static func urlPathProvider(_ value: ListAccountPoolsInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/account-pools"
+    }
+}
+
+extension ListAccountPoolsInput {
+
+    static func queryItemProvider(_ value: ListAccountPoolsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let sortOrder = value.sortOrder {
+            let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
+            items.append(sortOrderQueryItem)
+        }
+        if let name = value.name {
+            let nameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            items.append(nameQueryItem)
+        }
+        if let sortBy = value.sortBy {
+            let sortByQueryItem = Smithy.URIQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
+            items.append(sortByQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAccountsInAccountPoolInput {
+
+    static func urlPathProvider(_ value: ListAccountsInAccountPoolInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/account-pools/\(identifier.urlPercentEncoding())/accounts"
+    }
+}
+
+extension ListAccountsInAccountPoolInput {
+
+    static func queryItemProvider(_ value: ListAccountsInAccountPoolInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
         }
         return items
     }
@@ -24178,6 +24849,19 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateAccountPoolInput {
+
+    static func urlPathProvider(_ value: UpdateAccountPoolInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/account-pools/\(identifier.urlPercentEncoding())"
+    }
+}
+
 extension UpdateAssetFilterInput {
 
     static func urlPathProvider(_ value: UpdateAssetFilterInput) -> Swift.String? {
@@ -24469,6 +25153,17 @@ extension AddPolicyGrantInput {
         try writer["detail"].write(value.detail, with: DataZoneClientTypes.PolicyGrantDetail.write(value:to:))
         try writer["policyType"].write(value.policyType)
         try writer["principal"].write(value.principal, with: DataZoneClientTypes.PolicyGrantPrincipal.write(value:to:))
+    }
+}
+
+extension CreateAccountPoolInput {
+
+    static func write(value: CreateAccountPoolInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountSource"].write(value.accountSource, with: DataZoneClientTypes.AccountSource.write(value:to:))
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["resolutionStrategy"].write(value.resolutionStrategy)
     }
 }
 
@@ -24988,6 +25683,17 @@ extension TagResourceInput {
     }
 }
 
+extension UpdateAccountPoolInput {
+
+    static func write(value: UpdateAccountPoolInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accountSource"].write(value.accountSource, with: DataZoneClientTypes.AccountSource.write(value:to:))
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["resolutionStrategy"].write(value.resolutionStrategy)
+    }
+}
+
 extension UpdateAssetFilterInput {
 
     static func write(value: UpdateAssetFilterInput?, to writer: SmithyJSON.Writer) throws {
@@ -25273,6 +25979,28 @@ extension CancelSubscriptionOutput {
         value.subscribedPrincipal = try reader["subscribedPrincipal"].readIfPresent(with: DataZoneClientTypes.SubscribedPrincipal.read(from:))
         value.subscriptionRequestId = try reader["subscriptionRequestId"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension CreateAccountPoolOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateAccountPoolOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateAccountPoolOutput()
+        value.accountSource = try reader["accountSource"].readIfPresent(with: DataZoneClientTypes.AccountSource.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.name = try reader["name"].readIfPresent()
+        value.resolutionStrategy = try reader["resolutionStrategy"].readIfPresent()
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
@@ -25850,6 +26578,13 @@ extension CreateUserProfileOutput {
     }
 }
 
+extension DeleteAccountPoolOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAccountPoolOutput {
+        return DeleteAccountPoolOutput()
+    }
+}
+
 extension DeleteAssetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteAssetOutput {
@@ -26073,6 +26808,28 @@ extension DisassociateEnvironmentRoleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateEnvironmentRoleOutput {
         return DisassociateEnvironmentRoleOutput()
+    }
+}
+
+extension GetAccountPoolOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAccountPoolOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAccountPoolOutput()
+        value.accountSource = try reader["accountSource"].readIfPresent(with: DataZoneClientTypes.AccountSource.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.name = try reader["name"].readIfPresent()
+        value.resolutionStrategy = try reader["resolutionStrategy"].readIfPresent()
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        return value
     }
 }
 
@@ -26851,6 +27608,32 @@ extension GetUserProfileOutput {
     }
 }
 
+extension ListAccountPoolsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAccountPoolsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAccountPoolsOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.AccountPoolSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListAccountsInAccountPoolOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAccountsInAccountPoolOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAccountsInAccountPoolOutput()
+        value.items = try reader["items"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.AccountInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListAssetFiltersOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAssetFiltersOutput {
@@ -27502,6 +28285,28 @@ extension UntagResourceOutput {
     }
 }
 
+extension UpdateAccountPoolOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAccountPoolOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAccountPoolOutput()
+        value.accountSource = try reader["accountSource"].readIfPresent(with: DataZoneClientTypes.AccountSource.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.domainId = try reader["domainId"].readIfPresent()
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.name = try reader["name"].readIfPresent()
+        value.resolutionStrategy = try reader["resolutionStrategy"].readIfPresent()
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
+        return value
+    }
+}
+
 extension UpdateAssetFilterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAssetFilterOutput {
@@ -28052,6 +28857,27 @@ enum CancelSubscriptionOutputError {
     }
 }
 
+enum CreateAccountPoolOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateAssetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -28578,6 +29404,25 @@ enum CreateUserProfileOutputError {
     }
 }
 
+enum DeleteAccountPoolOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteAssetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -29061,6 +29906,25 @@ enum DisassociateEnvironmentRoleOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAccountPoolOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -29713,6 +30577,43 @@ enum GetUserProfileOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAccountPoolsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListAccountsInAccountPoolOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -30625,6 +31526,27 @@ enum UntagResourceOutputError {
     }
 }
 
+enum UpdateAccountPoolOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateAssetFilterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -31224,6 +32146,70 @@ extension DataZoneClientTypes.FormOutput {
         value.typeName = try reader["typeName"].readIfPresent()
         value.typeRevision = try reader["typeRevision"].readIfPresent()
         value.content = try reader["content"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AccountSource {
+
+    static func write(value: DataZoneClientTypes.AccountSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .accounts(accounts):
+                try writer["accounts"].writeList(accounts, memberWritingClosure: DataZoneClientTypes.AccountInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .customaccountpoolhandler(customaccountpoolhandler):
+                try writer["customAccountPoolHandler"].write(customaccountpoolhandler, with: DataZoneClientTypes.CustomAccountPoolHandler.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AccountSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "accounts":
+                return .accounts(try reader["accounts"].readList(memberReadingClosure: DataZoneClientTypes.AccountInfo.read(from:), memberNodeInfo: "member", isFlattened: false))
+            case "customAccountPoolHandler":
+                return .customaccountpoolhandler(try reader["customAccountPoolHandler"].read(with: DataZoneClientTypes.CustomAccountPoolHandler.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DataZoneClientTypes.CustomAccountPoolHandler {
+
+    static func write(value: DataZoneClientTypes.CustomAccountPoolHandler?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["lambdaExecutionRoleArn"].write(value.lambdaExecutionRoleArn)
+        try writer["lambdaFunctionArn"].write(value.lambdaFunctionArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.CustomAccountPoolHandler {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.CustomAccountPoolHandler()
+        value.lambdaFunctionArn = try reader["lambdaFunctionArn"].readIfPresent() ?? ""
+        value.lambdaExecutionRoleArn = try reader["lambdaExecutionRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AccountInfo {
+
+    static func write(value: DataZoneClientTypes.AccountInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsAccountId"].write(value.awsAccountId)
+        try writer["awsAccountName"].write(value.awsAccountName)
+        try writer["supportedRegions"].writeList(value.supportedRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AccountInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AccountInfo()
+        value.awsAccountId = try reader["awsAccountId"].readIfPresent() ?? ""
+        value.supportedRegions = try reader["supportedRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.awsAccountName = try reader["awsAccountName"].readIfPresent()
         return value
     }
 }
@@ -32568,12 +33554,14 @@ extension DataZoneClientTypes.EnvironmentConfigurationUserParameter {
         try writer["environmentConfigurationName"].write(value.environmentConfigurationName)
         try writer["environmentId"].write(value.environmentId)
         try writer["environmentParameters"].writeList(value.environmentParameters, memberWritingClosure: DataZoneClientTypes.EnvironmentParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["environmentResolvedAccount"].write(value.environmentResolvedAccount, with: DataZoneClientTypes.EnvironmentResolvedAccount.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentConfigurationUserParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.EnvironmentConfigurationUserParameter()
         value.environmentId = try reader["environmentId"].readIfPresent()
+        value.environmentResolvedAccount = try reader["environmentResolvedAccount"].readIfPresent(with: DataZoneClientTypes.EnvironmentResolvedAccount.read(from:))
         value.environmentConfigurationName = try reader["environmentConfigurationName"].readIfPresent()
         value.environmentParameters = try reader["environmentParameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -32593,6 +33581,25 @@ extension DataZoneClientTypes.EnvironmentParameter {
         var value = DataZoneClientTypes.EnvironmentParameter()
         value.name = try reader["name"].readIfPresent()
         value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.EnvironmentResolvedAccount {
+
+    static func write(value: DataZoneClientTypes.EnvironmentResolvedAccount?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsAccountId"].write(value.awsAccountId)
+        try writer["regionName"].write(value.regionName)
+        try writer["sourceAccountPoolId"].write(value.sourceAccountPoolId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.EnvironmentResolvedAccount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.EnvironmentResolvedAccount()
+        value.awsAccountId = try reader["awsAccountId"].readIfPresent() ?? ""
+        value.regionName = try reader["regionName"].readIfPresent() ?? ""
+        value.sourceAccountPoolId = try reader["sourceAccountPoolId"].readIfPresent()
         return value
     }
 }
@@ -32618,6 +33625,7 @@ extension DataZoneClientTypes.EnvironmentConfiguration {
 
     static func write(value: DataZoneClientTypes.EnvironmentConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["accountPools"].writeList(value.accountPools, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["awsAccount"].write(value.awsAccount, with: DataZoneClientTypes.AwsAccount.write(value:to:))
         try writer["awsRegion"].write(value.awsRegion, with: DataZoneClientTypes.Region.write(value:to:))
         try writer["configurationParameters"].write(value.configurationParameters, with: DataZoneClientTypes.EnvironmentConfigurationParametersDetails.write(value:to:))
@@ -32639,6 +33647,7 @@ extension DataZoneClientTypes.EnvironmentConfiguration {
         value.deploymentMode = try reader["deploymentMode"].readIfPresent()
         value.configurationParameters = try reader["configurationParameters"].readIfPresent(with: DataZoneClientTypes.EnvironmentConfigurationParametersDetails.read(from:))
         value.awsAccount = try reader["awsAccount"].readIfPresent(with: DataZoneClientTypes.AwsAccount.read(from:))
+        value.accountPools = try reader["accountPools"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.awsRegion = try reader["awsRegion"].readIfPresent(with: DataZoneClientTypes.Region.read(from:))
         value.deploymentOrder = try reader["deploymentOrder"].readIfPresent()
         return value
@@ -33313,6 +34322,22 @@ extension DataZoneClientTypes.TimeSeriesDataPointFormOutput {
         value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.content = try reader["content"].readIfPresent()
         value.id = try reader["id"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AccountPoolSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AccountPoolSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AccountPoolSummary()
+        value.domainId = try reader["domainId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.resolutionStrategy = try reader["resolutionStrategy"].readIfPresent()
+        value.domainUnitId = try reader["domainUnitId"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
     }
 }

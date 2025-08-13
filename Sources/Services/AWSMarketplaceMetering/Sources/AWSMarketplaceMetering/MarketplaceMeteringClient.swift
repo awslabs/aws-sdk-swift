@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MarketplaceMeteringClient: ClientRuntime.Client {
     public static let clientName = "MarketplaceMeteringClient"
-    public static let version = "1.5.19"
+    public static let version = "1.5.20"
     let client: ClientRuntime.SdkHttpClient
     let config: MarketplaceMeteringClient.MarketplaceMeteringClientConfiguration
     let serviceName = "Marketplace Metering"
