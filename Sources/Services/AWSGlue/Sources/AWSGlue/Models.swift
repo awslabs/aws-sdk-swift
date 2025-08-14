@@ -12367,6 +12367,35 @@ public struct CreateDevEndpointOutput: Swift.Sendable {
     }
 }
 
+/// Request to create a new Glue Identity Center configuration.
+public struct CreateGlueIdentityCenterConfigurationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Identity Center instance to be associated with the Glue configuration.
+    /// This member is required.
+    public var instanceArn: Swift.String?
+    /// A list of Identity Center scopes that define the permissions and access levels for the Glue configuration.
+    public var scopes: [Swift.String]?
+
+    public init(
+        instanceArn: Swift.String? = nil,
+        scopes: [Swift.String]? = nil
+    ) {
+        self.instanceArn = instanceArn
+        self.scopes = scopes
+    }
+}
+
+/// Response from creating a new Glue Identity Center configuration.
+public struct CreateGlueIdentityCenterConfigurationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Identity Center application that was created for the Glue configuration.
+    public var applicationArn: Swift.String?
+
+    public init(
+        applicationArn: Swift.String? = nil
+    ) {
+        self.applicationArn = applicationArn
+    }
+}
+
 /// The CreatePartitions API was called on a table that has indexes enabled.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -15511,6 +15540,18 @@ public struct DeleteDevEndpointInput: Swift.Sendable {
 }
 
 public struct DeleteDevEndpointOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// Request to delete the existing Glue Identity Center configuration.
+public struct DeleteGlueIdentityCenterConfigurationInput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// Response from deleting the Glue Identity Center configuration.
+public struct DeleteGlueIdentityCenterConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -19798,6 +19839,32 @@ public struct GetEntityRecordsOutput: Swift.Sendable {
 extension GetEntityRecordsOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "GetEntityRecordsOutput(nextToken: \(Swift.String(describing: nextToken)), records: \"CONTENT_REDACTED\")"}
+}
+
+/// Request to retrieve the Glue Identity Center configuration.
+public struct GetGlueIdentityCenterConfigurationInput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// Response containing the Glue Identity Center configuration details.
+public struct GetGlueIdentityCenterConfigurationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Identity Center application associated with the Glue configuration.
+    public var applicationArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Identity Center instance associated with the Glue configuration.
+    public var instanceArn: Swift.String?
+    /// A list of Identity Center scopes that define the permissions and access levels for the Glue configuration.
+    public var scopes: [Swift.String]?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        instanceArn: Swift.String? = nil,
+        scopes: [Swift.String]? = nil
+    ) {
+        self.applicationArn = applicationArn
+        self.instanceArn = instanceArn
+        self.scopes = scopes
+    }
 }
 
 public struct GetIntegrationResourcePropertyInput: Swift.Sendable {
@@ -27451,6 +27518,24 @@ public struct UpdateDevEndpointOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Request to update an existing Glue Identity Center configuration.
+public struct UpdateGlueIdentityCenterConfigurationInput: Swift.Sendable {
+    /// A list of Identity Center scopes that define the updated permissions and access levels for the Glue configuration.
+    public var scopes: [Swift.String]?
+
+    public init(
+        scopes: [Swift.String]? = nil
+    ) {
+        self.scopes = scopes
+    }
+}
+
+/// Response from updating an existing Glue Identity Center configuration.
+public struct UpdateGlueIdentityCenterConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateIntegrationResourcePropertyInput: Swift.Sendable {
     /// The connection ARN of the source, or the database ARN of the target.
     /// This member is required.
@@ -29593,6 +29678,13 @@ extension CreateDevEndpointInput {
     }
 }
 
+extension CreateGlueIdentityCenterConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateGlueIdentityCenterConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateIntegrationInput {
 
     static func urlPathProvider(_ value: CreateIntegrationInput) -> Swift.String? {
@@ -29799,6 +29891,13 @@ extension DeleteDataQualityRulesetInput {
 extension DeleteDevEndpointInput {
 
     static func urlPathProvider(_ value: DeleteDevEndpointInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteGlueIdentityCenterConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteGlueIdentityCenterConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -30184,6 +30283,13 @@ extension GetDevEndpointsInput {
 extension GetEntityRecordsInput {
 
     static func urlPathProvider(_ value: GetEntityRecordsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetGlueIdentityCenterConfigurationInput {
+
+    static func urlPathProvider(_ value: GetGlueIdentityCenterConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -31028,6 +31134,13 @@ extension UpdateDevEndpointInput {
     }
 }
 
+extension UpdateGlueIdentityCenterConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateGlueIdentityCenterConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateIntegrationResourcePropertyInput {
 
     static func urlPathProvider(_ value: UpdateIntegrationResourcePropertyInput) -> Swift.String? {
@@ -31482,6 +31595,15 @@ extension CreateDevEndpointInput {
     }
 }
 
+extension CreateGlueIdentityCenterConfigurationInput {
+
+    static func write(value: CreateGlueIdentityCenterConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceArn"].write(value.instanceArn)
+        try writer["Scopes"].writeList(value.scopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateIntegrationInput {
 
     static func write(value: CreateIntegrationInput?, to writer: SmithyJSON.Writer) throws {
@@ -31837,6 +31959,14 @@ extension DeleteDevEndpointInput {
     static func write(value: DeleteDevEndpointInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EndpointName"].write(value.endpointName)
+    }
+}
+
+extension DeleteGlueIdentityCenterConfigurationInput {
+
+    static func write(value: DeleteGlueIdentityCenterConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 }
 
@@ -32356,6 +32486,14 @@ extension GetEntityRecordsInput {
         try writer["NextToken"].write(value.nextToken)
         try writer["OrderBy"].write(value.orderBy)
         try writer["SelectedFields"].writeList(value.selectedFields, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GetGlueIdentityCenterConfigurationInput {
+
+    static func write(value: GetGlueIdentityCenterConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 }
 
@@ -33621,6 +33759,14 @@ extension UpdateDevEndpointInput {
     }
 }
 
+extension UpdateGlueIdentityCenterConfigurationInput {
+
+    static func write(value: UpdateGlueIdentityCenterConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Scopes"].writeList(value.scopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension UpdateIntegrationResourcePropertyInput {
 
     static func write(value: UpdateIntegrationResourcePropertyInput?, to writer: SmithyJSON.Writer) throws {
@@ -34192,6 +34338,18 @@ extension CreateDevEndpointOutput {
     }
 }
 
+extension CreateGlueIdentityCenterConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateGlueIdentityCenterConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateGlueIdentityCenterConfigurationOutput()
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateIntegrationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIntegrationOutput {
@@ -34501,6 +34659,13 @@ extension DeleteDevEndpointOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDevEndpointOutput {
         return DeleteDevEndpointOutput()
+    }
+}
+
+extension DeleteGlueIdentityCenterConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteGlueIdentityCenterConfigurationOutput {
+        return DeleteGlueIdentityCenterConfigurationOutput()
     }
 }
 
@@ -35205,6 +35370,20 @@ extension GetEntityRecordsOutput {
         var value = GetEntityRecordsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.records = try reader["Records"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDocument(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GetGlueIdentityCenterConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetGlueIdentityCenterConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetGlueIdentityCenterConfigurationOutput()
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        value.instanceArn = try reader["InstanceArn"].readIfPresent()
+        value.scopes = try reader["Scopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -36691,6 +36870,13 @@ extension UpdateDevEndpointOutput {
     }
 }
 
+extension UpdateGlueIdentityCenterConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateGlueIdentityCenterConfigurationOutput {
+        return UpdateGlueIdentityCenterConfigurationOutput()
+    }
+}
+
 extension UpdateIntegrationResourcePropertyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateIntegrationResourcePropertyOutput {
@@ -37438,6 +37624,25 @@ enum CreateDevEndpointOutputError {
     }
 }
 
+enum CreateGlueIdentityCenterConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateIntegrationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -38000,6 +38205,25 @@ enum DeleteDevEndpointOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteGlueIdentityCenterConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
@@ -38966,6 +39190,25 @@ enum GetEntityRecordsOutputError {
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetGlueIdentityCenterConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -41093,6 +41336,25 @@ enum UpdateDevEndpointOutputError {
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateGlueIdentityCenterConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }

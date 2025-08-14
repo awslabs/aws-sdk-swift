@@ -153,6 +153,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSBCMPricingCalculator](../../../../../swift/api/awsbcmpricingcalculator/latest)
 
+[AWSBCMRecommendedActions](../../../../../swift/api/awsbcmrecommendedactions/latest)
+
 [AWSBackup](../../../../../swift/api/awsbackup/latest)
 
 [AWSBackupGateway](../../../../../swift/api/awsbackupgateway/latest)

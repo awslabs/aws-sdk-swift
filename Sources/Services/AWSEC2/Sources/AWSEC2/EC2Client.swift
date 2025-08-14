@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EC2Client: ClientRuntime.Client {
     public static let clientName = "EC2Client"
-    public static let version = "1.5.20"
+    public static let version = "1.5.21"
     let client: ClientRuntime.SdkHttpClient
     let config: EC2Client.EC2ClientConfiguration
     let serviceName = "EC2"
@@ -35227,6 +35227,68 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyInstanceCapacityReservationAttributes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ModifyInstanceConnectEndpoint` operation on the `EC2` service.
+    ///
+    /// Modifies the specified EC2 Instance Connect Endpoint. For more information, see [Modify an EC2 Instance Connect Endpoint](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/modify-ec2-instance-connect-endpoint.html) in the Amazon EC2 User Guide.
+    ///
+    /// - Parameter ModifyInstanceConnectEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyInstanceConnectEndpointOutput` : [no documentation found]
+    public func modifyInstanceConnectEndpoint(input: ModifyInstanceConnectEndpointInput) async throws -> ModifyInstanceConnectEndpointOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyInstanceConnectEndpoint")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ModifyInstanceConnectEndpointInput, ModifyInstanceConnectEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ModifyInstanceConnectEndpointInput, ModifyInstanceConnectEndpointOutput>(ModifyInstanceConnectEndpointInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyInstanceConnectEndpointInput, ModifyInstanceConnectEndpointOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyInstanceConnectEndpointInput, ModifyInstanceConnectEndpointOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyInstanceConnectEndpointOutput>(ModifyInstanceConnectEndpointOutput.httpOutput(from:), ModifyInstanceConnectEndpointOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyInstanceConnectEndpointInput, ModifyInstanceConnectEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ModifyInstanceConnectEndpointOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyInstanceConnectEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<ModifyInstanceConnectEndpointInput, ModifyInstanceConnectEndpointOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyInstanceConnectEndpointInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyInstanceConnectEndpointInput, ModifyInstanceConnectEndpointOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyInstanceConnectEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyInstanceConnectEndpointInput, ModifyInstanceConnectEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyInstanceConnectEndpointInput, ModifyInstanceConnectEndpointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyInstanceConnectEndpointInput, ModifyInstanceConnectEndpointOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyInstanceConnectEndpoint")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

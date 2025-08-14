@@ -1204,11 +1204,59 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-/// Throughput exceeds the current throughput quota for your account. Please contact [Amazon Web ServicesSupport](https://aws.amazon.com/support) to request a quota increase.
+extension DynamoDBClientTypes {
+
+    /// Represents the specific reason why a DynamoDB request was throttled and the ARN of the impacted resource. This helps identify exactly what resource is being throttled, what type of operation caused it, and why the throttling occurred.
+    public struct ThrottlingReason: Swift.Sendable {
+        /// The reason for throttling. The throttling reason follows a specific format: ResourceType+OperationType+LimitType:
+        ///
+        /// * Resource Type (What is being throttled): Table or Index
+        ///
+        /// * Operation Type (What kind of operation): Read or Write
+        ///
+        /// * Limit Type (Why the throttling occurred):
+        ///
+        /// * ProvisionedThroughputExceeded: The request rate is exceeding the [provisioned throughput capacity](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html) (read or write capacity units) configured for a table or a global secondary index (GSI) in provisioned capacity mode.
+        ///
+        /// * AccountLimitExceeded: The request rate has caused a table or global secondary index (GSI) in on-demand mode to exceed the [per-table account-level service quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ServiceQuotas.html#default-limits-throughput) for read/write throughput in the current Amazon Web Services Region.
+        ///
+        /// * KeyRangeThroughputExceeded: The request rate directed at a specific partition key value has exceeded the [internal partition-level throughput limits](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html), indicating uneven access patterns across the table's or GSI's key space.
+        ///
+        /// * MaxOnDemandThroughputExceeded: The request rate has exceeded the [configured maximum throughput limits](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/on-demand-capacity-mode-max-throughput.html) set for a table or index in on-demand capacity mode.
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// Examples of complete throttling reasons:
+        ///
+        /// * TableReadProvisionedThroughputExceeded
+        ///
+        /// * IndexWriteAccountLimitExceeded
+        ///
+        ///
+        /// This helps identify exactly what resource is being throttled, what type of operation caused it, and why the throttling occurred.
+        public var reason: Swift.String?
+        /// The Amazon Resource Name (ARN) of the DynamoDB table or index that experienced the throttling event.
+        public var resource: Swift.String?
+
+        public init(
+            reason: Swift.String? = nil,
+            resource: Swift.String? = nil
+        ) {
+            self.reason = reason
+            self.resource = resource
+        }
+    }
+}
+
+/// Throughput exceeds the current throughput quota for your account. For detailed information about why the request was throttled and the ARN of the impacted resource, find the [ThrottlingReason](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ThrottlingReason.html) field in the returned exception. Contact [Amazon Web ServicesSupport](https://aws.amazon.com/support) to request a quota increase.
 public struct RequestLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         public internal(set) var message: Swift.String? = nil
+        /// A list of [ThrottlingReason](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ThrottlingReason.html) that provide detailed diagnostic information about why the request was throttled.
+        public internal(set) var throttlingReasons: [DynamoDBClientTypes.ThrottlingReason]? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -1221,9 +1269,38 @@ public struct RequestLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime
     public internal(set) var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        throttlingReasons: [DynamoDBClientTypes.ThrottlingReason]? = nil
     ) {
         self.properties.message = message
+        self.properties.throttlingReasons = throttlingReasons
+    }
+}
+
+/// The request was denied due to request throttling. For detailed information about why the request was throttled and the ARN of the impacted resource, find the [ThrottlingReason](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ThrottlingReason.html) field in the returned exception.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// A list of [ThrottlingReason](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ThrottlingReason.html) that provide detailed diagnostic information about why the request was throttled.
+        public internal(set) var throttlingReasons: [DynamoDBClientTypes.ThrottlingReason]? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "Throttling" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        throttlingReasons: [DynamoDBClientTypes.ThrottlingReason]? = nil
+    ) {
+        self.properties.message = message
+        self.properties.throttlingReasons = throttlingReasons
     }
 }
 
@@ -1435,12 +1512,14 @@ public struct InvalidEndpointException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-/// Your request rate is too high. The Amazon Web Services SDKs for DynamoDB automatically retry requests that receive this exception. Your request is eventually successful, unless your retry queue is too large to finish. Reduce the frequency of requests and use exponential backoff. For more information, go to [Error Retries and Exponential Backoff](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff) in the Amazon DynamoDB Developer Guide.
+/// The request was denied due to request throttling. For detailed information about why the request was throttled and the ARN of the impacted resource, find the [ThrottlingReason](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ThrottlingReason.html) field in the returned exception. The Amazon Web Services SDKs for DynamoDB automatically retry requests that receive this exception. Your request is eventually successful, unless your retry queue is too large to finish. Reduce the frequency of requests and use exponential backoff. For more information, go to [Error Retries and Exponential Backoff](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Programming.Errors.html#Programming.Errors.RetryAndBackoff) in the Amazon DynamoDB Developer Guide.
 public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// You exceeded your maximum allowed provisioned throughput.
         public internal(set) var message: Swift.String? = nil
+        /// A list of [ThrottlingReason](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ThrottlingReason.html) that provide detailed diagnostic information about why the request was throttled.
+        public internal(set) var throttlingReasons: [DynamoDBClientTypes.ThrottlingReason]? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -1453,9 +1532,11 @@ public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError
     public internal(set) var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        throttlingReasons: [DynamoDBClientTypes.ThrottlingReason]? = nil
     ) {
         self.properties.message = message
+        self.properties.throttlingReasons = throttlingReasons
     }
 }
 
@@ -1836,6 +1917,35 @@ extension DynamoDBClientTypes {
 
 extension DynamoDBClientTypes {
 
+    public enum ContributorInsightsMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessedAndThrottledKeys
+        case throttledKeys
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContributorInsightsMode] {
+            return [
+                .accessedAndThrottledKeys,
+                .throttledKeys
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessedAndThrottledKeys: return "ACCESSED_AND_THROTTLED_KEYS"
+            case .throttledKeys: return "THROTTLED_KEYS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
     public enum ContributorInsightsStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case disabling
@@ -1876,6 +1986,8 @@ extension DynamoDBClientTypes {
 
     /// Represents a Contributor Insights summary entry.
     public struct ContributorInsightsSummary: Swift.Sendable {
+        /// Indicates the current mode of CloudWatch Contributor Insights, specifying whether it tracks all access and throttled events or throttled events only for the DynamoDB table or index.
+        public var contributorInsightsMode: DynamoDBClientTypes.ContributorInsightsMode?
         /// Describes the current status for contributor insights for the given table and index, if applicable.
         public var contributorInsightsStatus: DynamoDBClientTypes.ContributorInsightsStatus?
         /// Name of the index associated with the summary, if any.
@@ -1884,10 +1996,12 @@ extension DynamoDBClientTypes {
         public var tableName: Swift.String?
 
         public init(
+            contributorInsightsMode: DynamoDBClientTypes.ContributorInsightsMode? = nil,
             contributorInsightsStatus: DynamoDBClientTypes.ContributorInsightsStatus? = nil,
             indexName: Swift.String? = nil,
             tableName: Swift.String? = nil
         ) {
+            self.contributorInsightsMode = contributorInsightsMode
             self.contributorInsightsStatus = contributorInsightsStatus
             self.indexName = indexName
             self.tableName = tableName
@@ -3769,6 +3883,8 @@ extension DynamoDBClientTypes {
 }
 
 public struct DescribeContributorInsightsOutput: Swift.Sendable {
+    /// The mode of CloudWatch Contributor Insights for DynamoDB that determines which events are emitted. Can be set to track all access and throttled events or throttled events only.
+    public var contributorInsightsMode: DynamoDBClientTypes.ContributorInsightsMode?
     /// List of names of the associated contributor insights rules.
     public var contributorInsightsRuleList: [Swift.String]?
     /// Current status of contributor insights.
@@ -3791,6 +3907,7 @@ public struct DescribeContributorInsightsOutput: Swift.Sendable {
     public var tableName: Swift.String?
 
     public init(
+        contributorInsightsMode: DynamoDBClientTypes.ContributorInsightsMode? = nil,
         contributorInsightsRuleList: [Swift.String]? = nil,
         contributorInsightsStatus: DynamoDBClientTypes.ContributorInsightsStatus? = nil,
         failureException: DynamoDBClientTypes.FailureException? = nil,
@@ -3798,6 +3915,7 @@ public struct DescribeContributorInsightsOutput: Swift.Sendable {
         lastUpdateDateTime: Foundation.Date? = nil,
         tableName: Swift.String? = nil
     ) {
+        self.contributorInsightsMode = contributorInsightsMode
         self.contributorInsightsRuleList = contributorInsightsRuleList
         self.contributorInsightsStatus = contributorInsightsStatus
         self.failureException = failureException
@@ -6047,6 +6165,8 @@ public struct UpdateContributorInsightsInput: Swift.Sendable {
     /// Represents the contributor insights action.
     /// This member is required.
     public var contributorInsightsAction: DynamoDBClientTypes.ContributorInsightsAction?
+    /// Specifies whether to track all access and throttled events or throttled events only for the DynamoDB table or index.
+    public var contributorInsightsMode: DynamoDBClientTypes.ContributorInsightsMode?
     /// The global secondary index name, if applicable.
     public var indexName: Swift.String?
     /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
@@ -6055,16 +6175,20 @@ public struct UpdateContributorInsightsInput: Swift.Sendable {
 
     public init(
         contributorInsightsAction: DynamoDBClientTypes.ContributorInsightsAction? = nil,
+        contributorInsightsMode: DynamoDBClientTypes.ContributorInsightsMode? = nil,
         indexName: Swift.String? = nil,
         tableName: Swift.String? = nil
     ) {
         self.contributorInsightsAction = contributorInsightsAction
+        self.contributorInsightsMode = contributorInsightsMode
         self.indexName = indexName
         self.tableName = tableName
     }
 }
 
 public struct UpdateContributorInsightsOutput: Swift.Sendable {
+    /// The updated mode of CloudWatch Contributor Insights that determines whether to monitor all access and throttled events or to track throttled events exclusively.
+    public var contributorInsightsMode: DynamoDBClientTypes.ContributorInsightsMode?
     /// The status of contributor insights
     public var contributorInsightsStatus: DynamoDBClientTypes.ContributorInsightsStatus?
     /// The name of the global secondary index, if applicable.
@@ -6073,10 +6197,12 @@ public struct UpdateContributorInsightsOutput: Swift.Sendable {
     public var tableName: Swift.String?
 
     public init(
+        contributorInsightsMode: DynamoDBClientTypes.ContributorInsightsMode? = nil,
         contributorInsightsStatus: DynamoDBClientTypes.ContributorInsightsStatus? = nil,
         indexName: Swift.String? = nil,
         tableName: Swift.String? = nil
     ) {
+        self.contributorInsightsMode = contributorInsightsMode
         self.contributorInsightsStatus = contributorInsightsStatus
         self.indexName = indexName
         self.tableName = tableName
@@ -9827,6 +9953,7 @@ extension UpdateContributorInsightsInput {
     static func write(value: UpdateContributorInsightsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ContributorInsightsAction"].write(value.contributorInsightsAction)
+        try writer["ContributorInsightsMode"].write(value.contributorInsightsMode)
         try writer["IndexName"].write(value.indexName)
         try writer["TableName"].write(value.tableName)
     }
@@ -10083,6 +10210,7 @@ extension DescribeContributorInsightsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeContributorInsightsOutput()
+        value.contributorInsightsMode = try reader["ContributorInsightsMode"].readIfPresent()
         value.contributorInsightsRuleList = try reader["ContributorInsightsRuleList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.contributorInsightsStatus = try reader["ContributorInsightsStatus"].readIfPresent()
         value.failureException = try reader["FailureException"].readIfPresent(with: DynamoDBClientTypes.FailureException.read(from:))
@@ -10558,6 +10686,7 @@ extension UpdateContributorInsightsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateContributorInsightsOutput()
+        value.contributorInsightsMode = try reader["ContributorInsightsMode"].readIfPresent()
         value.contributorInsightsStatus = try reader["ContributorInsightsStatus"].readIfPresent()
         value.indexName = try reader["IndexName"].readIfPresent()
         value.tableName = try reader["TableName"].readIfPresent()
@@ -10665,6 +10794,7 @@ enum BatchExecuteStatementOutputError {
         switch baseError.code {
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -10683,6 +10813,7 @@ enum BatchGetItemOutputError {
             case "ProvisionedThroughputExceededException": return try ProvisionedThroughputExceededException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -10703,6 +10834,7 @@ enum BatchWriteItemOutputError {
             case "ReplicatedWriteConflictException": return try ReplicatedWriteConflictException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -10797,6 +10929,7 @@ enum DeleteItemOutputError {
             case "ReplicatedWriteConflictException": return try ReplicatedWriteConflictException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             case "TransactionConflictException": return try TransactionConflictException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11091,6 +11224,7 @@ enum ExecuteStatementOutputError {
             case "ProvisionedThroughputExceededException": return try ProvisionedThroughputExceededException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             case "TransactionConflictException": return try TransactionConflictException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11110,6 +11244,7 @@ enum ExecuteTransactionOutputError {
             case "ProvisionedThroughputExceededException": return try ProvisionedThroughputExceededException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             case "TransactionCanceledException": return try TransactionCanceledException.makeError(baseError: baseError)
             case "TransactionInProgressException": return try TransactionInProgressException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -11149,6 +11284,7 @@ enum GetItemOutputError {
             case "ProvisionedThroughputExceededException": return try ProvisionedThroughputExceededException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -11308,6 +11444,7 @@ enum PutItemOutputError {
             case "ReplicatedWriteConflictException": return try ReplicatedWriteConflictException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             case "TransactionConflictException": return try TransactionConflictException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11346,6 +11483,7 @@ enum QueryOutputError {
             case "ProvisionedThroughputExceededException": return try ProvisionedThroughputExceededException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -11405,6 +11543,7 @@ enum ScanOutputError {
             case "ProvisionedThroughputExceededException": return try ProvisionedThroughputExceededException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -11441,6 +11580,7 @@ enum TransactGetItemsOutputError {
             case "ProvisionedThroughputExceededException": return try ProvisionedThroughputExceededException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             case "TransactionCanceledException": return try TransactionCanceledException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11461,6 +11601,7 @@ enum TransactWriteItemsOutputError {
             case "ProvisionedThroughputExceededException": return try ProvisionedThroughputExceededException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             case "TransactionCanceledException": return try TransactionCanceledException.makeError(baseError: baseError)
             case "TransactionInProgressException": return try TransactionInProgressException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -11573,6 +11714,7 @@ enum UpdateItemOutputError {
             case "ReplicatedWriteConflictException": return try ReplicatedWriteConflictException.makeError(baseError: baseError)
             case "RequestLimitExceeded": return try RequestLimitExceeded.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "Throttling": return try ThrottlingException.makeError(baseError: baseError)
             case "TransactionConflictException": return try TransactionConflictException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11668,7 +11810,22 @@ extension RequestLimitExceeded {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RequestLimitExceeded {
         let reader = baseError.errorBodyReader
         var value = RequestLimitExceeded()
+        value.properties.throttlingReasons = try reader["ThrottlingReasons"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.ThrottlingReason.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.throttlingReasons = try reader["throttlingReasons"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.ThrottlingReason.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -11694,6 +11851,7 @@ extension ProvisionedThroughputExceededException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ProvisionedThroughputExceededException {
         let reader = baseError.errorBodyReader
         var value = ProvisionedThroughputExceededException()
+        value.properties.throttlingReasons = try reader["ThrottlingReasons"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.ThrottlingReason.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -13183,6 +13341,7 @@ extension DynamoDBClientTypes.ContributorInsightsSummary {
         value.tableName = try reader["TableName"].readIfPresent()
         value.indexName = try reader["IndexName"].readIfPresent()
         value.contributorInsightsStatus = try reader["ContributorInsightsStatus"].readIfPresent()
+        value.contributorInsightsMode = try reader["ContributorInsightsMode"].readIfPresent()
         return value
     }
 }
@@ -13287,6 +13446,17 @@ extension DynamoDBClientTypes.TimeToLiveSpecification {
         var value = DynamoDBClientTypes.TimeToLiveSpecification()
         value.enabled = try reader["Enabled"].readIfPresent() ?? false
         value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DynamoDBClientTypes.ThrottlingReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBClientTypes.ThrottlingReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBClientTypes.ThrottlingReason()
+        value.reason = try reader["reason"].readIfPresent()
+        value.resource = try reader["resource"].readIfPresent()
         return value
     }
 }

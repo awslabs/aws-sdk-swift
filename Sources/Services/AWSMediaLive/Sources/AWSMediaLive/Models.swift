@@ -71,6 +71,37 @@ public struct DeleteTagsOutput: Swift.Sendable {
 
 extension MediaLiveClientTypes {
 
+    /// Reference to an OutputDestination ID defined in the channel
+    public struct OutputLocationRef: Swift.Sendable {
+        /// Placeholder documentation for __string
+        public var destinationRefId: Swift.String?
+
+        public init(
+            destinationRefId: Swift.String? = nil
+        ) {
+            self.destinationRefId = destinationRefId
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Additional output destinations for a CMAF Ingest output group
+    public struct AdditionalDestinations: Swift.Sendable {
+        /// The destination location
+        /// This member is required.
+        public var destination: MediaLiveClientTypes.OutputLocationRef?
+
+        public init(
+            destination: MediaLiveClientTypes.OutputLocationRef? = nil
+        ) {
+            self.destination = destination
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Input Channel Level
     public struct InputChannelLevel: Swift.Sendable {
         /// Remixing value. Units are in dB and acceptable values are within the range from -60 (mute) and 6 dB.
@@ -10382,21 +10413,6 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
-    /// Reference to an OutputDestination ID defined in the channel
-    public struct OutputLocationRef: Swift.Sendable {
-        /// Placeholder documentation for __string
-        public var destinationRefId: Swift.String?
-
-        public init(
-            destinationRefId: Swift.String? = nil
-        ) {
-            self.destinationRefId = destinationRefId
-        }
-    }
-}
-
-extension MediaLiveClientTypes {
-
     /// Multiplex Output Settings
     public struct MultiplexOutputSettings: Swift.Sendable {
         /// Multiplex Container Settings
@@ -11026,6 +11042,8 @@ extension MediaLiveClientTypes {
 
     /// Cmaf Ingest Group Settings
     public struct CmafIngestGroupSettings: Swift.Sendable {
+        /// Optional an array of additional destinational HTTP destinations for the OutputGroup outputs
+        public var additionalDestinations: [MediaLiveClientTypes.AdditionalDestinations]?
         /// An array that identifies the languages in the four caption channels in the embedded captions.
         public var captionLanguageMappings: [MediaLiveClientTypes.CmafIngestCaptionLanguageMapping]?
         /// A HTTP destination for the tracks
@@ -11061,6 +11079,7 @@ extension MediaLiveClientTypes {
         public var timedMetadataPassthrough: MediaLiveClientTypes.CmafTimedMetadataPassthrough?
 
         public init(
+            additionalDestinations: [MediaLiveClientTypes.AdditionalDestinations]? = nil,
             captionLanguageMappings: [MediaLiveClientTypes.CmafIngestCaptionLanguageMapping]? = nil,
             destination: MediaLiveClientTypes.OutputLocationRef? = nil,
             id3Behavior: MediaLiveClientTypes.CmafId3Behavior? = nil,
@@ -11078,6 +11097,7 @@ extension MediaLiveClientTypes {
             timedMetadataId3Period: Swift.Int? = nil,
             timedMetadataPassthrough: MediaLiveClientTypes.CmafTimedMetadataPassthrough? = nil
         ) {
+            self.additionalDestinations = additionalDestinations
             self.captionLanguageMappings = captionLanguageMappings
             self.destination = destination
             self.id3Behavior = id3Behavior
@@ -36014,6 +36034,7 @@ extension MediaLiveClientTypes.CmafIngestGroupSettings {
 
     static func write(value: MediaLiveClientTypes.CmafIngestGroupSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["additionalDestinations"].writeList(value.additionalDestinations, memberWritingClosure: MediaLiveClientTypes.AdditionalDestinations.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["captionLanguageMappings"].writeList(value.captionLanguageMappings, memberWritingClosure: MediaLiveClientTypes.CmafIngestCaptionLanguageMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["destination"].write(value.destination, with: MediaLiveClientTypes.OutputLocationRef.write(value:to:))
         try writer["id3Behavior"].write(value.id3Behavior)
@@ -36051,6 +36072,22 @@ extension MediaLiveClientTypes.CmafIngestGroupSettings {
         value.timedMetadataId3Frame = try reader["timedMetadataId3Frame"].readIfPresent()
         value.timedMetadataId3Period = try reader["timedMetadataId3Period"].readIfPresent()
         value.timedMetadataPassthrough = try reader["timedMetadataPassthrough"].readIfPresent()
+        value.additionalDestinations = try reader["additionalDestinations"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.AdditionalDestinations.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.AdditionalDestinations {
+
+    static func write(value: MediaLiveClientTypes.AdditionalDestinations?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destination"].write(value.destination, with: MediaLiveClientTypes.OutputLocationRef.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.AdditionalDestinations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.AdditionalDestinations()
+        value.destination = try reader["destination"].readIfPresent(with: MediaLiveClientTypes.OutputLocationRef.read(from:))
         return value
     }
 }

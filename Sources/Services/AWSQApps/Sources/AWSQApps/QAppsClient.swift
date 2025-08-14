@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QAppsClient: ClientRuntime.Client {
     public static let clientName = "QAppsClient"
-    public static let version = "1.5.20"
+    public static let version = "1.5.21"
     let client: ClientRuntime.SdkHttpClient
     let config: QAppsClient.QAppsClientConfiguration
     let serviceName = "QApps"
@@ -817,7 +817,7 @@ extension QAppsClient {
 
     /// Performs the `CreatePresignedUrl` operation on the `QApps` service.
     ///
-    /// Creates a presigned URL for an S3 POST operation to upload a file. You can use this URL to set a default file for a FileUploadCard in a Q App definition or to provide a file for a single Q App run. The scope parameter determines how the file will be used, either at the app definition level or the app session level.
+    /// Creates a presigned URL for an S3 POST operation to upload a file. You can use this URL to set a default file for a FileUploadCard in a Q App definition or to provide a file for a single Q App run. The scope parameter determines how the file will be used, either at the app definition level or the app session level. The IAM permissions are derived from the qapps:ImportDocument action. For more information on the IAM policy for Amazon Q Apps, see [IAM permissions for using Amazon Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/deploy-q-apps-iam-permissions.html).
     ///
     /// - Parameter CreatePresignedUrlInput : [no documentation found]
     ///

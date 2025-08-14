@@ -610,11 +610,7 @@ public struct CreateComputeNodeGroupInput: Swift.Sendable {
     /// An Amazon EC2 launch template Amazon Web Services PCS uses to launch compute nodes.
     /// This member is required.
     public var customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate?
-    /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with AWSPCS or it must have /aws-pcs/ in its path. Examples
-    ///
-    /// * arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1
-    ///
-    /// * arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
+    /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see [IAM instance profiles for PCS](https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html) in the PCS User Guide.
     /// This member is required.
     public var iamInstanceProfileArn: Swift.String?
     /// A list of EC2 instance configurations that Amazon Web Services PCS can provision in the compute node group.
@@ -794,11 +790,7 @@ extension PCSClientTypes {
         public var customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate?
         /// The list of errors that occurred during compute node group provisioning.
         public var errorInfo: [PCSClientTypes.ErrorInfo]?
-        /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with AWSPCS or it must have /aws-pcs/ in its path. Examples
-        ///
-        /// * arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1
-        ///
-        /// * arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
+        /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see [IAM instance profiles for PCS](https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html) in the PCS User Guide.
         /// This member is required.
         public var iamInstanceProfileArn: Swift.String?
         /// The generated unique ID of the compute node group.
@@ -1044,11 +1036,7 @@ public struct UpdateComputeNodeGroupInput: Swift.Sendable {
     public var computeNodeGroupIdentifier: Swift.String?
     /// An Amazon EC2 launch template Amazon Web Services PCS uses to launch compute nodes.
     public var customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate?
-    /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with AWSPCS or it must have /aws-pcs/ in its path. Examples
-    ///
-    /// * arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1
-    ///
-    /// * arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
+    /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see [IAM instance profiles for PCS](https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html) in the PCS User Guide.
     public var iamInstanceProfileArn: Swift.String?
     /// Specifies how EC2 instances are purchased on your behalf. Amazon Web Services PCS supports On-Demand and Spot instances. For more information, see [Instance purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html) in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to On-Demand.
     public var purchaseOption: PCSClientTypes.PurchaseOption?

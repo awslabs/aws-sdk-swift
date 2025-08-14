@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MPAClient: ClientRuntime.Client {
     public static let clientName = "MPAClient"
-    public static let version = "1.5.20"
+    public static let version = "1.5.21"
     let client: ClientRuntime.SdkHttpClient
     let config: MPAClient.MPAClientConfiguration
     let serviceName = "MPA"

@@ -867,9 +867,21 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
-        /// This member is required.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        ///
+        ///
+        /// The valid values are 1-2147483646.
         public var asn: Swift.Int
+        /// The ASN when allocating a new private virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public var asnLong: Swift.Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public var authKey: Swift.String?
         /// The IP address assigned to the customer interface.
@@ -889,6 +901,7 @@ extension DirectConnectClientTypes {
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
+            asnLong: Swift.Int? = nil,
             authKey: Swift.String? = nil,
             customerAddress: Swift.String? = nil,
             mtu: Swift.Int? = nil,
@@ -899,6 +912,7 @@ extension DirectConnectClientTypes {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.mtu = mtu
@@ -1009,8 +1023,18 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public var asn: Swift.Int
+        /// The long ASN for the BGP peer. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public var asnLong: Swift.Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public var authKey: Swift.String?
         /// The Direct Connect endpoint that terminates the BGP peer.
@@ -1046,6 +1070,7 @@ extension DirectConnectClientTypes {
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
+            asnLong: Swift.Int? = nil,
             authKey: Swift.String? = nil,
             awsDeviceV2: Swift.String? = nil,
             awsLogicalDeviceId: Swift.String? = nil,
@@ -1057,6 +1082,7 @@ extension DirectConnectClientTypes {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.awsDeviceV2 = awsDeviceV2
             self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -1127,10 +1153,20 @@ public struct AllocatePrivateVirtualInterfaceOutput: Swift.Sendable {
     public var addressFamily: DirectConnectClientTypes.AddressFamily?
     /// The IP address assigned to the Amazon interface.
     public var amazonAddress: Swift.String?
-    /// The autonomous system number (ASN) for the Amazon side of the connection.
+    /// The autonomous system number (AS) for the Amazon side of the connection.
     public var amazonSideAsn: Swift.Int?
-    /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     public var asn: Swift.Int
+    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+    public var asnLong: Swift.Int?
     /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
     public var authKey: Swift.String?
     /// The Direct Connect endpoint that terminates the physical connection.
@@ -1201,6 +1237,7 @@ public struct AllocatePrivateVirtualInterfaceOutput: Swift.Sendable {
         amazonAddress: Swift.String? = nil,
         amazonSideAsn: Swift.Int? = nil,
         asn: Swift.Int = 0,
+        asnLong: Swift.Int? = nil,
         authKey: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
@@ -1228,6 +1265,7 @@ public struct AllocatePrivateVirtualInterfaceOutput: Swift.Sendable {
         self.amazonAddress = amazonAddress
         self.amazonSideAsn = amazonSideAsn
         self.asn = asn
+        self.asnLong = asnLong
         self.authKey = authKey
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -1261,9 +1299,21 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
-        /// This member is required.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        ///
+        ///
+        /// The valid values are 1-2147483646.
         public var asn: Swift.Int
+        /// The ASN when allocating a new public virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public var asnLong: Swift.Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public var authKey: Swift.String?
         /// The IP address assigned to the customer interface.
@@ -1283,6 +1333,7 @@ extension DirectConnectClientTypes {
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
+            asnLong: Swift.Int? = nil,
             authKey: Swift.String? = nil,
             customerAddress: Swift.String? = nil,
             routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
@@ -1293,6 +1344,7 @@ extension DirectConnectClientTypes {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.routeFilterPrefixes = routeFilterPrefixes
@@ -1331,10 +1383,20 @@ public struct AllocatePublicVirtualInterfaceOutput: Swift.Sendable {
     public var addressFamily: DirectConnectClientTypes.AddressFamily?
     /// The IP address assigned to the Amazon interface.
     public var amazonAddress: Swift.String?
-    /// The autonomous system number (ASN) for the Amazon side of the connection.
+    /// The autonomous system number (AS) for the Amazon side of the connection.
     public var amazonSideAsn: Swift.Int?
-    /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     public var asn: Swift.Int
+    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+    public var asnLong: Swift.Int?
     /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
     public var authKey: Swift.String?
     /// The Direct Connect endpoint that terminates the physical connection.
@@ -1405,6 +1467,7 @@ public struct AllocatePublicVirtualInterfaceOutput: Swift.Sendable {
         amazonAddress: Swift.String? = nil,
         amazonSideAsn: Swift.Int? = nil,
         asn: Swift.Int = 0,
+        asnLong: Swift.Int? = nil,
         authKey: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
@@ -1432,6 +1495,7 @@ public struct AllocatePublicVirtualInterfaceOutput: Swift.Sendable {
         self.amazonAddress = amazonAddress
         self.amazonSideAsn = amazonSideAsn
         self.asn = asn
+        self.asnLong = asnLong
         self.authKey = authKey
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -1465,8 +1529,21 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        ///
+        ///
+        /// The valid values are 1-2147483646.
         public var asn: Swift.Int
+        /// The ASN when allocating a new transit virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public var asnLong: Swift.Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public var authKey: Swift.String?
         /// The IP address assigned to the customer interface.
@@ -1484,6 +1561,7 @@ extension DirectConnectClientTypes {
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
+            asnLong: Swift.Int? = nil,
             authKey: Swift.String? = nil,
             customerAddress: Swift.String? = nil,
             mtu: Swift.Int? = nil,
@@ -1494,6 +1572,7 @@ extension DirectConnectClientTypes {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.mtu = mtu
@@ -1534,10 +1613,20 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system number (ASN) for the Amazon side of the connection.
+        /// The autonomous system number (AS) for the Amazon side of the connection.
         public var amazonSideAsn: Swift.Int?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public var asn: Swift.Int
+        /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public var asnLong: Swift.Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public var authKey: Swift.String?
         /// The Direct Connect endpoint that terminates the physical connection.
@@ -1608,6 +1697,7 @@ extension DirectConnectClientTypes {
             amazonAddress: Swift.String? = nil,
             amazonSideAsn: Swift.Int? = nil,
             asn: Swift.Int = 0,
+            asnLong: Swift.Int? = nil,
             authKey: Swift.String? = nil,
             awsDeviceV2: Swift.String? = nil,
             awsLogicalDeviceId: Swift.String? = nil,
@@ -1635,6 +1725,7 @@ extension DirectConnectClientTypes {
             self.amazonAddress = amazonAddress
             self.amazonSideAsn = amazonSideAsn
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.awsDeviceV2 = awsDeviceV2
             self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -2006,10 +2097,20 @@ public struct AssociateVirtualInterfaceOutput: Swift.Sendable {
     public var addressFamily: DirectConnectClientTypes.AddressFamily?
     /// The IP address assigned to the Amazon interface.
     public var amazonAddress: Swift.String?
-    /// The autonomous system number (ASN) for the Amazon side of the connection.
+    /// The autonomous system number (AS) for the Amazon side of the connection.
     public var amazonSideAsn: Swift.Int?
-    /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     public var asn: Swift.Int
+    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+    public var asnLong: Swift.Int?
     /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
     public var authKey: Swift.String?
     /// The Direct Connect endpoint that terminates the physical connection.
@@ -2080,6 +2181,7 @@ public struct AssociateVirtualInterfaceOutput: Swift.Sendable {
         amazonAddress: Swift.String? = nil,
         amazonSideAsn: Swift.Int? = nil,
         asn: Swift.Int = 0,
+        asnLong: Swift.Int? = nil,
         authKey: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
@@ -2107,6 +2209,7 @@ public struct AssociateVirtualInterfaceOutput: Swift.Sendable {
         self.amazonAddress = amazonAddress
         self.amazonSideAsn = amazonSideAsn
         self.asn = asn
+        self.asnLong = asnLong
         self.authKey = authKey
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -2467,8 +2570,10 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead.
         public var asn: Swift.Int
+        /// The long ASN for a new BGP peer. The valid range is from 1 to 4294967294.
+        public var asnLong: Swift.Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public var authKey: Swift.String?
         /// The IP address assigned to the customer interface.
@@ -2478,12 +2583,14 @@ extension DirectConnectClientTypes {
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
+            asnLong: Swift.Int? = nil,
             authKey: Swift.String? = nil,
             customerAddress: Swift.String? = nil
         ) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
         }
@@ -2732,7 +2839,7 @@ extension DirectConnectClientTypes {
 
     /// Information about a Direct Connect gateway, which enables you to connect virtual interfaces and virtual private gateway or transit gateways.
     public struct DirectConnectGateway: Swift.Sendable {
-        /// The autonomous system number (ASN) for the Amazon side of the connection.
+        /// The autonomous system number (AS) for the Amazon side of the connection.
         public var amazonSideAsn: Swift.Int?
         /// The ID of the Direct Connect gateway.
         public var directConnectGatewayId: Swift.String?
@@ -3326,9 +3433,21 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
-        /// This member is required.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        ///
+        ///
+        /// The valid values are 1-2147483646.
         public var asn: Swift.Int
+        /// The long ASN for a new private virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public var asnLong: Swift.Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public var authKey: Swift.String?
         /// The IP address assigned to the customer interface.
@@ -3354,6 +3473,7 @@ extension DirectConnectClientTypes {
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
+            asnLong: Swift.Int? = nil,
             authKey: Swift.String? = nil,
             customerAddress: Swift.String? = nil,
             directConnectGatewayId: Swift.String? = nil,
@@ -3367,6 +3487,7 @@ extension DirectConnectClientTypes {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.directConnectGatewayId = directConnectGatewayId
@@ -3403,10 +3524,20 @@ public struct CreatePrivateVirtualInterfaceOutput: Swift.Sendable {
     public var addressFamily: DirectConnectClientTypes.AddressFamily?
     /// The IP address assigned to the Amazon interface.
     public var amazonAddress: Swift.String?
-    /// The autonomous system number (ASN) for the Amazon side of the connection.
+    /// The autonomous system number (AS) for the Amazon side of the connection.
     public var amazonSideAsn: Swift.Int?
-    /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     public var asn: Swift.Int
+    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+    public var asnLong: Swift.Int?
     /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
     public var authKey: Swift.String?
     /// The Direct Connect endpoint that terminates the physical connection.
@@ -3477,6 +3608,7 @@ public struct CreatePrivateVirtualInterfaceOutput: Swift.Sendable {
         amazonAddress: Swift.String? = nil,
         amazonSideAsn: Swift.Int? = nil,
         asn: Swift.Int = 0,
+        asnLong: Swift.Int? = nil,
         authKey: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
@@ -3504,6 +3636,7 @@ public struct CreatePrivateVirtualInterfaceOutput: Swift.Sendable {
         self.amazonAddress = amazonAddress
         self.amazonSideAsn = amazonSideAsn
         self.asn = asn
+        self.asnLong = asnLong
         self.authKey = authKey
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -3537,9 +3670,18 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
-        /// This member is required.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public var asn: Swift.Int
+        /// The long ASN for a new public virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public var asnLong: Swift.Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public var authKey: Swift.String?
         /// The IP address assigned to the customer interface.
@@ -3559,6 +3701,7 @@ extension DirectConnectClientTypes {
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
+            asnLong: Swift.Int? = nil,
             authKey: Swift.String? = nil,
             customerAddress: Swift.String? = nil,
             routeFilterPrefixes: [DirectConnectClientTypes.RouteFilterPrefix]? = nil,
@@ -3569,6 +3712,7 @@ extension DirectConnectClientTypes {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.routeFilterPrefixes = routeFilterPrefixes
@@ -3602,10 +3746,20 @@ public struct CreatePublicVirtualInterfaceOutput: Swift.Sendable {
     public var addressFamily: DirectConnectClientTypes.AddressFamily?
     /// The IP address assigned to the Amazon interface.
     public var amazonAddress: Swift.String?
-    /// The autonomous system number (ASN) for the Amazon side of the connection.
+    /// The autonomous system number (AS) for the Amazon side of the connection.
     public var amazonSideAsn: Swift.Int?
-    /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     public var asn: Swift.Int
+    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+    public var asnLong: Swift.Int?
     /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
     public var authKey: Swift.String?
     /// The Direct Connect endpoint that terminates the physical connection.
@@ -3676,6 +3830,7 @@ public struct CreatePublicVirtualInterfaceOutput: Swift.Sendable {
         amazonAddress: Swift.String? = nil,
         amazonSideAsn: Swift.Int? = nil,
         asn: Swift.Int = 0,
+        asnLong: Swift.Int? = nil,
         authKey: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
@@ -3703,6 +3858,7 @@ public struct CreatePublicVirtualInterfaceOutput: Swift.Sendable {
         self.amazonAddress = amazonAddress
         self.amazonSideAsn = amazonSideAsn
         self.asn = asn
+        self.asnLong = asnLong
         self.authKey = authKey
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -3736,8 +3892,18 @@ extension DirectConnectClientTypes {
         public var addressFamily: DirectConnectClientTypes.AddressFamily?
         /// The IP address assigned to the Amazon interface.
         public var amazonAddress: Swift.String?
-        /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
+        /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
         public var asn: Swift.Int
+        /// The long ASN for a new transit virtual interface.The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+        ///
+        /// * The asnLong attribute accepts both ASN and long ASN ranges.
+        ///
+        /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+        public var asnLong: Swift.Int?
         /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
         public var authKey: Swift.String?
         /// The IP address assigned to the customer interface.
@@ -3759,6 +3925,7 @@ extension DirectConnectClientTypes {
             addressFamily: DirectConnectClientTypes.AddressFamily? = nil,
             amazonAddress: Swift.String? = nil,
             asn: Swift.Int = 0,
+            asnLong: Swift.Int? = nil,
             authKey: Swift.String? = nil,
             customerAddress: Swift.String? = nil,
             directConnectGatewayId: Swift.String? = nil,
@@ -3771,6 +3938,7 @@ extension DirectConnectClientTypes {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
+            self.asnLong = asnLong
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.directConnectGatewayId = directConnectGatewayId
@@ -3812,8 +3980,18 @@ public struct CreateTransitVirtualInterfaceOutput: Swift.Sendable {
 }
 
 public struct DeleteBGPPeerInput: Swift.Sendable {
-    /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     public var asn: Swift.Int?
+    /// The long ASN for the BGP peer to be deleted from a Direct Connect virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+    public var asnLong: Swift.Int?
     /// The ID of the BGP peer.
     public var bgpPeerId: Swift.String?
     /// The IP address assigned to the customer interface.
@@ -3823,11 +4001,13 @@ public struct DeleteBGPPeerInput: Swift.Sendable {
 
     public init(
         asn: Swift.Int? = 0,
+        asnLong: Swift.Int? = nil,
         bgpPeerId: Swift.String? = nil,
         customerAddress: Swift.String? = nil,
         virtualInterfaceId: Swift.String? = nil
     ) {
         self.asn = asn
+        self.asnLong = asnLong
         self.bgpPeerId = bgpPeerId
         self.customerAddress = customerAddress
         self.virtualInterfaceId = virtualInterfaceId
@@ -4330,22 +4510,34 @@ public struct DescribeConnectionLoaOutput: Swift.Sendable {
 public struct DescribeConnectionsInput: Swift.Sendable {
     /// The ID of the connection.
     public var connectionId: Swift.String?
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
 
     public init(
-        connectionId: Swift.String? = nil
+        connectionId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
     ) {
         self.connectionId = connectionId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
     }
 }
 
 public struct DescribeConnectionsOutput: Swift.Sendable {
     /// The connections.
     public var connections: [DirectConnectClientTypes.Connection]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
 
     public init(
-        connections: [DirectConnectClientTypes.Connection]? = nil
+        connections: [DirectConnectClientTypes.Connection]? = nil,
+        nextToken: Swift.String? = nil
     ) {
         self.connections = connections
+        self.nextToken = nextToken
     }
 }
 
@@ -4364,11 +4556,15 @@ public struct DescribeConnectionsOnInterconnectInput: Swift.Sendable {
 public struct DescribeConnectionsOnInterconnectOutput: Swift.Sendable {
     /// The connections.
     public var connections: [DirectConnectClientTypes.Connection]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
 
     public init(
-        connections: [DirectConnectClientTypes.Connection]? = nil
+        connections: [DirectConnectClientTypes.Connection]? = nil,
+        nextToken: Swift.String? = nil
     ) {
         self.connections = connections
+        self.nextToken = nextToken
     }
 }
 
@@ -4700,22 +4896,34 @@ public struct DescribeHostedConnectionsInput: Swift.Sendable {
     /// The ID of the interconnect or LAG.
     /// This member is required.
     public var connectionId: Swift.String?
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
 
     public init(
-        connectionId: Swift.String? = nil
+        connectionId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
     ) {
         self.connectionId = connectionId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
     }
 }
 
 public struct DescribeHostedConnectionsOutput: Swift.Sendable {
     /// The connections.
     public var connections: [DirectConnectClientTypes.Connection]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
 
     public init(
-        connections: [DirectConnectClientTypes.Connection]? = nil
+        connections: [DirectConnectClientTypes.Connection]? = nil,
+        nextToken: Swift.String? = nil
     ) {
         self.connections = connections
+        self.nextToken = nextToken
     }
 }
 
@@ -4753,11 +4961,19 @@ public struct DescribeInterconnectLoaOutput: Swift.Sendable {
 public struct DescribeInterconnectsInput: Swift.Sendable {
     /// The ID of the interconnect.
     public var interconnectId: Swift.String?
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
 
     public init(
-        interconnectId: Swift.String? = nil
+        interconnectId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
     ) {
         self.interconnectId = interconnectId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
     }
 }
 
@@ -4866,22 +5082,34 @@ extension DirectConnectClientTypes {
 public struct DescribeInterconnectsOutput: Swift.Sendable {
     /// The interconnects.
     public var interconnects: [DirectConnectClientTypes.Interconnect]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
 
     public init(
-        interconnects: [DirectConnectClientTypes.Interconnect]? = nil
+        interconnects: [DirectConnectClientTypes.Interconnect]? = nil,
+        nextToken: Swift.String? = nil
     ) {
         self.interconnects = interconnects
+        self.nextToken = nextToken
     }
 }
 
 public struct DescribeLagsInput: Swift.Sendable {
     /// The ID of the LAG.
     public var lagId: Swift.String?
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
 
     public init(
-        lagId: Swift.String? = nil
+        lagId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
     ) {
         self.lagId = lagId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
     }
 }
 
@@ -4998,11 +5226,15 @@ extension DirectConnectClientTypes {
 public struct DescribeLagsOutput: Swift.Sendable {
     /// The LAGs.
     public var lags: [DirectConnectClientTypes.Lag]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
 
     public init(
-        lags: [DirectConnectClientTypes.Lag]? = nil
+        lags: [DirectConnectClientTypes.Lag]? = nil,
+        nextToken: Swift.String? = nil
     ) {
         self.lags = lags
+        self.nextToken = nextToken
     }
 }
 
@@ -5246,25 +5478,37 @@ public struct DescribeVirtualGatewaysOutput: Swift.Sendable {
 public struct DescribeVirtualInterfacesInput: Swift.Sendable {
     /// The ID of the connection.
     public var connectionId: Swift.String?
+    /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
+    public var maxResults: Swift.Int?
+    /// The token for the next page of results.
+    public var nextToken: Swift.String?
     /// The ID of the virtual interface.
     public var virtualInterfaceId: Swift.String?
 
     public init(
         connectionId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
         virtualInterfaceId: Swift.String? = nil
     ) {
         self.connectionId = connectionId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
         self.virtualInterfaceId = virtualInterfaceId
     }
 }
 
 public struct DescribeVirtualInterfacesOutput: Swift.Sendable {
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
     /// The virtual interfaces
     public var virtualInterfaces: [DirectConnectClientTypes.VirtualInterface]?
 
     public init(
+        nextToken: Swift.String? = nil,
         virtualInterfaces: [DirectConnectClientTypes.VirtualInterface]? = nil
     ) {
+        self.nextToken = nextToken
         self.virtualInterfaces = virtualInterfaces
     }
 }
@@ -5982,10 +6226,20 @@ public struct UpdateVirtualInterfaceAttributesOutput: Swift.Sendable {
     public var addressFamily: DirectConnectClientTypes.AddressFamily?
     /// The IP address assigned to the Amazon interface.
     public var amazonAddress: Swift.String?
-    /// The autonomous system number (ASN) for the Amazon side of the connection.
+    /// The autonomous system number (AS) for the Amazon side of the connection.
     public var amazonSideAsn: Swift.Int?
-    /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration. The valid values are 1-2147483647.
+    /// The autonomous system number (ASN). The valid range is from 1 to 2147483646 for Border Gateway Protocol (BGP) configuration. If you provide a number greater than the maximum, an error is returned. Use asnLong instead. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
     public var asn: Swift.Int
+    /// The long ASN for the virtual interface. The valid range is from 1 to 4294967294 for BGP configuration. You can use asnLong or asn, but not both. We recommend using asnLong as it supports a greater pool of numbers.
+    ///
+    /// * The asnLong attribute accepts both ASN and long ASN ranges.
+    ///
+    /// * If you provide a value in the same API call for both asn and asnLong, the API will only accept the value for asnLong.
+    public var asnLong: Swift.Int?
     /// The authentication key for BGP configuration. This string has a minimum length of 6 characters and and a maximun lenth of 80 characters.
     public var authKey: Swift.String?
     /// The Direct Connect endpoint that terminates the physical connection.
@@ -6056,6 +6310,7 @@ public struct UpdateVirtualInterfaceAttributesOutput: Swift.Sendable {
         amazonAddress: Swift.String? = nil,
         amazonSideAsn: Swift.Int? = nil,
         asn: Swift.Int = 0,
+        asnLong: Swift.Int? = nil,
         authKey: Swift.String? = nil,
         awsDeviceV2: Swift.String? = nil,
         awsLogicalDeviceId: Swift.String? = nil,
@@ -6083,6 +6338,7 @@ public struct UpdateVirtualInterfaceAttributesOutput: Swift.Sendable {
         self.amazonAddress = amazonAddress
         self.amazonSideAsn = amazonSideAsn
         self.asn = asn
+        self.asnLong = asnLong
         self.authKey = authKey
         self.awsDeviceV2 = awsDeviceV2
         self.awsLogicalDeviceId = awsLogicalDeviceId
@@ -6814,6 +7070,7 @@ extension DeleteBGPPeerInput {
     static func write(value: DeleteBGPPeerInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["asn"].write(value.asn)
+        try writer["asnLong"].write(value.asnLong)
         try writer["bgpPeerId"].write(value.bgpPeerId)
         try writer["customerAddress"].write(value.customerAddress)
         try writer["virtualInterfaceId"].write(value.virtualInterfaceId)
@@ -6893,6 +7150,8 @@ extension DescribeConnectionsInput {
     static func write(value: DescribeConnectionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["connectionId"].write(value.connectionId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -6963,6 +7222,8 @@ extension DescribeHostedConnectionsInput {
     static func write(value: DescribeHostedConnectionsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["connectionId"].write(value.connectionId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -6981,6 +7242,8 @@ extension DescribeInterconnectsInput {
     static func write(value: DescribeInterconnectsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["interconnectId"].write(value.interconnectId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -6989,6 +7252,8 @@ extension DescribeLagsInput {
     static func write(value: DescribeLagsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["lagId"].write(value.lagId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
     }
 }
 
@@ -7040,6 +7305,8 @@ extension DescribeVirtualInterfacesInput {
     static func write(value: DescribeVirtualInterfacesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["connectionId"].write(value.connectionId)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
         try writer["virtualInterfaceId"].write(value.virtualInterfaceId)
     }
 }
@@ -7253,6 +7520,7 @@ extension AllocatePrivateVirtualInterfaceOutput {
         value.amazonAddress = try reader["amazonAddress"].readIfPresent()
         value.amazonSideAsn = try reader["amazonSideAsn"].readIfPresent()
         value.asn = try reader["asn"].readIfPresent() ?? 0
+        value.asnLong = try reader["asnLong"].readIfPresent()
         value.authKey = try reader["authKey"].readIfPresent()
         value.awsDeviceV2 = try reader["awsDeviceV2"].readIfPresent()
         value.awsLogicalDeviceId = try reader["awsLogicalDeviceId"].readIfPresent()
@@ -7290,6 +7558,7 @@ extension AllocatePublicVirtualInterfaceOutput {
         value.amazonAddress = try reader["amazonAddress"].readIfPresent()
         value.amazonSideAsn = try reader["amazonSideAsn"].readIfPresent()
         value.asn = try reader["asn"].readIfPresent() ?? 0
+        value.asnLong = try reader["asnLong"].readIfPresent()
         value.authKey = try reader["authKey"].readIfPresent()
         value.awsDeviceV2 = try reader["awsDeviceV2"].readIfPresent()
         value.awsLogicalDeviceId = try reader["awsLogicalDeviceId"].readIfPresent()
@@ -7420,6 +7689,7 @@ extension AssociateVirtualInterfaceOutput {
         value.amazonAddress = try reader["amazonAddress"].readIfPresent()
         value.amazonSideAsn = try reader["amazonSideAsn"].readIfPresent()
         value.asn = try reader["asn"].readIfPresent() ?? 0
+        value.asnLong = try reader["asnLong"].readIfPresent()
         value.authKey = try reader["authKey"].readIfPresent()
         value.awsDeviceV2 = try reader["awsDeviceV2"].readIfPresent()
         value.awsLogicalDeviceId = try reader["awsLogicalDeviceId"].readIfPresent()
@@ -7661,6 +7931,7 @@ extension CreatePrivateVirtualInterfaceOutput {
         value.amazonAddress = try reader["amazonAddress"].readIfPresent()
         value.amazonSideAsn = try reader["amazonSideAsn"].readIfPresent()
         value.asn = try reader["asn"].readIfPresent() ?? 0
+        value.asnLong = try reader["asnLong"].readIfPresent()
         value.authKey = try reader["authKey"].readIfPresent()
         value.awsDeviceV2 = try reader["awsDeviceV2"].readIfPresent()
         value.awsLogicalDeviceId = try reader["awsLogicalDeviceId"].readIfPresent()
@@ -7698,6 +7969,7 @@ extension CreatePublicVirtualInterfaceOutput {
         value.amazonAddress = try reader["amazonAddress"].readIfPresent()
         value.amazonSideAsn = try reader["amazonSideAsn"].readIfPresent()
         value.asn = try reader["asn"].readIfPresent() ?? 0
+        value.asnLong = try reader["asnLong"].readIfPresent()
         value.authKey = try reader["authKey"].readIfPresent()
         value.awsDeviceV2 = try reader["awsDeviceV2"].readIfPresent()
         value.awsLogicalDeviceId = try reader["awsLogicalDeviceId"].readIfPresent()
@@ -7894,6 +8166,7 @@ extension DescribeConnectionsOutput {
         let reader = responseReader
         var value = DescribeConnectionsOutput()
         value.connections = try reader["connections"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Connection.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -7906,6 +8179,7 @@ extension DescribeConnectionsOnInterconnectOutput {
         let reader = responseReader
         var value = DescribeConnectionsOnInterconnectOutput()
         value.connections = try reader["connections"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Connection.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -7983,6 +8257,7 @@ extension DescribeHostedConnectionsOutput {
         let reader = responseReader
         var value = DescribeHostedConnectionsOutput()
         value.connections = try reader["connections"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Connection.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -8007,6 +8282,7 @@ extension DescribeInterconnectsOutput {
         let reader = responseReader
         var value = DescribeInterconnectsOutput()
         value.interconnects = try reader["interconnects"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Interconnect.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -8019,6 +8295,7 @@ extension DescribeLagsOutput {
         let reader = responseReader
         var value = DescribeLagsOutput()
         value.lags = try reader["lags"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.Lag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
 }
@@ -8094,6 +8371,7 @@ extension DescribeVirtualInterfacesOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeVirtualInterfacesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
         value.virtualInterfaces = try reader["virtualInterfaces"].readListIfPresent(memberReadingClosure: DirectConnectClientTypes.VirtualInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -8298,6 +8576,7 @@ extension UpdateVirtualInterfaceAttributesOutput {
         value.amazonAddress = try reader["amazonAddress"].readIfPresent()
         value.amazonSideAsn = try reader["amazonSideAsn"].readIfPresent()
         value.asn = try reader["asn"].readIfPresent() ?? 0
+        value.asnLong = try reader["asnLong"].readIfPresent()
         value.authKey = try reader["authKey"].readIfPresent()
         value.awsDeviceV2 = try reader["awsDeviceV2"].readIfPresent()
         value.awsLogicalDeviceId = try reader["awsLogicalDeviceId"].readIfPresent()
@@ -9440,6 +9719,7 @@ extension DirectConnectClientTypes.BGPPeer {
         var value = DirectConnectClientTypes.BGPPeer()
         value.bgpPeerId = try reader["bgpPeerId"].readIfPresent()
         value.asn = try reader["asn"].readIfPresent() ?? 0
+        value.asnLong = try reader["asnLong"].readIfPresent()
         value.authKey = try reader["authKey"].readIfPresent()
         value.addressFamily = try reader["addressFamily"].readIfPresent()
         value.amazonAddress = try reader["amazonAddress"].readIfPresent()
@@ -9465,6 +9745,7 @@ extension DirectConnectClientTypes.VirtualInterface {
         value.virtualInterfaceName = try reader["virtualInterfaceName"].readIfPresent()
         value.vlan = try reader["vlan"].readIfPresent() ?? 0
         value.asn = try reader["asn"].readIfPresent() ?? 0
+        value.asnLong = try reader["asnLong"].readIfPresent()
         value.amazonSideAsn = try reader["amazonSideAsn"].readIfPresent()
         value.authKey = try reader["authKey"].readIfPresent()
         value.amazonAddress = try reader["amazonAddress"].readIfPresent()
@@ -9723,6 +10004,7 @@ extension DirectConnectClientTypes.NewPrivateVirtualInterfaceAllocation {
         try writer["addressFamily"].write(value.addressFamily)
         try writer["amazonAddress"].write(value.amazonAddress)
         try writer["asn"].write(value.asn)
+        try writer["asnLong"].write(value.asnLong)
         try writer["authKey"].write(value.authKey)
         try writer["customerAddress"].write(value.customerAddress)
         try writer["mtu"].write(value.mtu)
@@ -9739,6 +10021,7 @@ extension DirectConnectClientTypes.NewPublicVirtualInterfaceAllocation {
         try writer["addressFamily"].write(value.addressFamily)
         try writer["amazonAddress"].write(value.amazonAddress)
         try writer["asn"].write(value.asn)
+        try writer["asnLong"].write(value.asnLong)
         try writer["authKey"].write(value.authKey)
         try writer["customerAddress"].write(value.customerAddress)
         try writer["routeFilterPrefixes"].writeList(value.routeFilterPrefixes, memberWritingClosure: DirectConnectClientTypes.RouteFilterPrefix.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9755,6 +10038,7 @@ extension DirectConnectClientTypes.NewTransitVirtualInterfaceAllocation {
         try writer["addressFamily"].write(value.addressFamily)
         try writer["amazonAddress"].write(value.amazonAddress)
         try writer["asn"].write(value.asn)
+        try writer["asnLong"].write(value.asnLong)
         try writer["authKey"].write(value.authKey)
         try writer["customerAddress"].write(value.customerAddress)
         try writer["mtu"].write(value.mtu)
@@ -9771,6 +10055,7 @@ extension DirectConnectClientTypes.NewBGPPeer {
         try writer["addressFamily"].write(value.addressFamily)
         try writer["amazonAddress"].write(value.amazonAddress)
         try writer["asn"].write(value.asn)
+        try writer["asnLong"].write(value.asnLong)
         try writer["authKey"].write(value.authKey)
         try writer["customerAddress"].write(value.customerAddress)
     }
@@ -9783,6 +10068,7 @@ extension DirectConnectClientTypes.NewPrivateVirtualInterface {
         try writer["addressFamily"].write(value.addressFamily)
         try writer["amazonAddress"].write(value.amazonAddress)
         try writer["asn"].write(value.asn)
+        try writer["asnLong"].write(value.asnLong)
         try writer["authKey"].write(value.authKey)
         try writer["customerAddress"].write(value.customerAddress)
         try writer["directConnectGatewayId"].write(value.directConnectGatewayId)
@@ -9802,6 +10088,7 @@ extension DirectConnectClientTypes.NewPublicVirtualInterface {
         try writer["addressFamily"].write(value.addressFamily)
         try writer["amazonAddress"].write(value.amazonAddress)
         try writer["asn"].write(value.asn)
+        try writer["asnLong"].write(value.asnLong)
         try writer["authKey"].write(value.authKey)
         try writer["customerAddress"].write(value.customerAddress)
         try writer["routeFilterPrefixes"].writeList(value.routeFilterPrefixes, memberWritingClosure: DirectConnectClientTypes.RouteFilterPrefix.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9818,6 +10105,7 @@ extension DirectConnectClientTypes.NewTransitVirtualInterface {
         try writer["addressFamily"].write(value.addressFamily)
         try writer["amazonAddress"].write(value.amazonAddress)
         try writer["asn"].write(value.asn)
+        try writer["asnLong"].write(value.asnLong)
         try writer["authKey"].write(value.authKey)
         try writer["customerAddress"].write(value.customerAddress)
         try writer["directConnectGatewayId"].write(value.directConnectGatewayId)

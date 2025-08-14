@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GlueClient: ClientRuntime.Client {
     public static let clientName = "GlueClient"
-    public static let version = "1.5.20"
+    public static let version = "1.5.21"
     let client: ClientRuntime.SdkHttpClient
     let config: GlueClient.GlueClientConfiguration
     let serviceName = "Glue"
@@ -2739,6 +2739,79 @@ extension GlueClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateGlueIdentityCenterConfiguration` operation on the `Glue` service.
+    ///
+    /// Creates a new Glue Identity Center configuration to enable integration between Glue and Amazon Web Services IAM Identity Center for authentication and authorization.
+    ///
+    /// - Parameter CreateGlueIdentityCenterConfigurationInput : Request to create a new Glue Identity Center configuration.
+    ///
+    /// - Returns: `CreateGlueIdentityCenterConfigurationOutput` : Response from creating a new Glue Identity Center configuration.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    public func createGlueIdentityCenterConfiguration(input: CreateGlueIdentityCenterConfigurationInput) async throws -> CreateGlueIdentityCenterConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createGlueIdentityCenterConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput>(CreateGlueIdentityCenterConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGlueIdentityCenterConfigurationOutput>(CreateGlueIdentityCenterConfigurationOutput.httpOutput(from:), CreateGlueIdentityCenterConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateGlueIdentityCenterConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateGlueIdentityCenterConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput>(xAmzTarget: "AWSGlue.CreateGlueIdentityCenterConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateGlueIdentityCenterConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateGlueIdentityCenterConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateGlueIdentityCenterConfigurationInput, CreateGlueIdentityCenterConfigurationOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateGlueIdentityCenterConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateIntegration` operation on the `Glue` service.
     ///
     /// Creates a Zero-ETL integration in the caller's account between two resources with Amazon Resource Names (ARNs): the SourceArn and TargetArn.
@@ -4918,6 +4991,79 @@ extension GlueClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteDevEndpoint")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteGlueIdentityCenterConfiguration` operation on the `Glue` service.
+    ///
+    /// Deletes the existing Glue Identity Center configuration, removing the integration between Glue and Amazon Web Services IAM Identity Center.
+    ///
+    /// - Parameter DeleteGlueIdentityCenterConfigurationInput : Request to delete the existing Glue Identity Center configuration.
+    ///
+    /// - Returns: `DeleteGlueIdentityCenterConfigurationOutput` : Response from deleting the Glue Identity Center configuration.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    public func deleteGlueIdentityCenterConfiguration(input: DeleteGlueIdentityCenterConfigurationInput) async throws -> DeleteGlueIdentityCenterConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteGlueIdentityCenterConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput>(DeleteGlueIdentityCenterConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGlueIdentityCenterConfigurationOutput>(DeleteGlueIdentityCenterConfigurationOutput.httpOutput(from:), DeleteGlueIdentityCenterConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGlueIdentityCenterConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteGlueIdentityCenterConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput>(xAmzTarget: "AWSGlue.DeleteGlueIdentityCenterConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteGlueIdentityCenterConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteGlueIdentityCenterConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteGlueIdentityCenterConfigurationInput, DeleteGlueIdentityCenterConfigurationOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteGlueIdentityCenterConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -8850,6 +8996,79 @@ extension GlueClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetEntityRecords")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetGlueIdentityCenterConfiguration` operation on the `Glue` service.
+    ///
+    /// Retrieves the current Glue Identity Center configuration details, including the associated Identity Center instance and application information.
+    ///
+    /// - Parameter GetGlueIdentityCenterConfigurationInput : Request to retrieve the Glue Identity Center configuration.
+    ///
+    /// - Returns: `GetGlueIdentityCenterConfigurationOutput` : Response containing the Glue Identity Center configuration details.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    public func getGlueIdentityCenterConfiguration(input: GetGlueIdentityCenterConfigurationInput) async throws -> GetGlueIdentityCenterConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getGlueIdentityCenterConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput>(GetGlueIdentityCenterConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGlueIdentityCenterConfigurationOutput>(GetGlueIdentityCenterConfigurationOutput.httpOutput(from:), GetGlueIdentityCenterConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetGlueIdentityCenterConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetGlueIdentityCenterConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput>(xAmzTarget: "AWSGlue.GetGlueIdentityCenterConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetGlueIdentityCenterConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetGlueIdentityCenterConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetGlueIdentityCenterConfigurationInput, GetGlueIdentityCenterConfigurationOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetGlueIdentityCenterConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -17477,6 +17696,79 @@ extension GlueClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateDevEndpoint")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateGlueIdentityCenterConfiguration` operation on the `Glue` service.
+    ///
+    /// Updates the existing Glue Identity Center configuration, allowing modification of scopes and permissions for the integration.
+    ///
+    /// - Parameter UpdateGlueIdentityCenterConfigurationInput : Request to update an existing Glue Identity Center configuration.
+    ///
+    /// - Returns: `UpdateGlueIdentityCenterConfigurationOutput` : Response from updating an existing Glue Identity Center configuration.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    public func updateGlueIdentityCenterConfiguration(input: UpdateGlueIdentityCenterConfigurationInput) async throws -> UpdateGlueIdentityCenterConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateGlueIdentityCenterConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "glue")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput>(UpdateGlueIdentityCenterConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGlueIdentityCenterConfigurationOutput>(UpdateGlueIdentityCenterConfigurationOutput.httpOutput(from:), UpdateGlueIdentityCenterConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGlueIdentityCenterConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Glue", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateGlueIdentityCenterConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput>(xAmzTarget: "AWSGlue.UpdateGlueIdentityCenterConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateGlueIdentityCenterConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateGlueIdentityCenterConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateGlueIdentityCenterConfigurationInput, UpdateGlueIdentityCenterConfigurationOutput>(serviceID: serviceName, version: GlueClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Glue")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateGlueIdentityCenterConfiguration")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

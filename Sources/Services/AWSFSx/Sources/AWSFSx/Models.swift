@@ -270,20 +270,24 @@ extension FSxClientTypes {
 extension FSxClientTypes {
 
     public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
         case completed
         case failed
         case inProgress
         case optimizing
+        case paused
         case pending
         case updatedOptimizing
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Status] {
             return [
+                .cancelled,
                 .completed,
                 .failed,
                 .inProgress,
                 .optimizing,
+                .paused,
                 .pending,
                 .updatedOptimizing
             ]
@@ -296,10 +300,12 @@ extension FSxClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .cancelled: return "CANCELLED"
             case .completed: return "COMPLETED"
             case .failed: return "FAILED"
             case .inProgress: return "IN_PROGRESS"
             case .optimizing: return "OPTIMIZING"
+            case .paused: return "PAUSED"
             case .pending: return "PENDING"
             case .updatedOptimizing: return "UPDATED_OPTIMIZING"
             case let .sdkUnknown(s): return s
@@ -8785,7 +8791,7 @@ extension FSxClientTypes {
         public var automaticBackupRetentionDays: Swift.Int?
         /// A recurring daily time, in the format HH:MM. HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 05:00 specifies 5 AM daily.
         public var dailyAutomaticBackupStartTime: Swift.String?
-        /// The SSD IOPS (input output operations per second) configuration for an Amazon FSx for NetApp ONTAP file system. The default is 3 IOPS per GB of storage capacity, but you can provision additional IOPS per GB of storage. The configuration consists of an IOPS mode (AUTOMATIC or USER_PROVISIONED), and in the case of USER_PROVISIONED IOPS, the total number of SSD IOPS provisioned. For more information, see [Updating SSD storage capacity and IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/increase-primary-storage.html).
+        /// The SSD IOPS (input output operations per second) configuration for an Amazon FSx for NetApp ONTAP file system. The default is 3 IOPS per GB of storage capacity, but you can provision additional IOPS per GB of storage. The configuration consists of an IOPS mode (AUTOMATIC or USER_PROVISIONED), and in the case of USER_PROVISIONED IOPS, the total number of SSD IOPS provisioned. For more information, see [File system storage capacity and IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/storage-capacity-and-IOPS.html).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
         /// Update the password for the fsxadmin user by entering a new password. You use the fsxadmin user to access the NetApp ONTAP CLI and REST API to manage your file system resources. For more information, see [Managing resources using NetApp Application](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-resources-ontap-apps.html).
         public var fsxAdminPassword: Swift.String?
@@ -9005,7 +9011,7 @@ public struct UpdateFileSystemInput: Swift.Sendable {
     public var ontapConfiguration: FSxClientTypes.UpdateFileSystemOntapConfiguration?
     /// The configuration updates for an FSx for OpenZFS file system.
     public var openZFSConfiguration: FSxClientTypes.UpdateFileSystemOpenZFSConfiguration?
-    /// Use this parameter to increase the storage capacity of an FSx for Windows File Server, FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system. Specifies the storage capacity target value, in GiB, to increase the storage capacity for the file system that you're updating. You can't make a storage capacity increase request if there is an existing storage capacity increase request in progress. For Lustre file systems, the storage capacity target value can be the following:
+    /// Use this parameter to increase the storage capacity of an FSx for Windows File Server, FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system. For second-generation FSx for ONTAP file systems, you can also decrease the storage capacity. Specifies the storage capacity target value, in GiB, for the file system that you're updating. You can't make a storage capacity increase request if there is an existing storage capacity increase request in progress. For Lustre file systems, the storage capacity target value can be the following:
     ///
     /// * For SCRATCH_2, PERSISTENT_1, and PERSISTENT_2 SSD deployment types, valid values are in multiples of 2400 GiB. The value must be greater than the current storage capacity.
     ///
@@ -9014,7 +9020,7 @@ public struct UpdateFileSystemInput: Swift.Sendable {
     /// * For SCRATCH_1 file systems, you can't increase the storage capacity.
     ///
     ///
-    /// For more information, see [Managing storage and throughput capacity](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html) in the FSx for Lustre User Guide. For FSx for OpenZFS file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-storage-capacity.html) in the FSx for OpenZFS User Guide. For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html) in the Amazon FSxfor Windows File Server User Guide. For ONTAP file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see [Managing storage capacity and provisioned IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-storage-capacity.html) in the Amazon FSx for NetApp ONTAP User Guide.
+    /// For more information, see [Managing storage and throughput capacity](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html) in the FSx for Lustre User Guide. For FSx for OpenZFS file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-storage-capacity.html) in the FSx for OpenZFS User Guide. For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html) in the Amazon FSxfor Windows File Server User Guide. For ONTAP file systems, when increasing storage capacity, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. When decreasing storage capacity on second-generation file systems, the target value must be at least 9 percent smaller than the current SSD storage capacity. For more information, see [File system storage capacity and IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/storage-capacity-and-IOPS.html) in the Amazon FSx for NetApp ONTAP User Guide.
     public var storageCapacity: Swift.Int?
     /// Specifies the file system's storage type.
     public var storageType: FSxClientTypes.StorageType?
@@ -9355,6 +9361,8 @@ extension FSxClientTypes {
         public var administrativeActionType: FSxClientTypes.AdministrativeActionType?
         /// Provides information about a failed administrative action.
         public var failureDetails: FSxClientTypes.AdministrativeActionFailureDetails?
+        /// A detailed error message.
+        public var message: Swift.String?
         /// The percentage-complete status of a STORAGE_OPTIMIZATION or DOWNLOAD_DATA_FROM_BACKUP administrative action. Does not apply to any other administrative action type.
         public var progressPercent: Swift.Int?
         /// The remaining bytes to transfer for the FSx for OpenZFS snapshot that you're copying.
@@ -9389,6 +9397,7 @@ extension FSxClientTypes {
         public init(
             administrativeActionType: FSxClientTypes.AdministrativeActionType? = nil,
             failureDetails: FSxClientTypes.AdministrativeActionFailureDetails? = nil,
+            message: Swift.String? = nil,
             progressPercent: Swift.Int? = nil,
             remainingTransferBytes: Swift.Int? = nil,
             requestTime: Foundation.Date? = nil,
@@ -9400,6 +9409,7 @@ extension FSxClientTypes {
         ) {
             self.administrativeActionType = administrativeActionType
             self.failureDetails = failureDetails
+            self.message = message
             self.progressPercent = progressPercent
             self.remainingTransferBytes = remainingTransferBytes
             self.requestTime = requestTime
@@ -13050,6 +13060,7 @@ extension FSxClientTypes.AdministrativeAction {
         value.targetSnapshotValues = try reader["TargetSnapshotValues"].readIfPresent(with: FSxClientTypes.Snapshot.read(from:))
         value.totalTransferBytes = try reader["TotalTransferBytes"].readIfPresent()
         value.remainingTransferBytes = try reader["RemainingTransferBytes"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }
