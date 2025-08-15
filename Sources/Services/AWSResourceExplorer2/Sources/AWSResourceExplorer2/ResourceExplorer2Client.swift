@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ResourceExplorer2Client: ClientRuntime.Client {
     public static let clientName = "ResourceExplorer2Client"
-    public static let version = "1.5.21"
+    public static let version = "1.5.22"
     let client: ClientRuntime.SdkHttpClient
     let config: ResourceExplorer2Client.ResourceExplorer2ClientConfiguration
     let serviceName = "Resource Explorer 2"

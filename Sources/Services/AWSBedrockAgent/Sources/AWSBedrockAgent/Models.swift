@@ -2089,7 +2089,7 @@ extension BedrockAgentClientTypes {
         public var agentAliasArn: Swift.String?
 
         public init(
-            agentAliasArn: Swift.String? = nil
+            agentAliasArn: Swift.String? = ""
         ) {
             self.agentAliasArn = agentAliasArn
         }
@@ -4758,8 +4758,8 @@ extension BedrockAgentClientTypes {
         public var language: BedrockAgentClientTypes.SupportedLanguages?
 
         public init(
-            code: Swift.String? = nil,
-            language: BedrockAgentClientTypes.SupportedLanguages? = nil
+            code: Swift.String? = "",
+            language: BedrockAgentClientTypes.SupportedLanguages? = .python3
         ) {
             self.code = code
             self.language = language
@@ -5110,7 +5110,7 @@ extension BedrockAgentClientTypes {
         public init(
             guardrailConfiguration: BedrockAgentClientTypes.GuardrailConfiguration? = nil,
             inferenceConfiguration: BedrockAgentClientTypes.PromptInferenceConfiguration? = nil,
-            knowledgeBaseId: Swift.String? = nil,
+            knowledgeBaseId: Swift.String? = "",
             modelId: Swift.String? = nil,
             numberOfResults: Swift.Int? = nil,
             orchestrationConfiguration: BedrockAgentClientTypes.KnowledgeBaseOrchestrationConfiguration? = nil,
@@ -5138,7 +5138,7 @@ extension BedrockAgentClientTypes {
         public var lambdaArn: Swift.String?
 
         public init(
-            lambdaArn: Swift.String? = nil
+            lambdaArn: Swift.String? = ""
         ) {
             self.lambdaArn = lambdaArn
         }
@@ -5157,8 +5157,8 @@ extension BedrockAgentClientTypes {
         public var localeId: Swift.String?
 
         public init(
-            botAliasArn: Swift.String? = nil,
-            localeId: Swift.String? = nil
+            botAliasArn: Swift.String? = "",
+            localeId: Swift.String? = ""
         ) {
             self.botAliasArn = botAliasArn
             self.localeId = localeId
@@ -5586,9 +5586,9 @@ extension BedrockAgentClientTypes {
         public init(
             additionalModelRequestFields: Smithy.Document? = nil,
             inferenceConfiguration: BedrockAgentClientTypes.PromptInferenceConfiguration? = nil,
-            modelId: Swift.String? = nil,
+            modelId: Swift.String? = "",
             templateConfiguration: BedrockAgentClientTypes.PromptTemplateConfiguration? = nil,
-            templateType: BedrockAgentClientTypes.PromptTemplateType? = nil
+            templateType: BedrockAgentClientTypes.PromptTemplateType? = .text
         ) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.inferenceConfiguration = inferenceConfiguration
@@ -5608,7 +5608,7 @@ extension BedrockAgentClientTypes {
         public var promptArn: Swift.String?
 
         public init(
-            promptArn: Swift.String? = nil
+            promptArn: Swift.String? = ""
         ) {
             self.promptArn = promptArn
         }
@@ -5656,7 +5656,7 @@ extension BedrockAgentClientTypes {
         public var bucketName: Swift.String?
 
         public init(
-            bucketName: Swift.String? = nil
+            bucketName: Swift.String? = ""
         ) {
             self.bucketName = bucketName
         }
@@ -5698,7 +5698,7 @@ extension BedrockAgentClientTypes {
         public var bucketName: Swift.String?
 
         public init(
-            bucketName: Swift.String? = nil
+            bucketName: Swift.String? = ""
         ) {
             self.bucketName = bucketName
         }
@@ -17322,7 +17322,7 @@ extension BedrockAgentClientTypes.InlineCodeFlowNodeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.InlineCodeFlowNodeConfiguration()
         value.code = try reader["code"].readIfPresent() ?? ""
-        value.language = try reader["language"].readIfPresent() ?? .sdkUnknown("")
+        value.language = try reader["language"].readIfPresent() ?? BedrockAgentClientTypes.SupportedLanguages.python3
         return value
     }
 }
@@ -17550,7 +17550,7 @@ extension BedrockAgentClientTypes.PromptFlowNodeInlineConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentClientTypes.PromptFlowNodeInlineConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockAgentClientTypes.PromptFlowNodeInlineConfiguration()
-        value.templateType = try reader["templateType"].readIfPresent() ?? .sdkUnknown("")
+        value.templateType = try reader["templateType"].readIfPresent() ?? BedrockAgentClientTypes.PromptTemplateType.text
         value.templateConfiguration = try reader["templateConfiguration"].readIfPresent(with: BedrockAgentClientTypes.PromptTemplateConfiguration.read(from:))
         value.modelId = try reader["modelId"].readIfPresent() ?? ""
         value.inferenceConfiguration = try reader["inferenceConfiguration"].readIfPresent(with: BedrockAgentClientTypes.PromptInferenceConfiguration.read(from:))
