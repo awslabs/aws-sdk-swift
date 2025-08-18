@@ -10712,12 +10712,35 @@ extension SageMakerClientTypes {
 
     /// Defines the configuration for attaching an additional Amazon Elastic Block Store (EBS) volume to each instance of the SageMaker HyperPod cluster instance group. To learn more, see [SageMaker HyperPod release notes: June 20, 2024](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-release-notes.html#sagemaker-hyperpod-release-notes-20240620).
     public struct ClusterEbsVolumeConfig: Swift.Sendable {
+        /// Specifies whether the configuration is for the cluster's root or secondary Amazon EBS volume. You can specify two ClusterEbsVolumeConfig fields to configure both the root and secondary volumes. Set the value to True if you'd like to provide your own customer managed Amazon Web Services KMS key to encrypt the root volume. When True:
+        ///
+        /// * The configuration is applied to the root volume.
+        ///
+        /// * You can't specify the VolumeSizeInGB field. The size of the root volume is determined for you.
+        ///
+        /// * You must specify a KMS key ID for VolumeKmsKeyId to encrypt the root volume with your own KMS key instead of an Amazon Web Services owned KMS key.
+        ///
+        ///
+        /// Otherwise, by default, the value is False, and the following applies:
+        ///
+        /// * The configuration is applied to the secondary volume, while the root volume is encrypted with an Amazon Web Services owned key.
+        ///
+        /// * You must specify the VolumeSizeInGB field.
+        ///
+        /// * You can optionally specify the VolumeKmsKeyId to encrypt the secondary volume with your own KMS key instead of an Amazon Web Services owned KMS key.
+        public var rootVolume: Swift.Bool?
+        /// The ID of a KMS key to encrypt the Amazon EBS volume.
+        public var volumeKmsKeyId: Swift.String?
         /// The size in gigabytes (GB) of the additional EBS volume to be attached to the instances in the SageMaker HyperPod cluster instance group. The additional EBS volume is attached to each instance within the SageMaker HyperPod cluster instance group and mounted to /opt/sagemaker.
         public var volumeSizeInGB: Swift.Int?
 
         public init(
+            rootVolume: Swift.Bool? = nil,
+            volumeKmsKeyId: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil
         ) {
+            self.rootVolume = rootVolume
+            self.volumeKmsKeyId = volumeKmsKeyId
             self.volumeSizeInGB = volumeSizeInGB
         }
     }
@@ -11101,6 +11124,7 @@ extension SageMakerClientTypes {
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlP6eGb20036xlarge
         case mlP6B20048xlarge
         case mlR6i12xlarge
         case mlR6i16xlarge
@@ -11217,6 +11241,7 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlP6eGb20036xlarge,
                 .mlP6B20048xlarge,
                 .mlR6i12xlarge,
                 .mlR6i16xlarge,
@@ -11339,6 +11364,7 @@ extension SageMakerClientTypes {
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP6eGb20036xlarge: return "ml.p6e-gb200.36xlarge"
             case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlR6i12xlarge: return "ml.r6i.12xlarge"
             case .mlR6i16xlarge: return "ml.r6i.16xlarge"
@@ -73823,6 +73849,8 @@ extension SageMakerClientTypes.ClusterEbsVolumeConfig {
 
     static func write(value: SageMakerClientTypes.ClusterEbsVolumeConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["RootVolume"].write(value.rootVolume)
+        try writer["VolumeKmsKeyId"].write(value.volumeKmsKeyId)
         try writer["VolumeSizeInGB"].write(value.volumeSizeInGB)
     }
 
@@ -73830,6 +73858,8 @@ extension SageMakerClientTypes.ClusterEbsVolumeConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ClusterEbsVolumeConfig()
         value.volumeSizeInGB = try reader["VolumeSizeInGB"].readIfPresent()
+        value.volumeKmsKeyId = try reader["VolumeKmsKeyId"].readIfPresent()
+        value.rootVolume = try reader["RootVolume"].readIfPresent()
         return value
     }
 }

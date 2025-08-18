@@ -1446,6 +1446,10 @@ public struct CreateAccessPointInput: Swift.Sendable {
     /// For directory buckets, you can filter access control to specific prefixes, API operations, or a combination of both. For more information, see [Managing access to shared datasets in directory buckets with access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-directory-buckets.html) in the Amazon S3 User Guide. Scope is only supported for access points attached to directory buckets.
     public var scope: S3ControlClientTypes.Scope?
     /// An array of tags that you can apply to an access point. Tags are key-value pairs of metadata used to control access to your access points. For more information about tags, see [Using tags with Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html). For information about tagging access points, see [Using tags for attribute-based access control (ABAC)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/tagging.html#using-tags-for-abac).
+    ///
+    /// * You must have the s3:TagResource permission to create an access point with tags for a general purpose bucket.
+    ///
+    /// * You must have the s3express:TagResource permission to create an access point with tags for a directory bucket.
     public var tags: [S3ControlClientTypes.Tag]?
     /// If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC). This is required for creating an access point for Amazon S3 on Outposts buckets.
     public var vpcConfiguration: S3ControlClientTypes.VpcConfiguration?
@@ -2434,6 +2438,95 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes {
 
+    public enum ComputeObjectChecksumAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case crc32
+        case crc32c
+        case crc64nvme
+        case md5
+        case sha1
+        case sha256
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComputeObjectChecksumAlgorithm] {
+            return [
+                .crc32,
+                .crc32c,
+                .crc64nvme,
+                .md5,
+                .sha1,
+                .sha256
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .crc32: return "CRC32"
+            case .crc32c: return "CRC32C"
+            case .crc64nvme: return "CRC64NVME"
+            case .md5: return "MD5"
+            case .sha1: return "SHA1"
+            case .sha256: return "SHA256"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    public enum ComputeObjectChecksumType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case composite
+        case fullObject
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComputeObjectChecksumType] {
+            return [
+                .composite,
+                .fullObject
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .composite: return "COMPOSITE"
+            case .fullObject: return "FULL_OBJECT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// Directs the specified job to invoke the ComputeObjectChecksum operation on every object listed in the job's manifest.
+    public struct S3ComputeObjectChecksumOperation: Swift.Sendable {
+        /// Indicates the algorithm that you want Amazon S3 to use to create the checksum. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+        public var checksumAlgorithm: S3ControlClientTypes.ComputeObjectChecksumAlgorithm?
+        /// Indicates the checksum type that you want Amazon S3 to use to calculate the object’s checksum value. For more information, see [Checking object integrity](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide.
+        public var checksumType: S3ControlClientTypes.ComputeObjectChecksumType?
+
+        public init(
+            checksumAlgorithm: S3ControlClientTypes.ComputeObjectChecksumAlgorithm? = nil,
+            checksumType: S3ControlClientTypes.ComputeObjectChecksumType? = nil
+        ) {
+            self.checksumAlgorithm = checksumAlgorithm
+            self.checksumType = checksumType
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
     /// Contains no configuration parameters because the DELETE Object tagging (DeleteObjectTagging) API operation accepts only the bucket name and key name as parameters, which are defined in the job's manifest.
     public struct S3DeleteObjectTaggingOperation: Swift.Sendable {
 
@@ -3165,6 +3258,8 @@ extension S3ControlClientTypes {
     public struct JobOperation: Swift.Sendable {
         /// Directs the specified job to invoke an Lambda function on every object in the manifest.
         public var lambdaInvoke: S3ControlClientTypes.LambdaInvokeOperation?
+        /// Directs the specified job to compute checksum values for every object in the manifest.
+        public var s3ComputeObjectChecksum: S3ControlClientTypes.S3ComputeObjectChecksumOperation?
         /// Directs the specified job to execute a DELETE Object tagging call on every object in the manifest. This functionality is not supported by directory buckets.
         public var s3DeleteObjectTagging: S3ControlClientTypes.S3DeleteObjectTaggingOperation?
         /// Directs the specified job to initiate restore requests for every archived object in the manifest. This functionality is not supported by directory buckets.
@@ -3184,6 +3279,7 @@ extension S3ControlClientTypes {
 
         public init(
             lambdaInvoke: S3ControlClientTypes.LambdaInvokeOperation? = nil,
+            s3ComputeObjectChecksum: S3ControlClientTypes.S3ComputeObjectChecksumOperation? = nil,
             s3DeleteObjectTagging: S3ControlClientTypes.S3DeleteObjectTaggingOperation? = nil,
             s3InitiateRestoreObject: S3ControlClientTypes.S3InitiateRestoreObjectOperation? = nil,
             s3PutObjectAcl: S3ControlClientTypes.S3SetObjectAclOperation? = nil,
@@ -3194,6 +3290,7 @@ extension S3ControlClientTypes {
             s3ReplicateObject: S3ControlClientTypes.S3ReplicateObjectOperation? = nil
         ) {
             self.lambdaInvoke = lambdaInvoke
+            self.s3ComputeObjectChecksum = s3ComputeObjectChecksum
             self.s3DeleteObjectTagging = s3DeleteObjectTagging
             self.s3InitiateRestoreObject = s3InitiateRestoreObject
             self.s3PutObjectAcl = s3PutObjectAcl
@@ -3270,6 +3367,8 @@ extension S3ControlClientTypes {
         /// Indicates whether the specified job will generate a job-completion report.
         /// This member is required.
         public var enabled: Swift.Bool
+        /// Lists the Amazon Web Services account ID that owns the target bucket, where the completion report is received.
+        public var expectedBucketOwner: Swift.String?
         /// The format of the specified job-completion report.
         public var format: S3ControlClientTypes.JobReportFormat?
         /// An optional prefix to describe where in the specified bucket the job-completion report will be stored. Amazon S3 stores the job-completion report at /job-/report.json.
@@ -3280,12 +3379,14 @@ extension S3ControlClientTypes {
         public init(
             bucket: Swift.String? = nil,
             enabled: Swift.Bool = false,
+            expectedBucketOwner: Swift.String? = nil,
             format: S3ControlClientTypes.JobReportFormat? = nil,
             `prefix`: Swift.String? = nil,
             reportScope: S3ControlClientTypes.JobReportScope? = nil
         ) {
             self.bucket = bucket
             self.enabled = enabled
+            self.expectedBucketOwner = expectedBucketOwner
             self.format = format
             self.`prefix` = `prefix`
             self.reportScope = reportScope
@@ -7129,6 +7230,7 @@ extension S3ControlClientTypes {
 
     public enum OperationName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case lambdainvoke
+        case s3computeobjectchecksum
         case s3deleteobjecttagging
         case s3initiaterestoreobject
         case s3putobjectacl
@@ -7142,6 +7244,7 @@ extension S3ControlClientTypes {
         public static var allCases: [OperationName] {
             return [
                 .lambdainvoke,
+                .s3computeobjectchecksum,
                 .s3deleteobjecttagging,
                 .s3initiaterestoreobject,
                 .s3putobjectacl,
@@ -7161,6 +7264,7 @@ extension S3ControlClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .lambdainvoke: return "LambdaInvoke"
+            case .s3computeobjectchecksum: return "S3ComputeObjectChecksum"
             case .s3deleteobjecttagging: return "S3DeleteObjectTagging"
             case .s3initiaterestoreobject: return "S3InitiateRestoreObject"
             case .s3putobjectacl: return "S3PutObjectAcl"
@@ -13592,6 +13696,7 @@ extension S3ControlClientTypes.JobReport {
         guard let value else { return }
         try writer["Bucket"].write(value.bucket)
         try writer["Enabled"].write(value.enabled)
+        try writer["ExpectedBucketOwner"].write(value.expectedBucketOwner)
         try writer["Format"].write(value.format)
         try writer["Prefix"].write(value.`prefix`)
         try writer["ReportScope"].write(value.reportScope)
@@ -13605,6 +13710,7 @@ extension S3ControlClientTypes.JobReport {
         value.enabled = try reader["Enabled"].readIfPresent() ?? false
         value.`prefix` = try reader["Prefix"].readIfPresent()
         value.reportScope = try reader["ReportScope"].readIfPresent()
+        value.expectedBucketOwner = try reader["ExpectedBucketOwner"].readIfPresent()
         return value
     }
 }
@@ -13648,6 +13754,7 @@ extension S3ControlClientTypes.JobOperation {
     static func write(value: S3ControlClientTypes.JobOperation?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["LambdaInvoke"].write(value.lambdaInvoke, with: S3ControlClientTypes.LambdaInvokeOperation.write(value:to:))
+        try writer["S3ComputeObjectChecksum"].write(value.s3ComputeObjectChecksum, with: S3ControlClientTypes.S3ComputeObjectChecksumOperation.write(value:to:))
         try writer["S3DeleteObjectTagging"].write(value.s3DeleteObjectTagging, with: S3ControlClientTypes.S3DeleteObjectTaggingOperation.write(value:to:))
         try writer["S3InitiateRestoreObject"].write(value.s3InitiateRestoreObject, with: S3ControlClientTypes.S3InitiateRestoreObjectOperation.write(value:to:))
         try writer["S3PutObjectAcl"].write(value.s3PutObjectAcl, with: S3ControlClientTypes.S3SetObjectAclOperation.write(value:to:))
@@ -13670,6 +13777,24 @@ extension S3ControlClientTypes.JobOperation {
         value.s3PutObjectLegalHold = try reader["S3PutObjectLegalHold"].readIfPresent(with: S3ControlClientTypes.S3SetObjectLegalHoldOperation.read(from:))
         value.s3PutObjectRetention = try reader["S3PutObjectRetention"].readIfPresent(with: S3ControlClientTypes.S3SetObjectRetentionOperation.read(from:))
         value.s3ReplicateObject = try reader["S3ReplicateObject"].readIfPresent(with: S3ControlClientTypes.S3ReplicateObjectOperation.read(from:))
+        value.s3ComputeObjectChecksum = try reader["S3ComputeObjectChecksum"].readIfPresent(with: S3ControlClientTypes.S3ComputeObjectChecksumOperation.read(from:))
+        return value
+    }
+}
+
+extension S3ControlClientTypes.S3ComputeObjectChecksumOperation {
+
+    static func write(value: S3ControlClientTypes.S3ComputeObjectChecksumOperation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ChecksumAlgorithm"].write(value.checksumAlgorithm)
+        try writer["ChecksumType"].write(value.checksumType)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3ComputeObjectChecksumOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3ComputeObjectChecksumOperation()
+        value.checksumAlgorithm = try reader["ChecksumAlgorithm"].readIfPresent()
+        value.checksumType = try reader["ChecksumType"].readIfPresent()
         return value
     }
 }

@@ -149,6 +149,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSB2bi](../../../../../swift/api/awsb2bi/latest)
 
+[AWSBCMDashboards](../../../../../swift/api/awsbcmdashboards/latest)
+
 [AWSBCMDataExports](../../../../../swift/api/awsbcmdataexports/latest)
 
 [AWSBCMPricingCalculator](../../../../../swift/api/awsbcmpricingcalculator/latest)

@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FinspacedataClient: ClientRuntime.Client {
     public static let clientName = "FinspacedataClient"
-    public static let version = "1.5.22"
+    public static let version = "1.5.23"
     let client: ClientRuntime.SdkHttpClient
     let config: FinspacedataClient.FinspacedataClientConfiguration
     let serviceName = "finspace data"

@@ -223,12 +223,14 @@ extension ConnectParticipantClientTypes {
 
     public enum ConnectionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case connectionCredentials
+        case webrtcConnection
         case websocket
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ConnectionType] {
             return [
                 .connectionCredentials,
+                .webrtcConnection,
                 .websocket
             ]
         }
@@ -241,6 +243,7 @@ extension ConnectParticipantClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .connectionCredentials: return "CONNECTION_CREDENTIALS"
+            case .webrtcConnection: return "WEBRTC_CONNECTION"
             case .websocket: return "WEBSOCKET"
             case let .sdkUnknown(s): return s
             }
@@ -289,6 +292,166 @@ extension ConnectParticipantClientTypes {
 
 extension ConnectParticipantClientTypes {
 
+    /// The attendee information, including attendee ID and join token.
+    public struct Attendee: Swift.Sendable {
+        /// The Amazon Chime SDK attendee ID.
+        public var attendeeId: Swift.String?
+        /// The join token used by the Amazon Chime SDK attendee.
+        public var joinToken: Swift.String?
+
+        public init(
+            attendeeId: Swift.String? = nil,
+            joinToken: Swift.String? = nil
+        ) {
+            self.attendeeId = attendeeId
+            self.joinToken = joinToken
+        }
+    }
+}
+
+extension ConnectParticipantClientTypes.Attendee: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Attendee(attendeeId: \(Swift.String(describing: attendeeId)), joinToken: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectParticipantClientTypes {
+
+    /// A set of endpoints used by clients to connect to the media service group for an Amazon Chime SDK meeting.
+    public struct MediaPlacement: Swift.Sendable {
+        /// The audio fallback URL.
+        public var audioFallbackUrl: Swift.String?
+        /// The audio host URL.
+        public var audioHostUrl: Swift.String?
+        /// The event ingestion URL to which you send client meeting events.
+        public var eventIngestionUrl: Swift.String?
+        /// The signaling URL.
+        public var signalingUrl: Swift.String?
+        /// The turn control URL.
+        public var turnControlUrl: Swift.String?
+
+        public init(
+            audioFallbackUrl: Swift.String? = nil,
+            audioHostUrl: Swift.String? = nil,
+            eventIngestionUrl: Swift.String? = nil,
+            signalingUrl: Swift.String? = nil,
+            turnControlUrl: Swift.String? = nil
+        ) {
+            self.audioFallbackUrl = audioFallbackUrl
+            self.audioHostUrl = audioHostUrl
+            self.eventIngestionUrl = eventIngestionUrl
+            self.signalingUrl = signalingUrl
+            self.turnControlUrl = turnControlUrl
+        }
+    }
+}
+
+extension ConnectParticipantClientTypes {
+
+    public enum MeetingFeatureStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case unavailable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MeetingFeatureStatus] {
+            return [
+                .available,
+                .unavailable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .unavailable: return "UNAVAILABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectParticipantClientTypes {
+
+    /// Has audio-specific configurations as the operating parameter for Echo Reduction.
+    public struct AudioFeatures: Swift.Sendable {
+        /// Makes echo reduction available to clients who connect to the meeting.
+        public var echoReduction: ConnectParticipantClientTypes.MeetingFeatureStatus?
+
+        public init(
+            echoReduction: ConnectParticipantClientTypes.MeetingFeatureStatus? = nil
+        ) {
+            self.echoReduction = echoReduction
+        }
+    }
+}
+
+extension ConnectParticipantClientTypes {
+
+    /// The configuration settings of the features available to a meeting.
+    public struct MeetingFeaturesConfiguration: Swift.Sendable {
+        /// The configuration settings for the audio features available to a meeting.
+        public var audio: ConnectParticipantClientTypes.AudioFeatures?
+
+        public init(
+            audio: ConnectParticipantClientTypes.AudioFeatures? = nil
+        ) {
+            self.audio = audio
+        }
+    }
+}
+
+extension ConnectParticipantClientTypes {
+
+    /// A meeting created using the Amazon Chime SDK.
+    public struct Meeting: Swift.Sendable {
+        /// The media placement for the meeting.
+        public var mediaPlacement: ConnectParticipantClientTypes.MediaPlacement?
+        /// The Amazon Web Services Region in which you create the meeting.
+        public var mediaRegion: Swift.String?
+        /// The configuration settings of the features available to a meeting.
+        public var meetingFeatures: ConnectParticipantClientTypes.MeetingFeaturesConfiguration?
+        /// The Amazon Chime SDK meeting ID.
+        public var meetingId: Swift.String?
+
+        public init(
+            mediaPlacement: ConnectParticipantClientTypes.MediaPlacement? = nil,
+            mediaRegion: Swift.String? = nil,
+            meetingFeatures: ConnectParticipantClientTypes.MeetingFeaturesConfiguration? = nil,
+            meetingId: Swift.String? = nil
+        ) {
+            self.mediaPlacement = mediaPlacement
+            self.mediaRegion = mediaRegion
+            self.meetingFeatures = meetingFeatures
+            self.meetingId = meetingId
+        }
+    }
+}
+
+extension ConnectParticipantClientTypes {
+
+    /// Information required to join the call.
+    public struct ConnectionData: Swift.Sendable {
+        /// The attendee information, including attendee ID and join token.
+        public var attendee: ConnectParticipantClientTypes.Attendee?
+        /// A meeting created using the Amazon Chime SDK.
+        public var meeting: ConnectParticipantClientTypes.Meeting?
+
+        public init(
+            attendee: ConnectParticipantClientTypes.Attendee? = nil,
+            meeting: ConnectParticipantClientTypes.Meeting? = nil
+        ) {
+            self.attendee = attendee
+            self.meeting = meeting
+        }
+    }
+}
+
+extension ConnectParticipantClientTypes {
+
     /// The websocket for the participant's connection.
     public struct Websocket: Swift.Sendable {
         /// The URL expiration timestamp in ISO date format. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
@@ -309,14 +472,18 @@ extension ConnectParticipantClientTypes {
 public struct CreateParticipantConnectionOutput: Swift.Sendable {
     /// Creates the participant's connection credentials. The authentication token associated with the participant's connection.
     public var connectionCredentials: ConnectParticipantClientTypes.ConnectionCredentials?
+    /// Creates the participant's WebRTC connection data required for the client application (mobile application or website) to connect to the call.
+    public var webRTCConnection: ConnectParticipantClientTypes.ConnectionData?
     /// Creates the participant's websocket connection.
     public var websocket: ConnectParticipantClientTypes.Websocket?
 
     public init(
         connectionCredentials: ConnectParticipantClientTypes.ConnectionCredentials? = nil,
+        webRTCConnection: ConnectParticipantClientTypes.ConnectionData? = nil,
         websocket: ConnectParticipantClientTypes.Websocket? = nil
     ) {
         self.connectionCredentials = connectionCredentials
+        self.webRTCConnection = webRTCConnection
         self.websocket = websocket
     }
 }
@@ -991,7 +1158,7 @@ public struct SendEventInput: Swift.Sendable {
     ///
     /// * application/vnd.amazonaws.connect.event.typing
     ///
-    /// * application/vnd.amazonaws.connect.event.connection.acknowledged (will be deprecated on December 31, 2024)
+    /// * application/vnd.amazonaws.connect.event.connection.acknowledged (is no longer maintained since December 31, 2024)
     ///
     /// * application/vnd.amazonaws.connect.event.message.delivered
     ///
@@ -1042,7 +1209,7 @@ public struct SendMessageInput: Swift.Sendable {
     /// * For application/vnd.amazonaws.connect.message.interactive.response, the Length Constraints are Minimum of 1, Maximum of 12288.
     /// This member is required.
     public var content: Swift.String?
-    /// The type of the content. Supported types are text/plain, text/markdown, application/json, and application/vnd.amazonaws.connect.message.interactive.response.
+    /// The type of the content. Possible types are text/plain, text/markdown, application/json, and application/vnd.amazonaws.connect.message.interactive.response. Supported types on the contact are configured through SupportedMessagingContentTypes on [StartChatContact](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartChatContact.html) and [StartOutboundChatContact](https://docs.aws.amazon.com/connect/latest/APIReference/API_StartOutboundChatContact.html). For Apple Messages for Business, SMS, and WhatsApp Business Messaging contacts, only text/plain is supported.
     /// This member is required.
     public var contentType: Swift.String?
 
@@ -1463,6 +1630,7 @@ extension CreateParticipantConnectionOutput {
         let reader = responseReader
         var value = CreateParticipantConnectionOutput()
         value.connectionCredentials = try reader["ConnectionCredentials"].readIfPresent(with: ConnectParticipantClientTypes.ConnectionCredentials.read(from:))
+        value.webRTCConnection = try reader["WebRTCConnection"].readIfPresent(with: ConnectParticipantClientTypes.ConnectionData.read(from:))
         value.websocket = try reader["Websocket"].readIfPresent(with: ConnectParticipantClientTypes.Websocket.read(from:))
         return value
     }
@@ -1869,6 +2037,75 @@ extension ConnectParticipantClientTypes.ConnectionCredentials {
         var value = ConnectParticipantClientTypes.ConnectionCredentials()
         value.connectionToken = try reader["ConnectionToken"].readIfPresent()
         value.expiry = try reader["Expiry"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectParticipantClientTypes.ConnectionData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.ConnectionData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectParticipantClientTypes.ConnectionData()
+        value.attendee = try reader["Attendee"].readIfPresent(with: ConnectParticipantClientTypes.Attendee.read(from:))
+        value.meeting = try reader["Meeting"].readIfPresent(with: ConnectParticipantClientTypes.Meeting.read(from:))
+        return value
+    }
+}
+
+extension ConnectParticipantClientTypes.Meeting {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Meeting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectParticipantClientTypes.Meeting()
+        value.mediaRegion = try reader["MediaRegion"].readIfPresent()
+        value.mediaPlacement = try reader["MediaPlacement"].readIfPresent(with: ConnectParticipantClientTypes.MediaPlacement.read(from:))
+        value.meetingFeatures = try reader["MeetingFeatures"].readIfPresent(with: ConnectParticipantClientTypes.MeetingFeaturesConfiguration.read(from:))
+        value.meetingId = try reader["MeetingId"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectParticipantClientTypes.MeetingFeaturesConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.MeetingFeaturesConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectParticipantClientTypes.MeetingFeaturesConfiguration()
+        value.audio = try reader["Audio"].readIfPresent(with: ConnectParticipantClientTypes.AudioFeatures.read(from:))
+        return value
+    }
+}
+
+extension ConnectParticipantClientTypes.AudioFeatures {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.AudioFeatures {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectParticipantClientTypes.AudioFeatures()
+        value.echoReduction = try reader["EchoReduction"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectParticipantClientTypes.MediaPlacement {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.MediaPlacement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectParticipantClientTypes.MediaPlacement()
+        value.audioHostUrl = try reader["AudioHostUrl"].readIfPresent()
+        value.audioFallbackUrl = try reader["AudioFallbackUrl"].readIfPresent()
+        value.signalingUrl = try reader["SignalingUrl"].readIfPresent()
+        value.turnControlUrl = try reader["TurnControlUrl"].readIfPresent()
+        value.eventIngestionUrl = try reader["EventIngestionUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectParticipantClientTypes.Attendee {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Attendee {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectParticipantClientTypes.Attendee()
+        value.attendeeId = try reader["AttendeeId"].readIfPresent()
+        value.joinToken = try reader["JoinToken"].readIfPresent()
         return value
     }
 }
