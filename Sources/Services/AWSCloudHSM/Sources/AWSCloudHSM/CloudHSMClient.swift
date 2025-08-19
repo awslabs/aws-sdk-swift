@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudHSMClient: ClientRuntime.Client {
     public static let clientName = "CloudHSMClient"
-    public static let version = "1.5.23"
+    public static let version = "1.5.24"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudHSMClient.CloudHSMClientConfiguration
     let serviceName = "CloudHSM"

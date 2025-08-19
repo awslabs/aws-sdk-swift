@@ -70,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudFrontKeyValueStoreClient: ClientRuntime.Client {
     public static let clientName = "CloudFrontKeyValueStoreClient"
-    public static let version = "1.5.23"
+    public static let version = "1.5.24"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfiguration
     let serviceName = "CloudFront KeyValueStore"

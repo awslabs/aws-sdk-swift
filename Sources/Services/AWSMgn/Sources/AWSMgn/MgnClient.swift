@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MgnClient: ClientRuntime.Client {
     public static let clientName = "MgnClient"
-    public static let version = "1.5.23"
+    public static let version = "1.5.24"
     let client: ClientRuntime.SdkHttpClient
     let config: MgnClient.MgnClientConfiguration
     let serviceName = "mgn"
