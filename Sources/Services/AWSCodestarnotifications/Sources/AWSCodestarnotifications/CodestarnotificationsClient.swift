@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodestarnotificationsClient: ClientRuntime.Client {
     public static let clientName = "CodestarnotificationsClient"
-    public static let version = "1.5.24"
+    public static let version = "1.5.25"
     let client: ClientRuntime.SdkHttpClient
     let config: CodestarnotificationsClient.CodestarnotificationsClientConfiguration
     let serviceName = "codestar notifications"

@@ -330,6 +330,21 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    /// The namespace configuration response object containing information about the namespace where an addon is installed.
+    public struct AddonNamespaceConfigResponse: Swift.Sendable {
+        /// The name of the Kubernetes namespace where the addon is installed.
+        public var namespace: Swift.String?
+
+        public init(
+            namespace: Swift.String? = nil
+        ) {
+            self.namespace = namespace
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     public enum AddonStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case createFailed
@@ -397,6 +412,8 @@ extension EKSClientTypes {
         public var marketplaceInformation: EKSClientTypes.MarketplaceInformation?
         /// The Unix epoch timestamp for the last modification to the object.
         public var modifiedAt: Foundation.Date?
+        /// The namespace configuration for the addon. This specifies the Kubernetes namespace where the addon is installed.
+        public var namespaceConfig: EKSClientTypes.AddonNamespaceConfigResponse?
         /// The owner of the add-on.
         public var owner: Swift.String?
         /// An array of EKS Pod Identity associations owned by the add-on. Each association maps a role to a service account in a namespace in the cluster. For more information, see [Attach an IAM Role to an Amazon EKS add-on using EKS Pod Identity](https://docs.aws.amazon.com/eks/latest/userguide/add-ons-iam.html) in the Amazon EKS User Guide.
@@ -420,6 +437,7 @@ extension EKSClientTypes {
             health: EKSClientTypes.AddonHealth? = nil,
             marketplaceInformation: EKSClientTypes.MarketplaceInformation? = nil,
             modifiedAt: Foundation.Date? = nil,
+            namespaceConfig: EKSClientTypes.AddonNamespaceConfigResponse? = nil,
             owner: Swift.String? = nil,
             podIdentityAssociations: [Swift.String]? = nil,
             publisher: Swift.String? = nil,
@@ -436,6 +454,7 @@ extension EKSClientTypes {
             self.health = health
             self.marketplaceInformation = marketplaceInformation
             self.modifiedAt = modifiedAt
+            self.namespaceConfig = namespaceConfig
             self.owner = owner
             self.podIdentityAssociations = podIdentityAssociations
             self.publisher = publisher
@@ -531,6 +550,8 @@ extension EKSClientTypes {
         public var addonName: Swift.String?
         /// An object representing information about available add-on versions and compatible Kubernetes versions.
         public var addonVersions: [EKSClientTypes.AddonVersionInfo]?
+        /// The default Kubernetes namespace where this addon is typically installed if no custom namespace is specified.
+        public var defaultNamespace: Swift.String?
         /// Information about the add-on from the Amazon Web Services Marketplace.
         public var marketplaceInformation: EKSClientTypes.MarketplaceInformation?
         /// The owner of the add-on.
@@ -543,6 +564,7 @@ extension EKSClientTypes {
         public init(
             addonName: Swift.String? = nil,
             addonVersions: [EKSClientTypes.AddonVersionInfo]? = nil,
+            defaultNamespace: Swift.String? = nil,
             marketplaceInformation: EKSClientTypes.MarketplaceInformation? = nil,
             owner: Swift.String? = nil,
             publisher: Swift.String? = nil,
@@ -550,10 +572,26 @@ extension EKSClientTypes {
         ) {
             self.addonName = addonName
             self.addonVersions = addonVersions
+            self.defaultNamespace = defaultNamespace
             self.marketplaceInformation = marketplaceInformation
             self.owner = owner
             self.publisher = publisher
             self.type = type
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The namespace configuration request object for specifying a custom namespace when creating an addon.
+    public struct AddonNamespaceConfigRequest: Swift.Sendable {
+        /// The name of the Kubernetes namespace to install the addon in. Must be a valid RFC 1123 DNS label.
+        public var namespace: Swift.String?
+
+        public init(
+            namespace: Swift.String? = nil
+        ) {
+            self.namespace = namespace
         }
     }
 }
@@ -1720,6 +1758,8 @@ public struct CreateAddonInput: Swift.Sendable {
     public var clusterName: Swift.String?
     /// The set of configuration values for the add-on that's created. The values that you provide are validated against the schema returned by DescribeAddonConfiguration.
     public var configurationValues: Swift.String?
+    /// The namespace configuration for the addon. If specified, this will override the default namespace for the addon.
+    public var namespaceConfig: EKSClientTypes.AddonNamespaceConfigRequest?
     /// An array of EKS Pod Identity associations to be created. Each association maps a Kubernetes service account to an IAM role. For more information, see [Attach an IAM Role to an Amazon EKS add-on using EKS Pod Identity](https://docs.aws.amazon.com/eks/latest/userguide/add-ons-iam.html) in the Amazon EKS User Guide.
     public var podIdentityAssociations: [EKSClientTypes.AddonPodIdentityAssociations]?
     /// How to resolve field value conflicts for an Amazon EKS add-on. Conflicts are handled based on the value you choose:
@@ -1744,6 +1784,7 @@ public struct CreateAddonInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         clusterName: Swift.String? = nil,
         configurationValues: Swift.String? = nil,
+        namespaceConfig: EKSClientTypes.AddonNamespaceConfigRequest? = nil,
         podIdentityAssociations: [EKSClientTypes.AddonPodIdentityAssociations]? = nil,
         resolveConflicts: EKSClientTypes.ResolveConflicts? = nil,
         serviceAccountRoleArn: Swift.String? = nil,
@@ -1754,6 +1795,7 @@ public struct CreateAddonInput: Swift.Sendable {
         self.clientRequestToken = clientRequestToken
         self.clusterName = clusterName
         self.configurationValues = configurationValues
+        self.namespaceConfig = namespaceConfig
         self.podIdentityAssociations = podIdentityAssociations
         self.resolveConflicts = resolveConflicts
         self.serviceAccountRoleArn = serviceAccountRoleArn
@@ -7679,6 +7721,7 @@ extension CreateAddonInput {
         try writer["addonVersion"].write(value.addonVersion)
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["configurationValues"].write(value.configurationValues)
+        try writer["namespaceConfig"].write(value.namespaceConfig, with: EKSClientTypes.AddonNamespaceConfigRequest.write(value:to:))
         try writer["podIdentityAssociations"].writeList(value.podIdentityAssociations, memberWritingClosure: EKSClientTypes.AddonPodIdentityAssociations.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["resolveConflicts"].write(value.resolveConflicts)
         try writer["serviceAccountRoleArn"].write(value.serviceAccountRoleArn)
@@ -9947,6 +9990,17 @@ extension EKSClientTypes.Addon {
         value.marketplaceInformation = try reader["marketplaceInformation"].readIfPresent(with: EKSClientTypes.MarketplaceInformation.read(from:))
         value.configurationValues = try reader["configurationValues"].readIfPresent()
         value.podIdentityAssociations = try reader["podIdentityAssociations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.namespaceConfig = try reader["namespaceConfig"].readIfPresent(with: EKSClientTypes.AddonNamespaceConfigResponse.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.AddonNamespaceConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AddonNamespaceConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.AddonNamespaceConfigResponse()
+        value.namespace = try reader["namespace"].readIfPresent()
         return value
     }
 }
@@ -10661,6 +10715,7 @@ extension EKSClientTypes.AddonInfo {
         value.publisher = try reader["publisher"].readIfPresent()
         value.owner = try reader["owner"].readIfPresent()
         value.marketplaceInformation = try reader["marketplaceInformation"].readIfPresent(with: EKSClientTypes.MarketplaceInformation.read(from:))
+        value.defaultNamespace = try reader["defaultNamespace"].readIfPresent()
         return value
     }
 }
@@ -10915,6 +10970,14 @@ extension EKSClientTypes.AddonPodIdentityAssociations {
         guard let value else { return }
         try writer["roleArn"].write(value.roleArn)
         try writer["serviceAccount"].write(value.serviceAccount)
+    }
+}
+
+extension EKSClientTypes.AddonNamespaceConfigRequest {
+
+    static func write(value: EKSClientTypes.AddonNamespaceConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["namespace"].write(value.namespace)
     }
 }
 

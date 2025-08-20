@@ -1623,8 +1623,14 @@ public struct AddPolicyGrantInput: Swift.Sendable {
 }
 
 public struct AddPolicyGrantOutput: Swift.Sendable {
+    /// The ID of the policy grant that was added to a specified entity.
+    public var grantId: Swift.String?
 
-    public init() { }
+    public init(
+        grantId: Swift.String? = nil
+    ) {
+        self.grantId = grantId
+    }
 }
 
 extension DataZoneClientTypes {
@@ -17190,6 +17196,8 @@ extension DataZoneClientTypes {
         public var createdBy: Swift.String?
         /// The details of the policy grant member.
         public var detail: DataZoneClientTypes.PolicyGrantDetail?
+        /// The ID of the policy grant.
+        public var grantId: Swift.String?
         /// The principal of the policy grant member.
         public var principal: DataZoneClientTypes.PolicyGrantPrincipal?
 
@@ -17197,11 +17205,13 @@ extension DataZoneClientTypes {
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
             detail: DataZoneClientTypes.PolicyGrantDetail? = nil,
+            grantId: Swift.String? = nil,
             principal: DataZoneClientTypes.PolicyGrantPrincipal? = nil
         ) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.detail = detail
+            self.grantId = grantId
             self.principal = principal
         }
     }
@@ -18990,6 +19000,8 @@ public struct RemovePolicyGrantInput: Swift.Sendable {
     /// The type of the entity from which you want to remove a policy grant.
     /// This member is required.
     public var entityType: DataZoneClientTypes.TargetEntityType?
+    /// The ID of the policy grant that is to be removed from a specified entity.
+    public var grantIdentifier: Swift.String?
     /// The type of the policy that you want to remove.
     /// This member is required.
     public var policyType: DataZoneClientTypes.ManagedPolicyType?
@@ -19002,6 +19014,7 @@ public struct RemovePolicyGrantInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         entityIdentifier: Swift.String? = nil,
         entityType: DataZoneClientTypes.TargetEntityType? = nil,
+        grantIdentifier: Swift.String? = nil,
         policyType: DataZoneClientTypes.ManagedPolicyType? = nil,
         principal: DataZoneClientTypes.PolicyGrantPrincipal? = nil
     ) {
@@ -19009,6 +19022,7 @@ public struct RemovePolicyGrantInput: Swift.Sendable {
         self.domainIdentifier = domainIdentifier
         self.entityIdentifier = entityIdentifier
         self.entityType = entityType
+        self.grantIdentifier = grantIdentifier
         self.policyType = policyType
         self.principal = principal
     }
@@ -25575,6 +25589,7 @@ extension RemovePolicyGrantInput {
     static func write(value: RemovePolicyGrantInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["grantIdentifier"].write(value.grantIdentifier)
         try writer["policyType"].write(value.policyType)
         try writer["principal"].write(value.principal, with: DataZoneClientTypes.PolicyGrantPrincipal.write(value:to:))
     }
@@ -25944,7 +25959,12 @@ extension AddEntityOwnerOutput {
 extension AddPolicyGrantOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AddPolicyGrantOutput {
-        return AddPolicyGrantOutput()
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AddPolicyGrantOutput()
+        value.grantId = try reader["grantId"].readIfPresent()
+        return value
     }
 }
 
@@ -34810,6 +34830,7 @@ extension DataZoneClientTypes.PolicyGrantMember {
         value.detail = try reader["detail"].readIfPresent(with: DataZoneClientTypes.PolicyGrantDetail.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
+        value.grantId = try reader["grantId"].readIfPresent()
         return value
     }
 }

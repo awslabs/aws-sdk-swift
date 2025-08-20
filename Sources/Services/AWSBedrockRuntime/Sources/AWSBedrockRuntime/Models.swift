@@ -1151,19 +1151,19 @@ extension BedrockRuntimeClientTypes {
 
     /// Represents a logical validation result from automated reasoning policy evaluation. The finding indicates whether claims in the input are logically valid, invalid, satisfiable, impossible, or have other logical issues.
     public enum GuardrailAutomatedReasoningFinding: Swift.Sendable {
-        /// Indicates that the claims are definitively true and logically implied by the premises, with no possible alternative interpretations.
+        /// Contains the result when the automated reasoning evaluation determines that the claims in the input are logically valid and definitively true based on the provided premises and policy rules.
         case valid(BedrockRuntimeClientTypes.GuardrailAutomatedReasoningValidFinding)
-        /// Indicates that the claims are logically false and contradictory to the established rules or premises.
+        /// Contains the result when the automated reasoning evaluation determines that the claims in the input are logically invalid and contradict the established premises or policy rules.
         case invalid(BedrockRuntimeClientTypes.GuardrailAutomatedReasoningInvalidFinding)
-        /// Indicates that the claims could be either true or false depending on additional assumptions not provided in the input.
+        /// Contains the result when the automated reasoning evaluation determines that the claims in the input could be either true or false depending on additional assumptions not provided in the input context.
         case satisfiable(BedrockRuntimeClientTypes.GuardrailAutomatedReasoningSatisfiableFinding)
-        /// Indicates that no valid claims can be made due to logical contradictions in the premises or rules.
+        /// Contains the result when the automated reasoning evaluation determines that no valid logical conclusions can be drawn due to contradictions in the premises or policy rules themselves.
         case impossible(BedrockRuntimeClientTypes.GuardrailAutomatedReasoningImpossibleFinding)
-        /// Indicates that the input has multiple valid logical interpretations, requiring additional context or clarification.
+        /// Contains the result when the automated reasoning evaluation detects that the input has multiple valid logical interpretations, requiring additional context or clarification to proceed with validation.
         case translationambiguous(BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTranslationAmbiguousFinding)
-        /// Indicates that the input exceeds the processing capacity due to the volume or complexity of the logical information.
+        /// Contains the result when the automated reasoning evaluation cannot process the input due to its complexity or volume exceeding the system's processing capacity for logical analysis.
         case toocomplex(BedrockRuntimeClientTypes.GuardrailAutomatedReasoningTooComplexFinding)
-        /// Indicates that no relevant logical information could be extracted from the input for validation.
+        /// Contains the result when the automated reasoning evaluation cannot extract any relevant logical information from the input that can be validated against the policy rules.
         case notranslations(BedrockRuntimeClientTypes.GuardrailAutomatedReasoningNoTranslationsFinding)
         case sdkUnknown(Swift.String)
     }
@@ -4416,6 +4416,94 @@ public struct InvokeModelWithResponseStreamOutput: Swift.Sendable {
     }
 }
 
+extension BedrockRuntimeClientTypes {
+
+    /// The inputs from a Converse API request for token counting. This structure mirrors the input format for the Converse operation, allowing you to count tokens for conversation-based inference requests.
+    public struct ConverseTokensRequest: Swift.Sendable {
+        /// An array of messages to count tokens for.
+        public var messages: [BedrockRuntimeClientTypes.Message]?
+        /// The system content blocks to count tokens for. System content provides instructions or context to the model about how it should behave or respond. The token count will include any system content provided.
+        public var system: [BedrockRuntimeClientTypes.SystemContentBlock]?
+
+        public init(
+            messages: [BedrockRuntimeClientTypes.Message]? = nil,
+            system: [BedrockRuntimeClientTypes.SystemContentBlock]? = nil
+        ) {
+            self.messages = messages
+            self.system = system
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The body of an InvokeModel API request for token counting. This structure mirrors the input format for the InvokeModel operation, allowing you to count tokens for raw text inference requests.
+    public struct InvokeModelTokensRequest: Swift.Sendable {
+        /// The request body to count tokens for, formatted according to the model's expected input format. To learn about the input format for different models, see [Model inference parameters and responses](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
+        /// This member is required.
+        public var body: Foundation.Data?
+
+        public init(
+            body: Foundation.Data? = nil
+        ) {
+            self.body = body
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.InvokeModelTokensRequest: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InvokeModelTokensRequest(body: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The input value for token counting. The value should be either an InvokeModel or Converse request body.
+    public enum CountTokensInput: Swift.Sendable {
+        /// An InvokeModel request for which to count tokens. Use this field when you want to count tokens for a raw text input that would be sent to the InvokeModel operation.
+        case invokemodel(BedrockRuntimeClientTypes.InvokeModelTokensRequest)
+        /// A Converse request for which to count tokens. Use this field when you want to count tokens for a conversation-based input that would be sent to the Converse operation.
+        case converse(BedrockRuntimeClientTypes.ConverseTokensRequest)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CountTokensInput: Swift.Sendable {
+    /// The input for which to count tokens. The structure of this parameter depends on whether you're counting tokens for an InvokeModel or Converse request:
+    ///
+    /// * For InvokeModel requests, provide the request body in the invokeModel field
+    ///
+    /// * For Converse requests, provide the messages and system content in the converse field
+    ///
+    ///
+    /// The input format must be compatible with the model specified in the modelId parameter.
+    /// This member is required.
+    public var input: BedrockRuntimeClientTypes.CountTokensInput?
+    /// The unique identifier or ARN of the foundation model to use for token counting. Each model processes tokens differently, so the token count is specific to the model you specify.
+    /// This member is required.
+    public var modelId: Swift.String?
+
+    public init(
+        input: BedrockRuntimeClientTypes.CountTokensInput? = nil,
+        modelId: Swift.String? = nil
+    ) {
+        self.input = input
+        self.modelId = modelId
+    }
+}
+
+public struct CountTokensOutput: Swift.Sendable {
+    /// The number of tokens in the provided input according to the specified model's tokenization rules. This count represents the number of input tokens that would be processed if the same input were sent to the model in an inference request. Use this value to estimate costs and ensure your inputs stay within model token limits.
+    /// This member is required.
+    public var inputTokens: Swift.Int?
+
+    public init(
+        inputTokens: Swift.Int? = nil
+    ) {
+        self.inputTokens = inputTokens
+    }
+}
+
 extension ApplyGuardrailInput {
 
     static func urlPathProvider(_ value: ApplyGuardrailInput) -> Swift.String? {
@@ -4446,6 +4534,16 @@ extension ConverseStreamInput {
             return nil
         }
         return "/model/\(modelId.urlPercentEncoding())/converse-stream"
+    }
+}
+
+extension CountTokensInput {
+
+    static func urlPathProvider(_ value: CountTokensInput) -> Swift.String? {
+        guard let modelId = value.modelId else {
+            return nil
+        }
+        return "/model/\(modelId.urlPercentEncoding())/count-tokens"
     }
 }
 
@@ -4635,6 +4733,14 @@ extension ConverseStreamInput {
     }
 }
 
+extension CountTokensInput {
+
+    static func write(value: CountTokensInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["input"].write(value.input, with: BedrockRuntimeClientTypes.CountTokensInput.write(value:to:))
+    }
+}
+
 extension InvokeModelInput {
 
     static func write(value: InvokeModelInput?, to writer: SmithyJSON.Writer) throws {
@@ -4707,6 +4813,18 @@ extension ConverseStreamOutput {
             let decoderStream = SmithyEventStreams.DefaultMessageDecoderStream(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: BedrockRuntimeClientTypes.ConverseStreamOutput.unmarshal)
             value.stream = decoderStream.toAsyncStream()
         }
+        return value
+    }
+}
+
+extension CountTokensOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CountTokensOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CountTokensOutput()
+        value.inputTokens = try reader["inputTokens"].readIfPresent() ?? 0
         return value
     }
 }
@@ -4864,6 +4982,25 @@ enum ConverseStreamOutputError {
             case "ModelErrorException": return try ModelErrorException.makeError(baseError: baseError)
             case "ModelNotReadyException": return try ModelNotReadyException.makeError(baseError: baseError)
             case "ModelTimeoutException": return try ModelTimeoutException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CountTokensOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -7050,6 +7187,38 @@ extension BedrockRuntimeClientTypes.GuardrailStreamConfiguration {
         try writer["guardrailVersion"].write(value.guardrailVersion)
         try writer["streamProcessingMode"].write(value.streamProcessingMode)
         try writer["trace"].write(value.trace)
+    }
+}
+
+extension BedrockRuntimeClientTypes.CountTokensInput {
+
+    static func write(value: BedrockRuntimeClientTypes.CountTokensInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .converse(converse):
+                try writer["converse"].write(converse, with: BedrockRuntimeClientTypes.ConverseTokensRequest.write(value:to:))
+            case let .invokemodel(invokemodel):
+                try writer["invokeModel"].write(invokemodel, with: BedrockRuntimeClientTypes.InvokeModelTokensRequest.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.ConverseTokensRequest {
+
+    static func write(value: BedrockRuntimeClientTypes.ConverseTokensRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["messages"].writeList(value.messages, memberWritingClosure: BedrockRuntimeClientTypes.Message.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["system"].writeList(value.system, memberWritingClosure: BedrockRuntimeClientTypes.SystemContentBlock.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockRuntimeClientTypes.InvokeModelTokensRequest {
+
+    static func write(value: BedrockRuntimeClientTypes.InvokeModelTokensRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["body"].write(value.body)
     }
 }
 

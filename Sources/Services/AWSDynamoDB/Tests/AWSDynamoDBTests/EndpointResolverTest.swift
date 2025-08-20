@@ -889,27 +889,8 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-iso-east-1 with FIPS enabled and DualStack enabled
-    func testResolve44() throws {
-        let endpointParams = EndpointParams(
-            region: "us-iso-east-1",
-            useDualStack: true,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("FIPS and DualStack are enabled, but this partition does not support one or both", message)
-            default:
-                XCTFail()
-            }
-        }
-    }
-
     /// For region us-iso-east-1 with FIPS enabled and DualStack disabled
-    func testResolve45() throws {
+    func testResolve44() throws {
         let endpointParams = EndpointParams(
             region: "us-iso-east-1",
             useDualStack: false,
@@ -928,27 +909,8 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-iso-east-1 with FIPS disabled and DualStack enabled
-    func testResolve46() throws {
-        let endpointParams = EndpointParams(
-            region: "us-iso-east-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("DualStack is enabled but this partition does not support DualStack", message)
-            default:
-                XCTFail()
-            }
-        }
-    }
-
     /// For region us-isob-east-1 with FIPS disabled and DualStack disabled
-    func testResolve47() throws {
+    func testResolve45() throws {
         let endpointParams = EndpointParams(
             region: "us-isob-east-1",
             useDualStack: false,
@@ -967,27 +929,8 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-isob-east-1 with FIPS enabled and DualStack enabled
-    func testResolve48() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isob-east-1",
-            useDualStack: true,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("FIPS and DualStack are enabled, but this partition does not support one or both", message)
-            default:
-                XCTFail()
-            }
-        }
-    }
-
     /// For region us-isob-east-1 with FIPS enabled and DualStack disabled
-    func testResolve49() throws {
+    func testResolve46() throws {
         let endpointParams = EndpointParams(
             region: "us-isob-east-1",
             useDualStack: false,
@@ -1006,27 +949,8 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-isob-east-1 with FIPS disabled and DualStack enabled
-    func testResolve50() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isob-east-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("DualStack is enabled but this partition does not support DualStack", message)
-            default:
-                XCTFail()
-            }
-        }
-    }
-
     /// For custom endpoint with region set and fips disabled and dualstack disabled
-    func testResolve51() throws {
+    func testResolve47() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",
@@ -1047,7 +971,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For custom endpoint with region not set and fips disabled and dualstack disabled
-    func testResolve52() throws {
+    func testResolve48() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             useDualStack: false,
@@ -1067,7 +991,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For custom endpoint with fips enabled and dualstack disabled
-    func testResolve53() throws {
+    func testResolve49() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",
@@ -1087,7 +1011,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For custom endpoint with fips disabled and dualstack enabled
-    func testResolve54() throws {
+    func testResolve50() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",
@@ -1107,7 +1031,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Missing region
-    func testResolve55() throws {
+    func testResolve51() throws {
         let endpointParams = EndpointParams(
         )
         let resolver = try DefaultEndpointResolver()
@@ -1123,7 +1047,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve56() throws {
+    func testResolve52() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -1145,7 +1069,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve57() throws {
+    func testResolve53() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -1167,7 +1091,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve58() throws {
+    func testResolve54() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -1189,7 +1113,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve59() throws {
+    func testResolve55() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -1212,7 +1136,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve60() throws {
+    func testResolve56() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -1238,7 +1162,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve61() throws {
+    func testResolve57() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -1265,7 +1189,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve62() throws {
+    func testResolve58() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -1292,7 +1216,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve63() throws {
+    func testResolve59() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -1319,7 +1243,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve64() throws {
+    func testResolve60() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -1346,7 +1270,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve65() throws {
+    func testResolve61() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -1373,7 +1297,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve66() throws {
+    func testResolve62() throws {
         let endpointParams = EndpointParams(
             accountId: "",
             accountIdEndpointMode: "preferred",
@@ -1396,7 +1320,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve67() throws {
+    func testResolve63() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             endpoint: "https://example.com",
@@ -1418,7 +1342,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve68() throws {
+    func testResolve64() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             endpoint: "https://example.com",
@@ -1440,7 +1364,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve69() throws {
+    func testResolve65() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             endpoint: "https://example.com",
@@ -1462,7 +1386,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve70() throws {
+    func testResolve66() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             endpoint: "https://example.com",
@@ -1485,7 +1409,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve71() throws {
+    func testResolve67() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             endpoint: "https://example.com",
@@ -1508,7 +1432,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve72() throws {
+    func testResolve68() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             endpoint: "https://example.com",
@@ -1531,7 +1455,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve73() throws {
+    func testResolve69() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             endpoint: "https://example.com",
@@ -1554,7 +1478,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve74() throws {
+    func testResolve70() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             endpoint: "https://example.com",
@@ -1578,7 +1502,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve75() throws {
+    func testResolve71() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             endpoint: "https://example.com",
@@ -1602,7 +1526,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve76() throws {
+    func testResolve72() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             endpoint: "https://example.com",
@@ -1626,7 +1550,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve77() throws {
+    func testResolve73() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             endpoint: "https://example.com",
@@ -1651,7 +1575,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve78() throws {
+    func testResolve74() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             endpoint: "https://example.com",
@@ -1677,7 +1601,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=preferred, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve79() throws {
+    func testResolve75() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             endpoint: "https://example.com",
@@ -1699,7 +1623,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve80() throws {
+    func testResolve76() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -1721,7 +1645,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve81() throws {
+    func testResolve77() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -1743,7 +1667,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve82() throws {
+    func testResolve78() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -1765,7 +1689,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve83() throws {
+    func testResolve79() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -1788,7 +1712,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve84() throws {
+    func testResolve80() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -1814,7 +1738,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve85() throws {
+    func testResolve81() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -1841,7 +1765,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve86() throws {
+    func testResolve82() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -1868,7 +1792,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve87() throws {
+    func testResolve83() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -1895,7 +1819,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve88() throws {
+    func testResolve84() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -1922,7 +1846,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve89() throws {
+    func testResolve85() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -1949,7 +1873,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve90() throws {
+    func testResolve86() throws {
         let endpointParams = EndpointParams(
             accountId: "",
             accountIdEndpointMode: "disabled",
@@ -1972,7 +1896,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve91() throws {
+    func testResolve87() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             endpoint: "https://example.com",
@@ -1994,7 +1918,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve92() throws {
+    func testResolve88() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             endpoint: "https://example.com",
@@ -2016,7 +1940,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve93() throws {
+    func testResolve89() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             endpoint: "https://example.com",
@@ -2038,7 +1962,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve94() throws {
+    func testResolve90() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             endpoint: "https://example.com",
@@ -2061,7 +1985,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve95() throws {
+    func testResolve91() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             endpoint: "https://example.com",
@@ -2084,7 +2008,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve96() throws {
+    func testResolve92() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             endpoint: "https://example.com",
@@ -2107,7 +2031,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve97() throws {
+    func testResolve93() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             endpoint: "https://example.com",
@@ -2130,7 +2054,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve98() throws {
+    func testResolve94() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             endpoint: "https://example.com",
@@ -2154,7 +2078,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve99() throws {
+    func testResolve95() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             endpoint: "https://example.com",
@@ -2178,7 +2102,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve100() throws {
+    func testResolve96() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             endpoint: "https://example.com",
@@ -2202,7 +2126,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve101() throws {
+    func testResolve97() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             endpoint: "https://example.com",
@@ -2227,7 +2151,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve102() throws {
+    func testResolve98() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             endpoint: "https://example.com",
@@ -2253,7 +2177,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=disabled, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve103() throws {
+    func testResolve99() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             endpoint: "https://example.com",
@@ -2275,7 +2199,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve104() throws {
+    func testResolve100() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -2297,7 +2221,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve105() throws {
+    func testResolve101() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -2319,7 +2243,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve106() throws {
+    func testResolve102() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -2341,7 +2265,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve107() throws {
+    func testResolve103() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -2364,7 +2288,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve108() throws {
+    func testResolve104() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -2390,7 +2314,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve109() throws {
+    func testResolve105() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -2417,7 +2341,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve110() throws {
+    func testResolve106() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -2444,7 +2368,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve111() throws {
+    func testResolve107() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -2471,7 +2395,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve112() throws {
+    func testResolve108() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -2498,7 +2422,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve113() throws {
+    func testResolve109() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -2525,7 +2449,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve114() throws {
+    func testResolve110() throws {
         let endpointParams = EndpointParams(
             accountId: "",
             accountIdEndpointMode: "required",
@@ -2548,7 +2472,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve115() throws {
+    func testResolve111() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             endpoint: "https://example.com",
@@ -2570,7 +2494,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve116() throws {
+    func testResolve112() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             endpoint: "https://example.com",
@@ -2592,7 +2516,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve117() throws {
+    func testResolve113() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             endpoint: "https://example.com",
@@ -2614,7 +2538,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve118() throws {
+    func testResolve114() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             endpoint: "https://example.com",
@@ -2637,7 +2561,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve119() throws {
+    func testResolve115() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             endpoint: "https://example.com",
@@ -2660,7 +2584,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve120() throws {
+    func testResolve116() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             endpoint: "https://example.com",
@@ -2683,7 +2607,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve121() throws {
+    func testResolve117() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             endpoint: "https://example.com",
@@ -2706,7 +2630,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve122() throws {
+    func testResolve118() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             endpoint: "https://example.com",
@@ -2730,7 +2654,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve123() throws {
+    func testResolve119() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             endpoint: "https://example.com",
@@ -2754,7 +2678,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve124() throws {
+    func testResolve120() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             endpoint: "https://example.com",
@@ -2778,7 +2702,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve125() throws {
+    func testResolve121() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             endpoint: "https://example.com",
@@ -2803,7 +2727,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve126() throws {
+    func testResolve122() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             endpoint: "https://example.com",
@@ -2829,7 +2753,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=required, Region=us-east-1, Endpoint=https://example.com}
-    func testResolve127() throws {
+    func testResolve123() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             endpoint: "https://example.com",
@@ -2851,7 +2775,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=local}
-    func testResolve128() throws {
+    func testResolve124() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -2872,7 +2796,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=local}
-    func testResolve129() throws {
+    func testResolve125() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -2893,7 +2817,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=local}
-    func testResolve130() throws {
+    func testResolve126() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -2914,7 +2838,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=local}
-    func testResolve131() throws {
+    func testResolve127() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -2930,9 +2854,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -2944,7 +2868,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=local}
-    func testResolve132() throws {
+    func testResolve128() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -2963,9 +2887,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -2977,7 +2901,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=local}
-    func testResolve133() throws {
+    func testResolve129() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -2997,9 +2921,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3011,7 +2935,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=local}
-    func testResolve134() throws {
+    func testResolve130() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -3031,9 +2955,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3045,7 +2969,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=local}
-    func testResolve135() throws {
+    func testResolve131() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -3065,9 +2989,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3079,7 +3003,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=local}
-    func testResolve136() throws {
+    func testResolve132() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -3099,9 +3023,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3113,7 +3037,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=preferred, Region=local}
-    func testResolve137() throws {
+    func testResolve133() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -3133,9 +3057,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3147,7 +3071,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=preferred, Region=local}
-    func testResolve138() throws {
+    func testResolve134() throws {
         let endpointParams = EndpointParams(
             accountId: "",
             accountIdEndpointMode: "preferred",
@@ -3163,9 +3087,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3177,7 +3101,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=local}
-    func testResolve139() throws {
+    func testResolve135() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "local",
@@ -3198,7 +3122,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=local}
-    func testResolve140() throws {
+    func testResolve136() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "local",
@@ -3219,7 +3143,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=local}
-    func testResolve141() throws {
+    func testResolve137() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "local",
@@ -3240,7 +3164,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=local}
-    func testResolve142() throws {
+    func testResolve138() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "local",
@@ -3256,9 +3180,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3270,7 +3194,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=local}
-    func testResolve143() throws {
+    func testResolve139() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "local",
@@ -3286,9 +3210,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3300,7 +3224,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=preferred, Region=local}
-    func testResolve144() throws {
+    func testResolve140() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "local",
@@ -3316,9 +3240,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3330,7 +3254,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=preferred, Region=local}
-    func testResolve145() throws {
+    func testResolve141() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "local",
@@ -3346,9 +3270,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3360,7 +3284,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=local}
-    func testResolve146() throws {
+    func testResolve142() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "local",
@@ -3383,7 +3307,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=local}
-    func testResolve147() throws {
+    func testResolve143() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "local",
@@ -3406,7 +3330,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=local}
-    func testResolve148() throws {
+    func testResolve144() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "local",
@@ -3429,7 +3353,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=local}
-    func testResolve149() throws {
+    func testResolve145() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "local",
@@ -3447,9 +3371,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3461,7 +3385,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=local}
-    func testResolve150() throws {
+    func testResolve146() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "local",
@@ -3480,9 +3404,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3494,7 +3418,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=preferred, Region=local}
-    func testResolve151() throws {
+    func testResolve147() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "local",
@@ -3509,9 +3433,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3523,7 +3447,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=local}
-    func testResolve152() throws {
+    func testResolve148() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -3544,7 +3468,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=local}
-    func testResolve153() throws {
+    func testResolve149() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -3565,7 +3489,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=local}
-    func testResolve154() throws {
+    func testResolve150() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -3586,7 +3510,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=local}
-    func testResolve155() throws {
+    func testResolve151() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -3602,9 +3526,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3616,7 +3540,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=local}
-    func testResolve156() throws {
+    func testResolve152() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -3635,9 +3559,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3649,7 +3573,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=local}
-    func testResolve157() throws {
+    func testResolve153() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -3669,9 +3593,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3683,7 +3607,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=local}
-    func testResolve158() throws {
+    func testResolve154() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -3703,9 +3627,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3717,7 +3641,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=local}
-    func testResolve159() throws {
+    func testResolve155() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -3737,9 +3661,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3751,7 +3675,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=local}
-    func testResolve160() throws {
+    func testResolve156() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -3771,9 +3695,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3785,7 +3709,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=disabled, Region=local}
-    func testResolve161() throws {
+    func testResolve157() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -3805,9 +3729,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3819,7 +3743,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=disabled, Region=local}
-    func testResolve162() throws {
+    func testResolve158() throws {
         let endpointParams = EndpointParams(
             accountId: "",
             accountIdEndpointMode: "disabled",
@@ -3835,9 +3759,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3849,7 +3773,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=local}
-    func testResolve163() throws {
+    func testResolve159() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "local",
@@ -3870,7 +3794,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=local}
-    func testResolve164() throws {
+    func testResolve160() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "local",
@@ -3891,7 +3815,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=local}
-    func testResolve165() throws {
+    func testResolve161() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "local",
@@ -3912,7 +3836,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=local}
-    func testResolve166() throws {
+    func testResolve162() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "local",
@@ -3928,9 +3852,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3942,7 +3866,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=local}
-    func testResolve167() throws {
+    func testResolve163() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "local",
@@ -3958,9 +3882,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -3972,7 +3896,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=disabled, Region=local}
-    func testResolve168() throws {
+    func testResolve164() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "local",
@@ -3988,9 +3912,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -4002,7 +3926,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=disabled, Region=local}
-    func testResolve169() throws {
+    func testResolve165() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "local",
@@ -4018,9 +3942,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -4032,7 +3956,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=local}
-    func testResolve170() throws {
+    func testResolve166() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "local",
@@ -4055,7 +3979,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=local}
-    func testResolve171() throws {
+    func testResolve167() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "local",
@@ -4078,7 +4002,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=local}
-    func testResolve172() throws {
+    func testResolve168() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "local",
@@ -4101,7 +4025,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=local}
-    func testResolve173() throws {
+    func testResolve169() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "local",
@@ -4119,9 +4043,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -4133,7 +4057,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=local}
-    func testResolve174() throws {
+    func testResolve170() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "local",
@@ -4152,9 +4076,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -4166,7 +4090,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=disabled, Region=local}
-    func testResolve175() throws {
+    func testResolve171() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "local",
@@ -4181,9 +4105,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -4195,7 +4119,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=local}
-    func testResolve176() throws {
+    func testResolve172() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -4216,7 +4140,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=local}
-    func testResolve177() throws {
+    func testResolve173() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -4237,7 +4161,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=local}
-    func testResolve178() throws {
+    func testResolve174() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -4258,7 +4182,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=local}
-    func testResolve179() throws {
+    func testResolve175() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -4274,9 +4198,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -4288,7 +4212,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=local}
-    func testResolve180() throws {
+    func testResolve176() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -4307,9 +4231,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -4321,7 +4245,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=local}
-    func testResolve181() throws {
+    func testResolve177() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -4341,9 +4265,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -4355,7 +4279,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=local}
-    func testResolve182() throws {
+    func testResolve178() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -4375,9 +4299,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -4389,7 +4313,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=local}
-    func testResolve183() throws {
+    func testResolve179() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -4409,9 +4333,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -4423,7 +4347,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=required, Region=local}
-    func testResolve184() throws {
+    func testResolve180() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -4443,9 +4367,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -4457,7 +4381,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=required, Region=local}
-    func testResolve185() throws {
+    func testResolve181() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -4477,9 +4401,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -4491,7 +4415,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=required, Region=local}
-    func testResolve186() throws {
+    func testResolve182() throws {
         let endpointParams = EndpointParams(
             accountId: "",
             accountIdEndpointMode: "required",
@@ -4507,9 +4431,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -4521,7 +4445,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=local}
-    func testResolve187() throws {
+    func testResolve183() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "local",
@@ -4542,7 +4466,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=local}
-    func testResolve188() throws {
+    func testResolve184() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "local",
@@ -4563,7 +4487,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=local}
-    func testResolve189() throws {
+    func testResolve185() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "local",
@@ -4584,7 +4508,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=local}
-    func testResolve190() throws {
+    func testResolve186() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "local",
@@ -4600,9 +4524,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -4614,7 +4538,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=required, Region=local}
-    func testResolve191() throws {
+    func testResolve187() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "local",
@@ -4630,9 +4554,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -4644,7 +4568,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=required, Region=local}
-    func testResolve192() throws {
+    func testResolve188() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "local",
@@ -4660,9 +4584,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -4674,7 +4598,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=required, Region=local}
-    func testResolve193() throws {
+    func testResolve189() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "local",
@@ -4690,9 +4614,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -4704,7 +4628,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=local}
-    func testResolve194() throws {
+    func testResolve190() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "local",
@@ -4727,7 +4651,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=local}
-    func testResolve195() throws {
+    func testResolve191() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "local",
@@ -4750,7 +4674,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=local}
-    func testResolve196() throws {
+    func testResolve192() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "local",
@@ -4773,7 +4697,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=local}
-    func testResolve197() throws {
+    func testResolve193() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "local",
@@ -4791,9 +4715,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -4805,7 +4729,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=local}
-    func testResolve198() throws {
+    func testResolve194() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "local",
@@ -4824,9 +4748,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -4838,7 +4762,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=required, Region=local}
-    func testResolve199() throws {
+    func testResolve195() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "local",
@@ -4853,9 +4777,9 @@ class EndpointResolverTest: XCTestCase {
             [
                 "authSchemes": [
                     [
-                        "signingRegion": "us-east-1",
+                        "name": "sigv4",
                         "signingName": "dynamodb",
-                        "name": "sigv4"
+                        "signingRegion": "us-east-1"
                     ]
                 ]
             ]
@@ -4867,7 +4791,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve200() throws {
+    func testResolve196() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -4889,7 +4813,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve201() throws {
+    func testResolve197() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -4911,7 +4835,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve202() throws {
+    func testResolve198() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -4933,7 +4857,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve203() throws {
+    func testResolve199() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -4955,7 +4879,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve204() throws {
+    func testResolve200() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -4980,7 +4904,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve205() throws {
+    func testResolve201() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -5006,7 +4930,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve206() throws {
+    func testResolve202() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -5032,7 +4956,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve207() throws {
+    func testResolve203() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -5058,7 +4982,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve208() throws {
+    func testResolve204() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -5084,7 +5008,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve209() throws {
+    func testResolve205() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -5110,7 +5034,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve210() throws {
+    func testResolve206() throws {
         let endpointParams = EndpointParams(
             accountId: "",
             accountIdEndpointMode: "preferred",
@@ -5131,7 +5055,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve211() throws {
+    func testResolve207() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-east-1",
@@ -5153,7 +5077,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve212() throws {
+    func testResolve208() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-east-1",
@@ -5175,7 +5099,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve213() throws {
+    func testResolve209() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-east-1",
@@ -5197,7 +5121,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve214() throws {
+    func testResolve210() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-east-1",
@@ -5219,7 +5143,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve215() throws {
+    func testResolve211() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-east-1",
@@ -5241,7 +5165,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve216() throws {
+    func testResolve212() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-east-1",
@@ -5263,7 +5187,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve217() throws {
+    func testResolve213() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-east-1",
@@ -5285,7 +5209,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve218() throws {
+    func testResolve214() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-east-1",
@@ -5309,7 +5233,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve219() throws {
+    func testResolve215() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-east-1",
@@ -5333,7 +5257,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve220() throws {
+    func testResolve216() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-east-1",
@@ -5357,7 +5281,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve221() throws {
+    func testResolve217() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-east-1",
@@ -5381,7 +5305,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve222() throws {
+    func testResolve218() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-east-1",
@@ -5406,7 +5330,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=preferred, Region=us-east-1}
-    func testResolve223() throws {
+    func testResolve219() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-east-1",
@@ -5427,7 +5351,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve224() throws {
+    func testResolve220() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -5448,7 +5372,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve225() throws {
+    func testResolve221() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -5469,7 +5393,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve226() throws {
+    func testResolve222() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -5490,7 +5414,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve227() throws {
+    func testResolve223() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -5512,7 +5436,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve228() throws {
+    func testResolve224() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -5537,7 +5461,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve229() throws {
+    func testResolve225() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -5563,7 +5487,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve230() throws {
+    func testResolve226() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -5589,7 +5513,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve231() throws {
+    func testResolve227() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -5615,7 +5539,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve232() throws {
+    func testResolve228() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -5641,7 +5565,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve233() throws {
+    func testResolve229() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -5667,7 +5591,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve234() throws {
+    func testResolve230() throws {
         let endpointParams = EndpointParams(
             accountId: "",
             accountIdEndpointMode: "required",
@@ -5688,7 +5612,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve235() throws {
+    func testResolve231() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "us-east-1",
@@ -5709,7 +5633,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve236() throws {
+    func testResolve232() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "us-east-1",
@@ -5730,7 +5654,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve237() throws {
+    func testResolve233() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "us-east-1",
@@ -5751,7 +5675,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve238() throws {
+    func testResolve234() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "us-east-1",
@@ -5773,7 +5697,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve239() throws {
+    func testResolve235() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "us-east-1",
@@ -5794,7 +5718,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve240() throws {
+    func testResolve236() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "us-east-1",
@@ -5815,7 +5739,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve241() throws {
+    func testResolve237() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "us-east-1",
@@ -5836,7 +5760,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve242() throws {
+    func testResolve238() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "us-east-1",
@@ -5859,7 +5783,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve243() throws {
+    func testResolve239() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "us-east-1",
@@ -5882,7 +5806,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve244() throws {
+    func testResolve240() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "us-east-1",
@@ -5905,7 +5829,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve245() throws {
+    func testResolve241() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "us-east-1",
@@ -5929,7 +5853,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve246() throws {
+    func testResolve242() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "us-east-1",
@@ -5954,7 +5878,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=required, Region=us-east-1}
-    func testResolve247() throws {
+    func testResolve243() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "us-east-1",
@@ -5974,7 +5898,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve248() throws {
+    func testResolve244() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -5995,7 +5919,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve249() throws {
+    func testResolve245() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -6016,7 +5940,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve250() throws {
+    func testResolve246() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -6037,7 +5961,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve251() throws {
+    func testResolve247() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -6058,7 +5982,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve252() throws {
+    func testResolve248() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -6082,7 +6006,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve253() throws {
+    func testResolve249() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -6107,7 +6031,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve254() throws {
+    func testResolve250() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -6132,7 +6056,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve255() throws {
+    func testResolve251() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -6157,7 +6081,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve256() throws {
+    func testResolve252() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -6182,7 +6106,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve257() throws {
+    func testResolve253() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "required",
@@ -6207,7 +6131,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve258() throws {
+    func testResolve254() throws {
         let endpointParams = EndpointParams(
             accountId: "",
             accountIdEndpointMode: "required",
@@ -6228,7 +6152,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve259() throws {
+    func testResolve255() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "cn-north-1",
@@ -6249,7 +6173,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve260() throws {
+    func testResolve256() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "cn-north-1",
@@ -6270,7 +6194,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve261() throws {
+    func testResolve257() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "cn-north-1",
@@ -6291,7 +6215,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve262() throws {
+    func testResolve258() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "cn-north-1",
@@ -6312,7 +6236,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve263() throws {
+    func testResolve259() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "cn-north-1",
@@ -6333,7 +6257,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve264() throws {
+    func testResolve260() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "cn-north-1",
@@ -6354,7 +6278,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve265() throws {
+    func testResolve261() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "cn-north-1",
@@ -6375,7 +6299,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve266() throws {
+    func testResolve262() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "cn-north-1",
@@ -6398,7 +6322,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve267() throws {
+    func testResolve263() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "cn-north-1",
@@ -6421,7 +6345,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve268() throws {
+    func testResolve264() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "cn-north-1",
@@ -6444,7 +6368,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve269() throws {
+    func testResolve265() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "cn-north-1",
@@ -6467,7 +6391,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve270() throws {
+    func testResolve266() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "cn-north-1",
@@ -6491,7 +6415,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=required, Region=cn-north-1}
-    func testResolve271() throws {
+    func testResolve267() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "required",
             region: "cn-north-1",
@@ -6511,7 +6435,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve272() throws {
+    func testResolve268() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -6533,7 +6457,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve273() throws {
+    func testResolve269() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -6555,7 +6479,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve274() throws {
+    func testResolve270() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -6577,7 +6501,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve275() throws {
+    func testResolve271() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -6599,7 +6523,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve276() throws {
+    func testResolve272() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -6624,7 +6548,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve277() throws {
+    func testResolve273() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -6650,7 +6574,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve278() throws {
+    func testResolve274() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -6676,7 +6600,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve279() throws {
+    func testResolve275() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -6702,7 +6626,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve280() throws {
+    func testResolve276() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -6728,7 +6652,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve281() throws {
+    func testResolve277() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "disabled",
@@ -6754,7 +6678,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve282() throws {
+    func testResolve278() throws {
         let endpointParams = EndpointParams(
             accountId: "",
             accountIdEndpointMode: "disabled",
@@ -6776,7 +6700,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve283() throws {
+    func testResolve279() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "us-east-1",
@@ -6798,7 +6722,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve284() throws {
+    func testResolve280() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "us-east-1",
@@ -6820,7 +6744,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve285() throws {
+    func testResolve281() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "us-east-1",
@@ -6842,7 +6766,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve286() throws {
+    func testResolve282() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "us-east-1",
@@ -6864,7 +6788,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve287() throws {
+    func testResolve283() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "us-east-1",
@@ -6886,7 +6810,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve288() throws {
+    func testResolve284() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "us-east-1",
@@ -6908,7 +6832,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve289() throws {
+    func testResolve285() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "us-east-1",
@@ -6930,7 +6854,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve290() throws {
+    func testResolve286() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "us-east-1",
@@ -6954,7 +6878,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve291() throws {
+    func testResolve287() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "us-east-1",
@@ -6978,7 +6902,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve292() throws {
+    func testResolve288() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "us-east-1",
@@ -7002,7 +6926,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve293() throws {
+    func testResolve289() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "us-east-1",
@@ -7026,7 +6950,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve294() throws {
+    func testResolve290() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "us-east-1",
@@ -7051,7 +6975,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=disabled, Region=us-east-1}
-    func testResolve295() throws {
+    func testResolve291() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "disabled",
             region: "us-east-1",
@@ -7072,7 +6996,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve296() throws {
+    func testResolve292() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -7094,7 +7018,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve297() throws {
+    func testResolve293() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -7116,7 +7040,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve298() throws {
+    func testResolve294() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -7138,7 +7062,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve299() throws {
+    func testResolve295() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -7160,7 +7084,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve300() throws {
+    func testResolve296() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -7185,7 +7109,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve301() throws {
+    func testResolve297() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -7211,7 +7135,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve302() throws {
+    func testResolve298() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -7237,7 +7161,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve303() throws {
+    func testResolve299() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -7263,7 +7187,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve304() throws {
+    func testResolve300() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -7289,7 +7213,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve305() throws {
+    func testResolve301() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -7315,7 +7239,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve306() throws {
+    func testResolve302() throws {
         let endpointParams = EndpointParams(
             accountId: "",
             accountIdEndpointMode: "preferred",
@@ -7337,7 +7261,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve307() throws {
+    func testResolve303() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "cn-north-1",
@@ -7359,7 +7283,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve308() throws {
+    func testResolve304() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "cn-north-1",
@@ -7381,7 +7305,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve309() throws {
+    func testResolve305() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "cn-north-1",
@@ -7403,7 +7327,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve310() throws {
+    func testResolve306() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "cn-north-1",
@@ -7425,7 +7349,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve311() throws {
+    func testResolve307() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "cn-north-1",
@@ -7447,7 +7371,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve312() throws {
+    func testResolve308() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "cn-north-1",
@@ -7469,7 +7393,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve313() throws {
+    func testResolve309() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "cn-north-1",
@@ -7491,7 +7415,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve314() throws {
+    func testResolve310() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "cn-north-1",
@@ -7515,7 +7439,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve315() throws {
+    func testResolve311() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "cn-north-1",
@@ -7539,7 +7463,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve316() throws {
+    func testResolve312() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "cn-north-1",
@@ -7563,7 +7487,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve317() throws {
+    func testResolve313() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "cn-north-1",
@@ -7587,7 +7511,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve318() throws {
+    func testResolve314() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "cn-north-1",
@@ -7612,7 +7536,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=preferred, Region=cn-north-1}
-    func testResolve319() throws {
+    func testResolve315() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "cn-north-1",
@@ -7633,7 +7557,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve320() throws {
+    func testResolve316() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -7654,7 +7578,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve321() throws {
+    func testResolve317() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -7676,7 +7600,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve322() throws {
+    func testResolve318() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -7697,7 +7621,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve323() throws {
+    func testResolve319() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -7719,7 +7643,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve324() throws {
+    func testResolve320() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -7744,7 +7668,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve325() throws {
+    func testResolve321() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -7770,7 +7694,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve326() throws {
+    func testResolve322() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -7796,7 +7720,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve327() throws {
+    func testResolve323() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -7822,7 +7746,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve328() throws {
+    func testResolve324() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -7848,7 +7772,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve329() throws {
+    func testResolve325() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -7874,7 +7798,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve330() throws {
+    func testResolve326() throws {
         let endpointParams = EndpointParams(
             accountId: "",
             accountIdEndpointMode: "preferred",
@@ -7896,7 +7820,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve331() throws {
+    func testResolve327() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-iso-east-1",
@@ -7917,7 +7841,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve332() throws {
+    func testResolve328() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-iso-east-1",
@@ -7939,7 +7863,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve333() throws {
+    func testResolve329() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-iso-east-1",
@@ -7960,7 +7884,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve334() throws {
+    func testResolve330() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-iso-east-1",
@@ -7982,7 +7906,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve335() throws {
+    func testResolve331() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-iso-east-1",
@@ -8004,7 +7928,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve336() throws {
+    func testResolve332() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-iso-east-1",
@@ -8026,7 +7950,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve337() throws {
+    func testResolve333() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-iso-east-1",
@@ -8048,7 +7972,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve338() throws {
+    func testResolve334() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-iso-east-1",
@@ -8071,7 +7995,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve339() throws {
+    func testResolve335() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-iso-east-1",
@@ -8095,7 +8019,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve340() throws {
+    func testResolve336() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-iso-east-1",
@@ -8118,7 +8042,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve341() throws {
+    func testResolve337() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-iso-east-1",
@@ -8142,7 +8066,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve342() throws {
+    func testResolve338() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-iso-east-1",
@@ -8167,7 +8091,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=preferred, Region=us-iso-east-1}
-    func testResolve343() throws {
+    func testResolve339() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-iso-east-1",
@@ -8188,7 +8112,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve344() throws {
+    func testResolve340() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -8210,7 +8134,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve345() throws {
+    func testResolve341() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -8232,7 +8156,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve346() throws {
+    func testResolve342() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -8254,7 +8178,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve347() throws {
+    func testResolve343() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -8276,7 +8200,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve348() throws {
+    func testResolve344() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -8301,7 +8225,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve349() throws {
+    func testResolve345() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -8327,7 +8251,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve350() throws {
+    func testResolve346() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -8353,7 +8277,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve351() throws {
+    func testResolve347() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -8379,7 +8303,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-west-2:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve352() throws {
+    func testResolve348() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -8405,7 +8329,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=111111111111, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, ResourceArnList=[arn:aws:s3:us-east-1:333333333333:stream/testStream], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve353() throws {
+    func testResolve349() throws {
         let endpointParams = EndpointParams(
             accountId: "111111111111",
             accountIdEndpointMode: "preferred",
@@ -8431,7 +8355,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountId=, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve354() throws {
+    func testResolve350() throws {
         let endpointParams = EndpointParams(
             accountId: "",
             accountIdEndpointMode: "preferred",
@@ -8453,7 +8377,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve355() throws {
+    func testResolve351() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-gov-east-1",
@@ -8475,7 +8399,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve356() throws {
+    func testResolve352() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-gov-east-1",
@@ -8497,7 +8421,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve357() throws {
+    func testResolve353() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-gov-east-1",
@@ -8519,7 +8443,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve358() throws {
+    func testResolve354() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-gov-east-1",
@@ -8541,7 +8465,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-west-2:222222222222:table/table_name, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve359() throws {
+    func testResolve355() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-gov-east-1",
@@ -8563,7 +8487,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:s3:us-west-2:222222222222:stream/testStream, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve360() throws {
+    func testResolve356() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-gov-east-1",
@@ -8585,7 +8509,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve361() throws {
+    func testResolve357() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-gov-east-1",
@@ -8607,7 +8531,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve362() throws {
+    func testResolve358() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-gov-east-1",
@@ -8631,7 +8555,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=true, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve363() throws {
+    func testResolve359() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-gov-east-1",
@@ -8655,7 +8579,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=true, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve364() throws {
+    func testResolve360() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-gov-east-1",
@@ -8679,7 +8603,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve365() throws {
+    func testResolve361() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-gov-east-1",
@@ -8703,7 +8627,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, ResourceArn=arn:aws:dynamodb:us-east-1:222222222222:table/table_name, ResourceArnList=[arn:aws:dynamodb:us-east-1:333333333333:table/table_name], AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve366() throws {
+    func testResolve362() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-gov-east-1",
@@ -8728,7 +8652,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {UseFIPS=false, UseDualStack=false, AccountIdEndpointMode=preferred, Region=us-gov-east-1}
-    func testResolve367() throws {
+    func testResolve363() throws {
         let endpointParams = EndpointParams(
             accountIdEndpointMode: "preferred",
             region: "us-gov-east-1",

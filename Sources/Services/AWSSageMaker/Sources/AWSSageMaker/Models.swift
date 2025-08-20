@@ -3164,6 +3164,7 @@ extension SageMakerClientTypes {
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlP54xlarge
         case mlP6eGb20036xlarge
         case mlP6B20048xlarge
         case mlR5d12xlarge
@@ -3305,6 +3306,7 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlP54xlarge,
                 .mlP6eGb20036xlarge,
                 .mlP6B20048xlarge,
                 .mlR5d12xlarge,
@@ -3452,6 +3454,7 @@ extension SageMakerClientTypes {
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP54xlarge: return "ml.p5.4xlarge"
             case .mlP6eGb20036xlarge: return "ml.p6e-gb200.36xlarge"
             case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
@@ -15624,6 +15627,7 @@ extension SageMakerClientTypes {
         case mlP316xlarge
         case mlP32xlarge
         case mlP38xlarge
+        case mlP54xlarge
         case mlR5d12xlarge
         case mlR5d16xlarge
         case mlR5d24xlarge
@@ -15748,6 +15752,7 @@ extension SageMakerClientTypes {
                 .mlP316xlarge,
                 .mlP32xlarge,
                 .mlP38xlarge,
+                .mlP54xlarge,
                 .mlR5d12xlarge,
                 .mlR5d16xlarge,
                 .mlR5d24xlarge,
@@ -15878,6 +15883,7 @@ extension SageMakerClientTypes {
             case .mlP316xlarge: return "ml.p3.16xlarge"
             case .mlP32xlarge: return "ml.p3.2xlarge"
             case .mlP38xlarge: return "ml.p3.8xlarge"
+            case .mlP54xlarge: return "ml.p5.4xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
             case .mlR5d16xlarge: return "ml.r5d.16xlarge"
             case .mlR5d24xlarge: return "ml.r5d.24xlarge"
@@ -16207,6 +16213,7 @@ extension SageMakerClientTypes {
         /// The file system path where the Amazon S3 storage location will be mounted within the Amazon SageMaker Studio environment.
         public var mountPath: Swift.String?
         /// The Amazon S3 URI of the S3 file system configuration.
+        /// This member is required.
         public var s3Uri: Swift.String?
 
         public init(
@@ -26261,6 +26268,7 @@ extension SageMakerClientTypes {
     /// A custom file system in Amazon S3. This is only supported in Amazon SageMaker Unified Studio.
     public struct S3FileSystem: Swift.Sendable {
         /// The Amazon S3 URI that specifies the location in S3 where files are stored, which is mounted within the Studio environment. For example: s3://<bucket-name>/<prefix>/.
+        /// This member is required.
         public var s3Uri: Swift.String?
 
         public init(
@@ -36554,6 +36562,7 @@ extension SageMakerClientTypes {
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlP54xlarge
         case mlP6eGb20036xlarge
         case mlP6B20048xlarge
         case mlTrn132xlarge
@@ -36567,6 +36576,7 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlP54xlarge,
                 .mlP6eGb20036xlarge,
                 .mlP6B20048xlarge,
                 .mlTrn132xlarge,
@@ -36586,6 +36596,7 @@ extension SageMakerClientTypes {
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP54xlarge: return "ml.p5.4xlarge"
             case .mlP6eGb20036xlarge: return "ml.p6e-gb200.36xlarge"
             case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlTrn132xlarge: return "ml.trn1.32xlarge"
@@ -74913,7 +74924,7 @@ extension SageMakerClientTypes.S3FileSystemConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.S3FileSystemConfig()
         value.mountPath = try reader["MountPath"].readIfPresent()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -79763,7 +79774,7 @@ extension SageMakerClientTypes.S3FileSystem {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.S3FileSystem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.S3FileSystem()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         return value
     }
 }

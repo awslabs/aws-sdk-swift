@@ -71,7 +71,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class APIGatewayClient: ClientRuntime.Client {
     public static let clientName = "APIGatewayClient"
-    public static let version = "1.5.24"
+    public static let version = "1.5.25"
     let client: ClientRuntime.SdkHttpClient
     let config: APIGatewayClient.APIGatewayClientConfiguration
     let serviceName = "API Gateway"
