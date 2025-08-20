@@ -35,9 +35,7 @@ public struct ConfigFileReader {
         let arrayConfigData = stringConfigData.split(separator: "\n")
         
         var sections = [String: ConfigFileSection]()
-        var properties = [String: ConfigFileSection]()
         var currentSectionName: String? // Keep track of current section name
-        var currentProperty: String? // Keep track of properties
         let profileSection = try! NSRegularExpression(pattern: "profile", options: .caseInsensitive) // Regex pattern to match any line containing "profile"
         
         for line in arrayConfigData{
@@ -72,17 +70,12 @@ public struct ConfigFileReader {
                         sections[currentName]?.keys[key] = value
                         print("  Added key and value '\(key)' = '\(value)' to section '\(currentName)'")
                     }
-            case _ where currentSectionName != nil && line.contains("nested"):
-                let sectionProperty = String(line)
-                currentProperty = sectionProperty
-                let property = ConfigFileSection(name: "property")
-                properties[sectionProperty] = property
-            case _ where currentProperty != nil && line.hasPrefix(" "):
-                let components = line.split(separator: "=", maxSplits: 1).map(String.init)
-                if components.count == 2, let currentValues = currentProperty {
-                    let key = components[0].trimmingCharacters(in: .whitespaces)
-                    let value = components[1].trimmingCharacters(in: .whitespaces)
-                    properties[currentValues]?.keys[key] = value
+            case _ where line.contains("nested") || line.hasPrefix(" "):
+                let property = String(line)
+                if line.hasPrefix(" ") && line.hasPrefix("\t"), let currentName = currentSectionName {
+                    let value = String(line)
+                    sections[currentName]?.properties[property] = value
+                    print("  Added property and value '\(property)' = '\(value)' to section '\(currentName)'")
                 }
             default:
                 print ("No profile found, values will be placed in [default] section")
@@ -120,7 +113,7 @@ struct ConfigFile: FileBasedConfiguration {
 struct ConfigFileSection: FileBasedConfigurationSection {
     let name: String
     var keys: [String: String] = ["":""]
-    var properties: [String: ConfigFileSection] = [:]
+    var properties: [String: String] = ["":""]
     
     func property(for name: FileBasedConfigurationKey) -> FileBasedConfigurationProperty? {
         // Replace this function body with code that works.
