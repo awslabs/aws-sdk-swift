@@ -393,7 +393,7 @@ extension SSMContactsClientTypes {
         /// The Amazon Resource Name (ARN) of the contact channel.
         /// This member is required.
         public var contactChannelId: Swift.String?
-        /// The number of minutes to wait to retry sending engagement in the case the engagement initially fails.
+        /// The number of minutes to wait before retrying to send engagement if the engagement initially failed.
         public var retryIntervalInMinutes: Swift.Int?
 
         public init(
@@ -541,7 +541,13 @@ extension SSMContactsClientTypes {
         public var contactArn: Swift.String?
         /// The full name of the contact or escalation plan.
         public var displayName: Swift.String?
-        /// Refers to the type of contact. A single contact is type PERSONAL and an escalation plan is type ESCALATION.
+        /// The type of contact.
+        ///
+        /// * PERSONAL: A single, individual contact.
+        ///
+        /// * ESCALATION: An escalation plan.
+        ///
+        /// * ONCALL_SCHEDULE: An on-call schedule.
         /// This member is required.
         public var type: SSMContactsClientTypes.ContactType?
 
@@ -756,9 +762,9 @@ extension SSMContactsClientTypes {
 
     /// The contact or contact channel that's being engaged.
     public struct Target: Swift.Sendable {
-        /// Information about the contact channel Incident Manager is engaging.
+        /// Information about the contact channel that Incident Manager engages.
         public var channelTargetInfo: SSMContactsClientTypes.ChannelTargetInfo?
-        /// Information about the contact that Incident Manager is engaging.
+        /// Information about the contact that Incident Manager engages.
         public var contactTargetInfo: SSMContactsClientTypes.ContactTargetInfo?
 
         public init(
@@ -843,7 +849,13 @@ public struct CreateContactInput: Swift.Sendable {
     public var plan: SSMContactsClientTypes.Plan?
     /// Adds a tag to the target. You can only tag resources created in the first Region of your replication set.
     public var tags: [SSMContactsClientTypes.Tag]?
-    /// To create an escalation plan use ESCALATION. To create a contact use PERSONAL.
+    /// The type of contact to create.
+    ///
+    /// * PERSONAL: A single, individual contact.
+    ///
+    /// * ESCALATION: An escalation plan.
+    ///
+    /// * ONCALL_SCHEDULE: An on-call schedule.
     /// This member is required.
     public var type: SSMContactsClientTypes.ContactType?
 
@@ -1029,13 +1041,13 @@ extension SSMContactsClientTypes {
         public var dailySettings: [SSMContactsClientTypes.HandOffTime]?
         /// Information about on-call rotations that recur monthly.
         public var monthlySettings: [SSMContactsClientTypes.MonthlySetting]?
-        /// The number of contacts, or shift team members designated to be on call concurrently during a shift. For example, in an on-call schedule containing ten contacts, a value of 2 designates that two of them are on call at any given time.
+        /// The number of contacts, or shift team members designated to be on call concurrently during a shift. For example, in an on-call schedule that contains ten contacts, a value of 2 designates that two of them are on call at any given time.
         /// This member is required.
         public var numberOfOnCalls: Swift.Int?
         /// The number of days, weeks, or months a single rotation lasts.
         /// This member is required.
         public var recurrenceMultiplier: Swift.Int?
-        /// Information about the days of the week included in on-call rotation coverage.
+        /// Information about the days of the week that the on-call rotation coverage includes.
         public var shiftCoverages: [Swift.String: [SSMContactsClientTypes.CoverageTime]]?
         /// Information about on-call rotations that recur weekly.
         public var weeklySettings: [SSMContactsClientTypes.WeeklySetting]?
@@ -1059,7 +1071,7 @@ extension SSMContactsClientTypes {
 }
 
 public struct CreateRotationInput: Swift.Sendable {
-    /// The Amazon Resource Names (ARNs) of the contacts to add to the rotation. The order that you list the contacts in is their shift order in the rotation schedule. To change the order of the contact's shifts, use the [UpdateRotation] operation.
+    /// The Amazon Resource Names (ARNs) of the contacts to add to the rotation. Only the PERSONAL contact type is supported. The contact types ESCALATION and ONCALL_SCHEDULE are not supported for this operation. The order that you list the contacts in is their shift order in the rotation schedule. To change the order of the contact's shifts, use the [UpdateRotation] operation.
     /// This member is required.
     public var contactIds: [Swift.String]?
     /// A token that ensures that the operation is called only once with the specified details.
@@ -1074,7 +1086,7 @@ public struct CreateRotationInput: Swift.Sendable {
     public var startTime: Foundation.Date?
     /// Optional metadata to assign to the rotation. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For more information, see [Tagging Incident Manager resources](https://docs.aws.amazon.com/incident-manager/latest/userguide/tagging.html) in the Incident Manager User Guide.
     public var tags: [SSMContactsClientTypes.Tag]?
-    /// The time zone to base the rotation’s activity on in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the [Time Zone Database](https://www.iana.org/time-zones) on the IANA website. Designators for time zones that don’t support Daylight Savings Time rules, such as Pacific Standard Time (PST) and Pacific Daylight Time (PDT), are not supported.
+    /// The time zone to base the rotation’s activity on in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the [Time Zone Database](https://www.iana.org/time-zones) on the IANA website. Designators for time zones that don’t support Daylight Savings Time rules, such as Pacific Standard Time (PST), are not supported.
     /// This member is required.
     public var timeZoneId: Swift.String?
 
@@ -1441,7 +1453,7 @@ public struct GetContactOutput: Swift.Sendable {
     /// Details about the specific timing or stages and targets of the escalation plan or engagement plan.
     /// This member is required.
     public var plan: SSMContactsClientTypes.Plan?
-    /// The type of contact, either PERSONAL or ESCALATION.
+    /// The type of contact.
     /// This member is required.
     public var type: SSMContactsClientTypes.ContactType?
 
@@ -1675,7 +1687,7 @@ public struct ListContactsInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The pagination token to continue to the next page of results.
     public var nextToken: Swift.String?
-    /// The type of contact. A contact is type PERSONAL and an escalation plan is type ESCALATION.
+    /// The type of contact.
     public var type: SSMContactsClientTypes.ContactType?
 
     public init(
@@ -2403,7 +2415,7 @@ public struct ListRotationShiftsOutput: Swift.Sendable {
 }
 
 public struct ListTagsForResourceInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the contact or escalation plan.
+    /// The Amazon Resource Name (ARN) of the contact, escalation plan, rotation, or on-call schedule.
     /// This member is required.
     public var resourceARN: Swift.String?
 
@@ -2635,7 +2647,7 @@ public struct UpdateContactChannelOutput: Swift.Sendable {
 }
 
 public struct UpdateRotationInput: Swift.Sendable {
-    /// The Amazon Resource Names (ARNs) of the contacts to include in the updated rotation. The order in which you list the contacts is their shift order in the rotation schedule.
+    /// The Amazon Resource Names (ARNs) of the contacts to include in the updated rotation. Only the PERSONAL contact type is supported. The contact types ESCALATION and ONCALL_SCHEDULE are not supported for this operation. The order in which you list the contacts is their shift order in the rotation schedule.
     public var contactIds: [Swift.String]?
     /// Information about how long the updated rotation lasts before restarting at the beginning of the shift order.
     /// This member is required.
@@ -2645,7 +2657,7 @@ public struct UpdateRotationInput: Swift.Sendable {
     public var rotationId: Swift.String?
     /// The date and time the rotation goes into effect.
     public var startTime: Foundation.Date?
-    /// The time zone to base the updated rotation’s activity on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the [Time Zone Database](https://www.iana.org/time-zones) on the IANA website. Designators for time zones that don’t support Daylight Savings Time Rules, such as Pacific Standard Time (PST) and Pacific Daylight Time (PDT), aren't supported.
+    /// The time zone to base the updated rotation’s activity on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the [Time Zone Database](https://www.iana.org/time-zones) on the IANA website. Designators for time zones that don’t support Daylight Savings Time Rules, such as Pacific Standard Time (PST), aren't supported.
     public var timeZoneId: Swift.String?
 
     public init(

@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GlueClient: ClientRuntime.Client {
     public static let clientName = "GlueClient"
-    public static let version = "1.5.25"
+    public static let version = "1.5.26"
     let client: ClientRuntime.SdkHttpClient
     let config: GlueClient.GlueClientConfiguration
     let serviceName = "Glue"
@@ -1437,7 +1437,7 @@ extension GlueClient {
 
     /// Performs the `BatchPutDataQualityStatisticAnnotation` operation on the `Glue` service.
     ///
-    /// Annotate datapoints over time for a specific data quality statistic.
+    /// Annotate datapoints over time for a specific data quality statistic. The API requires both profileID and statisticID as part of the InclusionAnnotation input. The API only works for a single statisticId across multiple profiles.
     ///
     /// - Parameter BatchPutDataQualityStatisticAnnotationInput : [no documentation found]
     ///

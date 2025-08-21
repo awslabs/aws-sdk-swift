@@ -3642,7 +3642,7 @@ public struct CreateThreatEntitySetInput: Swift.Sendable {
     /// The URI of the file that contains the threat entity set.
     /// This member is required.
     public var location: Swift.String?
-    /// A user-friendly name to identify the threat entity set. List naming constraints - The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
+    /// A user-friendly name to identify the threat entity set. The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
     /// This member is required.
     public var name: Swift.String?
     /// The tags to be added to a new threat entity set resource.
@@ -3836,7 +3836,7 @@ public struct CreateTrustedEntitySetInput: Swift.Sendable {
     /// The URI of the file that contains the trusted entity set.
     /// This member is required.
     public var location: Swift.String?
-    /// A user-friendly name to identify the trusted entity set. List naming constraints - The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
+    /// A user-friendly name to identify the trusted entity set. The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
     /// This member is required.
     public var name: Swift.String?
     /// The tags to be added to a new trusted entity set resource.
@@ -11197,7 +11197,7 @@ public struct UpdateThreatEntitySetInput: Swift.Sendable {
     public var expectedBucketOwner: Swift.String?
     /// The URI of the file that contains the trusted entity set.
     public var location: Swift.String?
-    /// A user-friendly name to identify the trusted entity set. List naming constraints - The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
+    /// A user-friendly name to identify the trusted entity set. The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
     public var name: Swift.String?
     /// The ID returned by GuardDuty after updating the threat entity set resource.
     /// This member is required.
@@ -11273,7 +11273,7 @@ public struct UpdateTrustedEntitySetInput: Swift.Sendable {
     public var expectedBucketOwner: Swift.String?
     /// The URI of the file that contains the trusted entity set.
     public var location: Swift.String?
-    /// A user-friendly name to identify the trusted entity set. List naming constraints - The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
+    /// A user-friendly name to identify the trusted entity set. The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
     public var name: Swift.String?
     /// The ID returned by GuardDuty after updating the trusted entity set resource.
     /// This member is required.

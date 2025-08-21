@@ -2924,6 +2924,47 @@ extension GlueClientTypes.DataQualityAnalyzerResult: Swift.CustomDebugStringConv
 
 extension GlueClientTypes {
 
+    /// The database and table in the Glue Data Catalog that is used for input or output data for Data Quality Operations.
+    public struct DataQualityGlueTable: Swift.Sendable {
+        /// Additional options for the table. Currently there are two keys supported:
+        ///
+        /// * pushDownPredicate: to filter on partitions without having to list and read all the files in your dataset.
+        ///
+        /// * catalogPartitionPredicate: to use server-side partition pruning using partition indexes in the Glue Data Catalog.
+        public var additionalOptions: [Swift.String: Swift.String]?
+        /// A unique identifier for the Glue Data Catalog.
+        public var catalogId: Swift.String?
+        /// The name of the connection to the Glue Data Catalog.
+        public var connectionName: Swift.String?
+        /// A database name in the Glue Data Catalog.
+        /// This member is required.
+        public var databaseName: Swift.String?
+        /// SQL Query of SparkSQL format that can be used to pre-process the data for the table in Glue Data Catalog, before running the Data Quality Operation.
+        public var preProcessingQuery: Swift.String?
+        /// A table name in the Glue Data Catalog.
+        /// This member is required.
+        public var tableName: Swift.String?
+
+        public init(
+            additionalOptions: [Swift.String: Swift.String]? = nil,
+            catalogId: Swift.String? = nil,
+            connectionName: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            preProcessingQuery: Swift.String? = nil,
+            tableName: Swift.String? = nil
+        ) {
+            self.additionalOptions = additionalOptions
+            self.catalogId = catalogId
+            self.connectionName = connectionName
+            self.databaseName = databaseName
+            self.preProcessingQuery = preProcessingQuery
+            self.tableName = tableName
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     /// The database and table in the Glue Data Catalog that is used for input or output data.
     public struct GlueTable: Swift.Sendable {
         /// Additional options for the table. Currently there are two keys supported:
@@ -2963,13 +3004,16 @@ extension GlueClientTypes {
 
     /// A data source (an Glue table) for which you want data quality results.
     public struct DataSource: Swift.Sendable {
+        /// An Glue table for Data Quality Operations.
+        public var dataQualityGlueTable: GlueClientTypes.DataQualityGlueTable?
         /// An Glue table.
-        /// This member is required.
         public var glueTable: GlueClientTypes.GlueTable?
 
         public init(
+            dataQualityGlueTable: GlueClientTypes.DataQualityGlueTable? = nil,
             glueTable: GlueClientTypes.GlueTable? = nil
         ) {
+            self.dataQualityGlueTable = dataQualityGlueTable
             self.glueTable = glueTable
         }
     }
@@ -10242,7 +10286,7 @@ extension GlueClientTypes {
 public struct BatchPutDataQualityStatisticAnnotationInput: Swift.Sendable {
     /// Client Token.
     public var clientToken: Swift.String?
-    /// A list of DatapointInclusionAnnotation's.
+    /// A list of DatapointInclusionAnnotation's. The InclusionAnnotations must contain a profileId and statisticId. If there are multiple InclusionAnnotations, the list must refer to a single statisticId across multiple profileIds.
     /// This member is required.
     public var inclusionAnnotations: [GlueClientTypes.DatapointInclusionAnnotation]?
 
@@ -42777,6 +42821,7 @@ extension GlueClientTypes.DataSource {
 
     static func write(value: GlueClientTypes.DataSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["DataQualityGlueTable"].write(value.dataQualityGlueTable, with: GlueClientTypes.DataQualityGlueTable.write(value:to:))
         try writer["GlueTable"].write(value.glueTable, with: GlueClientTypes.GlueTable.write(value:to:))
     }
 
@@ -42784,6 +42829,32 @@ extension GlueClientTypes.DataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GlueClientTypes.DataSource()
         value.glueTable = try reader["GlueTable"].readIfPresent(with: GlueClientTypes.GlueTable.read(from:))
+        value.dataQualityGlueTable = try reader["DataQualityGlueTable"].readIfPresent(with: GlueClientTypes.DataQualityGlueTable.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.DataQualityGlueTable {
+
+    static func write(value: GlueClientTypes.DataQualityGlueTable?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["PreProcessingQuery"].write(value.preProcessingQuery)
+        try writer["TableName"].write(value.tableName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityGlueTable {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataQualityGlueTable()
+        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
+        value.tableName = try reader["TableName"].readIfPresent() ?? ""
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.connectionName = try reader["ConnectionName"].readIfPresent()
+        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.preProcessingQuery = try reader["PreProcessingQuery"].readIfPresent()
         return value
     }
 }
