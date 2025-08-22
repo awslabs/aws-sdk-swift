@@ -11660,7 +11660,7 @@ extension SageMakerClientTypes {
         /// * default: Use the default latest system image
         ///
         ///
-        /// f you choose to use a custom AMI (CustomAmiId), ensure it meets the following requirements:
+        /// If you choose to use a custom AMI (CustomAmiId), ensure it meets the following requirements:
         ///
         /// * Encryption: The custom AMI must be unencrypted.
         ///
@@ -11669,7 +11669,7 @@ extension SageMakerClientTypes {
         /// * Volume support: Only the primary AMI snapshot volume is supported; additional AMI volumes are not supported.
         ///
         ///
-        /// When updating the instance group's AMI through the UpdateClusterSoftware operation, if an instance group uses a custom AMI, you must provide an ImageId or use the default as input.
+        /// When updating the instance group's AMI through the UpdateClusterSoftware operation, if an instance group uses a custom AMI, you must provide an ImageId or use the default as input. Note that if you don't specify an instance group in your UpdateClusterSoftware request, then all of the instance groups are patched with the specified image.
         public var imageId: Swift.String?
         /// Specifies the number of instances to add to the instance group of a SageMaker HyperPod cluster.
         /// This member is required.
@@ -16890,14 +16890,18 @@ extension SageMakerClientTypes {
     public struct DockerSettings: Swift.Sendable {
         /// Indicates whether the domain can access Docker.
         public var enableDockerAccess: SageMakerClientTypes.FeatureStatus?
+        /// Indicates whether to use rootless Docker. Default value is DISABLED.
+        public var rootlessDocker: SageMakerClientTypes.FeatureStatus?
         /// The list of Amazon Web Services accounts that are trusted when the domain is created in VPC-only mode.
         public var vpcOnlyTrustedAccounts: [Swift.String]?
 
         public init(
             enableDockerAccess: SageMakerClientTypes.FeatureStatus? = nil,
+            rootlessDocker: SageMakerClientTypes.FeatureStatus? = nil,
             vpcOnlyTrustedAccounts: [Swift.String]? = nil
         ) {
             self.enableDockerAccess = enableDockerAccess
+            self.rootlessDocker = rootlessDocker
             self.vpcOnlyTrustedAccounts = vpcOnlyTrustedAccounts
         }
     }
@@ -20569,6 +20573,7 @@ extension SageMakerClientTypes {
         case mlP4de24xlarge
         case mlP4d24xlarge
         case mlP548xlarge
+        case mlP6B20048xlarge
         case mlR512xlarge
         case mlR516xlarge
         case mlR524xlarge
@@ -20745,6 +20750,7 @@ extension SageMakerClientTypes {
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
                 .mlP548xlarge,
+                .mlP6B20048xlarge,
                 .mlR512xlarge,
                 .mlR516xlarge,
                 .mlR524xlarge,
@@ -20927,6 +20933,7 @@ extension SageMakerClientTypes {
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlR512xlarge: return "ml.r5.12xlarge"
             case .mlR516xlarge: return "ml.r5.16xlarge"
             case .mlR524xlarge: return "ml.r5.24xlarge"
@@ -52985,7 +52992,7 @@ public struct UpdateClusterSoftwareInput: Swift.Sendable {
     /// * default: Use the default latest system image
     ///
     ///
-    /// f you choose to use a custom AMI (CustomAmiId), ensure it meets the following requirements:
+    /// If you choose to use a custom AMI (CustomAmiId), ensure it meets the following requirements:
     ///
     /// * Encryption: The custom AMI must be unencrypted.
     ///
@@ -52994,7 +53001,7 @@ public struct UpdateClusterSoftwareInput: Swift.Sendable {
     /// * Volume support: Only the primary AMI snapshot volume is supported; additional AMI volumes are not supported.
     ///
     ///
-    /// When updating the instance group's AMI through the UpdateClusterSoftware operation, if an instance group uses a custom AMI, you must provide an ImageId or use the default as input.
+    /// When updating the instance group's AMI through the UpdateClusterSoftware operation, if an instance group uses a custom AMI, you must provide an ImageId or use the default as input. Note that if you don't specify an instance group in your UpdateClusterSoftware request, then all of the instance groups are patched with the specified image.
     public var imageId: Swift.String?
     /// The array of instance groups for which to update AMI versions.
     public var instanceGroups: [SageMakerClientTypes.UpdateClusterSoftwareInstanceGroupSpecification]?
@@ -75494,6 +75501,7 @@ extension SageMakerClientTypes.DockerSettings {
     static func write(value: SageMakerClientTypes.DockerSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EnableDockerAccess"].write(value.enableDockerAccess)
+        try writer["RootlessDocker"].write(value.rootlessDocker)
         try writer["VpcOnlyTrustedAccounts"].writeList(value.vpcOnlyTrustedAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -75502,6 +75510,7 @@ extension SageMakerClientTypes.DockerSettings {
         var value = SageMakerClientTypes.DockerSettings()
         value.enableDockerAccess = try reader["EnableDockerAccess"].readIfPresent()
         value.vpcOnlyTrustedAccounts = try reader["VpcOnlyTrustedAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rootlessDocker = try reader["RootlessDocker"].readIfPresent()
         return value
     }
 }

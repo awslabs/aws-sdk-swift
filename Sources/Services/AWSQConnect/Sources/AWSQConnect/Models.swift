@@ -2996,6 +2996,8 @@ public struct UpdateAIPromptInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The description of the Amazon Q in Connect AI Prompt.
     public var description: Swift.String?
+    /// The identifier of the model used for this AI Prompt. For more information on supported models, see [Supported models for system and custom prompts](https://docs.aws.amazon.com/connect/latest/adminguide/create-ai-prompts.html#cli-create-aiprompt).
+    public var modelId: Swift.String?
     /// The configuration of the prompt template for this AI Prompt.
     public var templateConfiguration: QConnectClientTypes.AIPromptTemplateConfiguration?
     /// The visibility status of the Amazon Q in Connect AI prompt.
@@ -3007,6 +3009,7 @@ public struct UpdateAIPromptInput: Swift.Sendable {
         assistantId: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        modelId: Swift.String? = nil,
         templateConfiguration: QConnectClientTypes.AIPromptTemplateConfiguration? = nil,
         visibilityStatus: QConnectClientTypes.VisibilityStatus? = nil
     ) {
@@ -3014,6 +3017,7 @@ public struct UpdateAIPromptInput: Swift.Sendable {
         self.assistantId = assistantId
         self.clientToken = clientToken
         self.description = description
+        self.modelId = modelId
         self.templateConfiguration = templateConfiguration
         self.visibilityStatus = visibilityStatus
     }
@@ -12595,6 +12599,7 @@ extension UpdateAIPromptInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
+        try writer["modelId"].write(value.modelId)
         try writer["templateConfiguration"].write(value.templateConfiguration, with: QConnectClientTypes.AIPromptTemplateConfiguration.write(value:to:))
         try writer["visibilityStatus"].write(value.visibilityStatus)
     }

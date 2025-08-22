@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QConnectClient: ClientRuntime.Client {
     public static let clientName = "QConnectClient"
-    public static let version = "1.5.26"
+    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: QConnectClient.QConnectClientConfiguration
     let serviceName = "QConnect"
@@ -739,7 +739,7 @@ extension QConnectClient {
 
     /// Performs the `CreateAIPrompt` operation on the `QConnect` service.
     ///
-    /// Creates an Amazon Q in Connect AI Prompt.
+    /// Creates an Amazon Q in Connect AI Prompt. For more information on supported models, see [Supported models for system and custom prompts](https://docs.aws.amazon.com/connect/latest/adminguide/create-ai-prompts.html#cli-create-aiprompt).
     ///
     /// - Parameter CreateAIPromptInput : [no documentation found]
     ///

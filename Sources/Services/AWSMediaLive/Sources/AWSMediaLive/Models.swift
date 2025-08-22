@@ -2705,6 +2705,39 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Burn In Destination Subtitle Rows
+    public enum BurnInDestinationSubtitleRows: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case rows16
+        case rows20
+        case rows24
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BurnInDestinationSubtitleRows] {
+            return [
+                .rows16,
+                .rows20,
+                .rows24
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .rows16: return "ROWS_16"
+            case .rows20: return "ROWS_20"
+            case .rows24: return "ROWS_24"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Burn In Teletext Grid Control
     public enum BurnInTeletextGridControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fixed
@@ -2765,6 +2798,8 @@ extension MediaLiveClientTypes {
         public var shadowXOffset: Swift.Int?
         /// Specifies the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text. All burn-in and DVB-Sub font settings must match.
         public var shadowYOffset: Swift.Int?
+        /// Applies only when the input captions are Teletext and the output captions are DVB-Sub or Burn-In. Choose the number of lines for the captions bitmap. The captions bitmap is 700 wide × 576 high and will be laid over the video. For example, a value of 16 divides the bitmap into 16 lines, with each line 36 pixels high (16 × 36 = 576). The default is 24 (24 pixels high). Enter the same number in every encode in every output that converts the same Teletext source to DVB-Sub or Burn-in.
+        public var subtitleRows: MediaLiveClientTypes.BurnInDestinationSubtitleRows?
         /// Controls whether a fixed grid size will be used to generate the output subtitles bitmap. Only applicable for Teletext inputs and DVB-Sub/Burn-in outputs.
         public var teletextGridControl: MediaLiveClientTypes.BurnInTeletextGridControl?
         /// Specifies the horizontal position of the caption relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit xPosition is provided, the horizontal caption position will be determined by the alignment parameter. All burn-in and DVB-Sub font settings must match.
@@ -2787,6 +2822,7 @@ extension MediaLiveClientTypes {
             shadowOpacity: Swift.Int? = nil,
             shadowXOffset: Swift.Int? = nil,
             shadowYOffset: Swift.Int? = nil,
+            subtitleRows: MediaLiveClientTypes.BurnInDestinationSubtitleRows? = nil,
             teletextGridControl: MediaLiveClientTypes.BurnInTeletextGridControl? = nil,
             xPosition: Swift.Int? = nil,
             yPosition: Swift.Int? = nil
@@ -2805,6 +2841,7 @@ extension MediaLiveClientTypes {
             self.shadowOpacity = shadowOpacity
             self.shadowXOffset = shadowXOffset
             self.shadowYOffset = shadowYOffset
+            self.subtitleRows = subtitleRows
             self.teletextGridControl = teletextGridControl
             self.xPosition = xPosition
             self.yPosition = yPosition
@@ -2997,6 +3034,39 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Dvb Sub Destination Subtitle Rows
+    public enum DvbSubDestinationSubtitleRows: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case rows16
+        case rows20
+        case rows24
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DvbSubDestinationSubtitleRows] {
+            return [
+                .rows16,
+                .rows20,
+                .rows24
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .rows16: return "ROWS_16"
+            case .rows20: return "ROWS_20"
+            case .rows24: return "ROWS_24"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Dvb Sub Destination Teletext Grid Control
     public enum DvbSubDestinationTeletextGridControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fixed
@@ -3057,6 +3127,8 @@ extension MediaLiveClientTypes {
         public var shadowXOffset: Swift.Int?
         /// Specifies the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text. All burn-in and DVB-Sub font settings must match.
         public var shadowYOffset: Swift.Int?
+        /// Applies only when the input captions are Teletext and the output captions are DVB-Sub or Burn-In. Choose the number of lines for the captions bitmap. The captions bitmap is 700 wide × 576 high and will be laid over the video. For example, a value of 16 divides the bitmap into 16 lines, with each line 36 pixels high (16 × 36 = 576). The default is 24 (24 pixels high). Enter the same number in every encode in every output that converts the same Teletext source to DVB-Sub or Burn-in.
+        public var subtitleRows: MediaLiveClientTypes.DvbSubDestinationSubtitleRows?
         /// Controls whether a fixed grid size will be used to generate the output subtitles bitmap. Only applicable for Teletext inputs and DVB-Sub/Burn-in outputs.
         public var teletextGridControl: MediaLiveClientTypes.DvbSubDestinationTeletextGridControl?
         /// Specifies the horizontal position of the caption relative to the left side of the output in pixels. A value of 10 would result in the captions starting 10 pixels from the left of the output. If no explicit xPosition is provided, the horizontal caption position will be determined by the alignment parameter. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
@@ -3079,6 +3151,7 @@ extension MediaLiveClientTypes {
             shadowOpacity: Swift.Int? = nil,
             shadowXOffset: Swift.Int? = nil,
             shadowYOffset: Swift.Int? = nil,
+            subtitleRows: MediaLiveClientTypes.DvbSubDestinationSubtitleRows? = nil,
             teletextGridControl: MediaLiveClientTypes.DvbSubDestinationTeletextGridControl? = nil,
             xPosition: Swift.Int? = nil,
             yPosition: Swift.Int? = nil
@@ -3097,6 +3170,7 @@ extension MediaLiveClientTypes {
             self.shadowOpacity = shadowOpacity
             self.shadowXOffset = shadowXOffset
             self.shadowYOffset = shadowYOffset
+            self.subtitleRows = subtitleRows
             self.teletextGridControl = teletextGridControl
             self.xPosition = xPosition
             self.yPosition = yPosition
@@ -37022,6 +37096,7 @@ extension MediaLiveClientTypes.DvbSubDestinationSettings {
         try writer["shadowOpacity"].write(value.shadowOpacity)
         try writer["shadowXOffset"].write(value.shadowXOffset)
         try writer["shadowYOffset"].write(value.shadowYOffset)
+        try writer["subtitleRows"].write(value.subtitleRows)
         try writer["teletextGridControl"].write(value.teletextGridControl)
         try writer["xPosition"].write(value.xPosition)
         try writer["yPosition"].write(value.yPosition)
@@ -37047,6 +37122,7 @@ extension MediaLiveClientTypes.DvbSubDestinationSettings {
         value.teletextGridControl = try reader["teletextGridControl"].readIfPresent()
         value.xPosition = try reader["xPosition"].readIfPresent()
         value.yPosition = try reader["yPosition"].readIfPresent()
+        value.subtitleRows = try reader["subtitleRows"].readIfPresent()
         return value
     }
 }
@@ -37069,6 +37145,7 @@ extension MediaLiveClientTypes.BurnInDestinationSettings {
         try writer["shadowOpacity"].write(value.shadowOpacity)
         try writer["shadowXOffset"].write(value.shadowXOffset)
         try writer["shadowYOffset"].write(value.shadowYOffset)
+        try writer["subtitleRows"].write(value.subtitleRows)
         try writer["teletextGridControl"].write(value.teletextGridControl)
         try writer["xPosition"].write(value.xPosition)
         try writer["yPosition"].write(value.yPosition)
@@ -37094,6 +37171,7 @@ extension MediaLiveClientTypes.BurnInDestinationSettings {
         value.teletextGridControl = try reader["teletextGridControl"].readIfPresent()
         value.xPosition = try reader["xPosition"].readIfPresent()
         value.yPosition = try reader["yPosition"].readIfPresent()
+        value.subtitleRows = try reader["subtitleRows"].readIfPresent()
         return value
     }
 }

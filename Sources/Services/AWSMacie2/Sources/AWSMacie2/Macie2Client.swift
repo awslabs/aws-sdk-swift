@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Macie2Client: ClientRuntime.Client {
     public static let clientName = "Macie2Client"
-    public static let version = "1.5.26"
+    public static let version = "1.5.27"
     let client: ClientRuntime.SdkHttpClient
     let config: Macie2Client.Macie2ClientConfiguration
     let serviceName = "Macie2"
