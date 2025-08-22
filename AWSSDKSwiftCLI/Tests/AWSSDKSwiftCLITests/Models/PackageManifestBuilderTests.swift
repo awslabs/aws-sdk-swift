@@ -33,6 +33,7 @@ class PackageManifestBuilderTests: XCTestCase {
         let internalAWSSTSDependencies: [Target.Dependency] = []
         let internalAWSSSODependencies: [Target.Dependency] = []
         let internalAWSSSOOIDCDependencies: [Target.Dependency] = []
+        let internalAWSCognitoIdentityDependencies: [Target.Dependency] = []
 
         <contents of base package>
         """
@@ -75,6 +76,7 @@ class PackageManifestBuilderTests: XCTestCase {
         let internalAWSSTSDependencies: [Target.Dependency] = []
         let internalAWSSSODependencies: [Target.Dependency] = []
         let internalAWSSSOOIDCDependencies: [Target.Dependency] = []
+        let internalAWSCognitoIdentityDependencies: [Target.Dependency] = []
 
         <contents of base package>
         """
