@@ -2879,11 +2879,11 @@ enum ValidateResourcePolicyOutputError {
     }
 }
 
-extension InvalidNextTokenException {
+extension DecryptionFailure {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DecryptionFailure {
         let reader = baseError.errorBodyReader
-        var value = InvalidNextTokenException()
+        var value = DecryptionFailure()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2892,11 +2892,24 @@ extension InvalidNextTokenException {
     }
 }
 
-extension DecryptionFailure {
+extension InternalServiceError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DecryptionFailure {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceError {
         let reader = baseError.errorBodyReader
-        var value = DecryptionFailure()
+        var value = InternalServiceError()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidNextTokenException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidNextTokenException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidNextTokenException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2944,19 +2957,6 @@ extension ResourceNotFoundException {
     }
 }
 
-extension InternalServiceError {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceError {
-        let reader = baseError.errorBodyReader
-        var value = InternalServiceError()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension EncryptionFailure {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EncryptionFailure {
@@ -2970,24 +2970,11 @@ extension EncryptionFailure {
     }
 }
 
-extension ResourceExistsException {
+extension LimitExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
         let reader = baseError.errorBodyReader
-        var value = ResourceExistsException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension PreconditionNotMetException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PreconditionNotMetException {
-        let reader = baseError.errorBodyReader
-        var value = PreconditionNotMetException()
+        var value = LimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3009,11 +2996,24 @@ extension MalformedPolicyDocumentException {
     }
 }
 
-extension LimitExceededException {
+extension PreconditionNotMetException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PreconditionNotMetException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = PreconditionNotMetException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceExistsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceExistsException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

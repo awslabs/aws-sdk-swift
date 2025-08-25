@@ -44,6 +44,11 @@ public struct DeleteQueryLoggingConfigurationOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteResourcePolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteRuleGroupsNamespaceOutput: Swift.Sendable {
 
     public init() { }
@@ -2493,6 +2498,141 @@ public struct UpdateWorkspaceConfigurationOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteResourcePolicyInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the request is safe to retry (idempotent).
+    public var clientToken: Swift.String?
+    /// The revision ID of the policy to delete. Use this parameter to ensure that you are deleting the correct version of the policy.
+    public var revisionId: Swift.String?
+    /// The ID of the workspace from which to delete the resource-based policy.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        revisionId: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.revisionId = revisionId
+        self.workspaceId = workspaceId
+    }
+}
+
+public struct DescribeResourcePolicyInput: Swift.Sendable {
+    /// The ID of the workspace to describe the resource-based policy for.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        workspaceId: Swift.String? = nil
+    ) {
+        self.workspaceId = workspaceId
+    }
+}
+
+extension AmpClientTypes {
+
+    public enum WorkspacePolicyStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Resource-based Policy has been created/updated. Update/Deletion is disallowed until Resource-based Policy is ACTIVE and Workspace is ACTIVE.
+        case active
+        /// Resource-based Policy is being created. Update/Deletion is disallowed until Resource-based Policy is ACTIVE and Workspace is ACTIVE.
+        case creating
+        /// Resource-based Policy is being deleting. Update/Deletion is disallowed until Resource-based Policy is ACTIVE and Workspace is ACTIVE.
+        case deleting
+        /// Resource-based Policy is being updated. Update/Deletion is disallowed until Resource-based Policy is ACTIVE and Workspace is ACTIVE.
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkspacePolicyStatusCode] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeResourcePolicyOutput: Swift.Sendable {
+    /// The JSON policy document for the resource-based policy attached to the workspace.
+    /// This member is required.
+    public var policyDocument: Swift.String?
+    /// The current status of the resource-based policy.
+    /// This member is required.
+    public var policyStatus: AmpClientTypes.WorkspacePolicyStatusCode?
+    /// The revision ID of the current resource-based policy.
+    /// This member is required.
+    public var revisionId: Swift.String?
+
+    public init(
+        policyDocument: Swift.String? = nil,
+        policyStatus: AmpClientTypes.WorkspacePolicyStatusCode? = nil,
+        revisionId: Swift.String? = nil
+    ) {
+        self.policyDocument = policyDocument
+        self.policyStatus = policyStatus
+        self.revisionId = revisionId
+    }
+}
+
+public struct PutResourcePolicyInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the request is safe to retry (idempotent).
+    public var clientToken: Swift.String?
+    /// The JSON policy document to use as the resource-based policy. This policy defines the permissions that other AWS accounts or services have to access your workspace.
+    /// This member is required.
+    public var policyDocument: Swift.String?
+    /// The revision ID of the policy to update. Use this parameter to ensure that you are updating the correct version of the policy. If you don't specify a revision ID, the policy is updated regardless of its current revision. For the first PUT request on a workspace that doesn't have an existing resource policy, you can specify NO_POLICY as the revision ID.
+    public var revisionId: Swift.String?
+    /// The ID of the workspace to attach the resource-based policy to.
+    /// This member is required.
+    public var workspaceId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        policyDocument: Swift.String? = nil,
+        revisionId: Swift.String? = nil,
+        workspaceId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.policyDocument = policyDocument
+        self.revisionId = revisionId
+        self.workspaceId = workspaceId
+    }
+}
+
+public struct PutResourcePolicyOutput: Swift.Sendable {
+    /// The current status of the resource-based policy.
+    /// This member is required.
+    public var policyStatus: AmpClientTypes.WorkspacePolicyStatusCode?
+    /// The revision ID of the newly created or updated resource-based policy.
+    /// This member is required.
+    public var revisionId: Swift.String?
+
+    public init(
+        policyStatus: AmpClientTypes.WorkspacePolicyStatusCode? = nil,
+        revisionId: Swift.String? = nil
+    ) {
+        self.policyStatus = policyStatus
+        self.revisionId = revisionId
+    }
+}
+
 extension CreateAlertManagerDefinitionInput {
 
     static func urlPathProvider(_ value: CreateAlertManagerDefinitionInput) -> Swift.String? {
@@ -2613,6 +2753,32 @@ extension DeleteQueryLoggingConfigurationInput {
     }
 }
 
+extension DeleteResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/policy"
+    }
+}
+
+extension DeleteResourcePolicyInput {
+
+    static func queryItemProvider(_ value: DeleteResourcePolicyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let revisionId = value.revisionId {
+            let revisionIdQueryItem = Smithy.URIQueryItem(name: "revisionId".urlPercentEncoding(), value: Swift.String(revisionId).urlPercentEncoding())
+            items.append(revisionIdQueryItem)
+        }
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension DeleteRuleGroupsNamespaceInput {
 
     static func urlPathProvider(_ value: DeleteRuleGroupsNamespaceInput) -> Swift.String? {
@@ -2709,6 +2875,16 @@ extension DescribeQueryLoggingConfigurationInput {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/logging/query"
+    }
+}
+
+extension DescribeResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DescribeResourcePolicyInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/policy"
     }
 }
 
@@ -2870,6 +3046,16 @@ extension PutAlertManagerDefinitionInput {
             return nil
         }
         return "/workspaces/\(workspaceId.urlPercentEncoding())/alertmanager/definition"
+    }
+}
+
+extension PutResourcePolicyInput {
+
+    static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
+        guard let workspaceId = value.workspaceId else {
+            return nil
+        }
+        return "/workspaces/\(workspaceId.urlPercentEncoding())/policy"
     }
 }
 
@@ -3044,6 +3230,16 @@ extension PutAlertManagerDefinitionInput {
     }
 }
 
+extension PutResourcePolicyInput {
+
+    static func write(value: PutResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["policyDocument"].write(value.policyDocument)
+        try writer["revisionId"].write(value.revisionId)
+    }
+}
+
 extension PutRuleGroupsNamespaceInput {
 
     static func write(value: PutRuleGroupsNamespaceInput?, to writer: SmithyJSON.Writer) throws {
@@ -3213,6 +3409,13 @@ extension DeleteQueryLoggingConfigurationOutput {
     }
 }
 
+extension DeleteResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteResourcePolicyOutput {
+        return DeleteResourcePolicyOutput()
+    }
+}
+
 extension DeleteRuleGroupsNamespaceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRuleGroupsNamespaceOutput {
@@ -3272,6 +3475,20 @@ extension DescribeQueryLoggingConfigurationOutput {
         let reader = responseReader
         var value = DescribeQueryLoggingConfigurationOutput()
         value.queryLoggingConfiguration = try reader["queryLoggingConfiguration"].readIfPresent(with: AmpClientTypes.QueryLoggingConfigurationMetadata.read(from:))
+        return value
+    }
+}
+
+extension DescribeResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeResourcePolicyOutput()
+        value.policyDocument = try reader["policyDocument"].readIfPresent() ?? ""
+        value.policyStatus = try reader["policyStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.revisionId = try reader["revisionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3395,6 +3612,19 @@ extension PutAlertManagerDefinitionOutput {
         let reader = responseReader
         var value = PutAlertManagerDefinitionOutput()
         value.status = try reader["status"].readIfPresent(with: AmpClientTypes.AlertManagerDefinitionStatus.read(from:))
+        return value
+    }
+}
+
+extension PutResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutResourcePolicyOutput()
+        value.policyStatus = try reader["policyStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.revisionId = try reader["revisionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3654,6 +3884,25 @@ enum DeleteQueryLoggingConfigurationOutputError {
     }
 }
 
+enum DeleteResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteRuleGroupsNamespaceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -3757,6 +4006,24 @@ enum DescribeQueryLoggingConfigurationOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -3941,6 +4208,25 @@ enum PutAlertManagerDefinitionOutputError {
     }
 }
 
+enum PutResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutRuleGroupsNamespaceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4093,14 +4379,12 @@ enum UpdateWorkspaceConfigurationOutputError {
     }
 }
 
-extension ConflictException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4108,11 +4392,11 @@ extension ConflictException {
     }
 }
 
-extension ResourceNotFoundException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
@@ -4140,14 +4424,31 @@ extension InternalServerException {
     }
 }
 
-extension ValidationException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: AmpClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -4174,29 +4475,14 @@ extension ThrottlingException {
     }
 }
 
-extension AccessDeniedException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ValidationException()
+        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: AmpClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

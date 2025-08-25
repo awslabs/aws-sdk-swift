@@ -30,7 +30,7 @@ class DefaultAWSAuthSchemePlugin(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,
     ) {
-        writer.openBlock("public class DefaultAWSAuthSchemePlugin: \$N {", "}", ClientRuntimeTypes.Core.Plugin) {
+        writer.openBlock("${ctx.settings.visibility} class DefaultAWSAuthSchemePlugin: \$N {", "}", ClientRuntimeTypes.Core.Plugin) {
             writer.write("")
             writer.write("public init() {}")
             writer.write("")
@@ -45,10 +45,17 @@ class DefaultAWSAuthSchemePlugin(
                         "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()",
                     )
                     writer.write("config.authSchemes = \$L", AWSAuthUtils(ctx).getModeledAuthSchemesSupportedBySDK(ctx, writer))
-                    writer.write(
-                        "config.awsCredentialIdentityResolver = \$N()",
-                        AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain,
-                    )
+                    if (ctx.settings.internalClient) {
+                        writer.write(
+                            "config.awsCredentialIdentityResolver = \$N()",
+                            SmithyIdentityTypes.StaticAWSCredentialIdentityResolver,
+                        )
+                    } else {
+                        writer.write(
+                            "config.awsCredentialIdentityResolver = \$N()",
+                            AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain,
+                        )
+                    }
                     if (AuthUtils(ctx).isSupportedAuthScheme(HttpBearerAuthTrait.ID)) {
                         writer.write(
                             "config.bearerTokenIdentityResolver = try \$N()",
@@ -56,9 +63,8 @@ class DefaultAWSAuthSchemePlugin(
                         )
                     } else {
                         writer.write(
-                            "config.bearerTokenIdentityResolver = \$N(token: \$N(token: \"\"))",
+                            "config.bearerTokenIdentityResolver = \$N()",
                             SmithyIdentityTypes.StaticBearerTokenIdentityResolver,
-                            SmithyIdentityTypes.BearerTokenIdentity,
                         )
                     }
                 }

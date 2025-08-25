@@ -1555,6 +1555,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Information about the validations performed on the analysis template.</p>"
                     }
+                },
+                "errorMessageConfiguration": {
+                    "target": "com.amazonaws.cleanrooms#ErrorMessageConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration that specifies the level of detail in error messages returned by analyses using this template. When set to <code>DETAILED</code>, error messages include more information to help troubleshoot issues with PySpark jobs. Detailed error messages may expose underlying data, including sensitive information. Recommended for faster troubleshooting in development and testing environments.</p>"
+                    }
                 }
             },
             "traits": {
@@ -2502,7 +2508,7 @@
                 "analyticsEngine": {
                     "target": "com.amazonaws.cleanrooms#AnalyticsEngine",
                     "traits": {
-                        "smithy.api#documentation": "<p> The analytics engine for the collaboration.</p>"
+                        "smithy.api#documentation": "<p> The analytics engine for the collaboration.</p> <note> <p>After July 16, 2025, the <code>CLEAN_ROOMS_SQL</code> parameter will no longer be available. </p> </note>"
                     }
                 }
             },
@@ -2612,6 +2618,12 @@
                     "target": "com.amazonaws.cleanrooms#AnalysisTemplateValidationStatusDetailList",
                     "traits": {
                         "smithy.api#documentation": "<p>The validations that were performed.</p>"
+                    }
+                },
+                "errorMessageConfiguration": {
+                    "target": "com.amazonaws.cleanrooms#ErrorMessageConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration that specifies the level of detail in error messages returned by analyses using this template. When set to <code>DETAILED</code>, error messages include more information to help troubleshoot issues with PySpark jobs. Detailed error messages may expose underlying data, including sensitive information. Recommended for faster troubleshooting in development and testing environments.</p>"
                     }
                 }
             },
@@ -3504,7 +3516,7 @@
                 "analyticsEngine": {
                     "target": "com.amazonaws.cleanrooms#AnalyticsEngine",
                     "traits": {
-                        "smithy.api#documentation": "<p> The analytics engine.</p>"
+                        "smithy.api#documentation": "<p> The analytics engine.</p> <note> <p>After July 16, 2025, the <code>CLEAN_ROOMS_SQL</code> parameter will no longer be available. </p> </note>"
                     }
                 }
             },
@@ -4964,7 +4976,7 @@
                 "source": {
                     "target": "com.amazonaws.cleanrooms#AnalysisSource",
                     "traits": {
-                        "smithy.api#documentation": "<p>The information in the analysis template. Currently supports <code>text</code>, the query text for the analysis template.</p>",
+                        "smithy.api#documentation": "<p>The information in the analysis template.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -4982,6 +4994,12 @@
                 },
                 "schema": {
                     "target": "com.amazonaws.cleanrooms#AnalysisSchema"
+                },
+                "errorMessageConfiguration": {
+                    "target": "com.amazonaws.cleanrooms#ErrorMessageConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration that specifies the level of detail in error messages returned by analyses using this template. When set to <code>DETAILED</code>, error messages include more information to help troubleshoot issues with PySpark jobs. Detailed error messages may expose underlying data, including sensitive information. Recommended for faster troubleshooting in development and testing environments.</p>"
+                    }
                 }
             }
         },
@@ -5110,7 +5128,7 @@
                 "analyticsEngine": {
                     "target": "com.amazonaws.cleanrooms#AnalyticsEngine",
                     "traits": {
-                        "smithy.api#documentation": "<p> The analytics engine.</p>"
+                        "smithy.api#documentation": "<p> The analytics engine.</p> <note> <p>After July 16, 2025, the <code>CLEAN_ROOMS_SQL</code> parameter will no longer be available. </p> </note>"
                     }
                 }
             }
@@ -5961,7 +5979,7 @@
             ],
             "traits": {
                 "aws.iam#actionPermissionDescription": "Grants permission to create a new privacy budget template",
-                "smithy.api#documentation": "<p>Creates a privacy budget template for a specified membership. Each membership can have only one privacy budget template, but it can be deleted and recreated. If you need to change the privacy budget template for a membership, use the <a>UpdatePrivacyBudgetTemplate</a> operation.</p>",
+                "smithy.api#documentation": "<p>Creates a privacy budget template for a specified collaboration. Each collaboration can have only one privacy budget template. If you need to change the privacy budget template, use the <a>UpdatePrivacyBudgetTemplate</a> operation.</p>",
                 "smithy.api#http": {
                     "code": 200,
                     "method": "POST",
@@ -6839,7 +6857,7 @@
             ],
             "traits": {
                 "aws.iam#actionPermissionDescription": "Grants permission to remove a privacy budget from a collaboration",
-                "smithy.api#documentation": "<p>Deletes a privacy budget template for a specified membership.</p>",
+                "smithy.api#documentation": "<p>Deletes a privacy budget template for a specified collaboration.</p>",
                 "smithy.api#http": {
                     "code": 204,
                     "method": "DELETE",
@@ -7256,6 +7274,32 @@
                 "smithy.api#range": {
                     "min": 1,
                     "max": 20
+                }
+            }
+        },
+        "com.amazonaws.cleanrooms#ErrorMessageConfiguration": {
+            "type": "structure",
+            "members": {
+                "type": {
+                    "target": "com.amazonaws.cleanrooms#ErrorMessageType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The level of detail for error messages returned by the PySpark job. When set to DETAILED, error messages include more information to help troubleshoot issues with your PySpark job.</p> <p>Because this setting may expose sensitive data, it is recommended for development and testing environments.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>A structure that defines the level of detail included in error messages returned by PySpark jobs. This configuration allows you to control the verbosity of error messages to help with troubleshooting PySpark jobs while maintaining appropriate security controls.</p>"
+            }
+        },
+        "com.amazonaws.cleanrooms#ErrorMessageType": {
+            "type": "enum",
+            "members": {
+                "DETAILED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DETAILED"
+                    }
                 }
             }
         },
@@ -15506,7 +15550,7 @@
                 "analyticsEngine": {
                     "target": "com.amazonaws.cleanrooms#AnalyticsEngine",
                     "traits": {
-                        "smithy.api#documentation": "<p>The analytics engine.</p>"
+                        "smithy.api#documentation": "<p>The analytics engine.</p> <note> <p>After July 16, 2025, the <code>CLEAN_ROOMS_SQL</code> parameter will no longer be available. </p> </note>"
                     }
                 }
             }
@@ -15631,6 +15675,9 @@
                 },
                 {
                     "target": "com.amazonaws.cleanrooms#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.cleanrooms#ServiceQuotaExceededException"
                 },
                 {
                     "target": "com.amazonaws.cleanrooms#ThrottlingException"
@@ -15934,6 +15981,15 @@
                     "target": "com.amazonaws.cleanrooms#TableDescription",
                     "traits": {
                         "smithy.api#documentation": "<p>A new description for the configured table.</p>"
+                    }
+                },
+                "tableReference": {
+                    "target": "com.amazonaws.cleanrooms#TableReference"
+                },
+                "allowedColumns": {
+                    "target": "com.amazonaws.cleanrooms#AllowedColumnList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The columns of the underlying table that can be used by collaborations or analysis rules.</p>"
                     }
                 },
                 "analysisMethod": {
@@ -16261,7 +16317,7 @@
             ],
             "traits": {
                 "aws.iam#actionPermissionDescription": "Grants permission to update a privacy budget template",
-                "smithy.api#documentation": "<p>Updates the privacy budget template for the specified membership.</p>",
+                "smithy.api#documentation": "<p>Updates the privacy budget template for the specified collaboration.</p>",
                 "smithy.api#http": {
                     "code": 200,
                     "method": "PATCH",

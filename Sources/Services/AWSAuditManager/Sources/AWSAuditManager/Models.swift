@@ -1940,7 +1940,7 @@ extension AuditManagerClientTypes {
 public struct CreateAssessmentFrameworkInput: Swift.Sendable {
     /// The compliance type that the new custom framework supports, such as CIS or HIPAA.
     public var complianceType: Swift.String?
-    /// The control sets that are associated with the framework.
+    /// The control sets that are associated with the framework. The Controls object returns a partial response when called through Framework APIs. For a complete Controls object, use GetControl.
     /// This member is required.
     public var controlSets: [AuditManagerClientTypes.CreateAssessmentFrameworkControlSet]?
     /// An optional description for the new custom framework.
@@ -2421,9 +2421,10 @@ extension AuditManagerClientTypes {
         public var arn: Swift.String?
         /// The compliance type that the framework supports, such as CIS or HIPAA.
         public var complianceType: Swift.String?
-        /// The control sets that are associated with the framework.
+        /// The control sets that are associated with the framework. The Controls object returns a partial response when called through Framework APIs. For a complete Controls object, use GetControl.
         public var controlSets: [AuditManagerClientTypes.ControlSet]?
-        /// The control data sources where Audit Manager collects evidence from.
+        /// The control data sources where Audit Manager collects evidence from. This API parameter is no longer supported.
+        @available(*, deprecated, message: "Use controlSources from the Control API deprecated since 2025-07-24")
         public var controlSources: Swift.String?
         /// The time when the framework was created.
         public var createdAt: Foundation.Date?
@@ -2486,7 +2487,7 @@ extension AuditManagerClientTypes.Framework: Swift.CustomDebugStringConvertible 
 }
 
 public struct CreateAssessmentFrameworkOutput: Swift.Sendable {
-    /// The name of the new framework that the CreateAssessmentFramework API returned.
+    /// The new framework object that the CreateAssessmentFramework API returned.
     public var framework: AuditManagerClientTypes.Framework?
 
     public init(
@@ -2880,7 +2881,7 @@ public struct GetAssessmentFrameworkInput: Swift.Sendable {
 }
 
 public struct GetAssessmentFrameworkOutput: Swift.Sendable {
-    /// The framework that the GetAssessmentFramework API returned.
+    /// The framework that the GetAssessmentFramework API returned. The Controls object returns a partial response when called through Framework APIs. For a complete Controls object, use GetControl.
     public var framework: AuditManagerClientTypes.Framework?
 
     public init(
@@ -4927,7 +4928,7 @@ extension AuditManagerClientTypes {
 public struct UpdateAssessmentFrameworkInput: Swift.Sendable {
     /// The compliance type that the new custom framework supports, such as CIS or HIPAA.
     public var complianceType: Swift.String?
-    /// The control sets that are associated with the framework.
+    /// The control sets that are associated with the framework. The Controls object returns a partial response when called through Framework APIs. For a complete Controls object, use GetControl.
     /// This member is required.
     public var controlSets: [AuditManagerClientTypes.UpdateAssessmentFrameworkControlSet]?
     /// The description of the updated framework.
@@ -4960,7 +4961,7 @@ extension UpdateAssessmentFrameworkInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct UpdateAssessmentFrameworkOutput: Swift.Sendable {
-    /// The name of the framework.
+    /// The framework object.
     public var framework: AuditManagerClientTypes.Framework?
 
     public init(
@@ -7959,6 +7960,7 @@ enum RegisterOrganizationAdminAccountOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8078,6 +8080,7 @@ enum UpdateAssessmentFrameworkOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8183,6 +8186,19 @@ extension AccessDeniedException {
     }
 }
 
+extension InternalServerException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
@@ -8191,19 +8207,6 @@ extension ResourceNotFoundException {
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalServerException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
-        let reader = baseError.errorBodyReader
-        var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

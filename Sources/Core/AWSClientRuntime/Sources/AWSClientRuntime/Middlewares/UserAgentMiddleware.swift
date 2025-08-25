@@ -12,7 +12,6 @@ import SmithyHTTPAPI
 public struct UserAgentMiddleware<OperationStackInput, OperationStackOutput> {
     public let id: String = "UserAgentHeader"
 
-    private let X_AMZ_USER_AGENT: String = "x-amz-user-agent"
     private let USER_AGENT: String = "User-Agent"
 
     let serviceID: String

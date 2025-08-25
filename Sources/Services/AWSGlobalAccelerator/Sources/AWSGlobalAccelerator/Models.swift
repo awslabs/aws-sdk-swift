@@ -5850,11 +5850,11 @@ enum WithdrawByoipCidrOutputError {
     }
 }
 
-extension InvalidArgumentException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArgumentException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = InvalidArgumentException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5863,37 +5863,11 @@ extension InvalidArgumentException {
     }
 }
 
-extension InternalServiceErrorException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceErrorException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = InternalServiceErrorException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension LimitExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension EndpointGroupNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EndpointGroupNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = EndpointGroupNotFoundException()
+        var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5915,11 +5889,11 @@ extension EndpointAlreadyExistsException {
     }
 }
 
-extension AccessDeniedException {
+extension EndpointGroupNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EndpointGroupNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = EndpointGroupNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5928,11 +5902,37 @@ extension AccessDeniedException {
     }
 }
 
-extension ConflictException {
+extension InternalServiceErrorException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceErrorException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = InternalServiceErrorException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidArgumentException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArgumentException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidArgumentException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension LimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = LimitExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5980,19 +5980,6 @@ extension IncorrectCidrStateException {
     }
 }
 
-extension InvalidPortRangeException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPortRangeException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidPortRangeException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AcceleratorNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AcceleratorNotFoundException {
@@ -6011,6 +5998,19 @@ extension EndpointGroupAlreadyExistsException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EndpointGroupAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = EndpointGroupAlreadyExistsException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidPortRangeException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidPortRangeException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidPortRangeException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

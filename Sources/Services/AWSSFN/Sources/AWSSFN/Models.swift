@@ -140,7 +140,11 @@ extension SFNClientTypes {
         ///
         /// * special characters " # % \ ^ | ~ ` $ & , ; : /
         ///
-        /// * control characters (U+0000-001F, U+007F-009F)
+        /// * control characters (U+0000-001F, U+007F-009F, U+FFFE-FFFF)
+        ///
+        /// * surrogates (U+D800-DFFF)
+        ///
+        /// * invalid characters ( U+10FFFF)
         ///
         ///
         /// To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
@@ -539,7 +543,11 @@ public struct CreateActivityInput: Swift.Sendable {
     ///
     /// * special characters " # % \ ^ | ~ ` $ & , ; : /
     ///
-    /// * control characters (U+0000-001F, U+007F-009F)
+    /// * control characters (U+0000-001F, U+007F-009F, U+FFFE-FFFF)
+    ///
+    /// * surrogates (U+D800-DFFF)
+    ///
+    /// * invalid characters ( U+10FFFF)
     ///
     ///
     /// To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
@@ -995,7 +1003,11 @@ public struct CreateStateMachineInput: Swift.Sendable {
     ///
     /// * special characters " # % \ ^ | ~ ` $ & , ; : /
     ///
-    /// * control characters (U+0000-001F, U+007F-009F)
+    /// * control characters (U+0000-001F, U+007F-009F, U+FFFE-FFFF)
+    ///
+    /// * surrogates (U+D800-DFFF)
+    ///
+    /// * invalid characters ( U+10FFFF)
     ///
     ///
     /// To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
@@ -1278,7 +1290,11 @@ public struct DescribeActivityOutput: Swift.Sendable {
     ///
     /// * special characters " # % \ ^ | ~ ` $ & , ; : /
     ///
-    /// * control characters (U+0000-001F, U+007F-009F)
+    /// * control characters (U+0000-001F, U+007F-009F, U+FFFE-FFFF)
+    ///
+    /// * surrogates (U+D800-DFFF)
+    ///
+    /// * invalid characters ( U+10FFFF)
     ///
     ///
     /// To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
@@ -1543,7 +1559,11 @@ public struct DescribeExecutionOutput: Swift.Sendable {
     ///
     /// * special characters " # % \ ^ | ~ ` $ & , ; : /
     ///
-    /// * control characters (U+0000-001F, U+007F-009F)
+    /// * control characters (U+0000-001F, U+007F-009F, U+FFFE-FFFF)
+    ///
+    /// * surrogates (U+D800-DFFF)
+    ///
+    /// * invalid characters ( U+10FFFF)
     ///
     ///
     /// To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
@@ -1602,7 +1622,7 @@ public struct DescribeExecutionOutput: Swift.Sendable {
     public var status: SFNClientTypes.ExecutionStatus?
     /// If the execution ended, the date the execution stopped.
     public var stopDate: Foundation.Date?
-    /// The X-Ray trace header that was passed to the execution.
+    /// The X-Ray trace header that was passed to the execution. For X-Ray traces, all Amazon Web Services services use the X-Amzn-Trace-Id header from the HTTP request. Using the header is the preferred mechanism to identify a trace. StartExecution and StartSyncExecution API operations can also use traceHeader from the body of the request payload. If both sources are provided, Step Functions will use the header value (preferred) over the value in the request body.
     public var traceHeader: Swift.String?
 
     public init(
@@ -1977,7 +1997,11 @@ public struct DescribeStateMachineOutput: Swift.Sendable {
     ///
     /// * special characters " # % \ ^ | ~ ` $ & , ; : /
     ///
-    /// * control characters (U+0000-001F, U+007F-009F)
+    /// * control characters (U+0000-001F, U+007F-009F, U+FFFE-FFFF)
+    ///
+    /// * surrogates (U+D800-DFFF)
+    ///
+    /// * invalid characters ( U+10FFFF)
     ///
     ///
     /// To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
@@ -2109,7 +2133,7 @@ public struct DescribeStateMachineForExecutionOutput: Swift.Sendable {
     public var definition: Swift.String?
     /// Settings to configure server-side encryption.
     public var encryptionConfiguration: SFNClientTypes.EncryptionConfiguration?
-    /// A user-defined or an auto-generated string that identifies a Map state. This ﬁeld is returned only if the executionArn is a child workflow execution that was started by a Distributed Map state.
+    /// A user-defined or an auto-generated string that identifies a Map state. This field is returned only if the executionArn is a child workflow execution that was started by a Distributed Map state.
     public var label: Swift.String?
     /// The LoggingConfiguration data type is used to set CloudWatch Logs options.
     public var loggingConfiguration: SFNClientTypes.LoggingConfiguration?
@@ -2746,7 +2770,11 @@ extension SFNClientTypes {
         ///
         /// * special characters " # % \ ^ | ~ ` $ & , ; : /
         ///
-        /// * control characters (U+0000-001F, U+007F-009F)
+        /// * control characters (U+0000-001F, U+007F-009F, U+FFFE-FFFF)
+        ///
+        /// * surrogates (U+D800-DFFF)
+        ///
+        /// * invalid characters ( U+10FFFF)
         ///
         ///
         /// To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
@@ -3525,7 +3553,7 @@ public struct ListExecutionsInput: Swift.Sendable {
     public var redriveFilter: SFNClientTypes.ExecutionRedriveFilter?
     /// The Amazon Resource Name (ARN) of the state machine whose executions is listed. You can specify either a mapRunArn or a stateMachineArn, but not both. You can also return a list of executions associated with a specific [alias](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html) or [version](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html), by specifying an alias ARN or a version ARN in the stateMachineArn parameter.
     public var stateMachineArn: Swift.String?
-    /// If specified, only list the executions whose current execution status matches the given filter.
+    /// If specified, only list the executions whose current execution status matches the given filter. If you provide a PENDING_REDRIVE statusFilter, you must specify mapRunArn. For more information, see [Child workflow execution redrive behaviour](https://docs.aws.amazon.com/step-functions/latest/dg/redrive-map-run.html#redrive-child-workflow-behavior) in the Step Functions Developer Guide. If you provide a stateMachineArn and a PENDING_REDRIVE statusFilter, the API returns a validation exception.
     public var statusFilter: SFNClientTypes.ExecutionStatus?
 
     public init(
@@ -3566,7 +3594,11 @@ extension SFNClientTypes {
         ///
         /// * special characters " # % \ ^ | ~ ` $ & , ; : /
         ///
-        /// * control characters (U+0000-001F, U+007F-009F)
+        /// * control characters (U+0000-001F, U+007F-009F, U+FFFE-FFFF)
+        ///
+        /// * surrogates (U+D800-DFFF)
+        ///
+        /// * invalid characters ( U+10FFFF)
         ///
         ///
         /// To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
@@ -3798,7 +3830,11 @@ extension SFNClientTypes {
         ///
         /// * special characters " # % \ ^ | ~ ` $ & , ; : /
         ///
-        /// * control characters (U+0000-001F, U+007F-009F)
+        /// * control characters (U+0000-001F, U+007F-009F, U+FFFE-FFFF)
+        ///
+        /// * surrogates (U+D800-DFFF)
+        ///
+        /// * invalid characters ( U+10FFFF)
         ///
         ///
         /// To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
@@ -4226,7 +4262,7 @@ public struct InvalidExecutionInput: ClientRuntime.ModeledError, AWSClientRuntim
 }
 
 public struct StartExecutionInput: Swift.Sendable {
-    /// The string that contains the JSON input data for the execution, for example: "input": "{\"first_name\" : \"test\"}" If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}" Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
+    /// The string that contains the JSON input data for the execution, for example: "{\"first_name\" : \"Alejandro\"}" If you don't include any JSON input data, you still must include the two braces, for example: "{}" Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
     public var input: Swift.String?
     /// Optional name of the execution. This name must be unique for your Amazon Web Services account, Region, and state machine for 90 days. For more information, see [ Limits Related to State Machine Executions](https://docs.aws.amazon.com/step-functions/latest/dg/limits.html#service-limits-state-machine-executions) in the Step Functions Developer Guide. If you don't provide a name for the execution, Step Functions automatically generates a universally unique identifier (UUID) as the execution name. A name must not contain:
     ///
@@ -4238,7 +4274,11 @@ public struct StartExecutionInput: Swift.Sendable {
     ///
     /// * special characters " # % \ ^ | ~ ` $ & , ; : /
     ///
-    /// * control characters (U+0000-001F, U+007F-009F)
+    /// * control characters (U+0000-001F, U+007F-009F, U+FFFE-FFFF)
+    ///
+    /// * surrogates (U+D800-DFFF)
+    ///
+    /// * invalid characters ( U+10FFFF)
     ///
     ///
     /// To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
@@ -4252,7 +4292,7 @@ public struct StartExecutionInput: Swift.Sendable {
     /// * A state machine alias ARN – Refers to an alias ARN, which is a combination of state machine ARN and the alias name separated by a colon (:). The following is an example of the ARN for an alias named PROD. arn::states:::stateMachine: Step Functions associates executions that you start with an alias ARN with that alias and the state machine version used for that execution.
     /// This member is required.
     public var stateMachineArn: Swift.String?
-    /// Passes the X-Ray trace header. The trace header can also be passed in the request payload.
+    /// Passes the X-Ray trace header. The trace header can also be passed in the request payload. For X-Ray traces, all Amazon Web Services services use the X-Amzn-Trace-Id header from the HTTP request. Using the header is the preferred mechanism to identify a trace. StartExecution and StartSyncExecution API operations can also use traceHeader from the body of the request payload. If both sources are provided, Step Functions will use the header value (preferred) over the value in the request body.
     public var traceHeader: Swift.String?
 
     public init(
@@ -4293,14 +4333,14 @@ public struct StartExecutionOutput: Swift.Sendable {
 public struct StartSyncExecutionInput: Swift.Sendable {
     /// If your state machine definition is encrypted with a KMS key, callers must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call the API with includedData = METADATA_ONLY to get a successful response without the encrypted definition.
     public var includedData: SFNClientTypes.IncludedData?
-    /// The string that contains the JSON input data for the execution, for example: "input": "{\"first_name\" : \"test\"}" If you don't include any JSON input data, you still must include the two braces, for example: "input": "{}" Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
+    /// The string that contains the JSON input data for the execution, for example: "{\"first_name\" : \"Alejandro\"}" If you don't include any JSON input data, you still must include the two braces, for example: "{}" Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
     public var input: Swift.String?
     /// The name of the execution.
     public var name: Swift.String?
     /// The Amazon Resource Name (ARN) of the state machine to execute.
     /// This member is required.
     public var stateMachineArn: Swift.String?
-    /// Passes the X-Ray trace header. The trace header can also be passed in the request payload.
+    /// Passes the X-Ray trace header. The trace header can also be passed in the request payload. For X-Ray traces, all Amazon Web Services services use the X-Amzn-Trace-Id header from the HTTP request. Using the header is the preferred mechanism to identify a trace. StartExecution and StartSyncExecution API operations can also use traceHeader from the body of the request payload. If both sources are provided, Step Functions will use the header value (preferred) over the value in the request body.
     public var traceHeader: Swift.String?
 
     public init(
@@ -4405,7 +4445,7 @@ public struct StartSyncExecutionOutput: Swift.Sendable {
     /// If the execution has already ended, the date the execution stopped.
     /// This member is required.
     public var stopDate: Foundation.Date?
-    /// The X-Ray trace header that was passed to the execution.
+    /// The X-Ray trace header that was passed to the execution. For X-Ray traces, all Amazon Web Services services use the X-Amzn-Trace-Id header from the HTTP request. Using the header is the preferred mechanism to identify a trace. StartExecution and StartSyncExecution API operations can also use traceHeader from the body of the request payload. If both sources are provided, Step Functions will use the header value (preferred) over the value in the request body.
     public var traceHeader: Swift.String?
 
     public init(
@@ -4744,7 +4784,7 @@ public struct TestStateOutput: Swift.Sendable {
     public var error: Swift.String?
     /// Returns additional details about the state's execution, including its input and output data processing flow, and HTTP request and response information. The inspectionLevel request parameter specifies which details are returned.
     public var inspectionData: SFNClientTypes.InspectionData?
-    /// The name of the next state to transition to. If you haven't defined a next state in your definition or if the execution of the state fails, this ﬁeld doesn't contain a value.
+    /// The name of the next state to transition to. If you haven't defined a next state in your definition or if the execution of the state fails, this field doesn't contain a value.
     public var nextState: Swift.String?
     /// The JSON output data of the state. Length constraints apply to the payload size, and are expressed as bytes in UTF-8 encoding.
     public var output: Swift.String?
@@ -6869,46 +6909,6 @@ enum ValidateStateMachineDefinitionOutputError {
     }
 }
 
-extension TooManyTags {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTags {
-        let reader = baseError.errorBodyReader
-        var value = TooManyTags()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceName = try reader["resourceName"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension KmsThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = KmsThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension KmsAccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsAccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = KmsAccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ActivityAlreadyExists {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ActivityAlreadyExists {
@@ -6961,6 +6961,72 @@ extension InvalidName {
     }
 }
 
+extension KmsAccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsAccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = KmsAccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KmsThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = KmsThrottlingException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyTags {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTags {
+        let reader = baseError.errorBodyReader
+        var value = TooManyTags()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.resourceName = try reader["resourceName"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidArn {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArn {
+        let reader = baseError.errorBodyReader
+        var value = InvalidArn()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidDefinition {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidDefinition {
@@ -6974,13 +7040,12 @@ extension InvalidDefinition {
     }
 }
 
-extension ValidationException {
+extension InvalidLoggingConfiguration {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLoggingConfiguration {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = InvalidLoggingConfiguration()
         value.properties.message = try reader["message"].readIfPresent()
-        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -6993,6 +7058,32 @@ extension InvalidTracingConfiguration {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidTracingConfiguration {
         let reader = baseError.errorBodyReader
         var value = InvalidTracingConfiguration()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension StateMachineAlreadyExists {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> StateMachineAlreadyExists {
+        let reader = baseError.errorBodyReader
+        var value = StateMachineAlreadyExists()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension StateMachineDeleting {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> StateMachineDeleting {
+        let reader = baseError.errorBodyReader
+        var value = StateMachineDeleting()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7027,64 +7118,13 @@ extension StateMachineTypeNotSupported {
     }
 }
 
-extension InvalidLoggingConfiguration {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLoggingConfiguration {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = InvalidLoggingConfiguration()
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidArn {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidArn {
-        let reader = baseError.errorBodyReader
-        var value = InvalidArn()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension StateMachineAlreadyExists {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> StateMachineAlreadyExists {
-        let reader = baseError.errorBodyReader
-        var value = StateMachineAlreadyExists()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension StateMachineDeleting {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> StateMachineDeleting {
-        let reader = baseError.errorBodyReader
-        var value = StateMachineDeleting()
-        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7132,12 +7172,11 @@ extension ActivityDoesNotExist {
     }
 }
 
-extension KmsInvalidStateException {
+extension ExecutionDoesNotExist {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsInvalidStateException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExecutionDoesNotExist {
         let reader = baseError.errorBodyReader
-        var value = KmsInvalidStateException()
-        value.properties.kmsKeyState = try reader["kmsKeyState"].readIfPresent()
+        var value = ExecutionDoesNotExist()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7146,11 +7185,12 @@ extension KmsInvalidStateException {
     }
 }
 
-extension ExecutionDoesNotExist {
+extension KmsInvalidStateException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExecutionDoesNotExist {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsInvalidStateException {
         let reader = baseError.errorBodyReader
-        var value = ExecutionDoesNotExist()
+        var value = KmsInvalidStateException()
+        value.properties.kmsKeyState = try reader["kmsKeyState"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7198,19 +7238,6 @@ extension InvalidToken {
     }
 }
 
-extension ExecutionNotRedrivable {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExecutionNotRedrivable {
-        let reader = baseError.errorBodyReader
-        var value = ExecutionNotRedrivable()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ExecutionLimitExceeded {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExecutionLimitExceeded {
@@ -7224,11 +7251,11 @@ extension ExecutionLimitExceeded {
     }
 }
 
-extension TaskTimedOut {
+extension ExecutionNotRedrivable {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TaskTimedOut {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ExecutionNotRedrivable {
         let reader = baseError.errorBodyReader
-        var value = TaskTimedOut()
+        var value = ExecutionNotRedrivable()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7242,6 +7269,19 @@ extension TaskDoesNotExist {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TaskDoesNotExist {
         let reader = baseError.errorBodyReader
         var value = TaskDoesNotExist()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TaskTimedOut {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TaskTimedOut {
+        let reader = baseError.errorBodyReader
+        var value = TaskTimedOut()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

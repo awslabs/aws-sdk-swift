@@ -399,6 +399,40 @@ public struct AssociateNetworkSettingsOutput: Swift.Sendable {
     }
 }
 
+public struct AssociateSessionLoggerInput: Swift.Sendable {
+    /// The ARN of the portal to associate to the session logger ARN.
+    /// This member is required.
+    public var portalArn: Swift.String?
+    /// The ARN of the session logger to associate to the portal ARN.
+    /// This member is required.
+    public var sessionLoggerArn: Swift.String?
+
+    public init(
+        portalArn: Swift.String? = nil,
+        sessionLoggerArn: Swift.String? = nil
+    ) {
+        self.portalArn = portalArn
+        self.sessionLoggerArn = sessionLoggerArn
+    }
+}
+
+public struct AssociateSessionLoggerOutput: Swift.Sendable {
+    /// The ARN of the portal.
+    /// This member is required.
+    public var portalArn: Swift.String?
+    /// The ARN of the session logger.
+    /// This member is required.
+    public var sessionLoggerArn: Swift.String?
+
+    public init(
+        portalArn: Swift.String? = nil,
+        sessionLoggerArn: Swift.String? = nil
+    ) {
+        self.portalArn = portalArn
+        self.sessionLoggerArn = sessionLoggerArn
+    }
+}
+
 public struct AssociateTrustStoreInput: Swift.Sendable {
     /// The ARN of the web portal.
     /// This member is required.
@@ -2671,6 +2705,23 @@ public struct DisassociateNetworkSettingsOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DisassociateSessionLoggerInput: Swift.Sendable {
+    /// The ARN of the portal to disassociate from the a session logger.
+    /// This member is required.
+    public var portalArn: Swift.String?
+
+    public init(
+        portalArn: Swift.String? = nil
+    ) {
+        self.portalArn = portalArn
+    }
+}
+
+public struct DisassociateSessionLoggerOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DisassociateTrustStoreInput: Swift.Sendable {
     /// The ARN of the web portal.
     /// This member is required.
@@ -2829,6 +2880,8 @@ extension WorkSpacesWebClientTypes {
         public var portalStatus: WorkSpacesWebClientTypes.PortalStatus?
         /// The renderer that is used in streaming sessions.
         public var rendererType: WorkSpacesWebClientTypes.RendererType?
+        /// The ARN of the session logger that is assocaited with the portal.
+        public var sessionLoggerArn: Swift.String?
         /// A message that explains why the web portal is in its current status.
         public var statusReason: Swift.String?
         /// The ARN of the trust store that is associated with the web portal.
@@ -2855,6 +2908,7 @@ extension WorkSpacesWebClientTypes {
             portalEndpoint: Swift.String? = nil,
             portalStatus: WorkSpacesWebClientTypes.PortalStatus? = nil,
             rendererType: WorkSpacesWebClientTypes.RendererType? = nil,
+            sessionLoggerArn: Swift.String? = nil,
             statusReason: Swift.String? = nil,
             trustStoreArn: Swift.String? = nil,
             userAccessLoggingSettingsArn: Swift.String? = nil,
@@ -2876,6 +2930,7 @@ extension WorkSpacesWebClientTypes {
             self.portalEndpoint = portalEndpoint
             self.portalStatus = portalStatus
             self.rendererType = rendererType
+            self.sessionLoggerArn = sessionLoggerArn
             self.statusReason = statusReason
             self.trustStoreArn = trustStoreArn
             self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
@@ -2886,7 +2941,7 @@ extension WorkSpacesWebClientTypes {
 
 extension WorkSpacesWebClientTypes.Portal: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Portal(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), dataProtectionSettingsArn: \(Swift.String(describing: dataProtectionSettingsArn)), instanceType: \(Swift.String(describing: instanceType)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), statusReason: \(Swift.String(describing: statusReason)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
+        "Portal(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), dataProtectionSettingsArn: \(Swift.String(describing: dataProtectionSettingsArn)), instanceType: \(Swift.String(describing: instanceType)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), sessionLoggerArn: \(Swift.String(describing: sessionLoggerArn)), statusReason: \(Swift.String(describing: statusReason)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetPortalOutput: Swift.Sendable {
@@ -2976,6 +3031,8 @@ extension WorkSpacesWebClientTypes {
         public var portalStatus: WorkSpacesWebClientTypes.PortalStatus?
         /// The renderer that is used in streaming sessions.
         public var rendererType: WorkSpacesWebClientTypes.RendererType?
+        /// The ARN of the session logger that is assocaited with the portal.
+        public var sessionLoggerArn: Swift.String?
         /// The ARN of the trust that is associated with this web portal.
         public var trustStoreArn: Swift.String?
         /// The ARN of the user access logging settings that is associated with the web portal.
@@ -2998,6 +3055,7 @@ extension WorkSpacesWebClientTypes {
             portalEndpoint: Swift.String? = nil,
             portalStatus: WorkSpacesWebClientTypes.PortalStatus? = nil,
             rendererType: WorkSpacesWebClientTypes.RendererType? = nil,
+            sessionLoggerArn: Swift.String? = nil,
             trustStoreArn: Swift.String? = nil,
             userAccessLoggingSettingsArn: Swift.String? = nil,
             userSettingsArn: Swift.String? = nil
@@ -3016,6 +3074,7 @@ extension WorkSpacesWebClientTypes {
             self.portalEndpoint = portalEndpoint
             self.portalStatus = portalStatus
             self.rendererType = rendererType
+            self.sessionLoggerArn = sessionLoggerArn
             self.trustStoreArn = trustStoreArn
             self.userAccessLoggingSettingsArn = userAccessLoggingSettingsArn
             self.userSettingsArn = userSettingsArn
@@ -3025,7 +3084,7 @@ extension WorkSpacesWebClientTypes {
 
 extension WorkSpacesWebClientTypes.PortalSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PortalSummary(authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), dataProtectionSettingsArn: \(Swift.String(describing: dataProtectionSettingsArn)), instanceType: \(Swift.String(describing: instanceType)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
+        "PortalSummary(authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), dataProtectionSettingsArn: \(Swift.String(describing: dataProtectionSettingsArn)), instanceType: \(Swift.String(describing: instanceType)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), sessionLoggerArn: \(Swift.String(describing: sessionLoggerArn)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListPortalsOutput: Swift.Sendable {
@@ -3084,6 +3143,456 @@ public struct UpdatePortalOutput: Swift.Sendable {
         portal: WorkSpacesWebClientTypes.Portal? = nil
     ) {
         self.portal = portal
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    public struct Unit: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    public enum Event: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contentCopyFromWebsite
+        case contentPasteToWebsite
+        case contentTransferFromLocalToRemoteClipboard
+        case fileDownloadFromSecureBrowserToRemoteDisk
+        case fileTransferFromLocalToRemoteDisk
+        case fileTransferFromRemoteToLocalDisk
+        case fileUploadFromRemoteDiskToSecureBrowser
+        case printJobSubmit
+        case sessionConnect
+        case sessionDisconnect
+        case sessionEnd
+        case sessionStart
+        case tabClose
+        case tabOpen
+        case urlLoad
+        case websiteInteract
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Event] {
+            return [
+                .contentCopyFromWebsite,
+                .contentPasteToWebsite,
+                .contentTransferFromLocalToRemoteClipboard,
+                .fileDownloadFromSecureBrowserToRemoteDisk,
+                .fileTransferFromLocalToRemoteDisk,
+                .fileTransferFromRemoteToLocalDisk,
+                .fileUploadFromRemoteDiskToSecureBrowser,
+                .printJobSubmit,
+                .sessionConnect,
+                .sessionDisconnect,
+                .sessionEnd,
+                .sessionStart,
+                .tabClose,
+                .tabOpen,
+                .urlLoad,
+                .websiteInteract
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contentCopyFromWebsite: return "ContentCopyFromWebsite"
+            case .contentPasteToWebsite: return "ContentPasteToWebsite"
+            case .contentTransferFromLocalToRemoteClipboard: return "ContentTransferFromLocalToRemoteClipboard"
+            case .fileDownloadFromSecureBrowserToRemoteDisk: return "FileDownloadFromSecureBrowserToRemoteDisk"
+            case .fileTransferFromLocalToRemoteDisk: return "FileTransferFromLocalToRemoteDisk"
+            case .fileTransferFromRemoteToLocalDisk: return "FileTransferFromRemoteToLocalDisk"
+            case .fileUploadFromRemoteDiskToSecureBrowser: return "FileUploadFromRemoteDiskToSecureBrowser"
+            case .printJobSubmit: return "PrintJobSubmit"
+            case .sessionConnect: return "SessionConnect"
+            case .sessionDisconnect: return "SessionDisconnect"
+            case .sessionEnd: return "SessionEnd"
+            case .sessionStart: return "SessionStart"
+            case .tabClose: return "TabClose"
+            case .tabOpen: return "TabOpen"
+            case .urlLoad: return "UrlLoad"
+            case .websiteInteract: return "WebsiteInteract"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The filter that specifies the events to monitor.
+    public enum EventFilter: Swift.Sendable {
+        /// The filter that monitors all of the available events, including any new events emitted in the future.
+        case all(WorkSpacesWebClientTypes.Unit)
+        /// The filter that monitors only the listed set of events. New events are not auto-monitored.
+        case include([WorkSpacesWebClientTypes.Event])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    public enum FolderStructure: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case flat
+        case nestedByDate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FolderStructure] {
+            return [
+                .flat,
+                .nestedByDate
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .flat: return "Flat"
+            case .nestedByDate: return "NestedByDate"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    public enum LogFileFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case json
+        case jsonLines
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LogFileFormat] {
+            return [
+                .json,
+                .jsonLines
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .json: return "Json"
+            case .jsonLines: return "JSONLines"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The S3 log configuration.
+    public struct S3LogConfiguration: Swift.Sendable {
+        /// The S3 bucket name where logs are delivered.
+        /// This member is required.
+        public var bucket: Swift.String?
+        /// The expected bucket owner of the target S3 bucket. The caller must have permissions to write to the target bucket.
+        public var bucketOwner: Swift.String?
+        /// The folder structure that defines the organizational structure for log files in S3.
+        /// This member is required.
+        public var folderStructure: WorkSpacesWebClientTypes.FolderStructure?
+        /// The S3 path prefix that determines where log files are stored.
+        public var keyPrefix: Swift.String?
+        /// The format of the LogFile that is written to S3.
+        /// This member is required.
+        public var logFileFormat: WorkSpacesWebClientTypes.LogFileFormat?
+
+        public init(
+            bucket: Swift.String? = nil,
+            bucketOwner: Swift.String? = nil,
+            folderStructure: WorkSpacesWebClientTypes.FolderStructure? = nil,
+            keyPrefix: Swift.String? = nil,
+            logFileFormat: WorkSpacesWebClientTypes.LogFileFormat? = nil
+        ) {
+            self.bucket = bucket
+            self.bucketOwner = bucketOwner
+            self.folderStructure = folderStructure
+            self.keyPrefix = keyPrefix
+            self.logFileFormat = logFileFormat
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.S3LogConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "S3LogConfiguration(bucketOwner: \(Swift.String(describing: bucketOwner)), folderStructure: \(Swift.String(describing: folderStructure)), logFileFormat: \(Swift.String(describing: logFileFormat)), bucket: \"CONTENT_REDACTED\", keyPrefix: \"CONTENT_REDACTED\")"}
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The configuration of the log.
+    public struct LogConfiguration: Swift.Sendable {
+        /// The configuration for delivering the logs to S3.
+        public var s3: WorkSpacesWebClientTypes.S3LogConfiguration?
+
+        public init(
+            s3: WorkSpacesWebClientTypes.S3LogConfiguration? = nil
+        ) {
+            self.s3 = s3
+        }
+    }
+}
+
+public struct CreateSessionLoggerInput: Swift.Sendable {
+    /// The additional encryption context of the session logger.
+    public var additionalEncryptionContext: [Swift.String: Swift.String]?
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
+    public var clientToken: Swift.String?
+    /// The custom managed key of the session logger.
+    public var customerManagedKey: Swift.String?
+    /// The human-readable display name for the session logger resource.
+    public var displayName: Swift.String?
+    /// The filter that specifies the events to monitor.
+    /// This member is required.
+    public var eventFilter: WorkSpacesWebClientTypes.EventFilter?
+    /// The configuration that specifies where logs are delivered.
+    /// This member is required.
+    public var logConfiguration: WorkSpacesWebClientTypes.LogConfiguration?
+    /// The tags to add to the session logger.
+    public var tags: [WorkSpacesWebClientTypes.Tag]?
+
+    public init(
+        additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+        clientToken: Swift.String? = nil,
+        customerManagedKey: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        eventFilter: WorkSpacesWebClientTypes.EventFilter? = nil,
+        logConfiguration: WorkSpacesWebClientTypes.LogConfiguration? = nil,
+        tags: [WorkSpacesWebClientTypes.Tag]? = nil
+    ) {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.clientToken = clientToken
+        self.customerManagedKey = customerManagedKey
+        self.displayName = displayName
+        self.eventFilter = eventFilter
+        self.logConfiguration = logConfiguration
+        self.tags = tags
+    }
+}
+
+extension CreateSessionLoggerInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateSessionLoggerInput(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), clientToken: \(Swift.String(describing: clientToken)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), eventFilter: \(Swift.String(describing: eventFilter)), logConfiguration: \(Swift.String(describing: logConfiguration)), displayName: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateSessionLoggerOutput: Swift.Sendable {
+    /// The ARN of the session logger.
+    /// This member is required.
+    public var sessionLoggerArn: Swift.String?
+
+    public init(
+        sessionLoggerArn: Swift.String? = nil
+    ) {
+        self.sessionLoggerArn = sessionLoggerArn
+    }
+}
+
+public struct DeleteSessionLoggerInput: Swift.Sendable {
+    /// The ARN of the session logger.
+    /// This member is required.
+    public var sessionLoggerArn: Swift.String?
+
+    public init(
+        sessionLoggerArn: Swift.String? = nil
+    ) {
+        self.sessionLoggerArn = sessionLoggerArn
+    }
+}
+
+public struct DeleteSessionLoggerOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetSessionLoggerInput: Swift.Sendable {
+    /// The ARN of the session logger.
+    /// This member is required.
+    public var sessionLoggerArn: Swift.String?
+
+    public init(
+        sessionLoggerArn: Swift.String? = nil
+    ) {
+        self.sessionLoggerArn = sessionLoggerArn
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The session logger resource.
+    public struct SessionLogger: Swift.Sendable {
+        /// The additional encryption context of the session logger.
+        public var additionalEncryptionContext: [Swift.String: Swift.String]?
+        /// The associated portal ARN.
+        public var associatedPortalArns: [Swift.String]?
+        /// The date the session logger resource was created.
+        public var creationDate: Foundation.Date?
+        /// The custom managed key of the session logger.
+        public var customerManagedKey: Swift.String?
+        /// The human-readable display name.
+        public var displayName: Swift.String?
+        /// The filter that specifies which events to monitor.
+        public var eventFilter: WorkSpacesWebClientTypes.EventFilter?
+        /// The configuration that specifies where logs are fowarded.
+        public var logConfiguration: WorkSpacesWebClientTypes.LogConfiguration?
+        /// The ARN of the session logger resource.
+        /// This member is required.
+        public var sessionLoggerArn: Swift.String?
+
+        public init(
+            additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
+            associatedPortalArns: [Swift.String]? = nil,
+            creationDate: Foundation.Date? = nil,
+            customerManagedKey: Swift.String? = nil,
+            displayName: Swift.String? = nil,
+            eventFilter: WorkSpacesWebClientTypes.EventFilter? = nil,
+            logConfiguration: WorkSpacesWebClientTypes.LogConfiguration? = nil,
+            sessionLoggerArn: Swift.String? = nil
+        ) {
+            self.additionalEncryptionContext = additionalEncryptionContext
+            self.associatedPortalArns = associatedPortalArns
+            self.creationDate = creationDate
+            self.customerManagedKey = customerManagedKey
+            self.displayName = displayName
+            self.eventFilter = eventFilter
+            self.logConfiguration = logConfiguration
+            self.sessionLoggerArn = sessionLoggerArn
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.SessionLogger: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SessionLogger(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), creationDate: \(Swift.String(describing: creationDate)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), eventFilter: \(Swift.String(describing: eventFilter)), logConfiguration: \(Swift.String(describing: logConfiguration)), sessionLoggerArn: \(Swift.String(describing: sessionLoggerArn)), displayName: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetSessionLoggerOutput: Swift.Sendable {
+    /// The session logger details.
+    public var sessionLogger: WorkSpacesWebClientTypes.SessionLogger?
+
+    public init(
+        sessionLogger: WorkSpacesWebClientTypes.SessionLogger? = nil
+    ) {
+        self.sessionLogger = sessionLogger
+    }
+}
+
+public struct ListSessionLoggersInput: Swift.Sendable {
+    /// The maximum number of results to be included in the next page.
+    public var maxResults: Swift.Int?
+    /// The pagination token used to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The summary of the session logger resource.
+    public struct SessionLoggerSummary: Swift.Sendable {
+        /// The date the session logger resource was created.
+        public var creationDate: Foundation.Date?
+        /// The human-readable display name.
+        public var displayName: Swift.String?
+        /// The configuration that specifies where the logs are fowarded.
+        public var logConfiguration: WorkSpacesWebClientTypes.LogConfiguration?
+        /// The ARN of the session logger resource.
+        /// This member is required.
+        public var sessionLoggerArn: Swift.String?
+
+        public init(
+            creationDate: Foundation.Date? = nil,
+            displayName: Swift.String? = nil,
+            logConfiguration: WorkSpacesWebClientTypes.LogConfiguration? = nil,
+            sessionLoggerArn: Swift.String? = nil
+        ) {
+            self.creationDate = creationDate
+            self.displayName = displayName
+            self.logConfiguration = logConfiguration
+            self.sessionLoggerArn = sessionLoggerArn
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.SessionLoggerSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SessionLoggerSummary(creationDate: \(Swift.String(describing: creationDate)), logConfiguration: \(Swift.String(describing: logConfiguration)), sessionLoggerArn: \(Swift.String(describing: sessionLoggerArn)), displayName: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListSessionLoggersOutput: Swift.Sendable {
+    /// The pagination token used to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+    /// The list of session loggers, including summaries of their details.
+    public var sessionLoggers: [WorkSpacesWebClientTypes.SessionLoggerSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        sessionLoggers: [WorkSpacesWebClientTypes.SessionLoggerSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.sessionLoggers = sessionLoggers
+    }
+}
+
+public struct UpdateSessionLoggerInput: Swift.Sendable {
+    /// The updated display name.
+    public var displayName: Swift.String?
+    /// The updated eventFilter.
+    public var eventFilter: WorkSpacesWebClientTypes.EventFilter?
+    /// The updated logConfiguration.
+    public var logConfiguration: WorkSpacesWebClientTypes.LogConfiguration?
+    /// The ARN of the session logger to update.
+    /// This member is required.
+    public var sessionLoggerArn: Swift.String?
+
+    public init(
+        displayName: Swift.String? = nil,
+        eventFilter: WorkSpacesWebClientTypes.EventFilter? = nil,
+        logConfiguration: WorkSpacesWebClientTypes.LogConfiguration? = nil,
+        sessionLoggerArn: Swift.String? = nil
+    ) {
+        self.displayName = displayName
+        self.eventFilter = eventFilter
+        self.logConfiguration = logConfiguration
+        self.sessionLoggerArn = sessionLoggerArn
+    }
+}
+
+extension UpdateSessionLoggerInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateSessionLoggerInput(eventFilter: \(Swift.String(describing: eventFilter)), logConfiguration: \(Swift.String(describing: logConfiguration)), sessionLoggerArn: \(Swift.String(describing: sessionLoggerArn)), displayName: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateSessionLoggerOutput: Swift.Sendable {
+    /// The updated details of the session logger.
+    /// This member is required.
+    public var sessionLogger: WorkSpacesWebClientTypes.SessionLogger?
+
+    public init(
+        sessionLogger: WorkSpacesWebClientTypes.SessionLogger? = nil
+    ) {
+        self.sessionLogger = sessionLogger
     }
 }
 
@@ -4384,6 +4893,30 @@ extension AssociateNetworkSettingsInput {
     }
 }
 
+extension AssociateSessionLoggerInput {
+
+    static func urlPathProvider(_ value: AssociateSessionLoggerInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
+            return nil
+        }
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/sessionLogger"
+    }
+}
+
+extension AssociateSessionLoggerInput {
+
+    static func queryItemProvider(_ value: AssociateSessionLoggerInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        guard let sessionLoggerArn = value.sessionLoggerArn else {
+            let message = "Creating a URL Query Item failed. sessionLoggerArn is required and must not be nil."
+            throw Smithy.ClientError.unknownError(message)
+        }
+        let sessionLoggerArnQueryItem = Smithy.URIQueryItem(name: "sessionLoggerArn".urlPercentEncoding(), value: Swift.String(sessionLoggerArn).urlPercentEncoding())
+        items.append(sessionLoggerArnQueryItem)
+        return items
+    }
+}
+
 extension AssociateTrustStoreInput {
 
     static func urlPathProvider(_ value: AssociateTrustStoreInput) -> Swift.String? {
@@ -4498,6 +5031,13 @@ extension CreatePortalInput {
     }
 }
 
+extension CreateSessionLoggerInput {
+
+    static func urlPathProvider(_ value: CreateSessionLoggerInput) -> Swift.String? {
+        return "/sessionLoggers"
+    }
+}
+
 extension CreateTrustStoreInput {
 
     static func urlPathProvider(_ value: CreateTrustStoreInput) -> Swift.String? {
@@ -4579,6 +5119,16 @@ extension DeletePortalInput {
     }
 }
 
+extension DeleteSessionLoggerInput {
+
+    static func urlPathProvider(_ value: DeleteSessionLoggerInput) -> Swift.String? {
+        guard let sessionLoggerArn = value.sessionLoggerArn else {
+            return nil
+        }
+        return "/sessionLoggers/\(sessionLoggerArn.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
 extension DeleteTrustStoreInput {
 
     static func urlPathProvider(_ value: DeleteTrustStoreInput) -> Swift.String? {
@@ -4646,6 +5196,16 @@ extension DisassociateNetworkSettingsInput {
             return nil
         }
         return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/networkSettings"
+    }
+}
+
+extension DisassociateSessionLoggerInput {
+
+    static func urlPathProvider(_ value: DisassociateSessionLoggerInput) -> Swift.String? {
+        guard let portalArn = value.portalArn else {
+            return nil
+        }
+        return "/portals/\(portalArn.urlPercentEncoding(encodeForwardSlash: false))/sessionLogger"
     }
 }
 
@@ -4772,6 +5332,16 @@ extension GetSessionInput {
             return nil
         }
         return "/portals/\(portalId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())"
+    }
+}
+
+extension GetSessionLoggerInput {
+
+    static func urlPathProvider(_ value: GetSessionLoggerInput) -> Swift.String? {
+        guard let sessionLoggerArn = value.sessionLoggerArn else {
+            return nil
+        }
+        return "/sessionLoggers/\(sessionLoggerArn.urlPercentEncoding(encodeForwardSlash: false))"
     }
 }
 
@@ -4957,6 +5527,29 @@ extension ListPortalsInput {
 extension ListPortalsInput {
 
     static func queryItemProvider(_ value: ListPortalsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListSessionLoggersInput {
+
+    static func urlPathProvider(_ value: ListSessionLoggersInput) -> Swift.String? {
+        return "/sessionLoggers"
+    }
+}
+
+extension ListSessionLoggersInput {
+
+    static func queryItemProvider(_ value: ListSessionLoggersInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -5213,6 +5806,16 @@ extension UpdatePortalInput {
     }
 }
 
+extension UpdateSessionLoggerInput {
+
+    static func urlPathProvider(_ value: UpdateSessionLoggerInput) -> Swift.String? {
+        guard let sessionLoggerArn = value.sessionLoggerArn else {
+            return nil
+        }
+        return "/sessionLoggers/\(sessionLoggerArn.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
 extension UpdateTrustStoreInput {
 
     static func urlPathProvider(_ value: UpdateTrustStoreInput) -> Swift.String? {
@@ -5319,6 +5922,20 @@ extension CreatePortalInput {
         try writer["displayName"].write(value.displayName)
         try writer["instanceType"].write(value.instanceType)
         try writer["maxConcurrentSessions"].write(value.maxConcurrentSessions)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: WorkSpacesWebClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CreateSessionLoggerInput {
+
+    static func write(value: CreateSessionLoggerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalEncryptionContext"].writeMap(value.additionalEncryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["customerManagedKey"].write(value.customerManagedKey)
+        try writer["displayName"].write(value.displayName)
+        try writer["eventFilter"].write(value.eventFilter, with: WorkSpacesWebClientTypes.EventFilter.write(value:to:))
+        try writer["logConfiguration"].write(value.logConfiguration, with: WorkSpacesWebClientTypes.LogConfiguration.write(value:to:))
         try writer["tags"].writeList(value.tags, memberWritingClosure: WorkSpacesWebClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -5437,6 +6054,16 @@ extension UpdatePortalInput {
     }
 }
 
+extension UpdateSessionLoggerInput {
+
+    static func write(value: UpdateSessionLoggerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["displayName"].write(value.displayName)
+        try writer["eventFilter"].write(value.eventFilter, with: WorkSpacesWebClientTypes.EventFilter.write(value:to:))
+        try writer["logConfiguration"].write(value.logConfiguration, with: WorkSpacesWebClientTypes.LogConfiguration.write(value:to:))
+    }
+}
+
 extension UpdateTrustStoreInput {
 
     static func write(value: UpdateTrustStoreInput?, to writer: SmithyJSON.Writer) throws {
@@ -5522,6 +6149,19 @@ extension AssociateNetworkSettingsOutput {
         var value = AssociateNetworkSettingsOutput()
         value.networkSettingsArn = try reader["networkSettingsArn"].readIfPresent() ?? ""
         value.portalArn = try reader["portalArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AssociateSessionLoggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateSessionLoggerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AssociateSessionLoggerOutput()
+        value.portalArn = try reader["portalArn"].readIfPresent() ?? ""
+        value.sessionLoggerArn = try reader["sessionLoggerArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5638,6 +6278,18 @@ extension CreatePortalOutput {
     }
 }
 
+extension CreateSessionLoggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateSessionLoggerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateSessionLoggerOutput()
+        value.sessionLoggerArn = try reader["sessionLoggerArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateTrustStoreOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTrustStoreOutput {
@@ -5716,6 +6368,13 @@ extension DeletePortalOutput {
     }
 }
 
+extension DeleteSessionLoggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteSessionLoggerOutput {
+        return DeleteSessionLoggerOutput()
+    }
+}
+
 extension DeleteTrustStoreOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTrustStoreOutput {
@@ -5762,6 +6421,13 @@ extension DisassociateNetworkSettingsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateNetworkSettingsOutput {
         return DisassociateNetworkSettingsOutput()
+    }
+}
+
+extension DisassociateSessionLoggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateSessionLoggerOutput {
+        return DisassociateSessionLoggerOutput()
     }
 }
 
@@ -5890,6 +6556,18 @@ extension GetSessionOutput {
     }
 }
 
+extension GetSessionLoggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetSessionLoggerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetSessionLoggerOutput()
+        value.sessionLogger = try reader["sessionLogger"].readIfPresent(with: WorkSpacesWebClientTypes.SessionLogger.read(from:))
+        return value
+    }
+}
+
 extension GetTrustStoreOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTrustStoreOutput {
@@ -6013,6 +6691,19 @@ extension ListPortalsOutput {
         var value = ListPortalsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.portals = try reader["portals"].readListIfPresent(memberReadingClosure: WorkSpacesWebClientTypes.PortalSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListSessionLoggersOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSessionLoggersOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSessionLoggersOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.sessionLoggers = try reader["sessionLoggers"].readListIfPresent(memberReadingClosure: WorkSpacesWebClientTypes.SessionLoggerSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6181,6 +6872,18 @@ extension UpdatePortalOutput {
     }
 }
 
+extension UpdateSessionLoggerOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateSessionLoggerOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateSessionLoggerOutput()
+        value.sessionLogger = try reader["sessionLogger"].readIfPresent(with: WorkSpacesWebClientTypes.SessionLogger.read(from:))
+        return value
+    }
+}
+
 extension UpdateTrustStoreOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTrustStoreOutput {
@@ -6275,6 +6978,25 @@ enum AssociateIpAccessSettingsOutputError {
 }
 
 enum AssociateNetworkSettingsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AssociateSessionLoggerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -6468,6 +7190,25 @@ enum CreatePortalOutputError {
     }
 }
 
+enum CreateSessionLoggerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateTrustStoreOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6633,6 +7374,24 @@ enum DeletePortalOutputError {
     }
 }
 
+enum DeleteSessionLoggerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteTrustStoreOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -6754,6 +7513,24 @@ enum DisassociateNetworkSettingsOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DisassociateSessionLoggerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -6982,6 +7759,24 @@ enum GetSessionOutputError {
     }
 }
 
+enum GetSessionLoggerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetTrustStoreOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7140,6 +7935,23 @@ enum ListNetworkSettingsOutputError {
 }
 
 enum ListPortalsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListSessionLoggersOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -7408,6 +8220,24 @@ enum UpdatePortalOutputError {
     }
 }
 
+enum UpdateSessionLoggerOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateTrustStoreOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7463,6 +8293,19 @@ enum UpdateUserSettingsOutputError {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ConflictException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
@@ -7478,26 +8321,15 @@ extension ConflictException {
     }
 }
 
-extension ValidationException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: WorkSpacesWebClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent()
-        value.properties.reason = try reader["reason"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        let httpResponse = baseError.httpResponse
+        var value = InternalServerException()
+        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
+            value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
+        }
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7540,16 +8372,14 @@ extension ThrottlingException {
     }
 }
 
-extension InternalServerException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        let httpResponse = baseError.httpResponse
-        var value = InternalServerException()
-        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
-            value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
-        }
+        var value = ValidationException()
+        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: WorkSpacesWebClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent()
+        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7780,6 +8610,7 @@ extension WorkSpacesWebClientTypes.Portal {
         value.dataProtectionSettingsArn = try reader["dataProtectionSettingsArn"].readIfPresent()
         value.userSettingsArn = try reader["userSettingsArn"].readIfPresent()
         value.networkSettingsArn = try reader["networkSettingsArn"].readIfPresent()
+        value.sessionLoggerArn = try reader["sessionLoggerArn"].readIfPresent()
         value.trustStoreArn = try reader["trustStoreArn"].readIfPresent()
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.userAccessLoggingSettingsArn = try reader["userAccessLoggingSettingsArn"].readIfPresent()
@@ -7806,6 +8637,102 @@ extension WorkSpacesWebClientTypes.Session {
         value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
+    }
+}
+
+extension WorkSpacesWebClientTypes.SessionLogger {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.SessionLogger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.SessionLogger()
+        value.sessionLoggerArn = try reader["sessionLoggerArn"].readIfPresent() ?? ""
+        value.eventFilter = try reader["eventFilter"].readIfPresent(with: WorkSpacesWebClientTypes.EventFilter.read(from:))
+        value.logConfiguration = try reader["logConfiguration"].readIfPresent(with: WorkSpacesWebClientTypes.LogConfiguration.read(from:))
+        value.customerManagedKey = try reader["customerManagedKey"].readIfPresent()
+        value.additionalEncryptionContext = try reader["additionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.associatedPortalArns = try reader["associatedPortalArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension WorkSpacesWebClientTypes.LogConfiguration {
+
+    static func write(value: WorkSpacesWebClientTypes.LogConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3"].write(value.s3, with: WorkSpacesWebClientTypes.S3LogConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.LogConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.LogConfiguration()
+        value.s3 = try reader["s3"].readIfPresent(with: WorkSpacesWebClientTypes.S3LogConfiguration.read(from:))
+        return value
+    }
+}
+
+extension WorkSpacesWebClientTypes.S3LogConfiguration {
+
+    static func write(value: WorkSpacesWebClientTypes.S3LogConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["bucketOwner"].write(value.bucketOwner)
+        try writer["folderStructure"].write(value.folderStructure)
+        try writer["keyPrefix"].write(value.keyPrefix)
+        try writer["logFileFormat"].write(value.logFileFormat)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.S3LogConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.S3LogConfiguration()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
+        value.keyPrefix = try reader["keyPrefix"].readIfPresent()
+        value.bucketOwner = try reader["bucketOwner"].readIfPresent()
+        value.logFileFormat = try reader["logFileFormat"].readIfPresent() ?? .sdkUnknown("")
+        value.folderStructure = try reader["folderStructure"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension WorkSpacesWebClientTypes.EventFilter {
+
+    static func write(value: WorkSpacesWebClientTypes.EventFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .all(all):
+                try writer["all"].write(all, with: WorkSpacesWebClientTypes.Unit.write(value:to:))
+            case let .include(include):
+                try writer["include"].writeList(include, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WorkSpacesWebClientTypes.Event>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.EventFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "all":
+                return .all(try reader["all"].read(with: WorkSpacesWebClientTypes.Unit.read(from:)))
+            case "include":
+                return .include(try reader["include"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WorkSpacesWebClientTypes.Event>().read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.Unit {
+
+    static func write(value: WorkSpacesWebClientTypes.Unit?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.Unit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return WorkSpacesWebClientTypes.Unit()
     }
 }
 
@@ -8002,12 +8929,26 @@ extension WorkSpacesWebClientTypes.PortalSummary {
         value.dataProtectionSettingsArn = try reader["dataProtectionSettingsArn"].readIfPresent()
         value.userSettingsArn = try reader["userSettingsArn"].readIfPresent()
         value.networkSettingsArn = try reader["networkSettingsArn"].readIfPresent()
+        value.sessionLoggerArn = try reader["sessionLoggerArn"].readIfPresent()
         value.trustStoreArn = try reader["trustStoreArn"].readIfPresent()
         value.userAccessLoggingSettingsArn = try reader["userAccessLoggingSettingsArn"].readIfPresent()
         value.authenticationType = try reader["authenticationType"].readIfPresent()
         value.ipAccessSettingsArn = try reader["ipAccessSettingsArn"].readIfPresent()
         value.instanceType = try reader["instanceType"].readIfPresent()
         value.maxConcurrentSessions = try reader["maxConcurrentSessions"].readIfPresent()
+        return value
+    }
+}
+
+extension WorkSpacesWebClientTypes.SessionLoggerSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.SessionLoggerSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.SessionLoggerSummary()
+        value.sessionLoggerArn = try reader["sessionLoggerArn"].readIfPresent() ?? ""
+        value.logConfiguration = try reader["logConfiguration"].readIfPresent(with: WorkSpacesWebClientTypes.LogConfiguration.read(from:))
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }

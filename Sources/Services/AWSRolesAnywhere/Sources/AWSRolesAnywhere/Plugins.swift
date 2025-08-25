@@ -11,11 +11,10 @@ import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import protocol ClientRuntime.ClientConfiguration
 import protocol ClientRuntime.Plugin
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
-import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RolesAnywhereClientEndpointPlugin: Plugin {
@@ -45,20 +44,22 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
             config.authSchemeResolver = DefaultRolesAnywhereAuthSchemeResolver()
             config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
-            config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver()
         }
     }
 }
 
 public class RolesAnywhereClientAuthSchemePlugin: ClientRuntime.Plugin {
     private var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
+    private var authSchemePreference: [String]
     private var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver?
     private var awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)?
     private var bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)?
 
-    public init(authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemeResolver: RolesAnywhereAuthSchemeResolver? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil) {
+    public init(authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemePreference: [String]? = nil, authSchemeResolver: RolesAnywhereAuthSchemeResolver? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil) {
         self.authSchemeResolver = authSchemeResolver
         self.authSchemes = authSchemes
+        self.authSchemePreference = authSchemePreference ?? []
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
         self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
     }
@@ -68,6 +69,7 @@ public class RolesAnywhereClientAuthSchemePlugin: ClientRuntime.Plugin {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }
+            config.authSchemePreference = self.authSchemePreference
             if (self.authSchemeResolver != nil) {
                 config.authSchemeResolver = self.authSchemeResolver!
             }

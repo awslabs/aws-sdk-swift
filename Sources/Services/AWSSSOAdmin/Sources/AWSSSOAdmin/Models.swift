@@ -2609,6 +2609,58 @@ public struct GetApplicationAssignmentConfigurationOutput: Swift.Sendable {
     }
 }
 
+public struct GetApplicationSessionConfigurationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the application for which to retrieve the session configuration.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+
+    public init(
+        applicationArn: Swift.String? = nil
+    ) {
+        self.applicationArn = applicationArn
+    }
+}
+
+extension SSOAdminClientTypes {
+
+    public enum UserBackgroundSessionApplicationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UserBackgroundSessionApplicationStatus] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetApplicationSessionConfigurationOutput: Swift.Sendable {
+    /// The status of user background sessions for the application.
+    public var userBackgroundSessionApplicationStatus: SSOAdminClientTypes.UserBackgroundSessionApplicationStatus?
+
+    public init(
+        userBackgroundSessionApplicationStatus: SSOAdminClientTypes.UserBackgroundSessionApplicationStatus? = nil
+    ) {
+        self.userBackgroundSessionApplicationStatus = userBackgroundSessionApplicationStatus
+    }
+}
+
 public struct GetInlinePolicyForPermissionSetInput: Swift.Sendable {
     /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
@@ -3636,6 +3688,27 @@ public struct PutApplicationAssignmentConfigurationOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct PutApplicationSessionConfigurationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the application for which to update the session configuration.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+    /// The status of user background sessions for the application.
+    public var userBackgroundSessionApplicationStatus: SSOAdminClientTypes.UserBackgroundSessionApplicationStatus?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        userBackgroundSessionApplicationStatus: SSOAdminClientTypes.UserBackgroundSessionApplicationStatus? = nil
+    ) {
+        self.applicationArn = applicationArn
+        self.userBackgroundSessionApplicationStatus = userBackgroundSessionApplicationStatus
+    }
+}
+
+public struct PutApplicationSessionConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct PutInlinePolicyToPermissionSetInput: Swift.Sendable {
     /// The inline policy to attach to a [PermissionSet].
     /// This member is required.
@@ -4162,6 +4235,13 @@ extension GetApplicationGrantInput {
     }
 }
 
+extension GetApplicationSessionConfigurationInput {
+
+    static func urlPathProvider(_ value: GetApplicationSessionConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetInlinePolicyForPermissionSetInput {
 
     static func urlPathProvider(_ value: GetInlinePolicyForPermissionSetInput) -> Swift.String? {
@@ -4347,6 +4427,13 @@ extension PutApplicationAuthenticationMethodInput {
 extension PutApplicationGrantInput {
 
     static func urlPathProvider(_ value: PutApplicationGrantInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension PutApplicationSessionConfigurationInput {
+
+    static func urlPathProvider(_ value: PutApplicationSessionConfigurationInput) -> Swift.String? {
         return "/"
     }
 }
@@ -4767,6 +4854,14 @@ extension GetApplicationGrantInput {
     }
 }
 
+extension GetApplicationSessionConfigurationInput {
+
+    static func write(value: GetApplicationSessionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationArn"].write(value.applicationArn)
+    }
+}
+
 extension GetInlinePolicyForPermissionSetInput {
 
     static func write(value: GetInlinePolicyForPermissionSetInput?, to writer: SmithyJSON.Writer) throws {
@@ -5046,6 +5141,15 @@ extension PutApplicationGrantInput {
         try writer["ApplicationArn"].write(value.applicationArn)
         try writer["Grant"].write(value.grant, with: SSOAdminClientTypes.Grant.write(value:to:))
         try writer["GrantType"].write(value.grantType)
+    }
+}
+
+extension PutApplicationSessionConfigurationInput {
+
+    static func write(value: PutApplicationSessionConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationArn"].write(value.applicationArn)
+        try writer["UserBackgroundSessionApplicationStatus"].write(value.userBackgroundSessionApplicationStatus)
     }
 }
 
@@ -5524,6 +5628,18 @@ extension GetApplicationGrantOutput {
     }
 }
 
+extension GetApplicationSessionConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetApplicationSessionConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetApplicationSessionConfigurationOutput()
+        value.userBackgroundSessionApplicationStatus = try reader["UserBackgroundSessionApplicationStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension GetInlinePolicyForPermissionSetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetInlinePolicyForPermissionSetOutput {
@@ -5845,6 +5961,13 @@ extension PutApplicationGrantOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutApplicationGrantOutput {
         return PutApplicationGrantOutput()
+    }
+}
+
+extension PutApplicationSessionConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutApplicationSessionConfigurationOutput {
+        return PutApplicationSessionConfigurationOutput()
     }
 }
 
@@ -6604,6 +6727,24 @@ enum GetApplicationGrantOutputError {
     }
 }
 
+enum GetApplicationSessionConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetInlinePolicyForPermissionSetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7091,6 +7232,25 @@ enum PutApplicationGrantOutputError {
     }
 }
 
+enum PutApplicationSessionConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutInlinePolicyToPermissionSetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7263,24 +7423,11 @@ enum UpdateTrustedTokenIssuerOutputError {
     }
 }
 
-extension ServiceQuotaExceededException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7302,11 +7449,11 @@ extension ConflictException {
     }
 }
 
-extension ValidationException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = InternalServerException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7315,11 +7462,24 @@ extension ValidationException {
     }
 }
 
-extension InternalServerException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerException()
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7341,11 +7501,11 @@ extension ThrottlingException {
     }
 }
 
-extension AccessDeniedException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ValidationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

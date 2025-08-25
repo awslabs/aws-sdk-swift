@@ -7,7 +7,6 @@
 
 import Foundation
 import XCTest
-@testable @_spi(FileBasedConfig) import AWSClientRuntime
 @testable @_spi(FileBasedConfig) import AWSSDKCommon
 
 class FieldResolverTests: XCTestCase {

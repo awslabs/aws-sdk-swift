@@ -2555,17 +2555,6 @@
                             }
                         },
                         {
-                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
                             "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -2576,17 +2565,6 @@
                                 "Region": "us-iso-east-1",
                                 "UseFIPS": true,
                                 "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
                             }
                         },
                         {
@@ -2603,17 +2581,6 @@
                             }
                         },
                         {
-                            "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
                             "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -2624,17 +2591,6 @@
                                 "Region": "us-isob-east-1",
                                 "UseFIPS": true,
                                 "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-isob-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
                             }
                         },
                         {
@@ -3574,7 +3530,7 @@
                 "controlSets": {
                     "target": "com.amazonaws.auditmanager#CreateAssessmentFrameworkControlSets",
                     "traits": {
-                        "smithy.api#documentation": "<p> The control sets that are associated with the framework. </p>",
+                        "smithy.api#documentation": "<p> The control sets that are associated with the framework. </p>\n         <note>\n            <p>The <code>Controls</code> object returns a partial response when called through Framework\n            APIs. For a complete <code>Controls</code> object, use <code>GetControl</code>.</p>\n         </note>",
                         "smithy.api#required": {}
                     }
                 },
@@ -3595,7 +3551,7 @@
                 "framework": {
                     "target": "com.amazonaws.auditmanager#Framework",
                     "traits": {
-                        "smithy.api#documentation": "<p> The name of the new framework that the <code>CreateAssessmentFramework</code> API\n         returned. </p>"
+                        "smithy.api#documentation": "<p> The new framework object that the <code>CreateAssessmentFramework</code> API returned. </p>"
                     }
                 }
             },
@@ -5053,13 +5009,17 @@
                 "controlSources": {
                     "target": "com.amazonaws.auditmanager#ControlSources",
                     "traits": {
-                        "smithy.api#documentation": "<p> The control data sources where Audit Manager collects evidence from.</p>"
+                        "smithy.api#deprecated": {
+                            "since": "2025-07-24",
+                            "message": "Use controlSources from the Control"
+                        },
+                        "smithy.api#documentation": "<p> The control data sources where Audit Manager collects evidence from.</p>\n         <important>\n            <p>This API parameter is no longer supported.</p>\n         </important>"
                     }
                 },
                 "controlSets": {
                     "target": "com.amazonaws.auditmanager#ControlSets",
                     "traits": {
-                        "smithy.api#documentation": "<p> The control sets that are associated with the framework. </p>"
+                        "smithy.api#documentation": "<p> The control sets that are associated with the framework. </p>\n         <note>\n            <p>The <code>Controls</code> object returns a partial response when called through\n            Framework APIs. For a complete <code>Controls</code> object, use\n            <code>GetControl</code>.</p>\n         </note>"
                     }
                 },
                 "createdAt": {
@@ -5309,7 +5269,7 @@
                 "framework": {
                     "target": "com.amazonaws.auditmanager#Framework",
                     "traits": {
-                        "smithy.api#documentation": "<p> The framework that the <code>GetAssessmentFramework</code> API returned. </p>"
+                        "smithy.api#documentation": "<p> The framework that the <code>GetAssessmentFramework</code> API returned. </p>\n         <note>\n            <p>The <code>Controls</code> object returns a partial response when called through\n            Framework APIs. For a complete <code>Controls</code> object, use\n            <code>GetControl</code>.</p>\n         </note>"
                     }
                 }
             },
@@ -7896,6 +7856,9 @@
                     "target": "com.amazonaws.auditmanager#ResourceNotFoundException"
                 },
                 {
+                    "target": "com.amazonaws.auditmanager#ThrottlingException"
+                },
+                {
                     "target": "com.amazonaws.auditmanager#ValidationException"
                 }
             ],
@@ -8060,7 +8023,7 @@
                     "min": 1,
                     "max": 1024
                 },
-                "smithy.api#pattern": "^(S|s)3:\\/\\/[a-zA-Z0-9\\-\\.\\(\\)\\'\\*\\_\\!\\/]+$"
+                "smithy.api#pattern": "^(S|s)3:\\/\\/[a-zA-Z0-9\\-\\.\\(\\)\\'\\*\\_\\!\\=\\+\\@\\:\\s\\,\\?\\/]+$"
             }
         },
         "com.amazonaws.auditmanager#SNSTopic": {
@@ -9074,6 +9037,9 @@
                     "target": "com.amazonaws.auditmanager#ResourceNotFoundException"
                 },
                 {
+                    "target": "com.amazonaws.auditmanager#ServiceQuotaExceededException"
+                },
+                {
                     "target": "com.amazonaws.auditmanager#ValidationException"
                 }
             ],
@@ -9158,7 +9124,7 @@
                 "controlSets": {
                     "target": "com.amazonaws.auditmanager#UpdateAssessmentFrameworkControlSets",
                     "traits": {
-                        "smithy.api#documentation": "<p> The control sets that are associated with the framework. </p>",
+                        "smithy.api#documentation": "<p> The control sets that are associated with the framework. </p>\n         <note>\n            <p>The <code>Controls</code> object returns a partial response when called through Framework\n            APIs. For a complete <code>Controls</code> object, use <code>GetControl</code>.</p>\n         </note>",
                         "smithy.api#required": {}
                     }
                 }
@@ -9173,7 +9139,7 @@
                 "framework": {
                     "target": "com.amazonaws.auditmanager#Framework",
                     "traits": {
-                        "smithy.api#documentation": "<p> The name of the framework. </p>"
+                        "smithy.api#documentation": "<p> The framework object. </p>"
                     }
                 }
             },

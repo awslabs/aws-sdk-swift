@@ -2118,7 +2118,7 @@ public struct CreateAccessInput: Swift.Sendable {
     /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
     /// This member is required.
     public var externalId: Swift.String?
-    /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
+    /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. You can use the HomeDirectory parameter for HomeDirectoryType when it is set to either PATH or LOGICAL.
     public var homeDirectory: Swift.String?
     /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example. [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ] In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot. [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
     public var homeDirectoryMappings: [TransferClientTypes.HomeDirectoryMapEntry]?
@@ -2289,6 +2289,8 @@ extension TransferClientTypes {
         /// * AddressAllocationIds can't contain duplicates, and must be equal in length to SubnetIds. For example, if you have three subnet IDs, you must also specify three address allocation IDs.
         ///
         /// * Call the UpdateServer API to set or change this parameter.
+        ///
+        /// * You can't set address allocation IDs for servers that have an IpAddressType set to DUALSTACK You can only set this property if IpAddressType is set to IPV4.
         public var addressAllocationIds: [Swift.String]?
         /// A list of security groups IDs that are available to attach to your server's endpoint. This property can only be set when EndpointType is set to VPC. You can edit the SecurityGroupIds property in the [UpdateServer](https://docs.aws.amazon.com/transfer/latest/userguide/API_UpdateServer.html) API only if you are changing the EndpointType from PUBLIC or VPC_ENDPOINT to VPC. To change security groups associated with your server's VPC endpoint after creation, use the Amazon EC2 [ModifyVpcEndpoint](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyVpcEndpoint.html) API.
         public var securityGroupIds: [Swift.String]?
@@ -2451,6 +2453,35 @@ extension TransferClientTypes {
             case .awsDirectoryService: return "AWS_DIRECTORY_SERVICE"
             case .awsLambda: return "AWS_LAMBDA"
             case .serviceManaged: return "SERVICE_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TransferClientTypes {
+
+    public enum IpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualstack
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpAddressType] {
+            return [
+                .dualstack,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "DUALSTACK"
+            case .ipv4: return "IPV4"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2699,6 +2730,15 @@ public struct CreateServerInput: Swift.Sendable {
     public var identityProviderDetails: TransferClientTypes.IdentityProviderDetails?
     /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider. If you choose this value, you must specify the ARN for the Lambda function in the Function parameter for the IdentityProviderDetails data type.
     public var identityProviderType: TransferClientTypes.IdentityProviderType?
+    /// Specifies whether to use IPv4 only, or to use dual-stack (IPv4 and IPv6) for your Transfer Family endpoint. The default value is IPV4. The IpAddressType parameter has the following limitations:
+    ///
+    /// * It cannot be changed while the server is online. You must stop the server before modifying this parameter.
+    ///
+    /// * It cannot be updated to DUALSTACK if the server has AddressAllocationIds specified.
+    ///
+    ///
+    /// When using DUALSTACK as the IpAddressType, you cannot set the AddressAllocationIds parameter for the [EndpointDetails](https://docs.aws.amazon.com/transfer/latest/APIReference/API_EndpointDetails.html) for the server.
+    public var ipAddressType: TransferClientTypes.IpAddressType?
     /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, you can view user activity in your CloudWatch logs.
     public var loggingRole: Swift.String?
     /// Specifies a string to display when users connect to a server. This string is displayed after the user authenticates. The SFTP protocol does not support post-authentication display banners.
@@ -2757,6 +2797,7 @@ public struct CreateServerInput: Swift.Sendable {
         hostKey: Swift.String? = nil,
         identityProviderDetails: TransferClientTypes.IdentityProviderDetails? = nil,
         identityProviderType: TransferClientTypes.IdentityProviderType? = nil,
+        ipAddressType: TransferClientTypes.IpAddressType? = nil,
         loggingRole: Swift.String? = nil,
         postAuthenticationLoginBanner: Swift.String? = nil,
         preAuthenticationLoginBanner: Swift.String? = nil,
@@ -2775,6 +2816,7 @@ public struct CreateServerInput: Swift.Sendable {
         self.hostKey = hostKey
         self.identityProviderDetails = identityProviderDetails
         self.identityProviderType = identityProviderType
+        self.ipAddressType = ipAddressType
         self.loggingRole = loggingRole
         self.postAuthenticationLoginBanner = postAuthenticationLoginBanner
         self.preAuthenticationLoginBanner = preAuthenticationLoginBanner
@@ -2790,7 +2832,7 @@ public struct CreateServerInput: Swift.Sendable {
 
 extension CreateServerInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateServerInput(certificate: \(Swift.String(describing: certificate)), domain: \(Swift.String(describing: domain)), endpointDetails: \(Swift.String(describing: endpointDetails)), endpointType: \(Swift.String(describing: endpointType)), identityProviderDetails: \(Swift.String(describing: identityProviderDetails)), identityProviderType: \(Swift.String(describing: identityProviderType)), loggingRole: \(Swift.String(describing: loggingRole)), postAuthenticationLoginBanner: \(Swift.String(describing: postAuthenticationLoginBanner)), preAuthenticationLoginBanner: \(Swift.String(describing: preAuthenticationLoginBanner)), protocolDetails: \(Swift.String(describing: protocolDetails)), protocols: \(Swift.String(describing: protocols)), s3StorageOptions: \(Swift.String(describing: s3StorageOptions)), securityPolicyName: \(Swift.String(describing: securityPolicyName)), structuredLogDestinations: \(Swift.String(describing: structuredLogDestinations)), tags: \(Swift.String(describing: tags)), workflowDetails: \(Swift.String(describing: workflowDetails)), hostKey: \"CONTENT_REDACTED\")"}
+        "CreateServerInput(certificate: \(Swift.String(describing: certificate)), domain: \(Swift.String(describing: domain)), endpointDetails: \(Swift.String(describing: endpointDetails)), endpointType: \(Swift.String(describing: endpointType)), identityProviderDetails: \(Swift.String(describing: identityProviderDetails)), identityProviderType: \(Swift.String(describing: identityProviderType)), ipAddressType: \(Swift.String(describing: ipAddressType)), loggingRole: \(Swift.String(describing: loggingRole)), postAuthenticationLoginBanner: \(Swift.String(describing: postAuthenticationLoginBanner)), preAuthenticationLoginBanner: \(Swift.String(describing: preAuthenticationLoginBanner)), protocolDetails: \(Swift.String(describing: protocolDetails)), protocols: \(Swift.String(describing: protocols)), s3StorageOptions: \(Swift.String(describing: s3StorageOptions)), securityPolicyName: \(Swift.String(describing: securityPolicyName)), structuredLogDestinations: \(Swift.String(describing: structuredLogDestinations)), tags: \(Swift.String(describing: tags)), workflowDetails: \(Swift.String(describing: workflowDetails)), hostKey: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateServerOutput: Swift.Sendable {
@@ -2806,7 +2848,7 @@ public struct CreateServerOutput: Swift.Sendable {
 }
 
 public struct CreateUserInput: Swift.Sendable {
-    /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
+    /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. You can use the HomeDirectory parameter for HomeDirectoryType when it is set to either PATH or LOGICAL.
     public var homeDirectory: Swift.String?
     /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example. [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ] In most cases, you can use this value instead of the session policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the value the user should see for their home directory when they log in. The following is an Entry and Target pair example for chroot. [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
     public var homeDirectoryMappings: [TransferClientTypes.HomeDirectoryMapEntry]?
@@ -3492,7 +3534,7 @@ extension TransferClientTypes {
     public struct DescribedAccess: Swift.Sendable {
         /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
         public var externalId: Swift.String?
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. You can use the HomeDirectory parameter for HomeDirectoryType when it is set to either PATH or LOGICAL.
         public var homeDirectory: Swift.String?
         /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. In most cases, you can use this value instead of the session policy to lock down the associated access to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.
         public var homeDirectoryMappings: [TransferClientTypes.HomeDirectoryMapEntry]?
@@ -4142,6 +4184,15 @@ extension TransferClientTypes {
         public var identityProviderDetails: TransferClientTypes.IdentityProviderDetails?
         /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider. If you choose this value, you must specify the ARN for the Lambda function in the Function parameter for the IdentityProviderDetails data type.
         public var identityProviderType: TransferClientTypes.IdentityProviderType?
+        /// Specifies whether to use IPv4 only, or to use dual-stack (IPv4 and IPv6) for your Transfer Family endpoint. The default value is IPV4. The IpAddressType parameter has the following limitations:
+        ///
+        /// * It cannot be changed while the server is online. You must stop the server before modifying this parameter.
+        ///
+        /// * It cannot be updated to DUALSTACK if the server has AddressAllocationIds specified.
+        ///
+        ///
+        /// When using DUALSTACK as the IpAddressType, you cannot set the AddressAllocationIds parameter for the [EndpointDetails](https://docs.aws.amazon.com/transfer/latest/APIReference/API_EndpointDetails.html) for the server.
+        public var ipAddressType: TransferClientTypes.IpAddressType?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, you can view user activity in your CloudWatch logs.
         public var loggingRole: Swift.String?
         /// Specifies a string to display when users connect to a server. This string is displayed after the user authenticates. The SFTP protocol does not support post-authentication display banners.
@@ -4208,6 +4259,7 @@ extension TransferClientTypes {
             hostKeyFingerprint: Swift.String? = nil,
             identityProviderDetails: TransferClientTypes.IdentityProviderDetails? = nil,
             identityProviderType: TransferClientTypes.IdentityProviderType? = nil,
+            ipAddressType: TransferClientTypes.IpAddressType? = nil,
             loggingRole: Swift.String? = nil,
             postAuthenticationLoginBanner: Swift.String? = nil,
             preAuthenticationLoginBanner: Swift.String? = nil,
@@ -4231,6 +4283,7 @@ extension TransferClientTypes {
             self.hostKeyFingerprint = hostKeyFingerprint
             self.identityProviderDetails = identityProviderDetails
             self.identityProviderType = identityProviderType
+            self.ipAddressType = ipAddressType
             self.loggingRole = loggingRole
             self.postAuthenticationLoginBanner = postAuthenticationLoginBanner
             self.preAuthenticationLoginBanner = preAuthenticationLoginBanner
@@ -4281,7 +4334,7 @@ extension TransferClientTypes {
         /// Specifies the unique Amazon Resource Name (ARN) for the user that was requested to be described.
         /// This member is required.
         public var arn: Swift.String?
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. You can use the HomeDirectory parameter for HomeDirectoryType when it is set to either PATH or LOGICAL.
         public var homeDirectory: Swift.String?
         /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. In most cases, you can use this value instead of the session policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value.
         public var homeDirectoryMappings: [TransferClientTypes.HomeDirectoryMapEntry]?
@@ -4814,7 +4867,7 @@ extension TransferClientTypes {
     public struct ListedAccess: Swift.Sendable {
         /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
         public var externalId: Swift.String?
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. You can use the HomeDirectory parameter for HomeDirectoryType when it is set to either PATH or LOGICAL.
         public var homeDirectory: Swift.String?
         /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer protocol clients. If you set it to LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or Amazon EFS paths visible to your users. If HomeDirectoryType is LOGICAL, you must provide mappings, using the HomeDirectoryMappings parameter. If, on the other hand, HomeDirectoryType is PATH, you provide an absolute path using the HomeDirectory parameter. You cannot have both HomeDirectory and HomeDirectoryMappings in your template.
         public var homeDirectoryType: TransferClientTypes.HomeDirectoryType?
@@ -5007,7 +5060,7 @@ extension TransferClientTypes {
         /// Provides the unique Amazon Resource Name (ARN) for the user that you want to learn about.
         /// This member is required.
         public var arn: Swift.String?
-        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
+        /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. You can use the HomeDirectory parameter for HomeDirectoryType when it is set to either PATH or LOGICAL.
         public var homeDirectory: Swift.String?
         /// The type of landing directory (folder) that you want your users' home directory to be when they log in to the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer protocol clients. If you set it to LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or Amazon EFS paths visible to your users. If HomeDirectoryType is LOGICAL, you must provide mappings, using the HomeDirectoryMappings parameter. If, on the other hand, HomeDirectoryType is PATH, you provide an absolute path using the HomeDirectory parameter. You cannot have both HomeDirectory and HomeDirectoryMappings in your template.
         public var homeDirectoryType: TransferClientTypes.HomeDirectoryType?
@@ -5542,6 +5595,15 @@ public struct UpdateServerInput: Swift.Sendable {
     public var hostKey: Swift.String?
     /// An array containing all of the information required to call a customer's authentication API method.
     public var identityProviderDetails: TransferClientTypes.IdentityProviderDetails?
+    /// Specifies whether to use IPv4 only, or to use dual-stack (IPv4 and IPv6) for your Transfer Family endpoint. The default value is IPV4. The IpAddressType parameter has the following limitations:
+    ///
+    /// * It cannot be changed while the server is online. You must stop the server before modifying this parameter.
+    ///
+    /// * It cannot be updated to DUALSTACK if the server has AddressAllocationIds specified.
+    ///
+    ///
+    /// When using DUALSTACK as the IpAddressType, you cannot set the AddressAllocationIds parameter for the [EndpointDetails](https://docs.aws.amazon.com/transfer/latest/APIReference/API_EndpointDetails.html) for the server.
+    public var ipAddressType: TransferClientTypes.IpAddressType?
     /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, you can view user activity in your CloudWatch logs.
     public var loggingRole: Swift.String?
     /// Specifies a string to display when users connect to a server. This string is displayed after the user authenticates. The SFTP protocol does not support post-authentication display banners.
@@ -5599,6 +5661,7 @@ public struct UpdateServerInput: Swift.Sendable {
         endpointType: TransferClientTypes.EndpointType? = nil,
         hostKey: Swift.String? = nil,
         identityProviderDetails: TransferClientTypes.IdentityProviderDetails? = nil,
+        ipAddressType: TransferClientTypes.IpAddressType? = nil,
         loggingRole: Swift.String? = nil,
         postAuthenticationLoginBanner: Swift.String? = nil,
         preAuthenticationLoginBanner: Swift.String? = nil,
@@ -5615,6 +5678,7 @@ public struct UpdateServerInput: Swift.Sendable {
         self.endpointType = endpointType
         self.hostKey = hostKey
         self.identityProviderDetails = identityProviderDetails
+        self.ipAddressType = ipAddressType
         self.loggingRole = loggingRole
         self.postAuthenticationLoginBanner = postAuthenticationLoginBanner
         self.preAuthenticationLoginBanner = preAuthenticationLoginBanner
@@ -5630,7 +5694,7 @@ public struct UpdateServerInput: Swift.Sendable {
 
 extension UpdateServerInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateServerInput(certificate: \(Swift.String(describing: certificate)), endpointDetails: \(Swift.String(describing: endpointDetails)), endpointType: \(Swift.String(describing: endpointType)), identityProviderDetails: \(Swift.String(describing: identityProviderDetails)), loggingRole: \(Swift.String(describing: loggingRole)), postAuthenticationLoginBanner: \(Swift.String(describing: postAuthenticationLoginBanner)), preAuthenticationLoginBanner: \(Swift.String(describing: preAuthenticationLoginBanner)), protocolDetails: \(Swift.String(describing: protocolDetails)), protocols: \(Swift.String(describing: protocols)), s3StorageOptions: \(Swift.String(describing: s3StorageOptions)), securityPolicyName: \(Swift.String(describing: securityPolicyName)), serverId: \(Swift.String(describing: serverId)), structuredLogDestinations: \(Swift.String(describing: structuredLogDestinations)), workflowDetails: \(Swift.String(describing: workflowDetails)), hostKey: \"CONTENT_REDACTED\")"}
+        "UpdateServerInput(certificate: \(Swift.String(describing: certificate)), endpointDetails: \(Swift.String(describing: endpointDetails)), endpointType: \(Swift.String(describing: endpointType)), identityProviderDetails: \(Swift.String(describing: identityProviderDetails)), ipAddressType: \(Swift.String(describing: ipAddressType)), loggingRole: \(Swift.String(describing: loggingRole)), postAuthenticationLoginBanner: \(Swift.String(describing: postAuthenticationLoginBanner)), preAuthenticationLoginBanner: \(Swift.String(describing: preAuthenticationLoginBanner)), protocolDetails: \(Swift.String(describing: protocolDetails)), protocols: \(Swift.String(describing: protocols)), s3StorageOptions: \(Swift.String(describing: s3StorageOptions)), securityPolicyName: \(Swift.String(describing: securityPolicyName)), serverId: \(Swift.String(describing: serverId)), structuredLogDestinations: \(Swift.String(describing: structuredLogDestinations)), workflowDetails: \(Swift.String(describing: workflowDetails)), hostKey: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateServerOutput: Swift.Sendable {
@@ -5978,7 +6042,7 @@ public struct UpdateAccessInput: Swift.Sendable {
     /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
     /// This member is required.
     public var externalId: Swift.String?
-    /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
+    /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. You can use the HomeDirectory parameter for HomeDirectoryType when it is set to either PATH or LOGICAL.
     public var homeDirectory: Swift.String?
     /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example. [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ] In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot. [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
     public var homeDirectoryMappings: [TransferClientTypes.HomeDirectoryMapEntry]?
@@ -6072,7 +6136,7 @@ public struct UpdateHostKeyOutput: Swift.Sendable {
 }
 
 public struct UpdateUserInput: Swift.Sendable {
-    /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
+    /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. You can use the HomeDirectory parameter for HomeDirectoryType when it is set to either PATH or LOGICAL.
     public var homeDirectory: Swift.String?
     /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example. [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ] In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot. [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
     public var homeDirectoryMappings: [TransferClientTypes.HomeDirectoryMapEntry]?
@@ -6798,6 +6862,7 @@ extension CreateServerInput {
         try writer["HostKey"].write(value.hostKey)
         try writer["IdentityProviderDetails"].write(value.identityProviderDetails, with: TransferClientTypes.IdentityProviderDetails.write(value:to:))
         try writer["IdentityProviderType"].write(value.identityProviderType)
+        try writer["IpAddressType"].write(value.ipAddressType)
         try writer["LoggingRole"].write(value.loggingRole)
         try writer["PostAuthenticationLoginBanner"].write(value.postAuthenticationLoginBanner)
         try writer["PreAuthenticationLoginBanner"].write(value.preAuthenticationLoginBanner)
@@ -7426,6 +7491,7 @@ extension UpdateServerInput {
         try writer["EndpointType"].write(value.endpointType)
         try writer["HostKey"].write(value.hostKey)
         try writer["IdentityProviderDetails"].write(value.identityProviderDetails, with: TransferClientTypes.IdentityProviderDetails.write(value:to:))
+        try writer["IpAddressType"].write(value.ipAddressType)
         try writer["LoggingRole"].write(value.loggingRole)
         try writer["PostAuthenticationLoginBanner"].write(value.postAuthenticationLoginBanner)
         try writer["PreAuthenticationLoginBanner"].write(value.preAuthenticationLoginBanner)
@@ -9547,14 +9613,12 @@ enum UpdateWebAppCustomizationOutputError {
     }
 }
 
-extension ResourceExistsException {
+extension InternalServiceError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceError {
         let reader = baseError.errorBodyReader
-        var value = ResourceExistsException()
+        var value = InternalServiceError()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
-        value.properties.resource = try reader["Resource"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -9575,12 +9639,14 @@ extension InvalidRequestException {
     }
 }
 
-extension ServiceUnavailableException {
+extension ResourceExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceExistsException {
         let reader = baseError.errorBodyReader
-        var value = ServiceUnavailableException()
-        value.properties.message = try reader["Message"].readIfPresent()
+        var value = ResourceExistsException()
+        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        value.properties.resource = try reader["Resource"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -9603,12 +9669,12 @@ extension ResourceNotFoundException {
     }
 }
 
-extension InternalServiceError {
+extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceError {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
-        var value = InternalServiceError()
-        value.properties.message = try reader["Message"].readIfPresent() ?? ""
+        var value = ServiceUnavailableException()
+        value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -10081,6 +10147,7 @@ extension TransferClientTypes.DescribedServer {
         value.structuredLogDestinations = try reader["StructuredLogDestinations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.s3StorageOptions = try reader["S3StorageOptions"].readIfPresent(with: TransferClientTypes.S3StorageOptions.read(from:))
         value.as2ServiceManagedEgressIpAddresses = try reader["As2ServiceManagedEgressIpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
         return value
     }
 }

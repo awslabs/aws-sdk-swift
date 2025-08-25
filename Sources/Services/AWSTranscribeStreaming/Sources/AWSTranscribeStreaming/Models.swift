@@ -1253,6 +1253,8 @@ extension TranscribeStreamingClientTypes {
         public var mediaEncoding: TranscribeStreamingClientTypes.MedicalScribeMediaEncoding?
         /// The sample rate (in hertz) of the HealthScribe streaming session.
         public var mediaSampleRateHertz: Swift.Int?
+        /// Indicates whether the MedicalScribeContext object was provided when the stream was started.
+        public var medicalScribeContextProvided: Swift.Bool?
         /// The result of post-stream analytics for the HealthScribe streaming session.
         public var postStreamAnalyticsResult: TranscribeStreamingClientTypes.MedicalScribePostStreamAnalyticsResult?
         /// The post-stream analytics settings of the HealthScribe streaming session.
@@ -1291,6 +1293,7 @@ extension TranscribeStreamingClientTypes {
             languageCode: TranscribeStreamingClientTypes.MedicalScribeLanguageCode? = nil,
             mediaEncoding: TranscribeStreamingClientTypes.MedicalScribeMediaEncoding? = nil,
             mediaSampleRateHertz: Swift.Int? = nil,
+            medicalScribeContextProvided: Swift.Bool? = nil,
             postStreamAnalyticsResult: TranscribeStreamingClientTypes.MedicalScribePostStreamAnalyticsResult? = nil,
             postStreamAnalyticsSettings: TranscribeStreamingClientTypes.MedicalScribePostStreamAnalyticsSettings? = nil,
             resourceAccessRoleArn: Swift.String? = nil,
@@ -1307,6 +1310,7 @@ extension TranscribeStreamingClientTypes {
             self.languageCode = languageCode
             self.mediaEncoding = mediaEncoding
             self.mediaSampleRateHertz = mediaSampleRateHertz
+            self.medicalScribeContextProvided = medicalScribeContextProvided
             self.postStreamAnalyticsResult = postStreamAnalyticsResult
             self.postStreamAnalyticsSettings = postStreamAnalyticsSettings
             self.resourceAccessRoleArn = resourceAccessRoleArn
@@ -1736,12 +1740,81 @@ extension TranscribeStreamingClientTypes {
 
 extension TranscribeStreamingClientTypes {
 
+    public enum Pronouns: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case heHim
+        case sheHer
+        case theyThem
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Pronouns] {
+            return [
+                .heHim,
+                .sheHer,
+                .theyThem
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .heHim: return "HE_HIM"
+            case .sheHer: return "SHE_HER"
+            case .theyThem: return "THEY_THEM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TranscribeStreamingClientTypes {
+
+    /// Contains patient-specific information.
+    public struct MedicalScribePatientContext: Swift.Sendable {
+        /// The patient's preferred pronouns that the user wants to provide as a context for clinical note generation .
+        public var pronouns: TranscribeStreamingClientTypes.Pronouns?
+
+        public init(
+            pronouns: TranscribeStreamingClientTypes.Pronouns? = nil
+        ) {
+            self.pronouns = pronouns
+        }
+    }
+}
+
+extension TranscribeStreamingClientTypes.MedicalScribePatientContext: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MedicalScribePatientContext(pronouns: \"CONTENT_REDACTED\")"}
+}
+
+extension TranscribeStreamingClientTypes {
+
+    /// The MedicalScribeContext object that contains contextual information which is used during clinical note generation to add relevant context to the note.
+    public struct MedicalScribeContext: Swift.Sendable {
+        /// Contains patient-specific information used to customize the clinical note generation.
+        public var patientContext: TranscribeStreamingClientTypes.MedicalScribePatientContext?
+
+        public init(
+            patientContext: TranscribeStreamingClientTypes.MedicalScribePatientContext? = nil
+        ) {
+            self.patientContext = patientContext
+        }
+    }
+}
+
+extension TranscribeStreamingClientTypes {
+
     /// Specify details to configure the streaming session, including channel definitions, encryption settings, post-stream analytics settings, resource access role ARN and vocabulary settings. Whether you are starting a new session or resuming an existing session, your first event must be a MedicalScribeConfigurationEvent. If you are resuming a session, then this event must have the same configurations that you provided to start the session.
     public struct MedicalScribeConfigurationEvent: Swift.Sendable {
         /// Specify which speaker is on which audio channel.
         public var channelDefinitions: [TranscribeStreamingClientTypes.MedicalScribeChannelDefinition]?
         /// Specify the encryption settings for your streaming session.
         public var encryptionSettings: TranscribeStreamingClientTypes.MedicalScribeEncryptionSettings?
+        /// The MedicalScribeContext object that contains contextual information used to generate customized clinical notes.
+        public var medicalScribeContext: TranscribeStreamingClientTypes.MedicalScribeContext?
         /// Specify settings for post-stream analytics.
         /// This member is required.
         public var postStreamAnalyticsSettings: TranscribeStreamingClientTypes.MedicalScribePostStreamAnalyticsSettings?
@@ -1758,6 +1831,7 @@ extension TranscribeStreamingClientTypes {
         public init(
             channelDefinitions: [TranscribeStreamingClientTypes.MedicalScribeChannelDefinition]? = nil,
             encryptionSettings: TranscribeStreamingClientTypes.MedicalScribeEncryptionSettings? = nil,
+            medicalScribeContext: TranscribeStreamingClientTypes.MedicalScribeContext? = nil,
             postStreamAnalyticsSettings: TranscribeStreamingClientTypes.MedicalScribePostStreamAnalyticsSettings? = nil,
             resourceAccessRoleArn: Swift.String? = nil,
             vocabularyFilterMethod: TranscribeStreamingClientTypes.MedicalScribeVocabularyFilterMethod? = nil,
@@ -1766,6 +1840,7 @@ extension TranscribeStreamingClientTypes {
         ) {
             self.channelDefinitions = channelDefinitions
             self.encryptionSettings = encryptionSettings
+            self.medicalScribeContext = medicalScribeContext
             self.postStreamAnalyticsSettings = postStreamAnalyticsSettings
             self.resourceAccessRoleArn = resourceAccessRoleArn
             self.vocabularyFilterMethod = vocabularyFilterMethod
@@ -3368,11 +3443,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension ServiceUnavailableException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = ServiceUnavailableException()
+        var value = ConflictException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3381,11 +3456,11 @@ extension ServiceUnavailableException {
     }
 }
 
-extension ConflictException {
+extension ServiceUnavailableException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceUnavailableException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = ServiceUnavailableException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3446,6 +3521,7 @@ extension TranscribeStreamingClientTypes.MedicalScribeInputStream {
                 try writer["ChannelDefinitions"].write(value.channelDefinitions, with: SmithyReadWrite.listWritingClosure(memberWritingClosure: TranscribeStreamingClientTypes.MedicalScribeChannelDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false))
                 try writer["EncryptionSettings"].write(value.encryptionSettings, with: TranscribeStreamingClientTypes.MedicalScribeEncryptionSettings.write(value:to:))
                 try writer["PostStreamAnalyticsSettings"].write(value.postStreamAnalyticsSettings, with: TranscribeStreamingClientTypes.MedicalScribePostStreamAnalyticsSettings.write(value:to:))
+                try writer["MedicalScribeContext"].write(value.medicalScribeContext, with: TranscribeStreamingClientTypes.MedicalScribeContext.write(value:to:))
                 payload = try writer.data()
             case .sdkUnknown(_):
                 throw Smithy.ClientError.unknownError("cannot serialize the unknown event type!")
@@ -3666,6 +3742,7 @@ extension TranscribeStreamingClientTypes.MedicalScribeStreamDetails {
         value.streamStatus = try reader["StreamStatus"].readIfPresent()
         value.postStreamAnalyticsSettings = try reader["PostStreamAnalyticsSettings"].readIfPresent(with: TranscribeStreamingClientTypes.MedicalScribePostStreamAnalyticsSettings.read(from:))
         value.postStreamAnalyticsResult = try reader["PostStreamAnalyticsResult"].readIfPresent(with: TranscribeStreamingClientTypes.MedicalScribePostStreamAnalyticsResult.read(from:))
+        value.medicalScribeContextProvided = try reader["MedicalScribeContextProvided"].readIfPresent()
         return value
     }
 }
@@ -4164,11 +4241,28 @@ extension TranscribeStreamingClientTypes.MedicalScribeConfigurationEvent {
         guard let value else { return }
         try writer["ChannelDefinitions"].writeList(value.channelDefinitions, memberWritingClosure: TranscribeStreamingClientTypes.MedicalScribeChannelDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EncryptionSettings"].write(value.encryptionSettings, with: TranscribeStreamingClientTypes.MedicalScribeEncryptionSettings.write(value:to:))
+        try writer["MedicalScribeContext"].write(value.medicalScribeContext, with: TranscribeStreamingClientTypes.MedicalScribeContext.write(value:to:))
         try writer["PostStreamAnalyticsSettings"].write(value.postStreamAnalyticsSettings, with: TranscribeStreamingClientTypes.MedicalScribePostStreamAnalyticsSettings.write(value:to:))
         try writer["ResourceAccessRoleArn"].write(value.resourceAccessRoleArn)
         try writer["VocabularyFilterMethod"].write(value.vocabularyFilterMethod)
         try writer["VocabularyFilterName"].write(value.vocabularyFilterName)
         try writer["VocabularyName"].write(value.vocabularyName)
+    }
+}
+
+extension TranscribeStreamingClientTypes.MedicalScribeContext {
+
+    static func write(value: TranscribeStreamingClientTypes.MedicalScribeContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PatientContext"].write(value.patientContext, with: TranscribeStreamingClientTypes.MedicalScribePatientContext.write(value:to:))
+    }
+}
+
+extension TranscribeStreamingClientTypes.MedicalScribePatientContext {
+
+    static func write(value: TranscribeStreamingClientTypes.MedicalScribePatientContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Pronouns"].write(value.pronouns)
     }
 }
 

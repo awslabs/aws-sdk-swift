@@ -6,6 +6,7 @@
 //
 
 @_spi(FileBasedConfig) import class AWSSDKCommon.CRTFileBasedConfiguration
+import struct AWSSDKCommon.FieldResolver
 import struct SmithyRetries.ExponentialBackoffStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -39,6 +40,21 @@ public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
             )
         }
         return resolvedAppID
+    }
+
+    public static func authSchemePreference(_ preference: String? = nil) throws -> [String]? {
+        let fileBasedConfig = try CRTFileBasedConfiguration.make()
+        let resolvedPreference: [String]?
+        if let authSchemePreference = preference {
+            resolvedPreference = AuthSchemeConfig.normalizeSchemes(authSchemePreference)
+        } else {
+            resolvedPreference = AuthSchemeConfig.authSchemePreference(
+                configValue: nil,
+                profileName: nil,
+                fileBasedConfig: fileBasedConfig
+            )
+        }
+        return resolvedPreference
     }
 
     public static func requestChecksumCalculation(
@@ -152,5 +168,23 @@ public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
                 fileBasedConfig: fileBasedConfig
             )
         }
+    }
+
+    public static func disableS3ExpressSessionAuth(
+        _ disableS3ExpressSessionAuth: Bool? = nil
+    ) throws -> Bool {
+        let fileBasedConfig = try CRTFileBasedConfiguration.make()
+        return FieldResolver(
+            configValue: disableS3ExpressSessionAuth,
+            envVarName: "AWS_S3_DISABLE_EXPRESS_SESSION_AUTH",
+            configFieldName: "s3_disable_express_session_auth",
+            fileBasedConfig: fileBasedConfig,
+            profileName: nil, converter: { value in
+                switch value {
+                case "true": return true
+                case "false": return false
+                default: return nil
+                }
+            }).value ?? false
     }
 }

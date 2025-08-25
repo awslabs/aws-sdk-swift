@@ -288,6 +288,37 @@ extension PaginatorSequence where OperationStackInput == DescribeUpdateDirectory
     }
 }
 extension DirectoryClient {
+    /// Paginate over `[ListADAssessmentsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListADAssessmentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListADAssessmentsOutput`
+    public func listADAssessmentsPaginated(input: ListADAssessmentsInput) -> ClientRuntime.PaginatorSequence<ListADAssessmentsInput, ListADAssessmentsOutput> {
+        return ClientRuntime.PaginatorSequence<ListADAssessmentsInput, ListADAssessmentsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listADAssessments(input:))
+    }
+}
+
+extension ListADAssessmentsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListADAssessmentsInput {
+        return ListADAssessmentsInput(
+            directoryId: self.directoryId,
+            limit: self.limit,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListADAssessmentsInput, OperationStackOutput == ListADAssessmentsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listADAssessmentsPaginated`
+    /// to access the nested member `[DirectoryClientTypes.AssessmentSummary]`
+    /// - Returns: `[DirectoryClientTypes.AssessmentSummary]`
+    public func assessments() async throws -> [DirectoryClientTypes.AssessmentSummary] {
+        return try await self.asyncCompactMap { item in item.assessments }
+    }
+}
+extension DirectoryClient {
     /// Paginate over `[ListCertificatesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

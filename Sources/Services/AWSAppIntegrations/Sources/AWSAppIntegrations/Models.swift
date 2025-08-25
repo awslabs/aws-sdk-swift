@@ -194,6 +194,65 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
 
 extension AppIntegrationsClientTypes {
 
+    public enum ContactHandlingScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case crossContacts
+        case perContact
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContactHandlingScope] {
+            return [
+                .crossContacts,
+                .perContact
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .crossContacts: return "CROSS_CONTACTS"
+            case .perContact: return "PER_CONTACT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppIntegrationsClientTypes {
+
+    /// The contact handling configuration for the application.
+    public struct ContactHandling: Swift.Sendable {
+        /// Indicates whether the application refreshes for each contact or refreshes only with each new browser session.
+        public var scope: AppIntegrationsClientTypes.ContactHandlingScope?
+
+        public init(
+            scope: AppIntegrationsClientTypes.ContactHandlingScope? = nil
+        ) {
+            self.scope = scope
+        }
+    }
+}
+
+extension AppIntegrationsClientTypes {
+
+    /// The configuration settings for the application.
+    public struct ApplicationConfig: Swift.Sendable {
+        /// The contact handling configuration for the application.
+        public var contactHandling: AppIntegrationsClientTypes.ContactHandling?
+
+        public init(
+            contactHandling: AppIntegrationsClientTypes.ContactHandling? = nil
+        ) {
+            self.contactHandling = contactHandling
+        }
+    }
+}
+
+extension AppIntegrationsClientTypes {
+
     /// The external URL source for the application.
     public struct ExternalUrlConfig: Swift.Sendable {
         /// The URL to access the application.
@@ -223,6 +282,25 @@ extension AppIntegrationsClientTypes {
             externalUrlConfig: AppIntegrationsClientTypes.ExternalUrlConfig? = nil
         ) {
             self.externalUrlConfig = externalUrlConfig
+        }
+    }
+}
+
+extension AppIntegrationsClientTypes {
+
+    /// The iframe configuration for the application.
+    public struct IframeConfig: Swift.Sendable {
+        /// The list of features that are allowed in the iframe.
+        public var allow: [Swift.String]?
+        /// The list of sandbox attributes for the iframe.
+        public var sandbox: [Swift.String]?
+
+        public init(
+            allow: [Swift.String]? = nil,
+            sandbox: [Swift.String]? = nil
+        ) {
+            self.allow = allow
+            self.sandbox = sandbox
         }
     }
 }
@@ -273,6 +351,8 @@ extension AppIntegrationsClientTypes {
 }
 
 public struct CreateApplicationInput: Swift.Sendable {
+    /// The configuration settings for the application.
+    public var applicationConfig: AppIntegrationsClientTypes.ApplicationConfig?
     /// The configuration for where the application should be loaded from.
     /// This member is required.
     public var applicationSourceConfig: AppIntegrationsClientTypes.ApplicationSourceConfig?
@@ -280,6 +360,12 @@ public struct CreateApplicationInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// The description of the application.
     public var description: Swift.String?
+    /// The iframe configuration for the application.
+    public var iframeConfig: AppIntegrationsClientTypes.IframeConfig?
+    /// The maximum time in milliseconds allowed to establish a connection with the workspace.
+    public var initializationTimeout: Swift.Int?
+    /// Indicates whether the application is a service.
+    public var isService: Swift.Bool?
     /// The name of the application.
     /// This member is required.
     public var name: Swift.String?
@@ -298,9 +384,13 @@ public struct CreateApplicationInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        applicationConfig: AppIntegrationsClientTypes.ApplicationConfig? = nil,
         applicationSourceConfig: AppIntegrationsClientTypes.ApplicationSourceConfig? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        iframeConfig: AppIntegrationsClientTypes.IframeConfig? = nil,
+        initializationTimeout: Swift.Int? = nil,
+        isService: Swift.Bool? = false,
         name: Swift.String? = nil,
         namespace: Swift.String? = nil,
         permissions: [Swift.String]? = nil,
@@ -308,9 +398,13 @@ public struct CreateApplicationInput: Swift.Sendable {
         subscriptions: [AppIntegrationsClientTypes.Subscription]? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.applicationConfig = applicationConfig
         self.applicationSourceConfig = applicationSourceConfig
         self.clientToken = clientToken
         self.description = description
+        self.iframeConfig = iframeConfig
+        self.initializationTimeout = initializationTimeout
+        self.isService = isService
         self.name = name
         self.namespace = namespace
         self.permissions = permissions
@@ -747,6 +841,8 @@ public struct GetApplicationInput: Swift.Sendable {
 }
 
 public struct GetApplicationOutput: Swift.Sendable {
+    /// The configuration settings for the application.
+    public var applicationConfig: AppIntegrationsClientTypes.ApplicationConfig?
     /// The configuration for where the application should be loaded from.
     public var applicationSourceConfig: AppIntegrationsClientTypes.ApplicationSourceConfig?
     /// The Amazon Resource Name (ARN) of the Application.
@@ -757,6 +853,12 @@ public struct GetApplicationOutput: Swift.Sendable {
     public var description: Swift.String?
     /// A unique identifier for the Application.
     public var id: Swift.String?
+    /// The iframe configuration for the application.
+    public var iframeConfig: AppIntegrationsClientTypes.IframeConfig?
+    /// The maximum time in milliseconds allowed to establish a connection with the workspace.
+    public var initializationTimeout: Swift.Int?
+    /// Indicates whether the application is a service.
+    public var isService: Swift.Bool
     /// The last modified time of the Application.
     public var lastModifiedTime: Foundation.Date?
     /// The name of the application.
@@ -775,11 +877,15 @@ public struct GetApplicationOutput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        applicationConfig: AppIntegrationsClientTypes.ApplicationConfig? = nil,
         applicationSourceConfig: AppIntegrationsClientTypes.ApplicationSourceConfig? = nil,
         arn: Swift.String? = nil,
         createdTime: Foundation.Date? = nil,
         description: Swift.String? = nil,
         id: Swift.String? = nil,
+        iframeConfig: AppIntegrationsClientTypes.IframeConfig? = nil,
+        initializationTimeout: Swift.Int? = nil,
+        isService: Swift.Bool = false,
         lastModifiedTime: Foundation.Date? = nil,
         name: Swift.String? = nil,
         namespace: Swift.String? = nil,
@@ -788,11 +894,15 @@ public struct GetApplicationOutput: Swift.Sendable {
         subscriptions: [AppIntegrationsClientTypes.Subscription]? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.applicationConfig = applicationConfig
         self.applicationSourceConfig = applicationSourceConfig
         self.arn = arn
         self.createdTime = createdTime
         self.description = description
         self.id = id
+        self.iframeConfig = iframeConfig
+        self.initializationTimeout = initializationTimeout
+        self.isService = isService
         self.lastModifiedTime = lastModifiedTime
         self.name = name
         self.namespace = namespace
@@ -988,6 +1098,8 @@ extension AppIntegrationsClientTypes {
         public var createdTime: Foundation.Date?
         /// A unique identifier for the Application.
         public var id: Swift.String?
+        /// Indicates whether the application is a service.
+        public var isService: Swift.Bool
         /// The time when the application was last modified.
         public var lastModifiedTime: Foundation.Date?
         /// The name of the application.
@@ -999,6 +1111,7 @@ extension AppIntegrationsClientTypes {
             arn: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
+            isService: Swift.Bool = false,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             namespace: Swift.String? = nil
@@ -1006,6 +1119,7 @@ extension AppIntegrationsClientTypes {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
+            self.isService = isService
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.namespace = namespace
@@ -1405,6 +1519,8 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 public struct UpdateApplicationInput: Swift.Sendable {
+    /// The configuration settings for the application.
+    public var applicationConfig: AppIntegrationsClientTypes.ApplicationConfig?
     /// The configuration for where the application should be loaded from.
     public var applicationSourceConfig: AppIntegrationsClientTypes.ApplicationSourceConfig?
     /// The Amazon Resource Name (ARN) of the Application.
@@ -1412,6 +1528,12 @@ public struct UpdateApplicationInput: Swift.Sendable {
     public var arn: Swift.String?
     /// The description of the application.
     public var description: Swift.String?
+    /// The iframe configuration for the application.
+    public var iframeConfig: AppIntegrationsClientTypes.IframeConfig?
+    /// The maximum time in milliseconds allowed to establish a connection with the workspace.
+    public var initializationTimeout: Swift.Int?
+    /// Indicates whether the application is a service.
+    public var isService: Swift.Bool?
     /// The name of the application.
     public var name: Swift.String?
     /// The configuration of events or requests that the application has access to.
@@ -1424,17 +1546,25 @@ public struct UpdateApplicationInput: Swift.Sendable {
     public var subscriptions: [AppIntegrationsClientTypes.Subscription]?
 
     public init(
+        applicationConfig: AppIntegrationsClientTypes.ApplicationConfig? = nil,
         applicationSourceConfig: AppIntegrationsClientTypes.ApplicationSourceConfig? = nil,
         arn: Swift.String? = nil,
         description: Swift.String? = nil,
+        iframeConfig: AppIntegrationsClientTypes.IframeConfig? = nil,
+        initializationTimeout: Swift.Int? = nil,
+        isService: Swift.Bool? = false,
         name: Swift.String? = nil,
         permissions: [Swift.String]? = nil,
         publications: [AppIntegrationsClientTypes.Publication]? = nil,
         subscriptions: [AppIntegrationsClientTypes.Subscription]? = nil
     ) {
+        self.applicationConfig = applicationConfig
         self.applicationSourceConfig = applicationSourceConfig
         self.arn = arn
         self.description = description
+        self.iframeConfig = iframeConfig
+        self.initializationTimeout = initializationTimeout
+        self.isService = isService
         self.name = name
         self.permissions = permissions
         self.publications = publications
@@ -1851,9 +1981,13 @@ extension CreateApplicationInput {
 
     static func write(value: CreateApplicationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ApplicationConfig"].write(value.applicationConfig, with: AppIntegrationsClientTypes.ApplicationConfig.write(value:to:))
         try writer["ApplicationSourceConfig"].write(value.applicationSourceConfig, with: AppIntegrationsClientTypes.ApplicationSourceConfig.write(value:to:))
         try writer["ClientToken"].write(value.clientToken)
         try writer["Description"].write(value.description)
+        try writer["IframeConfig"].write(value.iframeConfig, with: AppIntegrationsClientTypes.IframeConfig.write(value:to:))
+        try writer["InitializationTimeout"].write(value.initializationTimeout)
+        try writer["IsService"].write(value.isService)
         try writer["Name"].write(value.name)
         try writer["Namespace"].write(value.namespace)
         try writer["Permissions"].writeList(value.permissions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -1917,8 +2051,12 @@ extension UpdateApplicationInput {
 
     static func write(value: UpdateApplicationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ApplicationConfig"].write(value.applicationConfig, with: AppIntegrationsClientTypes.ApplicationConfig.write(value:to:))
         try writer["ApplicationSourceConfig"].write(value.applicationSourceConfig, with: AppIntegrationsClientTypes.ApplicationSourceConfig.write(value:to:))
         try writer["Description"].write(value.description)
+        try writer["IframeConfig"].write(value.iframeConfig, with: AppIntegrationsClientTypes.IframeConfig.write(value:to:))
+        try writer["InitializationTimeout"].write(value.initializationTimeout)
+        try writer["IsService"].write(value.isService)
         try writer["Name"].write(value.name)
         try writer["Permissions"].writeList(value.permissions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Publications"].writeList(value.publications, memberWritingClosure: AppIntegrationsClientTypes.Publication.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -2039,11 +2177,15 @@ extension GetApplicationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetApplicationOutput()
+        value.applicationConfig = try reader["ApplicationConfig"].readIfPresent(with: AppIntegrationsClientTypes.ApplicationConfig.read(from:))
         value.applicationSourceConfig = try reader["ApplicationSourceConfig"].readIfPresent(with: AppIntegrationsClientTypes.ApplicationSourceConfig.read(from:))
         value.arn = try reader["Arn"].readIfPresent()
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["Description"].readIfPresent()
         value.id = try reader["Id"].readIfPresent()
+        value.iframeConfig = try reader["IframeConfig"].readIfPresent(with: AppIntegrationsClientTypes.IframeConfig.read(from:))
+        value.initializationTimeout = try reader["InitializationTimeout"].readIfPresent()
+        value.isService = try reader["IsService"].readIfPresent() ?? false
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.name = try reader["Name"].readIfPresent()
         value.namespace = try reader["Namespace"].readIfPresent()
@@ -2639,24 +2781,11 @@ enum UpdateEventIntegrationOutputError {
     }
 }
 
-extension InvalidRequestException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = InvalidRequestException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2678,19 +2807,6 @@ extension DuplicateResourceException {
     }
 }
 
-extension AccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InternalServiceError {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceError {
@@ -2704,11 +2820,37 @@ extension InternalServiceError {
     }
 }
 
+extension InvalidRequestException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidRequestException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidRequestException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceQuotaExceededException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ResourceQuotaExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2847,6 +2989,53 @@ extension AppIntegrationsClientTypes.Publication {
     }
 }
 
+extension AppIntegrationsClientTypes.ApplicationConfig {
+
+    static func write(value: AppIntegrationsClientTypes.ApplicationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContactHandling"].write(value.contactHandling, with: AppIntegrationsClientTypes.ContactHandling.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.ApplicationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppIntegrationsClientTypes.ApplicationConfig()
+        value.contactHandling = try reader["ContactHandling"].readIfPresent(with: AppIntegrationsClientTypes.ContactHandling.read(from:))
+        return value
+    }
+}
+
+extension AppIntegrationsClientTypes.ContactHandling {
+
+    static func write(value: AppIntegrationsClientTypes.ContactHandling?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Scope"].write(value.scope)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.ContactHandling {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppIntegrationsClientTypes.ContactHandling()
+        value.scope = try reader["Scope"].readIfPresent()
+        return value
+    }
+}
+
+extension AppIntegrationsClientTypes.IframeConfig {
+
+    static func write(value: AppIntegrationsClientTypes.IframeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Allow"].writeList(value.allow, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Sandbox"].writeList(value.sandbox, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppIntegrationsClientTypes.IframeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppIntegrationsClientTypes.IframeConfig()
+        value.allow = try reader["Allow"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sandbox = try reader["Sandbox"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension AppIntegrationsClientTypes.EventFilter {
 
     static func write(value: AppIntegrationsClientTypes.EventFilter?, to writer: SmithyJSON.Writer) throws {
@@ -2885,6 +3074,7 @@ extension AppIntegrationsClientTypes.ApplicationSummary {
         value.namespace = try reader["Namespace"].readIfPresent()
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.isService = try reader["IsService"].readIfPresent() ?? false
         return value
     }
 }

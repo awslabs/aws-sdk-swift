@@ -269,18 +269,18 @@ extension CodeartifactClientTypes {
         /// * Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
         public var namespace: Swift.String?
         /// The name of the associated package.
-        public var package: Swift.String?
+        public var `package`: Swift.String?
 
         public init(
             associationType: CodeartifactClientTypes.PackageGroupAssociationType? = nil,
             format: CodeartifactClientTypes.PackageFormat? = nil,
             namespace: Swift.String? = nil,
-            package: Swift.String? = nil
+            `package`: Swift.String? = nil
         ) {
             self.associationType = associationType
             self.format = format
             self.namespace = namespace
-            self.package = package
+            self.`package` = `package`
         }
     }
 }
@@ -290,7 +290,7 @@ extension CodeartifactClientTypes {
     public enum ResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case asset
         case domain
-        case package
+        case `package`
         case packageVersion
         case repository
         case sdkUnknown(Swift.String)
@@ -758,7 +758,7 @@ public struct CopyPackageVersionsInput: Swift.Sendable {
     public var namespace: Swift.String?
     /// The name of the package that contains the versions to be copied.
     /// This member is required.
-    public var package: Swift.String?
+    public var `package`: Swift.String?
     /// The name of the repository that contains the package versions to be copied.
     /// This member is required.
     public var sourceRepository: Swift.String?
@@ -775,7 +775,7 @@ public struct CopyPackageVersionsInput: Swift.Sendable {
         format: CodeartifactClientTypes.PackageFormat? = nil,
         includeFromUpstream: Swift.Bool? = nil,
         namespace: Swift.String? = nil,
-        package: Swift.String? = nil,
+        `package`: Swift.String? = nil,
         sourceRepository: Swift.String? = nil,
         versionRevisions: [Swift.String: Swift.String]? = nil,
         versions: [Swift.String]? = nil
@@ -787,7 +787,7 @@ public struct CopyPackageVersionsInput: Swift.Sendable {
         self.format = format
         self.includeFromUpstream = includeFromUpstream
         self.namespace = namespace
-        self.package = package
+        self.`package` = `package`
         self.sourceRepository = sourceRepository
         self.versionRevisions = versionRevisions
         self.versions = versions
@@ -1471,7 +1471,7 @@ public struct DeletePackageInput: Swift.Sendable {
     public var namespace: Swift.String?
     /// The name of the package to delete.
     /// This member is required.
-    public var package: Swift.String?
+    public var `package`: Swift.String?
     /// The name of the repository that contains the package to delete.
     /// This member is required.
     public var repository: Swift.String?
@@ -1481,14 +1481,14 @@ public struct DeletePackageInput: Swift.Sendable {
         domainOwner: Swift.String? = nil,
         format: CodeartifactClientTypes.PackageFormat? = nil,
         namespace: Swift.String? = nil,
-        package: Swift.String? = nil,
+        `package`: Swift.String? = nil,
         repository: Swift.String? = nil
     ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.format = format
         self.namespace = namespace
-        self.package = package
+        self.`package` = `package`
         self.repository = repository
     }
 }
@@ -1548,18 +1548,18 @@ extension CodeartifactClientTypes {
         /// A [PackageOriginConfiguration](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginConfiguration.html) object that contains a [PackageOriginRestrictions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html) object that contains information about the upstream and publish package origin restrictions.
         public var originConfiguration: CodeartifactClientTypes.PackageOriginConfiguration?
         /// The name of the package.
-        public var package: Swift.String?
+        public var `package`: Swift.String?
 
         public init(
             format: CodeartifactClientTypes.PackageFormat? = nil,
             namespace: Swift.String? = nil,
             originConfiguration: CodeartifactClientTypes.PackageOriginConfiguration? = nil,
-            package: Swift.String? = nil
+            `package`: Swift.String? = nil
         ) {
             self.format = format
             self.namespace = namespace
             self.originConfiguration = originConfiguration
-            self.package = package
+            self.`package` = `package`
         }
     }
 }
@@ -1639,7 +1639,7 @@ public struct DeletePackageVersionsInput: Swift.Sendable {
     public var namespace: Swift.String?
     /// The name of the package with the versions to delete.
     /// This member is required.
-    public var package: Swift.String?
+    public var `package`: Swift.String?
     /// The name of the repository that contains the package versions to delete.
     /// This member is required.
     public var repository: Swift.String?
@@ -1653,7 +1653,7 @@ public struct DeletePackageVersionsInput: Swift.Sendable {
         expectedStatus: CodeartifactClientTypes.PackageVersionStatus? = nil,
         format: CodeartifactClientTypes.PackageFormat? = nil,
         namespace: Swift.String? = nil,
-        package: Swift.String? = nil,
+        `package`: Swift.String? = nil,
         repository: Swift.String? = nil,
         versions: [Swift.String]? = nil
     ) {
@@ -1662,7 +1662,7 @@ public struct DeletePackageVersionsInput: Swift.Sendable {
         self.expectedStatus = expectedStatus
         self.format = format
         self.namespace = namespace
-        self.package = package
+        self.`package` = `package`
         self.repository = repository
         self.versions = versions
     }
@@ -1820,7 +1820,7 @@ public struct DescribePackageInput: Swift.Sendable {
     public var namespace: Swift.String?
     /// The name of the requested package.
     /// This member is required.
-    public var package: Swift.String?
+    public var `package`: Swift.String?
     /// The name of the repository that contains the requested package.
     /// This member is required.
     public var repository: Swift.String?
@@ -1830,14 +1830,14 @@ public struct DescribePackageInput: Swift.Sendable {
         domainOwner: Swift.String? = nil,
         format: CodeartifactClientTypes.PackageFormat? = nil,
         namespace: Swift.String? = nil,
-        package: Swift.String? = nil,
+        `package`: Swift.String? = nil,
         repository: Swift.String? = nil
     ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.format = format
         self.namespace = namespace
-        self.package = package
+        self.`package` = `package`
         self.repository = repository
     }
 }
@@ -1880,12 +1880,12 @@ extension CodeartifactClientTypes {
 public struct DescribePackageOutput: Swift.Sendable {
     /// A [PackageDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDescription.html) object that contains information about the requested package.
     /// This member is required.
-    public var package: CodeartifactClientTypes.PackageDescription?
+    public var `package`: CodeartifactClientTypes.PackageDescription?
 
     public init(
-        package: CodeartifactClientTypes.PackageDescription? = nil
+        `package`: CodeartifactClientTypes.PackageDescription? = nil
     ) {
-        self.package = package
+        self.`package` = `package`
     }
 }
 
@@ -1951,7 +1951,7 @@ public struct DescribePackageVersionInput: Swift.Sendable {
     public var namespace: Swift.String?
     /// The name of the requested package version.
     /// This member is required.
-    public var package: Swift.String?
+    public var `package`: Swift.String?
     /// A string that contains the package version (for example, 3.5.2).
     /// This member is required.
     public var packageVersion: Swift.String?
@@ -1964,7 +1964,7 @@ public struct DescribePackageVersionInput: Swift.Sendable {
         domainOwner: Swift.String? = nil,
         format: CodeartifactClientTypes.PackageFormat? = nil,
         namespace: Swift.String? = nil,
-        package: Swift.String? = nil,
+        `package`: Swift.String? = nil,
         packageVersion: Swift.String? = nil,
         repository: Swift.String? = nil
     ) {
@@ -1972,7 +1972,7 @@ public struct DescribePackageVersionInput: Swift.Sendable {
         self.domainOwner = domainOwner
         self.format = format
         self.namespace = namespace
-        self.package = package
+        self.`package` = `package`
         self.packageVersion = packageVersion
         self.repository = repository
     }
@@ -2251,7 +2251,7 @@ public struct DisposePackageVersionsInput: Swift.Sendable {
     public var namespace: Swift.String?
     /// The name of the package with the versions you want to dispose.
     /// This member is required.
-    public var package: Swift.String?
+    public var `package`: Swift.String?
     /// The name of the repository that contains the package versions you want to dispose.
     /// This member is required.
     public var repository: Swift.String?
@@ -2267,7 +2267,7 @@ public struct DisposePackageVersionsInput: Swift.Sendable {
         expectedStatus: CodeartifactClientTypes.PackageVersionStatus? = nil,
         format: CodeartifactClientTypes.PackageFormat? = nil,
         namespace: Swift.String? = nil,
-        package: Swift.String? = nil,
+        `package`: Swift.String? = nil,
         repository: Swift.String? = nil,
         versionRevisions: [Swift.String: Swift.String]? = nil,
         versions: [Swift.String]? = nil
@@ -2277,7 +2277,7 @@ public struct DisposePackageVersionsInput: Swift.Sendable {
         self.expectedStatus = expectedStatus
         self.format = format
         self.namespace = namespace
-        self.package = package
+        self.`package` = `package`
         self.repository = repository
         self.versionRevisions = versionRevisions
         self.versions = versions
@@ -2341,20 +2341,20 @@ public struct GetAssociatedPackageGroupInput: Swift.Sendable {
     public var namespace: Swift.String?
     /// The package from which to get the associated package group.
     /// This member is required.
-    public var package: Swift.String?
+    public var `package`: Swift.String?
 
     public init(
         domain: Swift.String? = nil,
         domainOwner: Swift.String? = nil,
         format: CodeartifactClientTypes.PackageFormat? = nil,
         namespace: Swift.String? = nil,
-        package: Swift.String? = nil
+        `package`: Swift.String? = nil
     ) {
         self.domain = domain
         self.domainOwner = domainOwner
         self.format = format
         self.namespace = namespace
-        self.package = package
+        self.`package` = `package`
     }
 }
 
@@ -2474,7 +2474,7 @@ public struct GetPackageVersionAssetInput: Swift.Sendable {
     public var namespace: Swift.String?
     /// The name of the package that contains the requested asset.
     /// This member is required.
-    public var package: Swift.String?
+    public var `package`: Swift.String?
     /// A string that contains the package version (for example, 3.5.2).
     /// This member is required.
     public var packageVersion: Swift.String?
@@ -2490,7 +2490,7 @@ public struct GetPackageVersionAssetInput: Swift.Sendable {
         domainOwner: Swift.String? = nil,
         format: CodeartifactClientTypes.PackageFormat? = nil,
         namespace: Swift.String? = nil,
-        package: Swift.String? = nil,
+        `package`: Swift.String? = nil,
         packageVersion: Swift.String? = nil,
         packageVersionRevision: Swift.String? = nil,
         repository: Swift.String? = nil
@@ -2500,7 +2500,7 @@ public struct GetPackageVersionAssetInput: Swift.Sendable {
         self.domainOwner = domainOwner
         self.format = format
         self.namespace = namespace
-        self.package = package
+        self.`package` = `package`
         self.packageVersion = packageVersion
         self.packageVersionRevision = packageVersionRevision
         self.repository = repository
@@ -2560,7 +2560,7 @@ public struct GetPackageVersionReadmeInput: Swift.Sendable {
     public var namespace: Swift.String?
     /// The name of the package version that contains the requested readme file.
     /// This member is required.
-    public var package: Swift.String?
+    public var `package`: Swift.String?
     /// A string that contains the package version (for example, 3.5.2).
     /// This member is required.
     public var packageVersion: Swift.String?
@@ -2573,7 +2573,7 @@ public struct GetPackageVersionReadmeInput: Swift.Sendable {
         domainOwner: Swift.String? = nil,
         format: CodeartifactClientTypes.PackageFormat? = nil,
         namespace: Swift.String? = nil,
-        package: Swift.String? = nil,
+        `package`: Swift.String? = nil,
         packageVersion: Swift.String? = nil,
         repository: Swift.String? = nil
     ) {
@@ -2581,7 +2581,7 @@ public struct GetPackageVersionReadmeInput: Swift.Sendable {
         self.domainOwner = domainOwner
         self.format = format
         self.namespace = namespace
-        self.package = package
+        self.`package` = `package`
         self.packageVersion = packageVersion
         self.repository = repository
     }
@@ -2601,7 +2601,7 @@ public struct GetPackageVersionReadmeOutput: Swift.Sendable {
     /// * Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The name of the package that contains the returned readme file.
-    public var package: Swift.String?
+    public var `package`: Swift.String?
     /// The text of the returned readme file.
     public var readme: Swift.String?
     /// The version of the package with the requested readme file.
@@ -2612,14 +2612,14 @@ public struct GetPackageVersionReadmeOutput: Swift.Sendable {
     public init(
         format: CodeartifactClientTypes.PackageFormat? = nil,
         namespace: Swift.String? = nil,
-        package: Swift.String? = nil,
+        `package`: Swift.String? = nil,
         readme: Swift.String? = nil,
         version: Swift.String? = nil,
         versionRevision: Swift.String? = nil
     ) {
         self.format = format
         self.namespace = namespace
-        self.package = package
+        self.`package` = `package`
         self.readme = readme
         self.version = version
         self.versionRevision = versionRevision
@@ -3086,7 +3086,7 @@ public struct ListPackageVersionAssetsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The name of the package that contains the requested package version assets.
     /// This member is required.
-    public var package: Swift.String?
+    public var `package`: Swift.String?
     /// A string that contains the package version (for example, 3.5.2).
     /// This member is required.
     public var packageVersion: Swift.String?
@@ -3101,7 +3101,7 @@ public struct ListPackageVersionAssetsInput: Swift.Sendable {
         maxResults: Swift.Int? = nil,
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil,
-        package: Swift.String? = nil,
+        `package`: Swift.String? = nil,
         packageVersion: Swift.String? = nil,
         repository: Swift.String? = nil
     ) {
@@ -3111,7 +3111,7 @@ public struct ListPackageVersionAssetsInput: Swift.Sendable {
         self.maxResults = maxResults
         self.namespace = namespace
         self.nextToken = nextToken
-        self.package = package
+        self.`package` = `package`
         self.packageVersion = packageVersion
         self.repository = repository
     }
@@ -3135,7 +3135,7 @@ public struct ListPackageVersionAssetsOutput: Swift.Sendable {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// The name of the package that contains the requested package version assets.
-    public var package: Swift.String?
+    public var `package`: Swift.String?
     /// The version of the package associated with the requested assets.
     public var version: Swift.String?
     /// The current revision associated with the package version.
@@ -3146,7 +3146,7 @@ public struct ListPackageVersionAssetsOutput: Swift.Sendable {
         format: CodeartifactClientTypes.PackageFormat? = nil,
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil,
-        package: Swift.String? = nil,
+        `package`: Swift.String? = nil,
         version: Swift.String? = nil,
         versionRevision: Swift.String? = nil
     ) {
@@ -3154,7 +3154,7 @@ public struct ListPackageVersionAssetsOutput: Swift.Sendable {
         self.format = format
         self.namespace = namespace
         self.nextToken = nextToken
-        self.package = package
+        self.`package` = `package`
         self.version = version
         self.versionRevision = versionRevision
     }
@@ -3186,7 +3186,7 @@ public struct ListPackageVersionDependenciesInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The name of the package versions' package.
     /// This member is required.
-    public var package: Swift.String?
+    public var `package`: Swift.String?
     /// A string that contains the package version (for example, 3.5.2).
     /// This member is required.
     public var packageVersion: Swift.String?
@@ -3200,7 +3200,7 @@ public struct ListPackageVersionDependenciesInput: Swift.Sendable {
         format: CodeartifactClientTypes.PackageFormat? = nil,
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil,
-        package: Swift.String? = nil,
+        `package`: Swift.String? = nil,
         packageVersion: Swift.String? = nil,
         repository: Swift.String? = nil
     ) {
@@ -3209,7 +3209,7 @@ public struct ListPackageVersionDependenciesInput: Swift.Sendable {
         self.format = format
         self.namespace = namespace
         self.nextToken = nextToken
-        self.package = package
+        self.`package` = `package`
         self.packageVersion = packageVersion
         self.repository = repository
     }
@@ -3240,19 +3240,19 @@ extension CodeartifactClientTypes {
         /// * Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
         public var namespace: Swift.String?
         /// The name of the package that this package depends on.
-        public var package: Swift.String?
+        public var `package`: Swift.String?
         /// The required version, or version range, of the package that this package depends on. The version format is specific to the package type. For example, the following are possible valid required versions: 1.2.3, ^2.3.4, or 4.x.
         public var versionRequirement: Swift.String?
 
         public init(
             dependencyType: Swift.String? = nil,
             namespace: Swift.String? = nil,
-            package: Swift.String? = nil,
+            `package`: Swift.String? = nil,
             versionRequirement: Swift.String? = nil
         ) {
             self.dependencyType = dependencyType
             self.namespace = namespace
-            self.package = package
+            self.`package` = `package`
             self.versionRequirement = versionRequirement
         }
     }
@@ -3279,7 +3279,7 @@ public struct ListPackageVersionDependenciesOutput: Swift.Sendable {
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The name of the package that contains the returned package versions dependencies.
-    public var package: Swift.String?
+    public var `package`: Swift.String?
     /// The version of the package that is specified in the request.
     public var version: Swift.String?
     /// The current revision associated with the package version.
@@ -3290,7 +3290,7 @@ public struct ListPackageVersionDependenciesOutput: Swift.Sendable {
         format: CodeartifactClientTypes.PackageFormat? = nil,
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil,
-        package: Swift.String? = nil,
+        `package`: Swift.String? = nil,
         version: Swift.String? = nil,
         versionRevision: Swift.String? = nil
     ) {
@@ -3298,7 +3298,7 @@ public struct ListPackageVersionDependenciesOutput: Swift.Sendable {
         self.format = format
         self.namespace = namespace
         self.nextToken = nextToken
-        self.package = package
+        self.`package` = `package`
         self.version = version
         self.versionRevision = versionRevision
     }
@@ -3366,7 +3366,7 @@ public struct ListPackageVersionsInput: Swift.Sendable {
     public var originType: CodeartifactClientTypes.PackageVersionOriginType?
     /// The name of the package for which you want to request package versions.
     /// This member is required.
-    public var package: Swift.String?
+    public var `package`: Swift.String?
     /// The name of the repository that contains the requested package versions.
     /// This member is required.
     public var repository: Swift.String?
@@ -3383,7 +3383,7 @@ public struct ListPackageVersionsInput: Swift.Sendable {
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         originType: CodeartifactClientTypes.PackageVersionOriginType? = nil,
-        package: Swift.String? = nil,
+        `package`: Swift.String? = nil,
         repository: Swift.String? = nil,
         sortBy: CodeartifactClientTypes.PackageVersionSortType? = nil,
         status: CodeartifactClientTypes.PackageVersionStatus? = nil
@@ -3395,7 +3395,7 @@ public struct ListPackageVersionsInput: Swift.Sendable {
         self.namespace = namespace
         self.nextToken = nextToken
         self.originType = originType
-        self.package = package
+        self.`package` = `package`
         self.repository = repository
         self.sortBy = sortBy
         self.status = status
@@ -3453,7 +3453,7 @@ public struct ListPackageVersionsOutput: Swift.Sendable {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// The name of the package.
-    public var package: Swift.String?
+    public var `package`: Swift.String?
     /// The returned list of [PackageVersionSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionSummary.html) objects.
     public var versions: [CodeartifactClientTypes.PackageVersionSummary]?
 
@@ -3462,14 +3462,14 @@ public struct ListPackageVersionsOutput: Swift.Sendable {
         format: CodeartifactClientTypes.PackageFormat? = nil,
         namespace: Swift.String? = nil,
         nextToken: Swift.String? = nil,
-        package: Swift.String? = nil,
+        `package`: Swift.String? = nil,
         versions: [CodeartifactClientTypes.PackageVersionSummary]? = nil
     ) {
         self.defaultDisplayVersion = defaultDisplayVersion
         self.format = format
         self.namespace = namespace
         self.nextToken = nextToken
-        self.package = package
+        self.`package` = `package`
         self.versions = versions
     }
 }
@@ -3683,7 +3683,7 @@ public struct PublishPackageVersionInput: Swift.Sendable {
     public var namespace: Swift.String?
     /// The name of the package version to publish.
     /// This member is required.
-    public var package: Swift.String?
+    public var `package`: Swift.String?
     /// The package version to publish (for example, 3.5.2).
     /// This member is required.
     public var packageVersion: Swift.String?
@@ -3701,7 +3701,7 @@ public struct PublishPackageVersionInput: Swift.Sendable {
         domainOwner: Swift.String? = nil,
         format: CodeartifactClientTypes.PackageFormat? = nil,
         namespace: Swift.String? = nil,
-        package: Swift.String? = nil,
+        `package`: Swift.String? = nil,
         packageVersion: Swift.String? = nil,
         repository: Swift.String? = nil,
         unfinished: Swift.Bool? = nil
@@ -3713,7 +3713,7 @@ public struct PublishPackageVersionInput: Swift.Sendable {
         self.domainOwner = domainOwner
         self.format = format
         self.namespace = namespace
-        self.package = package
+        self.`package` = `package`
         self.packageVersion = packageVersion
         self.repository = repository
         self.unfinished = unfinished
@@ -3728,7 +3728,7 @@ public struct PublishPackageVersionOutput: Swift.Sendable {
     /// The namespace of the package version.
     public var namespace: Swift.String?
     /// The name of the package.
-    public var package: Swift.String?
+    public var `package`: Swift.String?
     /// A string that contains the status of the package version. For more information, see [Package version status](https://docs.aws.amazon.com/codeartifact/latest/ug/packages-overview.html#package-version-status.html#package-version-status) in the CodeArtifact User Guide.
     public var status: CodeartifactClientTypes.PackageVersionStatus?
     /// The version of the package.
@@ -3740,7 +3740,7 @@ public struct PublishPackageVersionOutput: Swift.Sendable {
         asset: CodeartifactClientTypes.AssetSummary? = nil,
         format: CodeartifactClientTypes.PackageFormat? = nil,
         namespace: Swift.String? = nil,
-        package: Swift.String? = nil,
+        `package`: Swift.String? = nil,
         status: CodeartifactClientTypes.PackageVersionStatus? = nil,
         version: Swift.String? = nil,
         versionRevision: Swift.String? = nil
@@ -3748,7 +3748,7 @@ public struct PublishPackageVersionOutput: Swift.Sendable {
         self.asset = asset
         self.format = format
         self.namespace = namespace
-        self.package = package
+        self.`package` = `package`
         self.status = status
         self.version = version
         self.versionRevision = versionRevision
@@ -3812,7 +3812,7 @@ public struct PutPackageOriginConfigurationInput: Swift.Sendable {
     public var namespace: Swift.String?
     /// The name of the package to be updated.
     /// This member is required.
-    public var package: Swift.String?
+    public var `package`: Swift.String?
     /// The name of the repository that contains the package.
     /// This member is required.
     public var repository: Swift.String?
@@ -3825,7 +3825,7 @@ public struct PutPackageOriginConfigurationInput: Swift.Sendable {
         domainOwner: Swift.String? = nil,
         format: CodeartifactClientTypes.PackageFormat? = nil,
         namespace: Swift.String? = nil,
-        package: Swift.String? = nil,
+        `package`: Swift.String? = nil,
         repository: Swift.String? = nil,
         restrictions: CodeartifactClientTypes.PackageOriginRestrictions? = nil
     ) {
@@ -3833,7 +3833,7 @@ public struct PutPackageOriginConfigurationInput: Swift.Sendable {
         self.domainOwner = domainOwner
         self.format = format
         self.namespace = namespace
-        self.package = package
+        self.`package` = `package`
         self.repository = repository
         self.restrictions = restrictions
     }
@@ -4094,7 +4094,7 @@ public struct UpdatePackageVersionsStatusInput: Swift.Sendable {
     public var namespace: Swift.String?
     /// The name of the package with the version statuses to update.
     /// This member is required.
-    public var package: Swift.String?
+    public var `package`: Swift.String?
     /// The repository that contains the package versions with the status you want to update.
     /// This member is required.
     public var repository: Swift.String?
@@ -4113,7 +4113,7 @@ public struct UpdatePackageVersionsStatusInput: Swift.Sendable {
         expectedStatus: CodeartifactClientTypes.PackageVersionStatus? = nil,
         format: CodeartifactClientTypes.PackageFormat? = nil,
         namespace: Swift.String? = nil,
-        package: Swift.String? = nil,
+        `package`: Swift.String? = nil,
         repository: Swift.String? = nil,
         targetStatus: CodeartifactClientTypes.PackageVersionStatus? = nil,
         versionRevisions: [Swift.String: Swift.String]? = nil,
@@ -4124,7 +4124,7 @@ public struct UpdatePackageVersionsStatusInput: Swift.Sendable {
         self.expectedStatus = expectedStatus
         self.format = format
         self.namespace = namespace
-        self.package = package
+        self.`package` = `package`
         self.repository = repository
         self.targetStatus = targetStatus
         self.versionRevisions = versionRevisions
@@ -4247,11 +4247,11 @@ extension CopyPackageVersionsInput {
         }
         let destinationRepositoryQueryItem = Smithy.URIQueryItem(name: "destination-repository".urlPercentEncoding(), value: Swift.String(destinationRepository).urlPercentEncoding())
         items.append(destinationRepositoryQueryItem)
-        guard let package = value.package else {
-            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+        guard let `package` = value.`package` else {
+            let message = "Creating a URL Query Item failed. `package` is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(`package`).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
@@ -4419,11 +4419,11 @@ extension DeletePackageInput {
 
     static func queryItemProvider(_ value: DeletePackageInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        guard let package = value.package else {
-            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+        guard let `package` = value.`package` else {
+            let message = "Creating a URL Query Item failed. `package` is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(`package`).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
@@ -4497,11 +4497,11 @@ extension DeletePackageVersionsInput {
 
     static func queryItemProvider(_ value: DeletePackageVersionsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        guard let package = value.package else {
-            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+        guard let `package` = value.`package` else {
+            let message = "Creating a URL Query Item failed. `package` is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(`package`).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
@@ -4635,11 +4635,11 @@ extension DescribePackageInput {
 
     static func queryItemProvider(_ value: DescribePackageInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        guard let package = value.package else {
-            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+        guard let `package` = value.`package` else {
+            let message = "Creating a URL Query Item failed. `package` is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(`package`).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
@@ -4713,11 +4713,11 @@ extension DescribePackageVersionInput {
 
     static func queryItemProvider(_ value: DescribePackageVersionInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        guard let package = value.package else {
-            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+        guard let `package` = value.`package` else {
+            let message = "Creating a URL Query Item failed. `package` is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(`package`).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
@@ -4834,11 +4834,11 @@ extension DisposePackageVersionsInput {
 
     static func queryItemProvider(_ value: DisposePackageVersionsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        guard let package = value.package else {
-            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+        guard let `package` = value.`package` else {
+            let message = "Creating a URL Query Item failed. `package` is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(`package`).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
@@ -4881,11 +4881,11 @@ extension GetAssociatedPackageGroupInput {
 
     static func queryItemProvider(_ value: GetAssociatedPackageGroupInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        guard let package = value.package else {
-            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+        guard let `package` = value.`package` else {
+            let message = "Creating a URL Query Item failed. `package` is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(`package`).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
@@ -4976,11 +4976,11 @@ extension GetPackageVersionAssetInput {
 
     static func queryItemProvider(_ value: GetPackageVersionAssetInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        guard let package = value.package else {
-            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+        guard let `package` = value.`package` else {
+            let message = "Creating a URL Query Item failed. `package` is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(`package`).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
@@ -5039,11 +5039,11 @@ extension GetPackageVersionReadmeInput {
 
     static func queryItemProvider(_ value: GetPackageVersionReadmeInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        guard let package = value.package else {
-            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+        guard let `package` = value.`package` else {
+            let message = "Creating a URL Query Item failed. `package` is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(`package`).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
@@ -5355,11 +5355,11 @@ extension ListPackageVersionAssetsInput {
 
     static func queryItemProvider(_ value: ListPackageVersionAssetsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        guard let package = value.package else {
-            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+        guard let `package` = value.`package` else {
+            let message = "Creating a URL Query Item failed. `package` is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(`package`).urlPercentEncoding())
         items.append(packageQueryItem)
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
@@ -5416,11 +5416,11 @@ extension ListPackageVersionDependenciesInput {
 
     static func queryItemProvider(_ value: ListPackageVersionDependenciesInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        guard let package = value.package else {
-            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+        guard let `package` = value.`package` else {
+            let message = "Creating a URL Query Item failed. `package` is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(`package`).urlPercentEncoding())
         items.append(packageQueryItem)
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -5477,11 +5477,11 @@ extension ListPackageVersionsInput {
             let originTypeQueryItem = Smithy.URIQueryItem(name: "originType".urlPercentEncoding(), value: Swift.String(originType.rawValue).urlPercentEncoding())
             items.append(originTypeQueryItem)
         }
-        guard let package = value.package else {
-            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+        guard let `package` = value.`package` else {
+            let message = "Creating a URL Query Item failed. `package` is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(`package`).urlPercentEncoding())
         items.append(packageQueryItem)
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
@@ -5679,11 +5679,11 @@ extension PublishPackageVersionInput {
 
     static func queryItemProvider(_ value: PublishPackageVersionInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        guard let package = value.package else {
-            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+        guard let `package` = value.`package` else {
+            let message = "Creating a URL Query Item failed. `package` is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(`package`).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
@@ -5749,11 +5749,11 @@ extension PutPackageOriginConfigurationInput {
 
     static func queryItemProvider(_ value: PutPackageOriginConfigurationInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        guard let package = value.package else {
-            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+        guard let `package` = value.`package` else {
+            let message = "Creating a URL Query Item failed. `package` is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(`package`).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
@@ -5925,11 +5925,11 @@ extension UpdatePackageVersionsStatusInput {
 
     static func queryItemProvider(_ value: UpdatePackageVersionsStatusInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
-        guard let package = value.package else {
-            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+        guard let `package` = value.`package` else {
+            let message = "Creating a URL Query Item failed. `package` is required and must not be nil."
             throw Smithy.ClientError.unknownError(message)
         }
-        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        let packageQueryItem = Smithy.URIQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(`package`).urlPercentEncoding())
         items.append(packageQueryItem)
         guard let domain = value.domain else {
             let message = "Creating a URL Query Item failed. domain is required and must not be nil."
@@ -6318,7 +6318,7 @@ extension DescribePackageOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribePackageOutput()
-        value.package = try reader["package"].readIfPresent(with: CodeartifactClientTypes.PackageDescription.read(from:))
+        value.`package` = try reader["package"].readIfPresent(with: CodeartifactClientTypes.PackageDescription.read(from:))
         return value
     }
 }
@@ -6456,7 +6456,7 @@ extension GetPackageVersionReadmeOutput {
         var value = GetPackageVersionReadmeOutput()
         value.format = try reader["format"].readIfPresent()
         value.namespace = try reader["namespace"].readIfPresent()
-        value.package = try reader["package"].readIfPresent()
+        value.`package` = try reader["package"].readIfPresent()
         value.readme = try reader["readme"].readIfPresent()
         value.version = try reader["version"].readIfPresent()
         value.versionRevision = try reader["versionRevision"].readIfPresent()
@@ -6564,7 +6564,7 @@ extension ListPackageVersionAssetsOutput {
         value.format = try reader["format"].readIfPresent()
         value.namespace = try reader["namespace"].readIfPresent()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.package = try reader["package"].readIfPresent()
+        value.`package` = try reader["package"].readIfPresent()
         value.version = try reader["version"].readIfPresent()
         value.versionRevision = try reader["versionRevision"].readIfPresent()
         return value
@@ -6582,7 +6582,7 @@ extension ListPackageVersionDependenciesOutput {
         value.format = try reader["format"].readIfPresent()
         value.namespace = try reader["namespace"].readIfPresent()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.package = try reader["package"].readIfPresent()
+        value.`package` = try reader["package"].readIfPresent()
         value.version = try reader["version"].readIfPresent()
         value.versionRevision = try reader["versionRevision"].readIfPresent()
         return value
@@ -6600,7 +6600,7 @@ extension ListPackageVersionsOutput {
         value.format = try reader["format"].readIfPresent()
         value.namespace = try reader["namespace"].readIfPresent()
         value.nextToken = try reader["nextToken"].readIfPresent()
-        value.package = try reader["package"].readIfPresent()
+        value.`package` = try reader["package"].readIfPresent()
         value.versions = try reader["versions"].readListIfPresent(memberReadingClosure: CodeartifactClientTypes.PackageVersionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -6667,7 +6667,7 @@ extension PublishPackageVersionOutput {
         value.asset = try reader["asset"].readIfPresent(with: CodeartifactClientTypes.AssetSummary.read(from:))
         value.format = try reader["format"].readIfPresent()
         value.namespace = try reader["namespace"].readIfPresent()
-        value.package = try reader["package"].readIfPresent()
+        value.`package` = try reader["package"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.version = try reader["version"].readIfPresent()
         value.versionRevision = try reader["versionRevision"].readIfPresent()
@@ -7667,65 +7667,6 @@ enum UpdateRepositoryOutputError {
     }
 }
 
-extension InternalServerException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
-        let reader = baseError.errorBodyReader
-        var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent()
-        value.properties.resourceType = try reader["resourceType"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.reason = try reader["reason"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        let httpResponse = baseError.httpResponse
-        var value = ThrottlingException()
-        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
-            value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
-        }
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
@@ -7754,6 +7695,34 @@ extension ConflictException {
     }
 }
 
+extension InternalServerException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent()
+        value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ServiceQuotaExceededException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
@@ -7762,6 +7731,37 @@ extension ServiceQuotaExceededException {
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["resourceId"].readIfPresent()
         value.properties.resourceType = try reader["resourceType"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
+        var value = ThrottlingException()
+        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
+            value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
+        }
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -7920,7 +7920,7 @@ extension CodeartifactClientTypes.PackageSummary {
         var value = CodeartifactClientTypes.PackageSummary()
         value.format = try reader["format"].readIfPresent()
         value.namespace = try reader["namespace"].readIfPresent()
-        value.package = try reader["package"].readIfPresent()
+        value.`package` = try reader["package"].readIfPresent()
         value.originConfiguration = try reader["originConfiguration"].readIfPresent(with: CodeartifactClientTypes.PackageOriginConfiguration.read(from:))
         return value
     }
@@ -8028,7 +8028,7 @@ extension CodeartifactClientTypes.AssociatedPackage {
         var value = CodeartifactClientTypes.AssociatedPackage()
         value.format = try reader["format"].readIfPresent()
         value.namespace = try reader["namespace"].readIfPresent()
-        value.package = try reader["package"].readIfPresent()
+        value.`package` = try reader["package"].readIfPresent()
         value.associationType = try reader["associationType"].readIfPresent()
         return value
     }
@@ -8085,7 +8085,7 @@ extension CodeartifactClientTypes.PackageDependency {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CodeartifactClientTypes.PackageDependency()
         value.namespace = try reader["namespace"].readIfPresent()
-        value.package = try reader["package"].readIfPresent()
+        value.`package` = try reader["package"].readIfPresent()
         value.dependencyType = try reader["dependencyType"].readIfPresent()
         value.versionRequirement = try reader["versionRequirement"].readIfPresent()
         return value

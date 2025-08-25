@@ -372,6 +372,8 @@ public struct CreatePipelineInput: Swift.Sendable {
     /// The name of the OpenSearch Ingestion pipeline to create. Pipeline names are unique across the pipelines owned by an account within an Amazon Web Services Region.
     /// This member is required.
     public var pipelineName: Swift.String?
+    /// The Amazon Resource Name (ARN) of an IAM role that provides the required permissions for a pipeline to read from the source and write to the sink. For more information, see [Setting up roles and users in Amazon OpenSearch Ingestion](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline-security-overview.html).
+    public var pipelineRoleArn: Swift.String?
     /// List of tags to add to the pipeline upon creation.
     public var tags: [OSISClientTypes.Tag]?
     /// Container for the values required to configure VPC access for the pipeline. If you don't specify these values, OpenSearch Ingestion creates the pipeline with a public endpoint.
@@ -385,6 +387,7 @@ public struct CreatePipelineInput: Swift.Sendable {
         minUnits: Swift.Int? = nil,
         pipelineConfigurationBody: Swift.String? = nil,
         pipelineName: Swift.String? = nil,
+        pipelineRoleArn: Swift.String? = nil,
         tags: [OSISClientTypes.Tag]? = nil,
         vpcOptions: OSISClientTypes.VpcOptions? = nil
     ) {
@@ -395,6 +398,7 @@ public struct CreatePipelineInput: Swift.Sendable {
         self.minUnits = minUnits
         self.pipelineConfigurationBody = pipelineConfigurationBody
         self.pipelineName = pipelineName
+        self.pipelineRoleArn = pipelineRoleArn
         self.tags = tags
         self.vpcOptions = vpcOptions
     }
@@ -583,6 +587,8 @@ extension OSISClientTypes {
         public var pipelineConfigurationBody: Swift.String?
         /// The name of the pipeline.
         public var pipelineName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IAM role that provides the required permissions for a pipeline to read from the source and write to the sink.
+        public var pipelineRoleArn: Swift.String?
         /// A list of VPC endpoints that OpenSearch Ingestion has created to other Amazon Web Services services.
         public var serviceVpcEndpoints: [OSISClientTypes.ServiceVpcEndpoint]?
         /// The current status of the pipeline.
@@ -609,6 +615,7 @@ extension OSISClientTypes {
             pipelineArn: Swift.String? = nil,
             pipelineConfigurationBody: Swift.String? = nil,
             pipelineName: Swift.String? = nil,
+            pipelineRoleArn: Swift.String? = nil,
             serviceVpcEndpoints: [OSISClientTypes.ServiceVpcEndpoint]? = nil,
             status: OSISClientTypes.PipelineStatus? = nil,
             statusReason: OSISClientTypes.PipelineStatusReason? = nil,
@@ -628,6 +635,7 @@ extension OSISClientTypes {
             self.pipelineArn = pipelineArn
             self.pipelineConfigurationBody = pipelineConfigurationBody
             self.pipelineName = pipelineName
+            self.pipelineRoleArn = pipelineRoleArn
             self.serviceVpcEndpoints = serviceVpcEndpoints
             self.status = status
             self.statusReason = statusReason
@@ -1205,6 +1213,8 @@ public struct UpdatePipelineInput: Swift.Sendable {
     /// The name of the pipeline to update.
     /// This member is required.
     public var pipelineName: Swift.String?
+    /// The Amazon Resource Name (ARN) of an IAM role that provides the required permissions for a pipeline to read from the source and write to the sink. For more information, see [Setting up roles and users in Amazon OpenSearch Ingestion](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/pipeline-security-overview.html).
+    public var pipelineRoleArn: Swift.String?
 
     public init(
         bufferOptions: OSISClientTypes.BufferOptions? = nil,
@@ -1213,7 +1223,8 @@ public struct UpdatePipelineInput: Swift.Sendable {
         maxUnits: Swift.Int? = nil,
         minUnits: Swift.Int? = nil,
         pipelineConfigurationBody: Swift.String? = nil,
-        pipelineName: Swift.String? = nil
+        pipelineName: Swift.String? = nil,
+        pipelineRoleArn: Swift.String? = nil
     ) {
         self.bufferOptions = bufferOptions
         self.encryptionAtRestOptions = encryptionAtRestOptions
@@ -1222,6 +1233,7 @@ public struct UpdatePipelineInput: Swift.Sendable {
         self.minUnits = minUnits
         self.pipelineConfigurationBody = pipelineConfigurationBody
         self.pipelineName = pipelineName
+        self.pipelineRoleArn = pipelineRoleArn
     }
 }
 
@@ -1478,6 +1490,7 @@ extension CreatePipelineInput {
         try writer["MinUnits"].write(value.minUnits)
         try writer["PipelineConfigurationBody"].write(value.pipelineConfigurationBody)
         try writer["PipelineName"].write(value.pipelineName)
+        try writer["PipelineRoleArn"].write(value.pipelineRoleArn)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: OSISClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VpcOptions"].write(value.vpcOptions, with: OSISClientTypes.VpcOptions.write(value:to:))
     }
@@ -1509,6 +1522,7 @@ extension UpdatePipelineInput {
         try writer["MaxUnits"].write(value.maxUnits)
         try writer["MinUnits"].write(value.minUnits)
         try writer["PipelineConfigurationBody"].write(value.pipelineConfigurationBody)
+        try writer["PipelineRoleArn"].write(value.pipelineRoleArn)
     }
 }
 
@@ -1934,6 +1948,19 @@ enum ValidatePipelineOutputError {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension DisabledOperationException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> DisabledOperationException {
@@ -1960,45 +1987,6 @@ extension InternalException {
     }
 }
 
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension AccessDeniedException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
-        let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension LimitExceededException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
@@ -2017,6 +2005,32 @@ extension ResourceAlreadyExistsException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceAlreadyExistsException {
         let reader = baseError.errorBodyReader
         var value = ResourceAlreadyExistsException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2074,6 +2088,7 @@ extension OSISClientTypes.Pipeline {
         value.serviceVpcEndpoints = try reader["ServiceVpcEndpoints"].readListIfPresent(memberReadingClosure: OSISClientTypes.ServiceVpcEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.destinations = try reader["Destinations"].readListIfPresent(memberReadingClosure: OSISClientTypes.PipelineDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: OSISClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.pipelineRoleArn = try reader["PipelineRoleArn"].readIfPresent()
         return value
     }
 }

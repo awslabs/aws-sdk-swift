@@ -725,10 +725,10 @@ public struct TooManyDistributionCNAMEs: ClientRuntime.ModeledError, AWSClientRu
 }
 
 public struct AssociateAliasInput: Swift.Sendable {
-    /// The alias (also known as a CNAME) to add to the target distribution.
+    /// The alias (also known as a CNAME) to add to the target standard distribution.
     /// This member is required.
     public var alias: Swift.String?
-    /// The ID of the distribution that you're associating the alias with.
+    /// The ID of the standard distribution that you're associating the alias with.
     /// This member is required.
     public var targetDistributionId: Swift.String?
 
@@ -1027,7 +1027,7 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
-    /// This field is deprecated. We recommend that you use a cache policy or an origin request policy instead of this field. If you want to include values in the cache key, use a cache policy. For more information, see [Creating cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-key-create-cache-policy) in the Amazon CloudFront Developer Guide. If you want to send values to the origin but not include them in the cache key, use an origin request policy. For more information, see [Creating origin request policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-origin-requests.html#origin-request-create-origin-request-policy) in the Amazon CloudFront Developer Guide. A complex type that specifies how CloudFront handles query strings, cookies, and HTTP headers.
+    /// This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. This field is deprecated. We recommend that you use a cache policy or an origin request policy instead of this field. If you want to include values in the cache key, use a cache policy. For more information, see [Creating cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-key-create-cache-policy) in the Amazon CloudFront Developer Guide. If you want to send values to the origin but not include them in the cache key, use an origin request policy. For more information, see [Creating origin request policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-origin-requests.html#origin-request-create-origin-request-policy) in the Amazon CloudFront Developer Guide. A complex type that specifies how CloudFront handles query strings, cookies, and HTTP headers.
     public struct ForwardedValues: Swift.Sendable, Swift.Equatable {
         /// This field is deprecated. We recommend that you use a cache policy or an origin request policy instead of this field. If you want to include cookies in the cache key, use a cache policy. For more information, see [Creating cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-key-create-cache-policy) in the Amazon CloudFront Developer Guide. If you want to send cookies to the origin but not include them in the cache key, use an origin request policy. For more information, see [Creating origin request policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-origin-requests.html#origin-request-create-origin-request-policy) in the Amazon CloudFront Developer Guide. A complex type that specifies whether you want CloudFront to forward cookies to the origin and, if so, which ones. For more information about forwarding cookies to the origin, see [How CloudFront Forwards, Caches, and Logs Cookies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Cookies.html) in the Amazon CloudFront Developer Guide.
         /// This member is required.
@@ -1283,7 +1283,7 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
-    /// A complex type that describes how CloudFront processes requests. You must create at least as many cache behaviors (including the default cache behavior) as you have origins if you want CloudFront to serve objects from all of the origins. Each cache behavior specifies the one origin from which you want CloudFront to get objects. If you have two origins and only the default cache behavior, the default cache behavior will cause CloudFront to get objects from one of the origins, but the other origin is never used. For the current quota (formerly known as limit) on the number of cache behaviors that you can add to a distribution, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) in the Amazon CloudFront Developer Guide. If you don't want to specify any cache behaviors, include only an empty CacheBehaviors element. Don't specify an empty individual CacheBehavior element, because this is invalid. For more information, see [CacheBehaviors](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CacheBehaviors.html). To delete all cache behaviors in an existing distribution, update the distribution configuration and include only an empty CacheBehaviors element. To add, change, or remove one or more cache behaviors, update the distribution configuration and specify all of the cache behaviors that you want to include in the updated distribution. For more information about cache behaviors, see [Cache Behavior Settings](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesCacheBehavior) in the Amazon CloudFront Developer Guide.
+    /// A complex type that describes how CloudFront processes requests. You must create at least as many cache behaviors (including the default cache behavior) as you have origins if you want CloudFront to serve objects from all of the origins. Each cache behavior specifies the one origin from which you want CloudFront to get objects. If you have two origins and only the default cache behavior, the default cache behavior will cause CloudFront to get objects from one of the origins, but the other origin is never used. For the current quota (formerly known as limit) on the number of cache behaviors that you can add to a distribution, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) in the Amazon CloudFront Developer Guide. If you don't want to specify any cache behaviors, include only an empty CacheBehaviors element. Don't specify an empty individual CacheBehavior element, because this is invalid. For more information, see [CacheBehaviors](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CacheBehaviors.html). To delete all cache behaviors in an existing distribution, update the distribution configuration and include only an empty CacheBehaviors element. To add, change, or remove one or more cache behaviors, update the distribution configuration and specify all of the cache behaviors that you want to include in the updated distribution. If your minimum TTL is greater than 0, CloudFront will cache content for at least the duration specified in the cache policy's minimum TTL, even if the Cache-Control: no-cache, no-store, or private directives are present in the origin headers. For more information about cache behaviors, see [Cache Behavior Settings](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesCacheBehavior) in the Amazon CloudFront Developer Guide.
     public struct CacheBehavior: Swift.Sendable, Swift.Equatable {
         /// A complex type that controls which HTTP methods CloudFront processes and forwards to your Amazon S3 bucket or your custom origin. There are three choices:
         ///
@@ -1300,7 +1300,7 @@ extension CloudFrontClientTypes {
         public var cachePolicyId: Swift.String?
         /// Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see [Serving Compressed Files](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/ServingCompressedFiles.html) in the Amazon CloudFront Developer Guide.
         public var compress: Swift.Bool?
-        /// This field is deprecated. We recommend that you use the DefaultTTL field in a cache policy instead of this field. For more information, see [Creating cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-key-create-cache-policy) or [Using the managed cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html) in the Amazon CloudFront Developer Guide. The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see [Managing How Long Content Stays in an Edge Cache (Expiration)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) in the Amazon CloudFront Developer Guide.
+        /// This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. This field is deprecated. We recommend that you use the DefaultTTL field in a cache policy instead of this field. For more information, see [Creating cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-key-create-cache-policy) or [Using the managed cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html) in the Amazon CloudFront Developer Guide. The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see [Managing How Long Content Stays in an Edge Cache (Expiration)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) in the Amazon CloudFront Developer Guide.
         @available(*, deprecated)
         public var defaultTTL: Swift.Int?
         /// The value of ID for the field-level encryption configuration that you want CloudFront to use for encrypting specific fields of data for this cache behavior.
@@ -1314,10 +1314,10 @@ extension CloudFrontClientTypes {
         public var grpcConfig: CloudFrontClientTypes.GrpcConfig?
         /// A complex type that contains zero or more Lambda@Edge function associations for a cache behavior.
         public var lambdaFunctionAssociations: CloudFrontClientTypes.LambdaFunctionAssociations?
-        /// This field is deprecated. We recommend that you use the MaxTTL field in a cache policy instead of this field. For more information, see [Creating cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-key-create-cache-policy) or [Using the managed cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html) in the Amazon CloudFront Developer Guide. The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see [Managing How Long Content Stays in an Edge Cache (Expiration)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) in the Amazon CloudFront Developer Guide.
+        /// This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. This field is deprecated. We recommend that you use the MaxTTL field in a cache policy instead of this field. For more information, see [Creating cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-key-create-cache-policy) or [Using the managed cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html) in the Amazon CloudFront Developer Guide. The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see [Managing How Long Content Stays in an Edge Cache (Expiration)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) in the Amazon CloudFront Developer Guide.
         @available(*, deprecated)
         public var maxTTL: Swift.Int?
-        /// This field is deprecated. We recommend that you use the MinTTL field in a cache policy instead of this field. For more information, see [Creating cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-key-create-cache-policy) or [Using the managed cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html) in the Amazon CloudFront Developer Guide. The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see [ Managing How Long Content Stays in an Edge Cache (Expiration)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) in the Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
+        /// This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. This field is deprecated. We recommend that you use the MinTTL field in a cache policy instead of this field. For more information, see [Creating cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-key-create-cache-policy) or [Using the managed cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html) in the Amazon CloudFront Developer Guide. The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see [ Managing How Long Content Stays in an Edge Cache (Expiration)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) in the Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
         @available(*, deprecated)
         public var minTTL: Swift.Int?
         /// The unique identifier of the origin request policy that is attached to this cache behavior. For more information, see [Creating origin request policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-origin-requests.html#origin-request-create-origin-request-policy) or [Using the managed origin request policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-origin-request-policies.html) in the Amazon CloudFront Developer Guide.
@@ -1329,14 +1329,14 @@ extension CloudFrontClientTypes {
         public var realtimeLogConfigArn: Swift.String?
         /// The identifier for a response headers policy.
         public var responseHeadersPolicyId: Swift.String?
-        /// Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern.
+        /// This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern.
         public var smoothStreaming: Swift.Bool?
         /// The value of ID for the origin that you want CloudFront to route requests to when they match this cache behavior.
         /// This member is required.
         public var targetOriginId: Swift.String?
         /// A list of key groups that CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted key groups, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see [Serving private content](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
         public var trustedKeyGroups: CloudFrontClientTypes.TrustedKeyGroups?
-        /// We recommend using TrustedKeyGroups instead of TrustedSigners. A list of Amazon Web Services account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in the trusted signer's Amazon Web Services account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see [Serving private content](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
+        /// We recommend using TrustedKeyGroups instead of TrustedSigners. This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. A list of Amazon Web Services account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in the trusted signer's Amazon Web Services account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see [Serving private content](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
         public var trustedSigners: CloudFrontClientTypes.TrustedSigners?
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:
         ///
@@ -1675,7 +1675,7 @@ extension CloudFrontClientTypes {
     ///
     /// * The values that CloudFront includes in the cache key. These values can include HTTP headers, cookies, and URL query strings. CloudFront uses the cache key to find an object in its cache that it can return to the viewer.
     ///
-    /// * The default, minimum, and maximum time to live (TTL) values that you want objects to stay in the CloudFront cache.
+    /// * The default, minimum, and maximum time to live (TTL) values that you want objects to stay in the CloudFront cache. If your minimum TTL is greater than 0, CloudFront will cache content for at least the duration specified in the cache policy's minimum TTL, even if the Cache-Control: no-cache, no-store, or private directives are present in the origin headers.
     ///
     ///
     /// The headers, cookies, and query strings that are included in the cache key are also included in requests that CloudFront sends to the origin. CloudFront sends a request when it can't find a valid object in its cache that matches the request's cache key. If you want to send values to the origin but not include them in the cache key, use OriginRequestPolicy.
@@ -3489,7 +3489,7 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
-    /// A complex type that describes the default cache behavior if you don't specify a CacheBehavior element or if request URLs don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior.
+    /// A complex type that describes the default cache behavior if you don't specify a CacheBehavior element or if request URLs don't match any of the values of PathPattern in CacheBehavior elements. You must create exactly one default cache behavior. If your minimum TTL is greater than 0, CloudFront will cache content for at least the duration specified in the cache policy's minimum TTL, even if the Cache-Control: no-cache, no-store, or private directives are present in the origin headers.
     public struct DefaultCacheBehavior: Swift.Sendable, Swift.Equatable {
         /// A complex type that controls which HTTP methods CloudFront processes and forwards to your Amazon S3 bucket or your custom origin. There are three choices:
         ///
@@ -3506,7 +3506,7 @@ extension CloudFrontClientTypes {
         public var cachePolicyId: Swift.String?
         /// Whether you want CloudFront to automatically compress certain files for this cache behavior. If so, specify true; if not, specify false. For more information, see [Serving Compressed Files](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/ServingCompressedFiles.html) in the Amazon CloudFront Developer Guide.
         public var compress: Swift.Bool?
-        /// This field is deprecated. We recommend that you use the DefaultTTL field in a cache policy instead of this field. For more information, see [Creating cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-key-create-cache-policy) or [Using the managed cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html) in the Amazon CloudFront Developer Guide. The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see [Managing How Long Content Stays in an Edge Cache (Expiration)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) in the Amazon CloudFront Developer Guide.
+        /// This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. This field is deprecated. We recommend that you use the DefaultTTL field in a cache policy instead of this field. For more information, see [Creating cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-key-create-cache-policy) or [Using the managed cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html) in the Amazon CloudFront Developer Guide. The default amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin does not add HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see [Managing How Long Content Stays in an Edge Cache (Expiration)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) in the Amazon CloudFront Developer Guide.
         @available(*, deprecated)
         public var defaultTTL: Swift.Int?
         /// The value of ID for the field-level encryption configuration that you want CloudFront to use for encrypting specific fields of data for the default cache behavior.
@@ -3520,10 +3520,10 @@ extension CloudFrontClientTypes {
         public var grpcConfig: CloudFrontClientTypes.GrpcConfig?
         /// A complex type that contains zero or more Lambda@Edge function associations for a cache behavior.
         public var lambdaFunctionAssociations: CloudFrontClientTypes.LambdaFunctionAssociations?
-        /// This field is deprecated. We recommend that you use the MaxTTL field in a cache policy instead of this field. For more information, see [Creating cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-key-create-cache-policy) or [Using the managed cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html) in the Amazon CloudFront Developer Guide. The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see [Managing How Long Content Stays in an Edge Cache (Expiration)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) in the Amazon CloudFront Developer Guide.
+        /// This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. This field is deprecated. We recommend that you use the MaxTTL field in a cache policy instead of this field. For more information, see [Creating cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-key-create-cache-policy) or [Using the managed cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html) in the Amazon CloudFront Developer Guide. The maximum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. The value that you specify applies only when your origin adds HTTP headers such as Cache-Control max-age, Cache-Control s-maxage, and Expires to objects. For more information, see [Managing How Long Content Stays in an Edge Cache (Expiration)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) in the Amazon CloudFront Developer Guide.
         @available(*, deprecated)
         public var maxTTL: Swift.Int?
-        /// This field is deprecated. We recommend that you use the MinTTL field in a cache policy instead of this field. For more information, see [Creating cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-key-create-cache-policy) or [Using the managed cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html) in the Amazon CloudFront Developer Guide. The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see [Managing How Long Content Stays in an Edge Cache (Expiration)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) in the Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
+        /// This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. This field is deprecated. We recommend that you use the MinTTL field in a cache policy instead of this field. For more information, see [Creating cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-key-create-cache-policy) or [Using the managed cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html) in the Amazon CloudFront Developer Guide. The minimum amount of time that you want objects to stay in CloudFront caches before CloudFront forwards another request to your origin to determine whether the object has been updated. For more information, see [Managing How Long Content Stays in an Edge Cache (Expiration)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) in the Amazon CloudFront Developer Guide. You must specify 0 for MinTTL if you configure CloudFront to forward all headers to your origin (under Headers, if you specify 1 for Quantity and * for Name).
         @available(*, deprecated)
         public var minTTL: Swift.Int?
         /// The unique identifier of the origin request policy that is attached to the default cache behavior. For more information, see [Creating origin request policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-origin-requests.html#origin-request-create-origin-request-policy) or [Using the managed origin request policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-origin-request-policies.html) in the Amazon CloudFront Developer Guide.
@@ -3532,14 +3532,14 @@ extension CloudFrontClientTypes {
         public var realtimeLogConfigArn: Swift.String?
         /// The identifier for a response headers policy.
         public var responseHeadersPolicyId: Swift.String?
-        /// Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern.
+        /// This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. Indicates whether you want to distribute media files in the Microsoft Smooth Streaming format using the origin that is associated with this cache behavior. If so, specify true; if not, specify false. If you specify true for SmoothStreaming, you can still distribute other content using this cache behavior if the content matches the value of PathPattern.
         public var smoothStreaming: Swift.Bool?
         /// The value of ID for the origin that you want CloudFront to route requests to when they use the default cache behavior.
         /// This member is required.
         public var targetOriginId: Swift.String?
         /// A list of key groups that CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted key groups, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see [Serving private content](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
         public var trustedKeyGroups: CloudFrontClientTypes.TrustedKeyGroups?
-        /// We recommend using TrustedKeyGroups instead of TrustedSigners. A list of Amazon Web Services account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in a trusted signer's Amazon Web Services account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see [Serving private content](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
+        /// We recommend using TrustedKeyGroups instead of TrustedSigners. This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. A list of Amazon Web Services account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in a trusted signer's Amazon Web Services account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see [Serving private content](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
         public var trustedSigners: CloudFrontClientTypes.TrustedSigners?
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:
         ///
@@ -3957,7 +3957,7 @@ extension CloudFrontClientTypes {
         /// The HTTPS port that CloudFront uses to connect to the origin. Specify the HTTPS port that the origin listens on.
         /// This member is required.
         public var httpsPort: Swift.Int?
-        /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don't specify otherwise) is 5 seconds. For more information, see [Keep-alive timeout (custom origins only)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginKeepaliveTimeout) in the Amazon CloudFront Developer Guide.
+        /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 5 seconds. For more information, see [Keep-alive timeout (custom origins only)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginKeepaliveTimeout) in the Amazon CloudFront Developer Guide.
         public var originKeepaliveTimeout: Swift.Int?
         /// Specifies the protocol (HTTP or HTTPS) that CloudFront uses to connect to the origin. Valid values are:
         ///
@@ -3968,9 +3968,9 @@ extension CloudFrontClientTypes {
         /// * https-only – CloudFront always uses HTTPS to connect to the origin.
         /// This member is required.
         public var originProtocolPolicy: CloudFrontClientTypes.OriginProtocolPolicy?
-        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see [Response timeout (custom origins only)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginResponseTimeout) in the Amazon CloudFront Developer Guide.
+        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see [Response timeout](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginResponseTimeout) in the Amazon CloudFront Developer Guide.
         public var originReadTimeout: Swift.Int?
-        /// Specifies the minimum SSL/TLS protocol that CloudFront uses when connecting to your origin over HTTPS. Valid values include SSLv3, TLSv1, TLSv1.1, and TLSv1.2. For more information, see [Minimum Origin SSL Protocol](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginSSLProtocols) in the Amazon CloudFront Developer Guide.
+        /// Specifies the minimum SSL/TLS protocol that CloudFront uses when connecting to your origin over HTTPS. Valid values include SSLv3, TLSv1, TLSv1.1, and TLSv1.2. For more information, see [Minimum Origin SSL Protocol](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginSSLProtocols) in the Amazon CloudFront Developer Guide.
         public var originSslProtocols: CloudFrontClientTypes.OriginSslProtocols?
 
         public init(
@@ -4018,11 +4018,15 @@ extension CloudFrontClientTypes {
         /// If you're using origin access control (OAC) instead of origin access identity, specify an empty OriginAccessIdentity element. For more information, see [Restricting access to an Amazon Web Services](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-origin.html) in the Amazon CloudFront Developer Guide. The CloudFront origin access identity to associate with the origin. Use an origin access identity to configure the origin so that viewers can only access objects in an Amazon S3 bucket through CloudFront. The format of the value is: origin-access-identity/cloudfront/ID-of-origin-access-identity The  ID-of-origin-access-identity  is the value that CloudFront returned in the ID element when you created the origin access identity. If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information about the origin access identity, see [Serving Private Content through CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
         /// This member is required.
         public var originAccessIdentity: Swift.String?
+        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see [Response timeout](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginResponseTimeout) in the Amazon CloudFront Developer Guide.
+        public var originReadTimeout: Swift.Int?
 
         public init(
-            originAccessIdentity: Swift.String? = ""
+            originAccessIdentity: Swift.String? = "",
+            originReadTimeout: Swift.Int? = nil
         ) {
             self.originAccessIdentity = originAccessIdentity
+            self.originReadTimeout = originReadTimeout
         }
     }
 }
@@ -4031,9 +4035,9 @@ extension CloudFrontClientTypes {
 
     /// An Amazon CloudFront VPC origin configuration.
     public struct VpcOriginConfig: Swift.Sendable, Swift.Equatable {
-        /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don't specify otherwise) is 5 seconds. For more information, see [Keep-alive timeout (custom origins only)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginKeepaliveTimeout) in the Amazon CloudFront Developer Guide.
+        /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 5 seconds. For more information, see [Keep-alive timeout (custom origins only)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginKeepaliveTimeout) in the Amazon CloudFront Developer Guide.
         public var originKeepaliveTimeout: Swift.Int?
-        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see [Response timeout (custom origins only)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginResponseTimeout) in the Amazon CloudFront Developer Guide.
+        /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see [Response timeout](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginResponseTimeout) in the Amazon CloudFront Developer Guide.
         public var originReadTimeout: Swift.Int?
         /// The VPC origin ID.
         /// This member is required.
@@ -4097,6 +4101,8 @@ extension CloudFrontClientTypes {
         public var originPath: Swift.String?
         /// CloudFront Origin Shield. Using Origin Shield can help reduce the load on your origin. For more information, see [Using Origin Shield](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/origin-shield.html) in the Amazon CloudFront Developer Guide.
         public var originShield: CloudFrontClientTypes.OriginShield?
+        /// The time (in seconds) that a request from CloudFront to the origin can stay open and wait for a response. If the complete response isn't received from the origin by this time, CloudFront ends the connection. The value for ResponseCompletionTimeout must be equal to or greater than the value for OriginReadTimeout. If you don't set a value for ResponseCompletionTimeout, CloudFront doesn't enforce a maximum value. For more information, see [Response completion timeout](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#response-completion-timeout) in the Amazon CloudFront Developer Guide.
+        public var responseCompletionTimeout: Swift.Int?
         /// Use this type to specify an origin that is an Amazon S3 bucket that is not configured with static website hosting. To specify any other type of origin, including an Amazon S3 bucket that is configured with static website hosting, use the CustomOriginConfig type instead.
         public var s3OriginConfig: CloudFrontClientTypes.S3OriginConfig?
         /// The VPC origin configuration.
@@ -4112,6 +4118,7 @@ extension CloudFrontClientTypes {
             originAccessControlId: Swift.String? = nil,
             originPath: Swift.String? = nil,
             originShield: CloudFrontClientTypes.OriginShield? = nil,
+            responseCompletionTimeout: Swift.Int? = nil,
             s3OriginConfig: CloudFrontClientTypes.S3OriginConfig? = nil,
             vpcOriginConfig: CloudFrontClientTypes.VpcOriginConfig? = nil
         ) {
@@ -4124,6 +4131,7 @@ extension CloudFrontClientTypes {
             self.originAccessControlId = originAccessControlId
             self.originPath = originPath
             self.originShield = originShield
+            self.responseCompletionTimeout = responseCompletionTimeout
             self.s3OriginConfig = s3OriginConfig
             self.vpcOriginConfig = vpcOriginConfig
         }
@@ -4289,6 +4297,11 @@ extension CloudFrontClientTypes {
     }
 }
 
+extension CloudFrontClientTypes.StringSchemaConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StringSchemaConfig(required: \(Swift.String(describing: `required`)), defaultValue: \(Swift.String(describing: defaultValue)), comment: \"CONTENT_REDACTED\")"}
+}
+
 extension CloudFrontClientTypes {
 
     /// An object that contains information about the parameter definition.
@@ -4327,7 +4340,7 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
-    /// The configuration for a distribution tenant.
+    /// This field only supports multi-tenant distributions. You can't specify this field for standard distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. The configuration for a distribution tenant.
     public struct TenantConfig: Swift.Sendable {
         /// The parameters that you specify for a distribution tenant.
         public var parameterDefinitions: [CloudFrontClientTypes.ParameterDefinition]?
@@ -4350,6 +4363,7 @@ extension CloudFrontClientTypes {
         case tlsv122018
         case tlsv122019
         case tlsv122021
+        case tlsv132025
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MinimumProtocolVersion] {
@@ -4360,7 +4374,8 @@ extension CloudFrontClientTypes {
                 .tlsv12016,
                 .tlsv122018,
                 .tlsv122019,
-                .tlsv122021
+                .tlsv122021,
+                .tlsv132025
             ]
         }
 
@@ -4378,6 +4393,7 @@ extension CloudFrontClientTypes {
             case .tlsv122018: return "TLSv1.2_2018"
             case .tlsv122019: return "TLSv1.2_2019"
             case .tlsv122021: return "TLSv1.2_2021"
+            case .tlsv132025: return "TLSv1.3_2025"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4471,7 +4487,7 @@ extension CloudFrontClientTypes {
         ///
         /// * SSLSupportMethod
         public var cloudFrontDefaultCertificate: Swift.Bool?
-        /// If the distribution uses Aliases (alternate domain names or CNAMEs) and the SSL/TLS certificate is stored in [Identity and Access Management (IAM)](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html), provide the ID of the IAM certificate. If you specify an IAM certificate ID, you must also specify values for MinimumProtocolVersion and SSLSupportMethod.
+        /// This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. If the distribution uses Aliases (alternate domain names or CNAMEs) and the SSL/TLS certificate is stored in [Identity and Access Management (IAM)](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html), provide the ID of the IAM certificate. If you specify an IAM certificate ID, you must also specify values for MinimumProtocolVersion and SSLSupportMethod.
         public var iamCertificateId: Swift.String?
         /// If the distribution uses Aliases (alternate domain names or CNAMEs), specify the security policy that you want CloudFront to use for HTTPS connections with viewers. The security policy determines two settings:
         ///
@@ -4518,9 +4534,9 @@ extension CloudFrontClientTypes {
 
     /// A distribution configuration.
     public struct DistributionConfig: Swift.Sendable {
-        /// A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
+        /// This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. A complex type that contains information about CNAMEs (alternate domain names), if any, for this distribution.
         public var aliases: CloudFrontClientTypes.Aliases?
-        /// ID of the Anycast static IP list that is associated with the distribution.
+        /// To use this field for a multi-tenant distribution, use a connection group instead. For more information, see [ConnectionGroup](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ConnectionGroup.html). ID of the Anycast static IP list that is associated with the distribution.
         public var anycastIpListId: Swift.String?
         /// A complex type that contains zero or more CacheBehavior elements.
         public var cacheBehaviors: CloudFrontClientTypes.CacheBehaviors?
@@ -4530,9 +4546,9 @@ extension CloudFrontClientTypes {
         /// A comment to describe the distribution. The comment cannot be longer than 128 characters.
         /// This member is required.
         public var comment: Swift.String?
-        /// The connection mode to filter distributions by.
+        /// This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants (tenant-only).
         public var connectionMode: CloudFrontClientTypes.ConnectionMode?
-        /// The identifier of a continuous deployment policy. For more information, see CreateContinuousDeploymentPolicy.
+        /// This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. The identifier of a continuous deployment policy. For more information, see CreateContinuousDeploymentPolicy.
         public var continuousDeploymentPolicyId: Swift.String?
         /// A complex type that controls the following:
         ///
@@ -4553,7 +4569,7 @@ extension CloudFrontClientTypes {
         public var enabled: Swift.Bool?
         /// (Optional) Specify the HTTP version(s) that you want viewers to use to communicate with CloudFront. The default value for new web distributions is http2. Viewers that don't support HTTP/2 automatically use an earlier HTTP version. For viewers and CloudFront to use HTTP/2, viewers must support TLSv1.2 or later, and must support Server Name Indication (SNI). For viewers and CloudFront to use HTTP/3, viewers must support TLSv1.3 and Server Name Indication (SNI). CloudFront supports HTTP/3 connection migration to allow the viewer to switch networks without losing connection. For more information about connection migration, see [Connection Migration](https://www.rfc-editor.org/rfc/rfc9000.html#name-connection-migration) at RFC 9000. For more information about supported TLSv1.3 ciphers, see [Supported protocols and ciphers between viewers and CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html).
         public var httpVersion: CloudFrontClientTypes.HttpVersion?
-        /// If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your distribution, specify true. If you specify false, CloudFront responds to IPv6 DNS requests with the DNS response code NOERROR and with no IP addresses. This allows viewers to submit a second request, for an IPv4 address for your distribution. In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, don't enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see [Creating a Signed URL Using a Custom Policy](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-creating-signed-url-custom-policy.html) in the Amazon CloudFront Developer Guide. If you're using an Route 53 Amazon Web Services Integration alias resource record set to route traffic to your CloudFront distribution, you need to create a second alias resource record set when both of the following are true:
+        /// To use this field for a multi-tenant distribution, use a connection group instead. For more information, see [ConnectionGroup](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_ConnectionGroup.html). If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your distribution, specify true. If you specify false, CloudFront responds to IPv6 DNS requests with the DNS response code NOERROR and with no IP addresses. This allows viewers to submit a second request, for an IPv4 address for your distribution. In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, don't enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see [Creating a Signed URL Using a Custom Policy](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-creating-signed-url-custom-policy.html) in the Amazon CloudFront Developer Guide. If you're using an Route 53 Amazon Web Services Integration alias resource record set to route traffic to your CloudFront distribution, you need to create a second alias resource record set when both of the following are true:
         ///
         /// * You enable IPv6 for the distribution
         ///
@@ -4569,17 +4585,17 @@ extension CloudFrontClientTypes {
         /// A complex type that contains information about origins for this distribution.
         /// This member is required.
         public var origins: CloudFrontClientTypes.Origins?
-        /// The price class that corresponds with the maximum price that you want to pay for CloudFront service. If you specify PriceClass_All, CloudFront responds to requests for your objects from all CloudFront edge locations. If you specify a price class other than PriceClass_All, CloudFront serves your objects from the CloudFront edge location that has the lowest latency among the edge locations in your price class. Viewers who are in or near regions that are excluded from your specified price class may encounter slower performance. For more information about price classes, see [Choosing the Price Class for a CloudFront Distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PriceClass.html) in the Amazon CloudFront Developer Guide. For information about CloudFront pricing, including how price classes (such as Price Class 100) map to CloudFront regions, see [Amazon CloudFront Pricing](http://aws.amazon.com/cloudfront/pricing/).
+        /// This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. The price class that corresponds with the maximum price that you want to pay for CloudFront service. If you specify PriceClass_All, CloudFront responds to requests for your objects from all CloudFront edge locations. If you specify a price class other than PriceClass_All, CloudFront serves your objects from the CloudFront edge location that has the lowest latency among the edge locations in your price class. Viewers who are in or near regions that are excluded from your specified price class may encounter slower performance. For more information about price classes, see [Choosing the Price Class for a CloudFront Distribution](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PriceClass.html) in the Amazon CloudFront Developer Guide. For information about CloudFront pricing, including how price classes (such as Price Class 100) map to CloudFront regions, see [Amazon CloudFront Pricing](http://aws.amazon.com/cloudfront/pricing/).
         public var priceClass: CloudFrontClientTypes.PriceClass?
         /// A complex type that identifies ways in which you want to restrict distribution of your content.
         public var restrictions: CloudFrontClientTypes.Restrictions?
-        /// A Boolean that indicates whether this is a staging distribution. When this value is true, this is a staging distribution. When this value is false, this is not a staging distribution.
+        /// This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. A Boolean that indicates whether this is a staging distribution. When this value is true, this is a staging distribution. When this value is false, this is not a staging distribution.
         public var staging: Swift.Bool?
-        /// A distribution tenant configuration.
+        /// This field only supports multi-tenant distributions. You can't specify this field for standard distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. A distribution tenant configuration.
         public var tenantConfig: CloudFrontClientTypes.TenantConfig?
         /// A complex type that determines the distribution's SSL/TLS configuration for communicating with viewers.
         public var viewerCertificate: CloudFrontClientTypes.ViewerCertificate?
-        /// A unique identifier that specifies the WAF web ACL, if any, to associate with this distribution. To specify a web ACL created using the latest version of WAF, use the ACL ARN, for example arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. To specify a web ACL created using WAF Classic, use the ACL ID, for example a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to CloudFront, and lets you control access to your content. Based on conditions that you specify, such as the IP addresses that requests originate from or the values of query strings, CloudFront responds to requests either with the requested content or with an HTTP 403 status code (Forbidden). You can also configure CloudFront to return a custom error page when a request is blocked. For more information about WAF, see the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/what-is-aws-waf.html).
+        /// Multi-tenant distributions only support WAF V2 web ACLs. A unique identifier that specifies the WAF web ACL, if any, to associate with this distribution. To specify a web ACL created using the latest version of WAF, use the ACL ARN, for example arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. To specify a web ACL created using WAF Classic, use the ACL ID, for example a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to CloudFront, and lets you control access to your content. Based on conditions that you specify, such as the IP addresses that requests originate from or the values of query strings, CloudFront responds to requests either with the requested content or with an HTTP 403 status code (Forbidden). You can also configure CloudFront to return a custom error page when a request is blocked. For more information about WAF, see the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/what-is-aws-waf.html).
         public var webACLId: Swift.String?
 
         public init(
@@ -11911,7 +11927,7 @@ public struct ListConflictingAliasesInput: Swift.Sendable {
     /// The alias (also called a CNAME) to search for conflicting aliases.
     /// This member is required.
     public var alias: Swift.String?
-    /// The ID of a distribution in your account that has an attached SSL/TLS certificate that includes the provided alias.
+    /// The ID of a standard distribution in your account that has an attached TLS certificate that includes the provided alias.
     /// This member is required.
     public var distributionId: Swift.String?
     /// Use this field when paginating results to indicate where to begin in the list of conflicting aliases. The response includes conflicting aliases in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
@@ -11934,13 +11950,13 @@ public struct ListConflictingAliasesInput: Swift.Sendable {
 
 extension CloudFrontClientTypes {
 
-    /// An alias (also called a CNAME) and the CloudFront distribution and Amazon Web Services account ID that it's associated with. The distribution and account IDs are partially hidden, which allows you to identify the distributions and accounts that you own, but helps to protect the information of ones that you don't own.
+    /// An alias (also called a CNAME) and the CloudFront standard distribution and Amazon Web Services account ID that it's associated with. The standard distribution and account IDs are partially hidden, which allows you to identify the standard distributions and accounts that you own, and helps to protect the information of ones that you don't own.
     public struct ConflictingAlias: Swift.Sendable {
-        /// The (partially hidden) ID of the Amazon Web Services account that owns the distribution that's associated with the alias.
+        /// The (partially hidden) ID of the Amazon Web Services account that owns the standard distribution that's associated with the alias.
         public var accountId: Swift.String?
         /// An alias (also called a CNAME).
         public var alias: Swift.String?
-        /// The (partially hidden) ID of the CloudFront distribution associated with the alias.
+        /// The (partially hidden) ID of the CloudFront standard distribution associated with the alias.
         public var distributionId: Swift.String?
 
         public init(
@@ -11957,7 +11973,7 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
-    /// A list of aliases (also called CNAMEs) and the CloudFront distributions and Amazon Web Services accounts that they are associated with. In the list, the distribution and account IDs are partially hidden, which allows you to identify the distributions and accounts that you own, but helps to protect the information of ones that you don't own.
+    /// A list of aliases (also called CNAMEs) and the CloudFront standard distributions and Amazon Web Services accounts that they are associated with. In the list, the standard distribution and account IDs are partially hidden, which allows you to identify the standard distributions and accounts that you own, but helps to protect the information of ones that you don't own.
     public struct ConflictingAliasesList: Swift.Sendable {
         /// Contains the conflicting aliases in the list.
         public var items: [CloudFrontClientTypes.ConflictingAlias]?
@@ -12211,7 +12227,7 @@ extension CloudFrontClientTypes {
         /// The comment originally specified when this distribution was created.
         /// This member is required.
         public var comment: Swift.String?
-        /// The connection mode to filter distributions by.
+        /// This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants (tenant-only).
         public var connectionMode: CloudFrontClientTypes.ConnectionMode?
         /// A complex type that contains zero or more CustomErrorResponses elements.
         /// This member is required.
@@ -12244,7 +12260,7 @@ extension CloudFrontClientTypes {
         /// A complex type that contains information about origins for this distribution.
         /// This member is required.
         public var origins: CloudFrontClientTypes.Origins?
-        /// A complex type that contains information about price class for this streaming distribution.
+        /// This field only supports standard distributions. You can't specify this field for multi-tenant distributions. For more information, see [Unsupported features for SaaS Manager for Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-config-options.html#unsupported-saas) in the Amazon CloudFront Developer Guide. A complex type that contains information about price class for this streaming distribution.
         /// This member is required.
         public var priceClass: CloudFrontClientTypes.PriceClass?
         /// A complex type that identifies ways in which you want to restrict distribution of your content.
@@ -12315,6 +12331,11 @@ extension CloudFrontClientTypes {
             self.webACLId = webACLId
         }
     }
+}
+
+extension CloudFrontClientTypes.DistributionSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DistributionSummary(aliasICPRecordals: \(Swift.String(describing: aliasICPRecordals)), aliases: \(Swift.String(describing: aliases)), anycastIpListId: \(Swift.String(describing: anycastIpListId)), arn: \(Swift.String(describing: arn)), cacheBehaviors: \(Swift.String(describing: cacheBehaviors)), connectionMode: \(Swift.String(describing: connectionMode)), customErrorResponses: \(Swift.String(describing: customErrorResponses)), defaultCacheBehavior: \(Swift.String(describing: defaultCacheBehavior)), domainName: \(Swift.String(describing: domainName)), eTag: \(Swift.String(describing: eTag)), enabled: \(Swift.String(describing: enabled)), httpVersion: \(Swift.String(describing: httpVersion)), id: \(Swift.String(describing: id)), isIPV6Enabled: \(Swift.String(describing: isIPV6Enabled)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), originGroups: \(Swift.String(describing: originGroups)), origins: \(Swift.String(describing: origins)), priceClass: \(Swift.String(describing: priceClass)), restrictions: \(Swift.String(describing: restrictions)), staging: \(Swift.String(describing: staging)), status: \(Swift.String(describing: status)), viewerCertificate: \(Swift.String(describing: viewerCertificate)), webACLId: \(Swift.String(describing: webACLId)), comment: \"CONTENT_REDACTED\")"}
 }
 
 extension CloudFrontClientTypes {
@@ -12470,7 +12491,7 @@ public struct ListDistributionsByCachePolicyIdOutput: Swift.Sendable {
 }
 
 public struct ListDistributionsByConnectionModeInput: Swift.Sendable {
-    /// The connection mode to filter distributions by.
+    /// This field specifies whether the connection mode is through a standard distribution (direct) or a multi-tenant distribution with distribution tenants (tenant-only).
     /// This member is required.
     public var connectionMode: CloudFrontClientTypes.ConnectionMode?
     /// The marker for the next set of distributions to retrieve.
@@ -12872,7 +12893,7 @@ public struct ListDomainConflictsInput: Swift.Sendable {
     /// The domain to check for conflicts.
     /// This member is required.
     public var domain: Swift.String?
-    /// The distribution resource identifier. This can be the distribution or distribution tenant that has a valid certificate, which covers the domain that you specify.
+    /// The distribution resource identifier. This can be the standard distribution or distribution tenant that has a valid certificate, which covers the domain that you specify.
     /// This member is required.
     public var domainControlValidationResource: CloudFrontClientTypes.DistributionResourceId?
     /// The marker for the next set of domain conflicts.
@@ -13482,7 +13503,7 @@ public struct ListOriginAccessControlsInput: Swift.Sendable {
 extension CloudFrontClientTypes {
 
     /// A CloudFront origin access control.
-    public struct OriginAccessControlSummary: Swift.Sendable {
+    public struct OriginAccessControlSummary: Swift.Sendable, Swift.Equatable {
         /// A description of the origin access control.
         /// This member is required.
         public var description: Swift.String?
@@ -13529,7 +13550,7 @@ extension CloudFrontClientTypes {
 extension CloudFrontClientTypes {
 
     /// A list of CloudFront origin access controls.
-    public struct OriginAccessControlList: Swift.Sendable {
+    public struct OriginAccessControlList: Swift.Sendable, Swift.Equatable {
         /// If there are more items in the list than are in this response, this value is true.
         /// This member is required.
         public var isTruncated: Swift.Bool?
@@ -14693,9 +14714,9 @@ public struct UpdateDomainAssociationInput: Swift.Sendable {
     /// The domain to update.
     /// This member is required.
     public var domain: Swift.String?
-    /// The value of the ETag identifier for the distribution or distribution tenant that will be associated with the domain.
+    /// The value of the ETag identifier for the standard distribution or distribution tenant that will be associated with the domain.
     public var ifMatch: Swift.String?
-    /// The target distribution resource for the domain. You can specify either DistributionId or DistributionTenantId, but not both.
+    /// The target standard distribution or distribution tenant resource for the domain. You can specify either DistributionId or DistributionTenantId, but not both.
     /// This member is required.
     public var targetResource: CloudFrontClientTypes.DistributionResourceId?
 
@@ -14713,7 +14734,7 @@ public struct UpdateDomainAssociationInput: Swift.Sendable {
 public struct UpdateDomainAssociationOutput: Swift.Sendable {
     /// The domain that you're moving.
     public var domain: Swift.String?
-    /// The current version of the target distribution or distribution tenant that was associated with the domain.
+    /// The current version of the target standard distribution or distribution tenant that was associated with the domain.
     public var eTag: Swift.String?
     /// The intended destination for the domain.
     public var resourceId: Swift.String?
@@ -23052,19 +23073,6 @@ extension IllegalUpdate {
     }
 }
 
-extension NoSuchDistribution {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchDistribution {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchDistribution()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidArgument {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidArgument {
@@ -23078,11 +23086,11 @@ extension InvalidArgument {
     }
 }
 
-extension TooManyDistributionCNAMEs {
+extension NoSuchDistribution {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionCNAMEs {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchDistribution {
         let reader = baseError.errorBodyReader
-        var value = TooManyDistributionCNAMEs()
+        var value = NoSuchDistribution()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23091,11 +23099,11 @@ extension TooManyDistributionCNAMEs {
     }
 }
 
-extension PreconditionFailed {
+extension TooManyDistributionCNAMEs {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> PreconditionFailed {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionCNAMEs {
         let reader = baseError.errorBodyReader
-        var value = PreconditionFailed()
+        var value = TooManyDistributionCNAMEs()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23130,11 +23138,11 @@ extension InvalidIfMatchVersion {
     }
 }
 
-extension TooManyDistributionsAssociatedToOriginRequestPolicy {
+extension PreconditionFailed {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToOriginRequestPolicy {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> PreconditionFailed {
         let reader = baseError.errorBodyReader
-        var value = TooManyDistributionsAssociatedToOriginRequestPolicy()
+        var value = PreconditionFailed()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23143,11 +23151,11 @@ extension TooManyDistributionsAssociatedToOriginRequestPolicy {
     }
 }
 
-extension InvalidRelativePath {
+extension CNAMEAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRelativePath {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CNAMEAlreadyExists {
         let reader = baseError.errorBodyReader
-        var value = InvalidRelativePath()
+        var value = CNAMEAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23156,11 +23164,11 @@ extension InvalidRelativePath {
     }
 }
 
-extension TooManyQueryStringParameters {
+extension DistributionAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyQueryStringParameters {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DistributionAlreadyExists {
         let reader = baseError.errorBodyReader
-        var value = TooManyQueryStringParameters()
+        var value = DistributionAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23169,24 +23177,11 @@ extension TooManyQueryStringParameters {
     }
 }
 
-extension InvalidOriginAccessControl {
+extension IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginAccessControl {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior {
         let reader = baseError.errorBodyReader
-        var value = InvalidOriginAccessControl()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyLambdaFunctionAssociations {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyLambdaFunctionAssociations {
-        let reader = baseError.errorBodyReader
-        var value = TooManyLambdaFunctionAssociations()
+        var value = IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23208,11 +23203,11 @@ extension InconsistentQuantities {
     }
 }
 
-extension InvalidWebACLId {
+extension InvalidDefaultRootObject {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidWebACLId {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidDefaultRootObject {
         let reader = baseError.errorBodyReader
-        var value = InvalidWebACLId()
+        var value = InvalidDefaultRootObject()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23221,11 +23216,11 @@ extension InvalidWebACLId {
     }
 }
 
-extension InvalidTTLOrder {
+extension InvalidErrorCode {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidTTLOrder {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidErrorCode {
         let reader = baseError.errorBodyReader
-        var value = InvalidTTLOrder()
+        var value = InvalidErrorCode()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23234,11 +23229,11 @@ extension InvalidTTLOrder {
     }
 }
 
-extension TooManyDistributions {
+extension InvalidForwardCookies {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributions {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidForwardCookies {
         let reader = baseError.errorBodyReader
-        var value = TooManyDistributions()
+        var value = InvalidForwardCookies()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23247,11 +23242,11 @@ extension TooManyDistributions {
     }
 }
 
-extension TooManyDistributionsWithFunctionAssociations {
+extension InvalidFunctionAssociation {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsWithFunctionAssociations {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidFunctionAssociation {
         let reader = baseError.errorBodyReader
-        var value = TooManyDistributionsWithFunctionAssociations()
+        var value = InvalidFunctionAssociation()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23260,11 +23255,11 @@ extension TooManyDistributionsWithFunctionAssociations {
     }
 }
 
-extension TooManyHeadersInForwardedValues {
+extension InvalidGeoRestrictionParameter {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyHeadersInForwardedValues {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidGeoRestrictionParameter {
         let reader = baseError.errorBodyReader
-        var value = TooManyHeadersInForwardedValues()
+        var value = InvalidGeoRestrictionParameter()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23273,11 +23268,76 @@ extension TooManyHeadersInForwardedValues {
     }
 }
 
-extension TooManyDistributionsAssociatedToFieldLevelEncryptionConfig {
+extension InvalidHeadersForS3Origin {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToFieldLevelEncryptionConfig {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidHeadersForS3Origin {
         let reader = baseError.errorBodyReader
-        var value = TooManyDistributionsAssociatedToFieldLevelEncryptionConfig()
+        var value = InvalidHeadersForS3Origin()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidLambdaFunctionAssociation {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidLambdaFunctionAssociation {
+        let reader = baseError.errorBodyReader
+        var value = InvalidLambdaFunctionAssociation()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidLocationCode {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidLocationCode {
+        let reader = baseError.errorBodyReader
+        var value = InvalidLocationCode()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidMinimumProtocolVersion {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidMinimumProtocolVersion {
+        let reader = baseError.errorBodyReader
+        var value = InvalidMinimumProtocolVersion()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidOrigin {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOrigin {
+        let reader = baseError.errorBodyReader
+        var value = InvalidOrigin()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidOriginAccessControl {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginAccessControl {
+        let reader = baseError.errorBodyReader
+        var value = InvalidOriginAccessControl()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23299,11 +23359,219 @@ extension InvalidOriginAccessIdentity {
     }
 }
 
-extension DistributionAlreadyExists {
+extension InvalidOriginKeepaliveTimeout {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DistributionAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginKeepaliveTimeout {
         let reader = baseError.errorBodyReader
-        var value = DistributionAlreadyExists()
+        var value = InvalidOriginKeepaliveTimeout()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidOriginReadTimeout {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginReadTimeout {
+        let reader = baseError.errorBodyReader
+        var value = InvalidOriginReadTimeout()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidProtocolSettings {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidProtocolSettings {
+        let reader = baseError.errorBodyReader
+        var value = InvalidProtocolSettings()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidQueryStringParameters {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidQueryStringParameters {
+        let reader = baseError.errorBodyReader
+        var value = InvalidQueryStringParameters()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidRelativePath {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRelativePath {
+        let reader = baseError.errorBodyReader
+        var value = InvalidRelativePath()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidRequiredProtocol {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRequiredProtocol {
+        let reader = baseError.errorBodyReader
+        var value = InvalidRequiredProtocol()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidResponseCode {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidResponseCode {
+        let reader = baseError.errorBodyReader
+        var value = InvalidResponseCode()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidTTLOrder {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidTTLOrder {
+        let reader = baseError.errorBodyReader
+        var value = InvalidTTLOrder()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidViewerCertificate {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidViewerCertificate {
+        let reader = baseError.errorBodyReader
+        var value = InvalidViewerCertificate()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidWebACLId {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidWebACLId {
+        let reader = baseError.errorBodyReader
+        var value = InvalidWebACLId()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension MissingBody {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> MissingBody {
+        let reader = baseError.errorBodyReader
+        var value = MissingBody()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoSuchCachePolicy {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchCachePolicy {
+        let reader = baseError.errorBodyReader
+        var value = NoSuchCachePolicy()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoSuchFieldLevelEncryptionConfig {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchFieldLevelEncryptionConfig {
+        let reader = baseError.errorBodyReader
+        var value = NoSuchFieldLevelEncryptionConfig()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoSuchOrigin {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchOrigin {
+        let reader = baseError.errorBodyReader
+        var value = NoSuchOrigin()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoSuchOriginRequestPolicy {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchOriginRequestPolicy {
+        let reader = baseError.errorBodyReader
+        var value = NoSuchOriginRequestPolicy()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoSuchRealtimeLogConfig {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchRealtimeLogConfig {
+        let reader = baseError.errorBodyReader
+        var value = NoSuchRealtimeLogConfig()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoSuchResponseHeadersPolicy {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchResponseHeadersPolicy {
+        let reader = baseError.errorBodyReader
+        var value = NoSuchResponseHeadersPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23338,11 +23606,37 @@ extension TooManyCacheBehaviors {
     }
 }
 
-extension NoSuchOrigin {
+extension TooManyCertificates {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchOrigin {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCertificates {
         let reader = baseError.errorBodyReader
-        var value = NoSuchOrigin()
+        var value = TooManyCertificates()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyCookieNamesInWhiteList {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCookieNamesInWhiteList {
+        let reader = baseError.errorBodyReader
+        var value = TooManyCookieNamesInWhiteList()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyDistributions {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributions {
+        let reader = baseError.errorBodyReader
+        var value = TooManyDistributions()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23364,180 +23658,11 @@ extension TooManyDistributionsAssociatedToCachePolicy {
     }
 }
 
-extension InvalidViewerCertificate {
+extension TooManyDistributionsAssociatedToFieldLevelEncryptionConfig {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidViewerCertificate {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToFieldLevelEncryptionConfig {
         let reader = baseError.errorBodyReader
-        var value = InvalidViewerCertificate()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidFunctionAssociation {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidFunctionAssociation {
-        let reader = baseError.errorBodyReader
-        var value = InvalidFunctionAssociation()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchResponseHeadersPolicy {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchResponseHeadersPolicy {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchResponseHeadersPolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidDefaultRootObject {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidDefaultRootObject {
-        let reader = baseError.errorBodyReader
-        var value = InvalidDefaultRootObject()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchCachePolicy {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchCachePolicy {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchCachePolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidProtocolSettings {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidProtocolSettings {
-        let reader = baseError.errorBodyReader
-        var value = InvalidProtocolSettings()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidMinimumProtocolVersion {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidMinimumProtocolVersion {
-        let reader = baseError.errorBodyReader
-        var value = InvalidMinimumProtocolVersion()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidLambdaFunctionAssociation {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidLambdaFunctionAssociation {
-        let reader = baseError.errorBodyReader
-        var value = InvalidLambdaFunctionAssociation()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidResponseCode {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidResponseCode {
-        let reader = baseError.errorBodyReader
-        var value = InvalidResponseCode()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchOriginRequestPolicy {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchOriginRequestPolicy {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchOriginRequestPolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchFieldLevelEncryptionConfig {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchFieldLevelEncryptionConfig {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchFieldLevelEncryptionConfig()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidHeadersForS3Origin {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidHeadersForS3Origin {
-        let reader = baseError.errorBodyReader
-        var value = InvalidHeadersForS3Origin()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TrustedSignerDoesNotExist {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TrustedSignerDoesNotExist {
-        let reader = baseError.errorBodyReader
-        var value = TrustedSignerDoesNotExist()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyCookieNamesInWhiteList {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCookieNamesInWhiteList {
-        let reader = baseError.errorBodyReader
-        var value = TooManyCookieNamesInWhiteList()
+        var value = TooManyDistributionsAssociatedToFieldLevelEncryptionConfig()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23572,258 +23697,11 @@ extension TooManyDistributionsAssociatedToOriginAccessControl {
     }
 }
 
-extension TooManyOrigins {
+extension TooManyDistributionsAssociatedToOriginRequestPolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOrigins {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsAssociatedToOriginRequestPolicy {
         let reader = baseError.errorBodyReader
-        var value = TooManyOrigins()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyTrustedSigners {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyTrustedSigners {
-        let reader = baseError.errorBodyReader
-        var value = TooManyTrustedSigners()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyDistributionsWithSingleFunctionARN {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsWithSingleFunctionARN {
-        let reader = baseError.errorBodyReader
-        var value = TooManyDistributionsWithSingleFunctionARN()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension MissingBody {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> MissingBody {
-        let reader = baseError.errorBodyReader
-        var value = MissingBody()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidGeoRestrictionParameter {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidGeoRestrictionParameter {
-        let reader = baseError.errorBodyReader
-        var value = InvalidGeoRestrictionParameter()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchRealtimeLogConfig {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchRealtimeLogConfig {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchRealtimeLogConfig()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidOriginReadTimeout {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginReadTimeout {
-        let reader = baseError.errorBodyReader
-        var value = InvalidOriginReadTimeout()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyCertificates {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCertificates {
-        let reader = baseError.errorBodyReader
-        var value = TooManyCertificates()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidLocationCode {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidLocationCode {
-        let reader = baseError.errorBodyReader
-        var value = InvalidLocationCode()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidQueryStringParameters {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidQueryStringParameters {
-        let reader = baseError.errorBodyReader
-        var value = InvalidQueryStringParameters()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension CNAMEAlreadyExists {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CNAMEAlreadyExists {
-        let reader = baseError.errorBodyReader
-        var value = CNAMEAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior {
-        let reader = baseError.errorBodyReader
-        var value = IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidErrorCode {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidErrorCode {
-        let reader = baseError.errorBodyReader
-        var value = InvalidErrorCode()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyKeyGroupsAssociatedToDistribution {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyKeyGroupsAssociatedToDistribution {
-        let reader = baseError.errorBodyReader
-        var value = TooManyKeyGroupsAssociatedToDistribution()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyDistributionsWithLambdaAssociations {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsWithLambdaAssociations {
-        let reader = baseError.errorBodyReader
-        var value = TooManyDistributionsWithLambdaAssociations()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyOriginCustomHeaders {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOriginCustomHeaders {
-        let reader = baseError.errorBodyReader
-        var value = TooManyOriginCustomHeaders()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TrustedKeyGroupDoesNotExist {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TrustedKeyGroupDoesNotExist {
-        let reader = baseError.errorBodyReader
-        var value = TrustedKeyGroupDoesNotExist()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidOriginKeepaliveTimeout {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOriginKeepaliveTimeout {
-        let reader = baseError.errorBodyReader
-        var value = InvalidOriginKeepaliveTimeout()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidForwardCookies {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidForwardCookies {
-        let reader = baseError.errorBodyReader
-        var value = InvalidForwardCookies()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidOrigin {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidOrigin {
-        let reader = baseError.errorBodyReader
-        var value = InvalidOrigin()
+        var value = TooManyDistributionsAssociatedToOriginRequestPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23845,11 +23723,11 @@ extension TooManyDistributionsAssociatedToResponseHeadersPolicy {
     }
 }
 
-extension TooManyOriginGroupsPerDistribution {
+extension TooManyDistributionsWithFunctionAssociations {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOriginGroupsPerDistribution {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsWithFunctionAssociations {
         let reader = baseError.errorBodyReader
-        var value = TooManyOriginGroupsPerDistribution()
+        var value = TooManyDistributionsWithFunctionAssociations()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23858,11 +23736,24 @@ extension TooManyOriginGroupsPerDistribution {
     }
 }
 
-extension InvalidRequiredProtocol {
+extension TooManyDistributionsWithLambdaAssociations {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRequiredProtocol {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsWithLambdaAssociations {
         let reader = baseError.errorBodyReader
-        var value = InvalidRequiredProtocol()
+        var value = TooManyDistributionsWithLambdaAssociations()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyDistributionsWithSingleFunctionARN {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyDistributionsWithSingleFunctionARN {
+        let reader = baseError.errorBodyReader
+        var value = TooManyDistributionsWithSingleFunctionARN()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23884,11 +23775,141 @@ extension TooManyFunctionAssociations {
     }
 }
 
-extension UnsupportedOperation {
+extension TooManyHeadersInForwardedValues {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> UnsupportedOperation {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyHeadersInForwardedValues {
         let reader = baseError.errorBodyReader
-        var value = UnsupportedOperation()
+        var value = TooManyHeadersInForwardedValues()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyKeyGroupsAssociatedToDistribution {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyKeyGroupsAssociatedToDistribution {
+        let reader = baseError.errorBodyReader
+        var value = TooManyKeyGroupsAssociatedToDistribution()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyLambdaFunctionAssociations {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyLambdaFunctionAssociations {
+        let reader = baseError.errorBodyReader
+        var value = TooManyLambdaFunctionAssociations()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyOriginCustomHeaders {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOriginCustomHeaders {
+        let reader = baseError.errorBodyReader
+        var value = TooManyOriginCustomHeaders()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyOriginGroupsPerDistribution {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOriginGroupsPerDistribution {
+        let reader = baseError.errorBodyReader
+        var value = TooManyOriginGroupsPerDistribution()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyOrigins {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOrigins {
+        let reader = baseError.errorBodyReader
+        var value = TooManyOrigins()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyQueryStringParameters {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyQueryStringParameters {
+        let reader = baseError.errorBodyReader
+        var value = TooManyQueryStringParameters()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyTrustedSigners {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyTrustedSigners {
+        let reader = baseError.errorBodyReader
+        var value = TooManyTrustedSigners()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TrustedKeyGroupDoesNotExist {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TrustedKeyGroupDoesNotExist {
+        let reader = baseError.errorBodyReader
+        var value = TrustedKeyGroupDoesNotExist()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TrustedSignerDoesNotExist {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TrustedSignerDoesNotExist {
+        let reader = baseError.errorBodyReader
+        var value = TrustedSignerDoesNotExist()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension EntityAlreadyExists {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityAlreadyExists {
+        let reader = baseError.errorBodyReader
+        var value = EntityAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23923,11 +23944,37 @@ extension InvalidTagging {
     }
 }
 
-extension EntityAlreadyExists {
+extension UnsupportedOperation {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> EntityAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> UnsupportedOperation {
         let reader = baseError.errorBodyReader
-        var value = EntityAlreadyExists()
+        var value = UnsupportedOperation()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension CachePolicyAlreadyExists {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CachePolicyAlreadyExists {
+        let reader = baseError.errorBodyReader
+        var value = CachePolicyAlreadyExists()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyCachePolicies {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCachePolicies {
+        let reader = baseError.errorBodyReader
+        var value = TooManyCachePolicies()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -23962,37 +24009,11 @@ extension TooManyHeadersInCachePolicy {
     }
 }
 
-extension TooManyCachePolicies {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCachePolicies {
-        let reader = baseError.errorBodyReader
-        var value = TooManyCachePolicies()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension TooManyQueryStringsInCachePolicy {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyQueryStringsInCachePolicy {
         let reader = baseError.errorBodyReader
         var value = TooManyQueryStringsInCachePolicy()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension CachePolicyAlreadyExists {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> CachePolicyAlreadyExists {
-        let reader = baseError.errorBodyReader
-        var value = CachePolicyAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24027,11 +24048,11 @@ extension TooManyCloudFrontOriginAccessIdentities {
     }
 }
 
-extension TooManyContinuousDeploymentPolicies {
+extension ContinuousDeploymentPolicyAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyContinuousDeploymentPolicies {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ContinuousDeploymentPolicyAlreadyExists {
         let reader = baseError.errorBodyReader
-        var value = TooManyContinuousDeploymentPolicies()
+        var value = ContinuousDeploymentPolicyAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24053,24 +24074,11 @@ extension StagingDistributionInUse {
     }
 }
 
-extension ContinuousDeploymentPolicyAlreadyExists {
+extension TooManyContinuousDeploymentPolicies {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ContinuousDeploymentPolicyAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyContinuousDeploymentPolicies {
         let reader = baseError.errorBodyReader
-        var value = ContinuousDeploymentPolicyAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchContinuousDeploymentPolicy {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchContinuousDeploymentPolicy {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchContinuousDeploymentPolicy()
+        var value = TooManyContinuousDeploymentPolicies()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24118,11 +24126,11 @@ extension InvalidDomainNameForOriginAccessControl {
     }
 }
 
-extension InvalidAssociation {
+extension NoSuchContinuousDeploymentPolicy {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidAssociation {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchContinuousDeploymentPolicy {
         let reader = baseError.errorBodyReader
-        var value = InvalidAssociation()
+        var value = NoSuchContinuousDeploymentPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24131,11 +24139,11 @@ extension InvalidAssociation {
     }
 }
 
-extension QueryArgProfileEmpty {
+extension InvalidAssociation {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> QueryArgProfileEmpty {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidAssociation {
         let reader = baseError.errorBodyReader
-        var value = QueryArgProfileEmpty()
+        var value = InvalidAssociation()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24157,19 +24165,6 @@ extension FieldLevelEncryptionConfigAlreadyExists {
     }
 }
 
-extension TooManyFieldLevelEncryptionContentTypeProfiles {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionContentTypeProfiles {
-        let reader = baseError.errorBodyReader
-        var value = TooManyFieldLevelEncryptionContentTypeProfiles()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension NoSuchFieldLevelEncryptionProfile {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchFieldLevelEncryptionProfile {
@@ -24183,11 +24178,37 @@ extension NoSuchFieldLevelEncryptionProfile {
     }
 }
 
+extension QueryArgProfileEmpty {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> QueryArgProfileEmpty {
+        let reader = baseError.errorBodyReader
+        var value = QueryArgProfileEmpty()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension TooManyFieldLevelEncryptionConfigs {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionConfigs {
         let reader = baseError.errorBodyReader
         var value = TooManyFieldLevelEncryptionConfigs()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyFieldLevelEncryptionContentTypeProfiles {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionContentTypeProfiles {
+        let reader = baseError.errorBodyReader
+        var value = TooManyFieldLevelEncryptionContentTypeProfiles()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24222,11 +24243,11 @@ extension FieldLevelEncryptionProfileAlreadyExists {
     }
 }
 
-extension TooManyFieldLevelEncryptionFieldPatterns {
+extension FieldLevelEncryptionProfileSizeExceeded {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionFieldPatterns {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> FieldLevelEncryptionProfileSizeExceeded {
         let reader = baseError.errorBodyReader
-        var value = TooManyFieldLevelEncryptionFieldPatterns()
+        var value = FieldLevelEncryptionProfileSizeExceeded()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24261,37 +24282,24 @@ extension TooManyFieldLevelEncryptionEncryptionEntities {
     }
 }
 
+extension TooManyFieldLevelEncryptionFieldPatterns {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionFieldPatterns {
+        let reader = baseError.errorBodyReader
+        var value = TooManyFieldLevelEncryptionFieldPatterns()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension TooManyFieldLevelEncryptionProfiles {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFieldLevelEncryptionProfiles {
         let reader = baseError.errorBodyReader
         var value = TooManyFieldLevelEncryptionProfiles()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension FieldLevelEncryptionProfileSizeExceeded {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> FieldLevelEncryptionProfileSizeExceeded {
-        let reader = baseError.errorBodyReader
-        var value = FieldLevelEncryptionProfileSizeExceeded()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyFunctions {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFunctions {
-        let reader = baseError.errorBodyReader
-        var value = TooManyFunctions()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24326,11 +24334,11 @@ extension FunctionSizeLimitExceeded {
     }
 }
 
-extension TooManyInvalidationsInProgress {
+extension TooManyFunctions {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyInvalidationsInProgress {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyFunctions {
         let reader = baseError.errorBodyReader
-        var value = TooManyInvalidationsInProgress()
+        var value = TooManyFunctions()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24344,6 +24352,19 @@ extension BatchTooLarge {
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BatchTooLarge {
         let reader = baseError.errorBodyReader
         var value = BatchTooLarge()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyInvalidationsInProgress {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyInvalidationsInProgress {
+        let reader = baseError.errorBodyReader
+        var value = TooManyInvalidationsInProgress()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24417,6 +24438,19 @@ extension MonitoringSubscriptionAlreadyExists {
     }
 }
 
+extension OriginAccessControlAlreadyExists {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> OriginAccessControlAlreadyExists {
+        let reader = baseError.errorBodyReader
+        var value = OriginAccessControlAlreadyExists()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension TooManyOriginAccessControls {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyOriginAccessControls {
@@ -24430,11 +24464,24 @@ extension TooManyOriginAccessControls {
     }
 }
 
-extension OriginAccessControlAlreadyExists {
+extension OriginRequestPolicyAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> OriginAccessControlAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> OriginRequestPolicyAlreadyExists {
         let reader = baseError.errorBodyReader
-        var value = OriginAccessControlAlreadyExists()
+        var value = OriginRequestPolicyAlreadyExists()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyCookiesInOriginRequestPolicy {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCookiesInOriginRequestPolicy {
+        let reader = baseError.errorBodyReader
+        var value = TooManyCookiesInOriginRequestPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24482,24 +24529,11 @@ extension TooManyQueryStringsInOriginRequestPolicy {
     }
 }
 
-extension OriginRequestPolicyAlreadyExists {
+extension PublicKeyAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> OriginRequestPolicyAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> PublicKeyAlreadyExists {
         let reader = baseError.errorBodyReader
-        var value = OriginRequestPolicyAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyCookiesInOriginRequestPolicy {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCookiesInOriginRequestPolicy {
-        let reader = baseError.errorBodyReader
-        var value = TooManyCookiesInOriginRequestPolicy()
+        var value = PublicKeyAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24521,11 +24555,11 @@ extension TooManyPublicKeys {
     }
 }
 
-extension PublicKeyAlreadyExists {
+extension RealtimeLogConfigAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> PublicKeyAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> RealtimeLogConfigAlreadyExists {
         let reader = baseError.errorBodyReader
-        var value = PublicKeyAlreadyExists()
+        var value = RealtimeLogConfigAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24547,24 +24581,11 @@ extension TooManyRealtimeLogConfigs {
     }
 }
 
-extension RealtimeLogConfigAlreadyExists {
+extension ResponseHeadersPolicyAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> RealtimeLogConfigAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ResponseHeadersPolicyAlreadyExists {
         let reader = baseError.errorBodyReader
-        var value = RealtimeLogConfigAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyCustomHeadersInResponseHeadersPolicy {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCustomHeadersInResponseHeadersPolicy {
-        let reader = baseError.errorBodyReader
-        var value = TooManyCustomHeadersInResponseHeadersPolicy()
+        var value = ResponseHeadersPolicyAlreadyExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24578,6 +24599,19 @@ extension TooLongCSPInResponseHeadersPolicy {
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooLongCSPInResponseHeadersPolicy {
         let reader = baseError.errorBodyReader
         var value = TooLongCSPInResponseHeadersPolicy()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyCustomHeadersInResponseHeadersPolicy {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyCustomHeadersInResponseHeadersPolicy {
+        let reader = baseError.errorBodyReader
+        var value = TooManyCustomHeadersInResponseHeadersPolicy()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24612,32 +24646,6 @@ extension TooManyResponseHeadersPolicies {
     }
 }
 
-extension ResponseHeadersPolicyAlreadyExists {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ResponseHeadersPolicyAlreadyExists {
-        let reader = baseError.errorBodyReader
-        var value = ResponseHeadersPolicyAlreadyExists()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyStreamingDistributions {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyStreamingDistributions {
-        let reader = baseError.errorBodyReader
-        var value = TooManyStreamingDistributions()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension StreamingDistributionAlreadyExists {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> StreamingDistributionAlreadyExists {
@@ -24656,6 +24664,19 @@ extension TooManyStreamingDistributionCNAMEs {
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyStreamingDistributionCNAMEs {
         let reader = baseError.errorBodyReader
         var value = TooManyStreamingDistributionCNAMEs()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TooManyStreamingDistributions {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyStreamingDistributions {
+        let reader = baseError.errorBodyReader
+        var value = TooManyStreamingDistributions()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24742,11 +24763,11 @@ extension ResourceNotDisabled {
     }
 }
 
-extension ResourceInUse {
+extension DistributionNotDisabled {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ResourceInUse {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DistributionNotDisabled {
         let reader = baseError.errorBodyReader
-        var value = ResourceInUse()
+        var value = DistributionNotDisabled()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24755,11 +24776,11 @@ extension ResourceInUse {
     }
 }
 
-extension DistributionNotDisabled {
+extension ResourceInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DistributionNotDisabled {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ResourceInUse {
         let reader = baseError.errorBodyReader
-        var value = DistributionNotDisabled()
+        var value = ResourceInUse()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24794,11 +24815,11 @@ extension FieldLevelEncryptionProfileInUse {
     }
 }
 
-extension NoSuchFunctionExists {
+extension FunctionInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchFunctionExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> FunctionInUse {
         let reader = baseError.errorBodyReader
-        var value = NoSuchFunctionExists()
+        var value = FunctionInUse()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24807,11 +24828,11 @@ extension NoSuchFunctionExists {
     }
 }
 
-extension FunctionInUse {
+extension NoSuchFunctionExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> FunctionInUse {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchFunctionExists {
         let reader = baseError.errorBodyReader
-        var value = FunctionInUse()
+        var value = NoSuchFunctionExists()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24924,11 +24945,11 @@ extension ResponseHeadersPolicyInUse {
     }
 }
 
-extension StreamingDistributionNotDisabled {
+extension NoSuchStreamingDistribution {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> StreamingDistributionNotDisabled {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchStreamingDistribution {
         let reader = baseError.errorBodyReader
-        var value = StreamingDistributionNotDisabled()
+        var value = NoSuchStreamingDistribution()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -24937,11 +24958,11 @@ extension StreamingDistributionNotDisabled {
     }
 }
 
-extension NoSuchStreamingDistribution {
+extension StreamingDistributionNotDisabled {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchStreamingDistribution {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> StreamingDistributionNotDisabled {
         let reader = baseError.errorBodyReader
-        var value = NoSuchStreamingDistribution()
+        var value = StreamingDistributionNotDisabled()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -25776,6 +25797,7 @@ extension CloudFrontClientTypes.Origin {
         try writer["OriginAccessControlId"].write(value.originAccessControlId)
         try writer["OriginPath"].write(value.originPath)
         try writer["OriginShield"].write(value.originShield, with: CloudFrontClientTypes.OriginShield.write(value:to:))
+        try writer["ResponseCompletionTimeout"].write(value.responseCompletionTimeout)
         try writer["S3OriginConfig"].write(value.s3OriginConfig, with: CloudFrontClientTypes.S3OriginConfig.write(value:to:))
         try writer["VpcOriginConfig"].write(value.vpcOriginConfig, with: CloudFrontClientTypes.VpcOriginConfig.write(value:to:))
     }
@@ -25792,6 +25814,7 @@ extension CloudFrontClientTypes.Origin {
         value.vpcOriginConfig = try reader["VpcOriginConfig"].readIfPresent(with: CloudFrontClientTypes.VpcOriginConfig.read(from:))
         value.connectionAttempts = try reader["ConnectionAttempts"].readIfPresent()
         value.connectionTimeout = try reader["ConnectionTimeout"].readIfPresent()
+        value.responseCompletionTimeout = try reader["ResponseCompletionTimeout"].readIfPresent()
         value.originShield = try reader["OriginShield"].readIfPresent(with: CloudFrontClientTypes.OriginShield.read(from:))
         value.originAccessControlId = try reader["OriginAccessControlId"].readIfPresent()
         return value
@@ -25881,12 +25904,14 @@ extension CloudFrontClientTypes.S3OriginConfig {
     static func write(value: CloudFrontClientTypes.S3OriginConfig?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["OriginAccessIdentity"].write(value.originAccessIdentity)
+        try writer["OriginReadTimeout"].write(value.originReadTimeout)
     }
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.S3OriginConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.S3OriginConfig()
         value.originAccessIdentity = try reader["OriginAccessIdentity"].readIfPresent() ?? ""
+        value.originReadTimeout = try reader["OriginReadTimeout"].readIfPresent()
         return value
     }
 }

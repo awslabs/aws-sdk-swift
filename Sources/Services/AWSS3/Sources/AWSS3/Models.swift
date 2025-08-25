@@ -71,6 +71,11 @@ import struct SmithyRetries.DefaultRetryStrategy
 import typealias SmithyEventStreamsAPI.UnmarshalClosure
 
 
+public struct CreateBucketMetadataConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct CreateBucketMetadataTableConfigurationOutput: Swift.Sendable {
 
     public init() { }
@@ -102,6 +107,11 @@ public struct DeleteBucketInventoryConfigurationOutput: Swift.Sendable {
 }
 
 public struct DeleteBucketLifecycleOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteBucketMetadataConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -237,6 +247,16 @@ public struct PutBucketWebsiteOutput: Swift.Sendable {
 }
 
 public struct PutPublicAccessBlockOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateBucketMetadataInventoryTableConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateBucketMetadataJournalTableConfigurationOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -560,7 +580,7 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
-    /// Container for the owner's display name and ID.
+    /// End of support notice: Beginning October 1, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. Container for the owner's display name and ID.
     public struct Owner: Swift.Sendable {
         /// Container for the display name of the owner. This value is only supported in the following Amazon Web Services Regions:
         ///
@@ -835,6 +855,7 @@ extension S3ClientTypes {
 
     public enum ServerSideEncryption: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case aes256
+        case awsFsx
         case awsKms
         case awsKmsDsse
         case sdkUnknown(Swift.String)
@@ -842,6 +863,7 @@ extension S3ClientTypes {
         public static var allCases: [ServerSideEncryption] {
             return [
                 .aes256,
+                .awsFsx,
                 .awsKms,
                 .awsKmsDsse
             ]
@@ -855,6 +877,7 @@ extension S3ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .aes256: return "AES256"
+            case .awsFsx: return "aws:fsx"
             case .awsKms: return "aws:kms"
             case .awsKmsDsse: return "aws:kms:dsse"
             case let .sdkUnknown(s): return s
@@ -890,7 +913,7 @@ public struct CompleteMultipartUploadOutput: Swift.Sendable {
     public var location: Swift.String?
     /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
-    /// The server-side encryption algorithm used when storing this object in Amazon S3 (for example, AES256, aws:kms).
+    /// The server-side encryption algorithm used when storing this object in Amazon S3. When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// If present, indicates the ID of the KMS key that was used for object encryption.
     public var ssekmsKeyId: Swift.String?
@@ -1127,6 +1150,7 @@ extension S3ClientTypes {
     public enum StorageClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deepArchive
         case expressOnezone
+        case fsxOpenzfs
         case glacier
         case glacierIr
         case intelligentTiering
@@ -1142,6 +1166,7 @@ extension S3ClientTypes {
             return [
                 .deepArchive,
                 .expressOnezone,
+                .fsxOpenzfs,
                 .glacier,
                 .glacierIr,
                 .intelligentTiering,
@@ -1163,6 +1188,7 @@ extension S3ClientTypes {
             switch self {
             case .deepArchive: return "DEEP_ARCHIVE"
             case .expressOnezone: return "EXPRESS_ONEZONE"
+            case .fsxOpenzfs: return "FSX_OPENZFS"
             case .glacier: return "GLACIER"
             case .glacierIr: return "GLACIER_IR"
             case .intelligentTiering: return "INTELLIGENT_TIERING"
@@ -1337,6 +1363,8 @@ public struct CopyObjectInput: Swift.Sendable {
     /// * For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). We recommend that the bucket's default encryption uses the desired encryption configuration and you don't override the bucket default encryption in your CreateSession requests or PUT object requests. Then, new objects are automatically encrypted with the desired encryption settings. For more information, see [Protecting data with server-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html) in the Amazon S3 User Guide. For more information about the encryption overriding behaviors in directory buckets, see [Specifying server-side encryption with KMS for new object uploads](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-specifying-kms-encryption.html).
     ///
     /// * To encrypt new object copies to a directory bucket with SSE-KMS, we recommend you specify SSE-KMS as the directory bucket's default encryption configuration with a KMS key (specifically, a [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk)). The [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk) (aws/s3) isn't supported. Your SSE-KMS configuration can only support 1 [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk) per directory bucket for the lifetime of the bucket. After you specify a customer managed key for SSE-KMS, you can't override the customer managed key for the bucket's SSE-KMS configuration. Then, when you perform a CopyObject operation and want to specify server-side encryption settings for new object copies with SSE-KMS in the encryption-related request headers, you must ensure the encryption key is the same customer managed key that you specified for the directory bucket's default encryption configuration.
+    ///
+    /// * S3 access points for Amazon FSx - When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx. All Amazon FSx file systems have encryption configured by default and are encrypted at rest. Data is automatically encrypted before being written to the file system, and automatically decrypted as it is read. These processes are handled transparently by Amazon FSx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// Specifies the algorithm to use when encrypting the object (for example, AES256). When you perform a CopyObject operation, if you want to use a different type of encryption setting for the target object, you can specify appropriate encryption-related headers to encrypt the target object with an Amazon S3 managed key, a KMS key, or a customer-provided key. If the encryption setting in your request is different from the default encryption configuration of the destination bucket, the encryption setting in your request takes precedence. This functionality is not supported when the destination bucket is a directory bucket.
     public var sseCustomerAlgorithm: Swift.String?
@@ -1551,7 +1579,7 @@ public struct CopyObjectOutput: Swift.Sendable {
     public var expiration: Swift.String?
     /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
-    /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
+    /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx. When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to confirm the encryption algorithm that's used. This functionality is not supported for directory buckets.
     public var sseCustomerAlgorithm: Swift.String?
@@ -1905,6 +1933,27 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
+    /// A container of a key value name pair.
+    public struct Tag: Swift.Sendable {
+        /// Name of the object key.
+        /// This member is required.
+        public var key: Swift.String?
+        /// Value of the tag.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension S3ClientTypes {
+
     /// The configuration information for the bucket.
     public struct CreateBucketConfiguration: Swift.Sendable {
         /// Specifies the information about the bucket that will be created. This functionality is only supported by directory buckets.
@@ -1913,15 +1962,19 @@ extension S3ClientTypes {
         public var location: S3ClientTypes.LocationInfo?
         /// Specifies the Region where the bucket will be created. You might choose a Region to optimize latency, minimize costs, or address regulatory requirements. For example, if you reside in Europe, you will probably find it advantageous to create buckets in the Europe (Ireland) Region. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1) by default. Configurations using the value EU will create a bucket in eu-west-1. For a list of the valid values for all of the Amazon Web Services Regions, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region). This functionality is not supported for directory buckets.
         public var locationConstraint: S3ClientTypes.BucketLocationConstraint?
+        /// An array of tags that you can apply to the bucket that you're creating. Tags are key-value pairs of metadata used to categorize and organize your buckets, track costs, and control access. This parameter is only supported for S3 directory buckets. For more information, see [Using tags with directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html).
+        public var tags: [S3ClientTypes.Tag]?
 
         public init(
             bucket: S3ClientTypes.BucketInfo? = nil,
             location: S3ClientTypes.LocationInfo? = nil,
-            locationConstraint: S3ClientTypes.BucketLocationConstraint? = nil
+            locationConstraint: S3ClientTypes.BucketLocationConstraint? = nil,
+            tags: [S3ClientTypes.Tag]? = nil
         ) {
             self.bucket = bucket
             self.location = location
             self.locationConstraint = locationConstraint
+            self.tags = tags
         }
     }
 }
@@ -2008,19 +2061,239 @@ public struct CreateBucketInput: Swift.Sendable {
 }
 
 public struct CreateBucketOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the S3 bucket. ARNs uniquely identify Amazon Web Services resources across all of Amazon Web Services. This parameter is only supported for S3 directory buckets. For more information, see [Using tags with directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html).
+    public var bucketArn: Swift.String?
     /// A forward slash followed by the name of the bucket.
     public var location: Swift.String?
 
     public init(
+        bucketArn: Swift.String? = nil,
         location: Swift.String? = nil
     ) {
+        self.bucketArn = bucketArn
         self.location = location
     }
 }
 
 extension S3ClientTypes {
 
-    /// The destination information for the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket.
+    public enum InventoryConfigurationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InventoryConfigurationState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    public enum TableSseAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aes256
+        case awsKms
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TableSseAlgorithm] {
+            return [
+                .aes256,
+                .awsKms
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aes256: return "AES256"
+            case .awsKms: return "aws:kms"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// The encryption settings for an S3 Metadata journal table or inventory table configuration.
+    public struct MetadataTableEncryptionConfiguration: Swift.Sendable {
+        /// If server-side encryption with Key Management Service (KMS) keys (SSE-KMS) is specified, you must also specify the KMS key Amazon Resource Name (ARN). You must specify a customer-managed KMS key that's located in the same Region as the general purpose bucket that corresponds to the metadata table configuration.
+        public var kmsKeyArn: Swift.String?
+        /// The encryption type specified for a metadata table. To specify server-side encryption with Key Management Service (KMS) keys (SSE-KMS), use the aws:kms value. To specify server-side encryption with Amazon S3 managed keys (SSE-S3), use the AES256 value.
+        /// This member is required.
+        public var sseAlgorithm: S3ClientTypes.TableSseAlgorithm?
+
+        public init(
+            kmsKeyArn: Swift.String? = nil,
+            sseAlgorithm: S3ClientTypes.TableSseAlgorithm? = nil
+        ) {
+            self.kmsKeyArn = kmsKeyArn
+            self.sseAlgorithm = sseAlgorithm
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// The inventory table configuration for an S3 Metadata configuration.
+    public struct InventoryTableConfiguration: Swift.Sendable {
+        /// The configuration state of the inventory table, indicating whether the inventory table is enabled or disabled.
+        /// This member is required.
+        public var configurationState: S3ClientTypes.InventoryConfigurationState?
+        /// The encryption configuration for the inventory table.
+        public var encryptionConfiguration: S3ClientTypes.MetadataTableEncryptionConfiguration?
+
+        public init(
+            configurationState: S3ClientTypes.InventoryConfigurationState? = nil,
+            encryptionConfiguration: S3ClientTypes.MetadataTableEncryptionConfiguration? = nil
+        ) {
+            self.configurationState = configurationState
+            self.encryptionConfiguration = encryptionConfiguration
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    public enum ExpirationState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExpirationState] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// The journal table record expiration settings for a journal table in an S3 Metadata configuration.
+    public struct RecordExpiration: Swift.Sendable {
+        /// If you enable journal table record expiration, you can set the number of days to retain your journal table records. Journal table records must be retained for a minimum of 7 days. To set this value, specify any whole number from 7 to 2147483647. For example, to retain your journal table records for one year, set this value to 365.
+        public var days: Swift.Int?
+        /// Specifies whether journal table record expiration is enabled or disabled.
+        /// This member is required.
+        public var expiration: S3ClientTypes.ExpirationState?
+
+        public init(
+            days: Swift.Int? = nil,
+            expiration: S3ClientTypes.ExpirationState? = nil
+        ) {
+            self.days = days
+            self.expiration = expiration
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// The journal table configuration for an S3 Metadata configuration.
+    public struct JournalTableConfiguration: Swift.Sendable {
+        /// The encryption configuration for the journal table.
+        public var encryptionConfiguration: S3ClientTypes.MetadataTableEncryptionConfiguration?
+        /// The journal table record expiration settings for the journal table.
+        /// This member is required.
+        public var recordExpiration: S3ClientTypes.RecordExpiration?
+
+        public init(
+            encryptionConfiguration: S3ClientTypes.MetadataTableEncryptionConfiguration? = nil,
+            recordExpiration: S3ClientTypes.RecordExpiration? = nil
+        ) {
+            self.encryptionConfiguration = encryptionConfiguration
+            self.recordExpiration = recordExpiration
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// The S3 Metadata configuration for a general purpose bucket.
+    public struct MetadataConfiguration: Swift.Sendable {
+        /// The inventory table configuration for a metadata configuration.
+        public var inventoryTableConfiguration: S3ClientTypes.InventoryTableConfiguration?
+        /// The journal table configuration for a metadata configuration.
+        /// This member is required.
+        public var journalTableConfiguration: S3ClientTypes.JournalTableConfiguration?
+
+        public init(
+            inventoryTableConfiguration: S3ClientTypes.InventoryTableConfiguration? = nil,
+            journalTableConfiguration: S3ClientTypes.JournalTableConfiguration? = nil
+        ) {
+            self.inventoryTableConfiguration = inventoryTableConfiguration
+            self.journalTableConfiguration = journalTableConfiguration
+        }
+    }
+}
+
+public struct CreateBucketMetadataConfigurationInput: Swift.Sendable {
+    /// The general purpose bucket that you want to create the metadata configuration for.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The checksum algorithm to use with your metadata configuration.
+    public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
+    /// The Content-MD5 header for the metadata configuration.
+    public var contentMD5: Swift.String?
+    /// The expected owner of the general purpose bucket that corresponds to your metadata configuration.
+    public var expectedBucketOwner: Swift.String?
+    /// The contents of your metadata configuration.
+    /// This member is required.
+    public var metadataConfiguration: S3ClientTypes.MetadataConfiguration?
+
+    public init(
+        bucket: Swift.String? = nil,
+        checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
+        contentMD5: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        metadataConfiguration: S3ClientTypes.MetadataConfiguration? = nil
+    ) {
+        self.bucket = bucket
+        self.checksumAlgorithm = checksumAlgorithm
+        self.contentMD5 = contentMD5
+        self.expectedBucketOwner = expectedBucketOwner
+        self.metadataConfiguration = metadataConfiguration
+    }
+}
+
+extension S3ClientTypes {
+
+    /// The destination information for a V1 S3 Metadata configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by using [CreateBucketMetadataConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataConfiguration.html) so that you can expire journal table records and create a live inventory table.
     public struct S3TablesDestination: Swift.Sendable {
         /// The Amazon Resource Name (ARN) for the table bucket that's specified as the destination in the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket.
         /// This member is required.
@@ -2041,7 +2314,7 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
-    /// The metadata table configuration for a general purpose bucket.
+    /// The V1 S3 Metadata configuration for a general purpose bucket. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by using [CreateBucketMetadataConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataConfiguration.html) so that you can expire journal table records and create a live inventory table.
     public struct MetadataTableConfiguration: Swift.Sendable {
         /// The destination information for the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket.
         /// This member is required.
@@ -2056,14 +2329,14 @@ extension S3ClientTypes {
 }
 
 public struct CreateBucketMetadataTableConfigurationInput: Swift.Sendable {
-    /// The general purpose bucket that you want to create the metadata table configuration in.
+    /// The general purpose bucket that you want to create the metadata table configuration for.
     /// This member is required.
     public var bucket: Swift.String?
     /// The checksum algorithm to use with your metadata table configuration.
     public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
     /// The Content-MD5 header for the metadata table configuration.
     public var contentMD5: Swift.String?
-    /// The expected owner of the general purpose bucket that contains your metadata table configuration.
+    /// The expected owner of the general purpose bucket that corresponds to your metadata table configuration.
     public var expectedBucketOwner: Swift.String?
     /// The contents of your metadata table configuration.
     /// This member is required.
@@ -2263,9 +2536,11 @@ public struct CreateMultipartUploadInput: Swift.Sendable {
     public var objectLockRetainUntilDate: Foundation.Date?
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
-    /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms).
+    /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx.
     ///
     /// * Directory buckets - For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). We recommend that the bucket's default encryption uses the desired encryption configuration and you don't override the bucket default encryption in your CreateSession requests or PUT object requests. Then, new objects are automatically encrypted with the desired encryption settings. For more information, see [Protecting data with server-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html) in the Amazon S3 User Guide. For more information about the encryption overriding behaviors in directory buckets, see [Specifying server-side encryption with KMS for new object uploads](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-specifying-kms-encryption.html). In the Zonal endpoint API calls (except [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html) and [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html)) using the REST API, the encryption request headers must match the encryption settings that are specified in the CreateSession request. You can't override the values of the encryption settings (x-amz-server-side-encryption, x-amz-server-side-encryption-aws-kms-key-id, x-amz-server-side-encryption-context, and x-amz-server-side-encryption-bucket-key-enabled) that are specified in the CreateSession request. You don't need to explicitly specify these encryption settings values in Zonal endpoint API calls, and Amazon S3 will use the encryption settings values from the CreateSession request to protect new objects in the directory bucket. When you use the CLI or the Amazon Web Services SDKs, for CreateSession, the session token refreshes automatically to avoid service interruptions when a session expires. The CLI or the Amazon Web Services SDKs use the bucket's default encryption configuration for the CreateSession request. It's not supported to override the encryption settings values in the CreateSession request. So in the Zonal endpoint API calls (except [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html) and [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html)), the encryption request headers must match the default encryption configuration of the directory bucket.
+    ///
+    /// * S3 access points for Amazon FSx - When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx. All Amazon FSx file systems have encryption configured by default and are encrypted at rest. Data is automatically encrypted before being written to the file system, and automatically decrypted as it is read. These processes are handled transparently by Amazon FSx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// Specifies the algorithm to use when encrypting the object (for example, AES256). This functionality is not supported for directory buckets.
     public var sseCustomerAlgorithm: Swift.String?
@@ -2377,7 +2652,7 @@ public struct CreateMultipartUploadOutput: Swift.Sendable {
     public var key: Swift.String?
     /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
-    /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms).
+    /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx. When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to confirm the encryption algorithm that's used. This functionality is not supported for directory buckets.
     public var sseCustomerAlgorithm: Swift.String?
@@ -2477,7 +2752,7 @@ public struct CreateSessionInput: Swift.Sendable {
     public var bucket: Swift.String?
     /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using KMS keys (SSE-KMS). S3 Bucket Keys are always enabled for GET and PUT operations in a directory bucket and can’t be disabled. S3 Bucket Keys aren't supported, when you copy SSE-KMS encrypted objects from general purpose buckets to directory buckets, from directory buckets to general purpose buckets, or between directory buckets, through [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html), [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html), [the Copy operation in Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-objects-Batch-Ops), or [the import jobs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-import-job). In this case, Amazon S3 makes a call to KMS every time a copy request is made for a KMS-encrypted object.
     public var bucketKeyEnabled: Swift.Bool?
-    /// The server-side encryption algorithm to use when you store objects in the directory bucket. For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). By default, Amazon S3 encrypts data with SSE-S3. For more information, see [Protecting data with server-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/serv-side-encryption.html) in the Amazon S3 User Guide.
+    /// The server-side encryption algorithm to use when you store objects in the directory bucket. For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). By default, Amazon S3 encrypts data with SSE-S3. For more information, see [Protecting data with server-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/serv-side-encryption.html) in the Amazon S3 User Guide. S3 access points for Amazon FSx - When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx. All Amazon FSx file systems have encryption configured by default and are encrypted at rest. Data is automatically encrypted before being written to the file system, and automatically decrypted as it is read. These processes are handled transparently by Amazon FSx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// Specifies the mode of the session that will be created, either ReadWrite or ReadOnly. By default, a ReadWrite session is created. A ReadWrite session is capable of executing all the Zonal endpoint API operations on a directory bucket. A ReadOnly session is constrained to execute the following Zonal endpoint API operations: GetObject, HeadObject, ListObjectsV2, GetObjectAttributes, ListParts, and ListMultipartUploads.
     public var sessionMode: S3ClientTypes.SessionMode?
@@ -2550,7 +2825,7 @@ public struct CreateSessionOutput: Swift.Sendable {
     /// The established temporary security credentials for the created session.
     /// This member is required.
     public var credentials: S3ClientTypes.SessionCredentials?
-    /// The server-side encryption algorithm used when you store objects in the directory bucket.
+    /// The server-side encryption algorithm used when you store objects in the directory bucket. When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// If present, indicates the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a Base64 encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs. This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject operations on this object.
     public var ssekmsEncryptionContext: Swift.String?
@@ -2650,15 +2925,19 @@ public struct DeleteBucketIntelligentTieringConfigurationInput: Swift.Sendable {
     /// The name of the Amazon S3 bucket whose configuration you want to modify or retrieve.
     /// This member is required.
     public var bucket: Swift.String?
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
     /// The ID used to identify the S3 Intelligent-Tiering configuration.
     /// This member is required.
     public var id: Swift.String?
 
     public init(
         bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
         id: Swift.String? = nil
     ) {
         self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
         self.id = id
     }
 }
@@ -2689,6 +2968,22 @@ public struct DeleteBucketLifecycleInput: Swift.Sendable {
     /// This member is required.
     public var bucket: Swift.String?
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied). This parameter applies to general purpose buckets only. It is not supported for directory bucket lifecycle configurations.
+    public var expectedBucketOwner: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil
+    ) {
+        self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
+    }
+}
+
+public struct DeleteBucketMetadataConfigurationInput: Swift.Sendable {
+    /// The general purpose bucket that you want to remove the metadata configuration from.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The expected bucket owner of the general purpose bucket that you want to remove the metadata table configuration from.
     public var expectedBucketOwner: Swift.String?
 
     public init(
@@ -4254,27 +4549,6 @@ public struct GetBucketAnalyticsConfigurationInput: Swift.Sendable {
 
 extension S3ClientTypes {
 
-    /// A container of a key value name pair.
-    public struct Tag: Swift.Sendable {
-        /// Name of the object key.
-        /// This member is required.
-        public var key: Swift.String?
-        /// Value of the tag.
-        /// This member is required.
-        public var value: Swift.String?
-
-        public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
-        ) {
-            self.key = key
-            self.value = value
-        }
-    }
-}
-
-extension S3ClientTypes {
-
     /// A conjunction (logical AND) of predicates, which is used in evaluating a metrics filter. The operator must have at least two predicates in any combination, and an object must match all of the predicates for the filter to apply.
     public struct AnalyticsAndOperator: Swift.Sendable {
         /// The prefix to use when evaluating an AND predicate: The prefix that an object must have to be included in the metrics results.
@@ -4667,15 +4941,19 @@ public struct GetBucketIntelligentTieringConfigurationInput: Swift.Sendable {
     /// The name of the Amazon S3 bucket whose configuration you want to modify or retrieve.
     /// This member is required.
     public var bucket: Swift.String?
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
     /// The ID used to identify the S3 Intelligent-Tiering configuration.
     /// This member is required.
     public var id: Swift.String?
 
     public init(
         bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
         id: Swift.String? = nil
     ) {
         self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
         self.id = id
     }
 }
@@ -4895,7 +5173,7 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
-    /// Contains the type of server-side encryption used to encrypt the inventory results.
+    /// Contains the type of server-side encryption used to encrypt the S3 Inventory results.
     public struct InventoryEncryption: Swift.Sendable {
         /// Specifies the use of SSE-KMS to encrypt delivered inventory reports.
         public var ssekms: S3ClientTypes.SSEKMS?
@@ -4946,7 +5224,7 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
-    /// Contains the bucket name, file format, bucket owner (optional), and prefix (optional) where inventory results are published.
+    /// Contains the bucket name, file format, bucket owner (optional), and prefix (optional) where S3 Inventory results are published.
     public struct InventoryS3BucketDestination: Swift.Sendable {
         /// The account ID that owns the destination S3 bucket. If no account ID is provided, the owner is not validated before exporting data. Although this value is optional, we strongly recommend that you set it to help prevent problems if the destination bucket ownership changes.
         public var accountId: Swift.String?
@@ -4979,7 +5257,7 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
-    /// Specifies the inventory configuration for an Amazon S3 bucket.
+    /// Specifies the S3 Inventory configuration for an Amazon S3 bucket.
     public struct InventoryDestination: Swift.Sendable {
         /// Contains the bucket name, file format, bucket owner (optional), and prefix (optional) where inventory results are published.
         /// This member is required.
@@ -4995,7 +5273,7 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
-    /// Specifies an inventory filter. The inventory only includes objects that meet the filter's criteria.
+    /// Specifies an S3 Inventory filter. The inventory only includes objects that meet the filter's criteria.
     public struct InventoryFilter: Swift.Sendable {
         /// The prefix that an object must have to be included in the inventory results.
         /// This member is required.
@@ -5137,7 +5415,7 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
-    /// Specifies the schedule for generating inventory results.
+    /// Specifies the schedule for generating S3 Inventory results.
     public struct InventorySchedule: Swift.Sendable {
         /// Specifies how frequently inventory results are produced.
         /// This member is required.
@@ -5153,7 +5431,7 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
-    /// Specifies the inventory configuration for an Amazon S3 bucket. For more information, see [GET Bucket inventory](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketGETInventoryConfig.html) in the Amazon S3 API Reference.
+    /// Specifies the S3 Inventory configuration for an Amazon S3 bucket. For more information, see [GET Bucket inventory](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketGETInventoryConfig.html) in the Amazon S3 API Reference.
     public struct InventoryConfiguration: Swift.Sendable {
         /// Contains information about where to publish the inventory results.
         /// This member is required.
@@ -5446,7 +5724,7 @@ extension S3ClientTypes {
         public var abortIncompleteMultipartUpload: S3ClientTypes.AbortIncompleteMultipartUpload?
         /// Specifies the expiration for the lifecycle of the object in the form of date, days and, whether the object has a delete marker.
         public var expiration: S3ClientTypes.LifecycleExpiration?
-        /// The Filter is used to identify objects that a Lifecycle Rule applies to. A Filter must have exactly one of Prefix, Tag, ObjectSizeGreaterThan, ObjectSizeLessThan, or And specified. Filter is required if the LifecycleRule does not contain a Prefix element. Tag filters are not supported for directory buckets.
+        /// The Filter is used to identify objects that a Lifecycle Rule applies to. A Filter must have exactly one of Prefix, Tag, ObjectSizeGreaterThan, ObjectSizeLessThan, or And specified. Filter is required if the LifecycleRule does not contain a Prefix element. For more information about Tag filters, see [Adding filters to Lifecycle rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/intro-lifecycle-filters.html) in the Amazon S3 User Guide. Tag filters are not supported for directory buckets.
         public var filter: S3ClientTypes.LifecycleRuleFilter?
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
         public var id: Swift.String?
@@ -5744,11 +6022,11 @@ public struct GetBucketLoggingOutput: Swift.Sendable {
     }
 }
 
-public struct GetBucketMetadataTableConfigurationInput: Swift.Sendable {
-    /// The general purpose bucket that contains the metadata table configuration that you want to retrieve.
+public struct GetBucketMetadataConfigurationInput: Swift.Sendable {
+    /// The general purpose bucket that corresponds to the metadata configuration that you want to retrieve.
     /// This member is required.
     public var bucket: Swift.String?
-    /// The expected owner of the general purpose bucket that you want to retrieve the metadata table configuration from.
+    /// The expected owner of the general purpose bucket that you want to retrieve the metadata table configuration for.
     public var expectedBucketOwner: Swift.String?
 
     public init(
@@ -5762,9 +6040,61 @@ public struct GetBucketMetadataTableConfigurationInput: Swift.Sendable {
 
 extension S3ClientTypes {
 
-    /// If the CreateBucketMetadataTableConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error code and error message.
+    public enum S3TablesBucketType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aws
+        case customer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [S3TablesBucketType] {
+            return [
+                .aws,
+                .customer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aws: return "aws"
+            case .customer: return "customer"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// The destination information for the S3 Metadata configuration.
+    public struct DestinationResult: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the table bucket where the metadata configuration is stored.
+        public var tableBucketArn: Swift.String?
+        /// The type of the table bucket where the metadata configuration is stored. The aws value indicates an Amazon Web Services managed table bucket, and the customer value indicates a customer-managed table bucket. V2 metadata configurations are stored in Amazon Web Services managed table buckets, and V1 metadata configurations are stored in customer-managed table buckets.
+        public var tableBucketType: S3ClientTypes.S3TablesBucketType?
+        /// The namespace in the table bucket where the metadata tables for a metadata configuration are stored.
+        public var tableNamespace: Swift.String?
+
+        public init(
+            tableBucketArn: Swift.String? = nil,
+            tableBucketType: S3ClientTypes.S3TablesBucketType? = nil,
+            tableNamespace: Swift.String? = nil
+        ) {
+            self.tableBucketArn = tableBucketArn
+            self.tableBucketType = tableBucketType
+            self.tableNamespace = tableNamespace
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// If an S3 Metadata V1 CreateBucketMetadataTableConfiguration or V2 CreateBucketMetadataConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error code and error message. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by using [CreateBucketMetadataConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataConfiguration.html) so that you can expire journal table records and create a live inventory table.
     public struct ErrorDetails: Swift.Sendable {
-        /// If the CreateBucketMetadataTableConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error code. The possible error codes and error messages are as follows:
+        /// If the V1 CreateBucketMetadataTableConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error code. The possible error codes and error messages are as follows:
         ///
         /// * AccessDeniedCreatingResources - You don't have sufficient permissions to create the required resources. Make sure that you have s3tables:CreateNamespace, s3tables:CreateTable, s3tables:GetTable and s3tables:PutTablePolicy permissions, and then try again. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
         ///
@@ -5777,8 +6107,27 @@ extension S3ClientTypes {
         /// * TableAlreadyExists - The table that you specified already exists in the table bucket's namespace. Specify a different table name. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
         ///
         /// * TableBucketNotFound - The table bucket that you specified doesn't exist in this Amazon Web Services Region and account. Create or choose a different table bucket. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        ///
+        /// If the V2 CreateBucketMetadataConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error code. The possible error codes and error messages are as follows:
+        ///
+        /// * AccessDeniedCreatingResources - You don't have sufficient permissions to create the required resources. Make sure that you have s3tables:CreateTableBucket, s3tables:CreateNamespace, s3tables:CreateTable, s3tables:GetTable, s3tables:PutTablePolicy, kms:DescribeKey, and s3tables:PutTableEncryption permissions. Additionally, ensure that the KMS key used to encrypt the table still exists, is active and has a resource policy granting access to the S3 service principals 'maintenance.s3tables.amazonaws.com' and 'metadata.s3.amazonaws.com'. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * AccessDeniedWritingToTable - Unable to write to the metadata table because of missing resource permissions. To fix the resource policy, Amazon S3 needs to create a new metadata table. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * DestinationTableNotFound - The destination table doesn't exist. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * ServerInternalError - An internal error has occurred. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * JournalTableAlreadyExists - A journal table already exists in the Amazon Web Services managed table bucket's namespace. Delete the journal table, and then try again. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * InventoryTableAlreadyExists - An inventory table already exists in the Amazon Web Services managed table bucket's namespace. Delete the inventory table, and then try again. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * JournalTableNotAvailable - The journal table that the inventory table relies on has a FAILED status. An inventory table requires a journal table with an ACTIVE status. To create a new journal or inventory table, you must delete the metadata configuration for this bucket, along with any journal or inventory tables, and then create a new metadata configuration.
+        ///
+        /// * NoSuchBucket - The specified general purpose bucket does not exist.
         public var errorCode: Swift.String?
-        /// If the CreateBucketMetadataTableConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error message. The possible error codes and error messages are as follows:
+        /// If the V1 CreateBucketMetadataTableConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error message. The possible error codes and error messages are as follows:
         ///
         /// * AccessDeniedCreatingResources - You don't have sufficient permissions to create the required resources. Make sure that you have s3tables:CreateNamespace, s3tables:CreateTable, s3tables:GetTable and s3tables:PutTablePolicy permissions, and then try again. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
         ///
@@ -5791,6 +6140,25 @@ extension S3ClientTypes {
         /// * TableAlreadyExists - The table that you specified already exists in the table bucket's namespace. Specify a different table name. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
         ///
         /// * TableBucketNotFound - The table bucket that you specified doesn't exist in this Amazon Web Services Region and account. Create or choose a different table bucket. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        ///
+        /// If the V2 CreateBucketMetadataConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error code. The possible error codes and error messages are as follows:
+        ///
+        /// * AccessDeniedCreatingResources - You don't have sufficient permissions to create the required resources. Make sure that you have s3tables:CreateTableBucket, s3tables:CreateNamespace, s3tables:CreateTable, s3tables:GetTable, s3tables:PutTablePolicy, kms:DescribeKey, and s3tables:PutTableEncryption permissions. Additionally, ensure that the KMS key used to encrypt the table still exists, is active and has a resource policy granting access to the S3 service principals 'maintenance.s3tables.amazonaws.com' and 'metadata.s3.amazonaws.com'. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * AccessDeniedWritingToTable - Unable to write to the metadata table because of missing resource permissions. To fix the resource policy, Amazon S3 needs to create a new metadata table. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * DestinationTableNotFound - The destination table doesn't exist. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * ServerInternalError - An internal error has occurred. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * JournalTableAlreadyExists - A journal table already exists in the Amazon Web Services managed table bucket's namespace. Delete the journal table, and then try again. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * InventoryTableAlreadyExists - An inventory table already exists in the Amazon Web Services managed table bucket's namespace. Delete the inventory table, and then try again. To create a new metadata table, you must delete the metadata configuration for this bucket, and then create a new metadata configuration.
+        ///
+        /// * JournalTableNotAvailable - The journal table that the inventory table relies on has a FAILED status. An inventory table requires a journal table with an ACTIVE status. To create a new journal or inventory table, you must delete the metadata configuration for this bucket, along with any journal or inventory tables, and then create a new metadata configuration.
+        ///
+        /// * NoSuchBucket - The specified general purpose bucket does not exist.
         public var errorMessage: Swift.String?
 
         public init(
@@ -5805,7 +6173,154 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
-    /// The destination information for the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket.
+    /// The inventory table configuration for an S3 Metadata configuration.
+    public struct InventoryTableConfigurationResult: Swift.Sendable {
+        /// The configuration state of the inventory table, indicating whether the inventory table is enabled or disabled.
+        /// This member is required.
+        public var configurationState: S3ClientTypes.InventoryConfigurationState?
+        /// If an S3 Metadata V1 CreateBucketMetadataTableConfiguration or V2 CreateBucketMetadataConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error code and error message. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by using [CreateBucketMetadataConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataConfiguration.html) so that you can expire journal table records and create a live inventory table.
+        public var error: S3ClientTypes.ErrorDetails?
+        /// The Amazon Resource Name (ARN) for the inventory table.
+        public var tableArn: Swift.String?
+        /// The name of the inventory table.
+        public var tableName: Swift.String?
+        /// The status of the inventory table. The status values are:
+        ///
+        /// * CREATING - The inventory table is in the process of being created in the specified Amazon Web Services managed table bucket.
+        ///
+        /// * BACKFILLING - The inventory table is in the process of being backfilled. When you enable the inventory table for your metadata configuration, the table goes through a process known as backfilling, during which Amazon S3 scans your general purpose bucket to retrieve the initial metadata for all objects in the bucket. Depending on the number of objects in your bucket, this process can take several hours. When the backfilling process is finished, the status of your inventory table changes from BACKFILLING to ACTIVE. After backfilling is completed, updates to your objects are reflected in the inventory table within one hour.
+        ///
+        /// * ACTIVE - The inventory table has been created successfully, and records are being delivered to the table.
+        ///
+        /// * FAILED - Amazon S3 is unable to create the inventory table, or Amazon S3 is unable to deliver records.
+        public var tableStatus: Swift.String?
+
+        public init(
+            configurationState: S3ClientTypes.InventoryConfigurationState? = nil,
+            error: S3ClientTypes.ErrorDetails? = nil,
+            tableArn: Swift.String? = nil,
+            tableName: Swift.String? = nil,
+            tableStatus: Swift.String? = nil
+        ) {
+            self.configurationState = configurationState
+            self.error = error
+            self.tableArn = tableArn
+            self.tableName = tableName
+            self.tableStatus = tableStatus
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// The journal table configuration for the S3 Metadata configuration.
+    public struct JournalTableConfigurationResult: Swift.Sendable {
+        /// If an S3 Metadata V1 CreateBucketMetadataTableConfiguration or V2 CreateBucketMetadataConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error code and error message. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by using [CreateBucketMetadataConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataConfiguration.html) so that you can expire journal table records and create a live inventory table.
+        public var error: S3ClientTypes.ErrorDetails?
+        /// The journal table record expiration settings for the journal table.
+        /// This member is required.
+        public var recordExpiration: S3ClientTypes.RecordExpiration?
+        /// The Amazon Resource Name (ARN) for the journal table.
+        public var tableArn: Swift.String?
+        /// The name of the journal table.
+        /// This member is required.
+        public var tableName: Swift.String?
+        /// The status of the journal table. The status values are:
+        ///
+        /// * CREATING - The journal table is in the process of being created in the specified table bucket.
+        ///
+        /// * ACTIVE - The journal table has been created successfully, and records are being delivered to the table.
+        ///
+        /// * FAILED - Amazon S3 is unable to create the journal table, or Amazon S3 is unable to deliver records.
+        /// This member is required.
+        public var tableStatus: Swift.String?
+
+        public init(
+            error: S3ClientTypes.ErrorDetails? = nil,
+            recordExpiration: S3ClientTypes.RecordExpiration? = nil,
+            tableArn: Swift.String? = nil,
+            tableName: Swift.String? = nil,
+            tableStatus: Swift.String? = nil
+        ) {
+            self.error = error
+            self.recordExpiration = recordExpiration
+            self.tableArn = tableArn
+            self.tableName = tableName
+            self.tableStatus = tableStatus
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// The S3 Metadata configuration for a general purpose bucket.
+    public struct MetadataConfigurationResult: Swift.Sendable {
+        /// The destination settings for a metadata configuration.
+        /// This member is required.
+        public var destinationResult: S3ClientTypes.DestinationResult?
+        /// The inventory table configuration for a metadata configuration.
+        public var inventoryTableConfigurationResult: S3ClientTypes.InventoryTableConfigurationResult?
+        /// The journal table configuration for a metadata configuration.
+        public var journalTableConfigurationResult: S3ClientTypes.JournalTableConfigurationResult?
+
+        public init(
+            destinationResult: S3ClientTypes.DestinationResult? = nil,
+            inventoryTableConfigurationResult: S3ClientTypes.InventoryTableConfigurationResult? = nil,
+            journalTableConfigurationResult: S3ClientTypes.JournalTableConfigurationResult? = nil
+        ) {
+            self.destinationResult = destinationResult
+            self.inventoryTableConfigurationResult = inventoryTableConfigurationResult
+            self.journalTableConfigurationResult = journalTableConfigurationResult
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// The S3 Metadata configuration for a general purpose bucket.
+    public struct GetBucketMetadataConfigurationResult: Swift.Sendable {
+        /// The metadata configuration for a general purpose bucket.
+        /// This member is required.
+        public var metadataConfigurationResult: S3ClientTypes.MetadataConfigurationResult?
+
+        public init(
+            metadataConfigurationResult: S3ClientTypes.MetadataConfigurationResult? = nil
+        ) {
+            self.metadataConfigurationResult = metadataConfigurationResult
+        }
+    }
+}
+
+public struct GetBucketMetadataConfigurationOutput: Swift.Sendable {
+    /// The metadata configuration for the general purpose bucket.
+    public var getBucketMetadataConfigurationResult: S3ClientTypes.GetBucketMetadataConfigurationResult?
+
+    public init(
+        getBucketMetadataConfigurationResult: S3ClientTypes.GetBucketMetadataConfigurationResult? = nil
+    ) {
+        self.getBucketMetadataConfigurationResult = getBucketMetadataConfigurationResult
+    }
+}
+
+public struct GetBucketMetadataTableConfigurationInput: Swift.Sendable {
+    /// The general purpose bucket that corresponds to the metadata table configuration that you want to retrieve.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The expected owner of the general purpose bucket that you want to retrieve the metadata table configuration for.
+    public var expectedBucketOwner: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil
+    ) {
+        self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
+    }
+}
+
+extension S3ClientTypes {
+
+    /// The destination information for a V1 S3 Metadata configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by using [CreateBucketMetadataConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataConfiguration.html) so that you can expire journal table records and create a live inventory table.
     public struct S3TablesDestinationResult: Swift.Sendable {
         /// The Amazon Resource Name (ARN) for the metadata table in the metadata table configuration. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket.
         /// This member is required.
@@ -5836,7 +6351,7 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
-    /// The metadata table configuration for a general purpose bucket. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket.
+    /// The V1 S3 Metadata configuration for a general purpose bucket. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by using [CreateBucketMetadataConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataConfiguration.html) so that you can expire journal table records and create a live inventory table.
     public struct MetadataTableConfigurationResult: Swift.Sendable {
         /// The destination information for the metadata table configuration. The destination table bucket must be in the same Region and Amazon Web Services account as the general purpose bucket. The specified metadata table name must be unique within the aws_s3_metadata namespace in the destination table bucket.
         /// This member is required.
@@ -5852,18 +6367,18 @@ extension S3ClientTypes {
 
 extension S3ClientTypes {
 
-    /// The metadata table configuration for a general purpose bucket.
+    /// The V1 S3 Metadata configuration for a general purpose bucket. If you created your S3 Metadata configuration before July 15, 2025, we recommend that you delete and re-create your configuration by using [CreateBucketMetadataConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataConfiguration.html) so that you can expire journal table records and create a live inventory table.
     public struct GetBucketMetadataTableConfigurationResult: Swift.Sendable {
         /// If the CreateBucketMetadataTableConfiguration request succeeds, but S3 Metadata was unable to create the table, this structure contains the error code and error message.
         public var error: S3ClientTypes.ErrorDetails?
-        /// The metadata table configuration for a general purpose bucket.
+        /// The V1 S3 Metadata configuration for a general purpose bucket.
         /// This member is required.
         public var metadataTableConfigurationResult: S3ClientTypes.MetadataTableConfigurationResult?
         /// The status of the metadata table. The status values are:
         ///
         /// * CREATING - The metadata table is in the process of being created in the specified table bucket.
         ///
-        /// * ACTIVE - The metadata table has been created successfully and records are being delivered to the table.
+        /// * ACTIVE - The metadata table has been created successfully, and records are being delivered to the table.
         ///
         /// * FAILED - Amazon S3 is unable to create the metadata table, or Amazon S3 is unable to deliver records. See ErrorDetails for details.
         /// This member is required.
@@ -6636,7 +7151,7 @@ extension S3ClientTypes {
         public var metrics: S3ClientTypes.Metrics?
         /// A container specifying S3 Replication Time Control (S3 RTC), including whether S3 RTC is enabled and the time when all objects and operations on objects must be replicated. Must be specified together with a Metrics block.
         public var replicationTime: S3ClientTypes.ReplicationTime?
-        /// The storage class to use when replicating objects, such as S3 Standard or reduced redundancy. By default, Amazon S3 uses the storage class of the source object to create the object replica. For valid values, see the StorageClass element of the [PUT Bucket replication](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTreplication.html) action in the Amazon S3 API Reference.
+        /// The storage class to use when replicating objects, such as S3 Standard or reduced redundancy. By default, Amazon S3 uses the storage class of the source object to create the object replica. For valid values, see the StorageClass element of the [PUT Bucket replication](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTreplication.html) action in the Amazon S3 API Reference. FSX_OPENZFS is not an accepted value when replicating objects.
         public var storageClass: S3ClientTypes.StorageClass?
 
         public init(
@@ -7641,7 +8156,7 @@ public struct GetObjectOutput: Swift.Sendable {
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// Provides information about object restoration action and expiration time of the restored object copy. This functionality is not supported for directory buckets. Directory buckets only support EXPRESS_ONEZONE (the S3 Express One Zone storage class) in Availability Zones and ONEZONE_IA (the S3 One Zone-Infrequent Access storage class) in Dedicated Local Zones.
     public var restore: Swift.String?
-    /// The server-side encryption algorithm used when you store this object in Amazon S3.
+    /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx. When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to confirm the encryption algorithm that's used. This functionality is not supported for directory buckets.
     public var sseCustomerAlgorithm: Swift.String?
@@ -7977,9 +8492,9 @@ extension S3ClientTypes {
         public var partNumberMarker: Swift.String?
         /// A container for elements related to a particular part. A response can contain zero or more Parts elements.
         ///
-        /// * General purpose buckets - For GetObjectAttributes, if a additional checksum (including x-amz-checksum-crc32, x-amz-checksum-crc32c, x-amz-checksum-sha1, or x-amz-checksum-sha256) isn't applied to the object specified in the request, the response doesn't return Part.
+        /// * General purpose buckets - For GetObjectAttributes, if an additional checksum (including x-amz-checksum-crc32, x-amz-checksum-crc32c, x-amz-checksum-sha1, or x-amz-checksum-sha256) isn't applied to the object specified in the request, the response doesn't return the Part element.
         ///
-        /// * Directory buckets - For GetObjectAttributes, no matter whether a additional checksum is applied to the object specified in the request, the response returns Part.
+        /// * Directory buckets - For GetObjectAttributes, regardless of whether an additional checksum is applied to the object specified in the request, the response returns the Part element.
         public var parts: [S3ClientTypes.ObjectPart]?
         /// The total number of parts.
         public var totalPartsCount: Swift.Int?
@@ -8483,6 +8998,8 @@ public struct HeadBucketInput: Swift.Sendable {
 public struct HeadBucketOutput: Swift.Sendable {
     /// Indicates whether the bucket name used in the request is an access point alias. For directory buckets, the value of this field is false.
     public var accessPointAlias: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the S3 bucket. ARNs uniquely identify Amazon Web Services resources across all of Amazon Web Services. This parameter is only supported for S3 directory buckets. For more information, see [Using tags with directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html).
+    public var bucketArn: Swift.String?
     /// The name of the location where the bucket will be created. For directory buckets, the Zone ID of the Availability Zone or the Local Zone where the bucket is created. An example Zone ID value for an Availability Zone is usw2-az1. This functionality is only supported by directory buckets.
     public var bucketLocationName: Swift.String?
     /// The type of location where the bucket is created. This functionality is only supported by directory buckets.
@@ -8492,11 +9009,13 @@ public struct HeadBucketOutput: Swift.Sendable {
 
     public init(
         accessPointAlias: Swift.Bool? = nil,
+        bucketArn: Swift.String? = nil,
         bucketLocationName: Swift.String? = nil,
         bucketLocationType: S3ClientTypes.LocationType? = nil,
         bucketRegion: Swift.String? = nil
     ) {
         self.accessPointAlias = accessPointAlias
+        self.bucketArn = bucketArn
         self.bucketLocationName = bucketLocationName
         self.bucketLocationType = bucketLocationType
         self.bucketRegion = bucketRegion
@@ -8728,7 +9247,7 @@ public struct HeadObjectOutput: Swift.Sendable {
     public var requestCharged: S3ClientTypes.RequestCharged?
     /// If the object is an archived object (an object whose storage class is GLACIER), the response includes this header if either the archive restoration is in progress (see [RestoreObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_RestoreObject.html) or an archive copy is already restored. If an archive copy is already restored, the header value indicates when Amazon S3 is scheduled to delete the object copy. For example: x-amz-restore: ongoing-request="false", expiry-date="Fri, 21 Dec 2012 00:00:00 GMT" If the object restoration is in progress, the header returns the value ongoing-request="true". For more information about archiving objects, see [Transitioning Objects: General Considerations](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html#lifecycle-transition-general-considerations). This functionality is not supported for directory buckets. Directory buckets only support EXPRESS_ONEZONE (the S3 Express One Zone storage class) in Availability Zones and ONEZONE_IA (the S3 One Zone-Infrequent Access storage class) in Dedicated Local Zones.
     public var restore: Swift.String?
-    /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
+    /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx. When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to confirm the encryption algorithm that's used. This functionality is not supported for directory buckets.
     public var sseCustomerAlgorithm: Swift.String?
@@ -8738,6 +9257,8 @@ public struct HeadObjectOutput: Swift.Sendable {
     public var ssekmsKeyId: Swift.String?
     /// Provides storage class information of the object. Amazon S3 returns this header for all objects except for S3 Standard storage class objects. For more information, see [Storage Classes](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html). Directory buckets - Directory buckets only support EXPRESS_ONEZONE (the S3 Express One Zone storage class) in Availability Zones and ONEZONE_IA (the S3 One Zone-Infrequent Access storage class) in Dedicated Local Zones.
     public var storageClass: S3ClientTypes.StorageClass?
+    /// The number of tags, if any, on the object, when you have the relevant permission to read object tags. You can use [GetObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectTagging.html) to retrieve the tag set associated with an object. This functionality is not supported for directory buckets.
+    public var tagCount: Swift.Int?
     /// Version ID of the object. This functionality is not supported for directory buckets.
     public var versionId: Swift.String?
     /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata. This functionality is not supported for directory buckets.
@@ -8779,6 +9300,7 @@ public struct HeadObjectOutput: Swift.Sendable {
         sseCustomerKeyMD5: Swift.String? = nil,
         ssekmsKeyId: Swift.String? = nil,
         storageClass: S3ClientTypes.StorageClass? = nil,
+        tagCount: Swift.Int? = nil,
         versionId: Swift.String? = nil,
         websiteRedirectLocation: Swift.String? = nil
     ) {
@@ -8817,6 +9339,7 @@ public struct HeadObjectOutput: Swift.Sendable {
         self.sseCustomerKeyMD5 = sseCustomerKeyMD5
         self.ssekmsKeyId = ssekmsKeyId
         self.storageClass = storageClass
+        self.tagCount = tagCount
         self.versionId = versionId
         self.websiteRedirectLocation = websiteRedirectLocation
     }
@@ -8824,7 +9347,7 @@ public struct HeadObjectOutput: Swift.Sendable {
 
 extension HeadObjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "HeadObjectOutput(acceptRanges: \(Swift.String(describing: acceptRanges)), archiveStatus: \(Swift.String(describing: archiveStatus)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumType: \(Swift.String(describing: checksumType)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentRange: \(Swift.String(describing: contentRange)), contentType: \(Swift.String(describing: contentType)), deleteMarker: \(Swift.String(describing: deleteMarker)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), expires: \(Swift.String(describing: expires)), lastModified: \(Swift.String(describing: lastModified)), metadata: \(Swift.String(describing: metadata)), missingMeta: \(Swift.String(describing: missingMeta)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), partsCount: \(Swift.String(describing: partsCount)), replicationStatus: \(Swift.String(describing: replicationStatus)), requestCharged: \(Swift.String(describing: requestCharged)), restore: \(Swift.String(describing: restore)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), versionId: \(Swift.String(describing: versionId)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
+        "HeadObjectOutput(acceptRanges: \(Swift.String(describing: acceptRanges)), archiveStatus: \(Swift.String(describing: archiveStatus)), bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), cacheControl: \(Swift.String(describing: cacheControl)), checksumCRC32: \(Swift.String(describing: checksumCRC32)), checksumCRC32C: \(Swift.String(describing: checksumCRC32C)), checksumCRC64NVME: \(Swift.String(describing: checksumCRC64NVME)), checksumSHA1: \(Swift.String(describing: checksumSHA1)), checksumSHA256: \(Swift.String(describing: checksumSHA256)), checksumType: \(Swift.String(describing: checksumType)), contentDisposition: \(Swift.String(describing: contentDisposition)), contentEncoding: \(Swift.String(describing: contentEncoding)), contentLanguage: \(Swift.String(describing: contentLanguage)), contentLength: \(Swift.String(describing: contentLength)), contentRange: \(Swift.String(describing: contentRange)), contentType: \(Swift.String(describing: contentType)), deleteMarker: \(Swift.String(describing: deleteMarker)), eTag: \(Swift.String(describing: eTag)), expiration: \(Swift.String(describing: expiration)), expires: \(Swift.String(describing: expires)), lastModified: \(Swift.String(describing: lastModified)), metadata: \(Swift.String(describing: metadata)), missingMeta: \(Swift.String(describing: missingMeta)), objectLockLegalHoldStatus: \(Swift.String(describing: objectLockLegalHoldStatus)), objectLockMode: \(Swift.String(describing: objectLockMode)), objectLockRetainUntilDate: \(Swift.String(describing: objectLockRetainUntilDate)), partsCount: \(Swift.String(describing: partsCount)), replicationStatus: \(Swift.String(describing: replicationStatus)), requestCharged: \(Swift.String(describing: requestCharged)), restore: \(Swift.String(describing: restore)), serverSideEncryption: \(Swift.String(describing: serverSideEncryption)), sseCustomerAlgorithm: \(Swift.String(describing: sseCustomerAlgorithm)), sseCustomerKeyMD5: \(Swift.String(describing: sseCustomerKeyMD5)), storageClass: \(Swift.String(describing: storageClass)), tagCount: \(Swift.String(describing: tagCount)), versionId: \(Swift.String(describing: versionId)), websiteRedirectLocation: \(Swift.String(describing: websiteRedirectLocation)), ssekmsKeyId: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListBucketAnalyticsConfigurationsInput: Swift.Sendable {
@@ -8876,13 +9399,17 @@ public struct ListBucketIntelligentTieringConfigurationsInput: Swift.Sendable {
     public var bucket: Swift.String?
     /// The ContinuationToken that represents a placeholder from where this request should begin.
     public var continuationToken: Swift.String?
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
 
     public init(
         bucket: Swift.String? = nil,
-        continuationToken: Swift.String? = nil
+        continuationToken: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil
     ) {
         self.bucket = bucket
         self.continuationToken = continuationToken
+        self.expectedBucketOwner = expectedBucketOwner
     }
 }
 
@@ -9022,6 +9549,8 @@ extension S3ClientTypes {
 
     /// In terms of implementation, a Bucket is a resource.
     public struct Bucket: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the S3 bucket. ARNs uniquely identify Amazon Web Services resources across all of Amazon Web Services. This parameter is only supported for S3 directory buckets. For more information, see [Using tags with directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html).
+        public var bucketArn: Swift.String?
         /// BucketRegion indicates the Amazon Web Services region where the bucket is located. If the request contains at least one valid parameter, it is included in the response.
         public var bucketRegion: Swift.String?
         /// Date the bucket was created. This date can change when making changes to your bucket, such as editing its bucket policy.
@@ -9030,10 +9559,12 @@ extension S3ClientTypes {
         public var name: Swift.String?
 
         public init(
+            bucketArn: Swift.String? = nil,
             bucketRegion: Swift.String? = nil,
             creationDate: Foundation.Date? = nil,
             name: Swift.String? = nil
         ) {
+            self.bucketArn = bucketArn
             self.bucketRegion = bucketRegion
             self.creationDate = creationDate
             self.name = name
@@ -9125,7 +9656,7 @@ public struct ListMultipartUploadsInput: Swift.Sendable {
     /// The name of the bucket to which the multipart upload was initiated. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide. Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
-    /// Character you use to group keys. All keys that contain the same string between the prefix, if specified, and the first occurrence of the delimiter after the prefix are grouped under a single result element, CommonPrefixes. If you don't specify the prefix parameter, then the substring starts at the beginning of the key. The keys that are grouped under CommonPrefixes result element are not returned elsewhere in the response. Directory buckets - For directory buckets, / is the only supported delimiter.
+    /// Character you use to group keys. All keys that contain the same string between the prefix, if specified, and the first occurrence of the delimiter after the prefix are grouped under a single result element, CommonPrefixes. If you don't specify the prefix parameter, then the substring starts at the beginning of the key. The keys that are grouped under CommonPrefixes result element are not returned elsewhere in the response. CommonPrefixes is filtered out from results if it is not lexicographically greater than the key-marker. Directory buckets - For directory buckets, / is the only supported delimiter.
     public var delimiter: Swift.String?
     /// Encoding type used by Amazon S3 to encode the [object keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html) in the response. Responses are encoded only in UTF-8. An object key can contain any Unicode character. However, the XML 1.0 parser can't parse certain characters, such as characters with an ASCII value from 0 to 10. For characters that aren't supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response. For more information about characters to avoid in object key names, see [Object key naming guidelines](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-guidelines). When using the URL encoding type, non-ASCII characters that are used in an object's key name will be percent-encoded according to UTF-8 code values. For example, the object test_file(3).png will appear as test_file%283%29.png.
     public var encodingType: S3ClientTypes.EncodingType?
@@ -9335,7 +9866,7 @@ public struct ListObjectsInput: Swift.Sendable {
     /// The name of the bucket containing the objects. Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide. Access points - When you use this action with an access point for general purpose buckets, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When you use this action with an access point for directory buckets, you must provide the access point name in place of the bucket name. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html) in the Amazon S3 User Guide. Object Lambda access points are not supported by directory buckets. S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see [What is S3 on Outposts?](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide.
     /// This member is required.
     public var bucket: Swift.String?
-    /// A delimiter is a character that you use to group keys.
+    /// A delimiter is a character that you use to group keys. CommonPrefixes is filtered out from results if it is not lexicographically greater than the key-marker.
     public var delimiter: Swift.String?
     /// Encoding type used by Amazon S3 to encode the [object keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html) in the response. Responses are encoded only in UTF-8. An object key can contain any Unicode character. However, the XML 1.0 parser can't parse certain characters, such as characters with an ASCII value from 0 to 10. For characters that aren't supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response. For more information about characters to avoid in object key names, see [Object key naming guidelines](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-guidelines). When using the URL encoding type, non-ASCII characters that are used in an object's key name will be percent-encoded according to UTF-8 code values. For example, the object test_file(3).png will appear as test_file%283%29.png.
     public var encodingType: S3ClientTypes.EncodingType?
@@ -9399,6 +9930,7 @@ extension S3ClientTypes {
     public enum ObjectStorageClass: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deepArchive
         case expressOnezone
+        case fsxOpenzfs
         case glacier
         case glacierIr
         case intelligentTiering
@@ -9414,6 +9946,7 @@ extension S3ClientTypes {
             return [
                 .deepArchive,
                 .expressOnezone,
+                .fsxOpenzfs,
                 .glacier,
                 .glacierIr,
                 .intelligentTiering,
@@ -9435,6 +9968,7 @@ extension S3ClientTypes {
             switch self {
             case .deepArchive: return "DEEP_ARCHIVE"
             case .expressOnezone: return "EXPRESS_ONEZONE"
+            case .fsxOpenzfs: return "FSX_OPENZFS"
             case .glacier: return "GLACIER"
             case .glacierIr: return "GLACIER_IR"
             case .intelligentTiering: return "INTELLIGENT_TIERING"
@@ -9563,7 +10097,7 @@ public struct ListObjectsV2Input: Swift.Sendable {
     public var bucket: Swift.String?
     /// ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key. You can use this ContinuationToken for pagination of the list results.
     public var continuationToken: Swift.String?
-    /// A delimiter is a character that you use to group keys.
+    /// A delimiter is a character that you use to group keys. CommonPrefixes is filtered out from results if it is not lexicographically greater than the StartAfter value.
     ///
     /// * Directory buckets - For directory buckets, / is the only supported delimiter.
     ///
@@ -9622,7 +10156,7 @@ public struct ListObjectsV2Output: Swift.Sendable {
     public var commonPrefixes: [S3ClientTypes.CommonPrefix]?
     /// Metadata about each object returned.
     public var contents: [S3ClientTypes.Object]?
-    /// If ContinuationToken was sent with the request, it is included in the response. You can use the returned ContinuationToken for pagination of the list response. You can use this ContinuationToken for pagination of the list results.
+    /// If ContinuationToken was sent with the request, it is included in the response. You can use the returned ContinuationToken for pagination of the list response.
     public var continuationToken: Swift.String?
     /// Causes keys that contain the same string between the prefix and the first occurrence of the delimiter to be rolled up into a single result element in the CommonPrefixes collection. These rolled-up keys are not returned elsewhere in the response. Each rolled-up result counts as only one return against the MaxKeys value. Directory buckets - For directory buckets, / is the only supported delimiter.
     public var delimiter: Swift.String?
@@ -9680,7 +10214,7 @@ public struct ListObjectVersionsInput: Swift.Sendable {
     /// The bucket name that contains the objects.
     /// This member is required.
     public var bucket: Swift.String?
-    /// A delimiter is a character that you specify to group keys. All keys that contain the same string between the prefix and the first occurrence of the delimiter are grouped under a single result element in CommonPrefixes. These groups are counted as one result against the max-keys limitation. These keys are not returned elsewhere in the response.
+    /// A delimiter is a character that you specify to group keys. All keys that contain the same string between the prefix and the first occurrence of the delimiter are grouped under a single result element in CommonPrefixes. These groups are counted as one result against the max-keys limitation. These keys are not returned elsewhere in the response. CommonPrefixes is filtered out from results if it is not lexicographically greater than the key-marker.
     public var delimiter: Swift.String?
     /// Encoding type used by Amazon S3 to encode the [object keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html) in the response. Responses are encoded only in UTF-8. An object key can contain any Unicode character. However, the XML 1.0 parser can't parse certain characters, such as characters with an ASCII value from 0 to 10. For characters that aren't supported in XML 1.0, you can add this parameter to request that Amazon S3 encode the keys in the response. For more information about characters to avoid in object key names, see [Object key naming guidelines](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html#object-key-guidelines). When using the URL encoding type, non-ASCII characters that are used in an object's key name will be percent-encoded according to UTF-8 code values. For example, the object test_file(3).png will appear as test_file%283%29.png.
     public var encodingType: S3ClientTypes.EncodingType?
@@ -10253,6 +10787,8 @@ public struct PutBucketIntelligentTieringConfigurationInput: Swift.Sendable {
     /// The name of the Amazon S3 bucket whose configuration you want to modify or retrieve.
     /// This member is required.
     public var bucket: Swift.String?
+    /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
     /// The ID used to identify the S3 Intelligent-Tiering configuration.
     /// This member is required.
     public var id: Swift.String?
@@ -10262,10 +10798,12 @@ public struct PutBucketIntelligentTieringConfigurationInput: Swift.Sendable {
 
     public init(
         bucket: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
         id: Swift.String? = nil,
         intelligentTieringConfiguration: S3ClientTypes.IntelligentTieringConfiguration? = nil
     ) {
         self.bucket = bucket
+        self.expectedBucketOwner = expectedBucketOwner
         self.id = id
         self.intelligentTieringConfiguration = intelligentTieringConfiguration
     }
@@ -10983,11 +11521,13 @@ public struct PutObjectInput: Swift.Sendable {
     public var objectLockRetainUntilDate: Foundation.Date?
     /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
-    /// The server-side encryption algorithm that was used when you store this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).
+    /// The server-side encryption algorithm that was used when you store this object in Amazon S3 or Amazon FSx.
     ///
     /// * General purpose buckets - You have four mutually exclusive options to protect data using server-side encryption in Amazon S3, depending on how you choose to manage the encryption keys. Specifically, the encryption key options are Amazon S3 managed keys (SSE-S3), Amazon Web Services KMS keys (SSE-KMS or DSSE-KMS), and customer-provided keys (SSE-C). Amazon S3 encrypts data with server-side encryption by using Amazon S3 managed keys (SSE-S3) by default. You can optionally tell Amazon S3 to encrypt data at rest by using server-side encryption with other key options. For more information, see [Using Server-Side Encryption](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html) in the Amazon S3 User Guide.
     ///
     /// * Directory buckets - For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). We recommend that the bucket's default encryption uses the desired encryption configuration and you don't override the bucket default encryption in your CreateSession requests or PUT object requests. Then, new objects are automatically encrypted with the desired encryption settings. For more information, see [Protecting data with server-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html) in the Amazon S3 User Guide. For more information about the encryption overriding behaviors in directory buckets, see [Specifying server-side encryption with KMS for new object uploads](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-specifying-kms-encryption.html). In the Zonal endpoint API calls (except [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html) and [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html)) using the REST API, the encryption request headers must match the encryption settings that are specified in the CreateSession request. You can't override the values of the encryption settings (x-amz-server-side-encryption, x-amz-server-side-encryption-aws-kms-key-id, x-amz-server-side-encryption-context, and x-amz-server-side-encryption-bucket-key-enabled) that are specified in the CreateSession request. You don't need to explicitly specify these encryption settings values in Zonal endpoint API calls, and Amazon S3 will use the encryption settings values from the CreateSession request to protect new objects in the directory bucket. When you use the CLI or the Amazon Web Services SDKs, for CreateSession, the session token refreshes automatically to avoid service interruptions when a session expires. The CLI or the Amazon Web Services SDKs use the bucket's default encryption configuration for the CreateSession request. It's not supported to override the encryption settings values in the CreateSession request. So in the Zonal endpoint API calls (except [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html) and [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html)), the encryption request headers must match the default encryption configuration of the directory bucket.
+    ///
+    /// * S3 access points for Amazon FSx - When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx. All Amazon FSx file systems have encryption configured by default and are encrypted at rest. Data is automatically encrypted before being written to the file system, and automatically decrypted as it is read. These processes are handled transparently by Amazon FSx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// Specifies the algorithm to use when encrypting the object (for example, AES256). This functionality is not supported for directory buckets.
     public var sseCustomerAlgorithm: Swift.String?
@@ -11125,7 +11665,7 @@ public struct PutObjectOutput: Swift.Sendable {
     public var expiration: Swift.String?
     /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
-    /// The server-side encryption algorithm used when you store this object in Amazon S3.
+    /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx. When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// The size of the object in bytes. This value is only be present if you append to an object. This functionality is only supported for objects in the Amazon S3 Express One Zone storage class in directory buckets.
     public var size: Swift.Int?
@@ -11495,6 +12035,83 @@ public struct PutPublicAccessBlockInput: Swift.Sendable {
         self.expectedBucketOwner = expectedBucketOwner
         self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
     }
+}
+
+/// Parameters on this idempotent request are inconsistent with parameters used in previous request(s). For a list of error codes and more information on Amazon S3 errors, see [Error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList). Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
+public struct IdempotencyParameterMismatch: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+    public static var typeName: Swift.String { "IdempotencyParameterMismatch" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+    public internal(set) var requestID2: Swift.String?
+
+    public init() { }
+}
+
+public struct RenameObjectInput: Swift.Sendable {
+    /// The bucket name of the directory bucket containing the object. You must use virtual-hosted-style requests in the format Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported. Directory bucket names must be unique in the chosen Availability Zone. Bucket names must follow the format bucket-base-name--zone-id--x-s3  (for example, amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see [Directory bucket naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-bucket-naming-rules.html) in the Amazon S3 User Guide.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// A unique string with a max of 64 ASCII characters in the ASCII range of 33 - 126. RenameObject supports idempotency using a client token. To make an idempotent API request using RenameObject, specify a client token in the request. You should not reuse the same client token for other API requests. If you retry a request that completed successfully using the same client token and the same parameters, the retry succeeds without performing any further actions. If you retry a successful request using the same client token, but one or more of the parameters are different, the retry fails and an IdempotentParameterMismatch error is returned.
+    public var clientToken: Swift.String?
+    /// Renames the object only if the ETag (entity tag) value provided during the operation matches the ETag of the object in S3. The If-Match header field makes the request method conditional on ETags. If the ETag values do not match, the operation returns a 412 Precondition Failed error. Expects the ETag value as a string.
+    public var destinationIfMatch: Swift.String?
+    /// Renames the object if the destination exists and if it has been modified since the specified time.
+    public var destinationIfModifiedSince: Foundation.Date?
+    /// Renames the object only if the destination does not already exist in the specified directory bucket. If the object does exist when you send a request with If-None-Match:*, the S3 API will return a 412 Precondition Failed error, preventing an overwrite. The If-None-Match header prevents overwrites of existing data by validating that there's not an object with the same key name already in your directory bucket. Expects the * character (asterisk).
+    public var destinationIfNoneMatch: Swift.String?
+    /// Renames the object if it hasn't been modified since the specified time.
+    public var destinationIfUnmodifiedSince: Foundation.Date?
+    /// Key name of the object to rename.
+    /// This member is required.
+    public var key: Swift.String?
+    /// Specifies the source for the rename operation. The value must be URL encoded.
+    /// This member is required.
+    public var renameSource: Swift.String?
+    /// Renames the object if the source exists and if its entity tag (ETag) matches the specified ETag.
+    public var sourceIfMatch: Swift.String?
+    /// Renames the object if the source exists and if it has been modified since the specified time.
+    public var sourceIfModifiedSince: Foundation.Date?
+    /// Renames the object if the source exists and if its entity tag (ETag) is different than the specified ETag. If an asterisk (*) character is provided, the operation will fail and return a 412 Precondition Failed error.
+    public var sourceIfNoneMatch: Swift.String?
+    /// Renames the object if the source exists and hasn't been modified since the specified time.
+    public var sourceIfUnmodifiedSince: Foundation.Date?
+
+    public init(
+        bucket: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        destinationIfMatch: Swift.String? = nil,
+        destinationIfModifiedSince: Foundation.Date? = nil,
+        destinationIfNoneMatch: Swift.String? = nil,
+        destinationIfUnmodifiedSince: Foundation.Date? = nil,
+        key: Swift.String? = nil,
+        renameSource: Swift.String? = nil,
+        sourceIfMatch: Swift.String? = nil,
+        sourceIfModifiedSince: Foundation.Date? = nil,
+        sourceIfNoneMatch: Swift.String? = nil,
+        sourceIfUnmodifiedSince: Foundation.Date? = nil
+    ) {
+        self.bucket = bucket
+        self.clientToken = clientToken
+        self.destinationIfMatch = destinationIfMatch
+        self.destinationIfModifiedSince = destinationIfModifiedSince
+        self.destinationIfNoneMatch = destinationIfNoneMatch
+        self.destinationIfUnmodifiedSince = destinationIfUnmodifiedSince
+        self.key = key
+        self.renameSource = renameSource
+        self.sourceIfMatch = sourceIfMatch
+        self.sourceIfModifiedSince = sourceIfModifiedSince
+        self.sourceIfNoneMatch = sourceIfNoneMatch
+        self.sourceIfUnmodifiedSince = sourceIfUnmodifiedSince
+    }
+}
+
+public struct RenameObjectOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 /// This action is not allowed against this storage tier.
@@ -12373,6 +12990,100 @@ public struct SelectObjectContentOutput: Swift.Sendable {
     }
 }
 
+extension S3ClientTypes {
+
+    /// The specified updates to the S3 Metadata inventory table configuration.
+    public struct InventoryTableConfigurationUpdates: Swift.Sendable {
+        /// The configuration state of the inventory table, indicating whether the inventory table is enabled or disabled.
+        /// This member is required.
+        public var configurationState: S3ClientTypes.InventoryConfigurationState?
+        /// The encryption configuration for the inventory table.
+        public var encryptionConfiguration: S3ClientTypes.MetadataTableEncryptionConfiguration?
+
+        public init(
+            configurationState: S3ClientTypes.InventoryConfigurationState? = nil,
+            encryptionConfiguration: S3ClientTypes.MetadataTableEncryptionConfiguration? = nil
+        ) {
+            self.configurationState = configurationState
+            self.encryptionConfiguration = encryptionConfiguration
+        }
+    }
+}
+
+public struct UpdateBucketMetadataInventoryTableConfigurationInput: Swift.Sendable {
+    /// The general purpose bucket that corresponds to the metadata configuration that you want to enable or disable an inventory table for.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The checksum algorithm to use with your inventory table configuration.
+    public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
+    /// The Content-MD5 header for the inventory table configuration.
+    public var contentMD5: Swift.String?
+    /// The expected owner of the general purpose bucket that corresponds to the metadata table configuration that you want to enable or disable an inventory table for.
+    public var expectedBucketOwner: Swift.String?
+    /// The contents of your inventory table configuration.
+    /// This member is required.
+    public var inventoryTableConfiguration: S3ClientTypes.InventoryTableConfigurationUpdates?
+
+    public init(
+        bucket: Swift.String? = nil,
+        checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
+        contentMD5: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        inventoryTableConfiguration: S3ClientTypes.InventoryTableConfigurationUpdates? = nil
+    ) {
+        self.bucket = bucket
+        self.checksumAlgorithm = checksumAlgorithm
+        self.contentMD5 = contentMD5
+        self.expectedBucketOwner = expectedBucketOwner
+        self.inventoryTableConfiguration = inventoryTableConfiguration
+    }
+}
+
+extension S3ClientTypes {
+
+    /// The specified updates to the S3 Metadata journal table configuration.
+    public struct JournalTableConfigurationUpdates: Swift.Sendable {
+        /// The journal table record expiration settings for the journal table.
+        /// This member is required.
+        public var recordExpiration: S3ClientTypes.RecordExpiration?
+
+        public init(
+            recordExpiration: S3ClientTypes.RecordExpiration? = nil
+        ) {
+            self.recordExpiration = recordExpiration
+        }
+    }
+}
+
+public struct UpdateBucketMetadataJournalTableConfigurationInput: Swift.Sendable {
+    /// The general purpose bucket that corresponds to the metadata configuration that you want to enable or disable journal table record expiration for.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// The checksum algorithm to use with your journal table configuration.
+    public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
+    /// The Content-MD5 header for the journal table configuration.
+    public var contentMD5: Swift.String?
+    /// The expected owner of the general purpose bucket that corresponds to the metadata table configuration that you want to enable or disable journal table record expiration for.
+    public var expectedBucketOwner: Swift.String?
+    /// The contents of your journal table configuration.
+    /// This member is required.
+    public var journalTableConfiguration: S3ClientTypes.JournalTableConfigurationUpdates?
+
+    public init(
+        bucket: Swift.String? = nil,
+        checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
+        contentMD5: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        journalTableConfiguration: S3ClientTypes.JournalTableConfigurationUpdates? = nil
+    ) {
+        self.bucket = bucket
+        self.checksumAlgorithm = checksumAlgorithm
+        self.contentMD5 = contentMD5
+        self.expectedBucketOwner = expectedBucketOwner
+        self.journalTableConfiguration = journalTableConfiguration
+    }
+}
+
 public struct UploadPartInput: Swift.Sendable {
     /// Object data.
     public var body: Smithy.ByteStream?
@@ -12478,7 +13189,7 @@ public struct UploadPartOutput: Swift.Sendable {
     public var eTag: Swift.String?
     /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
-    /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms).
+    /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx. When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to confirm the encryption algorithm that's used. This functionality is not supported for directory buckets.
     public var sseCustomerAlgorithm: Swift.String?
@@ -12676,7 +13387,7 @@ public struct UploadPartCopyOutput: Swift.Sendable {
     public var copySourceVersionId: Swift.String?
     /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
     public var requestCharged: S3ClientTypes.RequestCharged?
-    /// The server-side encryption algorithm used when you store this object in Amazon S3 (for example, AES256, aws:kms).
+    /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx. When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to confirm the encryption algorithm that's used. This functionality is not supported for directory buckets.
     public var sseCustomerAlgorithm: Swift.String?
@@ -12780,7 +13491,7 @@ public struct WriteGetObjectResponseInput: Swift.Sendable {
     public var requestToken: Swift.String?
     /// Provides information about object restoration operation and expiration time of the restored object copy.
     public var restore: Swift.String?
-    /// The server-side encryption algorithm used when storing requested object in Amazon S3 (for example, AES256, aws:kms).
+    /// The server-side encryption algorithm used when storing requested object in Amazon S3 or Amazon FSx. When accessing data stored in Amazon FSx file systems using S3 access points, the only valid server side encryption option is aws:fsx.
     public var serverSideEncryption: S3ClientTypes.ServerSideEncryption?
     /// Encryption algorithm used if server-side encryption with a customer-provided encryption key was specified for object stored in Amazon S3.
     public var sseCustomerAlgorithm: Swift.String?
@@ -13163,6 +13874,7 @@ extension CopyObjectInput {
         }
         if let metadata = value.metadata {
             for (prefixHeaderMapKey, prefixHeaderMapValue) in metadata {
+                guard !items.exists(name: "x-amz-meta-\(prefixHeaderMapKey)") else { continue }
                 items.add(SmithyHTTPAPI.Header(name: "x-amz-meta-\(prefixHeaderMapKey)", value: Swift.String(prefixHeaderMapValue)))
             }
         }
@@ -13214,6 +13926,39 @@ extension CreateBucketInput {
         if let objectOwnership = value.objectOwnership {
             items.add(SmithyHTTPAPI.Header(name: "x-amz-object-ownership", value: Swift.String(objectOwnership.rawValue)))
         }
+        return items
+    }
+}
+
+extension CreateBucketMetadataConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateBucketMetadataConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateBucketMetadataConfigurationInput {
+
+    static func headerProvider(_ value: CreateBucketMetadataConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let checksumAlgorithm = value.checksumAlgorithm {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
+        }
+        if let contentMD5 = value.contentMD5 {
+            items.add(SmithyHTTPAPI.Header(name: "Content-MD5", value: Swift.String(contentMD5)))
+        }
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension CreateBucketMetadataConfigurationInput {
+
+    static func queryItemProvider(_ value: CreateBucketMetadataConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "metadataConfiguration", value: nil))
         return items
     }
 }
@@ -13351,6 +14096,7 @@ extension CreateMultipartUploadInput {
         }
         if let metadata = value.metadata {
             for (prefixHeaderMapKey, prefixHeaderMapValue) in metadata {
+                guard !items.exists(name: "x-amz-meta-\(prefixHeaderMapKey)") else { continue }
                 items.add(SmithyHTTPAPI.Header(name: "x-amz-meta-\(prefixHeaderMapKey)", value: Swift.String(prefixHeaderMapValue)))
             }
         }
@@ -13520,6 +14266,17 @@ extension DeleteBucketIntelligentTieringConfigurationInput {
 
 extension DeleteBucketIntelligentTieringConfigurationInput {
 
+    static func headerProvider(_ value: DeleteBucketIntelligentTieringConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension DeleteBucketIntelligentTieringConfigurationInput {
+
     static func queryItemProvider(_ value: DeleteBucketIntelligentTieringConfigurationInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         items.append(Smithy.URIQueryItem(name: "intelligent-tiering", value: nil))
@@ -13589,6 +14346,33 @@ extension DeleteBucketLifecycleInput {
     static func queryItemProvider(_ value: DeleteBucketLifecycleInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         items.append(Smithy.URIQueryItem(name: "lifecycle", value: nil))
+        return items
+    }
+}
+
+extension DeleteBucketMetadataConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteBucketMetadataConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteBucketMetadataConfigurationInput {
+
+    static func headerProvider(_ value: DeleteBucketMetadataConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension DeleteBucketMetadataConfigurationInput {
+
+    static func queryItemProvider(_ value: DeleteBucketMetadataConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "metadataConfiguration", value: nil))
         return items
     }
 }
@@ -14094,6 +14878,17 @@ extension GetBucketIntelligentTieringConfigurationInput {
 
 extension GetBucketIntelligentTieringConfigurationInput {
 
+    static func headerProvider(_ value: GetBucketIntelligentTieringConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension GetBucketIntelligentTieringConfigurationInput {
+
     static func queryItemProvider(_ value: GetBucketIntelligentTieringConfigurationInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         items.append(Smithy.URIQueryItem(name: "intelligent-tiering", value: nil))
@@ -14219,6 +15014,33 @@ extension GetBucketLoggingInput {
     static func queryItemProvider(_ value: GetBucketLoggingInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         items.append(Smithy.URIQueryItem(name: "logging", value: nil))
+        return items
+    }
+}
+
+extension GetBucketMetadataConfigurationInput {
+
+    static func urlPathProvider(_ value: GetBucketMetadataConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetBucketMetadataConfigurationInput {
+
+    static func headerProvider(_ value: GetBucketMetadataConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension GetBucketMetadataConfigurationInput {
+
+    static func queryItemProvider(_ value: GetBucketMetadataConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "metadataConfiguration", value: nil))
         return items
     }
 }
@@ -15064,6 +15886,17 @@ extension ListBucketIntelligentTieringConfigurationsInput {
 
 extension ListBucketIntelligentTieringConfigurationsInput {
 
+    static func headerProvider(_ value: ListBucketIntelligentTieringConfigurationsInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension ListBucketIntelligentTieringConfigurationsInput {
+
     static func queryItemProvider(_ value: ListBucketIntelligentTieringConfigurationsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         items.append(Smithy.URIQueryItem(name: "intelligent-tiering", value: nil))
@@ -15680,6 +16513,17 @@ extension PutBucketIntelligentTieringConfigurationInput {
 
 extension PutBucketIntelligentTieringConfigurationInput {
 
+    static func headerProvider(_ value: PutBucketIntelligentTieringConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension PutBucketIntelligentTieringConfigurationInput {
+
     static func queryItemProvider(_ value: PutBucketIntelligentTieringConfigurationInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         items.append(Smithy.URIQueryItem(name: "intelligent-tiering", value: nil))
@@ -16222,6 +17066,7 @@ extension PutObjectInput {
         }
         if let metadata = value.metadata {
             for (prefixHeaderMapKey, prefixHeaderMapValue) in metadata {
+                guard !items.exists(name: "x-amz-meta-\(prefixHeaderMapKey)") else { continue }
                 items.add(SmithyHTTPAPI.Header(name: "x-amz-meta-\(prefixHeaderMapKey)", value: Swift.String(prefixHeaderMapValue)))
             }
         }
@@ -16503,6 +17348,63 @@ extension PutPublicAccessBlockInput {
     }
 }
 
+extension RenameObjectInput {
+
+    static func urlPathProvider(_ value: RenameObjectInput) -> Swift.String? {
+        guard let key = value.key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension RenameObjectInput {
+
+    static func headerProvider(_ value: RenameObjectInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let clientToken = value.clientToken {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-client-token", value: Swift.String(clientToken)))
+        }
+        if let destinationIfMatch = value.destinationIfMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(destinationIfMatch)))
+        }
+        if let destinationIfModifiedSince = value.destinationIfModifiedSince {
+            items.add(SmithyHTTPAPI.Header(name: "If-Modified-Since", value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .httpDate).string(from: destinationIfModifiedSince))))
+        }
+        if let destinationIfNoneMatch = value.destinationIfNoneMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-None-Match", value: Swift.String(destinationIfNoneMatch)))
+        }
+        if let destinationIfUnmodifiedSince = value.destinationIfUnmodifiedSince {
+            items.add(SmithyHTTPAPI.Header(name: "If-Unmodified-Since", value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .httpDate).string(from: destinationIfUnmodifiedSince))))
+        }
+        if let renameSource = value.renameSource {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-rename-source", value: Swift.String(renameSource)))
+        }
+        if let sourceIfMatch = value.sourceIfMatch {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-rename-source-if-match", value: Swift.String(sourceIfMatch)))
+        }
+        if let sourceIfModifiedSince = value.sourceIfModifiedSince {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-rename-source-if-modified-since", value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .httpDate).string(from: sourceIfModifiedSince))))
+        }
+        if let sourceIfNoneMatch = value.sourceIfNoneMatch {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-rename-source-if-none-match", value: Swift.String(sourceIfNoneMatch)))
+        }
+        if let sourceIfUnmodifiedSince = value.sourceIfUnmodifiedSince {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-rename-source-if-unmodified-since", value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .httpDate).string(from: sourceIfUnmodifiedSince))))
+        }
+        return items
+    }
+}
+
+extension RenameObjectInput {
+
+    static func queryItemProvider(_ value: RenameObjectInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "renameObject", value: nil))
+        return items
+    }
+}
+
 extension RestoreObjectInput {
 
     static func urlPathProvider(_ value: RestoreObjectInput) -> Swift.String? {
@@ -16579,6 +17481,72 @@ extension SelectObjectContentInput {
         var items = [Smithy.URIQueryItem]()
         items.append(Smithy.URIQueryItem(name: "select", value: nil))
         items.append(Smithy.URIQueryItem(name: "select-type", value: "2"))
+        return items
+    }
+}
+
+extension UpdateBucketMetadataInventoryTableConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateBucketMetadataInventoryTableConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateBucketMetadataInventoryTableConfigurationInput {
+
+    static func headerProvider(_ value: UpdateBucketMetadataInventoryTableConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let checksumAlgorithm = value.checksumAlgorithm {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
+        }
+        if let contentMD5 = value.contentMD5 {
+            items.add(SmithyHTTPAPI.Header(name: "Content-MD5", value: Swift.String(contentMD5)))
+        }
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension UpdateBucketMetadataInventoryTableConfigurationInput {
+
+    static func queryItemProvider(_ value: UpdateBucketMetadataInventoryTableConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "metadataInventoryTable", value: nil))
+        return items
+    }
+}
+
+extension UpdateBucketMetadataJournalTableConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateBucketMetadataJournalTableConfigurationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateBucketMetadataJournalTableConfigurationInput {
+
+    static func headerProvider(_ value: UpdateBucketMetadataJournalTableConfigurationInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let checksumAlgorithm = value.checksumAlgorithm {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
+        }
+        if let contentMD5 = value.contentMD5 {
+            items.add(SmithyHTTPAPI.Header(name: "Content-MD5", value: Swift.String(contentMD5)))
+        }
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        return items
+    }
+}
+
+extension UpdateBucketMetadataJournalTableConfigurationInput {
+
+    static func queryItemProvider(_ value: UpdateBucketMetadataJournalTableConfigurationInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "metadataJournalTable", value: nil))
         return items
     }
 }
@@ -16875,6 +17843,7 @@ extension WriteGetObjectResponseInput {
         }
         if let metadata = value.metadata {
             for (prefixHeaderMapKey, prefixHeaderMapValue) in metadata {
+                guard !items.exists(name: "x-amz-meta-\(prefixHeaderMapKey)") else { continue }
                 items.add(SmithyHTTPAPI.Header(name: "x-amz-meta-\(prefixHeaderMapKey)", value: Swift.String(prefixHeaderMapValue)))
             }
         }
@@ -16895,6 +17864,14 @@ extension CreateBucketInput {
     static func write(value: CreateBucketInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["CreateBucketConfiguration"].write(value.createBucketConfiguration, with: S3ClientTypes.CreateBucketConfiguration.write(value:to:))
+    }
+}
+
+extension CreateBucketMetadataConfigurationInput {
+
+    static func write(value: CreateBucketMetadataConfigurationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["MetadataConfiguration"].write(value.metadataConfiguration, with: S3ClientTypes.MetadataConfiguration.write(value:to:))
     }
 }
 
@@ -17135,6 +18112,22 @@ extension SelectObjectContentInput {
     }
 }
 
+extension UpdateBucketMetadataInventoryTableConfigurationInput {
+
+    static func write(value: UpdateBucketMetadataInventoryTableConfigurationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["InventoryTableConfiguration"].write(value.inventoryTableConfiguration, with: S3ClientTypes.InventoryTableConfigurationUpdates.write(value:to:))
+    }
+}
+
+extension UpdateBucketMetadataJournalTableConfigurationInput {
+
+    static func write(value: UpdateBucketMetadataJournalTableConfigurationInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["JournalTableConfiguration"].write(value.journalTableConfiguration, with: S3ClientTypes.JournalTableConfigurationUpdates.write(value:to:))
+    }
+}
+
 extension UploadPartInput {
 
     static func write(value: UploadPartInput?, to writer: SmithyXML.Writer) throws {
@@ -17247,10 +18240,20 @@ extension CreateBucketOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateBucketOutput {
         var value = CreateBucketOutput()
+        if let bucketArnHeaderValue = httpResponse.headers.value(for: "x-amz-bucket-arn") {
+            value.bucketArn = bucketArnHeaderValue
+        }
         if let locationHeaderValue = httpResponse.headers.value(for: "Location") {
             value.location = locationHeaderValue
         }
         return value
+    }
+}
+
+extension CreateBucketMetadataConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateBucketMetadataConfigurationOutput {
+        return CreateBucketMetadataConfigurationOutput()
     }
 }
 
@@ -17378,6 +18381,13 @@ extension DeleteBucketLifecycleOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteBucketLifecycleOutput {
         return DeleteBucketLifecycleOutput()
+    }
+}
+
+extension DeleteBucketMetadataConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteBucketMetadataConfigurationOutput {
+        return DeleteBucketMetadataConfigurationOutput()
     }
 }
 
@@ -17604,6 +18614,18 @@ extension GetBucketLoggingOutput {
         let reader = responseReader
         var value = GetBucketLoggingOutput()
         value.loggingEnabled = try reader["LoggingEnabled"].readIfPresent(with: S3ClientTypes.LoggingEnabled.read(from:))
+        return value
+    }
+}
+
+extension GetBucketMetadataConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetBucketMetadataConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBucketMetadataConfigurationOutput()
+        value.getBucketMetadataConfigurationResult = try reader.readIfPresent(with: S3ClientTypes.GetBucketMetadataConfigurationResult.read(from:))
         return value
     }
 }
@@ -18015,6 +19037,9 @@ extension HeadBucketOutput {
         if let accessPointAliasHeaderValue = httpResponse.headers.value(for: "x-amz-access-point-alias") {
             value.accessPointAlias = Swift.Bool(accessPointAliasHeaderValue) ?? false
         }
+        if let bucketArnHeaderValue = httpResponse.headers.value(for: "x-amz-bucket-arn") {
+            value.bucketArn = bucketArnHeaderValue
+        }
         if let bucketLocationNameHeaderValue = httpResponse.headers.value(for: "x-amz-bucket-location-name") {
             value.bucketLocationName = bucketLocationNameHeaderValue
         }
@@ -18133,6 +19158,9 @@ extension HeadObjectOutput {
         }
         if let storageClassHeaderValue = httpResponse.headers.value(for: "x-amz-storage-class") {
             value.storageClass = S3ClientTypes.StorageClass(rawValue: storageClassHeaderValue)
+        }
+        if let tagCountHeaderValue = httpResponse.headers.value(for: "x-amz-tagging-count") {
+            value.tagCount = Swift.Int(tagCountHeaderValue) ?? 0
         }
         if let versionIdHeaderValue = httpResponse.headers.value(for: "x-amz-version-id") {
             value.versionId = versionIdHeaderValue
@@ -18631,6 +19659,13 @@ extension PutPublicAccessBlockOutput {
     }
 }
 
+extension RenameObjectOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RenameObjectOutput {
+        return RenameObjectOutput()
+    }
+}
+
 extension RestoreObjectOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RestoreObjectOutput {
@@ -18655,6 +19690,20 @@ extension SelectObjectContentOutput {
             value.payload = decoderStream.toAsyncStream()
         }
         return value
+    }
+}
+
+extension UpdateBucketMetadataInventoryTableConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateBucketMetadataInventoryTableConfigurationOutput {
+        return UpdateBucketMetadataInventoryTableConfigurationOutput()
+    }
+}
+
+extension UpdateBucketMetadataJournalTableConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateBucketMetadataJournalTableConfigurationOutput {
+        return UpdateBucketMetadataJournalTableConfigurationOutput()
     }
 }
 
@@ -18809,6 +19858,20 @@ enum CreateBucketOutputError {
     }
 }
 
+enum CreateBucketMetadataConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateBucketMetadataTableConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -18937,6 +20000,20 @@ enum DeleteBucketInventoryConfigurationOutputError {
 }
 
 enum DeleteBucketLifecycleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteBucketMetadataConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -19231,6 +20308,20 @@ enum GetBucketLocationOutputError {
 }
 
 enum GetBucketLoggingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetBucketMetadataConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -20069,6 +21160,21 @@ enum PutPublicAccessBlockOutputError {
     }
 }
 
+enum RenameObjectOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "IdempotencyParameterMismatch": return try IdempotencyParameterMismatch.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum RestoreObjectOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -20085,6 +21191,34 @@ enum RestoreObjectOutputError {
 }
 
 enum SelectObjectContentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateBucketMetadataInventoryTableConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateBucketMetadataJournalTableConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -20164,10 +21298,10 @@ extension ObjectNotInActiveTierError {
     }
 }
 
-extension BucketAlreadyOwnedByYou {
+extension BucketAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BucketAlreadyOwnedByYou {
-        var value = BucketAlreadyOwnedByYou()
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BucketAlreadyExists {
+        var value = BucketAlreadyExists()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -20176,10 +21310,10 @@ extension BucketAlreadyOwnedByYou {
     }
 }
 
-extension BucketAlreadyExists {
+extension BucketAlreadyOwnedByYou {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BucketAlreadyExists {
-        var value = BucketAlreadyExists()
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> BucketAlreadyOwnedByYou {
+        var value = BucketAlreadyOwnedByYou()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -20200,10 +21334,13 @@ extension NoSuchBucket {
     }
 }
 
-extension NoSuchKey {
+extension InvalidObjectState {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchKey {
-        var value = NoSuchKey()
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidObjectState {
+        let reader = baseError.errorBodyReader
+        var value = InvalidObjectState()
+        value.properties.accessTier = try reader["AccessTier"].readIfPresent()
+        value.properties.storageClass = try reader["StorageClass"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -20212,13 +21349,10 @@ extension NoSuchKey {
     }
 }
 
-extension InvalidObjectState {
+extension NoSuchKey {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidObjectState {
-        let reader = baseError.errorBodyReader
-        var value = InvalidObjectState()
-        value.properties.accessTier = try reader["AccessTier"].readIfPresent()
-        value.properties.storageClass = try reader["StorageClass"].readIfPresent()
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchKey {
+        var value = NoSuchKey()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -20251,18 +21385,6 @@ extension EncryptionTypeMismatch {
     }
 }
 
-extension InvalidWriteOffset {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidWriteOffset {
-        var value = InvalidWriteOffset()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        value.requestID2 = baseError.requestID2
-        return value
-    }
-}
-
 extension InvalidRequest {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidRequest {
@@ -20275,10 +21397,34 @@ extension InvalidRequest {
     }
 }
 
+extension InvalidWriteOffset {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidWriteOffset {
+        var value = InvalidWriteOffset()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        value.requestID2 = baseError.requestID2
+        return value
+    }
+}
+
 extension TooManyParts {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyParts {
         var value = TooManyParts()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        value.requestID2 = baseError.requestID2
+        return value
+    }
+}
+
+extension IdempotencyParameterMismatch {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> IdempotencyParameterMismatch {
+        var value = IdempotencyParameterMismatch()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -21149,14 +22295,38 @@ extension S3ClientTypes.TargetGrant {
     }
 }
 
-extension S3ClientTypes.GetBucketMetadataTableConfigurationResult {
+extension S3ClientTypes.GetBucketMetadataConfigurationResult {
 
-    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.GetBucketMetadataTableConfigurationResult {
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.GetBucketMetadataConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3ClientTypes.GetBucketMetadataTableConfigurationResult()
-        value.metadataTableConfigurationResult = try reader["MetadataTableConfigurationResult"].readIfPresent(with: S3ClientTypes.MetadataTableConfigurationResult.read(from:))
-        value.status = try reader["Status"].readIfPresent() ?? ""
+        var value = S3ClientTypes.GetBucketMetadataConfigurationResult()
+        value.metadataConfigurationResult = try reader["MetadataConfigurationResult"].readIfPresent(with: S3ClientTypes.MetadataConfigurationResult.read(from:))
+        return value
+    }
+}
+
+extension S3ClientTypes.MetadataConfigurationResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.MetadataConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.MetadataConfigurationResult()
+        value.destinationResult = try reader["DestinationResult"].readIfPresent(with: S3ClientTypes.DestinationResult.read(from:))
+        value.journalTableConfigurationResult = try reader["JournalTableConfigurationResult"].readIfPresent(with: S3ClientTypes.JournalTableConfigurationResult.read(from:))
+        value.inventoryTableConfigurationResult = try reader["InventoryTableConfigurationResult"].readIfPresent(with: S3ClientTypes.InventoryTableConfigurationResult.read(from:))
+        return value
+    }
+}
+
+extension S3ClientTypes.InventoryTableConfigurationResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.InventoryTableConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.InventoryTableConfigurationResult()
+        value.configurationState = try reader["ConfigurationState"].readIfPresent() ?? .sdkUnknown("")
+        value.tableStatus = try reader["TableStatus"].readIfPresent()
         value.error = try reader["Error"].readIfPresent(with: S3ClientTypes.ErrorDetails.read(from:))
+        value.tableName = try reader["TableName"].readIfPresent()
+        value.tableArn = try reader["TableArn"].readIfPresent()
         return value
     }
 }
@@ -21168,6 +22338,61 @@ extension S3ClientTypes.ErrorDetails {
         var value = S3ClientTypes.ErrorDetails()
         value.errorCode = try reader["ErrorCode"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension S3ClientTypes.JournalTableConfigurationResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.JournalTableConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.JournalTableConfigurationResult()
+        value.tableStatus = try reader["TableStatus"].readIfPresent() ?? ""
+        value.error = try reader["Error"].readIfPresent(with: S3ClientTypes.ErrorDetails.read(from:))
+        value.tableName = try reader["TableName"].readIfPresent() ?? ""
+        value.tableArn = try reader["TableArn"].readIfPresent()
+        value.recordExpiration = try reader["RecordExpiration"].readIfPresent(with: S3ClientTypes.RecordExpiration.read(from:))
+        return value
+    }
+}
+
+extension S3ClientTypes.RecordExpiration {
+
+    static func write(value: S3ClientTypes.RecordExpiration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Days"].write(value.days)
+        try writer["Expiration"].write(value.expiration)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.RecordExpiration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.RecordExpiration()
+        value.expiration = try reader["Expiration"].readIfPresent() ?? .sdkUnknown("")
+        value.days = try reader["Days"].readIfPresent()
+        return value
+    }
+}
+
+extension S3ClientTypes.DestinationResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.DestinationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.DestinationResult()
+        value.tableBucketType = try reader["TableBucketType"].readIfPresent()
+        value.tableBucketArn = try reader["TableBucketArn"].readIfPresent()
+        value.tableNamespace = try reader["TableNamespace"].readIfPresent()
+        return value
+    }
+}
+
+extension S3ClientTypes.GetBucketMetadataTableConfigurationResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.GetBucketMetadataTableConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.GetBucketMetadataTableConfigurationResult()
+        value.metadataTableConfigurationResult = try reader["MetadataTableConfigurationResult"].readIfPresent(with: S3ClientTypes.MetadataTableConfigurationResult.read(from:))
+        value.status = try reader["Status"].readIfPresent() ?? ""
+        value.error = try reader["Error"].readIfPresent(with: S3ClientTypes.ErrorDetails.read(from:))
         return value
     }
 }
@@ -21959,6 +23184,7 @@ extension S3ClientTypes.Bucket {
         value.name = try reader["Name"].readIfPresent()
         value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.bucketRegion = try reader["BucketRegion"].readIfPresent()
+        value.bucketArn = try reader["BucketArn"].readIfPresent()
         return value
     }
 }
@@ -22197,6 +23423,7 @@ extension S3ClientTypes.CreateBucketConfiguration {
         try writer["Bucket"].write(value.bucket, with: S3ClientTypes.BucketInfo.write(value:to:))
         try writer["Location"].write(value.location, with: S3ClientTypes.LocationInfo.write(value:to:))
         try writer["LocationConstraint"].write(value.locationConstraint)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: S3ClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
     }
 }
 
@@ -22215,6 +23442,42 @@ extension S3ClientTypes.LocationInfo {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Type"].write(value.type)
+    }
+}
+
+extension S3ClientTypes.MetadataConfiguration {
+
+    static func write(value: S3ClientTypes.MetadataConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["InventoryTableConfiguration"].write(value.inventoryTableConfiguration, with: S3ClientTypes.InventoryTableConfiguration.write(value:to:))
+        try writer["JournalTableConfiguration"].write(value.journalTableConfiguration, with: S3ClientTypes.JournalTableConfiguration.write(value:to:))
+    }
+}
+
+extension S3ClientTypes.InventoryTableConfiguration {
+
+    static func write(value: S3ClientTypes.InventoryTableConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ConfigurationState"].write(value.configurationState)
+        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: S3ClientTypes.MetadataTableEncryptionConfiguration.write(value:to:))
+    }
+}
+
+extension S3ClientTypes.MetadataTableEncryptionConfiguration {
+
+    static func write(value: S3ClientTypes.MetadataTableEncryptionConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+        try writer["SseAlgorithm"].write(value.sseAlgorithm)
+    }
+}
+
+extension S3ClientTypes.JournalTableConfiguration {
+
+    static func write(value: S3ClientTypes.JournalTableConfiguration?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: S3ClientTypes.MetadataTableEncryptionConfiguration.write(value:to:))
+        try writer["RecordExpiration"].write(value.recordExpiration, with: S3ClientTypes.RecordExpiration.write(value:to:))
     }
 }
 
@@ -22506,6 +23769,23 @@ extension S3ClientTypes.ScanRange {
     }
 }
 
+extension S3ClientTypes.InventoryTableConfigurationUpdates {
+
+    static func write(value: S3ClientTypes.InventoryTableConfigurationUpdates?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ConfigurationState"].write(value.configurationState)
+        try writer["EncryptionConfiguration"].write(value.encryptionConfiguration, with: S3ClientTypes.MetadataTableEncryptionConfiguration.write(value:to:))
+    }
+}
+
+extension S3ClientTypes.JournalTableConfigurationUpdates {
+
+    static func write(value: S3ClientTypes.JournalTableConfigurationUpdates?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["RecordExpiration"].write(value.recordExpiration, with: S3ClientTypes.RecordExpiration.write(value:to:))
+    }
+}
+
 extension GetObjectInput {
     public func presignURL(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
         let serviceName = "S3"
@@ -22517,23 +23797,18 @@ extension GetObjectInput {
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObject")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withSmithyDefaultConfig(config)
                       .withFlowType(value: .PRESIGN_URL)
                       .withExpiration(value: expiration)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetObjectInput, GetObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -22605,27 +23880,27 @@ extension GetObjectInputGETQueryItemMiddleware: Smithy.RequestMessageSerializer 
             builder.withQueryItem(queryItem)
         }
         if let responseCacheControl = input.responseCacheControl {
-            let queryItem = Smithy.URIQueryItem(name: "ResponseCacheControl".urlPercentEncoding(), value: Swift.String(responseCacheControl).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "response-cache-control".urlPercentEncoding(), value: Swift.String(responseCacheControl).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let responseContentDisposition = input.responseContentDisposition {
-            let queryItem = Smithy.URIQueryItem(name: "ResponseContentDisposition".urlPercentEncoding(), value: Swift.String(responseContentDisposition).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "response-content-disposition".urlPercentEncoding(), value: Swift.String(responseContentDisposition).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let responseContentEncoding = input.responseContentEncoding {
-            let queryItem = Smithy.URIQueryItem(name: "ResponseContentEncoding".urlPercentEncoding(), value: Swift.String(responseContentEncoding).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "response-content-encoding".urlPercentEncoding(), value: Swift.String(responseContentEncoding).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let responseContentLanguage = input.responseContentLanguage {
-            let queryItem = Smithy.URIQueryItem(name: "ResponseContentLanguage".urlPercentEncoding(), value: Swift.String(responseContentLanguage).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "response-content-language".urlPercentEncoding(), value: Swift.String(responseContentLanguage).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let responseContentType = input.responseContentType {
-            let queryItem = Smithy.URIQueryItem(name: "ResponseContentType".urlPercentEncoding(), value: Swift.String(responseContentType).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "response-content-type".urlPercentEncoding(), value: Swift.String(responseContentType).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let versionId = input.versionId {
-            let queryItem = Smithy.URIQueryItem(name: "VersionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            let queryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             builder.withQueryItem(queryItem)
         }
         if let sseCustomerAlgorithm = input.sseCustomerAlgorithm {
@@ -22666,23 +23941,18 @@ extension PutObjectInput {
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObject")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withSmithyDefaultConfig(config)
                       .withFlowType(value: .PRESIGN_URL)
                       .withExpiration(value: expiration)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutObjectInput, PutObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -22756,23 +24026,18 @@ extension UploadPartInput {
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "uploadPart")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withSmithyDefaultConfig(config)
                       .withFlowType(value: .PRESIGN_URL)
                       .withExpiration(value: expiration)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UploadPartInput, UploadPartOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -22825,23 +24090,18 @@ extension GetObjectInput {
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "getObject")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withSmithyDefaultConfig(config)
                       .withFlowType(value: .PRESIGN_REQUEST)
                       .withExpiration(value: expiration)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetObjectInput, GetObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -22897,23 +24157,18 @@ extension PutObjectInput {
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "putObject")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withSmithyDefaultConfig(config)
                       .withFlowType(value: .PRESIGN_REQUEST)
                       .withExpiration(value: expiration)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutObjectInput, PutObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -22973,23 +24228,18 @@ extension UploadPartInput {
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "uploadPart")
-                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
-                      .withLogger(value: config.logger)
-                      .withPartitionID(value: config.partitionID)
-                      .withAuthSchemes(value: config.authSchemes ?? [])
-                      .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
-                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
-                      .withIdentityResolver(value: config.bearerTokenIdentityResolver, schemeID: "smithy.api#httpBearerAuth")
+                      .withSmithyDefaultConfig(config)
                       .withFlowType(value: .PRESIGN_REQUEST)
                       .withExpiration(value: expiration)
-                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UploadPartInput, UploadPartOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in

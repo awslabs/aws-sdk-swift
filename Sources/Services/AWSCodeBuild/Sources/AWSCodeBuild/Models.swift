@@ -3431,6 +3431,129 @@ extension CodeBuildClientTypes {
 
 extension CodeBuildClientTypes {
 
+    public enum PullRequestBuildApproverRole: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bitbucketAdmin
+        case bitbucketRead
+        case bitbucketWrite
+        case githubAdmin
+        case githubMaintain
+        case githubRead
+        case githubTriage
+        case githubWrite
+        case gitlabDeveloper
+        case gitlabGuest
+        case gitlabMaintainer
+        case gitlabOwner
+        case gitlabPlanner
+        case gitlabReporter
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PullRequestBuildApproverRole] {
+            return [
+                .bitbucketAdmin,
+                .bitbucketRead,
+                .bitbucketWrite,
+                .githubAdmin,
+                .githubMaintain,
+                .githubRead,
+                .githubTriage,
+                .githubWrite,
+                .gitlabDeveloper,
+                .gitlabGuest,
+                .gitlabMaintainer,
+                .gitlabOwner,
+                .gitlabPlanner,
+                .gitlabReporter
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bitbucketAdmin: return "BITBUCKET_ADMIN"
+            case .bitbucketRead: return "BITBUCKET_READ"
+            case .bitbucketWrite: return "BITBUCKET_WRITE"
+            case .githubAdmin: return "GITHUB_ADMIN"
+            case .githubMaintain: return "GITHUB_MAINTAIN"
+            case .githubRead: return "GITHUB_READ"
+            case .githubTriage: return "GITHUB_TRIAGE"
+            case .githubWrite: return "GITHUB_WRITE"
+            case .gitlabDeveloper: return "GITLAB_DEVELOPER"
+            case .gitlabGuest: return "GITLAB_GUEST"
+            case .gitlabMaintainer: return "GITLAB_MAINTAINER"
+            case .gitlabOwner: return "GITLAB_OWNER"
+            case .gitlabPlanner: return "GITLAB_PLANNER"
+            case .gitlabReporter: return "GITLAB_REPORTER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+
+    public enum PullRequestBuildCommentApproval: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allPullRequests
+        case disabled
+        case forkPullRequests
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PullRequestBuildCommentApproval] {
+            return [
+                .allPullRequests,
+                .disabled,
+                .forkPullRequests
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allPullRequests: return "ALL_PULL_REQUESTS"
+            case .disabled: return "DISABLED"
+            case .forkPullRequests: return "FORK_PULL_REQUESTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+
+    /// A PullRequestBuildPolicy object that defines comment-based approval requirements for triggering builds on pull requests. This policy helps control when automated builds are executed based on contributor permissions and approval workflows.
+    public struct PullRequestBuildPolicy: Swift.Sendable {
+        /// List of repository roles that have approval privileges for pull request builds when comment approval is required. Only users with these roles can provide valid comment approvals. If a pull request contributor is one of these roles, their pull request builds will trigger automatically. This field is only applicable when requiresCommentApproval is not DISABLED.
+        public var approverRoles: [CodeBuildClientTypes.PullRequestBuildApproverRole]?
+        /// Specifies when comment-based approval is required before triggering a build on pull requests. This setting determines whether builds run automatically or require explicit approval through comments.
+        ///
+        /// * DISABLED: Builds trigger automatically without requiring comment approval
+        ///
+        /// * ALL_PULL_REQUESTS: All pull requests require comment approval before builds execute (unless contributor is one of the approver roles)
+        ///
+        /// * FORK_PULL_REQUESTS: Only pull requests from forked repositories require comment approval (unless contributor is one of the approver roles)
+        /// This member is required.
+        public var requiresCommentApproval: CodeBuildClientTypes.PullRequestBuildCommentApproval?
+
+        public init(
+            approverRoles: [CodeBuildClientTypes.PullRequestBuildApproverRole]? = nil,
+            requiresCommentApproval: CodeBuildClientTypes.PullRequestBuildCommentApproval? = nil
+        ) {
+            self.approverRoles = approverRoles
+            self.requiresCommentApproval = requiresCommentApproval
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+
     public enum WebhookScopeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case githubGlobal
         case githubOrganization
@@ -3537,6 +3660,8 @@ extension CodeBuildClientTypes {
         public var manualCreation: Swift.Bool?
         /// The CodeBuild endpoint where webhook events are sent.
         public var payloadUrl: Swift.String?
+        /// A PullRequestBuildPolicy object that defines comment-based approval requirements for triggering builds on pull requests. This policy helps control when automated builds are executed based on contributor permissions and approval workflows.
+        public var pullRequestBuildPolicy: CodeBuildClientTypes.PullRequestBuildPolicy?
         /// The scope configuration for global or organization webhooks. Global or organization webhooks are only available for GitHub and Github Enterprise webhooks.
         public var scopeConfiguration: CodeBuildClientTypes.ScopeConfiguration?
         /// The secret token of the associated repository. A Bitbucket webhook does not support secret.
@@ -3563,6 +3688,7 @@ extension CodeBuildClientTypes {
             lastModifiedSecret: Foundation.Date? = nil,
             manualCreation: Swift.Bool? = nil,
             payloadUrl: Swift.String? = nil,
+            pullRequestBuildPolicy: CodeBuildClientTypes.PullRequestBuildPolicy? = nil,
             scopeConfiguration: CodeBuildClientTypes.ScopeConfiguration? = nil,
             secret: Swift.String? = nil,
             status: CodeBuildClientTypes.WebhookStatus? = nil,
@@ -3575,6 +3701,7 @@ extension CodeBuildClientTypes {
             self.lastModifiedSecret = lastModifiedSecret
             self.manualCreation = manualCreation
             self.payloadUrl = payloadUrl
+            self.pullRequestBuildPolicy = pullRequestBuildPolicy
             self.scopeConfiguration = scopeConfiguration
             self.secret = secret
             self.status = status
@@ -4794,6 +4921,8 @@ public struct CreateWebhookInput: Swift.Sendable {
     /// The name of the CodeBuild project.
     /// This member is required.
     public var projectName: Swift.String?
+    /// A PullRequestBuildPolicy object that defines comment-based approval requirements for triggering builds on pull requests. This policy helps control when automated builds are executed based on contributor permissions and approval workflows.
+    public var pullRequestBuildPolicy: CodeBuildClientTypes.PullRequestBuildPolicy?
     /// The scope configuration for global or organization webhooks. Global or organization webhooks are only available for GitHub and Github Enterprise webhooks.
     public var scopeConfiguration: CodeBuildClientTypes.ScopeConfiguration?
 
@@ -4803,6 +4932,7 @@ public struct CreateWebhookInput: Swift.Sendable {
         filterGroups: [[CodeBuildClientTypes.WebhookFilter]]? = nil,
         manualCreation: Swift.Bool? = nil,
         projectName: Swift.String? = nil,
+        pullRequestBuildPolicy: CodeBuildClientTypes.PullRequestBuildPolicy? = nil,
         scopeConfiguration: CodeBuildClientTypes.ScopeConfiguration? = nil
     ) {
         self.branchFilter = branchFilter
@@ -4810,6 +4940,7 @@ public struct CreateWebhookInput: Swift.Sendable {
         self.filterGroups = filterGroups
         self.manualCreation = manualCreation
         self.projectName = projectName
+        self.pullRequestBuildPolicy = pullRequestBuildPolicy
         self.scopeConfiguration = scopeConfiguration
     }
 }
@@ -6596,7 +6727,7 @@ public struct StartBuildInput: Swift.Sendable {
     public var autoRetryLimitOverride: Swift.Int?
     /// Contains information that defines how the build project reports the build status to the source provider. This option is only used when the source provider is GITHUB, GITHUB_ENTERPRISE, or BITBUCKET.
     public var buildStatusConfigOverride: CodeBuildClientTypes.BuildStatusConfig?
-    /// A buildspec file declaration that overrides the latest one defined in the build project, for this build only. The buildspec defined on the project is not changed. If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same Amazon Web Services Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see [Buildspec File Name and Storage Location](https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#build-spec-ref-name-storage). Since this property allows you to change the build commands that will run in the container, you should note that an IAM principal with the ability to call this API and set this parameter can override the default settings. Moreover, we encourage that you use a trustworthy buildspec location like a file in your source repository or a Amazon S3 bucket.
+    /// A buildspec file declaration that overrides the latest one defined in the build project, for this build only. The buildspec defined on the project is not changed. If this value is set, it can be either an inline buildspec definition, the path to an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3 bucket. The bucket must be in the same Amazon Web Services Region as the build project. Specify the buildspec file using its ARN (for example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set to an empty string, the source code must contain a buildspec file in its root directory. For more information, see [Buildspec File Name and Storage Location](https://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html#build-spec-ref-name-storage). Since this property allows you to change the build commands that will run in the container, you should note that an IAM principal with the ability to call this API and set this parameter can override the default settings. Moreover, we encourage that you use a trustworthy buildspec location like a file in your source repository or a Amazon S3 bucket. Alternatively, you can restrict overrides to the buildspec by using a condition key: [Prevent unauthorized modifications to project buildspec](https://docs.aws.amazon.com/codebuild/latest/userguide/action-context-keys.html#action-context-keys-example-overridebuildspec.html).
     public var buildspecOverride: Swift.String?
     /// A ProjectCache object specified for this build that overrides the one defined in the build project.
     public var cacheOverride: CodeBuildClientTypes.ProjectCache?
@@ -7410,6 +7541,8 @@ public struct UpdateWebhookInput: Swift.Sendable {
     /// The name of the CodeBuild project.
     /// This member is required.
     public var projectName: Swift.String?
+    /// A PullRequestBuildPolicy object that defines comment-based approval requirements for triggering builds on pull requests. This policy helps control when automated builds are executed based on contributor permissions and approval workflows.
+    public var pullRequestBuildPolicy: CodeBuildClientTypes.PullRequestBuildPolicy?
     /// A boolean value that specifies whether the associated GitHub repository's secret token should be updated. If you use Bitbucket for your repository, rotateSecret is ignored.
     public var rotateSecret: Swift.Bool?
 
@@ -7418,12 +7551,14 @@ public struct UpdateWebhookInput: Swift.Sendable {
         buildType: CodeBuildClientTypes.WebhookBuildType? = nil,
         filterGroups: [[CodeBuildClientTypes.WebhookFilter]]? = nil,
         projectName: Swift.String? = nil,
+        pullRequestBuildPolicy: CodeBuildClientTypes.PullRequestBuildPolicy? = nil,
         rotateSecret: Swift.Bool? = false
     ) {
         self.branchFilter = branchFilter
         self.buildType = buildType
         self.filterGroups = filterGroups
         self.projectName = projectName
+        self.pullRequestBuildPolicy = pullRequestBuildPolicy
         self.rotateSecret = rotateSecret
     }
 }
@@ -7993,6 +8128,7 @@ extension CreateWebhookInput {
         try writer["filterGroups"].writeList(value.filterGroups, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: CodeBuildClientTypes.WebhookFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         try writer["manualCreation"].write(value.manualCreation)
         try writer["projectName"].write(value.projectName)
+        try writer["pullRequestBuildPolicy"].write(value.pullRequestBuildPolicy, with: CodeBuildClientTypes.PullRequestBuildPolicy.write(value:to:))
         try writer["scopeConfiguration"].write(value.scopeConfiguration, with: CodeBuildClientTypes.ScopeConfiguration.write(value:to:))
     }
 }
@@ -8525,6 +8661,7 @@ extension UpdateWebhookInput {
         try writer["buildType"].write(value.buildType)
         try writer["filterGroups"].writeList(value.filterGroups, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: CodeBuildClientTypes.WebhookFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         try writer["projectName"].write(value.projectName)
+        try writer["pullRequestBuildPolicy"].write(value.pullRequestBuildPolicy, with: CodeBuildClientTypes.PullRequestBuildPolicy.write(value:to:))
         try writer["rotateSecret"].write(value.rotateSecret)
     }
 }
@@ -11046,6 +11183,24 @@ extension CodeBuildClientTypes.Webhook {
         value.scopeConfiguration = try reader["scopeConfiguration"].readIfPresent(with: CodeBuildClientTypes.ScopeConfiguration.read(from:))
         value.status = try reader["status"].readIfPresent()
         value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.pullRequestBuildPolicy = try reader["pullRequestBuildPolicy"].readIfPresent(with: CodeBuildClientTypes.PullRequestBuildPolicy.read(from:))
+        return value
+    }
+}
+
+extension CodeBuildClientTypes.PullRequestBuildPolicy {
+
+    static func write(value: CodeBuildClientTypes.PullRequestBuildPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["approverRoles"].writeList(value.approverRoles, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CodeBuildClientTypes.PullRequestBuildApproverRole>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["requiresCommentApproval"].write(value.requiresCommentApproval)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeBuildClientTypes.PullRequestBuildPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeBuildClientTypes.PullRequestBuildPolicy()
+        value.requiresCommentApproval = try reader["requiresCommentApproval"].readIfPresent() ?? .sdkUnknown("")
+        value.approverRoles = try reader["approverRoles"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CodeBuildClientTypes.PullRequestBuildApproverRole>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

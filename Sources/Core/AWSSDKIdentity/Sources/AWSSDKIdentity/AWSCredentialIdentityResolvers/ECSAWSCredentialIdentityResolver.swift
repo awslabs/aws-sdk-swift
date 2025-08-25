@@ -166,12 +166,18 @@ public struct ECSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
                 JSONCredentialResponse.self,
                 from: data
             )
+            var properties = Attributes()
+            properties.set(
+                key: AWSIdentityPropertyKeys.credentialFeatureIDs,
+                value: [CredentialFeatureID.CREDENTIALS_HTTP.rawValue]
+            )
             return AWSCredentialIdentity(
                 accessKey: jsonCredentialResponse.accessKeyID,
                 secret: jsonCredentialResponse.secretAccessKey,
                 accountID: jsonCredentialResponse.accountID,
                 expiration: jsonCredentialResponse.expiration,
-                sessionToken: jsonCredentialResponse.sessionToken
+                sessionToken: jsonCredentialResponse.sessionToken,
+                properties: properties
             )
         } catch {
             // Handle network errors (not HTTP status errors).
@@ -216,30 +222,6 @@ private struct JSONCredentialResponse: Codable {
             expiration = formatter.date(from: expirationString)
         } else {
             expiration = nil
-        }
-    }
-}
-
-// URLSession.data(for:) isn't available in Linux; so this wrapper is used instead.
-extension URLSession {
-    func asyncData(for request: URLRequest) async throws -> (Data, URLResponse) {
-        return try await withCheckedThrowingContinuation { continuation in
-            let task = self.dataTask(with: request) { data, response, error in
-                if let error = error {
-                    continuation.resume(throwing: error)
-                    return
-                }
-                guard let data = data, let response = response else {
-                    continuation.resume(throwing: NSError(
-                        domain: "URLSession",
-                        code: 0,
-                        userInfo: [NSLocalizedDescriptionKey: "No data or response returned"]
-                    ))
-                    return
-                }
-                continuation.resume(returning: (data, response))
-            }
-            task.resume()
         }
     }
 }

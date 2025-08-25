@@ -2056,11 +2056,11 @@ enum ValidatePipelineDefinitionOutputError {
     }
 }
 
-extension PipelineNotFoundException {
+extension InternalServiceError {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PipelineNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceError {
         let reader = baseError.errorBodyReader
-        var value = PipelineNotFoundException()
+        var value = InternalServiceError()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2082,11 +2082,11 @@ extension InvalidRequestException {
     }
 }
 
-extension InternalServiceError {
+extension PipelineDeletedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServiceError {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PipelineDeletedException {
         let reader = baseError.errorBodyReader
-        var value = InternalServiceError()
+        var value = PipelineDeletedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2095,11 +2095,11 @@ extension InternalServiceError {
     }
 }
 
-extension PipelineDeletedException {
+extension PipelineNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PipelineDeletedException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> PipelineNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = PipelineDeletedException()
+        var value = PipelineNotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

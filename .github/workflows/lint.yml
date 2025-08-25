@@ -18,11 +18,26 @@ jobs:
 
   swiftlint:
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/realm/swiftlint:0.58.2
+    runs-on: macos-15
     steps:
       - name: Checkout sources
         uses: actions/checkout@v2
-      - name: Run swiftlint on AWSClientRuntime
+      - name: Install Swiftlint
+        run: |
+          HOMEBREW_NO_AUTO_UPDATE=1 brew install swiftlint
+          which swiftlint
+          swiftlint --version
+      - name: Run swiftlint
         run: swiftlint --strict --reporter github-actions-logging
+      - name: Eliminate AWS service clients
+        run: |
+          rm -rf Sources/Services/*
+          cd AWSSDKSwiftCLI
+          swift run AWSSDKSwiftCLI generate-package-manifest ..
+          cd ..
+          echo
+          cat Package.swift
+      - name: Compile project with Xcode
+        run: xcodebuild -scheme aws-sdk-swift-Package -destination platform=macOS > xcodebuild.log
+      - name: Run swiftlint analyzer
+        run: swiftlint analyze --strict --reporter github-actions-logging --compiler-log-path xcodebuild.log

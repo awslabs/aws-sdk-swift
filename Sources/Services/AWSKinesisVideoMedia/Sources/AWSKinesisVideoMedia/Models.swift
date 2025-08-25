@@ -379,6 +379,32 @@ enum GetMediaOutputError {
     }
 }
 
+extension ClientLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ClientLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ClientLimitExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConnectionLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConnectionLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ConnectionLimitExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidArgumentException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidArgumentException {
@@ -405,32 +431,6 @@ extension InvalidEndpointException {
     }
 }
 
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ClientLimitExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ClientLimitExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ClientLimitExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension NotAuthorizedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotAuthorizedException {
@@ -444,11 +444,11 @@ extension NotAuthorizedException {
     }
 }
 
-extension ConnectionLimitExceededException {
+extension ResourceNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConnectionLimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = ConnectionLimitExceededException()
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

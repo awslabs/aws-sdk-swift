@@ -1051,6 +1051,10 @@ extension DatabaseMigrationClientTypes {
         public var databaseName: Swift.String?
         /// The port value for the DB2 LUW data provider.
         public var port: Swift.Int?
+        /// The ARN for the role the application uses to access its Amazon S3 bucket.
+        public var s3AccessRoleArn: Swift.String?
+        /// The path for the Amazon S3 bucket that the application uses for accessing the user-defined schema.
+        public var s3Path: Swift.String?
         /// The name of the DB2 LUW server.
         public var serverName: Swift.String?
         /// The SSL mode used to connect to the DB2 LUW data provider. The default value is none. Valid Values: none and verify-ca.
@@ -1060,12 +1064,16 @@ extension DatabaseMigrationClientTypes {
             certificateArn: Swift.String? = nil,
             databaseName: Swift.String? = nil,
             port: Swift.Int? = nil,
+            s3AccessRoleArn: Swift.String? = nil,
+            s3Path: Swift.String? = nil,
             serverName: Swift.String? = nil,
             sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
         ) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.port = port
+            self.s3AccessRoleArn = s3AccessRoleArn
+            self.s3Path = s3Path
             self.serverName = serverName
             self.sslMode = sslMode
         }
@@ -1082,6 +1090,10 @@ extension DatabaseMigrationClientTypes {
         public var databaseName: Swift.String?
         /// The port value for the DB2 for z/OS data provider.
         public var port: Swift.Int?
+        /// The ARN for the role the application uses to access its Amazon S3 bucket.
+        public var s3AccessRoleArn: Swift.String?
+        /// The path for the Amazon S3 bucket that the application uses for accessing the user-defined schema.
+        public var s3Path: Swift.String?
         /// The name of the DB2 for z/OS server.
         public var serverName: Swift.String?
         /// The SSL mode used to connect to the DB2 for z/OS data provider. The default value is none. Valid Values: none and verify-ca.
@@ -1091,12 +1103,16 @@ extension DatabaseMigrationClientTypes {
             certificateArn: Swift.String? = nil,
             databaseName: Swift.String? = nil,
             port: Swift.Int? = nil,
+            s3AccessRoleArn: Swift.String? = nil,
+            s3Path: Swift.String? = nil,
             serverName: Swift.String? = nil,
             sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
         ) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.port = port
+            self.s3AccessRoleArn = s3AccessRoleArn
+            self.s3Path = s3Path
             self.serverName = serverName
             self.sslMode = sslMode
         }
@@ -1111,6 +1127,10 @@ extension DatabaseMigrationClientTypes {
         public var certificateArn: Swift.String?
         /// The port value for the MariaDB data provider
         public var port: Swift.Int?
+        /// The ARN for the role the application uses to access its Amazon S3 bucket.
+        public var s3AccessRoleArn: Swift.String?
+        /// The path for the Amazon S3 bucket that the application uses for accessing the user-defined schema.
+        public var s3Path: Swift.String?
         /// The name of the MariaDB server.
         public var serverName: Swift.String?
         /// The SSL mode used to connect to the MariaDB data provider. The default value is none.
@@ -1119,11 +1139,15 @@ extension DatabaseMigrationClientTypes {
         public init(
             certificateArn: Swift.String? = nil,
             port: Swift.Int? = nil,
+            s3AccessRoleArn: Swift.String? = nil,
+            s3Path: Swift.String? = nil,
             serverName: Swift.String? = nil,
             sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
         ) {
             self.certificateArn = certificateArn
             self.port = port
+            self.s3AccessRoleArn = s3AccessRoleArn
+            self.s3Path = s3Path
             self.serverName = serverName
             self.sslMode = sslMode
         }
@@ -1140,6 +1164,10 @@ extension DatabaseMigrationClientTypes {
         public var databaseName: Swift.String?
         /// The port value for the Microsoft SQL Server data provider.
         public var port: Swift.Int?
+        /// The ARN for the role the application uses to access its Amazon S3 bucket.
+        public var s3AccessRoleArn: Swift.String?
+        /// The path for the Amazon S3 bucket that the application uses for accessing the user-defined schema.
+        public var s3Path: Swift.String?
         /// The name of the Microsoft SQL Server server.
         public var serverName: Swift.String?
         /// The SSL mode used to connect to the Microsoft SQL Server data provider. The default value is none.
@@ -1149,12 +1177,16 @@ extension DatabaseMigrationClientTypes {
             certificateArn: Swift.String? = nil,
             databaseName: Swift.String? = nil,
             port: Swift.Int? = nil,
+            s3AccessRoleArn: Swift.String? = nil,
+            s3Path: Swift.String? = nil,
             serverName: Swift.String? = nil,
             sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
         ) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.port = port
+            self.s3AccessRoleArn = s3AccessRoleArn
+            self.s3Path = s3Path
             self.serverName = serverName
             self.sslMode = sslMode
         }
@@ -1273,6 +1305,10 @@ extension DatabaseMigrationClientTypes {
         public var certificateArn: Swift.String?
         /// The port value for the MySQL data provider.
         public var port: Swift.Int?
+        /// The ARN for the role the application uses to access its Amazon S3 bucket.
+        public var s3AccessRoleArn: Swift.String?
+        /// The path for the Amazon S3 bucket that the application uses for accessing the user-defined schema.
+        public var s3Path: Swift.String?
         /// The name of the MySQL server.
         public var serverName: Swift.String?
         /// The SSL mode used to connect to the MySQL data provider. The default value is none.
@@ -1281,11 +1317,15 @@ extension DatabaseMigrationClientTypes {
         public init(
             certificateArn: Swift.String? = nil,
             port: Swift.Int? = nil,
+            s3AccessRoleArn: Swift.String? = nil,
+            s3Path: Swift.String? = nil,
             serverName: Swift.String? = nil,
             sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
         ) {
             self.certificateArn = certificateArn
             self.port = port
+            self.s3AccessRoleArn = s3AccessRoleArn
+            self.s3Path = s3Path
             self.serverName = serverName
             self.sslMode = sslMode
         }
@@ -1304,6 +1344,10 @@ extension DatabaseMigrationClientTypes {
         public var databaseName: Swift.String?
         /// The port value for the Oracle data provider.
         public var port: Swift.Int?
+        /// The ARN for the role the application uses to access its Amazon S3 bucket.
+        public var s3AccessRoleArn: Swift.String?
+        /// The path for the Amazon S3 bucket that the application uses for accessing the user-defined schema.
+        public var s3Path: Swift.String?
         /// The ARN of the IAM role that provides access to the secret in Secrets Manager that contains the Oracle ASM connection details.
         public var secretsManagerOracleAsmAccessRoleArn: Swift.String?
         /// The identifier of the secret in Secrets Manager that contains the Oracle ASM connection details. Required only if your data provider uses the Oracle ASM server.
@@ -1322,6 +1366,8 @@ extension DatabaseMigrationClientTypes {
             certificateArn: Swift.String? = nil,
             databaseName: Swift.String? = nil,
             port: Swift.Int? = nil,
+            s3AccessRoleArn: Swift.String? = nil,
+            s3Path: Swift.String? = nil,
             secretsManagerOracleAsmAccessRoleArn: Swift.String? = nil,
             secretsManagerOracleAsmSecretId: Swift.String? = nil,
             secretsManagerSecurityDbEncryptionAccessRoleArn: Swift.String? = nil,
@@ -1333,6 +1379,8 @@ extension DatabaseMigrationClientTypes {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.port = port
+            self.s3AccessRoleArn = s3AccessRoleArn
+            self.s3Path = s3Path
             self.secretsManagerOracleAsmAccessRoleArn = secretsManagerOracleAsmAccessRoleArn
             self.secretsManagerOracleAsmSecretId = secretsManagerOracleAsmSecretId
             self.secretsManagerSecurityDbEncryptionAccessRoleArn = secretsManagerSecurityDbEncryptionAccessRoleArn
@@ -1353,6 +1401,10 @@ extension DatabaseMigrationClientTypes {
         public var databaseName: Swift.String?
         /// The port value for the PostgreSQL data provider.
         public var port: Swift.Int?
+        /// The ARN for the role the application uses to access its Amazon S3 bucket.
+        public var s3AccessRoleArn: Swift.String?
+        /// The path for the Amazon S3 bucket that the application uses for accessing the user-defined schema.
+        public var s3Path: Swift.String?
         /// The name of the PostgreSQL server.
         public var serverName: Swift.String?
         /// The SSL mode used to connect to the PostgreSQL data provider. The default value is none.
@@ -1362,12 +1414,16 @@ extension DatabaseMigrationClientTypes {
             certificateArn: Swift.String? = nil,
             databaseName: Swift.String? = nil,
             port: Swift.Int? = nil,
+            s3AccessRoleArn: Swift.String? = nil,
+            s3Path: Swift.String? = nil,
             serverName: Swift.String? = nil,
             sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
         ) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.port = port
+            self.s3AccessRoleArn = s3AccessRoleArn
+            self.s3Path = s3Path
             self.serverName = serverName
             self.sslMode = sslMode
         }
@@ -1382,16 +1438,24 @@ extension DatabaseMigrationClientTypes {
         public var databaseName: Swift.String?
         /// The port value for the Amazon Redshift data provider.
         public var port: Swift.Int?
+        /// The ARN for the role the application uses to access its Amazon S3 bucket.
+        public var s3AccessRoleArn: Swift.String?
+        /// The path for the Amazon S3 bucket that the application uses for accessing the user-defined schema.
+        public var s3Path: Swift.String?
         /// The name of the Amazon Redshift server.
         public var serverName: Swift.String?
 
         public init(
             databaseName: Swift.String? = nil,
             port: Swift.Int? = nil,
+            s3AccessRoleArn: Swift.String? = nil,
+            s3Path: Swift.String? = nil,
             serverName: Swift.String? = nil
         ) {
             self.databaseName = databaseName
             self.port = port
+            self.s3AccessRoleArn = s3AccessRoleArn
+            self.s3Path = s3Path
             self.serverName = serverName
         }
     }
@@ -1438,19 +1502,23 @@ public struct CreateDataProviderInput: Swift.Sendable {
     public var settings: DatabaseMigrationClientTypes.DataProviderSettings?
     /// One or more tags to be assigned to the data provider.
     public var tags: [DatabaseMigrationClientTypes.Tag]?
+    /// Indicates whether the data provider is virtual.
+    public var virtual: Swift.Bool?
 
     public init(
         dataProviderName: Swift.String? = nil,
         description: Swift.String? = nil,
         engine: Swift.String? = nil,
         settings: DatabaseMigrationClientTypes.DataProviderSettings? = nil,
-        tags: [DatabaseMigrationClientTypes.Tag]? = nil
+        tags: [DatabaseMigrationClientTypes.Tag]? = nil,
+        virtual: Swift.Bool? = nil
     ) {
         self.dataProviderName = dataProviderName
         self.description = description
         self.engine = engine
         self.settings = settings
         self.tags = tags
+        self.virtual = virtual
     }
 }
 
@@ -1470,6 +1538,8 @@ extension DatabaseMigrationClientTypes {
         public var engine: Swift.String?
         /// The settings in JSON format for a data provider.
         public var settings: DatabaseMigrationClientTypes.DataProviderSettings?
+        /// Indicates whether the data provider is virtual.
+        public var virtual: Swift.Bool?
 
         public init(
             dataProviderArn: Swift.String? = nil,
@@ -1477,7 +1547,8 @@ extension DatabaseMigrationClientTypes {
             dataProviderName: Swift.String? = nil,
             description: Swift.String? = nil,
             engine: Swift.String? = nil,
-            settings: DatabaseMigrationClientTypes.DataProviderSettings? = nil
+            settings: DatabaseMigrationClientTypes.DataProviderSettings? = nil,
+            virtual: Swift.Bool? = nil
         ) {
             self.dataProviderArn = dataProviderArn
             self.dataProviderCreationTime = dataProviderCreationTime
@@ -1485,6 +1556,7 @@ extension DatabaseMigrationClientTypes {
             self.description = description
             self.engine = engine
             self.settings = settings
+            self.virtual = virtual
         }
     }
 }
@@ -3679,7 +3751,7 @@ extension DatabaseMigrationClientTypes {
         public var datePartitionEnabled: Swift.Bool?
         /// Identifies the sequence of the date format to use during folder partitioning. The default value is YYYYMMDD. Use this parameter when DatePartitionedEnabled is set to true.
         public var datePartitionSequence: DatabaseMigrationClientTypes.DatePartitionSequenceValue?
-        /// When creating an S3 target endpoint, set DatePartitionTimezone to convert the current UTC time into a specified time zone. The conversion occurs when a date partition folder is created and a CDC filename is generated. The time zone format is Area/Location. Use this parameter when DatePartitionedEnabled is set to true, as shown in the following example. s3-settings='{"DatePartitionEnabled": true, "DatePartitionSequence": "YYYYMMDDHH", "DatePartitionDelimiter": "SLASH", "DatePartitionTimezone":"Asia/Seoul", "BucketName": "dms-nattarat-test"}'
+        /// When creating an S3 target endpoint, set DatePartitionTimezone to convert the current UTC time into a specified time zone. The conversion occurs when a date partition folder is created and a CDC filename is generated. The time zone format is Area/Location. Use this parameter when DatePartitionedEnabled is set to true, as shown in the following example: s3-settings='{"DatePartitionEnabled": true, "DatePartitionSequence": "YYYYMMDDHH", "DatePartitionDelimiter": "SLASH", "DatePartitionTimezone":"Asia/Seoul", "BucketName": "dms-nattarat-test"}'
         public var datePartitionTimezone: Swift.String?
         /// The maximum size of an encoded dictionary page of a column. If the dictionary page exceeds this, this column is stored using an encoding type of PLAIN. This parameter defaults to 1024 * 1024 bytes (1 MiB), the maximum size of a dictionary page before it reverts to PLAIN encoding. This size is used for .parquet file format only.
         public var dictPageSizeLimit: Swift.Int?
@@ -5536,7 +5608,7 @@ public struct CreateReplicationInstanceOutput: Swift.Sendable {
 
 ///
 public struct CreateReplicationSubnetGroupInput: Swift.Sendable {
-    /// The description for the subnet group.
+    /// The description for the subnet group. Constraints: This parameter Must not contain non-printable control characters.
     /// This member is required.
     public var replicationSubnetGroupDescription: Swift.String?
     /// The name for the replication subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 alphanumeric characters, periods, underscores, or hyphens. Must not be "default". Example: mySubnetgroup
@@ -7672,7 +7744,7 @@ public struct DescribeFleetAdvisorSchemaObjectSummaryInput: Swift.Sendable {
     ///
     /// Example: describe-fleet-advisor-schema-object-summary --filter Name="schema-id",Values="50"
     public var filters: [DatabaseMigrationClientTypes.Filter]?
-    /// Sets the maximum number of records returned in the response.
+    /// End of support notice: On May 20, 2026, Amazon Web Services will end support for Amazon Web Services DMS Fleet Advisor;. After May 20, 2026, you will no longer be able to access the Amazon Web Services DMS Fleet Advisor; console or Amazon Web Services DMS Fleet Advisor; resources. For more information, see [Amazon Web Services DMS Fleet Advisor end of support](https://docs.aws.amazon.com/dms/latest/userguide/dms_fleet.advisor-end-of-support.html). Sets the maximum number of records returned in the response.
     public var maxRecords: Swift.Int?
     /// If NextToken is returned by a previous response, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
     public var nextToken: Swift.String?
@@ -9940,6 +10012,8 @@ public struct ModifyDataProviderInput: Swift.Sendable {
     public var exactSettings: Swift.Bool?
     /// The settings in JSON format for a data provider.
     public var settings: DatabaseMigrationClientTypes.DataProviderSettings?
+    /// Indicates whether the data provider is virtual.
+    public var virtual: Swift.Bool?
 
     public init(
         dataProviderIdentifier: Swift.String? = nil,
@@ -9947,7 +10021,8 @@ public struct ModifyDataProviderInput: Swift.Sendable {
         description: Swift.String? = nil,
         engine: Swift.String? = nil,
         exactSettings: Swift.Bool? = nil,
-        settings: DatabaseMigrationClientTypes.DataProviderSettings? = nil
+        settings: DatabaseMigrationClientTypes.DataProviderSettings? = nil,
+        virtual: Swift.Bool? = nil
     ) {
         self.dataProviderIdentifier = dataProviderIdentifier
         self.dataProviderName = dataProviderName
@@ -9955,6 +10030,7 @@ public struct ModifyDataProviderInput: Swift.Sendable {
         self.engine = engine
         self.exactSettings = exactSettings
         self.settings = settings
+        self.virtual = virtual
     }
 }
 
@@ -11210,7 +11286,7 @@ public struct StartReplicationTaskInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the replication task to be started.
     /// This member is required.
     public var replicationTaskArn: Swift.String?
-    /// The type of replication task to start. When the migration type is full-load or full-load-and-cdc, the only valid value for the first run of the task is start-replication. This option will start the migration. You can also use [ReloadTables] to reload specific tables that failed during migration instead of restarting the task. The resume-processing option isn't applicable for a full-load task, because you can't resume partially loaded tables during the full load phase. For a full-load-and-cdc task, DMS migrates table data, and then applies data changes that occur on the source. To load all the tables again, and start capturing source changes, use reload-target. Otherwise use resume-processing, to replicate the changes from the last stop position.
+    /// The type of replication task to start. start-replication is the only valid action that can be used for the first time a task with the migration type of full-loadfull-load, full-load-and-cdc or cdc is run. Any other action used for the first time on a given task, such as resume-processing and reload-target will result in data errors. You can also use [ReloadTables] to reload specific tables that failed during migration instead of restarting the task. For a full-load task, the resume-processing option will reload any tables that were partially loaded or not yet loaded during the full load phase. For a full-load-and-cdc task, DMS migrates table data, and then applies data changes that occur on the source. To load all the tables again, and start capturing source changes, use reload-target. Otherwise use resume-processing, to replicate the changes from the last stop position. For a cdc only task, to start from a specific position, you must use start-replication and also specify the start position. Check the source endpoint DMS documentation for any limitations. For example, not all sources support starting from a time. resume-processing is only available for previously executed tasks.
     /// This member is required.
     public var startReplicationTaskType: DatabaseMigrationClientTypes.StartReplicationTaskTypeValue?
 
@@ -12328,6 +12404,7 @@ extension CreateDataProviderInput {
         try writer["Engine"].write(value.engine)
         try writer["Settings"].write(value.settings, with: DatabaseMigrationClientTypes.DataProviderSettings.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: DatabaseMigrationClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Virtual"].write(value.virtual)
     }
 }
 
@@ -13142,6 +13219,7 @@ extension ModifyDataProviderInput {
         try writer["Engine"].write(value.engine)
         try writer["ExactSettings"].write(value.exactSettings)
         try writer["Settings"].write(value.settings, with: DatabaseMigrationClientTypes.DataProviderSettings.write(value:to:))
+        try writer["Virtual"].write(value.virtual)
     }
 }
 
@@ -16749,13 +16827,12 @@ extension AccessDeniedFault {
     }
 }
 
-extension ResourceAlreadyExistsFault {
+extension FailedDependencyFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceAlreadyExistsFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> FailedDependencyFault {
         let reader = baseError.errorBodyReader
-        var value = ResourceAlreadyExistsFault()
+        var value = FailedDependencyFault()
         value.properties.message = try reader["message"].readIfPresent()
-        value.properties.resourceArn = try reader["resourceArn"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -16776,12 +16853,13 @@ extension InvalidOperationFault {
     }
 }
 
-extension FailedDependencyFault {
+extension ResourceAlreadyExistsFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> FailedDependencyFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceAlreadyExistsFault {
         let reader = baseError.errorBodyReader
-        var value = FailedDependencyFault()
+        var value = ResourceAlreadyExistsFault()
         value.properties.message = try reader["message"].readIfPresent()
+        value.properties.resourceArn = try reader["resourceArn"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -16794,19 +16872,6 @@ extension ResourceQuotaExceededFault {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceQuotaExceededFault {
         let reader = baseError.errorBodyReader
         var value = ResourceQuotaExceededFault()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension S3AccessDeniedFault {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> S3AccessDeniedFault {
-        let reader = baseError.errorBodyReader
-        var value = S3AccessDeniedFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16828,11 +16893,11 @@ extension KMSKeyNotAccessibleFault {
     }
 }
 
-extension SNSInvalidTopicFault {
+extension S3AccessDeniedFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SNSInvalidTopicFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> S3AccessDeniedFault {
         let reader = baseError.errorBodyReader
-        var value = SNSInvalidTopicFault()
+        var value = S3AccessDeniedFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16893,11 +16958,11 @@ extension KMSNotFoundFault {
     }
 }
 
-extension SNSNoAuthorizationFault {
+extension KMSThrottlingFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SNSNoAuthorizationFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSThrottlingFault {
         let reader = baseError.errorBodyReader
-        var value = SNSNoAuthorizationFault()
+        var value = KMSThrottlingFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16906,11 +16971,24 @@ extension SNSNoAuthorizationFault {
     }
 }
 
-extension KMSThrottlingFault {
+extension SNSInvalidTopicFault {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSThrottlingFault {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SNSInvalidTopicFault {
         let reader = baseError.errorBodyReader
-        var value = KMSThrottlingFault()
+        var value = SNSInvalidTopicFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SNSNoAuthorizationFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> SNSNoAuthorizationFault {
+        let reader = baseError.errorBodyReader
+        var value = SNSNoAuthorizationFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16932,11 +17010,11 @@ extension S3ResourceNotFoundFault {
     }
 }
 
-extension ReplicationSubnetGroupDoesNotCoverEnoughAZs {
+extension InvalidSubnet {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicationSubnetGroupDoesNotCoverEnoughAZs {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSubnet {
         let reader = baseError.errorBodyReader
-        var value = ReplicationSubnetGroupDoesNotCoverEnoughAZs()
+        var value = InvalidSubnet()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -16945,11 +17023,11 @@ extension ReplicationSubnetGroupDoesNotCoverEnoughAZs {
     }
 }
 
-extension InvalidSubnet {
+extension ReplicationSubnetGroupDoesNotCoverEnoughAZs {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSubnet {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReplicationSubnetGroupDoesNotCoverEnoughAZs {
         let reader = baseError.errorBodyReader
-        var value = InvalidSubnet()
+        var value = ReplicationSubnetGroupDoesNotCoverEnoughAZs()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -17238,6 +17316,7 @@ extension DatabaseMigrationClientTypes.DataProvider {
         value.dataProviderCreationTime = try reader["DataProviderCreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.description = try reader["Description"].readIfPresent()
         value.engine = try reader["Engine"].readIfPresent()
+        value.virtual = try reader["Virtual"].readIfPresent()
         value.settings = try reader["Settings"].readIfPresent(with: DatabaseMigrationClientTypes.DataProviderSettings.read(from:))
         return value
     }
@@ -17339,6 +17418,8 @@ extension DatabaseMigrationClientTypes.IbmDb2zOsDataProviderSettings {
         try writer["CertificateArn"].write(value.certificateArn)
         try writer["DatabaseName"].write(value.databaseName)
         try writer["Port"].write(value.port)
+        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
+        try writer["S3Path"].write(value.s3Path)
         try writer["ServerName"].write(value.serverName)
         try writer["SslMode"].write(value.sslMode)
     }
@@ -17351,6 +17432,8 @@ extension DatabaseMigrationClientTypes.IbmDb2zOsDataProviderSettings {
         value.databaseName = try reader["DatabaseName"].readIfPresent()
         value.sslMode = try reader["SslMode"].readIfPresent()
         value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.s3Path = try reader["S3Path"].readIfPresent()
+        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
         return value
     }
 }
@@ -17362,6 +17445,8 @@ extension DatabaseMigrationClientTypes.IbmDb2LuwDataProviderSettings {
         try writer["CertificateArn"].write(value.certificateArn)
         try writer["DatabaseName"].write(value.databaseName)
         try writer["Port"].write(value.port)
+        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
+        try writer["S3Path"].write(value.s3Path)
         try writer["ServerName"].write(value.serverName)
         try writer["SslMode"].write(value.sslMode)
     }
@@ -17374,6 +17459,8 @@ extension DatabaseMigrationClientTypes.IbmDb2LuwDataProviderSettings {
         value.databaseName = try reader["DatabaseName"].readIfPresent()
         value.sslMode = try reader["SslMode"].readIfPresent()
         value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.s3Path = try reader["S3Path"].readIfPresent()
+        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
         return value
     }
 }
@@ -17384,6 +17471,8 @@ extension DatabaseMigrationClientTypes.MariaDbDataProviderSettings {
         guard let value else { return }
         try writer["CertificateArn"].write(value.certificateArn)
         try writer["Port"].write(value.port)
+        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
+        try writer["S3Path"].write(value.s3Path)
         try writer["ServerName"].write(value.serverName)
         try writer["SslMode"].write(value.sslMode)
     }
@@ -17395,6 +17484,8 @@ extension DatabaseMigrationClientTypes.MariaDbDataProviderSettings {
         value.port = try reader["Port"].readIfPresent()
         value.sslMode = try reader["SslMode"].readIfPresent()
         value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.s3Path = try reader["S3Path"].readIfPresent()
+        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
         return value
     }
 }
@@ -17429,6 +17520,8 @@ extension DatabaseMigrationClientTypes.MicrosoftSqlServerDataProviderSettings {
         try writer["CertificateArn"].write(value.certificateArn)
         try writer["DatabaseName"].write(value.databaseName)
         try writer["Port"].write(value.port)
+        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
+        try writer["S3Path"].write(value.s3Path)
         try writer["ServerName"].write(value.serverName)
         try writer["SslMode"].write(value.sslMode)
     }
@@ -17441,6 +17534,8 @@ extension DatabaseMigrationClientTypes.MicrosoftSqlServerDataProviderSettings {
         value.databaseName = try reader["DatabaseName"].readIfPresent()
         value.sslMode = try reader["SslMode"].readIfPresent()
         value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.s3Path = try reader["S3Path"].readIfPresent()
+        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
         return value
     }
 }
@@ -17453,6 +17548,8 @@ extension DatabaseMigrationClientTypes.OracleDataProviderSettings {
         try writer["CertificateArn"].write(value.certificateArn)
         try writer["DatabaseName"].write(value.databaseName)
         try writer["Port"].write(value.port)
+        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
+        try writer["S3Path"].write(value.s3Path)
         try writer["SecretsManagerOracleAsmAccessRoleArn"].write(value.secretsManagerOracleAsmAccessRoleArn)
         try writer["SecretsManagerOracleAsmSecretId"].write(value.secretsManagerOracleAsmSecretId)
         try writer["SecretsManagerSecurityDbEncryptionAccessRoleArn"].write(value.secretsManagerSecurityDbEncryptionAccessRoleArn)
@@ -17474,6 +17571,8 @@ extension DatabaseMigrationClientTypes.OracleDataProviderSettings {
         value.secretsManagerOracleAsmAccessRoleArn = try reader["SecretsManagerOracleAsmAccessRoleArn"].readIfPresent()
         value.secretsManagerSecurityDbEncryptionSecretId = try reader["SecretsManagerSecurityDbEncryptionSecretId"].readIfPresent()
         value.secretsManagerSecurityDbEncryptionAccessRoleArn = try reader["SecretsManagerSecurityDbEncryptionAccessRoleArn"].readIfPresent()
+        value.s3Path = try reader["S3Path"].readIfPresent()
+        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
         return value
     }
 }
@@ -17484,6 +17583,8 @@ extension DatabaseMigrationClientTypes.MySqlDataProviderSettings {
         guard let value else { return }
         try writer["CertificateArn"].write(value.certificateArn)
         try writer["Port"].write(value.port)
+        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
+        try writer["S3Path"].write(value.s3Path)
         try writer["ServerName"].write(value.serverName)
         try writer["SslMode"].write(value.sslMode)
     }
@@ -17495,6 +17596,8 @@ extension DatabaseMigrationClientTypes.MySqlDataProviderSettings {
         value.port = try reader["Port"].readIfPresent()
         value.sslMode = try reader["SslMode"].readIfPresent()
         value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.s3Path = try reader["S3Path"].readIfPresent()
+        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
         return value
     }
 }
@@ -17506,6 +17609,8 @@ extension DatabaseMigrationClientTypes.PostgreSqlDataProviderSettings {
         try writer["CertificateArn"].write(value.certificateArn)
         try writer["DatabaseName"].write(value.databaseName)
         try writer["Port"].write(value.port)
+        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
+        try writer["S3Path"].write(value.s3Path)
         try writer["ServerName"].write(value.serverName)
         try writer["SslMode"].write(value.sslMode)
     }
@@ -17518,6 +17623,8 @@ extension DatabaseMigrationClientTypes.PostgreSqlDataProviderSettings {
         value.databaseName = try reader["DatabaseName"].readIfPresent()
         value.sslMode = try reader["SslMode"].readIfPresent()
         value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        value.s3Path = try reader["S3Path"].readIfPresent()
+        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
         return value
     }
 }
@@ -17528,6 +17635,8 @@ extension DatabaseMigrationClientTypes.RedshiftDataProviderSettings {
         guard let value else { return }
         try writer["DatabaseName"].write(value.databaseName)
         try writer["Port"].write(value.port)
+        try writer["S3AccessRoleArn"].write(value.s3AccessRoleArn)
+        try writer["S3Path"].write(value.s3Path)
         try writer["ServerName"].write(value.serverName)
     }
 
@@ -17537,6 +17646,8 @@ extension DatabaseMigrationClientTypes.RedshiftDataProviderSettings {
         value.serverName = try reader["ServerName"].readIfPresent()
         value.port = try reader["Port"].readIfPresent()
         value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.s3Path = try reader["S3Path"].readIfPresent()
+        value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
         return value
     }
 }

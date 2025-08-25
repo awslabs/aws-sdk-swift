@@ -820,7 +820,7 @@
                     "min": 1,
                     "max": 1011
                 },
-                "smithy.api#pattern": "^arn:aws*:pcs:.*:[0-9]{12}:.*/[a-z0-9_\\-]+$"
+                "smithy.api#pattern": "^arn:aws.*:pcs:.*:[0-9]{12}:.*/[a-z0-9_\\-]+$"
             }
         },
         "com.amazonaws.pcs#BootstrapId": {
@@ -1247,7 +1247,7 @@
                 "iamInstanceProfileArn": {
                     "target": "com.amazonaws.pcs#InstanceProfileArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the <code>pcs:RegisterComputeNodeGroupInstance</code> permission. The resource identifier of the ARN must start with <code>AWSPCS</code> or it must have <code>/aws-pcs/</code> in its path.</p> <p class=\"title\"> <b>Examples</b> </p> <ul> <li> <p> <code>arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1</code> </p> </li> <li> <p> <code>arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2</code> </p> </li> </ul>",
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the <code>pcs:RegisterComputeNodeGroupInstance</code> permission and the role name must start with <code>AWSPCS</code> or must have the path <code>/aws-pcs/</code>. For more information, see <a href=\"https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html\">IAM instance profiles for PCS</a> in the <i>PCS User Guide</i>.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -1696,6 +1696,41 @@
                 "smithy.api#idempotent": {},
                 "smithy.api#tags": [
                     "ComputeNodeGroup"
+                ],
+                "smithy.test#smokeTests": [
+                    {
+                        "id": "InstanceArnSuccess",
+                        "params": {
+                            "clusterIdentifier": "testCluster",
+                            "computeNodeGroupName": "testNodeGroupName",
+                            "subnetIds": [
+                                "subnet-0cbf727bae9405b47"
+                            ],
+                            "scalingConfiguration": {
+                                "minInstanceCount": 1,
+                                "maxInstanceCount": 1
+                            },
+                            "iamInstanceProfileArn": "arn:aws:iam::975050141277:instance-profile/aws-pcs/example-role-2",
+                            "customLaunchTemplate": {
+                                "id": "lt-0b8f8ee3f92b73dc0",
+                                "version": "1"
+                            },
+                            "instanceConfigs": [
+                                {
+                                    "instanceType": "t3.medium"
+                                }
+                            ]
+                        },
+                        "expect": {
+                            "failure": {
+                                "errorId": "com.amazonaws.pcs#AccessDeniedException"
+                            }
+                        },
+                        "vendorParamsShape": "aws.test#AwsVendorParams",
+                        "vendorParams": {
+                            "region": "us-east-1"
+                        }
+                    }
                 ]
             }
         },
@@ -1745,7 +1780,7 @@
                 "iamInstanceProfileArn": {
                     "target": "com.amazonaws.pcs#InstanceProfileArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the <code>pcs:RegisterComputeNodeGroupInstance</code> permission. The resource identifier of the ARN must start with <code>AWSPCS</code> or it must have <code>/aws-pcs/</code> in its path.</p> <p class=\"title\"> <b>Examples</b> </p> <ul> <li> <p> <code>arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1</code> </p> </li> <li> <p> <code>arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2</code> </p> </li> </ul>",
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the <code>pcs:RegisterComputeNodeGroupInstance</code> permission and the role name must start with <code>AWSPCS</code> or must have the path <code>/aws-pcs/</code>. For more information, see <a href=\"https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html\">IAM instance profiles for PCS</a> in the <i>PCS User Guide</i>.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -2141,14 +2176,20 @@
                 "privateIpAddress": {
                     "target": "smithy.api#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The endpoint's private IP address.</p> <p>Example: <code>2.2.2.2</code> </p>",
+                        "smithy.api#documentation": "<p>For clusters that use IPv4, this is the endpoint's private IP address.</p> <p>Example: <code>10.1.2.3</code> </p> <p>For clusters configured to use IPv6, this is an empty string.</p>",
                         "smithy.api#required": {}
                     }
                 },
                 "publicIpAddress": {
                     "target": "smithy.api#String",
                     "traits": {
-                        "smithy.api#documentation": "<p>The endpoint's public IP address.</p> <p>Example: <code>1.1.1.1</code> </p>"
+                        "smithy.api#documentation": "<p>The endpoint's public IP address.</p> <p>Example: <code>192.0.2.1</code> </p>"
+                    }
+                },
+                "ipv6Address": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The endpoint's IPv6 address.</p> <p>Example: <code>2001:db8::1</code> </p>"
                     }
                 },
                 "port": {
@@ -2491,7 +2532,7 @@
         "com.amazonaws.pcs#InstanceProfileArn": {
             "type": "string",
             "traits": {
-                "smithy.api#pattern": "^arn:aws([a-zA-Z-]{0,10})?:iam::[0-9]{12}:instance-profile/.{1,128}$"
+                "smithy.api#pattern": "^arn:aws([a-zA-Z-]{0,10})?:iam::[0-9]{12}:instance-profile/([!-~]{1,510}/)?([\\w+=,.@-]{1,128})$"
             }
         },
         "com.amazonaws.pcs#InternalServerException": {
@@ -2908,6 +2949,23 @@
                 }
             }
         },
+        "com.amazonaws.pcs#NetworkType": {
+            "type": "enum",
+            "members": {
+                "IPV4": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "IPV4"
+                    }
+                },
+                "IPV6": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "IPV6"
+                    }
+                }
+            }
+        },
         "com.amazonaws.pcs#Networking": {
             "type": "structure",
             "members": {
@@ -2920,7 +2978,13 @@
                 "securityGroupIds": {
                     "target": "com.amazonaws.pcs#SecurityGroupIdList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The list of security group IDs associated with the Elastic Network Interface (ENI) created in subnets.</p> <p>The following rules are required:</p> <ul> <li> <p>Inbound rule 1</p> <ul> <li> <p>Protocol: All</p> </li> <li> <p>Ports: All</p> </li> <li> <p>Source: Self</p> </li> </ul> </li> <li> <p>Outbound rule 1</p> <ul> <li> <p>Protocol: All</p> </li> <li> <p>Ports: All</p> </li> <li> <p>Destination: 0.0.0.0/0 (IPv4)</p> </li> </ul> </li> <li> <p>Outbound rule 2</p> <ul> <li> <p>Protocol: All</p> </li> <li> <p>Ports: All</p> </li> <li> <p>Destination: Self</p> </li> </ul> </li> </ul>"
+                        "smithy.api#documentation": "<p>The list of security group IDs associated with the Elastic Network Interface (ENI) created in subnets.</p> <p>The following rules are required:</p> <ul> <li> <p>Inbound rule 1</p> <ul> <li> <p>Protocol: All</p> </li> <li> <p>Ports: All</p> </li> <li> <p>Source: Self</p> </li> </ul> </li> <li> <p>Outbound rule 1</p> <ul> <li> <p>Protocol: All</p> </li> <li> <p>Ports: All</p> </li> <li> <p>Destination: 0.0.0.0/0 (IPv4) or ::/0 (IPv6)</p> </li> </ul> </li> <li> <p>Outbound rule 2</p> <ul> <li> <p>Protocol: All</p> </li> <li> <p>Ports: All</p> </li> <li> <p>Destination: Self</p> </li> </ul> </li> </ul>"
+                    }
+                },
+                "networkType": {
+                    "target": "com.amazonaws.pcs#NetworkType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The IP address version the cluster uses. The default is <code>IPV4</code>.</p>"
                     }
                 }
             },
@@ -2941,6 +3005,12 @@
                     "target": "com.amazonaws.pcs#SecurityGroupIdList",
                     "traits": {
                         "smithy.api#documentation": "<p>A list of security group IDs associated with the Elastic Network Interface (ENI) created in subnets.</p>"
+                    }
+                },
+                "networkType": {
+                    "target": "com.amazonaws.pcs#NetworkType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The IP address version the cluster uses. The default is <code>IPV4</code>.</p>"
                     }
                 }
             },
@@ -3940,7 +4010,7 @@
                 "iamInstanceProfileArn": {
                     "target": "com.amazonaws.pcs#InstanceProfileArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the <code>pcs:RegisterComputeNodeGroupInstance</code> permission. The resource identifier of the ARN must start with <code>AWSPCS</code> or it must have <code>/aws-pcs/</code> in its path.</p> <p class=\"title\"> <b>Examples</b> </p> <ul> <li> <p> <code>arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1</code> </p> </li> <li> <p> <code>arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2</code> </p> </li> </ul>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the <code>pcs:RegisterComputeNodeGroupInstance</code> permission and the role name must start with <code>AWSPCS</code> or must have the path <code>/aws-pcs/</code>. For more information, see <a href=\"https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html\">IAM instance profiles for PCS</a> in the <i>PCS User Guide</i>.</p>"
                     }
                 },
                 "slurmConfiguration": {

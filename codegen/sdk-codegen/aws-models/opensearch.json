@@ -37,6 +37,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Container for parameters required for natural language query generation on the specified domain.</p>"
                     }
+                },
+                "S3VectorsEngine": {
+                    "target": "com.amazonaws.opensearch#S3VectorsEngine",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Container for parameters required to enable S3 vectors engine features on the specified domain.</p>"
+                    }
                 }
             },
             "traits": {
@@ -50,6 +56,12 @@
                     "target": "com.amazonaws.opensearch#NaturalLanguageQueryGenerationOptionsOutput",
                     "traits": {
                         "smithy.api#documentation": "<p>Container for parameters required for natural language query generation on the specified domain.</p>"
+                    }
+                },
+                "S3VectorsEngine": {
+                    "target": "com.amazonaws.opensearch#S3VectorsEngine",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Container for parameters representing the state of S3 vectors engine features on the specified domain.</p>"
                     }
                 }
             },
@@ -636,6 +648,12 @@
                         "smithy.api#documentation": "<p>Container for information about the JWT configuration of the Amazon OpenSearch Service.</p>"
                     }
                 },
+                "IAMFederationOptions": {
+                    "target": "com.amazonaws.opensearch#IAMFederationOptionsOutput",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Container for information about the IAM federation configuration for an OpenSearch UI application.</p>"
+                    }
+                },
                 "AnonymousAuthDisableDate": {
                     "target": "com.amazonaws.opensearch#DisableTimestamp",
                     "traits": {
@@ -684,6 +702,12 @@
                     "target": "com.amazonaws.opensearch#JWTOptionsInput",
                     "traits": {
                         "smithy.api#documentation": "<p>Container for information about the JWT configuration of the Amazon OpenSearch Service. </p>"
+                    }
+                },
+                "IAMFederationOptions": {
+                    "target": "com.amazonaws.opensearch#IAMFederationOptionsInput",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Container for information about the IAM federation configuration for an OpenSearch UI application.</p>"
                     }
                 },
                 "AnonymousAuthEnabled": {
@@ -4287,7 +4311,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Data sources that are associated with an OpenSearch Application. </p>"
+                "smithy.api#documentation": "<p>Data sources that are associated with an OpenSearch application. </p>"
             }
         },
         "com.amazonaws.opensearch#DataSourceDescription": {
@@ -8463,6 +8487,78 @@
         "com.amazonaws.opensearch#HostedZoneId": {
             "type": "string"
         },
+        "com.amazonaws.opensearch#IAMFederationOptionsInput": {
+            "type": "structure",
+            "members": {
+                "Enabled": {
+                    "target": "com.amazonaws.opensearch#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>True to enable IAM federation authentication for a domain.</p>"
+                    }
+                },
+                "SubjectKey": {
+                    "target": "com.amazonaws.opensearch#IAMFederationSubjectKey",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Element of the IAM federation assertion to use for the user name. Default is\n       <code>sub</code>.</p>"
+                    }
+                },
+                "RolesKey": {
+                    "target": "com.amazonaws.opensearch#IAMFederationRolesKey",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Element of the IAM federation assertion to use for backend roles. Default is\n       <code>roles</code>.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The IAM federation authentication configuration for an Amazon OpenSearch Service domain.</p>"
+            }
+        },
+        "com.amazonaws.opensearch#IAMFederationOptionsOutput": {
+            "type": "structure",
+            "members": {
+                "Enabled": {
+                    "target": "com.amazonaws.opensearch#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>True if IAM federation is enabled.</p>"
+                    }
+                },
+                "SubjectKey": {
+                    "target": "com.amazonaws.opensearch#IAMFederationSubjectKey",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The key used for matching the IAM federation subject attribute.</p>"
+                    }
+                },
+                "RolesKey": {
+                    "target": "com.amazonaws.opensearch#IAMFederationRolesKey",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The key used for matching the IAM federation roles attribute.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Describes the IAM federation options configured for the domain.</p>"
+            }
+        },
+        "com.amazonaws.opensearch#IAMFederationRolesKey": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 64
+                },
+                "smithy.api#pattern": "^(null|[A-Za-z][A-Za-z0-9_.:/=+\\-@]*)$"
+            }
+        },
+        "com.amazonaws.opensearch#IAMFederationSubjectKey": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 64
+                },
+                "smithy.api#pattern": "^(null|[A-Za-z][A-Za-z0-9_.:/=+\\-@]*)$"
+            }
+        },
         "com.amazonaws.opensearch#IPAddressType": {
             "type": "enum",
             "members": {
@@ -8507,7 +8603,7 @@
                 "enabled": {
                     "target": "com.amazonaws.opensearch#Boolean",
                     "traits": {
-                        "smithy.api#documentation": "<p>Indicates whether IAM Identity Center is enabled for the OpenSearch Application.</p>"
+                        "smithy.api#documentation": "<p>Indicates whether IAM Identity Center is enabled for the OpenSearch application.</p>"
                     }
                 },
                 "iamIdentityCenterInstanceArn": {
@@ -8516,7 +8612,7 @@
                 "iamRoleForIdentityCenterApplicationArn": {
                     "target": "com.amazonaws.opensearch#RoleArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM role assigned to the IAM Identity Center application for the OpenSearch Application.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the IAM role assigned to the IAM Identity Center application for the OpenSearch application.</p>"
                     }
                 },
                 "iamIdentityCenterApplicationArn": {
@@ -8524,7 +8620,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Configuration settings for IAM Identity Center in an OpenSearch Application.</p>"
+                "smithy.api#documentation": "<p>Configuration settings for IAM Identity Center in an OpenSearch application.</p>"
             }
         },
         "com.amazonaws.opensearch#IamIdentityCenterOptionsInput": {
@@ -13065,6 +13161,20 @@
                     "min": 1,
                     "max": 1024
                 }
+            }
+        },
+        "com.amazonaws.opensearch#S3VectorsEngine": {
+            "type": "structure",
+            "members": {
+                "Enabled": {
+                    "target": "com.amazonaws.opensearch#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Enables S3 vectors engine features.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Options for enabling S3 vectors engine features on the specified domain.</p>"
             }
         },
         "com.amazonaws.opensearch#SAMLEntityId": {

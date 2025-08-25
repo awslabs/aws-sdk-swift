@@ -1522,6 +1522,7 @@ public struct CreateApiCacheInput: Swift.Sendable {
     /// This member is required.
     public var apiId: Swift.String?
     /// At-rest encryption flag for cache. You cannot update this setting after creation.
+    @available(*, deprecated, message: "atRestEncryptionEnabled attribute is deprecated. Encryption at rest is always enabled. API deprecated since 5/15/2025")
     public var atRestEncryptionEnabled: Swift.Bool?
     /// Controls how cache health metrics will be emitted to CloudWatch. Cache health metrics include:
     ///
@@ -1533,6 +1534,7 @@ public struct CreateApiCacheInput: Swift.Sendable {
     /// Metrics will be recorded by API ID. You can set the value to ENABLED or DISABLED.
     public var healthMetricsConfig: AppSyncClientTypes.CacheHealthMetricsConfig?
     /// Transit encryption flag when connecting to cache. You cannot update this setting after creation.
+    @available(*, deprecated, message: "transitEncryptionEnabled attribute is deprecated. Encryption in transit is always enabled. API deprecated since 5/15/2025")
     public var transitEncryptionEnabled: Swift.Bool?
     /// TTL in seconds for cache entries. Valid values are 1–3,600 seconds.
     /// This member is required.
@@ -9670,24 +9672,11 @@ enum UpdateTypeOutputError {
     }
 }
 
-extension NotFoundException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = NotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalFailureException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
-        let reader = baseError.errorBodyReader
-        var value = InternalFailureException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9711,11 +9700,11 @@ extension BadRequestException {
     }
 }
 
-extension AccessDeniedException {
+extension InternalFailureException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalFailureException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = InternalFailureException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9724,11 +9713,11 @@ extension AccessDeniedException {
     }
 }
 
-extension LimitExceededException {
+extension NotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        var value = NotFoundException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9742,6 +9731,19 @@ extension ConcurrentModificationException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConcurrentModificationException {
         let reader = baseError.errorBodyReader
         var value = ConcurrentModificationException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension LimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> LimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = LimitExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

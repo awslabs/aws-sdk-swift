@@ -1058,9 +1058,9 @@ extension CloudFormationClientTypes {
 
     /// Contains information about the module from which the resource was created, if the resource was created from a module included in the stack template. For more information about modules, see [Create reusable resource configurations that can be included across templates with CloudFormation modules](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/modules.html) in the CloudFormation User Guide.
     public struct ModuleInfo: Swift.Sendable {
-        /// A concatenated list of the logical IDs of the module or modules containing the resource. Modules are listed starting with the inner-most nested module, and separated by /. In the following example, the resource was created from a module, moduleA, that's nested inside a parent module, moduleB. moduleA/moduleB For more information, see [Reference module resources in CloudFormation templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/module-ref-resources.html) in the CloudFormation User Guide.
+        /// A concatenated list of the logical IDs of the module or modules that contains the resource. Modules are listed starting with the inner-most nested module, and separated by /. In the following example, the resource was created from a module, moduleA, that's nested inside a parent module, moduleB. moduleA/moduleB For more information, see [Reference module resources in CloudFormation templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/module-ref-resources.html) in the CloudFormation User Guide.
         public var logicalIdHierarchy: Swift.String?
-        /// A concatenated list of the module type or types containing the resource. Module types are listed starting with the inner-most nested module, and separated by /. In the following example, the resource was created from a module of type AWS::First::Example::MODULE, that's nested inside a parent module of type AWS::Second::Example::MODULE. AWS::First::Example::MODULE/AWS::Second::Example::MODULE
+        /// A concatenated list of the module type or types that contains the resource. Module types are listed starting with the inner-most nested module, and separated by /. In the following example, the resource was created from a module of type AWS::First::Example::MODULE, that's nested inside a parent module of type AWS::Second::Example::MODULE. AWS::First::Example::MODULE/AWS::Second::Example::MODULE
         public var typeHierarchy: Swift.String?
 
         public init(
@@ -1152,9 +1152,9 @@ extension CloudFormationClientTypes {
     public struct ResourceChange: Swift.Sendable {
         /// The action that CloudFormation takes on the resource, such as Add (adds a new resource), Modify (changes a resource), Remove (deletes a resource), Import (imports a resource), or Dynamic (exact action for the resource can't be determined).
         public var action: CloudFormationClientTypes.ChangeAction?
-        /// An encoded JSON string containing the context of the resource after the change is executed.
+        /// An encoded JSON string that contains the context of the resource after the change is executed.
         public var afterContext: Swift.String?
-        /// An encoded JSON string containing the context of the resource before the change is executed.
+        /// An encoded JSON string that contains the context of the resource before the change is executed.
         public var beforeContext: Swift.String?
         /// The change set ID of the nested change set.
         public var changeSetId: Swift.String?
@@ -1851,7 +1851,7 @@ extension CloudFormationClientTypes {
         /// The Amazon Resource Name (ARN) of the rollback trigger. If a specified trigger is missing, the entire stack operation fails and is rolled back.
         /// This member is required.
         public var arn: Swift.String?
-        /// The resource type of the rollback trigger. Specify either [AWS::CloudWatch::Alarm](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudwatch-alarm.html) or [AWS::CloudWatch::CompositeAlarm](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cloudwatch-compositealarm.html) resource types.
+        /// The resource type of the rollback trigger. Specify either [AWS::CloudWatch::Alarm](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-cloudwatch-alarm.html) or [AWS::CloudWatch::CompositeAlarm](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-cloudwatch-compositealarm.html) resource types.
         /// This member is required.
         public var type: Swift.String?
 
@@ -1867,7 +1867,7 @@ extension CloudFormationClientTypes {
 
 extension CloudFormationClientTypes {
 
-    /// Structure containing the rollback triggers for CloudFormation to monitor during stack creation and updating operations, and for the specified monitoring period afterwards. Rollback triggers enable you to have CloudFormation monitor the state of your application during stack creation and updating, and to roll back that operation if the application breaches the threshold of any of the alarms you've specified. For more information, see [Roll back your CloudFormation stack on alarm breach with rollback triggers](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-rollback-triggers.html).
+    /// Structure that contains the rollback triggers for CloudFormation to monitor during stack creation and updating operations, and for the specified monitoring period afterwards. Rollback triggers enable you to have CloudFormation monitor the state of your application during stack creation and updating, and to roll back that operation if the application breaches the threshold of any of the alarms you've specified. For more information, see [Roll back your CloudFormation stack on alarm breach with rollback triggers](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-rollback-triggers.html).
     public struct RollbackConfiguration: Swift.Sendable {
         /// The amount of time, in minutes, during which CloudFormation should monitor all the rollback triggers after the stack creation or update operation deploys all necessary resources. The default is 0 minutes. If you specify a monitoring period but don't specify any rollback triggers, CloudFormation still waits the specified period of time before cleaning up old resources after update operations. You can use this monitoring period to perform any manual stack validation desired, and manually cancel the stack creation or update (using [CancelUpdateStack](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_CancelUpdateStack.html), for example) as necessary. If you specify 0 for this parameter, CloudFormation still monitors the specified rollback triggers during stack creation and update operations. Then, for update operations, it begins disposing of old resources immediately once the operation completes.
         public var monitoringTimeInMinutes: Swift.Int?
@@ -1900,7 +1900,7 @@ extension CloudFormationClientTypes {
         /// Required. A string used to identify this tag. You can specify a maximum of 128 characters for a tag key. Tags owned by Amazon Web Services have the reserved prefix: aws:.
         /// This member is required.
         public var key: Swift.String?
-        /// Required. A string containing the value for this tag. You can specify a maximum of 256 characters for a tag value.
+        /// Required. A string that contains the value for this tag. You can specify a maximum of 256 characters for a tag value.
         /// This member is required.
         public var value: Swift.String?
 
@@ -1929,21 +1929,21 @@ public struct CreateChangeSetInput: Swift.Sendable {
     ///
     /// If your stack template contains these resources, we suggest that you review all permissions associated with them and edit their permissions if necessary.
     ///
-    /// * [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-accesskey.html)
+    /// * [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-accesskey.html)
     ///
-    /// * [ AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-group.html)
+    /// * [ AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-group.html)
     ///
-    /// * [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
+    /// * [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-instanceprofile.html)
     ///
-    /// * [ AWS::IAM::ManagedPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-managedpolicy.html)
+    /// * [ AWS::IAM::ManagedPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-managedpolicy.html)
     ///
-    /// * [ AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)
+    /// * [ AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-policy.html)
     ///
-    /// * [ AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
+    /// * [ AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-role.html)
     ///
-    /// * [ AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-user.html)
+    /// * [ AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-user.html)
     ///
-    /// * [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-usertogroupaddition.html)
+    /// * [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-usertogroupaddition.html)
     ///
     ///
     /// For more information, see [Acknowledging IAM resources in CloudFormation templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html#using-iam-capabilities).
@@ -1962,7 +1962,7 @@ public struct CreateChangeSetInput: Swift.Sendable {
     public var clientToken: Swift.String?
     /// A description to help you identify this change set.
     public var description: Swift.String?
-    /// Indicates if the change set imports resources that already exist. This parameter can only import resources that have custom names in templates. For more information, see [name type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html) in the CloudFormation User Guide. To import resources that do not accept custom names, such as EC2 instances, use the resource import feature instead. For more information, see [Import Amazon Web Services resources into a CloudFormation stack with a resource import](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html) in the CloudFormation User Guide.
+    /// Indicates if the change set auto-imports resources that already exist. For more information, see [Import Amazon Web Services resources into a CloudFormation stack automatically](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/import-resources-automatically.html) in the CloudFormation User Guide. This parameter can only import resources that have custom names in templates. For more information, see [name type](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-properties-name.html) in the CloudFormation User Guide. To import resources that do not accept custom names, such as EC2 instances, use the ResourcesToImport parameter instead.
     public var importExistingResources: Swift.Bool?
     /// Creates a change set for the all nested stacks specified in the template. The default behavior of this action is set to False. To include nested sets in a change set, specify True.
     public var includeNestedStacks: Swift.Bool?
@@ -1996,7 +1996,7 @@ public struct CreateChangeSetInput: Swift.Sendable {
     public var tags: [CloudFormationClientTypes.Tag]?
     /// A structure that contains the body of the revised template, with a minimum length of 1 byte and a maximum length of 51,200 bytes. CloudFormation generates the change set by comparing this template with the template of the stack that you specified. Conditional: You must specify only TemplateBody or TemplateURL.
     public var templateBody: Swift.String?
-    /// The URL of the file that contains the revised template. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. CloudFormation generates the change set by comparing this template with the stack that you specified. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only TemplateBody or TemplateURL.
+    /// The URL of the file that contains the revised template. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. CloudFormation generates the change set by comparing this template with the stack that you specified. The location for an Amazon S3 bucket must start with https://. URLs from S3 static websites are not supported. Conditional: You must specify only TemplateBody or TemplateURL.
     public var templateURL: Swift.String?
     /// Whether to reuse the template that's associated with the stack to create the change set.
     public var usePreviousTemplate: Swift.Bool?
@@ -2281,21 +2281,21 @@ public struct CreateStackInput: Swift.Sendable {
     ///
     /// If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.
     ///
-    /// * [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-accesskey.html)
+    /// * [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-accesskey.html)
     ///
-    /// * [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-group.html)
+    /// * [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-group.html)
     ///
-    /// * [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
+    /// * [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-instanceprofile.html)
     ///
-    /// * [ AWS::IAM::ManagedPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-managedpolicy.html)
+    /// * [ AWS::IAM::ManagedPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-managedpolicy.html)
     ///
-    /// * [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)
+    /// * [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-policy.html)
     ///
-    /// * [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
+    /// * [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-role.html)
     ///
-    /// * [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-user.html)
+    /// * [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-user.html)
     ///
-    /// * [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-usertogroupaddition.html)
+    /// * [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-usertogroupaddition.html)
     ///
     ///
     /// For more information, see [Acknowledging IAM resources in CloudFormation templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html#using-iam-capabilities).
@@ -2328,15 +2328,15 @@ public struct CreateStackInput: Swift.Sendable {
     /// The name that's associated with the stack. The name must be unique in the Region in which you are creating the stack. A stack name can contain only alphanumeric characters (case sensitive) and hyphens. It must start with an alphabetical character and can't be longer than 128 characters.
     /// This member is required.
     public var stackName: Swift.String?
-    /// Structure containing the stack policy body. For more information, see [Prevent updates to stack resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html) in the CloudFormation User Guide. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
+    /// Structure that contains the stack policy body. For more information, see [Prevent updates to stack resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html) in the CloudFormation User Guide. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
     public var stackPolicyBody: Swift.String?
-    /// Location of a file containing the stack policy. The URL must point to a policy (maximum size: 16 KB) located in an S3 bucket in the same Region as the stack. The location for an Amazon S3 bucket must start with https://. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
+    /// Location of a file that contains the stack policy. The URL must point to a policy (maximum size: 16 KB) located in an S3 bucket in the same Region as the stack. The location for an Amazon S3 bucket must start with https://. URLs from S3 static websites are not supported. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
     public var stackPolicyURL: Swift.String?
     /// Key-value pairs to associate with this stack. CloudFormation also propagates these tags to the resources created in the stack. A maximum number of 50 tags can be specified.
     public var tags: [CloudFormationClientTypes.Tag]?
-    /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
+    /// Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify either TemplateBody or TemplateURL, but not both.
     public var templateBody: Swift.String?
-    /// The URL of a file containing the template body. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
+    /// The URL of a file that contains the template body. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. URLs from S3 static websites are not supported. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
     public var templateURL: Swift.String?
     /// The amount of time that can pass before the stack status becomes CREATE_FAILED; if DisableRollback is not set or is set to false, the stack will be rolled back.
     public var timeoutInMinutes: Swift.Int?
@@ -2589,13 +2589,13 @@ extension CloudFormationClientTypes {
         ///
         /// * SOFT_FAILURE_TOLERANCE: This option decouples FailureToleranceCount from the actual concurrency. This allows stack set operations to run at the concurrency level set by the MaxConcurrentCount value, or MaxConcurrentPercentage, regardless of the number of failures.
         public var concurrencyMode: CloudFormationClientTypes.ConcurrencyMode?
-        /// The number of accounts, per Region, for which this operation can fail before CloudFormation stops the operation in that Region. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. Conditional: You must specify either FailureToleranceCount or FailureTolerancePercentage (but not both). By default, 0 is specified.
+        /// The number of accounts, per Region, for which this operation can fail before CloudFormation stops the operation in that Region. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. You can specify either FailureToleranceCount or FailureTolerancePercentage, but not both. By default, 0 is specified.
         public var failureToleranceCount: Swift.Int?
-        /// The percentage of accounts, per Region, for which this stack operation can fail before CloudFormation stops the operation in that Region. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. When calculating the number of accounts based on the specified percentage, CloudFormation rounds down to the next whole number. Conditional: You must specify either FailureToleranceCount or FailureTolerancePercentage, but not both. By default, 0 is specified.
+        /// The percentage of accounts, per Region, for which this stack operation can fail before CloudFormation stops the operation in that Region. If the operation is stopped in a Region, CloudFormation doesn't attempt the operation in any subsequent Regions. When calculating the number of accounts based on the specified percentage, CloudFormation rounds down to the next whole number. You can specify either FailureToleranceCount or FailureTolerancePercentage, but not both. By default, 0 is specified.
         public var failureTolerancePercentage: Swift.Int?
-        /// The maximum number of accounts in which to perform this operation at one time. This can depend on the value of FailureToleranceCount depending on your ConcurrencyMode. MaxConcurrentCount is at most one more than the FailureToleranceCount if you're using STRICT_FAILURE_TOLERANCE. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Conditional: You must specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both. By default, 1 is specified.
+        /// The maximum number of accounts in which to perform this operation at one time. This can depend on the value of FailureToleranceCount depending on your ConcurrencyMode. MaxConcurrentCount is at most one more than the FailureToleranceCount if you're using STRICT_FAILURE_TOLERANCE. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. You can specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both. By default, 1 is specified.
         public var maxConcurrentCount: Swift.Int?
-        /// The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, CloudFormation rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, CloudFormation sets the number as one instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Conditional: You must specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both. By default, 1 is specified.
+        /// The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, CloudFormation rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, CloudFormation sets the number as one instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. You can specify either MaxConcurrentCount or MaxConcurrentPercentage, but not both. By default, 1 is specified.
         public var maxConcurrentPercentage: Swift.Int?
         /// The concurrency type of deploying StackSets operations in Regions, could be in parallel or one Region at a time.
         public var regionConcurrencyType: CloudFormationClientTypes.RegionConcurrencyType?
@@ -2907,19 +2907,19 @@ public struct CreateStackSetInput: Swift.Sendable {
     ///
     /// If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.
     ///
-    /// * [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-accesskey.html)
+    /// * [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-accesskey.html)
     ///
-    /// * [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-group.html)
+    /// * [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-group.html)
     ///
-    /// * [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
+    /// * [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-instanceprofile.html)
     ///
-    /// * [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)
+    /// * [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-policy.html)
     ///
-    /// * [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
+    /// * [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-role.html)
     ///
-    /// * [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-user.html)
+    /// * [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-user.html)
     ///
-    /// * [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-usertogroupaddition.html)
+    /// * [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-usertogroupaddition.html)
     ///
     ///
     /// For more information, see [Acknowledging IAM resources in CloudFormation templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html#using-iam-capabilities).
@@ -2951,7 +2951,7 @@ public struct CreateStackSetInput: Swift.Sendable {
     public var tags: [CloudFormationClientTypes.Tag]?
     /// The structure that contains the template body, with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
     public var templateBody: Swift.String?
-    /// The URL of a file that contains the template body. The URL must point to a template (maximum size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
+    /// The URL of a file that contains the template body. The URL must point to a template (maximum size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. S3 static website URLs are not supported. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
     public var templateURL: Swift.String?
 
     public init(
@@ -3411,7 +3411,7 @@ public struct DescribeChangeSetOutput: Swift.Sendable {
     public var description: Swift.String?
     /// If the change set execution status is AVAILABLE, you can execute the change set. If you can't execute the change set, the status indicates why. For example, a change set might be in an UNAVAILABLE state because CloudFormation is still creating it or in an OBSOLETE state because the stack was already updated.
     public var executionStatus: CloudFormationClientTypes.ExecutionStatus?
-    /// Indicates if the change set imports resources that already exist. This parameter can only import resources that have [custom names](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html) in templates. To import resources that do not accept custom names, such as EC2 instances, use the [resource import](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html) feature instead.
+    /// Indicates if the change set imports resources that already exist. This parameter can only import resources that have [custom names](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-properties-name.html) in templates. To import resources that do not accept custom names, such as EC2 instances, use the [resource import](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import.html) feature instead.
     public var importExistingResources: Swift.Bool?
     /// Verifies if IncludeNestedStacks is set to True.
     public var includeNestedStacks: Swift.Bool?
@@ -4250,7 +4250,7 @@ public struct DescribeStackDriftDetectionStatusOutput: Swift.Sendable {
     ///
     /// * IN_SYNC: The stack's actual configuration matches its expected template configuration.
     ///
-    /// * UNKNOWN: This value is reserved for future use.
+    /// * UNKNOWN: CloudFormation could not run drift detection for a resource in the stack. See the DetectionStatusReason for details.
     public var stackDriftStatus: CloudFormationClientTypes.StackDriftStatus?
     /// The ID of the stack.
     /// This member is required.
@@ -4475,7 +4475,7 @@ extension CloudFormationClientTypes {
     public struct StackEvent: Swift.Sendable {
         /// The token passed to the operation that generated this event. All events triggered by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002.
         public var clientRequestToken: Swift.String?
-        /// An optional field containing information about the detailed status of the stack event.
+        /// An optional field that contains information about the detailed status of the stack event.
         ///
         /// * CONFIGURATION_COMPLETE - all of the resources in the stack have reached that event. For more information, see [Understand CloudFormation stack creation events](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-resource-configuration-complete.html) in the CloudFormation User Guide.
         ///
@@ -5021,6 +5021,7 @@ extension CloudFormationClientTypes {
         case inSync
         case modified
         case notChecked
+        case unknown
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StackResourceDriftStatus] {
@@ -5028,7 +5029,8 @@ extension CloudFormationClientTypes {
                 .deleted,
                 .inSync,
                 .modified,
-                .notChecked
+                .notChecked,
+                .unknown
             ]
         }
 
@@ -5043,6 +5045,7 @@ extension CloudFormationClientTypes {
             case .inSync: return "IN_SYNC"
             case .modified: return "MODIFIED"
             case .notChecked: return "NOT_CHECKED"
+            case .unknown: return "UNKNOWN"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5142,7 +5145,7 @@ extension CloudFormationClientTypes {
 
 /// The output for a [DescribeStackResource] action.
 public struct DescribeStackResourceOutput: Swift.Sendable {
-    /// A StackResourceDetail structure containing the description of the specified resource in the specified stack.
+    /// A StackResourceDetail structure that contains the description of the specified resource in the specified stack.
     public var stackResourceDetail: CloudFormationClientTypes.StackResourceDetail?
 
     public init(
@@ -5169,6 +5172,8 @@ public struct DescribeStackResourceDriftsInput: Swift.Sendable {
     /// * IN_SYNC: The resource's actual configuration matches its expected template configuration.
     ///
     /// * NOT_CHECKED: CloudFormation doesn't currently return this value.
+    ///
+    /// * UNKNOWN: CloudFormation could not run drift detection for the resource.
     public var stackResourceDriftStatusFilters: [CloudFormationClientTypes.StackResourceDriftStatus]?
 
     public init(
@@ -5278,9 +5283,11 @@ extension CloudFormationClientTypes {
 
     /// Contains the drift information for a resource that has been checked for drift. This includes actual and expected property values for resources in which CloudFormation has detected drift. Only resource properties explicitly defined in the stack template are checked for drift. For more information, see [Detect unmanaged configuration changes to stacks and resources with drift detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html). Resources that don't currently support drift detection can't be checked. For a list of resources that support drift detection, see [Resource type support for imports and drift detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html). Use [DetectStackResourceDrift] to detect drift on individual resources, or [DetectStackDrift] to detect drift on all resources in a given stack that support drift detection.
     public struct StackResourceDrift: Swift.Sendable {
-        /// A JSON structure containing the actual property values of the stack resource. For resources whose StackResourceDriftStatus is DELETED, this structure will not be present.
+        /// A JSON structure that contains the actual property values of the stack resource. For resources whose StackResourceDriftStatus is DELETED, this structure will not be present.
         public var actualProperties: Swift.String?
-        /// A JSON structure containing the expected property values of the stack resource, as defined in the stack template and any values specified as template parameters. For resources whose StackResourceDriftStatus is DELETED, this structure will not be present.
+        /// The reason for the drift status.
+        public var driftStatusReason: Swift.String?
+        /// A JSON structure that contains the expected property values of the stack resource, as defined in the stack template and any values specified as template parameters. For resources whose StackResourceDriftStatus is DELETED, this structure will not be present.
         public var expectedProperties: Swift.String?
         /// The logical name of the resource specified in the template.
         /// This member is required.
@@ -5308,6 +5315,8 @@ extension CloudFormationClientTypes {
         /// * IN_SYNC: The resource's actual configuration matches its expected template configuration.
         ///
         /// * NOT_CHECKED: CloudFormation does not currently return this value.
+        ///
+        /// * UNKNOWN: CloudFormation could not run drift detection for the resource. See the DriftStatusReason for details.
         /// This member is required.
         public var stackResourceDriftStatus: CloudFormationClientTypes.StackResourceDriftStatus?
         /// Time at which CloudFormation performed drift detection on the stack resource.
@@ -5316,6 +5325,7 @@ extension CloudFormationClientTypes {
 
         public init(
             actualProperties: Swift.String? = nil,
+            driftStatusReason: Swift.String? = nil,
             expectedProperties: Swift.String? = nil,
             logicalResourceId: Swift.String? = nil,
             moduleInfo: CloudFormationClientTypes.ModuleInfo? = nil,
@@ -5328,6 +5338,7 @@ extension CloudFormationClientTypes {
             timestamp: Foundation.Date? = nil
         ) {
             self.actualProperties = actualProperties
+            self.driftStatusReason = driftStatusReason
             self.expectedProperties = expectedProperties
             self.logicalResourceId = logicalResourceId
             self.moduleInfo = moduleInfo
@@ -5490,7 +5501,7 @@ extension CloudFormationClientTypes {
         ///
         /// * IN_SYNC: The stack's actual configuration matches its expected template configuration.
         ///
-        /// * UNKNOWN: This value is reserved for future use.
+        /// * UNKNOWN: CloudFormation could not run drift detection for a resource in the stack.
         /// This member is required.
         public var stackDriftStatus: CloudFormationClientTypes.StackDriftStatus?
 
@@ -5664,7 +5675,7 @@ extension CloudFormationClientTypes {
         public var outputs: [CloudFormationClientTypes.Output]?
         /// A list of Parameter structures.
         public var parameters: [CloudFormationClientTypes.Parameter]?
-        /// For nested stacks--stacks created as resources for another stack--the stack ID of the direct parent of this stack. For the first level of nested stacks, the root stack is also the parent stack. For more information, see [Embed stacks within other stacks using nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html) in the CloudFormation User Guide.
+        /// For nested stacks, the stack ID of the direct parent of this stack. For the first level of nested stacks, the root stack is also the parent stack. For more information, see [Nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html) in the CloudFormation User Guide.
         public var parentId: Swift.String?
         /// When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
         public var retainExceptOnCreate: Swift.Bool?
@@ -5672,7 +5683,7 @@ extension CloudFormationClientTypes {
         public var roleARN: Swift.String?
         /// The rollback triggers for CloudFormation to monitor during stack creation and updating operations, and for the specified monitoring period afterwards.
         public var rollbackConfiguration: CloudFormationClientTypes.RollbackConfiguration?
-        /// For nested stacks--stacks created as resources for another stack--the stack ID of the top-level stack to which the nested stack ultimately belongs. For more information, see [Embed stacks within other stacks using nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html) in the CloudFormation User Guide.
+        /// For nested stacks, the stack ID of the top-level stack to which the nested stack ultimately belongs. For more information, see [Nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html) in the CloudFormation User Guide.
         public var rootId: Swift.String?
         /// Unique identifier of the stack.
         public var stackId: Swift.String?
@@ -6747,9 +6758,9 @@ public struct DetectStackSetDriftOutput: Swift.Sendable {
 public struct EstimateTemplateCostInput: Swift.Sendable {
     /// A list of Parameter structures that specify input parameters.
     public var parameters: [CloudFormationClientTypes.Parameter]?
-    /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must pass TemplateBody or TemplateURL. If both are passed, only TemplateBody is used.
+    /// Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must pass TemplateBody or TemplateURL. If both are passed, only TemplateBody is used.
     public var templateBody: Swift.String?
-    /// The URL of a file containing the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
+    /// The URL of a file that contains the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. URLs from S3 static websites are not supported. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
     public var templateURL: Swift.String?
 
     public init(
@@ -6924,7 +6935,7 @@ public struct GetStackPolicyInput: Swift.Sendable {
 
 /// The output for the [GetStackPolicy] action.
 public struct GetStackPolicyOutput: Swift.Sendable {
-    /// Structure containing the stack policy body. (For more information, see [Prevent updates to stack resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html) in the CloudFormation User Guide.)
+    /// Structure that contains the stack policy body. (For more information, see [Prevent updates to stack resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html) in the CloudFormation User Guide.)
     public var stackPolicyBody: Swift.String?
 
     public init(
@@ -6991,7 +7002,7 @@ public struct GetTemplateInput: Swift.Sendable {
 public struct GetTemplateOutput: Swift.Sendable {
     /// The stage of the template that you can retrieve. For stacks, the Original and Processed templates are always available. For change sets, the Original template is always available. After CloudFormation finishes creating the change set, the Processed template becomes available.
     public var stagesAvailable: [CloudFormationClientTypes.TemplateStage]?
-    /// Structure containing the template body. CloudFormation returns the same template that was used when the stack was created.
+    /// Structure that contains the template body. CloudFormation returns the same template that was used when the stack was created.
     public var templateBody: Swift.String?
 
     public init(
@@ -7030,11 +7041,11 @@ public struct GetTemplateSummaryInput: Swift.Sendable {
     public var stackName: Swift.String?
     /// The name or unique ID of the stack set from which the stack was created. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
     public var stackSetName: Swift.String?
-    /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
+    /// Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
     public var templateBody: Swift.String?
     /// Specifies options for the GetTemplateSummary API action.
     public var templateSummaryConfig: CloudFormationClientTypes.TemplateSummaryConfig?
-    /// The URL of a file containing the template body. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
+    /// The URL of a file that contains the template body. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
     public var templateURL: Swift.String?
 
     public init(
@@ -7162,7 +7173,7 @@ public struct GetTemplateSummaryOutput: Swift.Sendable {
     public var resourceTypes: [Swift.String]?
     /// The Amazon Web Services template format version, which identifies the capabilities of the template.
     public var version: Swift.String?
-    /// An object containing any warnings returned.
+    /// An object that contains any warnings returned.
     public var warnings: CloudFormationClientTypes.Warnings?
 
     public init(
@@ -8581,7 +8592,7 @@ extension CloudFormationClientTypes {
         ///
         /// * IN_SYNC: The stack's actual configuration matches its expected template configuration.
         ///
-        /// * UNKNOWN: This value is reserved for future use.
+        /// * UNKNOWN: CloudFormation could not run drift detection for a resource in the stack.
         /// This member is required.
         public var stackDriftStatus: CloudFormationClientTypes.StackDriftStatus?
 
@@ -8608,9 +8619,9 @@ extension CloudFormationClientTypes {
         public var driftInformation: CloudFormationClientTypes.StackDriftInformationSummary?
         /// The time the stack was last updated. This field will only be returned if the stack has been updated at least once.
         public var lastUpdatedTime: Foundation.Date?
-        /// For nested stacks--stacks created as resources for another stack--the stack ID of the direct parent of this stack. For the first level of nested stacks, the root stack is also the parent stack. For more information, see [Embed stacks within other stacks using nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html) in the CloudFormation User Guide.
+        /// For nested stacks, the stack ID of the direct parent of this stack. For the first level of nested stacks, the root stack is also the parent stack. For more information, see [Nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html) in the CloudFormation User Guide.
         public var parentId: Swift.String?
-        /// For nested stacks--stacks created as resources for another stack--the stack ID of the top-level stack to which the nested stack ultimately belongs. For more information, see [Embed stacks within other stacks using nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html) in the CloudFormation User Guide.
+        /// For nested stacks, the stack ID of the top-level stack to which the nested stack ultimately belongs. For more information, see [Nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html) in the CloudFormation User Guide.
         public var rootId: Swift.String?
         /// Unique stack identifier.
         public var stackId: Swift.String?
@@ -8657,7 +8668,7 @@ extension CloudFormationClientTypes {
 public struct ListStacksOutput: Swift.Sendable {
     /// If the output exceeds 1 MB in size, a string that identifies the next page of stacks. If no additional page exists, this value is null.
     public var nextToken: Swift.String?
-    /// A list of StackSummary structures containing information about the specified stacks.
+    /// A list of StackSummary structures that contains information about the specified stacks.
     public var stackSummaries: [CloudFormationClientTypes.StackSummary]?
 
     public init(
@@ -9711,7 +9722,7 @@ public struct RegisterTypeInput: Swift.Sendable {
     public var executionRoleArn: Swift.String?
     /// Specifies logging configuration information for an extension.
     public var loggingConfig: CloudFormationClientTypes.LoggingConfig?
-    /// A URL to the S3 bucket containing the extension project package that contains the necessary files for the extension you want to register. For information about generating a schema handler package for the extension you want to register, see [submit](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-cli-submit.html) in the CloudFormation Command Line Interface (CLI) User Guide. The user registering the extension must be able to access the package in the S3 bucket. That's, the user needs to have [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html) permissions for the schema handler package. For more information, see [Actions, Resources, and Condition Keys for Amazon S3](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazons3.html) in the Identity and Access Management User Guide.
+    /// A URL to the S3 bucket that contains the extension project package that contains the necessary files for the extension you want to register. For information about generating a schema handler package for the extension you want to register, see [submit](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-cli-submit.html) in the CloudFormation Command Line Interface (CLI) User Guide. The user registering the extension must be able to access the package in the S3 bucket. That's, the user needs to have [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html) permissions for the schema handler package. For more information, see [Actions, Resources, and Condition Keys for Amazon S3](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazons3.html) in the Identity and Access Management User Guide.
     /// This member is required.
     public var schemaHandlerPackage: Swift.String?
     /// The kind of extension.
@@ -9809,9 +9820,9 @@ public struct SetStackPolicyInput: Swift.Sendable {
     /// The name or unique stack ID that you want to associate a policy with.
     /// This member is required.
     public var stackName: Swift.String?
-    /// Structure containing the stack policy body. For more information, see [Prevent updates to stack resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html) in the CloudFormation User Guide. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
+    /// Structure that contains the stack policy body. For more information, see [Prevent updates to stack resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html) in the CloudFormation User Guide. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
     public var stackPolicyBody: Swift.String?
-    /// Location of a file containing the stack policy. The URL must point to a policy (maximum size: 16 KB) located in an Amazon S3 bucket in the same Amazon Web Services Region as the stack. The location for an Amazon S3 bucket must start with https://. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
+    /// Location of a file that contains the stack policy. The URL must point to a policy (maximum size: 16 KB) located in an Amazon S3 bucket in the same Amazon Web Services Region as the stack. The location for an Amazon S3 bucket must start with https://. URLs from S3 static websites are not supported. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
     public var stackPolicyURL: Swift.String?
 
     public init(
@@ -10137,21 +10148,21 @@ public struct UpdateStackInput: Swift.Sendable {
     ///
     /// If your stack template contains these resources, we suggest that you review all permissions associated with them and edit their permissions if necessary.
     ///
-    /// * [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-accesskey.html)
+    /// * [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-accesskey.html)
     ///
-    /// * [ AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-group.html)
+    /// * [ AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-group.html)
     ///
-    /// * [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
+    /// * [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-instanceprofile.html)
     ///
-    /// * [ AWS::IAM::ManagedPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-managedpolicy.html)
+    /// * [ AWS::IAM::ManagedPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-managedpolicy.html)
     ///
-    /// * [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)
+    /// * [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-policy.html)
     ///
-    /// * [ AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
+    /// * [ AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-role.html)
     ///
-    /// * [ AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-user.html)
+    /// * [ AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-user.html)
     ///
-    /// * [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-usertogroupaddition.html)
+    /// * [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-usertogroupaddition.html)
     ///
     ///
     /// For more information, see [Acknowledging IAM resources in CloudFormation templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html#using-iam-capabilities).
@@ -10180,19 +10191,19 @@ public struct UpdateStackInput: Swift.Sendable {
     /// The name or unique stack ID of the stack to update.
     /// This member is required.
     public var stackName: Swift.String?
-    /// Structure containing a new stack policy body. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both. You might update the stack policy, for example, in order to protect a new resource that you created during a stack update. If you don't specify a stack policy, the current policy that is associated with the stack is unchanged.
+    /// Structure that contains a new stack policy body. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both. You might update the stack policy, for example, in order to protect a new resource that you created during a stack update. If you don't specify a stack policy, the current policy that is associated with the stack is unchanged.
     public var stackPolicyBody: Swift.String?
-    /// Structure containing the temporary overriding stack policy body. You can specify either the StackPolicyDuringUpdateBody or the StackPolicyDuringUpdateURL parameter, but not both. If you want to update protected resources, specify a temporary overriding stack policy during this update. If you don't specify a stack policy, the current policy that is associated with the stack will be used.
+    /// Structure that contains the temporary overriding stack policy body. You can specify either the StackPolicyDuringUpdateBody or the StackPolicyDuringUpdateURL parameter, but not both. If you want to update protected resources, specify a temporary overriding stack policy during this update. If you don't specify a stack policy, the current policy that is associated with the stack will be used.
     public var stackPolicyDuringUpdateBody: Swift.String?
-    /// Location of a file containing the temporary overriding stack policy. The URL must point to a policy (max size: 16KB) located in an S3 bucket in the same Region as the stack. The location for an Amazon S3 bucket must start with https://. You can specify either the StackPolicyDuringUpdateBody or the StackPolicyDuringUpdateURL parameter, but not both. If you want to update protected resources, specify a temporary overriding stack policy during this update. If you don't specify a stack policy, the current policy that is associated with the stack will be used.
+    /// Location of a file that contains the temporary overriding stack policy. The URL must point to a policy (max size: 16KB) located in an S3 bucket in the same Region as the stack. The location for an Amazon S3 bucket must start with https://. URLs from S3 static websites are not supported. You can specify either the StackPolicyDuringUpdateBody or the StackPolicyDuringUpdateURL parameter, but not both. If you want to update protected resources, specify a temporary overriding stack policy during this update. If you don't specify a stack policy, the current policy that is associated with the stack will be used.
     public var stackPolicyDuringUpdateURL: Swift.String?
-    /// Location of a file containing the updated stack policy. The URL must point to a policy (max size: 16KB) located in an S3 bucket in the same Region as the stack. The location for an Amazon S3 bucket must start with https://. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both. You might update the stack policy, for example, in order to protect a new resource that you created during a stack update. If you don't specify a stack policy, the current policy that is associated with the stack is unchanged.
+    /// Location of a file that contains the updated stack policy. The URL must point to a policy (max size: 16KB) located in an S3 bucket in the same Region as the stack. The location for an Amazon S3 bucket must start with https://. URLs from S3 static websites are not supported. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both. You might update the stack policy, for example, in order to protect a new resource that you created during a stack update. If you don't specify a stack policy, the current policy that is associated with the stack is unchanged.
     public var stackPolicyURL: Swift.String?
     /// Key-value pairs to associate with this stack. CloudFormation also propagates these tags to supported resources in the stack. You can specify a maximum number of 50 tags. If you don't specify this parameter, CloudFormation doesn't modify the stack's tags. If you specify an empty value, CloudFormation removes all associated tags.
     public var tags: [CloudFormationClientTypes.Tag]?
-    /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
+    /// Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
     public var templateBody: Swift.String?
-    /// The URL of a file containing the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
+    /// The URL of a file that contains the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
     public var templateURL: Swift.String?
     /// Reuse the existing template that is associated with the stack that you are updating. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
     public var usePreviousTemplate: Swift.Bool?
@@ -10343,19 +10354,19 @@ public struct UpdateStackSetInput: Swift.Sendable {
     ///
     /// If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.
     ///
-    /// * [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-accesskey.html)
+    /// * [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-accesskey.html)
     ///
-    /// * [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-group.html)
+    /// * [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-group.html)
     ///
-    /// * [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
+    /// * [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-instanceprofile.html)
     ///
-    /// * [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)
+    /// * [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-policy.html)
     ///
-    /// * [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
+    /// * [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-role.html)
     ///
-    /// * [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-user.html)
+    /// * [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-user.html)
     ///
-    /// * [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-usertogroupaddition.html)
+    /// * [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-iam-usertogroupaddition.html)
     ///
     ///
     /// For more information, see [Acknowledging IAM resources in CloudFormation templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html#using-iam-capabilities).
@@ -10400,7 +10411,7 @@ public struct UpdateStackSetInput: Swift.Sendable {
     public var tags: [CloudFormationClientTypes.Tag]?
     /// The structure that contains the template body, with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
     public var templateBody: Swift.String?
-    /// The URL of a file that contains the template body. The URL must point to a template (maximum size: 1 MB) that is located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
+    /// The URL of a file that contains the template body. The URL must point to a template (maximum size: 1 MB) that is located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. S3 static website URLs are not supported. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
     public var templateURL: Swift.String?
     /// Use the existing template that's associated with the stack set that you're updating. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
     public var usePreviousTemplate: Swift.Bool?
@@ -10489,9 +10500,9 @@ public struct UpdateTerminationProtectionOutput: Swift.Sendable {
 
 /// The input for [ValidateTemplate] action.
 public struct ValidateTemplateInput: Swift.Sendable {
-    /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
+    /// Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
     public var templateBody: Swift.String?
-    /// The URL of a file containing the template body. The URL must point to a template (max size: 1 MB) that is located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
+    /// The URL of a file that contains the template body. The URL must point to a template (max size: 1 MB) that is located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
     public var templateURL: Swift.String?
 
     public init(
@@ -14752,11 +14763,11 @@ extension OperationNotFoundException {
     }
 }
 
-extension TypeNotFoundException {
+extension CFNRegistryException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TypeNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CFNRegistryException {
         let reader = baseError.errorBodyReader
-        var value = TypeNotFoundException()
+        var value = CFNRegistryException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14765,11 +14776,11 @@ extension TypeNotFoundException {
     }
 }
 
-extension CFNRegistryException {
+extension TypeNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CFNRegistryException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> TypeNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = CFNRegistryException()
+        var value = TypeNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -14856,32 +14867,6 @@ extension ConcurrentResourcesLimitExceededException {
     }
 }
 
-extension OperationInProgressException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OperationInProgressException {
-        let reader = baseError.errorBodyReader
-        var value = OperationInProgressException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension StaleRequestException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StaleRequestException {
-        let reader = baseError.errorBodyReader
-        var value = StaleRequestException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension OperationIdAlreadyExistsException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OperationIdAlreadyExistsException {
@@ -14895,11 +14880,37 @@ extension OperationIdAlreadyExistsException {
     }
 }
 
+extension OperationInProgressException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OperationInProgressException {
+        let reader = baseError.errorBodyReader
+        var value = OperationInProgressException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension StackSetNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StackSetNotFoundException {
         let reader = baseError.errorBodyReader
         var value = StackSetNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension StaleRequestException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StaleRequestException {
+        let reader = baseError.errorBodyReader
+        var value = StaleRequestException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15064,11 +15075,11 @@ extension ResourceScanInProgressException {
     }
 }
 
-extension OperationStatusCheckFailedException {
+extension InvalidStateTransitionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OperationStatusCheckFailedException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidStateTransitionException {
         let reader = baseError.errorBodyReader
-        var value = OperationStatusCheckFailedException()
+        var value = InvalidStateTransitionException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15077,11 +15088,11 @@ extension OperationStatusCheckFailedException {
     }
 }
 
-extension InvalidStateTransitionException {
+extension OperationStatusCheckFailedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidStateTransitionException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> OperationStatusCheckFailedException {
         let reader = baseError.errorBodyReader
-        var value = InvalidStateTransitionException()
+        var value = OperationStatusCheckFailedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15536,6 +15547,7 @@ extension CloudFormationClientTypes.StackResourceDrift {
         value.stackResourceDriftStatus = try reader["StackResourceDriftStatus"].readIfPresent() ?? .sdkUnknown("")
         value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.moduleInfo = try reader["ModuleInfo"].readIfPresent(with: CloudFormationClientTypes.ModuleInfo.read(from:))
+        value.driftStatusReason = try reader["DriftStatusReason"].readIfPresent()
         return value
     }
 }

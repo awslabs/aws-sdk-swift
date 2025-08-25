@@ -14,6 +14,7 @@ import protocol SmithyHTTPAuthAPI.AuthSchemeResolverParameters
 import struct SmithyHTTPAuthAPI.AuthOption
 
 public struct CodeCatalystAuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
+    public let authSchemePreference: [String]?
     public let operation: Swift.String
 }
 
@@ -32,15 +33,17 @@ public struct DefaultCodeCatalystAuthSchemeResolver: CodeCatalystAuthSchemeResol
         }
         switch serviceParams.operation {
             default:
-                validAuthOptions.append(SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth"))
+                var httpBearerAuthOption = SmithyHTTPAuthAPI.AuthOption(schemeID: "smithy.api#httpBearerAuth")
+                validAuthOptions.append(httpBearerAuthOption)
         }
-        return validAuthOptions
+        return self.reprioritizeAuthOptions(authSchemePreference: serviceParams.authSchemePreference, authOptions: validAuthOptions)
     }
 
     public func constructParameters(context: Smithy.Context) throws -> SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
         guard let opName = context.getOperation() else {
             throw Smithy.ClientError.dataNotFound("Operation name not configured in middleware context for auth scheme resolver params construction.")
         }
-        return CodeCatalystAuthSchemeResolverParameters(operation: opName)
+        let authSchemePreference = context.getAuthSchemePreference()
+        return CodeCatalystAuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName)
     }
 }

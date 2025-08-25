@@ -554,7 +554,7 @@
             "type": "structure",
             "members": {
                 "JobId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a job.</p>",
                         "smithy.api#httpLabel": {},
@@ -1233,7 +1233,7 @@
                     }
                 },
                 "DataSetId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a data set.</p>",
                         "smithy.api#httpLabel": {},
@@ -2117,17 +2117,6 @@
                             }
                         },
                         {
-                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
                             "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -2138,17 +2127,6 @@
                                 "Region": "us-iso-east-1",
                                 "UseFIPS": true,
                                 "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
                             }
                         },
                         {
@@ -2165,17 +2143,6 @@
                             }
                         },
                         {
-                            "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
                             "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -2186,17 +2153,6 @@
                                 "Region": "us-isob-east-1",
                                 "UseFIPS": true,
                                 "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-isob-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
                             }
                         },
                         {
@@ -2588,7 +2544,7 @@
             "type": "structure",
             "members": {
                 "AssetId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for an asset.</p>",
                         "smithy.api#httpLabel": {},
@@ -2596,7 +2552,7 @@
                     }
                 },
                 "DataSetId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a data set.</p>",
                         "smithy.api#httpLabel": {},
@@ -2604,7 +2560,7 @@
                     }
                 },
                 "RevisionId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a revision.</p>",
                         "smithy.api#httpLabel": {},
@@ -2704,7 +2660,7 @@
             "type": "structure",
             "members": {
                 "DataSetId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a data set.</p>",
                         "smithy.api#httpLabel": {},
@@ -2798,7 +2754,7 @@
             "type": "structure",
             "members": {
                 "DataSetId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a data set.</p>",
                         "smithy.api#httpLabel": {},
@@ -2806,7 +2762,7 @@
                     }
                 },
                 "RevisionId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a revision.</p>",
                         "smithy.api#httpLabel": {},
@@ -3191,7 +3147,7 @@
             "type": "structure",
             "members": {
                 "AssetId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for an asset.</p>",
                         "smithy.api#httpLabel": {},
@@ -3199,7 +3155,7 @@
                     }
                 },
                 "DataSetId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a data set.</p>",
                         "smithy.api#httpLabel": {},
@@ -3207,7 +3163,7 @@
                     }
                 },
                 "RevisionId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a revision.</p>",
                         "smithy.api#httpLabel": {},
@@ -3477,7 +3433,7 @@
             "type": "structure",
             "members": {
                 "DataSetId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a data set.</p>",
                         "smithy.api#httpLabel": {},
@@ -3685,7 +3641,7 @@
             "type": "structure",
             "members": {
                 "JobId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a job.</p>",
                         "smithy.api#httpLabel": {},
@@ -3929,7 +3885,7 @@
             "type": "structure",
             "members": {
                 "DataSetId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a data set.</p>",
                         "smithy.api#httpLabel": {},
@@ -3937,7 +3893,7 @@
                     }
                 },
                 "RevisionId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a revision.</p>",
                         "smithy.api#httpLabel": {},
@@ -4041,7 +3997,10 @@
             }
         },
         "com.amazonaws.dataexchange#Id": {
-            "type": "string"
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^[a-zA-Z0-9]{30,40}$"
+            }
         },
         "com.amazonaws.dataexchange#ImportAssetFromApiGatewayApiRequestDetails": {
             "type": "structure",
@@ -5142,7 +5101,7 @@
             "type": "structure",
             "members": {
                 "DataSetId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a data set.</p>",
                         "smithy.api#httpLabel": {},
@@ -5714,7 +5673,7 @@
             "type": "structure",
             "members": {
                 "DataSetId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a data set.</p>",
                         "smithy.api#httpLabel": {},
@@ -5737,7 +5696,7 @@
                     }
                 },
                 "RevisionId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a revision.</p>",
                         "smithy.api#httpLabel": {},
@@ -6440,7 +6399,7 @@
             "type": "structure",
             "members": {
                 "DataSetId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a data set.</p>",
                         "smithy.api#httpLabel": {},
@@ -6448,7 +6407,7 @@
                     }
                 },
                 "RevisionId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a revision.</p>",
                         "smithy.api#httpLabel": {},
@@ -6931,7 +6890,7 @@
                     }
                 },
                 "DataSetId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>Affected\n         data set of the notification.</p>",
                         "smithy.api#httpLabel": {},
@@ -7055,7 +7014,7 @@
             "type": "structure",
             "members": {
                 "JobId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a job.</p>",
                         "smithy.api#httpLabel": {},
@@ -7335,7 +7294,7 @@
             "type": "structure",
             "members": {
                 "AssetId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for an asset.</p>",
                         "smithy.api#httpLabel": {},
@@ -7343,7 +7302,7 @@
                     }
                 },
                 "DataSetId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a data set.</p>",
                         "smithy.api#httpLabel": {},
@@ -7358,7 +7317,7 @@
                     }
                 },
                 "RevisionId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a revision.</p>",
                         "smithy.api#httpLabel": {},
@@ -7470,7 +7429,7 @@
             "type": "structure",
             "members": {
                 "DataSetId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a data set.</p>",
                         "smithy.api#httpLabel": {},
@@ -7697,7 +7656,7 @@
                     }
                 },
                 "DataSetId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a data set.</p>",
                         "smithy.api#httpLabel": {},
@@ -7712,7 +7671,7 @@
                     }
                 },
                 "RevisionId": {
-                    "target": "com.amazonaws.dataexchange#__string",
+                    "target": "com.amazonaws.dataexchange#Id",
                     "traits": {
                         "smithy.api#documentation": "<p>The unique identifier for a revision.</p>",
                         "smithy.api#httpLabel": {},

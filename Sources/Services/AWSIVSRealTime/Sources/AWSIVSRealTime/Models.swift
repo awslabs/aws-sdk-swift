@@ -5479,6 +5479,44 @@ extension AccessDeniedException {
     }
 }
 
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
+        var value = ConflictException()
+        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
+            value.properties.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
+        }
+        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
+            value.properties.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
+        }
+        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
+            value.properties.cacheControl = cacheControlHeaderValue
+        }
+        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
+            value.properties.contentSecurityPolicy = contentSecurityPolicyHeaderValue
+        }
+        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
+            value.properties.strictTransportSecurity = strictTransportSecurityHeaderValue
+        }
+        if let xAmznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
+            value.properties.xAmznErrorType = xAmznErrorTypeHeaderValue
+        }
+        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
+            value.properties.xContentTypeOptions = xContentTypeOptionsHeaderValue
+        }
+        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
+            value.properties.xFrameOptions = xFrameOptionsHeaderValue
+        }
+        value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InternalServerException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
@@ -5517,12 +5555,12 @@ extension InternalServerException {
     }
 }
 
-extension ConflictException {
+extension PendingVerification {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PendingVerification {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
-        var value = ConflictException()
+        var value = PendingVerification()
         if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
             value.properties.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
         }
@@ -5599,44 +5637,6 @@ extension ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         let httpResponse = baseError.httpResponse
         var value = ServiceQuotaExceededException()
-        if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
-            value.properties.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
-        }
-        if let accessControlExposeHeadersHeaderValue = httpResponse.headers.value(for: "Access-Control-Expose-Headers") {
-            value.properties.accessControlExposeHeaders = accessControlExposeHeadersHeaderValue
-        }
-        if let cacheControlHeaderValue = httpResponse.headers.value(for: "Cache-Control") {
-            value.properties.cacheControl = cacheControlHeaderValue
-        }
-        if let contentSecurityPolicyHeaderValue = httpResponse.headers.value(for: "Content-Security-Policy") {
-            value.properties.contentSecurityPolicy = contentSecurityPolicyHeaderValue
-        }
-        if let strictTransportSecurityHeaderValue = httpResponse.headers.value(for: "Strict-Transport-Security") {
-            value.properties.strictTransportSecurity = strictTransportSecurityHeaderValue
-        }
-        if let xAmznErrorTypeHeaderValue = httpResponse.headers.value(for: "x-amzn-ErrorType") {
-            value.properties.xAmznErrorType = xAmznErrorTypeHeaderValue
-        }
-        if let xContentTypeOptionsHeaderValue = httpResponse.headers.value(for: "X-Content-Type-Options") {
-            value.properties.xContentTypeOptions = xContentTypeOptionsHeaderValue
-        }
-        if let xFrameOptionsHeaderValue = httpResponse.headers.value(for: "X-Frame-Options") {
-            value.properties.xFrameOptions = xFrameOptionsHeaderValue
-        }
-        value.properties.exceptionMessage = try reader["exceptionMessage"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension PendingVerification {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> PendingVerification {
-        let reader = baseError.errorBodyReader
-        let httpResponse = baseError.httpResponse
-        var value = PendingVerification()
         if let accessControlAllowOriginHeaderValue = httpResponse.headers.value(for: "Access-Control-Allow-Origin") {
             value.properties.accessControlAllowOrigin = accessControlAllowOriginHeaderValue
         }

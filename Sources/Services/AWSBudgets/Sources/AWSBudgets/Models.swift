@@ -765,6 +765,30 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+/// We can’t locate the resource that you specified.
+public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The error message the exception carries.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// You've reached the limit on the number of tags you can associate with a resource.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1204,6 +1228,96 @@ extension BudgetsClientTypes {
 
 extension BudgetsClientTypes {
 
+    public enum HealthStatusValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case healthy
+        case unhealthy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HealthStatusValue] {
+            return [
+                .healthy,
+                .unhealthy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .healthy: return "HEALTHY"
+            case .unhealthy: return "UNHEALTHY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BudgetsClientTypes {
+
+    public enum HealthStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case billingViewNoAccess
+        case billingViewUnhealthy
+        case filterInvalid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HealthStatusReason] {
+            return [
+                .billingViewNoAccess,
+                .billingViewUnhealthy,
+                .filterInvalid
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .billingViewNoAccess: return "BILLING_VIEW_NO_ACCESS"
+            case .billingViewUnhealthy: return "BILLING_VIEW_UNHEALTHY"
+            case .filterInvalid: return "FILTER_INVALID"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BudgetsClientTypes {
+
+    /// Provides information about the current operational state of a billing view resource, including its ability to access and update based on its associated billing view.
+    public struct HealthStatus: Swift.Sendable {
+        /// A generic time stamp. In Java, it's transformed to a Date object.
+        public var lastUpdatedTime: Foundation.Date?
+        /// The current status of the billing view resource.
+        public var status: BudgetsClientTypes.HealthStatusValue?
+        /// The reason for the current status.
+        ///
+        /// * BILLING_VIEW_NO_ACCESS: The billing view resource does not grant billing:GetBillingViewData permission to this account.
+        ///
+        /// * BILLING_VIEW_UNHEALTHY: The billing view associated with the budget is unhealthy.
+        ///
+        /// * FILTER_INVALID: The filter contains reference to an account you do not have access to.
+        public var statusReason: BudgetsClientTypes.HealthStatusReason?
+
+        public init(
+            lastUpdatedTime: Foundation.Date? = nil,
+            status: BudgetsClientTypes.HealthStatusValue? = nil,
+            statusReason: BudgetsClientTypes.HealthStatusReason? = nil
+        ) {
+            self.lastUpdatedTime = lastUpdatedTime
+            self.status = status
+            self.statusReason = statusReason
+        }
+    }
+}
+
+extension BudgetsClientTypes {
+
     public enum Metric: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case amortizedCost
         case blendedCost
@@ -1454,30 +1568,6 @@ extension BudgetsClientTypes {
 public struct CreateBudgetOutput: Swift.Sendable {
 
     public init() { }
-}
-
-/// We can’t locate the resource that you specified.
-public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        /// The error message the exception carries.
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "NotFoundException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
 }
 
 public struct CreateBudgetActionInput: Swift.Sendable {
@@ -2132,6 +2222,8 @@ extension BudgetsClientTypes {
 
     /// A history of the state of a budget at the end of the budget's specified time period.
     public struct BudgetPerformanceHistory: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+        public var billingViewArn: Swift.String?
         /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
         public var budgetName: Swift.String?
         /// The type of a budget. It must be one of the following types: COST, USAGE, RI_UTILIZATION, RI_COVERAGE, SAVINGS_PLANS_UTILIZATION, or SAVINGS_PLANS_COVERAGE.
@@ -2146,6 +2238,7 @@ extension BudgetsClientTypes {
         public var timeUnit: BudgetsClientTypes.TimeUnit?
 
         public init(
+            billingViewArn: Swift.String? = nil,
             budgetName: Swift.String? = nil,
             budgetType: BudgetsClientTypes.BudgetType? = nil,
             budgetedAndActualAmountsList: [BudgetsClientTypes.BudgetedAndActualAmounts]? = nil,
@@ -2153,6 +2246,7 @@ extension BudgetsClientTypes {
             costTypes: BudgetsClientTypes.CostTypes? = nil,
             timeUnit: BudgetsClientTypes.TimeUnit? = nil
         ) {
+            self.billingViewArn = billingViewArn
             self.budgetName = budgetName
             self.budgetType = budgetType
             self.budgetedAndActualAmountsList = budgetedAndActualAmountsList
@@ -2641,6 +2735,8 @@ extension BudgetsClientTypes {
     public struct Budget: Swift.Sendable {
         /// The parameters that determine the budget amount for an auto-adjusting budget.
         public var autoAdjustData: BudgetsClientTypes.AutoAdjustData?
+        /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+        public var billingViewArn: Swift.String?
         /// The total amount of cost, usage, RI utilization, RI coverage, Savings Plans utilization, or Savings Plans coverage that you want to track with your budget. BudgetLimit is required for cost or usage budgets, but optional for RI or Savings Plans utilization or coverage budgets. RI and Savings Plans utilization or coverage budgets default to 100. This is the only valid value for RI or Savings Plans utilization or coverage budgets. You can't use BudgetLimit with PlannedBudgetLimits for CreateBudget and UpdateBudget actions.
         public var budgetLimit: BudgetsClientTypes.Spend?
         /// The name of a budget. The name must be unique within an account. The : and \ characters, and the "/action/" substring, aren't allowed in BudgetName.
@@ -2669,6 +2765,8 @@ extension BudgetsClientTypes {
         public var costTypes: BudgetsClientTypes.CostTypes?
         /// The filtering dimensions for the budget and their corresponding values.
         public var filterExpression: BudgetsClientTypes.Expression?
+        /// The current operational state of a Billing View derived resource.
+        public var healthStatus: BudgetsClientTypes.HealthStatus?
         /// The last time that you updated this budget.
         public var lastUpdatedTime: Foundation.Date?
         /// The definition for how the budget data is aggregated.
@@ -2683,6 +2781,7 @@ extension BudgetsClientTypes {
 
         public init(
             autoAdjustData: BudgetsClientTypes.AutoAdjustData? = nil,
+            billingViewArn: Swift.String? = nil,
             budgetLimit: BudgetsClientTypes.Spend? = nil,
             budgetName: Swift.String? = nil,
             budgetType: BudgetsClientTypes.BudgetType? = nil,
@@ -2690,6 +2789,7 @@ extension BudgetsClientTypes {
             costFilters: [Swift.String: [Swift.String]]? = nil,
             costTypes: BudgetsClientTypes.CostTypes? = nil,
             filterExpression: BudgetsClientTypes.Expression? = nil,
+            healthStatus: BudgetsClientTypes.HealthStatus? = nil,
             lastUpdatedTime: Foundation.Date? = nil,
             metrics: [BudgetsClientTypes.Metric]? = nil,
             plannedBudgetLimits: [Swift.String: BudgetsClientTypes.Spend]? = nil,
@@ -2697,6 +2797,7 @@ extension BudgetsClientTypes {
             timeUnit: BudgetsClientTypes.TimeUnit? = nil
         ) {
             self.autoAdjustData = autoAdjustData
+            self.billingViewArn = billingViewArn
             self.budgetLimit = budgetLimit
             self.budgetName = budgetName
             self.budgetType = budgetType
@@ -2704,6 +2805,7 @@ extension BudgetsClientTypes {
             self.costFilters = costFilters
             self.costTypes = costTypes
             self.filterExpression = filterExpression
+            self.healthStatus = healthStatus
             self.lastUpdatedTime = lastUpdatedTime
             self.metrics = metrics
             self.plannedBudgetLimits = plannedBudgetLimits
@@ -3542,6 +3644,7 @@ enum CreateBudgetOutputError {
             case "DuplicateRecordException": return try DuplicateRecordException.makeError(baseError: baseError)
             case "InternalErrorException": return try InternalErrorException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -4024,63 +4127,11 @@ enum UpdateSubscriberOutputError {
     }
 }
 
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidParameterException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidParameterException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InternalErrorException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalErrorException {
-        let reader = baseError.errorBodyReader
-        var value = InternalErrorException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4115,11 +4166,63 @@ extension DuplicateRecordException {
     }
 }
 
+extension InternalErrorException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalErrorException {
+        let reader = baseError.errorBodyReader
+        var value = InternalErrorException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidParameterException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidParameterException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidParameterException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension NotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4301,6 +4404,7 @@ extension BudgetsClientTypes.Budget {
     static func write(value: BudgetsClientTypes.Budget?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AutoAdjustData"].write(value.autoAdjustData, with: BudgetsClientTypes.AutoAdjustData.write(value:to:))
+        try writer["BillingViewArn"].write(value.billingViewArn)
         try writer["BudgetLimit"].write(value.budgetLimit, with: BudgetsClientTypes.Spend.write(value:to:))
         try writer["BudgetName"].write(value.budgetName)
         try writer["BudgetType"].write(value.budgetType)
@@ -4308,6 +4412,7 @@ extension BudgetsClientTypes.Budget {
         try writer["CostFilters"].writeMap(value.costFilters, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["CostTypes"].write(value.costTypes, with: BudgetsClientTypes.CostTypes.write(value:to:))
         try writer["FilterExpression"].write(value.filterExpression, with: BudgetsClientTypes.Expression.write(value:to:))
+        try writer["HealthStatus"].write(value.healthStatus, with: BudgetsClientTypes.HealthStatus.write(value:to:))
         try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["Metrics"].writeList(value.metrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BudgetsClientTypes.Metric>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PlannedBudgetLimits"].writeMap(value.plannedBudgetLimits, valueWritingClosure: BudgetsClientTypes.Spend.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -4331,6 +4436,27 @@ extension BudgetsClientTypes.Budget {
         value.autoAdjustData = try reader["AutoAdjustData"].readIfPresent(with: BudgetsClientTypes.AutoAdjustData.read(from:))
         value.filterExpression = try reader["FilterExpression"].readIfPresent(with: BudgetsClientTypes.Expression.read(from:))
         value.metrics = try reader["Metrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BudgetsClientTypes.Metric>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.billingViewArn = try reader["BillingViewArn"].readIfPresent()
+        value.healthStatus = try reader["HealthStatus"].readIfPresent(with: BudgetsClientTypes.HealthStatus.read(from:))
+        return value
+    }
+}
+
+extension BudgetsClientTypes.HealthStatus {
+
+    static func write(value: BudgetsClientTypes.HealthStatus?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LastUpdatedTime"].writeTimestamp(value.lastUpdatedTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Status"].write(value.status)
+        try writer["StatusReason"].write(value.statusReason)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BudgetsClientTypes.HealthStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BudgetsClientTypes.HealthStatus()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -4607,6 +4733,7 @@ extension BudgetsClientTypes.BudgetPerformanceHistory {
         value.costFilters = try reader["CostFilters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.costTypes = try reader["CostTypes"].readIfPresent(with: BudgetsClientTypes.CostTypes.read(from:))
         value.timeUnit = try reader["TimeUnit"].readIfPresent()
+        value.billingViewArn = try reader["BillingViewArn"].readIfPresent()
         value.budgetedAndActualAmountsList = try reader["BudgetedAndActualAmountsList"].readListIfPresent(memberReadingClosure: BudgetsClientTypes.BudgetedAndActualAmounts.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }

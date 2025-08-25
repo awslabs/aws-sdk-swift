@@ -162,7 +162,7 @@ extension CloudFormationClient {
                     let stackStatus = original.stackStatus
                     return stackStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "CREATE_COMPLETE") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "CREATE_COMPLETE") } ?? false)
             }),
             .init(state: .success, matcher: { (input: DescribeStacksInput, result: Swift.Result<DescribeStacksOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
@@ -174,7 +174,7 @@ extension CloudFormationClient {
                     let stackStatus = original.stackStatus
                     return stackStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "UPDATE_COMPLETE") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "UPDATE_COMPLETE") } ?? false)
             }),
             .init(state: .success, matcher: { (input: DescribeStacksInput, result: Swift.Result<DescribeStacksOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
@@ -186,7 +186,7 @@ extension CloudFormationClient {
                     let stackStatus = original.stackStatus
                     return stackStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "UPDATE_IN_PROGRESS") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "UPDATE_IN_PROGRESS") } ?? false)
             }),
             .init(state: .success, matcher: { (input: DescribeStacksInput, result: Swift.Result<DescribeStacksOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
@@ -198,7 +198,7 @@ extension CloudFormationClient {
                     let stackStatus = original.stackStatus
                     return stackStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "UPDATE_COMPLETE_CLEANUP_IN_PROGRESS") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "UPDATE_COMPLETE_CLEANUP_IN_PROGRESS") } ?? false)
             }),
             .init(state: .success, matcher: { (input: DescribeStacksInput, result: Swift.Result<DescribeStacksOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
@@ -210,7 +210,7 @@ extension CloudFormationClient {
                     let stackStatus = original.stackStatus
                     return stackStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "UPDATE_FAILED") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "UPDATE_FAILED") } ?? false)
             }),
             .init(state: .success, matcher: { (input: DescribeStacksInput, result: Swift.Result<DescribeStacksOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
@@ -222,7 +222,7 @@ extension CloudFormationClient {
                     let stackStatus = original.stackStatus
                     return stackStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_IN_PROGRESS") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_IN_PROGRESS") } ?? false)
             }),
             .init(state: .success, matcher: { (input: DescribeStacksInput, result: Swift.Result<DescribeStacksOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
@@ -234,7 +234,7 @@ extension CloudFormationClient {
                     let stackStatus = original.stackStatus
                     return stackStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_FAILED") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_FAILED") } ?? false)
             }),
             .init(state: .success, matcher: { (input: DescribeStacksInput, result: Swift.Result<DescribeStacksOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
@@ -246,7 +246,7 @@ extension CloudFormationClient {
                     let stackStatus = original.stackStatus
                     return stackStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS") } ?? false)
             }),
             .init(state: .success, matcher: { (input: DescribeStacksInput, result: Swift.Result<DescribeStacksOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
@@ -258,7 +258,7 @@ extension CloudFormationClient {
                     let stackStatus = original.stackStatus
                     return stackStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_COMPLETE") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_COMPLETE") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Swift.Result<DescribeStacksOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
@@ -356,7 +356,7 @@ extension CloudFormationClient {
                     let stackStatus = original.stackStatus
                     return stackStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "DELETE_COMPLETE") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "DELETE_COMPLETE") } ?? false)
             }),
             .init(state: .success, matcher: { (input: DescribeStacksInput, result: Swift.Result<DescribeStacksOutput, Swift.Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
@@ -510,7 +510,7 @@ extension CloudFormationClient {
                     let stackStatus = original.stackStatus
                     return stackStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "IMPORT_COMPLETE") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "IMPORT_COMPLETE") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Swift.Result<DescribeStacksOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
@@ -608,7 +608,7 @@ extension CloudFormationClient {
                     let stackStatus = original.stackStatus
                     return stackStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_COMPLETE") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "UPDATE_ROLLBACK_COMPLETE") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Swift.Result<DescribeStacksOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"
@@ -682,7 +682,7 @@ extension CloudFormationClient {
                     let stackStatus = original.stackStatus
                     return stackStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "UPDATE_COMPLETE") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "UPDATE_COMPLETE") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeStacksInput, result: Swift.Result<DescribeStacksOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Stacks[].StackStatus"

@@ -7585,20 +7585,6 @@ extension AlreadyExistsException {
     }
 }
 
-extension RuleSetDoesNotExistException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RuleSetDoesNotExistException {
-        let reader = baseError.errorBodyReader
-        var value = RuleSetDoesNotExistException()
-        value.properties.name = try reader["Name"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension LimitExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> LimitExceededException {
@@ -7612,11 +7598,12 @@ extension LimitExceededException {
     }
 }
 
-extension InvalidConfigurationSetException {
+extension RuleSetDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidConfigurationSetException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RuleSetDoesNotExistException {
         let reader = baseError.errorBodyReader
-        var value = InvalidConfigurationSetException()
+        var value = RuleSetDoesNotExistException()
+        value.properties.name = try reader["Name"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7639,11 +7626,38 @@ extension ConfigurationSetAlreadyExistsException {
     }
 }
 
-extension InvalidFirehoseDestinationException {
+extension InvalidConfigurationSetException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidFirehoseDestinationException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidConfigurationSetException {
         let reader = baseError.errorBodyReader
-        var value = InvalidFirehoseDestinationException()
+        var value = InvalidConfigurationSetException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConfigurationSetDoesNotExistException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ConfigurationSetDoesNotExistException {
+        let reader = baseError.errorBodyReader
+        var value = ConfigurationSetDoesNotExistException()
+        value.properties.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension EventDestinationAlreadyExistsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EventDestinationAlreadyExistsException {
+        let reader = baseError.errorBodyReader
+        var value = EventDestinationAlreadyExistsException()
         value.properties.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
         value.properties.eventDestinationName = try reader["EventDestinationName"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7669,11 +7683,11 @@ extension InvalidCloudWatchDestinationException {
     }
 }
 
-extension EventDestinationAlreadyExistsException {
+extension InvalidFirehoseDestinationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> EventDestinationAlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidFirehoseDestinationException {
         let reader = baseError.errorBodyReader
-        var value = EventDestinationAlreadyExistsException()
+        var value = InvalidFirehoseDestinationException()
         value.properties.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
         value.properties.eventDestinationName = try reader["EventDestinationName"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
@@ -7691,20 +7705,6 @@ extension InvalidSNSDestinationException {
         var value = InvalidSNSDestinationException()
         value.properties.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
         value.properties.eventDestinationName = try reader["EventDestinationName"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConfigurationSetDoesNotExistException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ConfigurationSetDoesNotExistException {
-        let reader = baseError.errorBodyReader
-        var value = ConfigurationSetDoesNotExistException()
-        value.properties.configurationSetName = try reader["ConfigurationSetName"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7753,20 +7753,6 @@ extension CustomVerificationEmailInvalidContentException {
     }
 }
 
-extension FromEmailAddressNotVerifiedException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> FromEmailAddressNotVerifiedException {
-        let reader = baseError.errorBodyReader
-        var value = FromEmailAddressNotVerifiedException()
-        value.properties.fromEmailAddress = try reader["FromEmailAddress"].readIfPresent()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension CustomVerificationEmailTemplateAlreadyExistsException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> CustomVerificationEmailTemplateAlreadyExistsException {
@@ -7781,12 +7767,26 @@ extension CustomVerificationEmailTemplateAlreadyExistsException {
     }
 }
 
-extension InvalidSnsTopicException {
+extension FromEmailAddressNotVerifiedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSnsTopicException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> FromEmailAddressNotVerifiedException {
         let reader = baseError.errorBodyReader
-        var value = InvalidSnsTopicException()
-        value.properties.topic = try reader["Topic"].readIfPresent()
+        var value = FromEmailAddressNotVerifiedException()
+        value.properties.fromEmailAddress = try reader["FromEmailAddress"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidLambdaFunctionException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidLambdaFunctionException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidLambdaFunctionException()
+        value.properties.functionArn = try reader["FunctionArn"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7809,12 +7809,12 @@ extension InvalidS3ConfigurationException {
     }
 }
 
-extension RuleDoesNotExistException {
+extension InvalidSnsTopicException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RuleDoesNotExistException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidSnsTopicException {
         let reader = baseError.errorBodyReader
-        var value = RuleDoesNotExistException()
-        value.properties.name = try reader["Name"].readIfPresent()
+        var value = InvalidSnsTopicException()
+        value.properties.topic = try reader["Topic"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7823,12 +7823,12 @@ extension RuleDoesNotExistException {
     }
 }
 
-extension InvalidLambdaFunctionException {
+extension RuleDoesNotExistException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidLambdaFunctionException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RuleDoesNotExistException {
         let reader = baseError.errorBodyReader
-        var value = InvalidLambdaFunctionException()
-        value.properties.functionArn = try reader["FunctionArn"].readIfPresent()
+        var value = RuleDoesNotExistException()
+        value.properties.name = try reader["Name"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -7961,19 +7961,6 @@ extension MessageRejected {
     }
 }
 
-extension MailFromDomainNotVerifiedException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> MailFromDomainNotVerifiedException {
-        let reader = baseError.errorBodyReader
-        var value = MailFromDomainNotVerifiedException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccountSendingPausedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> AccountSendingPausedException {
@@ -8001,6 +7988,19 @@ extension ConfigurationSetSendingPausedException {
     }
 }
 
+extension MailFromDomainNotVerifiedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> MailFromDomainNotVerifiedException {
+        let reader = baseError.errorBodyReader
+        var value = MailFromDomainNotVerifiedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ProductionAccessNotGrantedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ProductionAccessNotGrantedException {
@@ -8014,11 +8014,11 @@ extension ProductionAccessNotGrantedException {
     }
 }
 
-extension MissingRenderingAttributeException {
+extension InvalidRenderingParameterException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> MissingRenderingAttributeException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidRenderingParameterException {
         let reader = baseError.errorBodyReader
-        var value = MissingRenderingAttributeException()
+        var value = InvalidRenderingParameterException()
         value.properties.templateName = try reader["TemplateName"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -8028,11 +8028,11 @@ extension MissingRenderingAttributeException {
     }
 }
 
-extension InvalidRenderingParameterException {
+extension MissingRenderingAttributeException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidRenderingParameterException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> MissingRenderingAttributeException {
         let reader = baseError.errorBodyReader
-        var value = InvalidRenderingParameterException()
+        var value = MissingRenderingAttributeException()
         value.properties.templateName = try reader["TemplateName"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse

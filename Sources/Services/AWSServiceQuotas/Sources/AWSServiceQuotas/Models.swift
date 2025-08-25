@@ -2508,50 +2508,11 @@ extension AccessDeniedException {
     }
 }
 
-extension TemplatesNotAvailableInRegionException {
+extension AWSServiceAccessNotEnabledException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TemplatesNotAvailableInRegionException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AWSServiceAccessNotEnabledException {
         let reader = baseError.errorBodyReader
-        var value = TemplatesNotAvailableInRegionException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NoAvailableOrganizationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoAvailableOrganizationException {
-        let reader = baseError.errorBodyReader
-        var value = NoAvailableOrganizationException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension TooManyRequestsException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyRequestsException {
-        let reader = baseError.errorBodyReader
-        var value = TooManyRequestsException()
+        var value = AWSServiceAccessNotEnabledException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2573,6 +2534,19 @@ extension DependencyAccessDeniedException {
     }
 }
 
+extension NoAvailableOrganizationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoAvailableOrganizationException {
+        let reader = baseError.errorBodyReader
+        var value = NoAvailableOrganizationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension OrganizationNotInAllFeaturesModeException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> OrganizationNotInAllFeaturesModeException {
@@ -2586,11 +2560,11 @@ extension OrganizationNotInAllFeaturesModeException {
     }
 }
 
-extension AWSServiceAccessNotEnabledException {
+extension ServiceException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AWSServiceAccessNotEnabledException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceException {
         let reader = baseError.errorBodyReader
-        var value = AWSServiceAccessNotEnabledException()
+        var value = ServiceException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2599,11 +2573,11 @@ extension AWSServiceAccessNotEnabledException {
     }
 }
 
-extension ResourceAlreadyExistsException {
+extension TemplatesNotAvailableInRegionException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceAlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TemplatesNotAvailableInRegionException {
         let reader = baseError.errorBodyReader
-        var value = ResourceAlreadyExistsException()
+        var value = TemplatesNotAvailableInRegionException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2612,11 +2586,11 @@ extension ResourceAlreadyExistsException {
     }
 }
 
-extension InvalidResourceStateException {
+extension TooManyRequestsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidResourceStateException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
-        var value = InvalidResourceStateException()
+        var value = TooManyRequestsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2638,11 +2612,37 @@ extension IllegalArgumentException {
     }
 }
 
+extension InvalidResourceStateException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidResourceStateException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidResourceStateException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension NoSuchResourceException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoSuchResourceException {
         let reader = baseError.errorBodyReader
         var value = NoSuchResourceException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceAlreadyExistsException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceAlreadyExistsException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2690,11 +2690,11 @@ extension QuotaExceededException {
     }
 }
 
-extension TooManyTagsException {
+extension TagPolicyViolationException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagPolicyViolationException {
         let reader = baseError.errorBodyReader
-        var value = TooManyTagsException()
+        var value = TagPolicyViolationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2703,11 +2703,11 @@ extension TooManyTagsException {
     }
 }
 
-extension TagPolicyViolationException {
+extension TooManyTagsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TagPolicyViolationException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyTagsException {
         let reader = baseError.errorBodyReader
-        var value = TagPolicyViolationException()
+        var value = TooManyTagsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

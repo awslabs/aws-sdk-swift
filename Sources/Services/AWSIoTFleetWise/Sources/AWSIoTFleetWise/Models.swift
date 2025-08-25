@@ -2108,7 +2108,7 @@ public struct UpdateCampaignOutput: Swift.Sendable {
     ///
     /// * CREATING - Amazon Web Services IoT FleetWise is processing your request to create the campaign.
     ///
-    /// * WAITING_FOR_APPROVAL - After a campaign is created, it enters the WAITING_FOR_APPROVAL state. To allow Amazon Web Services IoT FleetWise to deploy the campaign to the target vehicle or fleet, use the API operation to approve the campaign.
+    /// * WAITING_FOR_APPROVAL - After you create a campaign, it enters this state. Use the API operation to approve the campaign for deployment to the target vehicle or fleet.
     ///
     /// * RUNNING - The campaign is active.
     ///
@@ -4709,6 +4709,7 @@ extension IoTFleetWiseClientTypes {
         case deleting
         case healthy
         case ready
+        case readyForCheckin
         case suspended
         case sdkUnknown(Swift.String)
 
@@ -4718,6 +4719,7 @@ extension IoTFleetWiseClientTypes {
                 .deleting,
                 .healthy,
                 .ready,
+                .readyForCheckin,
                 .suspended
             ]
         }
@@ -4733,6 +4735,7 @@ extension IoTFleetWiseClientTypes {
             case .deleting: return "DELETING"
             case .healthy: return "HEALTHY"
             case .ready: return "READY"
+            case .readyForCheckin: return "READY_FOR_CHECKIN"
             case .suspended: return "SUSPENDED"
             case let .sdkUnknown(s): return s
             }
@@ -4748,15 +4751,17 @@ extension IoTFleetWiseClientTypes {
         public var campaignName: Swift.String?
         /// The status of a campaign, which can be one of the following:
         ///
-        /// * CREATED - The campaign has been created successfully but has not been approved.
+        /// * CREATED - The campaign exists but is not yet approved.
         ///
-        /// * READY - The campaign has been approved but has not been deployed to the vehicle.
+        /// * READY - The campaign is approved but has not been deployed to the vehicle. Data has not arrived at the vehicle yet.
         ///
-        /// * HEALTHY - The campaign has been deployed to the vehicle.
+        /// * HEALTHY - The campaign is deployed to the vehicle.
         ///
-        /// * SUSPENDED - The campaign has been suspended and data collection is paused.
+        /// * SUSPENDED - The campaign is suspended and data collection is paused.
         ///
         /// * DELETING - The campaign is being removed from the vehicle.
+        ///
+        /// * READY_FOR_CHECKIN - The campaign is approved and waiting for vehicle check-in before deployment.
         public var status: IoTFleetWiseClientTypes.VehicleState?
         /// The unique ID of the vehicle.
         public var vehicleName: Swift.String?
@@ -8856,40 +8861,6 @@ enum UpdateVehicleOutputError {
     }
 }
 
-extension ThrottlingException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
-        let reader = baseError.errorBodyReader
-        let httpResponse = baseError.httpResponse
-        var value = ThrottlingException()
-        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
-            value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
-        }
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
-        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: IoTFleetWiseClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.reason = try reader["reason"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
@@ -8920,6 +8891,21 @@ extension InternalServerException {
     }
 }
 
+extension LimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = LimitExceededException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceNotFoundException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
@@ -8935,14 +8921,33 @@ extension ResourceNotFoundException {
     }
 }
 
-extension LimitExceededException {
+extension ThrottlingException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> LimitExceededException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
-        var value = LimitExceededException()
+        let httpResponse = baseError.httpResponse
+        var value = ThrottlingException()
+        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
+            value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
+        }
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.properties.quotaCode = try reader["quotaCode"].readIfPresent()
+        value.properties.serviceCode = try reader["serviceCode"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
+        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: IoTFleetWiseClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

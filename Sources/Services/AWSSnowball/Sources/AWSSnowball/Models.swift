@@ -3938,19 +3938,6 @@ enum UpdateLongTermPricingOutputError {
     }
 }
 
-extension KMSRequestFailedException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSRequestFailedException {
-        let reader = baseError.errorBodyReader
-        var value = KMSRequestFailedException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InvalidJobStateException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidJobStateException {
@@ -3978,11 +3965,11 @@ extension InvalidResourceException {
     }
 }
 
-extension UnsupportedAddressException {
+extension KMSRequestFailedException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedAddressException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KMSRequestFailedException {
         let reader = baseError.errorBodyReader
-        var value = UnsupportedAddressException()
+        var value = KMSRequestFailedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3996,6 +3983,19 @@ extension InvalidAddressException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAddressException {
         let reader = baseError.errorBodyReader
         var value = InvalidAddressException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnsupportedAddressException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedAddressException {
+        let reader = baseError.errorBodyReader
+        var value = UnsupportedAddressException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4043,11 +4043,12 @@ extension ClusterLimitExceededException {
     }
 }
 
-extension ReturnShippingLabelAlreadyExistsException {
+extension ConflictException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReturnShippingLabelAlreadyExistsException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
-        var value = ReturnShippingLabelAlreadyExistsException()
+        var value = ConflictException()
+        value.properties.conflictResource = try reader["ConflictResource"].readIfPresent()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -4056,12 +4057,11 @@ extension ReturnShippingLabelAlreadyExistsException {
     }
 }
 
-extension ConflictException {
+extension ReturnShippingLabelAlreadyExistsException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ConflictException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ReturnShippingLabelAlreadyExistsException {
         let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.conflictResource = try reader["ConflictResource"].readIfPresent()
+        var value = ReturnShippingLabelAlreadyExistsException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

@@ -1591,7 +1591,7 @@ public struct ReceiveMessageInput: Swift.Sendable {
     ///
     /// * MessageDeduplicationId – Returns the value provided by the producer that calls the [SendMessage] action.
     ///
-    /// * MessageGroupId – Returns the value provided by the producer that calls the [SendMessage] action. Messages with the same MessageGroupId are returned in sequence.
+    /// * MessageGroupId – Returns the value provided by the producer that calls the [SendMessage] action.
     ///
     /// * SequenceNumber – Returns the value provided by Amazon SQS.
     @available(*, deprecated, message: "AttributeNames has been replaced by MessageSystemAttributeNames")
@@ -1638,7 +1638,7 @@ public struct ReceiveMessageInput: Swift.Sendable {
     ///
     /// * MessageDeduplicationId – Returns the value provided by the producer that calls the [SendMessage] action.
     ///
-    /// * MessageGroupId – Returns the value provided by the producer that calls the [SendMessage] action. Messages with the same MessageGroupId are returned in sequence.
+    /// * MessageGroupId – Returns the value provided by the producer that calls the [SendMessage] action.
     ///
     /// * SequenceNumber – Returns the value provided by Amazon SQS.
     public var messageSystemAttributeNames: [SQSClientTypes.MessageSystemAttributeName]?
@@ -1655,7 +1655,7 @@ public struct ReceiveMessageInput: Swift.Sendable {
     ///
     /// * During a visibility timeout, subsequent calls with the same ReceiveRequestAttemptId return the same messages and receipt handles. If a retry occurs within the deduplication interval, it resets the visibility timeout. For more information, see [Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html) in the Amazon SQS Developer Guide. If a caller of the ReceiveMessage action still processes messages when the visibility timeout expires and messages become visible, another worker consuming from the same queue can receive the same messages and therefore process duplicates. Also, if a consumer whose message processing time is longer than the visibility timeout tries to delete the processed messages, the action fails with an error. To mitigate this effect, ensure that your application observes a safe threshold before the visibility timeout expires and extend the visibility timeout as necessary.
     ///
-    /// * While messages with a particular MessageGroupId are invisible, no more messages belonging to the same MessageGroupId are returned until the visibility timeout expires. You can still receive messages with another MessageGroupId as long as it is also visible.
+    /// * While messages with a particular MessageGroupId are invisible, no more messages belonging to the same MessageGroupId are returned until the visibility timeout expires. You can still receive messages with another MessageGroupId from your FIFO queue as long as they are visible.
     ///
     /// * If a caller of ReceiveMessage can't track the ReceiveRequestAttemptId, no retries work until the original visibility timeout expires. As a result, delays might occur but the messages in the queue remain in a strict order.
     ///
@@ -1929,14 +1929,14 @@ public struct SendMessageInput: Swift.Sendable {
     ///
     /// The MessageDeduplicationId is available to the consumer of the message (this can be useful for troubleshooting delivery issues). If a message is sent successfully but the acknowledgement is lost and the message is resent with the same MessageDeduplicationId after the deduplication interval, Amazon SQS can't detect duplicate messages. Amazon SQS continues to keep track of the message deduplication ID even after the message is received and deleted. The maximum length of MessageDeduplicationId is 128 characters. MessageDeduplicationId can contain alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~). For best practices of using MessageDeduplicationId, see [Using the MessageDeduplicationId Property](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagededuplicationid-property.html) in the Amazon SQS Developer Guide.
     public var messageDeduplicationId: Swift.String?
-    /// This parameter applies only to FIFO (first-in-first-out) queues. The tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner (however, messages in different message groups might be processed out of order). To interleave multiple ordered streams within a single queue, use MessageGroupId values (for example, session data for multiple users). In this scenario, multiple consumers can process the queue, but the session data of each user is processed in a FIFO fashion.
+    /// MessageGroupId is an attribute used in Amazon SQS FIFO (First-In-First-Out) and standard queues. In FIFO queues, MessageGroupId organizes messages into distinct groups. Messages within the same message group are always processed one at a time, in strict order, ensuring that no two messages from the same group are processed simultaneously. In standard queues, using MessageGroupId enables fair queues. It is used to identify the tenant a message belongs to, helping maintain consistent message dwell time across all tenants during noisy neighbor events. Unlike FIFO queues, messages with the same MessageGroupId can be processed in parallel, maintaining the high throughput of standard queues.
     ///
-    /// * You must associate a non-empty MessageGroupId with a message. If you don't provide a MessageGroupId, the action fails.
+    /// * FIFO queues: MessageGroupId acts as the tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner (however, messages in different message groups might be processed out of order). To interleave multiple ordered streams within a single queue, use MessageGroupId values (for example, session data for multiple users). In this scenario, multiple consumers can process the queue, but the session data of each user is processed in a FIFO fashion. If you do not provide a MessageGroupId when sending a message to a FIFO queue, the action fails. ReceiveMessage might return messages with multiple MessageGroupId values. For each MessageGroupId, the messages are sorted by time sent.
     ///
-    /// * ReceiveMessage might return messages with multiple MessageGroupId values. For each MessageGroupId, the messages are sorted by time sent. The caller can't specify a MessageGroupId.
+    /// * Standard queues:Use MessageGroupId in standard queues to enable fair queues. The MessageGroupId identifies the tenant a message belongs to. A tenant can be any entity that shares a queue with others, such as your customer, a client application, or a request type. When one tenant sends a disproportionately large volume of messages or has messages that require longer processing time, fair queues ensure other tenants' messages maintain low dwell time. This preserves quality of service for all tenants while maintaining the scalability and throughput of standard queues. We recommend that you include a MessageGroupId in all messages when using fair queues.
     ///
     ///
-    /// The maximum length of MessageGroupId is 128 characters. Valid values: alphanumeric characters and punctuation (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~). For best practices of using MessageGroupId, see [Using the MessageGroupId Property](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html) in the Amazon SQS Developer Guide. MessageGroupId is required for FIFO queues. You can't use it for Standard queues.
+    /// The length of MessageGroupId is 128 characters. Valid values: alphanumeric characters and punctuation (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~). For best practices of using MessageGroupId, see [Using the MessageGroupId Property](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html) in the Amazon SQS Developer Guide.
     public var messageGroupId: Swift.String?
     /// The message system attribute to send. Each message system attribute consists of a Name, Type, and Value.
     ///
@@ -2054,14 +2054,14 @@ extension SQSClientTypes {
         ///
         /// The MessageDeduplicationId is available to the consumer of the message (this can be useful for troubleshooting delivery issues). If a message is sent successfully but the acknowledgement is lost and the message is resent with the same MessageDeduplicationId after the deduplication interval, Amazon SQS can't detect duplicate messages. Amazon SQS continues to keep track of the message deduplication ID even after the message is received and deleted. The length of MessageDeduplicationId is 128 characters. MessageDeduplicationId can contain alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~). For best practices of using MessageDeduplicationId, see [Using the MessageDeduplicationId Property](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagededuplicationid-property.html) in the Amazon SQS Developer Guide.
         public var messageDeduplicationId: Swift.String?
-        /// This parameter applies only to FIFO (first-in-first-out) queues. The tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner (however, messages in different message groups might be processed out of order). To interleave multiple ordered streams within a single queue, use MessageGroupId values (for example, session data for multiple users). In this scenario, multiple consumers can process the queue, but the session data of each user is processed in a FIFO fashion.
+        /// MessageGroupId is an attribute used in Amazon SQS FIFO (First-In-First-Out) and standard queues. In FIFO queues, MessageGroupId organizes messages into distinct groups. Messages within the same message group are always processed one at a time, in strict order, ensuring that no two messages from the same group are processed simultaneously. In standard queues, using MessageGroupId enables fair queues. It is used to identify the tenant a message belongs to, helping maintain consistent message dwell time across all tenants during noisy neighbor events. Unlike FIFO queues, messages with the same MessageGroupId can be processed in parallel, maintaining the high throughput of standard queues.
         ///
-        /// * You must associate a non-empty MessageGroupId with a message. If you don't provide a MessageGroupId, the action fails.
+        /// * FIFO queues: MessageGroupId acts as the tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner (however, messages in different message groups might be processed out of order). To interleave multiple ordered streams within a single queue, use MessageGroupId values (for example, session data for multiple users). In this scenario, multiple consumers can process the queue, but the session data of each user is processed in a FIFO fashion. If you do not provide a MessageGroupId when sending a message to a FIFO queue, the action fails. ReceiveMessage might return messages with multiple MessageGroupId values. For each MessageGroupId, the messages are sorted by time sent.
         ///
-        /// * ReceiveMessage might return messages with multiple MessageGroupId values. For each MessageGroupId, the messages are sorted by time sent. The caller can't specify a MessageGroupId.
+        /// * Standard queues:Use MessageGroupId in standard queues to enable fair queues. The MessageGroupId identifies the tenant a message belongs to. A tenant can be any entity that shares a queue with others, such as your customer, a client application, or a request type. When one tenant sends a disproportionately large volume of messages or has messages that require longer processing time, fair queues ensure other tenants' messages maintain low dwell time. This preserves quality of service for all tenants while maintaining the scalability and throughput of standard queues. We recommend that you include a MessageGroupId in all messages when using fair queues.
         ///
         ///
-        /// The length of MessageGroupId is 128 characters. Valid values: alphanumeric characters and punctuation (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~). For best practices of using MessageGroupId, see [Using the MessageGroupId Property](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html) in the Amazon SQS Developer Guide. MessageGroupId is required for FIFO queues. You can't use it for Standard queues.
+        /// The length of MessageGroupId is 128 characters. Valid values: alphanumeric characters and punctuation (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~). For best practices of using MessageGroupId, see [Using the MessageGroupId Property](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html) in the Amazon SQS Developer Guide.
         public var messageGroupId: Swift.String?
         /// The message system attribute to send Each message system attribute consists of a Name, Type, and Value.
         ///
@@ -3460,11 +3460,11 @@ extension InvalidAddress {
     }
 }
 
-extension UnsupportedOperation {
+extension InvalidSecurity {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperation {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSecurity {
         let reader = baseError.errorBodyReader
-        var value = UnsupportedOperation()
+        var value = InvalidSecurity()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3486,19 +3486,6 @@ extension OverLimit {
     }
 }
 
-extension RequestThrottled {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RequestThrottled {
-        let reader = baseError.errorBodyReader
-        var value = RequestThrottled()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension QueueDoesNotExist {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> QueueDoesNotExist {
@@ -3512,11 +3499,24 @@ extension QueueDoesNotExist {
     }
 }
 
-extension InvalidSecurity {
+extension RequestThrottled {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidSecurity {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> RequestThrottled {
         let reader = baseError.errorBodyReader
-        var value = InvalidSecurity()
+        var value = RequestThrottled()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnsupportedOperation {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> UnsupportedOperation {
+        let reader = baseError.errorBodyReader
+        var value = UnsupportedOperation()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3562,11 +3562,11 @@ extension ReceiptHandleIsInvalid {
     }
 }
 
-extension EmptyBatchRequest {
+extension BatchEntryIdsNotDistinct {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EmptyBatchRequest {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BatchEntryIdsNotDistinct {
         let reader = baseError.errorBodyReader
-        var value = EmptyBatchRequest()
+        var value = BatchEntryIdsNotDistinct()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3575,11 +3575,11 @@ extension EmptyBatchRequest {
     }
 }
 
-extension TooManyEntriesInBatchRequest {
+extension EmptyBatchRequest {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyEntriesInBatchRequest {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EmptyBatchRequest {
         let reader = baseError.errorBodyReader
-        var value = TooManyEntriesInBatchRequest()
+        var value = EmptyBatchRequest()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3601,24 +3601,11 @@ extension InvalidBatchEntryId {
     }
 }
 
-extension BatchEntryIdsNotDistinct {
+extension TooManyEntriesInBatchRequest {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> BatchEntryIdsNotDistinct {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> TooManyEntriesInBatchRequest {
         let reader = baseError.errorBodyReader
-        var value = BatchEntryIdsNotDistinct()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension InvalidAttributeValue {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAttributeValue {
-        let reader = baseError.errorBodyReader
-        var value = InvalidAttributeValue()
+        var value = TooManyEntriesInBatchRequest()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3640,11 +3627,11 @@ extension InvalidAttributeName {
     }
 }
 
-extension QueueNameExists {
+extension InvalidAttributeValue {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> QueueNameExists {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidAttributeValue {
         let reader = baseError.errorBodyReader
-        var value = QueueNameExists()
+        var value = InvalidAttributeValue()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3658,6 +3645,19 @@ extension QueueDeletedRecently {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> QueueDeletedRecently {
         let reader = baseError.errorBodyReader
         var value = QueueDeletedRecently()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension QueueNameExists {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> QueueNameExists {
+        let reader = baseError.errorBodyReader
+        var value = QueueNameExists()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3703,24 +3703,11 @@ extension KmsAccessDenied {
     }
 }
 
-extension KmsNotFound {
+extension KmsDisabled {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsNotFound {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsDisabled {
         let reader = baseError.errorBodyReader
-        var value = KmsNotFound()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension KmsInvalidState {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsInvalidState {
-        let reader = baseError.errorBodyReader
-        var value = KmsInvalidState()
+        var value = KmsDisabled()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3742,11 +3729,11 @@ extension KmsInvalidKeyUsage {
     }
 }
 
-extension KmsThrottled {
+extension KmsInvalidState {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsThrottled {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsInvalidState {
         let reader = baseError.errorBodyReader
-        var value = KmsThrottled()
+        var value = KmsInvalidState()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3755,11 +3742,11 @@ extension KmsThrottled {
     }
 }
 
-extension KmsDisabled {
+extension KmsNotFound {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsDisabled {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsNotFound {
         let reader = baseError.errorBodyReader
-        var value = KmsDisabled()
+        var value = KmsNotFound()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3773,6 +3760,19 @@ extension KmsOptInRequired {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsOptInRequired {
         let reader = baseError.errorBodyReader
         var value = KmsOptInRequired()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KmsThrottled {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> KmsThrottled {
+        let reader = baseError.errorBodyReader
+        var value = KmsThrottled()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

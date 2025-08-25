@@ -505,6 +505,8 @@ public struct CreateScopeInput: Swift.Sendable {
 extension NetworkFlowMonitorClientTypes {
 
     public enum ScopeStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deactivated
+        case deactivating
         case failed
         case inProgress
         case succeeded
@@ -512,6 +514,8 @@ extension NetworkFlowMonitorClientTypes {
 
         public static var allCases: [ScopeStatus] {
             return [
+                .deactivated,
+                .deactivating,
                 .failed,
                 .inProgress,
                 .succeeded
@@ -525,6 +529,8 @@ extension NetworkFlowMonitorClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .deactivated: return "DEACTIVATED"
+            case .deactivating: return "DEACTIVATING"
             case .failed: return "FAILED"
             case .inProgress: return "IN_PROGRESS"
             case .succeeded: return "SUCCEEDED"
@@ -541,7 +547,7 @@ public struct CreateScopeOutput: Swift.Sendable {
     /// The identifier for the scope that includes the resources you want to get metrics for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
     /// This member is required.
     public var scopeId: Swift.String?
-    /// The status for a call to create a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, or FAILED.
+    /// The status for a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, FAILED, DEACTIVATING, or DEACTIVATED. A status of DEACTIVATING means that you've requested a scope to be deactivated and Network Flow Monitor is in the process of deactivating the scope. A status of DEACTIVATED means that the deactivating process is complete.
     /// This member is required.
     public var status: NetworkFlowMonitorClientTypes.ScopeStatus?
     /// The tags for a scope.
@@ -734,7 +740,7 @@ public struct GetQueryResultsMonitorTopContributorsInput: Swift.Sendable {
     public var monitorName: Swift.String?
     /// The token for the next set of results. You receive this token from a previous call.
     public var nextToken: Swift.String?
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
 
@@ -1062,7 +1068,7 @@ public struct GetQueryResultsWorkloadInsightsTopContributorsInput: Swift.Sendabl
     public var maxResults: Swift.Int?
     /// The token for the next set of results. You receive this token from a previous call.
     public var nextToken: Swift.String?
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
@@ -1149,7 +1155,7 @@ public struct GetQueryResultsWorkloadInsightsTopContributorsDataInput: Swift.Sen
     public var maxResults: Swift.Int?
     /// The token for the next set of results. You receive this token from a previous call.
     public var nextToken: Swift.String?
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
@@ -1390,7 +1396,7 @@ public struct GetScopeOutput: Swift.Sendable {
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account. A scope ID is returned from a CreateScope API call.
     /// This member is required.
     public var scopeId: Swift.String?
-    /// The status of a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, or FAILED.
+    /// The status for a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, FAILED, DEACTIVATING, or DEACTIVATED. A status of DEACTIVATING means that you've requested a scope to be deactivated and Network Flow Monitor is in the process of deactivating the scope. A status of DEACTIVATED means that the deactivating process is complete.
     /// This member is required.
     public var status: NetworkFlowMonitorClientTypes.ScopeStatus?
     /// The tags for a scope.
@@ -1520,7 +1526,7 @@ extension NetworkFlowMonitorClientTypes {
         /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
         /// This member is required.
         public var scopeId: Swift.String?
-        /// The status of a scope. The status can be one of the following, depending on the state of scope creation: SUCCEEDED, IN_PROGRESS, or FAILED.
+        /// The status for a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, FAILED, DEACTIVATING, or DEACTIVATED. A status of DEACTIVATING means that you've requested a scope to be deactivated and Network Flow Monitor is in the process of deactivating the scope. A status of DEACTIVATED means that the deactivating process is complete.
         /// This member is required.
         public var status: NetworkFlowMonitorClientTypes.ScopeStatus?
 
@@ -1631,7 +1637,7 @@ public struct StartQueryMonitorTopContributorsInput: Swift.Sendable {
     public var endTime: Foundation.Date?
     /// The maximum number of top contributors to return.
     public var limit: Swift.Int?
-    /// The metric that you want to query top contributors for. That is, you can specify this metric to return the top contributor network flows, for this type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones.
+    /// The metric that you want to query top contributors for. That is, you can specify a metric with this call and return the top contributor network flows, for that type of metric, for a monitor and (optionally) within a specific category, such as network flows between Availability Zones.
     /// This member is required.
     public var metricName: NetworkFlowMonitorClientTypes.MonitorMetric?
     /// The name of the monitor.
@@ -1674,7 +1680,7 @@ public struct StopQueryMonitorTopContributorsInput: Swift.Sendable {
     /// The name of the monitor.
     /// This member is required.
     public var monitorName: Swift.String?
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
 
@@ -1925,7 +1931,7 @@ public struct StartQueryWorkloadInsightsTopContributorsDataOutput: Swift.Sendabl
 }
 
 public struct StopQueryWorkloadInsightsTopContributorsInput: Swift.Sendable {
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
@@ -1947,7 +1953,7 @@ public struct StopQueryWorkloadInsightsTopContributorsOutput: Swift.Sendable {
 }
 
 public struct StopQueryWorkloadInsightsTopContributorsDataInput: Swift.Sendable {
-    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to start a query.
+    /// The identifier for the query. A query ID is an internally-generated identifier for a specific query returned from an API call to create a query.
     /// This member is required.
     public var queryId: Swift.String?
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
@@ -1995,7 +2001,7 @@ public struct UpdateScopeOutput: Swift.Sendable {
     /// The identifier for the scope that includes the resources you want to get data results for. A scope ID is an internally-generated identifier that includes all the resources for a specific root account.
     /// This member is required.
     public var scopeId: Swift.String?
-    /// The status for a call to update a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, or FAILED.
+    /// The status for a scope. The status can be one of the following: SUCCEEDED, IN_PROGRESS, FAILED, DEACTIVATING, or DEACTIVATED. A status of DEACTIVATING means that you've requested a scope to be deactivated and Network Flow Monitor is in the process of deactivating the scope. A status of DEACTIVATED means that the deactivating process is complete.
     /// This member is required.
     public var status: NetworkFlowMonitorClientTypes.ScopeStatus?
     /// The tags for a scope.
@@ -2878,6 +2884,7 @@ enum DeleteScopeOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
@@ -3263,6 +3270,7 @@ enum UpdateScopeOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
@@ -3273,37 +3281,24 @@ enum UpdateScopeOutputError {
     }
 }
 
+extension AccessDeniedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+        let reader = baseError.errorBodyReader
+        var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ConflictException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ServiceQuotaExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
-        let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3325,11 +3320,11 @@ extension InternalServerException {
     }
 }
 
-extension AccessDeniedException {
+extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3343,6 +3338,19 @@ extension ThrottlingException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

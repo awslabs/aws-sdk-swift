@@ -363,6 +363,37 @@ extension ListPublishingDestinationsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension GuardDutyClient {
+    /// Paginate over `[ListThreatEntitySetsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListThreatEntitySetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListThreatEntitySetsOutput`
+    public func listThreatEntitySetsPaginated(input: ListThreatEntitySetsInput) -> ClientRuntime.PaginatorSequence<ListThreatEntitySetsInput, ListThreatEntitySetsOutput> {
+        return ClientRuntime.PaginatorSequence<ListThreatEntitySetsInput, ListThreatEntitySetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listThreatEntitySets(input:))
+    }
+}
+
+extension ListThreatEntitySetsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListThreatEntitySetsInput {
+        return ListThreatEntitySetsInput(
+            detectorId: self.detectorId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListThreatEntitySetsInput, OperationStackOutput == ListThreatEntitySetsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listThreatEntitySetsPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
+    public func threatEntitySetIds() async throws -> [Swift.String] {
+        return try await self.asyncCompactMap { item in item.threatEntitySetIds }
+    }
+}
+extension GuardDutyClient {
     /// Paginate over `[ListThreatIntelSetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -391,5 +422,36 @@ extension PaginatorSequence where OperationStackInput == ListThreatIntelSetsInpu
     /// - Returns: `[Swift.String]`
     public func threatIntelSetIds() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.threatIntelSetIds }
+    }
+}
+extension GuardDutyClient {
+    /// Paginate over `[ListTrustedEntitySetsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTrustedEntitySetsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTrustedEntitySetsOutput`
+    public func listTrustedEntitySetsPaginated(input: ListTrustedEntitySetsInput) -> ClientRuntime.PaginatorSequence<ListTrustedEntitySetsInput, ListTrustedEntitySetsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTrustedEntitySetsInput, ListTrustedEntitySetsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTrustedEntitySets(input:))
+    }
+}
+
+extension ListTrustedEntitySetsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTrustedEntitySetsInput {
+        return ListTrustedEntitySetsInput(
+            detectorId: self.detectorId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListTrustedEntitySetsInput, OperationStackOutput == ListTrustedEntitySetsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTrustedEntitySetsPaginated`
+    /// to access the nested member `[Swift.String]`
+    /// - Returns: `[Swift.String]`
+    public func trustedEntitySetIds() async throws -> [Swift.String] {
+        return try await self.asyncCompactMap { item in item.trustedEntitySetIds }
     }
 }

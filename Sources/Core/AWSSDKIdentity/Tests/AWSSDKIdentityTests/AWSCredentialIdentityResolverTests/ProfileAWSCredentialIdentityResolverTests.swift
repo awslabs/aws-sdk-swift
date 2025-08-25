@@ -7,15 +7,15 @@
 
 import XCTest
 import struct AWSSDKIdentity.ProfileAWSCredentialIdentityResolver
-@_spi(FileBasedConfig) @testable import AWSClientRuntime
 
 class ProfileAWSCredentialIdentityResolverTests: XCTestCase {
     let configPath = Bundle.module.path(forResource: "config", ofType: nil)!
     let configWithProcessPath = Bundle.module.path(forResource: "config_with_process", ofType: nil)!
     let credentialsPath = Bundle.module.path(forResource: "credentials", ofType: nil)!
+    let emptyCredentialsPath = Bundle.module.path(forResource: "empty_creds", ofType: nil)!
     
     func testGetCredentialsWithDefaultProfile() async throws {
-        let subject = try ProfileAWSCredentialIdentityResolver(
+        let subject = ProfileAWSCredentialIdentityResolver(
             configFilePath: configPath,
             credentialsFilePath: credentialsPath
         )
@@ -26,10 +26,11 @@ class ProfileAWSCredentialIdentityResolverTests: XCTestCase {
         XCTAssertEqual(credentials.accountID, "account_id_default_config")
     }
 
+    #if os(macOS) || os(Linux)
     func testGetCredentialsWithDefaultProfileContainingProcess() async throws {
-        let subject = try ProfileAWSCredentialIdentityResolver(
+        let subject = ProfileAWSCredentialIdentityResolver(
             configFilePath: configWithProcessPath,
-            credentialsFilePath: credentialsPath
+            credentialsFilePath: emptyCredentialsPath
         )
         let credentials = try await subject.getIdentity()
 
@@ -37,9 +38,10 @@ class ProfileAWSCredentialIdentityResolverTests: XCTestCase {
         XCTAssertEqual(credentials.secret, "SecretAccessKey123")
         XCTAssertEqual(credentials.accountID, "012345678901")
     }
+    #endif
 
     func testGetCredentialsWithNamedProfileFromConfigFile() async throws {
-        let subject = try ProfileAWSCredentialIdentityResolver(
+        let subject = ProfileAWSCredentialIdentityResolver(
             profileName: "credentials-provider-config-tests-profile",
             configFilePath: configPath,
             credentialsFilePath: credentialsPath
@@ -52,7 +54,7 @@ class ProfileAWSCredentialIdentityResolverTests: XCTestCase {
     }
     
     func testGetCredentialsWithNamedProfileFromCredentialsFile() async throws {
-        let subject = try ProfileAWSCredentialIdentityResolver(
+        let subject = ProfileAWSCredentialIdentityResolver(
             profileName: "credentials-provider-creds-tests-profile",
             configFilePath: configPath,
             credentialsFilePath: credentialsPath

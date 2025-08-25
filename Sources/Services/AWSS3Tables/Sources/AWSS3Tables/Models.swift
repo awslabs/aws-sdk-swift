@@ -660,22 +660,23 @@ public struct GetNamespaceOutput: Swift.Sendable {
 
 public struct GetTableInput: Swift.Sendable {
     /// The name of the table.
-    /// This member is required.
     public var name: Swift.String?
     /// The name of the namespace the table is associated with.
-    /// This member is required.
     public var namespace: Swift.String?
+    /// The Amazon Resource Name (ARN) of the table.
+    public var tableArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the table bucket associated with the table.
-    /// This member is required.
     public var tableBucketARN: Swift.String?
 
     public init(
         name: Swift.String? = nil,
         namespace: Swift.String? = nil,
+        tableArn: Swift.String? = nil,
         tableBucketARN: Swift.String? = nil
     ) {
         self.name = name
         self.namespace = namespace
+        self.tableArn = tableArn
         self.tableBucketARN = tableBucketARN
     }
 }
@@ -804,6 +805,35 @@ public struct GetTableBucketInput: Swift.Sendable {
     }
 }
 
+extension S3TablesClientTypes {
+
+    public enum TableBucketType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aws
+        case customer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TableBucketType] {
+            return [
+                .aws,
+                .customer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aws: return "aws"
+            case .customer: return "customer"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetTableBucketOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the table bucket.
     /// This member is required.
@@ -819,19 +849,23 @@ public struct GetTableBucketOutput: Swift.Sendable {
     public var ownerAccountId: Swift.String?
     /// The unique identifier of the table bucket.
     public var tableBucketId: Swift.String?
+    /// The type of the table bucket.
+    public var type: S3TablesClientTypes.TableBucketType?
 
     public init(
         arn: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         ownerAccountId: Swift.String? = nil,
-        tableBucketId: Swift.String? = nil
+        tableBucketId: Swift.String? = nil,
+        type: S3TablesClientTypes.TableBucketType? = nil
     ) {
         self.arn = arn
         self.createdAt = createdAt
         self.name = name
         self.ownerAccountId = ownerAccountId
         self.tableBucketId = tableBucketId
+        self.type = type
     }
 }
 
@@ -1102,14 +1136,53 @@ extension S3TablesClientTypes {
 
 extension S3TablesClientTypes {
 
+    public enum IcebergCompactionStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case binpack
+        case sort
+        case zorder
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IcebergCompactionStrategy] {
+            return [
+                .auto,
+                .binpack,
+                .sort,
+                .zorder
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "auto"
+            case .binpack: return "binpack"
+            case .sort: return "sort"
+            case .zorder: return "z-order"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
     /// Contains details about the compaction settings for an Iceberg table.
     public struct IcebergCompactionSettings: Swift.Sendable {
+        /// The compaction strategy to use for the table. This determines how files are selected and combined during compaction operations.
+        public var strategy: S3TablesClientTypes.IcebergCompactionStrategy?
         /// The target file size for the table in MB.
         public var targetFileSizeMB: Swift.Int?
 
         public init(
+            strategy: S3TablesClientTypes.IcebergCompactionStrategy? = nil,
             targetFileSizeMB: Swift.Int? = nil
         ) {
+            self.strategy = strategy
             self.targetFileSizeMB = targetFileSizeMB
         }
     }
@@ -1475,15 +1548,19 @@ public struct ListTableBucketsInput: Swift.Sendable {
     public var maxBuckets: Swift.Int?
     /// The prefix of the table buckets.
     public var `prefix`: Swift.String?
+    /// The type of table buckets to filter by in the list.
+    public var type: S3TablesClientTypes.TableBucketType?
 
     public init(
         continuationToken: Swift.String? = nil,
         maxBuckets: Swift.Int? = nil,
-        `prefix`: Swift.String? = nil
+        `prefix`: Swift.String? = nil,
+        type: S3TablesClientTypes.TableBucketType? = nil
     ) {
         self.continuationToken = continuationToken
         self.maxBuckets = maxBuckets
         self.`prefix` = `prefix`
+        self.type = type
     }
 }
 
@@ -1505,19 +1582,23 @@ extension S3TablesClientTypes {
         public var ownerAccountId: Swift.String?
         /// The system-assigned unique identifier for the table bucket.
         public var tableBucketId: Swift.String?
+        /// The type of the table bucket.
+        public var type: S3TablesClientTypes.TableBucketType?
 
         public init(
             arn: Swift.String? = nil,
             createdAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             ownerAccountId: Swift.String? = nil,
-            tableBucketId: Swift.String? = nil
+            tableBucketId: Swift.String? = nil,
+            type: S3TablesClientTypes.TableBucketType? = nil
         ) {
             self.arn = arn
             self.createdAt = createdAt
             self.name = name
             self.ownerAccountId = ownerAccountId
             self.tableBucketId = tableBucketId
+            self.type = type
         }
     }
 }
@@ -1977,16 +2058,31 @@ extension GetNamespaceInput {
 extension GetTableInput {
 
     static func urlPathProvider(_ value: GetTableInput) -> Swift.String? {
-        guard let tableBucketARN = value.tableBucketARN else {
-            return nil
+        return "/get-table"
+    }
+}
+
+extension GetTableInput {
+
+    static func queryItemProvider(_ value: GetTableInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let tableBucketARN = value.tableBucketARN {
+            let tableBucketARNQueryItem = Smithy.URIQueryItem(name: "tableBucketARN".urlPercentEncoding(), value: Swift.String(tableBucketARN).urlPercentEncoding())
+            items.append(tableBucketARNQueryItem)
         }
-        guard let namespace = value.namespace else {
-            return nil
+        if let namespace = value.namespace {
+            let namespaceQueryItem = Smithy.URIQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
         }
-        guard let name = value.name else {
-            return nil
+        if let name = value.name {
+            let nameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
+            items.append(nameQueryItem)
         }
-        return "/tables/\(tableBucketARN.urlPercentEncoding())/\(namespace.urlPercentEncoding())/\(name.urlPercentEncoding())"
+        if let tableArn = value.tableArn {
+            let tableArnQueryItem = Smithy.URIQueryItem(name: "tableArn".urlPercentEncoding(), value: Swift.String(tableArn).urlPercentEncoding())
+            items.append(tableArnQueryItem)
+        }
+        return items
     }
 }
 
@@ -2158,6 +2254,10 @@ extension ListTableBucketsInput {
         if let `prefix` = value.`prefix` {
             let prefixQueryItem = Smithy.URIQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
             items.append(prefixQueryItem)
+        }
+        if let type = value.type {
+            let typeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
         }
         if let continuationToken = value.continuationToken {
             let continuationTokenQueryItem = Smithy.URIQueryItem(name: "continuationToken".urlPercentEncoding(), value: Swift.String(continuationToken).urlPercentEncoding())
@@ -2524,6 +2624,7 @@ extension GetTableBucketOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.ownerAccountId = try reader["ownerAccountId"].readIfPresent() ?? ""
         value.tableBucketId = try reader["tableBucketId"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }
@@ -3301,11 +3402,24 @@ enum UpdateTableMetadataLocationOutputError {
     }
 }
 
-extension TooManyRequestsException {
+extension BadRequestException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
         let reader = baseError.errorBodyReader
-        var value = TooManyRequestsException()
+        var value = BadRequestException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3353,24 +3467,11 @@ extension NotFoundException {
     }
 }
 
-extension BadRequestException {
+extension TooManyRequestsException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TooManyRequestsException {
         let reader = baseError.errorBodyReader
-        var value = BadRequestException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
+        var value = TooManyRequestsException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -3533,6 +3634,7 @@ extension S3TablesClientTypes.IcebergCompactionSettings {
 
     static func write(value: S3TablesClientTypes.IcebergCompactionSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["strategy"].write(value.strategy)
         try writer["targetFileSizeMB"].write(value.targetFileSizeMB)
     }
 
@@ -3540,6 +3642,7 @@ extension S3TablesClientTypes.IcebergCompactionSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = S3TablesClientTypes.IcebergCompactionSettings()
         value.targetFileSizeMB = try reader["targetFileSizeMB"].readIfPresent()
+        value.strategy = try reader["strategy"].readIfPresent()
         return value
     }
 }
@@ -3581,6 +3684,7 @@ extension S3TablesClientTypes.TableBucketSummary {
         value.ownerAccountId = try reader["ownerAccountId"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tableBucketId = try reader["tableBucketId"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }

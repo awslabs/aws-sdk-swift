@@ -5,8 +5,6 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import Foundation
-
 /// The mode of operation for the SDK's retry mechanism.
 ///
 /// This may be specified using the `AWS_RETRY_MODE` environment var, or the `retry_mode` field of the AWS config file.

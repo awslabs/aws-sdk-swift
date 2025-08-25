@@ -27,7 +27,7 @@ extension RekognitionClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "RUNNING") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "RUNNING") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeProjectVersionsInput, result: Swift.Result<DescribeProjectVersionsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "ProjectVersionDescriptions[].Status"
@@ -73,7 +73,7 @@ extension RekognitionClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "TRAINING_COMPLETED") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "TRAINING_COMPLETED") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeProjectVersionsInput, result: Swift.Result<DescribeProjectVersionsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "ProjectVersionDescriptions[].Status"

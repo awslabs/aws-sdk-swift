@@ -30,6 +30,7 @@ extension DescribeAutoScalingGroupsInput: ClientRuntime.PaginateToken {
         return DescribeAutoScalingGroupsInput(
             autoScalingGroupNames: self.autoScalingGroupNames,
             filters: self.filters,
+            includeInstances: self.includeInstances,
             maxRecords: self.maxRecords,
             nextToken: token
         )}

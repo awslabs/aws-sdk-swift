@@ -148,7 +148,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-/// The operation was denied because the request would exceed the maximum [quota](https://docs.aws.amazon.com/location/latest/developerguide/location-quotas.html) set for Amazon Location Service.
+/// The operation was denied because the request would exceed the maximum [quota](https://docs.aws.amazon.com/location/previous/developerguide/location-quotas.html) set for Amazon Location Service.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -309,6 +309,12 @@ extension LocationClientTypes {
         ///
         /// * geo:GetMap* - Allows all actions needed for map rendering.
         ///
+        /// * geo-maps:GetTile - Allows retrieving map tiles.
+        ///
+        /// * geo-maps:GetStaticMap - Allows retrieving static map images.
+        ///
+        /// * geo-maps:* - Allows all actions related to map functionalities.
+        ///
         ///
         ///
         ///
@@ -322,6 +328,22 @@ extension LocationClientTypes {
         ///
         /// * GetPlace - Allows finding a place by place ID.
         ///
+        /// * geo-places:Geocode - Allows geocoding using place information.
+        ///
+        /// * geo-places:ReverseGeocode - Allows reverse geocoding from location coordinates.
+        ///
+        /// * geo-places:SearchNearby - Allows searching for places near a location.
+        ///
+        /// * geo-places:SearchText - Allows searching for places based on text input.
+        ///
+        /// * geo-places:Autocomplete - Allows auto-completion of place names based on text input.
+        ///
+        /// * geo-places:Suggest - Allows generating suggestions for places based on partial input.
+        ///
+        /// * geo-places:GetPlace - Allows finding a place by its ID.
+        ///
+        /// * geo-places:* - Allows all actions related to place services.
+        ///
         ///
         ///
         ///
@@ -330,6 +352,18 @@ extension LocationClientTypes {
         /// * geo:CalculateRoute - Allows point to point routing.
         ///
         /// * geo:CalculateRouteMatrix - Allows calculating a matrix of routes.
+        ///
+        /// * geo-routes:CalculateRoutes - Allows calculating multiple routes between points.
+        ///
+        /// * geo-routes:CalculateRouteMatrix - Allows calculating a matrix of routes between points.
+        ///
+        /// * geo-routes:CalculateIsolines - Allows calculating isolines for a given area.
+        ///
+        /// * geo-routes:OptimizeWaypoints - Allows optimizing the order of waypoints in a route.
+        ///
+        /// * geo-routes:SnapToRoads - Allows snapping a route to the nearest roads.
+        ///
+        /// * geo-routes:* - Allows all actions related to routing functionalities.
         ///
         ///
         ///
@@ -373,6 +407,11 @@ extension LocationClientTypes {
             self.allowResources = allowResources
         }
     }
+}
+
+extension LocationClientTypes.ApiKeyRestrictions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ApiKeyRestrictions(allowActions: \(Swift.String(describing: allowActions)), allowResources: \(Swift.String(describing: allowResources)), allowReferers: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateKeyInput: Swift.Sendable {
@@ -426,11 +465,16 @@ public struct CreateKeyInput: Swift.Sendable {
     }
 }
 
+extension CreateKeyInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateKeyInput(description: \(Swift.String(describing: description)), keyName: \(Swift.String(describing: keyName)), noExpiry: \(Swift.String(describing: noExpiry)), restrictions: \(Swift.String(describing: restrictions)), tags: \(Swift.String(describing: tags)), expireTime: \"CONTENT_REDACTED\")"}
+}
+
 public struct CreateKeyOutput: Swift.Sendable {
     /// The timestamp for when the API key resource was created in [ ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ.
     /// This member is required.
     public var createTime: Foundation.Date?
-    /// The key value/string of an API key. This value is used when making API calls to authorize the call. For example, see [GetMapGlyphs](https://docs.aws.amazon.com/location/latest/APIReference/API_GetMapGlyphs.html).
+    /// The key value/string of an API key. This value is used when making API calls to authorize the call. For example, see [GetMapGlyphs](https://docs.aws.amazon.com/location/previous/APIReference/API_GetMapGlyphs.html).
     /// This member is required.
     public var key: Swift.String?
     /// The Amazon Resource Name (ARN) for the API key resource. Used when you need to specify a resource across all Amazon Web Services.
@@ -457,7 +501,7 @@ public struct CreateKeyOutput: Swift.Sendable {
 
 extension CreateKeyOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateKeyOutput(createTime: \(Swift.String(describing: createTime)), keyArn: \(Swift.String(describing: keyArn)), keyName: \(Swift.String(describing: keyName)), key: \"CONTENT_REDACTED\")"}
+        "CreateKeyOutput(keyArn: \(Swift.String(describing: keyArn)), keyName: \(Swift.String(describing: keyName)), createTime: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\")"}
 }
 
 /// The resource that you've entered was not found in your AWS account.
@@ -571,7 +615,7 @@ public struct DescribeKeyOutput: Swift.Sendable {
 
 extension DescribeKeyOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DescribeKeyOutput(createTime: \(Swift.String(describing: createTime)), description: \(Swift.String(describing: description)), expireTime: \(Swift.String(describing: expireTime)), keyArn: \(Swift.String(describing: keyArn)), keyName: \(Swift.String(describing: keyName)), restrictions: \(Swift.String(describing: restrictions)), tags: \(Swift.String(describing: tags)), updateTime: \(Swift.String(describing: updateTime)), key: \"CONTENT_REDACTED\")"}
+        "DescribeKeyOutput(description: \(Swift.String(describing: description)), keyArn: \(Swift.String(describing: keyArn)), keyName: \(Swift.String(describing: keyName)), restrictions: \(Swift.String(describing: restrictions)), tags: \(Swift.String(describing: tags)), createTime: \"CONTENT_REDACTED\", expireTime: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", updateTime: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListKeysInput: Swift.Sendable {
@@ -633,6 +677,11 @@ extension LocationClientTypes {
     }
 }
 
+extension LocationClientTypes.ListKeysResponseEntry: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListKeysResponseEntry(description: \(Swift.String(describing: description)), keyName: \(Swift.String(describing: keyName)), restrictions: \(Swift.String(describing: restrictions)), createTime: \"CONTENT_REDACTED\", expireTime: \"CONTENT_REDACTED\", updateTime: \"CONTENT_REDACTED\")"}
+}
+
 public struct ListKeysOutput: Swift.Sendable {
     /// Contains API key resources in your Amazon Web Services account. Details include API key name, allowed referers and timestamp for when the API key will expire.
     /// This member is required.
@@ -681,6 +730,11 @@ public struct UpdateKeyInput: Swift.Sendable {
     }
 }
 
+extension UpdateKeyInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateKeyInput(description: \(Swift.String(describing: description)), forceUpdate: \(Swift.String(describing: forceUpdate)), keyName: \(Swift.String(describing: keyName)), noExpiry: \(Swift.String(describing: noExpiry)), restrictions: \(Swift.String(describing: restrictions)), expireTime: \"CONTENT_REDACTED\")"}
+}
+
 public struct UpdateKeyOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) for the API key resource. Used when you need to specify a resource across all Amazon Web Services.
     ///
@@ -703,6 +757,11 @@ public struct UpdateKeyOutput: Swift.Sendable {
         self.keyName = keyName
         self.updateTime = updateTime
     }
+}
+
+extension UpdateKeyOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateKeyOutput(keyArn: \(Swift.String(describing: keyArn)), keyName: \(Swift.String(describing: keyName)), updateTime: \"CONTENT_REDACTED\")"}
 }
 
 public struct AssociateTrackerConsumerInput: Swift.Sendable {
@@ -913,6 +972,11 @@ extension LocationClientTypes {
     }
 }
 
+extension LocationClientTypes.PositionalAccuracy: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PositionalAccuracy(horizontal: \"CONTENT_REDACTED\")"}
+}
+
 extension LocationClientTypes {
 
     /// Contains the position update details for a device.
@@ -949,7 +1013,7 @@ extension LocationClientTypes {
 
 extension LocationClientTypes.DevicePositionUpdate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DevicePositionUpdate(accuracy: \(Swift.String(describing: accuracy)), deviceId: \(Swift.String(describing: deviceId)), sampleTime: \(Swift.String(describing: sampleTime)), position: \"CONTENT_REDACTED\", positionProperties: \"CONTENT_REDACTED\")"}
+        "DevicePositionUpdate(accuracy: \(Swift.String(describing: accuracy)), deviceId: \(Swift.String(describing: deviceId)), position: \"CONTENT_REDACTED\", positionProperties: \"CONTENT_REDACTED\", sampleTime: \"CONTENT_REDACTED\")"}
 }
 
 public struct BatchEvaluateGeofencesInput: Swift.Sendable {
@@ -993,6 +1057,11 @@ extension LocationClientTypes {
             self.sampleTime = sampleTime
         }
     }
+}
+
+extension LocationClientTypes.BatchEvaluateGeofencesError: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BatchEvaluateGeofencesError(deviceId: \(Swift.String(describing: deviceId)), error: \(Swift.String(describing: error)), sampleTime: \"CONTENT_REDACTED\")"}
 }
 
 public struct BatchEvaluateGeofencesOutput: Swift.Sendable {
@@ -1066,7 +1135,7 @@ extension LocationClientTypes {
 
 extension LocationClientTypes.DevicePosition: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DevicePosition(accuracy: \(Swift.String(describing: accuracy)), deviceId: \(Swift.String(describing: deviceId)), receivedTime: \(Swift.String(describing: receivedTime)), sampleTime: \(Swift.String(describing: sampleTime)), position: \"CONTENT_REDACTED\", positionProperties: \"CONTENT_REDACTED\")"}
+        "DevicePosition(accuracy: \(Swift.String(describing: accuracy)), deviceId: \(Swift.String(describing: deviceId)), position: \"CONTENT_REDACTED\", positionProperties: \"CONTENT_REDACTED\", receivedTime: \"CONTENT_REDACTED\", sampleTime: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -1136,22 +1205,46 @@ extension LocationClientTypes.Circle: Swift.CustomDebugStringConvertible {
 
 extension LocationClientTypes {
 
-    /// Contains the geofence geometry details. A geofence geometry is made up of either a polygon or a circle. Can be a polygon, a circle or a polygon encoded in Geobuf format. Including multiple selections will return a validation error. Amazon Location doesn't currently support polygons with holes, multipolygons, polygons that are wound clockwise, or that cross the antimeridian.
+    /// Contains the geofence geometry details. A geofence geometry can be a circle, a polygon, or a multipolygon. Polygon and MultiPolygon geometries can be defined using their respective parameters, or encoded in Geobuf format using the Geobuf parameter. Including multiple geometry types in the same request will return a validation error. Amazon Location doesn't currently support polygons that cross the antimeridian.
     public struct GeofenceGeometry: Swift.Sendable {
         /// A circle on the earth, as defined by a center point and a radius.
         public var circle: LocationClientTypes.Circle?
-        /// Geobuf is a compact binary encoding for geographic data that provides lossless compression of GeoJSON polygons. The Geobuf must be Base64-encoded. A polygon in Geobuf format can have up to 100,000 vertices.
+        /// Geobuf is a compact binary encoding for geographic data that provides lossless compression of GeoJSON polygons. The Geobuf must be Base64-encoded. This parameter can contain a Geobuf-encoded GeoJSON geometry object of type Polygon OR MultiPolygon. For more information and specific configuration requirements for these object types, see [Polygon](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_GeofenceGeometry.html#location-Type-WaypointGeofencing_GeofenceGeometry-Polygon) and [MultiPolygon](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_GeofenceGeometry.html#location-Type-WaypointGeofencing_GeofenceGeometry-MultiPolygon). The following limitations apply specifically to geometries defined using the Geobuf parameter, and supercede the corresponding limitations of the Polygon and MultiPolygon parameters:
+        ///
+        /// * A Polygon in Geobuf format can have up to 25,000 rings and up to 100,000 total vertices, including all vertices from all component rings.
+        ///
+        /// * A MultiPolygon in Geobuf format can contain up to 10,000 Polygons and up to 100,000 total vertices, including all vertices from all component Polygons.
         public var geobuf: Foundation.Data?
-        /// A polygon is a list of linear rings which are each made up of a list of vertices. Each vertex is a 2-dimensional point of the form: [longitude, latitude]. This is represented as an array of doubles of length 2 (so [double, double]). An array of 4 or more vertices, where the first and last vertex are the same (to form a closed boundary), is called a linear ring. The linear ring vertices must be listed in counter-clockwise order around the ring’s interior. The linear ring is represented as an array of vertices, or an array of arrays of doubles ([[double, double], ...]). A geofence consists of a single linear ring. To allow for future expansion, the Polygon parameter takes an array of linear rings, which is represented as an array of arrays of arrays of doubles ([[[double, double], ...], ...]). A linear ring for use in geofences can consist of between 4 and 1,000 vertices.
+        /// A MultiPolygon is a list of up to 250 Polygon elements which represent the shape of a geofence. The Polygon components of a MultiPolygon geometry can define separate geographical areas that are considered part of the same geofence, perimeters of larger exterior areas with smaller interior spaces that are excluded from the geofence, or some combination of these use cases to form complex geofence boundaries. For more information and specific configuration requirements for the Polygon components that form a MultiPolygon, see [Polygon](https://docs.aws.amazon.com/location/latest/APIReference/API_WaypointGeofencing_GeofenceGeometry.html#location-Type-WaypointGeofencing_GeofenceGeometry-Polygon). The following additional requirements and limitations apply to geometries defined using the MultiPolygon parameter:
+        ///
+        /// * The entire MultiPolygon must consist of no more than 1,000 vertices, including all vertices from all component Polygons.
+        ///
+        /// * Each edge of a component Polygon must intersect no more than 5 edges from other Polygons. Parallel edges that are shared but do not cross are not counted toward this limit.
+        ///
+        /// * The total number of intersecting edges of component Polygons must be no more than 100,000. Parallel edges that are shared but do not cross are not counted toward this limit.
+        public var multiPolygon: [[[[Swift.Double]]]]?
+        /// A Polygon is a list of up to 250 linear rings which represent the shape of a geofence. This list must include 1 exterior ring (representing the outer perimeter of the geofence), and can optionally include up to 249 interior rings (representing polygonal spaces within the perimeter, which are excluded from the geofence area). A linear ring is an array of 4 or more vertices, where the first and last vertex are the same (to form a closed boundary). Each vertex is a 2-dimensional point represented as an array of doubles of length 2: [longitude, latitude]. Each linear ring is represented as an array of arrays of doubles ([[longitude, latitude], [longitude, latitude], ...]). The vertices for the exterior ring must be listed in counter-clockwise sequence. Vertices for all interior rings must be listed in clockwise sequence. The list of linear rings that describe the entire Polygon is represented as an array of arrays of arrays of doubles ([[[longitude, latitude], [longitude, latitude], ...], [[longitude, latitude], [longitude, latitude], ...], ...]). The exterior ring must be listed first, before any interior rings. The following additional requirements and limitations apply to geometries defined using the Polygon parameter:
+        ///
+        /// * The entire Polygon must consist of no more than 1,000 vertices, including all vertices from the exterior ring and all interior rings.
+        ///
+        /// * Rings must not touch or cross each other.
+        ///
+        /// * All interior rings must be fully contained within the exterior ring.
+        ///
+        /// * Interior rings must not contain other interior rings.
+        ///
+        /// * No ring is permitted to intersect itself.
         public var polygon: [[[Swift.Double]]]?
 
         public init(
             circle: LocationClientTypes.Circle? = nil,
             geobuf: Foundation.Data? = nil,
+            multiPolygon: [[[[Swift.Double]]]]? = nil,
             polygon: [[[Swift.Double]]]? = nil
         ) {
             self.circle = circle
             self.geobuf = geobuf
+            self.multiPolygon = multiPolygon
             self.polygon = polygon
         }
     }
@@ -1159,7 +1252,7 @@ extension LocationClientTypes {
 
 extension LocationClientTypes.GeofenceGeometry: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GeofenceGeometry(circle: \"CONTENT_REDACTED\", geobuf: \"CONTENT_REDACTED\", polygon: \"CONTENT_REDACTED\")"}
+        "GeofenceGeometry(circle: \"CONTENT_REDACTED\", geobuf: \"CONTENT_REDACTED\", multiPolygon: \"CONTENT_REDACTED\", polygon: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -1171,7 +1264,7 @@ extension LocationClientTypes {
         public var geofenceId: Swift.String?
         /// Associates one of more properties with the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value"
         public var geofenceProperties: [Swift.String: Swift.String]?
-        /// Contains the details to specify the position of the geofence. Can be a polygon, a circle or a polygon encoded in Geobuf format. Including multiple selections will return a validation error. The [ geofence polygon](https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html) format supports a maximum of 1,000 vertices. The [Geofence geobuf](https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html) format supports a maximum of 100,000 vertices.
+        /// Contains the details to specify the position of the geofence. Can be a circle, a polygon, or a multipolygon. Polygon and MultiPolygon geometries can be defined using their respective parameters, or encoded in Geobuf format using the Geobuf parameter. Including multiple geometry types in the same request will return a validation error. The geofence Polygon and MultiPolygon formats support a maximum of 1,000 total vertices. The Geobuf format supports a maximum of 100,000 vertices.
         /// This member is required.
         public var geometry: LocationClientTypes.GeofenceGeometry?
 
@@ -1256,6 +1349,11 @@ extension LocationClientTypes {
     }
 }
 
+extension LocationClientTypes.BatchPutGeofenceSuccess: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BatchPutGeofenceSuccess(geofenceId: \(Swift.String(describing: geofenceId)), createTime: \"CONTENT_REDACTED\", updateTime: \"CONTENT_REDACTED\")"}
+}
+
 public struct BatchPutGeofenceOutput: Swift.Sendable {
     /// Contains additional error details for each geofence that failed to be stored in a geofence collection.
     /// This member is required.
@@ -1314,6 +1412,11 @@ extension LocationClientTypes {
             self.sampleTime = sampleTime
         }
     }
+}
+
+extension LocationClientTypes.BatchUpdateDevicePositionError: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BatchUpdateDevicePositionError(deviceId: \(Swift.String(describing: deviceId)), error: \(Swift.String(describing: error)), sampleTime: \"CONTENT_REDACTED\")"}
 }
 
 public struct BatchUpdateDevicePositionOutput: Swift.Sendable {
@@ -1606,7 +1709,7 @@ public struct CalculateRouteInput: Swift.Sendable {
     /// * For example, [-123.115, 49.285]
     ///
     ///
-    /// If you specify a departure that's not located on a road, Amazon Location [moves the position to the nearest road](https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html). If Esri is the provider for your route calculator, specifying a route that is longer than 400 km returns a 400 RoutesValidationException error. Valid Values: [-180 to 180,-90 to 90]
+    /// If you specify a departure that's not located on a road, Amazon Location [moves the position to the nearest road](https://docs.aws.amazon.com/location/previous/developerguide/snap-to-nearby-road.html). If Esri is the provider for your route calculator, specifying a route that is longer than 400 km returns a 400 RoutesValidationException error. Valid Values: [-180 to 180,-90 to 90]
     /// This member is required.
     public var departurePosition: [Swift.Double]?
     /// Specifies the desired time of departure. Uses the given time to calculate the route. Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route.
@@ -1618,18 +1721,18 @@ public struct CalculateRouteInput: Swift.Sendable {
     /// * For example, [-122.339, 47.615]
     ///
     ///
-    /// If you specify a destination that's not located on a road, Amazon Location [moves the position to the nearest road](https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html). Valid Values: [-180 to 180,-90 to 90]
+    /// If you specify a destination that's not located on a road, Amazon Location [moves the position to the nearest road](https://docs.aws.amazon.com/location/previous/developerguide/snap-to-nearby-road.html). Valid Values: [-180 to 180,-90 to 90]
     /// This member is required.
     public var destinationPosition: [Swift.Double]?
     /// Set the unit system to specify the distance. Default Value: Kilometers
     public var distanceUnit: LocationClientTypes.DistanceUnit?
     /// Set to include the geometry details in the result for each path between a pair of positions. Default Value: false Valid Values: false | true
     public var includeLegGeometry: Swift.Bool?
-    /// The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) to authorize the request.
+    /// The optional [API key](https://docs.aws.amazon.com/location/previous/developerguide/using-apikeys.html) to authorize the request.
     public var key: Swift.String?
     /// Specifies the distance to optimize for when calculating a route.
     public var optimizeFor: LocationClientTypes.OptimizationMode?
-    /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. You can choose Car, Truck, Walking, Bicycle or Motorcycle as options for the TravelMode. Bicycle and Motorcycle are only valid when using Grab as a data provider, and only within Southeast Asia. Truck is not available for Grab. For more details on the using Grab for routing, including areas of coverage, see [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/grab.html) in the Amazon Location Service Developer Guide. The TravelMode you specify also determines how you specify route preferences:
+    /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. You can choose Car, Truck, Walking, Bicycle or Motorcycle as options for the TravelMode. Bicycle and Motorcycle are only valid when using Grab as a data provider, and only within Southeast Asia. Truck is not available for Grab. For more details on the using Grab for routing, including areas of coverage, see [GrabMaps](https://docs.aws.amazon.com/location/previous/developerguide/grab.html) in the Amazon Location Service Developer Guide. The TravelMode you specify also determines how you specify route preferences:
     ///
     /// * If traveling by Car use the CarModeOptions parameter.
     ///
@@ -1645,7 +1748,7 @@ public struct CalculateRouteInput: Swift.Sendable {
     /// * For example, from the DeparturePosition[-123.115, 49.285], the route follows the order that the waypoint positions are given [[-122.757, 49.0021],[-122.349, 47.620]]
     ///
     ///
-    /// If you specify a waypoint position that's not located on a road, Amazon Location [moves the position to the nearest road](https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html). Specifying more than 23 waypoints returns a 400 ValidationException error. If Esri is the provider for your route calculator, specifying a route that is longer than 400 km returns a 400 RoutesValidationException error. Valid Values: [-180 to 180,-90 to 90]
+    /// If you specify a waypoint position that's not located on a road, Amazon Location [moves the position to the nearest road](https://docs.aws.amazon.com/location/previous/developerguide/snap-to-nearby-road.html). Specifying more than 23 waypoints returns a 400 ValidationException error. If Esri is the provider for your route calculator, specifying a route that is longer than 400 km returns a 400 RoutesValidationException error. Valid Values: [-180 to 180,-90 to 90]
     public var waypointPositions: [[Swift.Double]]?
 
     public init(
@@ -1683,7 +1786,7 @@ public struct CalculateRouteInput: Swift.Sendable {
 
 extension CalculateRouteInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CalculateRouteInput(arrivalTime: \(Swift.String(describing: arrivalTime)), calculatorName: \(Swift.String(describing: calculatorName)), carModeOptions: \(Swift.String(describing: carModeOptions)), departNow: \(Swift.String(describing: departNow)), departureTime: \(Swift.String(describing: departureTime)), distanceUnit: \(Swift.String(describing: distanceUnit)), includeLegGeometry: \(Swift.String(describing: includeLegGeometry)), optimizeFor: \(Swift.String(describing: optimizeFor)), travelMode: \(Swift.String(describing: travelMode)), truckModeOptions: \(Swift.String(describing: truckModeOptions)), departurePosition: \"CONTENT_REDACTED\", destinationPosition: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", waypointPositions: \"CONTENT_REDACTED\")"}
+        "CalculateRouteInput(calculatorName: \(Swift.String(describing: calculatorName)), carModeOptions: \(Swift.String(describing: carModeOptions)), departNow: \(Swift.String(describing: departNow)), distanceUnit: \(Swift.String(describing: distanceUnit)), includeLegGeometry: \(Swift.String(describing: includeLegGeometry)), optimizeFor: \(Swift.String(describing: optimizeFor)), travelMode: \(Swift.String(describing: travelMode)), truckModeOptions: \(Swift.String(describing: truckModeOptions)), arrivalTime: \"CONTENT_REDACTED\", departurePosition: \"CONTENT_REDACTED\", departureTime: \"CONTENT_REDACTED\", destinationPosition: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", waypointPositions: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -1750,7 +1853,7 @@ extension LocationClientTypes.Step: Swift.CustomDebugStringConvertible {
 
 extension LocationClientTypes {
 
-    /// Contains the calculated route's details for each path between a pair of positions. The number of legs returned corresponds to one fewer than the total number of positions in the request. For example, a route with a departure position and destination position returns one leg with the positions [snapped to a nearby road](https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html):
+    /// Contains the calculated route's details for each path between a pair of positions. The number of legs returned corresponds to one fewer than the total number of positions in the request. For example, a route with a departure position and destination position returns one leg with the positions [snapped to a nearby road](https://docs.aws.amazon.com/location/previous/developerguide/snap-to-nearby-road.html):
     ///
     /// * The StartPosition is the departure position.
     ///
@@ -1771,12 +1874,12 @@ extension LocationClientTypes {
         /// The estimated travel time between the leg's StartPosition and EndPosition. The travel mode and departure time that you specify in the request determines the calculated time.
         /// This member is required.
         public var durationSeconds: Swift.Double?
-        /// The terminating position of the leg. Follows the format [longitude,latitude]. If the EndPosition isn't located on a road, it's [snapped to a nearby road](https://docs.aws.amazon.com/location/latest/developerguide/nap-to-nearby-road.html).
+        /// The terminating position of the leg. Follows the format [longitude,latitude]. If the EndPosition isn't located on a road, it's [snapped to a nearby road](https://docs.aws.amazon.com/location/previous/developerguide/nap-to-nearby-road.html).
         /// This member is required.
         public var endPosition: [Swift.Double]?
         /// Contains the calculated route's path as a linestring geometry.
         public var geometry: LocationClientTypes.LegGeometry?
-        /// The starting position of the leg. Follows the format [longitude,latitude]. If the StartPosition isn't located on a road, it's [snapped to a nearby road](https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html).
+        /// The starting position of the leg. Follows the format [longitude,latitude]. If the StartPosition isn't located on a road, it's [snapped to a nearby road](https://docs.aws.amazon.com/location/previous/developerguide/snap-to-nearby-road.html).
         /// This member is required.
         public var startPosition: [Swift.Double]?
         /// Contains a list of steps, which represent subsections of a leg. Each step provides instructions for how to move to the next step in the leg such as the step's start position, end position, travel distance, travel duration, and geometry offset.
@@ -1819,7 +1922,7 @@ extension LocationClientTypes {
         /// * Here
         ///
         ///
-        /// For more information about data providers, see [Amazon Location Service data providers](https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html).
+        /// For more information about data providers, see [Amazon Location Service data providers](https://docs.aws.amazon.com/location/previous/developerguide/what-is-data-provider.html).
         /// This member is required.
         public var dataSource: Swift.String?
         /// The total distance covered by the route. The sum of the distance travelled between every stop on the route. If Esri is the data source for the route calculator, the route distance can’t be greater than 400 km. If the route exceeds 400 km, the response is a 400 RoutesValidationException error.
@@ -1869,7 +1972,7 @@ extension LocationClientTypes.CalculateRouteSummary: Swift.CustomDebugStringConv
 
 /// Returns the result of the route calculation. Metadata includes legs and route summary.
 public struct CalculateRouteOutput: Swift.Sendable {
-    /// Contains details about each path between a pair of positions included along a route such as: StartPosition, EndPosition, Distance, DurationSeconds, Geometry, and Steps. The number of legs returned corresponds to one fewer than the total number of positions in the request. For example, a route with a departure position and destination position returns one leg with the positions [snapped to a nearby road](https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html):
+    /// Contains details about each path between a pair of positions included along a route such as: StartPosition, EndPosition, Distance, DurationSeconds, Geometry, and Steps. The number of legs returned corresponds to one fewer than the total number of positions in the request. For example, a route with a departure position and destination position returns one leg with the positions [snapped to a nearby road](https://docs.aws.amazon.com/location/previous/developerguide/snap-to-nearby-road.html):
     ///
     /// * The StartPosition is the departure position.
     ///
@@ -1904,19 +2007,19 @@ public struct CalculateRouteMatrixInput: Swift.Sendable {
     public var carModeOptions: LocationClientTypes.CalculateRouteCarModeOptions?
     /// Sets the time of departure as the current time. Uses the current time to calculate the route matrix. You can't set both DepartureTime and DepartNow. If neither is set, the best time of day to travel with the best traffic conditions is used to calculate the route matrix. Default Value: false Valid Values: false | true
     public var departNow: Swift.Bool?
-    /// The list of departure (origin) positions for the route matrix. An array of points, each of which is itself a 2-value array defined in [WGS 84](https://earth-info.nga.mil/GandG/wgs84/index.html) format: [longitude, latitude]. For example, [-123.115, 49.285]. Depending on the data provider selected in the route calculator resource there may be additional restrictions on the inputs you can choose. See [ Position restrictions](https://docs.aws.amazon.com/location/latest/developerguide/calculate-route-matrix.html#matrix-routing-position-limits) in the Amazon Location Service Developer Guide. For route calculators that use Esri as the data provider, if you specify a departure that's not located on a road, Amazon Location [ moves the position to the nearest road](https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html). The snapped value is available in the result in SnappedDeparturePositions. Valid Values: [-180 to 180,-90 to 90]
+    /// The list of departure (origin) positions for the route matrix. An array of points, each of which is itself a 2-value array defined in [WGS 84](https://earth-info.nga.mil/GandG/wgs84/index.html) format: [longitude, latitude]. For example, [-123.115, 49.285]. Depending on the data provider selected in the route calculator resource there may be additional restrictions on the inputs you can choose. See [ Position restrictions](https://docs.aws.amazon.com/location/previous/developerguide/calculate-route-matrix.html#matrix-routing-position-limits) in the Amazon Location Service Developer Guide. For route calculators that use Esri as the data provider, if you specify a departure that's not located on a road, Amazon Location [ moves the position to the nearest road](https://docs.aws.amazon.com/location/previous/developerguide/snap-to-nearby-road.html). The snapped value is available in the result in SnappedDeparturePositions. Valid Values: [-180 to 180,-90 to 90]
     /// This member is required.
     public var departurePositions: [[Swift.Double]]?
     /// Specifies the desired time of departure. Uses the given time to calculate the route matrix. You can't set both DepartureTime and DepartNow. If neither is set, the best time of day to travel with the best traffic conditions is used to calculate the route matrix. Setting a departure time in the past returns a 400 ValidationException error.
     ///
     /// * In [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format: YYYY-MM-DDThh:mm:ss.sssZ. For example, 2020–07-2T12:15:20.000Z+01:00
     public var departureTime: Foundation.Date?
-    /// The list of destination positions for the route matrix. An array of points, each of which is itself a 2-value array defined in [WGS 84](https://earth-info.nga.mil/GandG/wgs84/index.html) format: [longitude, latitude]. For example, [-122.339, 47.615] Depending on the data provider selected in the route calculator resource there may be additional restrictions on the inputs you can choose. See [ Position restrictions](https://docs.aws.amazon.com/location/latest/developerguide/calculate-route-matrix.html#matrix-routing-position-limits) in the Amazon Location Service Developer Guide. For route calculators that use Esri as the data provider, if you specify a destination that's not located on a road, Amazon Location [ moves the position to the nearest road](https://docs.aws.amazon.com/location/latest/developerguide/snap-to-nearby-road.html). The snapped value is available in the result in SnappedDestinationPositions. Valid Values: [-180 to 180,-90 to 90]
+    /// The list of destination positions for the route matrix. An array of points, each of which is itself a 2-value array defined in [WGS 84](https://earth-info.nga.mil/GandG/wgs84/index.html) format: [longitude, latitude]. For example, [-122.339, 47.615] Depending on the data provider selected in the route calculator resource there may be additional restrictions on the inputs you can choose. See [ Position restrictions](https://docs.aws.amazon.com/location/previous/developerguide/calculate-route-matrix.html#matrix-routing-position-limits) in the Amazon Location Service Developer Guide. For route calculators that use Esri as the data provider, if you specify a destination that's not located on a road, Amazon Location [ moves the position to the nearest road](https://docs.aws.amazon.com/location/previous/developerguide/snap-to-nearby-road.html). The snapped value is available in the result in SnappedDestinationPositions. Valid Values: [-180 to 180,-90 to 90]
     /// This member is required.
     public var destinationPositions: [[Swift.Double]]?
     /// Set the unit system to specify the distance. Default Value: Kilometers
     public var distanceUnit: LocationClientTypes.DistanceUnit?
-    /// The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) to authorize the request.
+    /// The optional [API key](https://docs.aws.amazon.com/location/previous/developerguide/using-apikeys.html) to authorize the request.
     public var key: Swift.String?
     /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. The TravelMode you specify also determines how you specify route preferences:
     ///
@@ -1925,7 +2028,7 @@ public struct CalculateRouteMatrixInput: Swift.Sendable {
     /// * If traveling by Truck use the TruckModeOptions parameter.
     ///
     ///
-    /// Bicycle or Motorcycle are only valid when using Grab as a data provider, and only within Southeast Asia. Truck is not available for Grab. For more information about using Grab as a data provider, see [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/grab.html) in the Amazon Location Service Developer Guide. Default Value: Car
+    /// Bicycle or Motorcycle are only valid when using Grab as a data provider, and only within Southeast Asia. Truck is not available for Grab. For more information about using Grab as a data provider, see [GrabMaps](https://docs.aws.amazon.com/location/previous/developerguide/grab.html) in the Amazon Location Service Developer Guide. Default Value: Car
     public var travelMode: LocationClientTypes.TravelMode?
     /// Specifies route preferences when traveling by Truck, such as avoiding routes that use ferries or tolls, and truck specifications to consider when choosing an optimal road. Requirements: TravelMode must be specified as Truck.
     public var truckModeOptions: LocationClientTypes.CalculateRouteTruckModeOptions?
@@ -1957,7 +2060,7 @@ public struct CalculateRouteMatrixInput: Swift.Sendable {
 
 extension CalculateRouteMatrixInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CalculateRouteMatrixInput(calculatorName: \(Swift.String(describing: calculatorName)), carModeOptions: \(Swift.String(describing: carModeOptions)), departNow: \(Swift.String(describing: departNow)), departureTime: \(Swift.String(describing: departureTime)), distanceUnit: \(Swift.String(describing: distanceUnit)), travelMode: \(Swift.String(describing: travelMode)), truckModeOptions: \(Swift.String(describing: truckModeOptions)), departurePositions: \"CONTENT_REDACTED\", destinationPositions: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\")"}
+        "CalculateRouteMatrixInput(calculatorName: \(Swift.String(describing: calculatorName)), carModeOptions: \(Swift.String(describing: carModeOptions)), departNow: \(Swift.String(describing: departNow)), distanceUnit: \(Swift.String(describing: distanceUnit)), travelMode: \(Swift.String(describing: travelMode)), truckModeOptions: \(Swift.String(describing: truckModeOptions)), departurePositions: \"CONTENT_REDACTED\", departureTime: \"CONTENT_REDACTED\", destinationPositions: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -2084,7 +2187,7 @@ extension LocationClientTypes {
         /// * Here
         ///
         ///
-        /// For more information about data providers, see [Amazon Location Service data providers](https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html).
+        /// For more information about data providers, see [Amazon Location Service data providers](https://docs.aws.amazon.com/location/previous/developerguide/what-is-data-provider.html).
         /// This member is required.
         public var dataSource: Swift.String?
         /// The unit of measurement for route distances.
@@ -2333,15 +2436,20 @@ public struct CreateGeofenceCollectionOutput: Swift.Sendable {
     }
 }
 
+extension CreateGeofenceCollectionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateGeofenceCollectionOutput(collectionArn: \(Swift.String(describing: collectionArn)), collectionName: \(Swift.String(describing: collectionName)), createTime: \"CONTENT_REDACTED\")"}
+}
+
 extension LocationClientTypes {
 
     /// Specifies the map tile style selected from an available provider.
     public struct MapConfiguration: Swift.Sendable {
         /// Specifies the custom layers for the style. Leave unset to not enable any custom layer, or, for styles that support custom layers, you can enable layer(s), such as POI layer for the VectorEsriNavigation style. Default is unset. Not all map resources or styles support custom layers. See Custom Layers for more information.
         public var customLayers: [Swift.String]?
-        /// Specifies the political view for the style. Leave unset to not use a political view, or, for styles that support specific political views, you can choose a view, such as IND for the Indian view. Default is unset. Not all map resources or styles support political view styles. See [Political views](https://docs.aws.amazon.com/location/latest/developerguide/map-concepts.html#political-views) for more information.
+        /// Specifies the political view for the style. Leave unset to not use a political view, or, for styles that support specific political views, you can choose a view, such as IND for the Indian view. Default is unset. Not all map resources or styles support political view styles. See [Political views](https://docs.aws.amazon.com/location/previous/developerguide/map-concepts.html#political-views) for more information.
         public var politicalView: Swift.String?
-        /// Specifies the map style selected from an available data provider. Valid [Esri map styles](https://docs.aws.amazon.com/location/latest/developerguide/esri.html):
+        /// Specifies the map style selected from an available data provider. Valid [Esri map styles](https://docs.aws.amazon.com/location/previous/developerguide/esri.html):
         ///
         /// * VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.
         ///
@@ -2356,7 +2464,7 @@ extension LocationClientTypes {
         /// * VectorEsriNavigation – The Esri Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices.
         ///
         ///
-        /// Valid [HERE Technologies map styles](https://docs.aws.amazon.com/location/latest/developerguide/HERE.html):
+        /// Valid [HERE Technologies map styles](https://docs.aws.amazon.com/location/previous/developerguide/HERE.html):
         ///
         /// * VectorHereContrast – The HERE Contrast (Berlin) map style is a high contrast detailed base map of the world that blends 3D and 2D rendering. The VectorHereContrast style has been renamed from VectorHereBerlin. VectorHereBerlin has been deprecated, but will continue to work in applications that use it.
         ///
@@ -2369,14 +2477,14 @@ extension LocationClientTypes {
         /// * HybridHereExploreSatellite – A global map displaying the road network, street names, and city labels over satellite imagery. This style will automatically retrieve both raster and vector tiles, and your charges will be based on total tiles retrieved. Hybrid styles use both vector and raster tiles when rendering the map that you see. This means that more tiles are retrieved than when using either vector or raster tiles alone. Your charges will include all tiles retrieved.
         ///
         ///
-        /// Valid [GrabMaps map styles](https://docs.aws.amazon.com/location/latest/developerguide/grab.html):
+        /// Valid [GrabMaps map styles](https://docs.aws.amazon.com/location/previous/developerguide/grab.html):
         ///
         /// * VectorGrabStandardLight – The Grab Standard Light map style provides a basemap with detailed land use coloring, area names, roads, landmarks, and points of interest covering Southeast Asia.
         ///
         /// * VectorGrabStandardDark – The Grab Standard Dark map style provides a dark variation of the standard basemap covering Southeast Asia.
         ///
         ///
-        /// Grab provides maps only for countries in Southeast Asia, and is only available in the Asia Pacific (Singapore) Region (ap-southeast-1). For more information, see [GrabMaps countries and area covered](https://docs.aws.amazon.com/location/latest/developerguide/grab.html#grab-coverage-area). Valid [Open Data map styles](https://docs.aws.amazon.com/location/latest/developerguide/open-data.html):
+        /// Grab provides maps only for countries in Southeast Asia, and is only available in the Asia Pacific (Singapore) Region (ap-southeast-1). For more information, see [GrabMaps countries and area covered](https://docs.aws.amazon.com/location/previous/developerguide/grab.html#grab-coverage-area). Valid [Open Data map styles](https://docs.aws.amazon.com/location/previous/developerguide/open-data.html):
         ///
         /// * VectorOpenDataStandardLight – The Open Data Standard Light map style provides a detailed basemap for the world suitable for website and mobile application use. The map includes highways major roads, minor roads, railways, water features, cities, parks, landmarks, building footprints, and administrative boundaries.
         ///
@@ -2398,6 +2506,11 @@ extension LocationClientTypes {
             self.style = style
         }
     }
+}
+
+extension LocationClientTypes.MapConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MapConfiguration(customLayers: \(Swift.String(describing: customLayers)), style: \(Swift.String(describing: style)), politicalView: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateMapInput: Swift.Sendable {
@@ -2467,6 +2580,11 @@ public struct CreateMapOutput: Swift.Sendable {
     }
 }
 
+extension CreateMapOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateMapOutput(mapArn: \(Swift.String(describing: mapArn)), mapName: \(Swift.String(describing: mapName)), createTime: \"CONTENT_REDACTED\")"}
+}
+
 extension LocationClientTypes {
 
     public enum IntendedUse: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -2530,14 +2648,14 @@ extension LocationClientTypes {
 public struct CreatePlaceIndexInput: Swift.Sendable {
     /// Specifies the geospatial data provider for the new place index. This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error. Valid values include:
     ///
-    /// * Esri – For additional information about [Esri](https://docs.aws.amazon.com/location/latest/developerguide/esri.html)'s coverage in your region of interest, see [Esri details on geocoding coverage](https://developers.arcgis.com/rest/geocode/api-reference/geocode-coverage.htm).
+    /// * Esri – For additional information about [Esri](https://docs.aws.amazon.com/location/previous/developerguide/esri.html)'s coverage in your region of interest, see [Esri details on geocoding coverage](https://developers.arcgis.com/rest/geocode/api-reference/geocode-coverage.htm).
     ///
-    /// * Grab – Grab provides place index functionality for Southeast Asia. For additional information about [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/grab.html)' coverage, see [GrabMaps countries and areas covered](https://docs.aws.amazon.com/location/latest/developerguide/grab.html#grab-coverage-area).
+    /// * Grab – Grab provides place index functionality for Southeast Asia. For additional information about [GrabMaps](https://docs.aws.amazon.com/location/previous/developerguide/grab.html)' coverage, see [GrabMaps countries and areas covered](https://docs.aws.amazon.com/location/previous/developerguide/grab.html#grab-coverage-area).
     ///
-    /// * Here – For additional information about [HERE Technologies](https://docs.aws.amazon.com/location/latest/developerguide/HERE.html)' coverage in your region of interest, see [HERE details on goecoding coverage](https://developer.here.com/documentation/geocoder/dev_guide/topics/coverage-geocoder.html). If you specify HERE Technologies (Here) as the data provider, you may not [store results](https://docs.aws.amazon.com/location-places/latest/APIReference/API_DataSourceConfiguration.html) for locations in Japan. For more information, see the [Amazon Web Services Service Terms](http://aws.amazon.com/service-terms/) for Amazon Location Service.
+    /// * Here – For additional information about [HERE Technologies](https://docs.aws.amazon.com/location/previous/developerguide/HERE.html)' coverage in your region of interest, see [HERE details on goecoding coverage](https://developer.here.com/documentation/geocoder/dev_guide/topics/coverage-geocoder.html). If you specify HERE Technologies (Here) as the data provider, you may not [store results](https://docs.aws.amazon.com/location-places/latest/APIReference/API_DataSourceConfiguration.html) for locations in Japan. For more information, see the [Amazon Web Services service terms](http://aws.amazon.com/service-terms/) for Amazon Location Service.
     ///
     ///
-    /// For additional information , see [Data providers](https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html) on the Amazon Location Service Developer Guide.
+    /// For additional information , see [Data providers](https://docs.aws.amazon.com/location/previous/developerguide/what-is-data-provider.html) on the Amazon Location Service developer guide.
     /// This member is required.
     public var dataSource: Swift.String?
     /// Specifies the data storage option requesting Places.
@@ -2607,6 +2725,11 @@ public struct CreatePlaceIndexOutput: Swift.Sendable {
     }
 }
 
+extension CreatePlaceIndexOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreatePlaceIndexOutput(indexArn: \(Swift.String(describing: indexArn)), indexName: \(Swift.String(describing: indexName)), createTime: \"CONTENT_REDACTED\")"}
+}
+
 public struct CreateRouteCalculatorInput: Swift.Sendable {
     /// The name of the route calculator resource. Requirements:
     ///
@@ -2619,14 +2742,14 @@ public struct CreateRouteCalculatorInput: Swift.Sendable {
     public var calculatorName: Swift.String?
     /// Specifies the data provider of traffic and road network data. This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error. Valid values include:
     ///
-    /// * Esri – For additional information about [Esri](https://docs.aws.amazon.com/location/latest/developerguide/esri.html)'s coverage in your region of interest, see [Esri details on street networks and traffic coverage](https://doc.arcgis.com/en/arcgis-online/reference/network-coverage.htm). Route calculators that use Esri as a data source only calculate routes that are shorter than 400 km.
+    /// * Esri – For additional information about [Esri](https://docs.aws.amazon.com/location/previous/developerguide/esri.html)'s coverage in your region of interest, see [Esri details on street networks and traffic coverage](https://doc.arcgis.com/en/arcgis-online/reference/network-coverage.htm). Route calculators that use Esri as a data source only calculate routes that are shorter than 400 km.
     ///
-    /// * Grab – Grab provides routing functionality for Southeast Asia. For additional information about [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/grab.html)' coverage, see [GrabMaps countries and areas covered](https://docs.aws.amazon.com/location/latest/developerguide/grab.html#grab-coverage-area).
+    /// * Grab – Grab provides routing functionality for Southeast Asia. For additional information about [GrabMaps](https://docs.aws.amazon.com/location/previous/developerguide/grab.html)' coverage, see [GrabMaps countries and areas covered](https://docs.aws.amazon.com/location/previous/developerguide/grab.html#grab-coverage-area).
     ///
-    /// * Here – For additional information about [HERE Technologies](https://docs.aws.amazon.com/location/latest/developerguide/HERE.html)' coverage in your region of interest, see [HERE car routing coverage](https://developer.here.com/documentation/routing-api/dev_guide/topics/coverage/car-routing.html) and [HERE truck routing coverage](https://developer.here.com/documentation/routing-api/dev_guide/topics/coverage/truck-routing.html).
+    /// * Here – For additional information about [HERE Technologies](https://docs.aws.amazon.com/location/previous/developerguide/HERE.html)' coverage in your region of interest, see [HERE car routing coverage](https://developer.here.com/documentation/routing-api/dev_guide/topics/coverage/car-routing.html) and [HERE truck routing coverage](https://developer.here.com/documentation/routing-api/dev_guide/topics/coverage/truck-routing.html).
     ///
     ///
-    /// For additional information , see [Data providers](https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html) on the Amazon Location Service Developer Guide.
+    /// For additional information , see [Data providers](https://docs.aws.amazon.com/location/previous/developerguide/what-is-data-provider.html) on the Amazon Location Service Developer Guide.
     /// This member is required.
     public var dataSource: Swift.String?
     /// The optional description for the route calculator resource.
@@ -2690,6 +2813,11 @@ public struct CreateRouteCalculatorOutput: Swift.Sendable {
         self.calculatorName = calculatorName
         self.createTime = createTime
     }
+}
+
+extension CreateRouteCalculatorOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateRouteCalculatorOutput(calculatorArn: \(Swift.String(describing: calculatorArn)), calculatorName: \(Swift.String(describing: calculatorName)), createTime: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -2812,6 +2940,11 @@ public struct CreateTrackerOutput: Swift.Sendable {
         self.trackerArn = trackerArn
         self.trackerName = trackerName
     }
+}
+
+extension CreateTrackerOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateTrackerOutput(trackerArn: \(Swift.String(describing: trackerArn)), trackerName: \(Swift.String(describing: trackerName)), createTime: \"CONTENT_REDACTED\")"}
 }
 
 public struct DeleteGeofenceCollectionInput: Swift.Sendable {
@@ -2957,6 +3090,11 @@ public struct DescribeGeofenceCollectionOutput: Swift.Sendable {
     }
 }
 
+extension DescribeGeofenceCollectionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DescribeGeofenceCollectionOutput(collectionArn: \(Swift.String(describing: collectionArn)), collectionName: \(Swift.String(describing: collectionName)), description: \(Swift.String(describing: description)), geofenceCount: \(Swift.String(describing: geofenceCount)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), tags: \(Swift.String(describing: tags)), createTime: \"CONTENT_REDACTED\", updateTime: \"CONTENT_REDACTED\")"}
+}
+
 public struct DescribeMapInput: Swift.Sendable {
     /// The name of the map resource.
     /// This member is required.
@@ -3017,6 +3155,11 @@ public struct DescribeMapOutput: Swift.Sendable {
     }
 }
 
+extension DescribeMapOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DescribeMapOutput(configuration: \(Swift.String(describing: configuration)), dataSource: \(Swift.String(describing: dataSource)), description: \(Swift.String(describing: description)), mapArn: \(Swift.String(describing: mapArn)), mapName: \(Swift.String(describing: mapName)), tags: \(Swift.String(describing: tags)), createTime: \"CONTENT_REDACTED\", updateTime: \"CONTENT_REDACTED\")"}
+}
+
 public struct DescribePlaceIndexInput: Swift.Sendable {
     /// The name of the place index resource.
     /// This member is required.
@@ -3042,7 +3185,7 @@ public struct DescribePlaceIndexOutput: Swift.Sendable {
     /// * Here
     ///
     ///
-    /// For more information about data providers, see [Amazon Location Service data providers](https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html).
+    /// For more information about data providers, see [Amazon Location Service data providers](https://docs.aws.amazon.com/location/previous/developerguide/what-is-data-provider.html).
     /// This member is required.
     public var dataSource: Swift.String?
     /// The specified data storage option for requesting Places.
@@ -3086,6 +3229,11 @@ public struct DescribePlaceIndexOutput: Swift.Sendable {
     }
 }
 
+extension DescribePlaceIndexOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DescribePlaceIndexOutput(dataSource: \(Swift.String(describing: dataSource)), dataSourceConfiguration: \(Swift.String(describing: dataSourceConfiguration)), description: \(Swift.String(describing: description)), indexArn: \(Swift.String(describing: indexArn)), indexName: \(Swift.String(describing: indexName)), tags: \(Swift.String(describing: tags)), createTime: \"CONTENT_REDACTED\", updateTime: \"CONTENT_REDACTED\")"}
+}
+
 public struct DescribeRouteCalculatorInput: Swift.Sendable {
     /// The name of the route calculator resource.
     /// This member is required.
@@ -3121,7 +3269,7 @@ public struct DescribeRouteCalculatorOutput: Swift.Sendable {
     /// * Here
     ///
     ///
-    /// For more information about data providers, see [Amazon Location Service data providers](https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html).
+    /// For more information about data providers, see [Amazon Location Service data providers](https://docs.aws.amazon.com/location/previous/developerguide/what-is-data-provider.html).
     /// This member is required.
     public var dataSource: Swift.String?
     /// The optional description of the route calculator resource.
@@ -3152,6 +3300,11 @@ public struct DescribeRouteCalculatorOutput: Swift.Sendable {
         self.tags = tags
         self.updateTime = updateTime
     }
+}
+
+extension DescribeRouteCalculatorOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DescribeRouteCalculatorOutput(calculatorArn: \(Swift.String(describing: calculatorArn)), calculatorName: \(Swift.String(describing: calculatorName)), dataSource: \(Swift.String(describing: dataSource)), description: \(Swift.String(describing: description)), tags: \(Swift.String(describing: tags)), createTime: \"CONTENT_REDACTED\", updateTime: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeTrackerInput: Swift.Sendable {
@@ -3220,6 +3373,11 @@ public struct DescribeTrackerOutput: Swift.Sendable {
     }
 }
 
+extension DescribeTrackerOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DescribeTrackerOutput(description: \(Swift.String(describing: description)), eventBridgeEnabled: \(Swift.String(describing: eventBridgeEnabled)), kmsKeyEnableGeospatialQueries: \(Swift.String(describing: kmsKeyEnableGeospatialQueries)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), positionFiltering: \(Swift.String(describing: positionFiltering)), tags: \(Swift.String(describing: tags)), trackerArn: \(Swift.String(describing: trackerArn)), trackerName: \(Swift.String(describing: trackerName)), createTime: \"CONTENT_REDACTED\", updateTime: \"CONTENT_REDACTED\")"}
+}
+
 extension LocationClientTypes {
 
     /// Wi-Fi access point.
@@ -3285,7 +3443,7 @@ extension LocationClientTypes {
 
 extension LocationClientTypes.DeviceState: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DeviceState(accuracy: \(Swift.String(describing: accuracy)), cellSignals: \(Swift.String(describing: cellSignals)), deviceId: \(Swift.String(describing: deviceId)), ipv4Address: \(Swift.String(describing: ipv4Address)), sampleTime: \(Swift.String(describing: sampleTime)), wiFiAccessPoints: \(Swift.String(describing: wiFiAccessPoints)), position: \"CONTENT_REDACTED\")"}
+        "DeviceState(accuracy: \(Swift.String(describing: accuracy)), cellSignals: \(Swift.String(describing: cellSignals)), deviceId: \(Swift.String(describing: deviceId)), ipv4Address: \(Swift.String(describing: ipv4Address)), wiFiAccessPoints: \(Swift.String(describing: wiFiAccessPoints)), position: \"CONTENT_REDACTED\", sampleTime: \"CONTENT_REDACTED\")"}
 }
 
 public struct DisassociateTrackerConsumerInput: Swift.Sendable {
@@ -3393,12 +3551,12 @@ extension LocationClientTypes {
 
 extension LocationClientTypes.ForecastedEvent: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ForecastedEvent(eventId: \(Swift.String(describing: eventId)), eventType: \(Swift.String(describing: eventType)), forecastedBreachTime: \(Swift.String(describing: forecastedBreachTime)), geofenceId: \(Swift.String(describing: geofenceId)), isDeviceInGeofence: \(Swift.String(describing: isDeviceInGeofence)), nearestDistance: \(Swift.String(describing: nearestDistance)), geofenceProperties: \"CONTENT_REDACTED\")"}
+        "ForecastedEvent(eventId: \(Swift.String(describing: eventId)), eventType: \(Swift.String(describing: eventType)), geofenceId: \(Swift.String(describing: geofenceId)), isDeviceInGeofence: \(Swift.String(describing: isDeviceInGeofence)), nearestDistance: \(Swift.String(describing: nearestDistance)), forecastedBreachTime: \"CONTENT_REDACTED\", geofenceProperties: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
 
-    /// The device's position, IP address, and WiFi access points.
+    /// The device's position and speed.
     public struct ForecastGeofenceEventsDeviceState: Swift.Sendable {
         /// The device's position.
         /// This member is required.
@@ -3454,7 +3612,7 @@ public struct ForecastGeofenceEventsInput: Swift.Sendable {
     /// The name of the geofence collection.
     /// This member is required.
     public var collectionName: Swift.String?
-    /// The device's state, including current position and speed.
+    /// Represents the device's state, including its current position and speed. When speed is omitted, this API performs a containment check. The containment check operation returns IDLE events for geofences where the device is currently inside of, but no other events.
     /// This member is required.
     public var deviceState: LocationClientTypes.ForecastGeofenceEventsDeviceState?
     /// The distance unit used for the NearestDistance property returned in a forecasted event. The measurement system must match for DistanceUnit and SpeedUnit; if Kilometers is specified for DistanceUnit, then SpeedUnit must be KilometersPerHour. Default Value: Kilometers
@@ -3465,7 +3623,7 @@ public struct ForecastGeofenceEventsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The speed unit for the device captured by the device state. The measurement system must match for DistanceUnit and SpeedUnit; if Kilometers is specified for DistanceUnit, then SpeedUnit must be KilometersPerHour. Default Value: KilometersPerHour.
     public var speedUnit: LocationClientTypes.SpeedUnit?
-    /// Specifies the time horizon in minutes for the forecasted events.
+    /// The forward-looking time window for forecasting, specified in minutes. The API only returns events that are predicted to occur within this time horizon. When no value is specified, this API performs a containment check. The containment check operation returns IDLE events for geofences where the device is currently inside of, but no other events.
     public var timeHorizonMinutes: Swift.Double?
 
     public init(
@@ -3626,7 +3784,7 @@ public struct GetGeofenceOutput: Swift.Sendable {
     public var geofenceId: Swift.String?
     /// User defined properties of the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value"
     public var geofenceProperties: [Swift.String: Swift.String]?
-    /// Contains the geofence geometry details describing a polygon or a circle.
+    /// Contains the geofence geometry details describing the position of the geofence. Can be a circle, a polygon, or a multipolygon.
     /// This member is required.
     public var geometry: LocationClientTypes.GeofenceGeometry?
     /// Identifies the state of the geofence. A geofence will hold one of the following states:
@@ -3665,7 +3823,7 @@ public struct GetGeofenceOutput: Swift.Sendable {
 
 extension GetGeofenceOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetGeofenceOutput(createTime: \(Swift.String(describing: createTime)), geofenceId: \(Swift.String(describing: geofenceId)), geometry: \(Swift.String(describing: geometry)), status: \(Swift.String(describing: status)), updateTime: \(Swift.String(describing: updateTime)), geofenceProperties: \"CONTENT_REDACTED\")"}
+        "GetGeofenceOutput(geofenceId: \(Swift.String(describing: geofenceId)), geometry: \(Swift.String(describing: geometry)), status: \(Swift.String(describing: status)), createTime: \"CONTENT_REDACTED\", geofenceProperties: \"CONTENT_REDACTED\", updateTime: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListGeofenceCollectionsInput: Swift.Sendable {
@@ -3712,6 +3870,11 @@ extension LocationClientTypes {
             self.updateTime = updateTime
         }
     }
+}
+
+extension LocationClientTypes.ListGeofenceCollectionsResponseEntry: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListGeofenceCollectionsResponseEntry(collectionName: \(Swift.String(describing: collectionName)), description: \(Swift.String(describing: description)), createTime: \"CONTENT_REDACTED\", updateTime: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListGeofenceCollectionsOutput: Swift.Sendable {
@@ -3762,7 +3925,7 @@ extension LocationClientTypes {
         public var geofenceId: Swift.String?
         /// User defined properties of the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value"
         public var geofenceProperties: [Swift.String: Swift.String]?
-        /// Contains the geofence geometry details describing a polygon or a circle.
+        /// Contains the geofence geometry details describing the position of the geofence. Can be a circle, a polygon, or a multipolygon.
         /// This member is required.
         public var geometry: LocationClientTypes.GeofenceGeometry?
         /// Identifies the state of the geofence. A geofence will hold one of the following states:
@@ -3802,7 +3965,7 @@ extension LocationClientTypes {
 
 extension LocationClientTypes.ListGeofenceResponseEntry: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ListGeofenceResponseEntry(createTime: \(Swift.String(describing: createTime)), geofenceId: \(Swift.String(describing: geofenceId)), geometry: \(Swift.String(describing: geometry)), status: \(Swift.String(describing: status)), updateTime: \(Swift.String(describing: updateTime)), geofenceProperties: \"CONTENT_REDACTED\")"}
+        "ListGeofenceResponseEntry(geofenceId: \(Swift.String(describing: geofenceId)), geometry: \(Swift.String(describing: geometry)), status: \(Swift.String(describing: status)), createTime: \"CONTENT_REDACTED\", geofenceProperties: \"CONTENT_REDACTED\", updateTime: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListGeofencesOutput: Swift.Sendable {
@@ -3830,7 +3993,7 @@ public struct PutGeofenceInput: Swift.Sendable {
     public var geofenceId: Swift.String?
     /// Associates one of more properties with the geofence. A property is a key-value pair stored with the geofence and added to any geofence event triggered with that geofence. Format: "key" : "value"
     public var geofenceProperties: [Swift.String: Swift.String]?
-    /// Contains the details to specify the position of the geofence. Can be a polygon, a circle or a polygon encoded in Geobuf format. Including multiple selections will return a validation error. The [ geofence polygon](https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html) format supports a maximum of 1,000 vertices. The [Geofence Geobuf](https://docs.aws.amazon.com/location-geofences/latest/APIReference/API_GeofenceGeometry.html) format supports a maximum of 100,000 vertices.
+    /// Contains the details to specify the position of the geofence. Can be a circle, a polygon, or a multipolygon. Polygon and MultiPolygon geometries can be defined using their respective parameters, or encoded in Geobuf format using the Geobuf parameter. Including multiple geometry types in the same request will return a validation error. The geofence Polygon and MultiPolygon formats support a maximum of 1,000 total vertices. The Geobuf format supports a maximum of 100,000 vertices.
     /// This member is required.
     public var geometry: LocationClientTypes.GeofenceGeometry?
 
@@ -3874,6 +4037,11 @@ public struct PutGeofenceOutput: Swift.Sendable {
     }
 }
 
+extension PutGeofenceOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PutGeofenceOutput(geofenceId: \(Swift.String(describing: geofenceId)), createTime: \"CONTENT_REDACTED\", updateTime: \"CONTENT_REDACTED\")"}
+}
+
 public struct UpdateGeofenceCollectionInput: Swift.Sendable {
     /// The name of the geofence collection to update.
     /// This member is required.
@@ -3912,6 +4080,11 @@ public struct UpdateGeofenceCollectionOutput: Swift.Sendable {
         self.collectionName = collectionName
         self.updateTime = updateTime
     }
+}
+
+extension UpdateGeofenceCollectionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateGeofenceCollectionOutput(collectionArn: \(Swift.String(describing: collectionArn)), collectionName: \(Swift.String(describing: collectionName)), updateTime: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetDevicePositionInput: Swift.Sendable {
@@ -3967,7 +4140,7 @@ public struct GetDevicePositionOutput: Swift.Sendable {
 
 extension GetDevicePositionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetDevicePositionOutput(accuracy: \(Swift.String(describing: accuracy)), deviceId: \(Swift.String(describing: deviceId)), receivedTime: \(Swift.String(describing: receivedTime)), sampleTime: \(Swift.String(describing: sampleTime)), position: \"CONTENT_REDACTED\", positionProperties: \"CONTENT_REDACTED\")"}
+        "GetDevicePositionOutput(accuracy: \(Swift.String(describing: accuracy)), deviceId: \(Swift.String(describing: deviceId)), position: \"CONTENT_REDACTED\", positionProperties: \"CONTENT_REDACTED\", receivedTime: \"CONTENT_REDACTED\", sampleTime: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetDevicePositionHistoryInput: Swift.Sendable {
@@ -4007,6 +4180,11 @@ public struct GetDevicePositionHistoryInput: Swift.Sendable {
     }
 }
 
+extension GetDevicePositionHistoryInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetDevicePositionHistoryInput(deviceId: \(Swift.String(describing: deviceId)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), trackerName: \(Swift.String(describing: trackerName)), endTimeExclusive: \"CONTENT_REDACTED\", startTimeInclusive: \"CONTENT_REDACTED\")"}
+}
+
 public struct GetDevicePositionHistoryOutput: Swift.Sendable {
     /// Contains the position history details for the requested device.
     /// This member is required.
@@ -4024,7 +4202,7 @@ public struct GetDevicePositionHistoryOutput: Swift.Sendable {
 }
 
 public struct GetMapGlyphsInput: Swift.Sendable {
-    /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid font stacks for [Esri](https://docs.aws.amazon.com/location/latest/developerguide/esri.html) styles:
+    /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid font stacks for [Esri](https://docs.aws.amazon.com/location/previous/developerguide/esri.html) styles:
     ///
     /// * VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold
     ///
@@ -4037,19 +4215,19 @@ public struct GetMapGlyphsInput: Swift.Sendable {
     /// * VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold
     ///
     ///
-    /// Valid font stacks for [HERE Technologies](https://docs.aws.amazon.com/location/latest/developerguide/HERE.html) styles:
+    /// Valid font stacks for [HERE Technologies](https://docs.aws.amazon.com/location/previous/developerguide/HERE.html) styles:
     ///
     /// * VectorHereContrast – Fira GO Regular | Fira GO Bold
     ///
     /// * VectorHereExplore, VectorHereExploreTruck, HybridHereExploreSatellite – Fira GO Italic | Fira GO Map | Fira GO Map Bold | Noto Sans CJK JP Bold | Noto Sans CJK JP Light | Noto Sans CJK JP Regular
     ///
     ///
-    /// Valid font stacks for [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/grab.html) styles:
+    /// Valid font stacks for [GrabMaps](https://docs.aws.amazon.com/location/previous/developerguide/grab.html) styles:
     ///
     /// * VectorGrabStandardLight, VectorGrabStandardDark – Noto Sans Regular | Noto Sans Medium | Noto Sans Bold
     ///
     ///
-    /// Valid font stacks for [Open Data](https://docs.aws.amazon.com/location/latest/developerguide/open-data.html) styles:
+    /// Valid font stacks for [Open Data](https://docs.aws.amazon.com/location/previous/developerguide/open-data.html) styles:
     ///
     /// * VectorOpenDataStandardLight, VectorOpenDataStandardDark, VectorOpenDataVisualizationLight, VectorOpenDataVisualizationDark – Amazon Ember Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold | Amazon Ember Medium,Noto Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic | Amazon Ember Condensed RC Regular,Noto Sans Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold | Amazon Ember Regular,Noto Sans Regular,Noto Sans Arabic Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold,Noto Sans Arabic Condensed Bold | Amazon Ember Bold,Noto Sans Bold,Noto Sans Arabic Bold | Amazon Ember Regular Italic,Noto Sans Italic,Noto Sans Arabic Regular | Amazon Ember Condensed RC Regular,Noto Sans Regular,Noto Sans Arabic Condensed Regular | Amazon Ember Medium,Noto Sans Medium,Noto Sans Arabic Medium
     ///
@@ -4060,7 +4238,7 @@ public struct GetMapGlyphsInput: Swift.Sendable {
     /// A Unicode range of characters to download glyphs for. Each response will contain 256 characters. For example, 0–255 includes all characters from range U+0000 to 00FF. Must be aligned to multiples of 256.
     /// This member is required.
     public var fontUnicodeRange: Swift.String?
-    /// The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) to authorize the request.
+    /// The optional [API key](https://docs.aws.amazon.com/location/previous/developerguide/using-apikeys.html) to authorize the request.
     public var key: Swift.String?
     /// The map resource associated with the glyph ﬁle.
     /// This member is required.
@@ -4118,7 +4296,7 @@ public struct GetMapSpritesInput: Swift.Sendable {
     /// * sprites@2x.json for high pixel density displays
     /// This member is required.
     public var fileName: Swift.String?
-    /// The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) to authorize the request.
+    /// The optional [API key](https://docs.aws.amazon.com/location/previous/developerguide/using-apikeys.html) to authorize the request.
     public var key: Swift.String?
     /// The map resource associated with the sprite ﬁle.
     /// This member is required.
@@ -4160,7 +4338,7 @@ public struct GetMapSpritesOutput: Swift.Sendable {
 }
 
 public struct GetMapStyleDescriptorInput: Swift.Sendable {
-    /// The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) to authorize the request.
+    /// The optional [API key](https://docs.aws.amazon.com/location/previous/developerguide/using-apikeys.html) to authorize the request.
     public var key: Swift.String?
     /// The map resource to retrieve the style descriptor from.
     /// This member is required.
@@ -4200,7 +4378,7 @@ public struct GetMapStyleDescriptorOutput: Swift.Sendable {
 }
 
 public struct GetMapTileInput: Swift.Sendable {
-    /// The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) to authorize the request.
+    /// The optional [API key](https://docs.aws.amazon.com/location/previous/developerguide/using-apikeys.html) to authorize the request.
     public var key: Swift.String?
     /// The map resource to retrieve the map tiles from.
     /// This member is required.
@@ -4258,7 +4436,7 @@ public struct GetPlaceInput: Swift.Sendable {
     /// The name of the place index resource that you want to use for the search.
     /// This member is required.
     public var indexName: Swift.String?
-    /// The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) to authorize the request.
+    /// The optional [API key](https://docs.aws.amazon.com/location/previous/developerguide/using-apikeys.html) to authorize the request.
     public var key: Swift.String?
     /// The preferred language used to return results. The value must be a valid [BCP 47](https://tools.ietf.org/search/bcp47) language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for a location around Athens, Greece, with the language parameter set to en. The city in the results will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the city in the results will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
     public var language: Swift.String?
@@ -4334,7 +4512,7 @@ extension LocationClientTypes {
     public struct Place: Swift.Sendable {
         /// The numerical portion of an address, such as a building number.
         public var addressNumber: Swift.String?
-        /// The Amazon Location categories that describe this Place. For more information about using categories, including a list of Amazon Location categories, see [Categories and filtering](https://docs.aws.amazon.com/location/latest/developerguide/category-filtering.html), in the Amazon Location Service Developer Guide.
+        /// The Amazon Location categories that describe this Place. For more information about using categories, including a list of Amazon Location categories, see [Categories and filtering](https://docs.aws.amazon.com/location/previous/developerguide/category-filtering.html), in the Amazon Location Service developer guide.
         public var categories: [Swift.String]?
         /// A country/region specified using [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) 3-digit country/region code. For example, CAN.
         public var country: Swift.String?
@@ -4533,7 +4711,7 @@ extension LocationClientTypes {
 
 extension LocationClientTypes.ListDevicePositionsResponseEntry: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ListDevicePositionsResponseEntry(accuracy: \(Swift.String(describing: accuracy)), deviceId: \(Swift.String(describing: deviceId)), sampleTime: \(Swift.String(describing: sampleTime)), position: \"CONTENT_REDACTED\", positionProperties: \"CONTENT_REDACTED\")"}
+        "ListDevicePositionsResponseEntry(accuracy: \(Swift.String(describing: accuracy)), deviceId: \(Swift.String(describing: deviceId)), position: \"CONTENT_REDACTED\", positionProperties: \"CONTENT_REDACTED\", sampleTime: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListDevicePositionsOutput: Swift.Sendable {
@@ -4603,6 +4781,11 @@ extension LocationClientTypes {
     }
 }
 
+extension LocationClientTypes.ListMapsResponseEntry: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListMapsResponseEntry(dataSource: \(Swift.String(describing: dataSource)), description: \(Swift.String(describing: description)), mapName: \(Swift.String(describing: mapName)), createTime: \"CONTENT_REDACTED\", updateTime: \"CONTENT_REDACTED\")"}
+}
+
 public struct ListMapsOutput: Swift.Sendable {
     /// Contains a list of maps in your Amazon Web Services account
     /// This member is required.
@@ -4650,7 +4833,7 @@ extension LocationClientTypes {
         /// * Here
         ///
         ///
-        /// For more information about data providers, see [Amazon Location Service data providers](https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html).
+        /// For more information about data providers, see [Amazon Location Service data providers](https://docs.aws.amazon.com/location/previous/developerguide/what-is-data-provider.html).
         /// This member is required.
         public var dataSource: Swift.String?
         /// The optional description for the place index resource.
@@ -4677,6 +4860,11 @@ extension LocationClientTypes {
             self.updateTime = updateTime
         }
     }
+}
+
+extension LocationClientTypes.ListPlaceIndexesResponseEntry: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListPlaceIndexesResponseEntry(dataSource: \(Swift.String(describing: dataSource)), description: \(Swift.String(describing: description)), indexName: \(Swift.String(describing: indexName)), createTime: \"CONTENT_REDACTED\", updateTime: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListPlaceIndexesOutput: Swift.Sendable {
@@ -4731,7 +4919,7 @@ extension LocationClientTypes {
         /// * Here
         ///
         ///
-        /// For more information about data providers, see [Amazon Location Service data providers](https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html).
+        /// For more information about data providers, see [Amazon Location Service data providers](https://docs.aws.amazon.com/location/previous/developerguide/what-is-data-provider.html).
         /// This member is required.
         public var dataSource: Swift.String?
         /// The optional description of the route calculator resource.
@@ -4757,6 +4945,11 @@ extension LocationClientTypes {
             self.updateTime = updateTime
         }
     }
+}
+
+extension LocationClientTypes.ListRouteCalculatorsResponseEntry: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListRouteCalculatorsResponseEntry(calculatorName: \(Swift.String(describing: calculatorName)), dataSource: \(Swift.String(describing: dataSource)), description: \(Swift.String(describing: description)), createTime: \"CONTENT_REDACTED\", updateTime: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListRouteCalculatorsOutput: Swift.Sendable {
@@ -4857,6 +5050,11 @@ extension LocationClientTypes {
     }
 }
 
+extension LocationClientTypes.ListTrackersResponseEntry: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListTrackersResponseEntry(description: \(Swift.String(describing: description)), trackerName: \(Swift.String(describing: trackerName)), createTime: \"CONTENT_REDACTED\", updateTime: \"CONTENT_REDACTED\")"}
+}
+
 public struct ListTrackersOutput: Swift.Sendable {
     /// Contains tracker resources in your Amazon Web Services account. Details include tracker name, description and timestamps for when the tracker was created and last updated.
     /// This member is required.
@@ -4879,7 +5077,7 @@ extension LocationClientTypes {
     public struct MapConfigurationUpdate: Swift.Sendable {
         /// Specifies the custom layers for the style. Leave unset to not enable any custom layer, or, for styles that support custom layers, you can enable layer(s), such as POI layer for the VectorEsriNavigation style. Default is unset. Not all map resources or styles support custom layers. See Custom Layers for more information.
         public var customLayers: [Swift.String]?
-        /// Specifies the political view for the style. Set to an empty string to not use a political view, or, for styles that support specific political views, you can choose a view, such as IND for the Indian view. Not all map resources or styles support political view styles. See [Political views](https://docs.aws.amazon.com/location/latest/developerguide/map-concepts.html#political-views) for more information.
+        /// Specifies the political view for the style. Set to an empty string to not use a political view, or, for styles that support specific political views, you can choose a view, such as IND for the Indian view. Not all map resources or styles support political view styles. See [Political views](https://docs.aws.amazon.com/location/previous/developerguide/map-concepts.html#political-views) for more information.
         public var politicalView: Swift.String?
 
         public init(
@@ -4890,6 +5088,11 @@ extension LocationClientTypes {
             self.politicalView = politicalView
         }
     }
+}
+
+extension LocationClientTypes.MapConfigurationUpdate: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MapConfigurationUpdate(customLayers: \(Swift.String(describing: customLayers)), politicalView: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateMapInput: Swift.Sendable {
@@ -4936,11 +5139,16 @@ public struct UpdateMapOutput: Swift.Sendable {
     }
 }
 
+extension UpdateMapOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateMapOutput(mapArn: \(Swift.String(describing: mapArn)), mapName: \(Swift.String(describing: mapName)), updateTime: \"CONTENT_REDACTED\")"}
+}
+
 public struct SearchPlaceIndexForPositionInput: Swift.Sendable {
     /// The name of the place index resource you want to use for the search.
     /// This member is required.
     public var indexName: Swift.String?
-    /// The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) to authorize the request.
+    /// The optional [API key](https://docs.aws.amazon.com/location/previous/developerguide/using-apikeys.html) to authorize the request.
     public var key: Swift.String?
     /// The preferred language used to return results. The value must be a valid [BCP 47](https://tools.ietf.org/search/bcp47) language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for a location around Athens, Greece, with the language parameter set to en. The city in the results will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the city in the results will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
     public var language: Swift.String?
@@ -5008,7 +5216,7 @@ extension LocationClientTypes {
         /// * Here
         ///
         ///
-        /// For more information about data providers, see [Amazon Location Service data providers](https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html).
+        /// For more information about data providers, see [Amazon Location Service data providers](https://docs.aws.amazon.com/location/previous/developerguide/what-is-data-provider.html).
         /// This member is required.
         public var dataSource: Swift.String?
         /// The preferred language used to return results. Matches the language in the request. The value is a valid [BCP 47](https://tools.ietf.org/search/bcp47) language tag, for example, en for English.
@@ -5060,7 +5268,7 @@ public struct SearchPlaceIndexForSuggestionsInput: Swift.Sendable {
     public var biasPosition: [Swift.Double]?
     /// An optional parameter that limits the search results by returning only suggestions within a specified bounding box. If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude -12.0684 and latitude -36.9542. FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
     public var filterBBox: [Swift.Double]?
-    /// A list of one or more Amazon Location categories to filter the returned places. If you include more than one category, the results will include results that match any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see [Categories and filtering](https://docs.aws.amazon.com/location/latest/developerguide/category-filtering.html), in the Amazon Location Service Developer Guide.
+    /// A list of one or more Amazon Location categories to filter the returned places. If you include more than one category, the results will include results that match any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see [Categories and filtering](https://docs.aws.amazon.com/location/previous/developerguide/category-filtering.html), in the Amazon Location Service developer guide.
     public var filterCategories: [Swift.String]?
     /// An optional parameter that limits the search results by returning only suggestions within the provided list of countries.
     ///
@@ -5069,7 +5277,7 @@ public struct SearchPlaceIndexForSuggestionsInput: Swift.Sendable {
     /// The name of the place index resource you want to use for the search.
     /// This member is required.
     public var indexName: Swift.String?
-    /// The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) to authorize the request.
+    /// The optional [API key](https://docs.aws.amazon.com/location/previous/developerguide/using-apikeys.html) to authorize the request.
     public var key: Swift.String?
     /// The preferred language used to return results. The value must be a valid [BCP 47](https://tools.ietf.org/search/bcp47) language tag, for example, en for English. This setting affects the languages used in the results. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for Athens, Gr to get suggestions with the language parameter set to en. The results found will most likely be returned as Athens, Greece. If you set the language parameter to el, for Greek, then the result found will more likely be returned as Αθήνα, Ελλάδα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
     public var language: Swift.String?
@@ -5104,14 +5312,14 @@ public struct SearchPlaceIndexForSuggestionsInput: Swift.Sendable {
 
 extension SearchPlaceIndexForSuggestionsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SearchPlaceIndexForSuggestionsInput(filterCategories: \(Swift.String(describing: filterCategories)), filterCountries: \(Swift.String(describing: filterCountries)), indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
+        "SearchPlaceIndexForSuggestionsInput(filterCategories: \(Swift.String(describing: filterCategories)), indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", filterCountries: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
 
     /// Contains a place suggestion resulting from a place suggestion query that is run on a place index resource.
     public struct SearchForSuggestionsResult: Swift.Sendable {
-        /// The Amazon Location categories that describe the Place. For more information about using categories, including a list of Amazon Location categories, see [Categories and filtering](https://docs.aws.amazon.com/location/latest/developerguide/category-filtering.html), in the Amazon Location Service Developer Guide.
+        /// The Amazon Location categories that describe the Place. For more information about using categories, including a list of Amazon Location categories, see [Categories and filtering](https://docs.aws.amazon.com/location/previous/developerguide/category-filtering.html), in the Amazon Location Service developer guide.
         public var categories: [Swift.String]?
         /// The unique identifier of the Place. You can use this with the GetPlace operation to find the place again later, or to get full information for the Place. The GetPlace request must use the same PlaceIndex resource as the SearchPlaceIndexForSuggestions that generated the Place ID. For SearchPlaceIndexForSuggestions operations, the PlaceId is returned by place indexes that use Esri, Grab, or HERE as data providers.
         public var placeId: Swift.String?
@@ -5150,7 +5358,7 @@ extension LocationClientTypes {
         /// * Here
         ///
         ///
-        /// For more information about data providers, see [Amazon Location Service data providers](https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html).
+        /// For more information about data providers, see [Amazon Location Service data providers](https://docs.aws.amazon.com/location/previous/developerguide/what-is-data-provider.html).
         /// This member is required.
         public var dataSource: Swift.String?
         /// Contains the coordinates for the optional bounding box specified in the request.
@@ -5191,7 +5399,7 @@ extension LocationClientTypes {
 
 extension LocationClientTypes.SearchPlaceIndexForSuggestionsSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SearchPlaceIndexForSuggestionsSummary(dataSource: \(Swift.String(describing: dataSource)), filterCategories: \(Swift.String(describing: filterCategories)), filterCountries: \(Swift.String(describing: filterCountries)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
+        "SearchPlaceIndexForSuggestionsSummary(dataSource: \(Swift.String(describing: dataSource)), filterCategories: \(Swift.String(describing: filterCategories)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", filterCountries: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
 }
 
 public struct SearchPlaceIndexForSuggestionsOutput: Swift.Sendable {
@@ -5216,7 +5424,7 @@ public struct SearchPlaceIndexForTextInput: Swift.Sendable {
     public var biasPosition: [Swift.Double]?
     /// An optional parameter that limits the search results by returning only places that are within the provided bounding box. If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude -12.0684 and latitude -36.9542. FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
     public var filterBBox: [Swift.Double]?
-    /// A list of one or more Amazon Location categories to filter the returned places. If you include more than one category, the results will include results that match any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see [Categories and filtering](https://docs.aws.amazon.com/location/latest/developerguide/category-filtering.html), in the Amazon Location Service Developer Guide.
+    /// A list of one or more Amazon Location categories to filter the returned places. If you include more than one category, the results will include results that match any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see [Categories and filtering](https://docs.aws.amazon.com/location/previous/developerguide/category-filtering.html), in the Amazon Location Service developer guide.
     public var filterCategories: [Swift.String]?
     /// An optional parameter that limits the search results by returning only places that are in a specified list of countries.
     ///
@@ -5225,7 +5433,7 @@ public struct SearchPlaceIndexForTextInput: Swift.Sendable {
     /// The name of the place index resource you want to use for the search.
     /// This member is required.
     public var indexName: Swift.String?
-    /// The optional [API key](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) to authorize the request.
+    /// The optional [API key](https://docs.aws.amazon.com/location/previous/developerguide/using-apikeys.html) to authorize the request.
     public var key: Swift.String?
     /// The preferred language used to return results. The value must be a valid [BCP 47](https://tools.ietf.org/search/bcp47) language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for Athens, Greece, with the language parameter set to en. The result found will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the result found will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
     public var language: Swift.String?
@@ -5260,7 +5468,7 @@ public struct SearchPlaceIndexForTextInput: Swift.Sendable {
 
 extension SearchPlaceIndexForTextInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SearchPlaceIndexForTextInput(filterCategories: \(Swift.String(describing: filterCategories)), filterCountries: \(Swift.String(describing: filterCountries)), indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
+        "SearchPlaceIndexForTextInput(filterCategories: \(Swift.String(describing: filterCategories)), indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", filterCountries: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -5306,7 +5514,7 @@ extension LocationClientTypes {
         /// * Here
         ///
         ///
-        /// For more information about data providers, see [Amazon Location Service data providers](https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html).
+        /// For more information about data providers, see [Amazon Location Service data providers](https://docs.aws.amazon.com/location/previous/developerguide/what-is-data-provider.html).
         /// This member is required.
         public var dataSource: Swift.String?
         /// Contains the coordinates for the optional bounding box specified in the request.
@@ -5351,7 +5559,7 @@ extension LocationClientTypes {
 
 extension LocationClientTypes.SearchPlaceIndexForTextSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SearchPlaceIndexForTextSummary(dataSource: \(Swift.String(describing: dataSource)), filterCategories: \(Swift.String(describing: filterCategories)), filterCountries: \(Swift.String(describing: filterCountries)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", resultBBox: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
+        "SearchPlaceIndexForTextSummary(dataSource: \(Swift.String(describing: dataSource)), filterCategories: \(Swift.String(describing: filterCategories)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", filterCountries: \"CONTENT_REDACTED\", resultBBox: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
 }
 
 public struct SearchPlaceIndexForTextOutput: Swift.Sendable {
@@ -5415,6 +5623,11 @@ public struct UpdatePlaceIndexOutput: Swift.Sendable {
     }
 }
 
+extension UpdatePlaceIndexOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdatePlaceIndexOutput(indexArn: \(Swift.String(describing: indexArn)), indexName: \(Swift.String(describing: indexName)), updateTime: \"CONTENT_REDACTED\")"}
+}
+
 public struct UpdateRouteCalculatorInput: Swift.Sendable {
     /// The name of the route calculator resource to update.
     /// This member is required.
@@ -5453,6 +5666,11 @@ public struct UpdateRouteCalculatorOutput: Swift.Sendable {
         self.calculatorName = calculatorName
         self.updateTime = updateTime
     }
+}
+
+extension UpdateRouteCalculatorOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateRouteCalculatorOutput(calculatorArn: \(Swift.String(describing: calculatorArn)), calculatorName: \(Swift.String(describing: calculatorName)), updateTime: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateTrackerInput: Swift.Sendable {
@@ -5513,6 +5731,11 @@ public struct UpdateTrackerOutput: Swift.Sendable {
     }
 }
 
+extension UpdateTrackerOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateTrackerOutput(trackerArn: \(Swift.String(describing: trackerArn)), trackerName: \(Swift.String(describing: trackerName)), updateTime: \"CONTENT_REDACTED\")"}
+}
+
 public struct VerifyDevicePositionInput: Swift.Sendable {
     /// The device's state, including position, IP address, cell signals and Wi-Fi access points.
     /// This member is required.
@@ -5564,6 +5787,11 @@ public struct VerifyDevicePositionOutput: Swift.Sendable {
         self.receivedTime = receivedTime
         self.sampleTime = sampleTime
     }
+}
+
+extension VerifyDevicePositionOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "VerifyDevicePositionOutput(deviceId: \(Swift.String(describing: deviceId)), distanceUnit: \(Swift.String(describing: distanceUnit)), inferredState: \(Swift.String(describing: inferredState)), receivedTime: \"CONTENT_REDACTED\", sampleTime: \"CONTENT_REDACTED\")"}
 }
 
 extension AssociateTrackerConsumerInput {
@@ -8607,11 +8835,11 @@ enum VerifyDevicePositionOutputError {
     }
 }
 
-extension ServiceQuotaExceededException {
+extension AccessDeniedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
+        var value = AccessDeniedException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8626,21 +8854,6 @@ extension ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: LocationClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8674,11 +8887,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension AccessDeniedException {
+extension ServiceQuotaExceededException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
-        var value = AccessDeniedException()
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8693,6 +8906,21 @@ extension ThrottlingException {
         let reader = baseError.errorBodyReader
         var value = ThrottlingException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
+        value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: LocationClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -8985,6 +9213,7 @@ extension LocationClientTypes.GeofenceGeometry {
         guard let value else { return }
         try writer["Circle"].write(value.circle, with: LocationClientTypes.Circle.write(value:to:))
         try writer["Geobuf"].write(value.geobuf)
+        try writer["MultiPolygon"].writeList(value.multiPolygon, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         try writer["Polygon"].writeList(value.polygon, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeDouble(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -8994,6 +9223,7 @@ extension LocationClientTypes.GeofenceGeometry {
         value.polygon = try reader["Polygon"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         value.circle = try reader["Circle"].readIfPresent(with: LocationClientTypes.Circle.read(from:))
         value.geobuf = try reader["Geobuf"].readIfPresent()
+        value.multiPolygon = try reader["MultiPolygon"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

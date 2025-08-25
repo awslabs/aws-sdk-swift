@@ -6,7 +6,6 @@
 //
 
 import XCTest
-import protocol AWSClientRuntime.Environment
 import struct AWSSDKIdentity.ECSAWSCredentialIdentityResolver
 import Foundation
 #if os(Linux)

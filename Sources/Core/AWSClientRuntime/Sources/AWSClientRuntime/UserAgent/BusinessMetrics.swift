@@ -5,7 +5,6 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import ClientRuntime
 import class Smithy.Context
 import struct Smithy.AttributeKey
 import struct SmithyHTTPAPI.Headers
@@ -13,6 +12,12 @@ import struct SmithyHTTPAPI.Headers
 struct BusinessMetrics {
     // Mapping of human readable feature ID to the corresponding metric value
     let features: [String: String]
+    // List of credentials feature IDs retrieved from selected auth scheme's resolved identity object's properties.
+    let credentialFeatureIDs: [String]
+    // List of manually configured credentials feature IDs retrieved from context.
+    // Set by internal clients used by service-dependent credential resolvers.
+    // Used to propagate feature IDs list to nested service calls during profile chain resolution.
+    let manuallyConfiguredCredentialFeatureIDs: [String]
 
     init(
         config: UserAgentValuesFromConfig,
@@ -21,12 +26,20 @@ struct BusinessMetrics {
     ) {
         setFlagsIntoContext(config: config, context: context, headers: headers)
         self.features = context.businessMetrics
+        self.credentialFeatureIDs = context.selectedAuthScheme?.identity?.properties.get(
+            key: AttributeKey<[String]>(name: "CredentialFeatureIDs")
+        ) ?? []
+        self.manuallyConfiguredCredentialFeatureIDs = context.get(
+            key: AttributeKey<[String]>(name: "ManuallyConfiguredCredentialFeatureIDs")
+        ) ?? []
     }
 }
 
 extension BusinessMetrics: CustomStringConvertible {
     var description: String {
-        var commaSeparatedMetricValues = features.values.sorted().joined(separator: ",")
+        var commaSeparatedMetricValues = (
+            features.values.sorted() + credentialFeatureIDs + manuallyConfiguredCredentialFeatureIDs
+        ).joined(separator: ",")
         // Cut last metric value from string until the
         //  comma-separated list of metric values are at or below 1024 bytes in size
         if commaSeparatedMetricValues.lengthOfBytes(using: .ascii) > 1024 {
@@ -129,5 +142,10 @@ private func setFlagsIntoContext(
     // Handle M
     if headers.value(for: "smithy-protocol") == "rpc-v2-cbor" {
         context.businessMetrics = ["PROTOCOL_RPC_V2_CBOR": "M"]
+    }
+
+    // Handle 3
+    if context.usesBearerServiceEnvVars {
+        context.businessMetrics = ["BEARER_SERVICE_ENV_VARS": "3"]
     }
 }

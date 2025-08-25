@@ -869,27 +869,8 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-iso-east-1 with FIPS enabled and DualStack enabled
-    func testResolve43() throws {
-        let endpointParams = EndpointParams(
-            region: "us-iso-east-1",
-            useDualStack: true,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("FIPS and DualStack are enabled, but this partition does not support one or both", message)
-            default:
-                XCTFail()
-            }
-        }
-    }
-
     /// For region us-iso-east-1 with FIPS enabled and DualStack disabled
-    func testResolve44() throws {
+    func testResolve43() throws {
         let endpointParams = EndpointParams(
             region: "us-iso-east-1",
             useDualStack: false,
@@ -908,27 +889,8 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-iso-east-1 with FIPS disabled and DualStack enabled
-    func testResolve45() throws {
-        let endpointParams = EndpointParams(
-            region: "us-iso-east-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("DualStack is enabled but this partition does not support DualStack", message)
-            default:
-                XCTFail()
-            }
-        }
-    }
-
     /// For region us-isob-east-1 with FIPS disabled and DualStack disabled
-    func testResolve46() throws {
+    func testResolve44() throws {
         let endpointParams = EndpointParams(
             region: "us-isob-east-1",
             useDualStack: false,
@@ -947,27 +909,8 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-isob-east-1 with FIPS enabled and DualStack enabled
-    func testResolve47() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isob-east-1",
-            useDualStack: true,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("FIPS and DualStack are enabled, but this partition does not support one or both", message)
-            default:
-                XCTFail()
-            }
-        }
-    }
-
     /// For region us-isob-east-1 with FIPS enabled and DualStack disabled
-    func testResolve48() throws {
+    func testResolve45() throws {
         let endpointParams = EndpointParams(
             region: "us-isob-east-1",
             useDualStack: false,
@@ -986,27 +929,8 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-isob-east-1 with FIPS disabled and DualStack enabled
-    func testResolve49() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isob-east-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("DualStack is enabled but this partition does not support DualStack", message)
-            default:
-                XCTFail()
-            }
-        }
-    }
-
     /// For custom endpoint with region set and fips disabled and dualstack disabled
-    func testResolve50() throws {
+    func testResolve46() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",
@@ -1027,7 +951,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For custom endpoint with region not set and fips disabled and dualstack disabled
-    func testResolve51() throws {
+    func testResolve47() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             useDualStack: false,
@@ -1047,7 +971,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For custom endpoint with fips enabled and dualstack disabled
-    func testResolve52() throws {
+    func testResolve48() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",
@@ -1067,7 +991,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For custom endpoint with fips disabled and dualstack enabled
-    func testResolve53() throws {
+    func testResolve49() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",
@@ -1087,7 +1011,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Missing region
-    func testResolve54() throws {
+    func testResolve50() throws {
         let endpointParams = EndpointParams(
         )
         let resolver = try DefaultEndpointResolver()
@@ -1103,7 +1027,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// UseGlobalEndpoint with legacy region `ap-northeast-1`
-    func testResolve55() throws {
+    func testResolve51() throws {
         let endpointParams = EndpointParams(
             region: "ap-northeast-1",
             useDualStack: false,
@@ -1132,7 +1056,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// UseGlobalEndpoint with legacy region `ap-south-1`
-    func testResolve56() throws {
+    func testResolve52() throws {
         let endpointParams = EndpointParams(
             region: "ap-south-1",
             useDualStack: false,
@@ -1161,7 +1085,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// UseGlobalEndpoint with legacy region `ap-southeast-1`
-    func testResolve57() throws {
+    func testResolve53() throws {
         let endpointParams = EndpointParams(
             region: "ap-southeast-1",
             useDualStack: false,
@@ -1190,7 +1114,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// UseGlobalEndpoint with legacy region `ap-southeast-2`
-    func testResolve58() throws {
+    func testResolve54() throws {
         let endpointParams = EndpointParams(
             region: "ap-southeast-2",
             useDualStack: false,
@@ -1219,7 +1143,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// UseGlobalEndpoint with legacy region `aws-global`
-    func testResolve59() throws {
+    func testResolve55() throws {
         let endpointParams = EndpointParams(
             region: "aws-global",
             useDualStack: false,
@@ -1248,7 +1172,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// UseGlobalEndpoint with legacy region `ca-central-1`
-    func testResolve60() throws {
+    func testResolve56() throws {
         let endpointParams = EndpointParams(
             region: "ca-central-1",
             useDualStack: false,
@@ -1277,7 +1201,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// UseGlobalEndpoint with legacy region `eu-central-1`
-    func testResolve61() throws {
+    func testResolve57() throws {
         let endpointParams = EndpointParams(
             region: "eu-central-1",
             useDualStack: false,
@@ -1306,7 +1230,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// UseGlobalEndpoint with legacy region `eu-north-1`
-    func testResolve62() throws {
+    func testResolve58() throws {
         let endpointParams = EndpointParams(
             region: "eu-north-1",
             useDualStack: false,
@@ -1335,7 +1259,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// UseGlobalEndpoint with legacy region `eu-west-1`
-    func testResolve63() throws {
+    func testResolve59() throws {
         let endpointParams = EndpointParams(
             region: "eu-west-1",
             useDualStack: false,
@@ -1364,7 +1288,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// UseGlobalEndpoint with legacy region `eu-west-2`
-    func testResolve64() throws {
+    func testResolve60() throws {
         let endpointParams = EndpointParams(
             region: "eu-west-2",
             useDualStack: false,
@@ -1393,7 +1317,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// UseGlobalEndpoint with legacy region `eu-west-3`
-    func testResolve65() throws {
+    func testResolve61() throws {
         let endpointParams = EndpointParams(
             region: "eu-west-3",
             useDualStack: false,
@@ -1422,7 +1346,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// UseGlobalEndpoint with legacy region `sa-east-1`
-    func testResolve66() throws {
+    func testResolve62() throws {
         let endpointParams = EndpointParams(
             region: "sa-east-1",
             useDualStack: false,
@@ -1451,7 +1375,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// UseGlobalEndpoint with legacy region `us-east-1`
-    func testResolve67() throws {
+    func testResolve63() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             useDualStack: false,
@@ -1480,7 +1404,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// UseGlobalEndpoint with legacy region `us-east-2`
-    func testResolve68() throws {
+    func testResolve64() throws {
         let endpointParams = EndpointParams(
             region: "us-east-2",
             useDualStack: false,
@@ -1509,7 +1433,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// UseGlobalEndpoint with legacy region `us-west-1`
-    func testResolve69() throws {
+    func testResolve65() throws {
         let endpointParams = EndpointParams(
             region: "us-west-1",
             useDualStack: false,
@@ -1538,7 +1462,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// UseGlobalEndpoint with legacy region `us-west-2`
-    func testResolve70() throws {
+    func testResolve66() throws {
         let endpointParams = EndpointParams(
             region: "us-west-2",
             useDualStack: false,
@@ -1567,7 +1491,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// UseGlobalEndpoint with Non-legacy region `us-east-3`
-    func testResolve71() throws {
+    func testResolve67() throws {
         let endpointParams = EndpointParams(
             region: "us-east-3",
             useDualStack: false,
@@ -1596,7 +1520,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// UseGlobalEndpoint with legacy region and custom endpoint
-    func testResolve72() throws {
+    func testResolve68() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-west-1",
@@ -1618,7 +1542,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// UseGlobalEndpoint with unset region and custom endpoint
-    func testResolve73() throws {
+    func testResolve69() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             useDualStack: false,

@@ -432,6 +432,10 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public struct Properties: Swift.Sendable {
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
+        /// The name of the service quota limit that was exceeded
+        public internal(set) var quotaName: Swift.String? = nil
+        /// The current limit on the service quota that was exceeded
+        public internal(set) var quotaValue: Swift.Double? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -444,9 +448,13 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     public internal(set) var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        quotaName: Swift.String? = nil,
+        quotaValue: Swift.Double? = nil
     ) {
         self.properties.message = message
+        self.properties.quotaName = quotaName
+        self.properties.quotaValue = quotaValue
     }
 }
 
@@ -870,6 +878,30 @@ public struct ListAudienceGenerationJobsOutput: Swift.Sendable {
     ) {
         self.audienceGenerationJobs = audienceGenerationJobs
         self.nextToken = nextToken
+    }
+}
+
+/// The request was denied due to request throttling.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -1745,7 +1777,7 @@ extension CleanRoomsMLClientTypes {
 
     /// Provides configuration information for the inference container.
     public struct InferenceContainerConfig: Swift.Sendable {
-        /// The registry path of the docker image that contains the inference algorithm. Clean Rooms ML supports both registry/repository[:tag] and registry/repositry[@digest] image path formats. For more information about using images in Clean Rooms ML, see the [Sagemaker API reference](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AlgorithmSpecification.html#sagemaker-Type-AlgorithmSpecification-TrainingImage).
+        /// The registry path of the docker image that contains the inference algorithm. Clean Rooms ML currently only supports the registry/repository[:tag] image path format. For more information about using images in Clean Rooms ML, see the [Sagemaker API reference](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AlgorithmSpecification.html#sagemaker-Type-AlgorithmSpecification-TrainingImage).
         /// This member is required.
         public var imageUri: Swift.String?
 
@@ -1786,7 +1818,7 @@ extension CleanRoomsMLClientTypes {
         public var arguments: [Swift.String]?
         /// The entrypoint script for a Docker container used to run a training job. This script takes precedence over the default train processing instructions. See How Amazon SageMaker Runs Your Training Image for additional information. For more information, see [How Sagemaker runs your training image](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-training-algo-dockerfile.html).
         public var entrypoint: [Swift.String]?
-        /// The registry path of the docker image that contains the algorithm. Clean Rooms ML supports both registry/repository[:tag] and registry/repositry[@digest] image path formats. For more information about using images in Clean Rooms ML, see the [Sagemaker API reference](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AlgorithmSpecification.html#sagemaker-Type-AlgorithmSpecification-TrainingImage).
+        /// The registry path of the docker image that contains the algorithm. Clean Rooms ML currently only supports the registry/repository[:tag] image path format. For more information about using images in Clean Rooms ML, see the [Sagemaker API reference](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_AlgorithmSpecification.html#sagemaker-Type-AlgorithmSpecification-TrainingImage).
         /// This member is required.
         public var imageUri: Swift.String?
         /// A list of metric definition objects. Each object specifies the metric name and regular expressions used to parse algorithm logs. Amazon Web Services Clean Rooms ML publishes each metric to all members' Amazon CloudWatch using IAM role configured in [PutMLConfiguration].
@@ -2261,19 +2293,70 @@ extension CleanRoomsMLClientTypes {
 
 extension CleanRoomsMLClientTypes {
 
+    public enum TrainedModelArtifactMaxSizeUnitType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case gb
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrainedModelArtifactMaxSizeUnitType] {
+            return [
+                .gb
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .gb: return "GB"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// Specifies the maximum size limit for trained model artifacts. This configuration helps control storage costs and ensures that trained models don't exceed specified size constraints. The size limit applies to the total size of all artifacts produced by the training job.
+    public struct TrainedModelArtifactMaxSize: Swift.Sendable {
+        /// The unit of measurement for the maximum artifact size. Valid values include common storage units such as bytes, kilobytes, megabytes, gigabytes, and terabytes.
+        /// This member is required.
+        public var unit: CleanRoomsMLClientTypes.TrainedModelArtifactMaxSizeUnitType?
+        /// The numerical value for the maximum artifact size limit. This value is interpreted according to the specified unit.
+        /// This member is required.
+        public var value: Swift.Double?
+
+        public init(
+            unit: CleanRoomsMLClientTypes.TrainedModelArtifactMaxSizeUnitType? = nil,
+            value: Swift.Double? = nil
+        ) {
+            self.unit = unit
+            self.value = value
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
     /// The configuration policy for the trained models.
     public struct TrainedModelsConfigurationPolicy: Swift.Sendable {
         /// The container for the logs of the trained model.
         public var containerLogs: [CleanRoomsMLClientTypes.LogsConfigurationPolicy]?
         /// The container for the metrics of the trained model.
         public var containerMetrics: CleanRoomsMLClientTypes.MetricsConfigurationPolicy?
+        /// The maximum size limit for trained model artifacts as defined in the configuration policy. This setting helps enforce consistent size limits across trained models in the collaboration.
+        public var maxArtifactSize: CleanRoomsMLClientTypes.TrainedModelArtifactMaxSize?
 
         public init(
             containerLogs: [CleanRoomsMLClientTypes.LogsConfigurationPolicy]? = nil,
-            containerMetrics: CleanRoomsMLClientTypes.MetricsConfigurationPolicy? = nil
+            containerMetrics: CleanRoomsMLClientTypes.MetricsConfigurationPolicy? = nil,
+            maxArtifactSize: CleanRoomsMLClientTypes.TrainedModelArtifactMaxSize? = nil
         ) {
             self.containerLogs = containerLogs
             self.containerMetrics = containerMetrics
+            self.maxArtifactSize = maxArtifactSize
         }
     }
 }
@@ -2882,17 +2965,21 @@ public struct ListCollaborationTrainedModelExportJobsInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the trained model that was used to create the export jobs that you are interested in.
     /// This member is required.
     public var trainedModelArn: Swift.String?
+    /// The version identifier of the trained model to filter export jobs by. When specified, only export jobs for this specific version of the trained model are returned.
+    public var trainedModelVersionIdentifier: Swift.String?
 
     public init(
         collaborationIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        trainedModelArn: Swift.String? = nil
+        trainedModelArn: Swift.String? = nil,
+        trainedModelVersionIdentifier: Swift.String? = nil
     ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.trainedModelArn = trainedModelArn
+        self.trainedModelVersionIdentifier = trainedModelVersionIdentifier
     }
 }
 
@@ -2995,6 +3082,8 @@ extension CleanRoomsMLClientTypes {
         /// The Amazon Resource Name (ARN) of the trained model that is being exported.
         /// This member is required.
         public var trainedModelArn: Swift.String?
+        /// The version identifier of the trained model that was exported in this job.
+        public var trainedModelVersionIdentifier: Swift.String?
         /// The most recent time at which the trained model export job was updated.
         /// This member is required.
         public var updateTime: Foundation.Date?
@@ -3010,6 +3099,7 @@ extension CleanRoomsMLClientTypes {
             status: CleanRoomsMLClientTypes.TrainedModelExportJobStatus? = nil,
             statusDetails: CleanRoomsMLClientTypes.StatusDetails? = nil,
             trainedModelArn: Swift.String? = nil,
+            trainedModelVersionIdentifier: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
         ) {
             self.collaborationIdentifier = collaborationIdentifier
@@ -3022,6 +3112,7 @@ extension CleanRoomsMLClientTypes {
             self.status = status
             self.statusDetails = statusDetails
             self.trainedModelArn = trainedModelArn
+            self.trainedModelVersionIdentifier = trainedModelVersionIdentifier
             self.updateTime = updateTime
         }
     }
@@ -3053,17 +3144,21 @@ public struct ListCollaborationTrainedModelInferenceJobsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the trained model that was used to create the trained model inference jobs that you are interested in.
     public var trainedModelArn: Swift.String?
+    /// The version identifier of the trained model to filter inference jobs by. When specified, only inference jobs that used this specific version of the trained model are returned.
+    public var trainedModelVersionIdentifier: Swift.String?
 
     public init(
         collaborationIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        trainedModelArn: Swift.String? = nil
+        trainedModelArn: Swift.String? = nil,
+        trainedModelVersionIdentifier: Swift.String? = nil
     ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.trainedModelArn = trainedModelArn
+        self.trainedModelVersionIdentifier = trainedModelVersionIdentifier
     }
 }
 
@@ -3251,6 +3346,8 @@ extension CleanRoomsMLClientTypes {
         /// The Amazon Resource Name (ARN) of the trained model inference job.
         /// This member is required.
         public var trainedModelInferenceJobArn: Swift.String?
+        /// The version identifier of the trained model that was used for inference in this job.
+        public var trainedModelVersionIdentifier: Swift.String?
         /// The most recent time at which the trained model inference job was updated.
         /// This member is required.
         public var updateTime: Foundation.Date?
@@ -3271,6 +3368,7 @@ extension CleanRoomsMLClientTypes {
             status: CleanRoomsMLClientTypes.TrainedModelInferenceJobStatus? = nil,
             trainedModelArn: Swift.String? = nil,
             trainedModelInferenceJobArn: Swift.String? = nil,
+            trainedModelVersionIdentifier: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
         ) {
             self.collaborationIdentifier = collaborationIdentifier
@@ -3288,6 +3386,7 @@ extension CleanRoomsMLClientTypes {
             self.status = status
             self.trainedModelArn = trainedModelArn
             self.trainedModelInferenceJobArn = trainedModelInferenceJobArn
+            self.trainedModelVersionIdentifier = trainedModelVersionIdentifier
             self.updateTime = updateTime
         }
     }
@@ -3326,6 +3425,31 @@ public struct ListCollaborationTrainedModelsInput: Swift.Sendable {
         self.collaborationIdentifier = collaborationIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// Contains information about an incremental training data channel that was used to create a trained model. This structure provides details about the base model and channel configuration used during incremental training.
+    public struct IncrementalTrainingDataChannelOutput: Swift.Sendable {
+        /// The name of the incremental training data channel that was used.
+        /// This member is required.
+        public var channelName: Swift.String?
+        /// The name of the base trained model that was used for incremental training.
+        /// This member is required.
+        public var modelName: Swift.String?
+        /// The version identifier of the trained model that was used for incremental training.
+        public var versionIdentifier: Swift.String?
+
+        public init(
+            channelName: Swift.String? = nil,
+            modelName: Swift.String? = nil,
+            versionIdentifier: Swift.String? = nil
+        ) {
+            self.channelName = channelName
+            self.modelName = modelName
+            self.versionIdentifier = versionIdentifier
+        }
     }
 }
 
@@ -3403,6 +3527,8 @@ extension CleanRoomsMLClientTypes {
         public var creatorAccountId: Swift.String?
         /// The description of the trained model.
         public var description: Swift.String?
+        /// Information about the incremental training data channels used to create this version of the trained model.
+        public var incrementalTrainingDataChannels: [CleanRoomsMLClientTypes.IncrementalTrainingDataChannelOutput]?
         /// The membership ID of the member that created the trained model.
         /// This member is required.
         public var membershipIdentifier: Swift.String?
@@ -3418,6 +3544,8 @@ extension CleanRoomsMLClientTypes {
         /// The most recent time at which the trained model was updated.
         /// This member is required.
         public var updateTime: Foundation.Date?
+        /// The version identifier of this trained model version.
+        public var versionIdentifier: Swift.String?
 
         public init(
             collaborationIdentifier: Swift.String? = nil,
@@ -3425,22 +3553,26 @@ extension CleanRoomsMLClientTypes {
             createTime: Foundation.Date? = nil,
             creatorAccountId: Swift.String? = nil,
             description: Swift.String? = nil,
+            incrementalTrainingDataChannels: [CleanRoomsMLClientTypes.IncrementalTrainingDataChannelOutput]? = nil,
             membershipIdentifier: Swift.String? = nil,
             name: Swift.String? = nil,
             status: CleanRoomsMLClientTypes.TrainedModelStatus? = nil,
             trainedModelArn: Swift.String? = nil,
-            updateTime: Foundation.Date? = nil
+            updateTime: Foundation.Date? = nil,
+            versionIdentifier: Swift.String? = nil
         ) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.createTime = createTime
             self.creatorAccountId = creatorAccountId
             self.description = description
+            self.incrementalTrainingDataChannels = incrementalTrainingDataChannels
             self.membershipIdentifier = membershipIdentifier
             self.name = name
             self.status = status
             self.trainedModelArn = trainedModelArn
             self.updateTime = updateTime
+            self.versionIdentifier = versionIdentifier
         }
     }
 }
@@ -3591,19 +3723,53 @@ public struct PutMLConfigurationInput: Swift.Sendable {
 
 extension CleanRoomsMLClientTypes {
 
+    /// File format of the returned data.
+    public enum ResultFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case csv
+        case parquet
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResultFormat] {
+            return [
+                .csv,
+                .parquet
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .csv: return "CSV"
+            case .parquet: return "PARQUET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
     /// Provides information necessary to perform the protected query.
     public struct ProtectedQueryInputParameters: Swift.Sendable {
         /// Provides configuration information for the workers that will perform the protected query.
         public var computeConfiguration: CleanRoomsMLClientTypes.ComputeConfiguration?
+        /// The format in which the query results should be returned. If not specified, defaults to CSV.
+        public var resultFormat: CleanRoomsMLClientTypes.ResultFormat?
         /// The parameters for the SQL type Protected Query.
         /// This member is required.
         public var sqlParameters: CleanRoomsMLClientTypes.ProtectedQuerySQLParameters?
 
         public init(
             computeConfiguration: CleanRoomsMLClientTypes.ComputeConfiguration? = nil,
+            resultFormat: CleanRoomsMLClientTypes.ResultFormat? = .csv,
             sqlParameters: CleanRoomsMLClientTypes.ProtectedQuerySQLParameters? = nil
         ) {
             self.computeConfiguration = computeConfiguration
+            self.resultFormat = resultFormat
             self.sqlParameters = sqlParameters
         }
     }
@@ -3611,7 +3777,7 @@ extension CleanRoomsMLClientTypes {
 
 extension CleanRoomsMLClientTypes.ProtectedQueryInputParameters: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ProtectedQueryInputParameters(computeConfiguration: \(Swift.String(describing: computeConfiguration)), sqlParameters: \"CONTENT_REDACTED\")"}
+        "ProtectedQueryInputParameters(computeConfiguration: \(Swift.String(describing: computeConfiguration)), resultFormat: \(Swift.String(describing: resultFormat)), sqlParameters: \"CONTENT_REDACTED\")"}
 }
 
 extension CleanRoomsMLClientTypes {
@@ -3631,7 +3797,7 @@ extension CleanRoomsMLClientTypes {
         /// The data source that is used to create the ML input channel.
         /// This member is required.
         public var dataSource: CleanRoomsMLClientTypes.InputChannelDataSource?
-        /// The ARN of the IAM role that Clean Rooms ML can assume to read the data referred to in the dataSource field the input channel. Passing a role across AWS accounts is not allowed. If you pass a role that isn't in your account, you get an AccessDeniedException error.
+        /// The Amazon Resource Name (ARN) of the role used to run the query specified in the dataSource field of the input channel. Passing a role across AWS accounts is not allowed. If you pass a role that isn't in your account, you get an AccessDeniedException error.
         /// This member is required.
         public var roleArn: Swift.String?
 
@@ -4076,13 +4242,70 @@ public struct CancelTrainedModelInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the trained model job that you want to cancel.
     /// This member is required.
     public var trainedModelArn: Swift.String?
+    /// The version identifier of the trained model to cancel. This parameter allows you to specify which version of the trained model you want to cancel when multiple versions exist. If versionIdentifier is not specified, the base model will be cancelled.
+    public var versionIdentifier: Swift.String?
 
     public init(
         membershipIdentifier: Swift.String? = nil,
-        trainedModelArn: Swift.String? = nil
+        trainedModelArn: Swift.String? = nil,
+        versionIdentifier: Swift.String? = nil
     ) {
         self.membershipIdentifier = membershipIdentifier
         self.trainedModelArn = trainedModelArn
+        self.versionIdentifier = versionIdentifier
+    }
+}
+
+/// An internal service error occurred. Retry your request. If the problem persists, contact AWS Support.
+public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServiceException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    public enum S3DataDistributionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fullyReplicated
+        case shardedByS3Key
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [S3DataDistributionType] {
+            return [
+                .fullyReplicated,
+                .shardedByS3Key
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fullyReplicated: return "FullyReplicated"
+            case .shardedByS3Key: return "ShardedByS3Key"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -4096,13 +4319,46 @@ extension CleanRoomsMLClientTypes {
         /// The Amazon Resource Name (ARN) of the ML input channel for this model training data channel.
         /// This member is required.
         public var mlInputChannelArn: Swift.String?
+        /// Specifies how the training data stored in Amazon S3 should be distributed to training instances. This parameter controls the data distribution strategy for the training job:
+        ///
+        /// * FullyReplicated - The entire dataset is replicated on each training instance. This is suitable for smaller datasets and algorithms that require access to the complete dataset.
+        ///
+        /// * ShardedByS3Key - The dataset is distributed across training instances based on Amazon S3 key names. This is suitable for larger datasets and distributed training scenarios where each instance processes a subset of the data.
+        public var s3DataDistributionType: CleanRoomsMLClientTypes.S3DataDistributionType?
 
         public init(
             channelName: Swift.String? = nil,
-            mlInputChannelArn: Swift.String? = nil
+            mlInputChannelArn: Swift.String? = nil,
+            s3DataDistributionType: CleanRoomsMLClientTypes.S3DataDistributionType? = .fullyReplicated
         ) {
             self.channelName = channelName
             self.mlInputChannelArn = mlInputChannelArn
+            self.s3DataDistributionType = s3DataDistributionType
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// Defines an incremental training data channel that references a previously trained model. Incremental training allows you to update an existing trained model with new data, building upon the knowledge from a base model rather than training from scratch. This can significantly reduce training time and computational costs while improving model performance with additional data.
+    public struct IncrementalTrainingDataChannel: Swift.Sendable {
+        /// The name of the incremental training data channel. This name is used to identify the channel during the training process and must be unique within the training job.
+        /// This member is required.
+        public var channelName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the base trained model to use for incremental training. This model serves as the starting point for the incremental training process.
+        /// This member is required.
+        public var trainedModelArn: Swift.String?
+        /// The version identifier of the base trained model to use for incremental training. If not specified, the latest version of the trained model is used.
+        public var versionIdentifier: Swift.String?
+
+        public init(
+            channelName: Swift.String? = nil,
+            trainedModelArn: Swift.String? = nil,
+            versionIdentifier: Swift.String? = nil
+        ) {
+            self.channelName = channelName
+            self.trainedModelArn = trainedModelArn
+            self.versionIdentifier = versionIdentifier
         }
     }
 }
@@ -4437,11 +4693,43 @@ extension CleanRoomsMLClientTypes {
     }
 }
 
+extension CleanRoomsMLClientTypes {
+
+    public enum TrainingInputMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fastFile
+        case file
+        case pipe
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrainingInputMode] {
+            return [
+                .fastFile,
+                .file,
+                .pipe
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fastFile: return "FastFile"
+            case .file: return "File"
+            case .pipe: return "Pipe"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateTrainedModelInput: Swift.Sendable {
     /// The associated configured model algorithm used to train this model.
     /// This member is required.
     public var configuredModelAlgorithmAssociationArn: Swift.String?
-    /// Defines the data channels that are used as input for the trained model request.
+    /// Defines the data channels that are used as input for the trained model request. Limit: Maximum of 20 channels total (including both dataChannels and incrementalTrainingDataChannels).
     /// This member is required.
     public var dataChannels: [CleanRoomsMLClientTypes.ModelTrainingDataChannel]?
     /// The description of the trained model.
@@ -4450,6 +4738,8 @@ public struct CreateTrainedModelInput: Swift.Sendable {
     public var environment: [Swift.String: Swift.String]?
     /// Algorithm-specific parameters that influence the quality of the model. You set hyperparameters before you start the learning process.
     public var hyperparameters: [Swift.String: Swift.String]?
+    /// Specifies the incremental training data channels for the trained model. Incremental training allows you to create a new trained model with updates without retraining from scratch. You can specify up to one incremental training data channel that references a previously trained model and its version. Limit: Maximum of 20 channels total (including both incrementalTrainingDataChannels and dataChannels).
+    public var incrementalTrainingDataChannels: [CleanRoomsMLClientTypes.IncrementalTrainingDataChannel]?
     /// The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt and decrypt customer-owned data in the trained ML model and the associated data.
     public var kmsKeyArn: Swift.String?
     /// The membership ID of the member that is creating the trained model.
@@ -4479,6 +4769,14 @@ public struct CreateTrainedModelInput: Swift.Sendable {
     ///
     /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
     public var tags: [Swift.String: Swift.String]?
+    /// The input mode for accessing the training data. This parameter determines how the training data is made available to the training algorithm. Valid values are:
+    ///
+    /// * File - The training data is downloaded to the training instance and made available as files.
+    ///
+    /// * FastFile - The training data is streamed directly from Amazon S3 to the training algorithm, providing faster access for large datasets.
+    ///
+    /// * Pipe - The training data is streamed to the training algorithm using named pipes, which can improve performance for certain algorithms.
+    public var trainingInputMode: CleanRoomsMLClientTypes.TrainingInputMode?
 
     public init(
         configuredModelAlgorithmAssociationArn: Swift.String? = nil,
@@ -4486,24 +4784,28 @@ public struct CreateTrainedModelInput: Swift.Sendable {
         description: Swift.String? = nil,
         environment: [Swift.String: Swift.String]? = nil,
         hyperparameters: [Swift.String: Swift.String]? = nil,
+        incrementalTrainingDataChannels: [CleanRoomsMLClientTypes.IncrementalTrainingDataChannel]? = nil,
         kmsKeyArn: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
         resourceConfig: CleanRoomsMLClientTypes.ResourceConfig? = nil,
         stoppingCondition: CleanRoomsMLClientTypes.StoppingCondition? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        trainingInputMode: CleanRoomsMLClientTypes.TrainingInputMode? = nil
     ) {
         self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
         self.dataChannels = dataChannels
         self.description = description
         self.environment = environment
         self.hyperparameters = hyperparameters
+        self.incrementalTrainingDataChannels = incrementalTrainingDataChannels
         self.kmsKeyArn = kmsKeyArn
         self.membershipIdentifier = membershipIdentifier
         self.name = name
         self.resourceConfig = resourceConfig
         self.stoppingCondition = stoppingCondition
         self.tags = tags
+        self.trainingInputMode = trainingInputMode
     }
 }
 
@@ -4511,11 +4813,15 @@ public struct CreateTrainedModelOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the trained model.
     /// This member is required.
     public var trainedModelArn: Swift.String?
+    /// The unique version identifier assigned to the newly created trained model. This identifier can be used to reference this specific version of the trained model in subsequent operations such as inference jobs or incremental training. The initial version identifier for the base version of the trained model is "NULL".
+    public var versionIdentifier: Swift.String?
 
     public init(
-        trainedModelArn: Swift.String? = nil
+        trainedModelArn: Swift.String? = nil,
+        versionIdentifier: Swift.String? = nil
     ) {
         self.trainedModelArn = trainedModelArn
+        self.versionIdentifier = versionIdentifier
     }
 }
 
@@ -4526,13 +4832,17 @@ public struct DeleteTrainedModelOutputInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the trained model whose output you want to delete.
     /// This member is required.
     public var trainedModelArn: Swift.String?
+    /// The version identifier of the trained model to delete. If not specified, the operation will delete the base version of the trained model. When specified, only the particular version will be deleted.
+    public var versionIdentifier: Swift.String?
 
     public init(
         membershipIdentifier: Swift.String? = nil,
-        trainedModelArn: Swift.String? = nil
+        trainedModelArn: Swift.String? = nil,
+        versionIdentifier: Swift.String? = nil
     ) {
         self.membershipIdentifier = membershipIdentifier
         self.trainedModelArn = trainedModelArn
+        self.versionIdentifier = versionIdentifier
     }
 }
 
@@ -4543,13 +4853,17 @@ public struct GetCollaborationTrainedModelInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the trained model that you want to return information about.
     /// This member is required.
     public var trainedModelArn: Swift.String?
+    /// The version identifier of the trained model to retrieve. If not specified, the operation returns information about the latest version of the trained model.
+    public var versionIdentifier: Swift.String?
 
     public init(
         collaborationIdentifier: Swift.String? = nil,
-        trainedModelArn: Swift.String? = nil
+        trainedModelArn: Swift.String? = nil,
+        versionIdentifier: Swift.String? = nil
     ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.trainedModelArn = trainedModelArn
+        self.versionIdentifier = versionIdentifier
     }
 }
 
@@ -4568,6 +4882,8 @@ public struct GetCollaborationTrainedModelOutput: Swift.Sendable {
     public var creatorAccountId: Swift.String?
     /// The description of the trained model.
     public var description: Swift.String?
+    /// Information about the incremental training data channels used to create this version of the trained model. This includes details about the base model that was used for incremental training and the channel configuration.
+    public var incrementalTrainingDataChannels: [CleanRoomsMLClientTypes.IncrementalTrainingDataChannelOutput]?
     /// Status information for the logs.
     public var logsStatus: CleanRoomsMLClientTypes.LogsStatus?
     /// Details about the status information for the logs.
@@ -4596,9 +4912,13 @@ public struct GetCollaborationTrainedModelOutput: Swift.Sendable {
     public var trainedModelArn: Swift.String?
     /// Information about the training container image.
     public var trainingContainerImageDigest: Swift.String?
+    /// The input mode that was used for accessing the training data when this trained model was created. This indicates how the training data was made available to the training algorithm.
+    public var trainingInputMode: CleanRoomsMLClientTypes.TrainingInputMode?
     /// The most recent time at which the trained model was updated.
     /// This member is required.
     public var updateTime: Foundation.Date?
+    /// The version identifier of the trained model. This unique identifier distinguishes this version from other versions of the same trained model.
+    public var versionIdentifier: Swift.String?
 
     public init(
         collaborationIdentifier: Swift.String? = nil,
@@ -4606,6 +4926,7 @@ public struct GetCollaborationTrainedModelOutput: Swift.Sendable {
         createTime: Foundation.Date? = nil,
         creatorAccountId: Swift.String? = nil,
         description: Swift.String? = nil,
+        incrementalTrainingDataChannels: [CleanRoomsMLClientTypes.IncrementalTrainingDataChannelOutput]? = nil,
         logsStatus: CleanRoomsMLClientTypes.LogsStatus? = nil,
         logsStatusDetails: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil,
@@ -4618,13 +4939,16 @@ public struct GetCollaborationTrainedModelOutput: Swift.Sendable {
         stoppingCondition: CleanRoomsMLClientTypes.StoppingCondition? = nil,
         trainedModelArn: Swift.String? = nil,
         trainingContainerImageDigest: Swift.String? = nil,
-        updateTime: Foundation.Date? = nil
+        trainingInputMode: CleanRoomsMLClientTypes.TrainingInputMode? = nil,
+        updateTime: Foundation.Date? = nil,
+        versionIdentifier: Swift.String? = nil
     ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
         self.createTime = createTime
         self.creatorAccountId = creatorAccountId
         self.description = description
+        self.incrementalTrainingDataChannels = incrementalTrainingDataChannels
         self.logsStatus = logsStatus
         self.logsStatusDetails = logsStatusDetails
         self.membershipIdentifier = membershipIdentifier
@@ -4637,7 +4961,9 @@ public struct GetCollaborationTrainedModelOutput: Swift.Sendable {
         self.stoppingCondition = stoppingCondition
         self.trainedModelArn = trainedModelArn
         self.trainingContainerImageDigest = trainingContainerImageDigest
+        self.trainingInputMode = trainingInputMode
         self.updateTime = updateTime
+        self.versionIdentifier = versionIdentifier
     }
 }
 
@@ -4648,13 +4974,17 @@ public struct GetTrainedModelInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the trained model that you are interested in.
     /// This member is required.
     public var trainedModelArn: Swift.String?
+    /// The version identifier of the trained model to retrieve. If not specified, the operation returns information about the latest version of the trained model.
+    public var versionIdentifier: Swift.String?
 
     public init(
         membershipIdentifier: Swift.String? = nil,
-        trainedModelArn: Swift.String? = nil
+        trainedModelArn: Swift.String? = nil,
+        versionIdentifier: Swift.String? = nil
     ) {
         self.membershipIdentifier = membershipIdentifier
         self.trainedModelArn = trainedModelArn
+        self.versionIdentifier = versionIdentifier
     }
 }
 
@@ -4677,6 +5007,8 @@ public struct GetTrainedModelOutput: Swift.Sendable {
     public var environment: [Swift.String: Swift.String]?
     /// The hyperparameters that were used to create the trained model.
     public var hyperparameters: [Swift.String: Swift.String]?
+    /// Information about the incremental training data channels used to create this version of the trained model. This includes details about the base model that was used for incremental training and the channel configuration.
+    public var incrementalTrainingDataChannels: [CleanRoomsMLClientTypes.IncrementalTrainingDataChannelOutput]?
     /// The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt and decrypt customer-owned data in the trained ML model and associated data.
     public var kmsKeyArn: Swift.String?
     /// The logs status for the trained model.
@@ -4723,9 +5055,13 @@ public struct GetTrainedModelOutput: Swift.Sendable {
     public var trainedModelArn: Swift.String?
     /// Information about the training image container.
     public var trainingContainerImageDigest: Swift.String?
+    /// The input mode that was used for accessing the training data when this trained model was created. This indicates how the training data was made available to the training algorithm.
+    public var trainingInputMode: CleanRoomsMLClientTypes.TrainingInputMode?
     /// The most recent time at which the trained model was updated.
     /// This member is required.
     public var updateTime: Foundation.Date?
+    /// The version identifier of the trained model. This unique identifier distinguishes this version from other versions of the same trained model.
+    public var versionIdentifier: Swift.String?
 
     public init(
         collaborationIdentifier: Swift.String? = nil,
@@ -4735,6 +5071,7 @@ public struct GetTrainedModelOutput: Swift.Sendable {
         description: Swift.String? = nil,
         environment: [Swift.String: Swift.String]? = nil,
         hyperparameters: [Swift.String: Swift.String]? = nil,
+        incrementalTrainingDataChannels: [CleanRoomsMLClientTypes.IncrementalTrainingDataChannelOutput]? = nil,
         kmsKeyArn: Swift.String? = nil,
         logsStatus: CleanRoomsMLClientTypes.LogsStatus? = nil,
         logsStatusDetails: Swift.String? = nil,
@@ -4749,7 +5086,9 @@ public struct GetTrainedModelOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         trainedModelArn: Swift.String? = nil,
         trainingContainerImageDigest: Swift.String? = nil,
-        updateTime: Foundation.Date? = nil
+        trainingInputMode: CleanRoomsMLClientTypes.TrainingInputMode? = nil,
+        updateTime: Foundation.Date? = nil,
+        versionIdentifier: Swift.String? = nil
     ) {
         self.collaborationIdentifier = collaborationIdentifier
         self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
@@ -4758,6 +5097,7 @@ public struct GetTrainedModelOutput: Swift.Sendable {
         self.description = description
         self.environment = environment
         self.hyperparameters = hyperparameters
+        self.incrementalTrainingDataChannels = incrementalTrainingDataChannels
         self.kmsKeyArn = kmsKeyArn
         self.logsStatus = logsStatus
         self.logsStatusDetails = logsStatusDetails
@@ -4772,7 +5112,9 @@ public struct GetTrainedModelOutput: Swift.Sendable {
         self.tags = tags
         self.trainedModelArn = trainedModelArn
         self.trainingContainerImageDigest = trainingContainerImageDigest
+        self.trainingInputMode = trainingInputMode
         self.updateTime = updateTime
+        self.versionIdentifier = versionIdentifier
     }
 }
 
@@ -4811,6 +5153,8 @@ extension CleanRoomsMLClientTypes {
         public var createTime: Foundation.Date?
         /// The description of the trained model.
         public var description: Swift.String?
+        /// Information about the incremental training data channels used to create this version of the trained model.
+        public var incrementalTrainingDataChannels: [CleanRoomsMLClientTypes.IncrementalTrainingDataChannelOutput]?
         /// The membership ID of the member that created the trained model.
         /// This member is required.
         public var membershipIdentifier: Swift.String?
@@ -4826,27 +5170,33 @@ extension CleanRoomsMLClientTypes {
         /// The most recent time at which the trained model was updated.
         /// This member is required.
         public var updateTime: Foundation.Date?
+        /// The version identifier of this trained model version.
+        public var versionIdentifier: Swift.String?
 
         public init(
             collaborationIdentifier: Swift.String? = nil,
             configuredModelAlgorithmAssociationArn: Swift.String? = nil,
             createTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            incrementalTrainingDataChannels: [CleanRoomsMLClientTypes.IncrementalTrainingDataChannelOutput]? = nil,
             membershipIdentifier: Swift.String? = nil,
             name: Swift.String? = nil,
             status: CleanRoomsMLClientTypes.TrainedModelStatus? = nil,
             trainedModelArn: Swift.String? = nil,
-            updateTime: Foundation.Date? = nil
+            updateTime: Foundation.Date? = nil,
+            versionIdentifier: Swift.String? = nil
         ) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
             self.createTime = createTime
             self.description = description
+            self.incrementalTrainingDataChannels = incrementalTrainingDataChannels
             self.membershipIdentifier = membershipIdentifier
             self.name = name
             self.status = status
             self.trainedModelArn = trainedModelArn
             self.updateTime = updateTime
+            self.versionIdentifier = versionIdentifier
         }
     }
 }
@@ -4855,6 +5205,51 @@ public struct ListTrainedModelsOutput: Swift.Sendable {
     /// The token value used to access the next page of results.
     public var nextToken: Swift.String?
     /// The list of trained models.
+    /// This member is required.
+    public var trainedModels: [CleanRoomsMLClientTypes.TrainedModelSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        trainedModels: [CleanRoomsMLClientTypes.TrainedModelSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.trainedModels = trainedModels
+    }
+}
+
+public struct ListTrainedModelVersionsInput: Swift.Sendable {
+    /// The maximum number of trained model versions to return in a single page. The default value is 10, and the maximum value is 100.
+    public var maxResults: Swift.Int?
+    /// The membership identifier for the collaboration that contains the trained model.
+    /// This member is required.
+    public var membershipIdentifier: Swift.String?
+    /// The pagination token from a previous ListTrainedModelVersions request. Use this token to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// Filter the results to only include trained model versions with the specified status. Valid values include CREATE_PENDING, CREATE_IN_PROGRESS, ACTIVE, CREATE_FAILED, and others.
+    public var status: CleanRoomsMLClientTypes.TrainedModelStatus?
+    /// The Amazon Resource Name (ARN) of the trained model for which to list versions.
+    /// This member is required.
+    public var trainedModelArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        membershipIdentifier: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        status: CleanRoomsMLClientTypes.TrainedModelStatus? = nil,
+        trainedModelArn: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.membershipIdentifier = membershipIdentifier
+        self.nextToken = nextToken
+        self.status = status
+        self.trainedModelArn = trainedModelArn
+    }
+}
+
+public struct ListTrainedModelVersionsOutput: Swift.Sendable {
+    /// The pagination token to use in a subsequent ListTrainedModelVersions request to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// A list of trained model versions that match the specified criteria. Each entry contains summary information about a trained model version, including its version identifier, status, and creation details.
     /// This member is required.
     public var trainedModels: [CleanRoomsMLClientTypes.TrainedModelSummary]?
 
@@ -4882,19 +5277,23 @@ public struct StartTrainedModelExportJobInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the trained model that you want to export.
     /// This member is required.
     public var trainedModelArn: Swift.String?
+    /// The version identifier of the trained model to export. This specifies which version of the trained model should be exported to the specified destination.
+    public var trainedModelVersionIdentifier: Swift.String?
 
     public init(
         description: Swift.String? = nil,
         membershipIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
         outputConfiguration: CleanRoomsMLClientTypes.TrainedModelExportOutputConfiguration? = nil,
-        trainedModelArn: Swift.String? = nil
+        trainedModelArn: Swift.String? = nil,
+        trainedModelVersionIdentifier: Swift.String? = nil
     ) {
         self.description = description
         self.membershipIdentifier = membershipIdentifier
         self.name = name
         self.outputConfiguration = outputConfiguration
         self.trainedModelArn = trainedModelArn
+        self.trainedModelVersionIdentifier = trainedModelVersionIdentifier
     }
 }
 
@@ -5354,6 +5753,8 @@ public struct GetTrainedModelInferenceJobOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the trained model inference job.
     /// This member is required.
     public var trainedModelInferenceJobArn: Swift.String?
+    /// The version identifier of the trained model used for this inference job. This identifies the specific version of the trained model that was used to generate the inference results.
+    public var trainedModelVersionIdentifier: Swift.String?
     /// The most recent time at which the trained model inference job was updated.
     /// This member is required.
     public var updateTime: Foundation.Date?
@@ -5380,6 +5781,7 @@ public struct GetTrainedModelInferenceJobOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil,
         trainedModelArn: Swift.String? = nil,
         trainedModelInferenceJobArn: Swift.String? = nil,
+        trainedModelVersionIdentifier: Swift.String? = nil,
         updateTime: Foundation.Date? = nil
     ) {
         self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
@@ -5403,6 +5805,7 @@ public struct GetTrainedModelInferenceJobOutput: Swift.Sendable {
         self.tags = tags
         self.trainedModelArn = trainedModelArn
         self.trainedModelInferenceJobArn = trainedModelInferenceJobArn
+        self.trainedModelVersionIdentifier = trainedModelVersionIdentifier
         self.updateTime = updateTime
     }
 }
@@ -5417,17 +5820,21 @@ public struct ListTrainedModelInferenceJobsInput: Swift.Sendable {
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) of a trained model that was used to create the trained model inference jobs that you are interested in.
     public var trainedModelArn: Swift.String?
+    /// The version identifier of the trained model to filter inference jobs by. When specified, only inference jobs that used this specific version of the trained model are returned.
+    public var trainedModelVersionIdentifier: Swift.String?
 
     public init(
         maxResults: Swift.Int? = nil,
         membershipIdentifier: Swift.String? = nil,
         nextToken: Swift.String? = nil,
-        trainedModelArn: Swift.String? = nil
+        trainedModelArn: Swift.String? = nil,
+        trainedModelVersionIdentifier: Swift.String? = nil
     ) {
         self.maxResults = maxResults
         self.membershipIdentifier = membershipIdentifier
         self.nextToken = nextToken
         self.trainedModelArn = trainedModelArn
+        self.trainedModelVersionIdentifier = trainedModelVersionIdentifier
     }
 }
 
@@ -5471,6 +5878,8 @@ extension CleanRoomsMLClientTypes {
         /// The Amazon Resource Name (ARN) of the trained model inference job.
         /// This member is required.
         public var trainedModelInferenceJobArn: Swift.String?
+        /// The version identifier of the trained model that was used for inference in this job.
+        public var trainedModelVersionIdentifier: Swift.String?
         /// The most recent time at which the trained model inference job was updated.
         /// This member is required.
         public var updateTime: Foundation.Date?
@@ -5490,6 +5899,7 @@ extension CleanRoomsMLClientTypes {
             status: CleanRoomsMLClientTypes.TrainedModelInferenceJobStatus? = nil,
             trainedModelArn: Swift.String? = nil,
             trainedModelInferenceJobArn: Swift.String? = nil,
+            trainedModelVersionIdentifier: Swift.String? = nil,
             updateTime: Foundation.Date? = nil
         ) {
             self.collaborationIdentifier = collaborationIdentifier
@@ -5506,6 +5916,7 @@ extension CleanRoomsMLClientTypes {
             self.status = status
             self.trainedModelArn = trainedModelArn
             self.trainedModelInferenceJobArn = trainedModelInferenceJobArn
+            self.trainedModelVersionIdentifier = trainedModelVersionIdentifier
             self.updateTime = updateTime
         }
     }
@@ -5572,6 +5983,8 @@ public struct StartTrainedModelInferenceJobInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the trained model that is used for this trained model inference job.
     /// This member is required.
     public var trainedModelArn: Swift.String?
+    /// The version identifier of the trained model to use for inference. This specifies which version of the trained model should be used to generate predictions on the input data.
+    public var trainedModelVersionIdentifier: Swift.String?
 
     public init(
         configuredModelAlgorithmAssociationArn: Swift.String? = nil,
@@ -5585,7 +5998,8 @@ public struct StartTrainedModelInferenceJobInput: Swift.Sendable {
         outputConfiguration: CleanRoomsMLClientTypes.InferenceOutputConfiguration? = nil,
         resourceConfig: CleanRoomsMLClientTypes.InferenceResourceConfig? = nil,
         tags: [Swift.String: Swift.String]? = nil,
-        trainedModelArn: Swift.String? = nil
+        trainedModelArn: Swift.String? = nil,
+        trainedModelVersionIdentifier: Swift.String? = nil
     ) {
         self.configuredModelAlgorithmAssociationArn = configuredModelAlgorithmAssociationArn
         self.containerExecutionParameters = containerExecutionParameters
@@ -5599,6 +6013,7 @@ public struct StartTrainedModelInferenceJobInput: Swift.Sendable {
         self.resourceConfig = resourceConfig
         self.tags = tags
         self.trainedModelArn = trainedModelArn
+        self.trainedModelVersionIdentifier = trainedModelVersionIdentifier
     }
 }
 
@@ -6044,6 +6459,18 @@ extension CancelTrainedModelInput {
     }
 }
 
+extension CancelTrainedModelInput {
+
+    static func queryItemProvider(_ value: CancelTrainedModelInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let versionIdentifier = value.versionIdentifier {
+            let versionIdentifierQueryItem = Smithy.URIQueryItem(name: "versionIdentifier".urlPercentEncoding(), value: Swift.String(versionIdentifier).urlPercentEncoding())
+            items.append(versionIdentifierQueryItem)
+        }
+        return items
+    }
+}
+
 extension CancelTrainedModelInferenceJobInput {
 
     static func urlPathProvider(_ value: CancelTrainedModelInferenceJobInput) -> Swift.String? {
@@ -6214,6 +6641,18 @@ extension DeleteTrainedModelOutputInput {
     }
 }
 
+extension DeleteTrainedModelOutputInput {
+
+    static func queryItemProvider(_ value: DeleteTrainedModelOutputInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let versionIdentifier = value.versionIdentifier {
+            let versionIdentifierQueryItem = Smithy.URIQueryItem(name: "versionIdentifier".urlPercentEncoding(), value: Swift.String(versionIdentifier).urlPercentEncoding())
+            items.append(versionIdentifierQueryItem)
+        }
+        return items
+    }
+}
+
 extension DeleteTrainingDatasetInput {
 
     static func urlPathProvider(_ value: DeleteTrainingDatasetInput) -> Swift.String? {
@@ -6280,6 +6719,18 @@ extension GetCollaborationTrainedModelInput {
             return nil
         }
         return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/trained-models/\(trainedModelArn.urlPercentEncoding())"
+    }
+}
+
+extension GetCollaborationTrainedModelInput {
+
+    static func queryItemProvider(_ value: GetCollaborationTrainedModelInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let versionIdentifier = value.versionIdentifier {
+            let versionIdentifierQueryItem = Smithy.URIQueryItem(name: "versionIdentifier".urlPercentEncoding(), value: Swift.String(versionIdentifier).urlPercentEncoding())
+            items.append(versionIdentifierQueryItem)
+        }
+        return items
     }
 }
 
@@ -6359,6 +6810,18 @@ extension GetTrainedModelInput {
             return nil
         }
         return "/memberships/\(membershipIdentifier.urlPercentEncoding())/trained-models/\(trainedModelArn.urlPercentEncoding())"
+    }
+}
+
+extension GetTrainedModelInput {
+
+    static func queryItemProvider(_ value: GetTrainedModelInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let versionIdentifier = value.versionIdentifier {
+            let versionIdentifierQueryItem = Smithy.URIQueryItem(name: "versionIdentifier".urlPercentEncoding(), value: Swift.String(versionIdentifier).urlPercentEncoding())
+            items.append(versionIdentifierQueryItem)
+        }
+        return items
     }
 }
 
@@ -6543,6 +7006,10 @@ extension ListCollaborationTrainedModelExportJobsInput {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
+        if let trainedModelVersionIdentifier = value.trainedModelVersionIdentifier {
+            let trainedModelVersionIdentifierQueryItem = Smithy.URIQueryItem(name: "trainedModelVersionIdentifier".urlPercentEncoding(), value: Swift.String(trainedModelVersionIdentifier).urlPercentEncoding())
+            items.append(trainedModelVersionIdentifierQueryItem)
+        }
         return items
     }
 }
@@ -6572,6 +7039,10 @@ extension ListCollaborationTrainedModelInferenceJobsInput {
         if let trainedModelArn = value.trainedModelArn {
             let trainedModelArnQueryItem = Smithy.URIQueryItem(name: "trainedModelArn".urlPercentEncoding(), value: Swift.String(trainedModelArn).urlPercentEncoding())
             items.append(trainedModelArnQueryItem)
+        }
+        if let trainedModelVersionIdentifier = value.trainedModelVersionIdentifier {
+            let trainedModelVersionIdentifierQueryItem = Smithy.URIQueryItem(name: "trainedModelVersionIdentifier".urlPercentEncoding(), value: Swift.String(trainedModelVersionIdentifier).urlPercentEncoding())
+            items.append(trainedModelVersionIdentifierQueryItem)
         }
         return items
     }
@@ -6737,6 +7208,10 @@ extension ListTrainedModelInferenceJobsInput {
             let trainedModelArnQueryItem = Smithy.URIQueryItem(name: "trainedModelArn".urlPercentEncoding(), value: Swift.String(trainedModelArn).urlPercentEncoding())
             items.append(trainedModelArnQueryItem)
         }
+        if let trainedModelVersionIdentifier = value.trainedModelVersionIdentifier {
+            let trainedModelVersionIdentifierQueryItem = Smithy.URIQueryItem(name: "trainedModelVersionIdentifier".urlPercentEncoding(), value: Swift.String(trainedModelVersionIdentifier).urlPercentEncoding())
+            items.append(trainedModelVersionIdentifierQueryItem)
+        }
         return items
     }
 }
@@ -6762,6 +7237,39 @@ extension ListTrainedModelsInput {
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListTrainedModelVersionsInput {
+
+    static func urlPathProvider(_ value: ListTrainedModelVersionsInput) -> Swift.String? {
+        guard let membershipIdentifier = value.membershipIdentifier else {
+            return nil
+        }
+        guard let trainedModelArn = value.trainedModelArn else {
+            return nil
+        }
+        return "/memberships/\(membershipIdentifier.urlPercentEncoding())/trained-models/\(trainedModelArn.urlPercentEncoding())/versions"
+    }
+}
+
+extension ListTrainedModelVersionsInput {
+
+    static func queryItemProvider(_ value: ListTrainedModelVersionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
         }
         return items
     }
@@ -6972,11 +7480,13 @@ extension CreateTrainedModelInput {
         try writer["description"].write(value.description)
         try writer["environment"].writeMap(value.environment, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["hyperparameters"].writeMap(value.hyperparameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["incrementalTrainingDataChannels"].writeList(value.incrementalTrainingDataChannels, memberWritingClosure: CleanRoomsMLClientTypes.IncrementalTrainingDataChannel.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["kmsKeyArn"].write(value.kmsKeyArn)
         try writer["name"].write(value.name)
         try writer["resourceConfig"].write(value.resourceConfig, with: CleanRoomsMLClientTypes.ResourceConfig.write(value:to:))
         try writer["stoppingCondition"].write(value.stoppingCondition, with: CleanRoomsMLClientTypes.StoppingCondition.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["trainingInputMode"].write(value.trainingInputMode)
     }
 }
 
@@ -7042,6 +7552,7 @@ extension StartTrainedModelExportJobInput {
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
         try writer["outputConfiguration"].write(value.outputConfiguration, with: CleanRoomsMLClientTypes.TrainedModelExportOutputConfiguration.write(value:to:))
+        try writer["trainedModelVersionIdentifier"].write(value.trainedModelVersionIdentifier)
     }
 }
 
@@ -7060,6 +7571,7 @@ extension StartTrainedModelInferenceJobInput {
         try writer["resourceConfig"].write(value.resourceConfig, with: CleanRoomsMLClientTypes.InferenceResourceConfig.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["trainedModelArn"].write(value.trainedModelArn)
+        try writer["trainedModelVersionIdentifier"].write(value.trainedModelVersionIdentifier)
     }
 }
 
@@ -7166,6 +7678,7 @@ extension CreateTrainedModelOutput {
         let reader = responseReader
         var value = CreateTrainedModelOutput()
         value.trainedModelArn = try reader["trainedModelArn"].readIfPresent() ?? ""
+        value.versionIdentifier = try reader["versionIdentifier"].readIfPresent()
         return value
     }
 }
@@ -7358,6 +7871,7 @@ extension GetCollaborationTrainedModelOutput {
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.creatorAccountId = try reader["creatorAccountId"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
+        value.incrementalTrainingDataChannels = try reader["incrementalTrainingDataChannels"].readListIfPresent(memberReadingClosure: CleanRoomsMLClientTypes.IncrementalTrainingDataChannelOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.logsStatus = try reader["logsStatus"].readIfPresent()
         value.logsStatusDetails = try reader["logsStatusDetails"].readIfPresent()
         value.membershipIdentifier = try reader["membershipIdentifier"].readIfPresent() ?? ""
@@ -7370,7 +7884,9 @@ extension GetCollaborationTrainedModelOutput {
         value.stoppingCondition = try reader["stoppingCondition"].readIfPresent(with: CleanRoomsMLClientTypes.StoppingCondition.read(from:))
         value.trainedModelArn = try reader["trainedModelArn"].readIfPresent() ?? ""
         value.trainingContainerImageDigest = try reader["trainingContainerImageDigest"].readIfPresent()
+        value.trainingInputMode = try reader["trainingInputMode"].readIfPresent()
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.versionIdentifier = try reader["versionIdentifier"].readIfPresent()
         return value
     }
 }
@@ -7513,6 +8029,7 @@ extension GetTrainedModelOutput {
         value.description = try reader["description"].readIfPresent()
         value.environment = try reader["environment"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.hyperparameters = try reader["hyperparameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.incrementalTrainingDataChannels = try reader["incrementalTrainingDataChannels"].readListIfPresent(memberReadingClosure: CleanRoomsMLClientTypes.IncrementalTrainingDataChannelOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.logsStatus = try reader["logsStatus"].readIfPresent()
         value.logsStatusDetails = try reader["logsStatusDetails"].readIfPresent()
@@ -7527,7 +8044,9 @@ extension GetTrainedModelOutput {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.trainedModelArn = try reader["trainedModelArn"].readIfPresent() ?? ""
         value.trainingContainerImageDigest = try reader["trainingContainerImageDigest"].readIfPresent()
+        value.trainingInputMode = try reader["trainingInputMode"].readIfPresent()
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.versionIdentifier = try reader["versionIdentifier"].readIfPresent()
         return value
     }
 }
@@ -7560,6 +8079,7 @@ extension GetTrainedModelInferenceJobOutput {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.trainedModelArn = try reader["trainedModelArn"].readIfPresent() ?? ""
         value.trainedModelInferenceJobArn = try reader["trainedModelInferenceJobArn"].readIfPresent() ?? ""
+        value.trainedModelVersionIdentifier = try reader["trainedModelVersionIdentifier"].readIfPresent()
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
@@ -7779,6 +8299,19 @@ extension ListTrainedModelsOutput {
     }
 }
 
+extension ListTrainedModelVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTrainedModelVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTrainedModelVersionsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.trainedModels = try reader["trainedModels"].readListIfPresent(memberReadingClosure: CleanRoomsMLClientTypes.TrainedModelSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListTrainingDatasetsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTrainingDatasetsOutput {
@@ -7887,6 +8420,7 @@ enum CancelTrainedModelOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -7904,6 +8438,7 @@ enum CancelTrainedModelInferenceJobOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -7975,6 +8510,7 @@ enum CreateConfiguredModelAlgorithmAssociationOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -7993,6 +8529,7 @@ enum CreateMLInputChannelOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8009,8 +8546,10 @@ enum CreateTrainedModelOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8128,6 +8667,7 @@ enum DeleteConfiguredModelAlgorithmAssociationOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8144,6 +8684,7 @@ enum DeleteMLConfigurationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8161,6 +8702,7 @@ enum DeleteMLInputChannelDataOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8178,6 +8720,7 @@ enum DeleteTrainedModelOutputOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8243,6 +8786,7 @@ enum GetCollaborationConfiguredModelAlgorithmAssociationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8259,6 +8803,7 @@ enum GetCollaborationMLInputChannelOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8275,6 +8820,7 @@ enum GetCollaborationTrainedModelOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8339,6 +8885,7 @@ enum GetConfiguredModelAlgorithmAssociationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8355,6 +8902,7 @@ enum GetMLConfigurationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8371,6 +8919,7 @@ enum GetMLInputChannelOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8387,6 +8936,7 @@ enum GetTrainedModelOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8403,6 +8953,7 @@ enum GetTrainedModelInferenceJobOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8479,6 +9030,7 @@ enum ListCollaborationConfiguredModelAlgorithmAssociationsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8494,6 +9046,7 @@ enum ListCollaborationMLInputChannelsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8509,6 +9062,7 @@ enum ListCollaborationTrainedModelExportJobsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8524,6 +9078,7 @@ enum ListCollaborationTrainedModelInferenceJobsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8539,6 +9094,7 @@ enum ListCollaborationTrainedModelsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8569,6 +9125,7 @@ enum ListConfiguredModelAlgorithmAssociationsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8599,6 +9156,7 @@ enum ListMLInputChannelsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8630,6 +9188,7 @@ enum ListTrainedModelInferenceJobsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8645,6 +9204,24 @@ enum ListTrainedModelsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListTrainedModelVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8691,6 +9268,7 @@ enum PutMLConfigurationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8727,6 +9305,7 @@ enum StartAudienceGenerationJobOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8744,6 +9323,7 @@ enum StartTrainedModelExportJobOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8762,6 +9342,7 @@ enum StartTrainedModelInferenceJobOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8817,37 +9398,24 @@ enum UpdateConfiguredAudienceModelOutputError {
     }
 }
 
-extension ConflictException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> AccessDeniedException {
         let reader = baseError.errorBodyReader
         var value = AccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8869,11 +9437,52 @@ extension ResourceNotFoundException {
     }
 }
 
+extension ThrottlingException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ThrottlingException {
+        let reader = baseError.errorBodyReader
+        var value = ThrottlingException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ServiceQuotaExceededException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
         let reader = baseError.errorBodyReader
         var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.quotaName = try reader["quotaName"].readIfPresent()
+        value.properties.quotaValue = try reader["quotaValue"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalServiceException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServiceException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServiceException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -9153,6 +9762,7 @@ extension CleanRoomsMLClientTypes.TrainedModelsConfigurationPolicy {
         guard let value else { return }
         try writer["containerLogs"].writeList(value.containerLogs, memberWritingClosure: CleanRoomsMLClientTypes.LogsConfigurationPolicy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["containerMetrics"].write(value.containerMetrics, with: CleanRoomsMLClientTypes.MetricsConfigurationPolicy.write(value:to:))
+        try writer["maxArtifactSize"].write(value.maxArtifactSize, with: CleanRoomsMLClientTypes.TrainedModelArtifactMaxSize.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.TrainedModelsConfigurationPolicy {
@@ -9160,6 +9770,24 @@ extension CleanRoomsMLClientTypes.TrainedModelsConfigurationPolicy {
         var value = CleanRoomsMLClientTypes.TrainedModelsConfigurationPolicy()
         value.containerLogs = try reader["containerLogs"].readListIfPresent(memberReadingClosure: CleanRoomsMLClientTypes.LogsConfigurationPolicy.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.containerMetrics = try reader["containerMetrics"].readIfPresent(with: CleanRoomsMLClientTypes.MetricsConfigurationPolicy.read(from:))
+        value.maxArtifactSize = try reader["maxArtifactSize"].readIfPresent(with: CleanRoomsMLClientTypes.TrainedModelArtifactMaxSize.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.TrainedModelArtifactMaxSize {
+
+    static func write(value: CleanRoomsMLClientTypes.TrainedModelArtifactMaxSize?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["unit"].write(value.unit)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.TrainedModelArtifactMaxSize {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.TrainedModelArtifactMaxSize()
+        value.unit = try reader["unit"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -9175,6 +9803,18 @@ extension CleanRoomsMLClientTypes.MetricsConfigurationPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsMLClientTypes.MetricsConfigurationPolicy()
         value.noiseLevel = try reader["noiseLevel"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.IncrementalTrainingDataChannelOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.IncrementalTrainingDataChannelOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.IncrementalTrainingDataChannelOutput()
+        value.channelName = try reader["channelName"].readIfPresent() ?? ""
+        value.versionIdentifier = try reader["versionIdentifier"].readIfPresent()
+        value.modelName = try reader["modelName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9393,6 +10033,7 @@ extension CleanRoomsMLClientTypes.ProtectedQueryInputParameters {
     static func write(value: CleanRoomsMLClientTypes.ProtectedQueryInputParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["computeConfiguration"].write(value.computeConfiguration, with: CleanRoomsMLClientTypes.ComputeConfiguration.write(value:to:))
+        try writer["resultFormat"].write(value.resultFormat)
         try writer["sqlParameters"].write(value.sqlParameters, with: CleanRoomsMLClientTypes.ProtectedQuerySQLParameters.write(value:to:))
     }
 
@@ -9401,6 +10042,7 @@ extension CleanRoomsMLClientTypes.ProtectedQueryInputParameters {
         var value = CleanRoomsMLClientTypes.ProtectedQueryInputParameters()
         value.sqlParameters = try reader["sqlParameters"].readIfPresent(with: CleanRoomsMLClientTypes.ProtectedQuerySQLParameters.read(from:))
         value.computeConfiguration = try reader["computeConfiguration"].readIfPresent(with: CleanRoomsMLClientTypes.ComputeConfiguration.read(from:))
+        value.resultFormat = try reader["resultFormat"].readIfPresent() ?? CleanRoomsMLClientTypes.ResultFormat.csv
         return value
     }
 }
@@ -9411,6 +10053,7 @@ extension CleanRoomsMLClientTypes.ModelTrainingDataChannel {
         guard let value else { return }
         try writer["channelName"].write(value.channelName)
         try writer["mlInputChannelArn"].write(value.mlInputChannelArn)
+        try writer["s3DataDistributionType"].write(value.s3DataDistributionType)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.ModelTrainingDataChannel {
@@ -9418,6 +10061,7 @@ extension CleanRoomsMLClientTypes.ModelTrainingDataChannel {
         var value = CleanRoomsMLClientTypes.ModelTrainingDataChannel()
         value.mlInputChannelArn = try reader["mlInputChannelArn"].readIfPresent() ?? ""
         value.channelName = try reader["channelName"].readIfPresent() ?? ""
+        value.s3DataDistributionType = try reader["s3DataDistributionType"].readIfPresent() ?? CleanRoomsMLClientTypes.S3DataDistributionType.fullyReplicated
         return value
     }
 }
@@ -9689,6 +10333,7 @@ extension CleanRoomsMLClientTypes.CollaborationTrainedModelExportJobSummary {
         value.description = try reader["description"].readIfPresent()
         value.creatorAccountId = try reader["creatorAccountId"].readIfPresent() ?? ""
         value.trainedModelArn = try reader["trainedModelArn"].readIfPresent() ?? ""
+        value.trainedModelVersionIdentifier = try reader["trainedModelVersionIdentifier"].readIfPresent()
         value.membershipIdentifier = try reader["membershipIdentifier"].readIfPresent() ?? ""
         value.collaborationIdentifier = try reader["collaborationIdentifier"].readIfPresent() ?? ""
         return value
@@ -9734,6 +10379,7 @@ extension CleanRoomsMLClientTypes.CollaborationTrainedModelInferenceJobSummary {
         value.configuredModelAlgorithmAssociationArn = try reader["configuredModelAlgorithmAssociationArn"].readIfPresent()
         value.membershipIdentifier = try reader["membershipIdentifier"].readIfPresent() ?? ""
         value.trainedModelArn = try reader["trainedModelArn"].readIfPresent() ?? ""
+        value.trainedModelVersionIdentifier = try reader["trainedModelVersionIdentifier"].readIfPresent()
         value.collaborationIdentifier = try reader["collaborationIdentifier"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.outputConfiguration = try reader["outputConfiguration"].readIfPresent(with: CleanRoomsMLClientTypes.InferenceOutputConfiguration.read(from:))
@@ -9759,6 +10405,8 @@ extension CleanRoomsMLClientTypes.CollaborationTrainedModelSummary {
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.trainedModelArn = try reader["trainedModelArn"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.versionIdentifier = try reader["versionIdentifier"].readIfPresent()
+        value.incrementalTrainingDataChannels = try reader["incrementalTrainingDataChannels"].readListIfPresent(memberReadingClosure: CleanRoomsMLClientTypes.IncrementalTrainingDataChannelOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.description = try reader["description"].readIfPresent()
         value.membershipIdentifier = try reader["membershipIdentifier"].readIfPresent() ?? ""
         value.collaborationIdentifier = try reader["collaborationIdentifier"].readIfPresent() ?? ""
@@ -9845,6 +10493,7 @@ extension CleanRoomsMLClientTypes.TrainedModelInferenceJobSummary {
         value.configuredModelAlgorithmAssociationArn = try reader["configuredModelAlgorithmAssociationArn"].readIfPresent()
         value.membershipIdentifier = try reader["membershipIdentifier"].readIfPresent() ?? ""
         value.trainedModelArn = try reader["trainedModelArn"].readIfPresent() ?? ""
+        value.trainedModelVersionIdentifier = try reader["trainedModelVersionIdentifier"].readIfPresent()
         value.collaborationIdentifier = try reader["collaborationIdentifier"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.outputConfiguration = try reader["outputConfiguration"].readIfPresent(with: CleanRoomsMLClientTypes.InferenceOutputConfiguration.read(from:))
@@ -9868,6 +10517,8 @@ extension CleanRoomsMLClientTypes.TrainedModelSummary {
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.trainedModelArn = try reader["trainedModelArn"].readIfPresent() ?? ""
+        value.versionIdentifier = try reader["versionIdentifier"].readIfPresent()
+        value.incrementalTrainingDataChannels = try reader["incrementalTrainingDataChannels"].readListIfPresent(memberReadingClosure: CleanRoomsMLClientTypes.IncrementalTrainingDataChannelOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.membershipIdentifier = try reader["membershipIdentifier"].readIfPresent() ?? ""
@@ -9890,6 +10541,16 @@ extension CleanRoomsMLClientTypes.TrainingDatasetSummary {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.description = try reader["description"].readIfPresent()
         return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.IncrementalTrainingDataChannel {
+
+    static func write(value: CleanRoomsMLClientTypes.IncrementalTrainingDataChannel?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["channelName"].write(value.channelName)
+        try writer["trainedModelArn"].write(value.trainedModelArn)
+        try writer["versionIdentifier"].write(value.versionIdentifier)
     }
 }
 

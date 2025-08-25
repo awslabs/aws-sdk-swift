@@ -6,7 +6,6 @@
 //
 
 import SmithyIdentity
-import SmithyIdentityAPI
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 
 public protocol AWSDefaultClientConfiguration {
@@ -14,6 +13,8 @@ public protocol AWSDefaultClientConfiguration {
     ///
     /// If no resolver is supplied, `AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain` gets used by default.
     var awsCredentialIdentityResolver: any AWSCredentialIdentityResolver { get set }
+
+    var authSchemePreference: [String]? { get set }
 
     /// Specifies whether FIPS endpoints should be used.
     var useFIPS: Bool? { get set }

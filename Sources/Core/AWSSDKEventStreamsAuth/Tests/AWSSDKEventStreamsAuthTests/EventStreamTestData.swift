@@ -6,7 +6,6 @@
 //
 
 import SmithyEventStreamsAPI
-import ClientRuntime
 import Foundation
 
 enum TestEvent {

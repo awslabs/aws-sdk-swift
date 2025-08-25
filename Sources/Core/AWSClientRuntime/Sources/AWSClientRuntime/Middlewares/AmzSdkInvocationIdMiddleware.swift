@@ -6,7 +6,6 @@
 //
 
 import ClientRuntime
-import Smithy
 import SmithyHTTPAPI
 import struct Foundation.UUID
 

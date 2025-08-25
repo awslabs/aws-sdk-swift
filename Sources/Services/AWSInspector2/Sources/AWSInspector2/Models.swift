@@ -32,7 +32,7 @@ import struct Smithy.URIQueryItem
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
-/// You do not have sufficient access to perform this action.
+/// You do not have sufficient access to perform this action. For Enable, you receive this error if you attempt to use a feature in an unsupported Amazon Web Services Region.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -101,6 +101,8 @@ extension Inspector2ClientTypes {
 
     /// Details the status of Amazon Inspector for each resource type Amazon Inspector scans.
     public struct ResourceStatus: Swift.Sendable {
+        /// The status of Amazon Inspector scanning for code repositories.
+        public var codeRepository: Inspector2ClientTypes.Status?
         /// The status of Amazon Inspector scanning for Amazon EC2 resources.
         /// This member is required.
         public var ec2: Inspector2ClientTypes.Status?
@@ -113,11 +115,13 @@ extension Inspector2ClientTypes {
         public var lambdaCode: Inspector2ClientTypes.Status?
 
         public init(
+            codeRepository: Inspector2ClientTypes.Status? = nil,
             ec2: Inspector2ClientTypes.Status? = nil,
             ecr: Inspector2ClientTypes.Status? = nil,
             lambda: Inspector2ClientTypes.Status? = nil,
             lambdaCode: Inspector2ClientTypes.Status? = nil
         ) {
+            self.codeRepository = codeRepository
             self.ec2 = ec2
             self.ecr = ecr
             self.lambda = lambda
@@ -190,13 +194,15 @@ extension Inspector2ClientTypes {
         case awsEc2Instance
         case awsEcrContainerImage
         case awsLambdaFunction
+        case codeRepository
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AggregationResourceType] {
             return [
                 .awsEc2Instance,
                 .awsEcrContainerImage,
-                .awsLambdaFunction
+                .awsLambdaFunction,
+                .codeRepository
             ]
         }
 
@@ -210,6 +216,7 @@ extension Inspector2ClientTypes {
             case .awsEc2Instance: return "AWS_EC2_INSTANCE"
             case .awsEcrContainerImage: return "AWS_ECR_CONTAINER_IMAGE"
             case .awsLambdaFunction: return "AWS_LAMBDA_FUNCTION"
+            case .codeRepository: return "CODE_REPOSITORY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -512,6 +519,8 @@ extension Inspector2ClientTypes {
 
     /// Details the state of Amazon Inspector for each resource type Amazon Inspector scans.
     public struct ResourceState: Swift.Sendable {
+        /// An object that described the state of Amazon Inspector scans for an account.
+        public var codeRepository: Inspector2ClientTypes.State?
         /// An object detailing the state of Amazon Inspector scanning for Amazon EC2 resources.
         /// This member is required.
         public var ec2: Inspector2ClientTypes.State?
@@ -524,11 +533,13 @@ extension Inspector2ClientTypes {
         public var lambdaCode: Inspector2ClientTypes.State?
 
         public init(
+            codeRepository: Inspector2ClientTypes.State? = nil,
             ec2: Inspector2ClientTypes.State? = nil,
             ecr: Inspector2ClientTypes.State? = nil,
             lambda: Inspector2ClientTypes.State? = nil,
             lambdaCode: Inspector2ClientTypes.State? = nil
         ) {
+            self.codeRepository = codeRepository
             self.ec2 = ec2
             self.ecr = ecr
             self.lambda = lambda
@@ -784,6 +795,69 @@ extension Inspector2ClientTypes {
             self.inUseCount = inUseCount
             self.lastInUseAt = lastInUseAt
             self.repositories = repositories
+            self.resourceIds = resourceIds
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum CodeRepositorySortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case critical
+        case high
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CodeRepositorySortBy] {
+            return [
+                .all,
+                .critical,
+                .high
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .critical: return "CRITICAL"
+            case .high: return "HIGH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The details that define an aggregation based on code repositories.
+    public struct CodeRepositoryAggregation: Swift.Sendable {
+        /// The project names to include in the aggregation results.
+        public var projectNames: [Inspector2ClientTypes.StringFilter]?
+        /// The repository provider types to include in the aggregation results.
+        public var providerTypes: [Inspector2ClientTypes.StringFilter]?
+        /// The resource IDs to include in the aggregation results.
+        public var resourceIds: [Inspector2ClientTypes.StringFilter]?
+        /// The value to sort results by in the code repository aggregation.
+        public var sortBy: Inspector2ClientTypes.CodeRepositorySortBy?
+        /// The order to sort results by (ascending or descending) in the code repository aggregation.
+        public var sortOrder: Inspector2ClientTypes.SortOrder?
+
+        public init(
+            projectNames: [Inspector2ClientTypes.StringFilter]? = nil,
+            providerTypes: [Inspector2ClientTypes.StringFilter]? = nil,
+            resourceIds: [Inspector2ClientTypes.StringFilter]? = nil,
+            sortBy: Inspector2ClientTypes.CodeRepositorySortBy? = nil,
+            sortOrder: Inspector2ClientTypes.SortOrder? = nil
+        ) {
+            self.projectNames = projectNames
+            self.providerTypes = providerTypes
             self.resourceIds = resourceIds
             self.sortBy = sortBy
             self.sortOrder = sortOrder
@@ -1370,6 +1444,8 @@ extension Inspector2ClientTypes {
         case lambdalayeraggregation(Inspector2ClientTypes.LambdaLayerAggregation)
         /// Returns an object with findings aggregated by Amazon Web Services Lambda function.
         case lambdafunctionaggregation(Inspector2ClientTypes.LambdaFunctionAggregation)
+        /// An object that contains details about an aggregation request based on code repositories.
+        case coderepositoryaggregation(Inspector2ClientTypes.CodeRepositoryAggregation)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1444,6 +1520,46 @@ extension Inspector2ClientTypes {
             self.inUseCount = inUseCount
             self.lastInUseAt = lastInUseAt
             self.repository = repository
+            self.resourceId = resourceId
+            self.severityCounts = severityCounts
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// A response that contains the results of a finding aggregation by code repository.
+    public struct CodeRepositoryAggregationResponse: Swift.Sendable {
+        /// The Amazon Web Services account ID associated with the code repository.
+        public var accountId: Swift.String?
+        /// The number of active findings that have an exploit available for the code repository.
+        public var exploitAvailableActiveFindingsCount: Swift.Int?
+        /// The number of active findings that have a fix available for the code repository.
+        public var fixAvailableActiveFindingsCount: Swift.Int?
+        /// The names of the projects associated with the code repository.
+        /// This member is required.
+        public var projectNames: Swift.String?
+        /// The type of repository provider for the code repository.
+        public var providerType: Swift.String?
+        /// The resource ID of the code repository.
+        public var resourceId: Swift.String?
+        /// An object that contains the counts of aggregated finding per severity.
+        public var severityCounts: Inspector2ClientTypes.SeverityCounts?
+
+        public init(
+            accountId: Swift.String? = nil,
+            exploitAvailableActiveFindingsCount: Swift.Int? = nil,
+            fixAvailableActiveFindingsCount: Swift.Int? = nil,
+            projectNames: Swift.String? = nil,
+            providerType: Swift.String? = nil,
+            resourceId: Swift.String? = nil,
+            severityCounts: Inspector2ClientTypes.SeverityCounts? = nil
+        ) {
+            self.accountId = accountId
+            self.exploitAvailableActiveFindingsCount = exploitAvailableActiveFindingsCount
+            self.fixAvailableActiveFindingsCount = fixAvailableActiveFindingsCount
+            self.projectNames = projectNames
+            self.providerType = providerType
             self.resourceId = resourceId
             self.severityCounts = severityCounts
         }
@@ -1733,6 +1849,8 @@ extension Inspector2ClientTypes {
         case lambdalayeraggregation(Inspector2ClientTypes.LambdaLayerAggregationResponse)
         /// An aggregation of findings by Amazon Web Services Lambda function.
         case lambdafunctionaggregation(Inspector2ClientTypes.LambdaFunctionAggregationResponse)
+        /// An object that contains details about an aggregation response based on code repositories.
+        case coderepositoryaggregation(Inspector2ClientTypes.CodeRepositoryAggregationResponse)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1745,10 +1863,11 @@ extension Inspector2ClientTypes {
         case awsEc2Instance
         case awsEcrContainer
         case awsLambdaFunction
+        case codeRepository
         case findingType
         case imageLayer
         case lambdaLayer
-        case package
+        case `package`
         case repository
         case title
         case sdkUnknown(Swift.String)
@@ -1760,6 +1879,7 @@ extension Inspector2ClientTypes {
                 .awsEc2Instance,
                 .awsEcrContainer,
                 .awsLambdaFunction,
+                .codeRepository,
                 .findingType,
                 .imageLayer,
                 .lambdaLayer,
@@ -1781,6 +1901,7 @@ extension Inspector2ClientTypes {
             case .awsEc2Instance: return "AWS_EC2_INSTANCE"
             case .awsEcrContainer: return "AWS_ECR_CONTAINER"
             case .awsLambdaFunction: return "AWS_LAMBDA_FUNCTION"
+            case .codeRepository: return "CODE_REPOSITORY"
             case .findingType: return "FINDING_TYPE"
             case .imageLayer: return "IMAGE_LAYER"
             case .lambdaLayer: return "LAMBDA_LAYER"
@@ -1818,6 +1939,37 @@ extension Inspector2ClientTypes {
             case .x8664: return "X86_64"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Identifies a specific resource in a code repository that will be scanned.
+    public enum CodeSecurityResource: Swift.Sendable {
+        /// The unique identifier of the project in the code repository.
+        case projectid(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains details about a request to associate a code repository with a scan configuration.
+    public struct AssociateConfigurationRequest: Swift.Sendable {
+        /// Identifies a specific resource in a code repository that will be scanned.
+        /// This member is required.
+        public var resource: Inspector2ClientTypes.CodeSecurityResource?
+        /// The Amazon Resource Name (ARN) of the scan configuration.
+        /// This member is required.
+        public var scanConfigurationArn: Swift.String?
+
+        public init(
+            resource: Inspector2ClientTypes.CodeSecurityResource? = nil,
+            scanConfigurationArn: Swift.String? = nil
+        ) {
+            self.resource = resource
+            self.scanConfigurationArn = scanConfigurationArn
         }
     }
 }
@@ -2019,6 +2171,47 @@ public struct AssociateMemberOutput: Swift.Sendable {
 
 extension Inspector2ClientTypes {
 
+    public enum AssociationResultStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessDenied
+        case internalError
+        case invalidInput
+        case quotaExceeded
+        case resourceNotFound
+        case scanConfigurationNotFound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssociationResultStatusCode] {
+            return [
+                .accessDenied,
+                .internalError,
+                .invalidInput,
+                .quotaExceeded,
+                .resourceNotFound,
+                .scanConfigurationNotFound
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessDenied: return "ACCESS_DENIED"
+            case .internalError: return "INTERNAL_ERROR"
+            case .invalidInput: return "INVALID_INPUT"
+            case .quotaExceeded: return "QUOTA_EXCEEDED"
+            case .resourceNotFound: return "RESOURCE_NOT_FOUND"
+            case .scanConfigurationNotFound: return "SCAN_CONFIGURATION_NOT_FOUND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     /// The Amazon Web Services Threat Intel Group (ATIG) details for a specific vulnerability.
     public struct AtigData: Swift.Sendable {
         /// The date and time this vulnerability was first observed.
@@ -2048,6 +2241,8 @@ extension Inspector2ClientTypes {
 
     /// Represents which scan types are automatically enabled for new members of your Amazon Inspector organization.
     public struct AutoEnable: Swift.Sendable {
+        /// Represents whether code repository scans are automatically enabled for new members of your Amazon Inspector organization.
+        public var codeRepository: Swift.Bool?
         /// Represents whether Amazon EC2 scans are automatically enabled for new members of your Amazon Inspector organization.
         /// This member is required.
         public var ec2: Swift.Bool?
@@ -2060,11 +2255,13 @@ extension Inspector2ClientTypes {
         public var lambdaCode: Swift.Bool?
 
         public init(
+            codeRepository: Swift.Bool? = nil,
             ec2: Swift.Bool? = nil,
             ecr: Swift.Bool? = nil,
             lambda: Swift.Bool? = nil,
             lambdaCode: Swift.Bool? = nil
         ) {
+            self.codeRepository = codeRepository
             self.ec2 = ec2
             self.ecr = ecr
             self.lambda = lambda
@@ -2457,6 +2654,40 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
+/// A conflict occurred. This exception occurs when the same resource is being modified by concurrent requests.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The ID of the conflicting resource.
+        /// This member is required.
+        public internal(set) var resourceId: Swift.String? = nil
+        /// The type of the conflicting resource.
+        /// This member is required.
+        public internal(set) var resourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        resourceId: Swift.String? = nil,
+        resourceType: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.resourceId = resourceId
+        self.properties.resourceType = resourceType
+    }
+}
+
 /// The operation tried to access an invalid resource. Make sure the resource is specified correctly.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -2478,6 +2709,127 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+public struct BatchAssociateCodeSecurityScanConfigurationInput: Swift.Sendable {
+    /// A list of code repositories to associate with the specified scan configuration.
+    /// This member is required.
+    public var associateConfigurationRequests: [Inspector2ClientTypes.AssociateConfigurationRequest]?
+
+    public init(
+        associateConfigurationRequests: [Inspector2ClientTypes.AssociateConfigurationRequest]? = nil
+    ) {
+        self.associateConfigurationRequests = associateConfigurationRequests
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Details about a failed attempt to associate or disassociate a code repository with a scan configuration.
+    public struct FailedAssociationResult: Swift.Sendable {
+        /// Identifies a specific resource in a code repository that will be scanned.
+        public var resource: Inspector2ClientTypes.CodeSecurityResource?
+        /// The Amazon Resource Name (ARN) of the scan configuration that failed to be associated or disassociated.
+        public var scanConfigurationArn: Swift.String?
+        /// The status code indicating why the association or disassociation failed.
+        public var statusCode: Inspector2ClientTypes.AssociationResultStatusCode?
+        /// A message explaining why the association or disassociation failed.
+        public var statusMessage: Swift.String?
+
+        public init(
+            resource: Inspector2ClientTypes.CodeSecurityResource? = nil,
+            scanConfigurationArn: Swift.String? = nil,
+            statusCode: Inspector2ClientTypes.AssociationResultStatusCode? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.resource = resource
+            self.scanConfigurationArn = scanConfigurationArn
+            self.statusCode = statusCode
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Details about a successful association or disassociation between a code repository and a scan configuration.
+    public struct SuccessfulAssociationResult: Swift.Sendable {
+        /// Identifies a specific resource in a code repository that will be scanned.
+        public var resource: Inspector2ClientTypes.CodeSecurityResource?
+        /// The Amazon Resource Name (ARN) of the scan configuration that was successfully associated or disassociated.
+        public var scanConfigurationArn: Swift.String?
+
+        public init(
+            resource: Inspector2ClientTypes.CodeSecurityResource? = nil,
+            scanConfigurationArn: Swift.String? = nil
+        ) {
+            self.resource = resource
+            self.scanConfigurationArn = scanConfigurationArn
+        }
+    }
+}
+
+public struct BatchAssociateCodeSecurityScanConfigurationOutput: Swift.Sendable {
+    /// Details of any code repositories that failed to be associated with the scan configuration.
+    public var failedAssociations: [Inspector2ClientTypes.FailedAssociationResult]?
+    /// Details of code repositories that were successfully associated with the scan configuration.
+    public var successfulAssociations: [Inspector2ClientTypes.SuccessfulAssociationResult]?
+
+    public init(
+        failedAssociations: [Inspector2ClientTypes.FailedAssociationResult]? = nil,
+        successfulAssociations: [Inspector2ClientTypes.SuccessfulAssociationResult]? = nil
+    ) {
+        self.failedAssociations = failedAssociations
+        self.successfulAssociations = successfulAssociations
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains details about a request to disassociate a code repository from a scan configuration.
+    public struct DisassociateConfigurationRequest: Swift.Sendable {
+        /// Identifies a specific resource in a code repository that will be scanned.
+        /// This member is required.
+        public var resource: Inspector2ClientTypes.CodeSecurityResource?
+        /// The Amazon Resource Name (ARN) of the scan configuration to disassociate from a code repository.
+        /// This member is required.
+        public var scanConfigurationArn: Swift.String?
+
+        public init(
+            resource: Inspector2ClientTypes.CodeSecurityResource? = nil,
+            scanConfigurationArn: Swift.String? = nil
+        ) {
+            self.resource = resource
+            self.scanConfigurationArn = scanConfigurationArn
+        }
+    }
+}
+
+public struct BatchDisassociateCodeSecurityScanConfigurationInput: Swift.Sendable {
+    /// A list of code repositories to disassociate from the specified scan configuration.
+    /// This member is required.
+    public var disassociateConfigurationRequests: [Inspector2ClientTypes.DisassociateConfigurationRequest]?
+
+    public init(
+        disassociateConfigurationRequests: [Inspector2ClientTypes.DisassociateConfigurationRequest]? = nil
+    ) {
+        self.disassociateConfigurationRequests = disassociateConfigurationRequests
+    }
+}
+
+public struct BatchDisassociateCodeSecurityScanConfigurationOutput: Swift.Sendable {
+    /// Details of any code repositories that failed to be disassociated from the scan configuration.
+    public var failedAssociations: [Inspector2ClientTypes.FailedAssociationResult]?
+    /// Details of code repositories that were successfully disassociated from the scan configuration.
+    public var successfulAssociations: [Inspector2ClientTypes.SuccessfulAssociationResult]?
+
+    public init(
+        failedAssociations: [Inspector2ClientTypes.FailedAssociationResult]? = nil,
+        successfulAssociations: [Inspector2ClientTypes.SuccessfulAssociationResult]? = nil
+    ) {
+        self.failedAssociations = failedAssociations
+        self.successfulAssociations = successfulAssociations
     }
 }
 
@@ -2949,6 +3301,7 @@ extension Inspector2ClientTypes {
 extension Inspector2ClientTypes {
 
     public enum FreeTrialType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case codeRepository
         case ec2
         case ecr
         case lambda
@@ -2957,6 +3310,7 @@ extension Inspector2ClientTypes {
 
         public static var allCases: [FreeTrialType] {
             return [
+                .codeRepository,
                 .ec2,
                 .ecr,
                 .lambda,
@@ -2971,6 +3325,7 @@ extension Inspector2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .codeRepository: return "CODE_REPOSITORY"
             case .ec2: return "EC2"
             case .ecr: return "ECR"
             case .lambda: return "LAMBDA"
@@ -4798,6 +5153,760 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
+    public enum CodeRepositoryProviderType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case github
+        case gitlabSelfManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CodeRepositoryProviderType] {
+            return [
+                .github,
+                .gitlabSelfManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .github: return "GITHUB"
+            case .gitlabSelfManaged: return "GITLAB_SELF_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains details about a code repository associated with a finding.
+    public struct CodeRepositoryDetails: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the code security integration associated with the repository.
+        public var integrationArn: Swift.String?
+        /// The name of the project in the code repository.
+        public var projectName: Swift.String?
+        /// The type of repository provider (such as GitHub, GitLab, etc.).
+        public var providerType: Inspector2ClientTypes.CodeRepositoryProviderType?
+
+        public init(
+            integrationArn: Swift.String? = nil,
+            projectName: Swift.String? = nil,
+            providerType: Inspector2ClientTypes.CodeRepositoryProviderType? = nil
+        ) {
+            self.integrationArn = integrationArn
+            self.projectName = projectName
+            self.providerType = providerType
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum ScanStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessDenied
+        case accessDeniedToEncryptionKey
+        case agentlessInstanceCollectionTimeLimitExceeded
+        case agentlessInstanceStorageLimitExceeded
+        case deepInspectionCollectionTimeLimitExceeded
+        case deepInspectionDailySsmInventoryLimitExceeded
+        case deepInspectionNoInventory
+        case deepInspectionPackageCollectionLimitExceeded
+        case ec2InstanceStopped
+        case excludedByTag
+        case imageSizeExceeded
+        case integrationConnectionLost
+        case internalError
+        case noInventory
+        case noResourcesFound
+        case noScanConfigurationAssociated
+        case pendingDisable
+        case pendingInitialScan
+        case pendingRevivalScan
+        case resourceTerminated
+        case scanEligibilityExpired
+        case scanFrequencyManual
+        case scanFrequencyScanOnPush
+        case scanInProgress
+        case staleInventory
+        case successful
+        case unmanagedEc2Instance
+        case unsupportedConfigFile
+        case unsupportedLanguage
+        case unsupportedMediaType
+        case unsupportedOs
+        case unsupportedRuntime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScanStatusReason] {
+            return [
+                .accessDenied,
+                .accessDeniedToEncryptionKey,
+                .agentlessInstanceCollectionTimeLimitExceeded,
+                .agentlessInstanceStorageLimitExceeded,
+                .deepInspectionCollectionTimeLimitExceeded,
+                .deepInspectionDailySsmInventoryLimitExceeded,
+                .deepInspectionNoInventory,
+                .deepInspectionPackageCollectionLimitExceeded,
+                .ec2InstanceStopped,
+                .excludedByTag,
+                .imageSizeExceeded,
+                .integrationConnectionLost,
+                .internalError,
+                .noInventory,
+                .noResourcesFound,
+                .noScanConfigurationAssociated,
+                .pendingDisable,
+                .pendingInitialScan,
+                .pendingRevivalScan,
+                .resourceTerminated,
+                .scanEligibilityExpired,
+                .scanFrequencyManual,
+                .scanFrequencyScanOnPush,
+                .scanInProgress,
+                .staleInventory,
+                .successful,
+                .unmanagedEc2Instance,
+                .unsupportedConfigFile,
+                .unsupportedLanguage,
+                .unsupportedMediaType,
+                .unsupportedOs,
+                .unsupportedRuntime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accessDenied: return "ACCESS_DENIED"
+            case .accessDeniedToEncryptionKey: return "ACCESS_DENIED_TO_ENCRYPTION_KEY"
+            case .agentlessInstanceCollectionTimeLimitExceeded: return "AGENTLESS_INSTANCE_COLLECTION_TIME_LIMIT_EXCEEDED"
+            case .agentlessInstanceStorageLimitExceeded: return "AGENTLESS_INSTANCE_STORAGE_LIMIT_EXCEEDED"
+            case .deepInspectionCollectionTimeLimitExceeded: return "DEEP_INSPECTION_COLLECTION_TIME_LIMIT_EXCEEDED"
+            case .deepInspectionDailySsmInventoryLimitExceeded: return "DEEP_INSPECTION_DAILY_SSM_INVENTORY_LIMIT_EXCEEDED"
+            case .deepInspectionNoInventory: return "DEEP_INSPECTION_NO_INVENTORY"
+            case .deepInspectionPackageCollectionLimitExceeded: return "DEEP_INSPECTION_PACKAGE_COLLECTION_LIMIT_EXCEEDED"
+            case .ec2InstanceStopped: return "EC2_INSTANCE_STOPPED"
+            case .excludedByTag: return "EXCLUDED_BY_TAG"
+            case .imageSizeExceeded: return "IMAGE_SIZE_EXCEEDED"
+            case .integrationConnectionLost: return "INTEGRATION_CONNECTION_LOST"
+            case .internalError: return "INTERNAL_ERROR"
+            case .noInventory: return "NO_INVENTORY"
+            case .noResourcesFound: return "NO_RESOURCES_FOUND"
+            case .noScanConfigurationAssociated: return "NO_SCAN_CONFIGURATION_ASSOCIATED"
+            case .pendingDisable: return "PENDING_DISABLE"
+            case .pendingInitialScan: return "PENDING_INITIAL_SCAN"
+            case .pendingRevivalScan: return "PENDING_REVIVAL_SCAN"
+            case .resourceTerminated: return "RESOURCE_TERMINATED"
+            case .scanEligibilityExpired: return "SCAN_ELIGIBILITY_EXPIRED"
+            case .scanFrequencyManual: return "SCAN_FREQUENCY_MANUAL"
+            case .scanFrequencyScanOnPush: return "SCAN_FREQUENCY_SCAN_ON_PUSH"
+            case .scanInProgress: return "SCAN_IN_PROGRESS"
+            case .staleInventory: return "STALE_INVENTORY"
+            case .successful: return "SUCCESSFUL"
+            case .unmanagedEc2Instance: return "UNMANAGED_EC2_INSTANCE"
+            case .unsupportedConfigFile: return "UNSUPPORTED_CONFIG_FILE"
+            case .unsupportedLanguage: return "UNSUPPORTED_LANGUAGE"
+            case .unsupportedMediaType: return "UNSUPPORTED_MEDIA_TYPE"
+            case .unsupportedOs: return "UNSUPPORTED_OS"
+            case .unsupportedRuntime: return "UNSUPPORTED_RUNTIME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum ScanStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ScanStatusCode] {
+            return [
+                .active,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// The status of the scan.
+    public struct ScanStatus: Swift.Sendable {
+        /// The scan status. Possible return values and descriptions are: ACCESS_DENIED - Resource access policy restricting Amazon Inspector access. Please update the IAM policy. ACCESS_DENIED_TO_ENCRYPTION_KEY - The KMS key policy doesn't allow Amazon Inspector access. Update the key policy. DEEP_INSPECTION_COLLECTION_TIME_LIMIT_EXCEEDED - Amazon Inspector failed to extract the package inventory because the package collection time exceeding the maximum threshold of 15 minutes. DEEP_INSPECTION_DAILY_SSM_INVENTORY_LIMIT_EXCEEDED - The SSM agent couldn't send inventory to Amazon Inspector because the SSM quota for Inventory data collected per instance per day has already been reached for this instance. DEEP_INSPECTION_NO_INVENTORY - The Amazon Inspector plugin hasn't yet been able to collect an inventory of packages for this instance. This is usually the result of a pending scan, however, if this status persists after 6 hours, use SSM to ensure that the required Amazon Inspector associations exist and are running for the instance. DEEP_INSPECTION_PACKAGE_COLLECTION_LIMIT_EXCEEDED - The instance has exceeded the 5000 package limit for Amazon Inspector Deep inspection. To resume Deep inspection for this instance you can try to adjust the custom paths associated with the account. EC2_INSTANCE_STOPPED - This EC2 instance is in a stopped state, therefore, Amazon Inspector will pause scanning. The existing findings will continue to exist until the instance is terminated. Once the instance is re-started, Inspector will automatically start scanning the instance again. Please note that you will not be charged for this instance while it's in a stopped state. EXCLUDED_BY_TAG - This resource was not scanned because it has been excluded by a tag. IMAGE_SIZE_EXCEEDED - Reserved for future use. INTEGRATION_CONNNECTION_LOST - Amazon Inspector couldn't communicate with the source code management platform. INTERNAL_ERROR - Amazon Inspector has encountered an internal error for this resource. Amazon Inspector service will automatically resolve the issue and resume the scanning. No action required from the user. NO_INVENTORY - Amazon Inspector couldn't find software application inventory to scan for vulnerabilities. This might be caused due to required Amazon Inspector associations being deleted or failing to run on your resource. Please verify the status of InspectorInventoryCollection-do-not-delete association in the SSM console for the resource. Additionally, you can verify the instance's inventory in the SSM Fleet Manager console. NO_RESOURCES_FOUND - Reserved for future use. NO_SCAN_CONFIGURATION_ASSOCIATED - The code repository resource doesn't have an associated scan configuration. PENDING_DISABLE - This resource is pending cleanup during disablement. The customer will not be billed while a resource is in the pending disable status. PENDING_INITIAL_SCAN - This resource has been identified for scanning, results will be available soon. RESOURCE_TERMINATED - This resource has been terminated. The findings and coverage associated with this resource are in the process of being cleaned up. SCAN_ELIGIBILITY_EXPIRED - The configured scan duration has lapsed for this image. SCAN_FREQUENCY_MANUAL - This image will not be covered by Amazon Inspector due to the repository scan frequency configuration. SCAN_FREQUENCY_SCAN_ON_PUSH - This image will be scanned one time and will not new findings because of the scan frequency configuration. SCAN_IN_PROGRESS - The resource is currently being scanned. STALE_INVENTORY - Amazon Inspector wasn't able to collect an updated software application inventory in the last 7 days. Please confirm the required Amazon Inspector associations still exist and you can still see an updated inventory in the SSM console. SUCCESSFUL - The scan was successful. UNMANAGED_EC2_INSTANCE - The EC2 instance is not managed by SSM, please use the following SSM automation to remediate the issue: [https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-awssupport-troubleshoot-managed-instance.html](https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-awssupport-troubleshoot-managed-instance.html). Once the instance becomes managed by SSM, Inspector will automatically begin scanning this instance. UNSUPPORTED_CONFIG_FILE - Reserved for future use. UNSUPPORTED_LANGUAGE - The scan was unsuccessful because the repository contains files in an unsupported programming language. UNSUPPORTED_MEDIA_TYPE - The ECR image has an unsupported media type. UNSUPPORTED_OS - Amazon Inspector does not support this OS, architecture, or image manifest type at this time. To see a complete list of supported operating systems see: [https://docs.aws.amazon.com/inspector/latest/user/supported.html](https://docs.aws.amazon.com/inspector/latest/user/supported.html). UNSUPPORTED_RUNTIME - The function was not scanned because it has an unsupported runtime. To see a complete list of supported runtimes see: [https://docs.aws.amazon.com/inspector/latest/user/supported.html](https://docs.aws.amazon.com/inspector/latest/user/supported.html).
+        /// This member is required.
+        public var reason: Inspector2ClientTypes.ScanStatusReason?
+        /// The status code of the scan.
+        /// This member is required.
+        public var statusCode: Inspector2ClientTypes.ScanStatusCode?
+
+        public init(
+            reason: Inspector2ClientTypes.ScanStatusReason? = nil,
+            statusCode: Inspector2ClientTypes.ScanStatusCode? = nil
+        ) {
+            self.reason = reason
+            self.statusCode = statusCode
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains information about on-demand scans performed on a code repository.
+    public struct CodeRepositoryOnDemandScan: Swift.Sendable {
+        /// The timestamp when the last on-demand scan was performed.
+        public var lastScanAt: Foundation.Date?
+        /// The ID of the last commit that was scanned during an on-demand scan.
+        public var lastScannedCommitId: Swift.String?
+        /// The status of the scan.
+        public var scanStatus: Inspector2ClientTypes.ScanStatus?
+
+        public init(
+            lastScanAt: Foundation.Date? = nil,
+            lastScannedCommitId: Swift.String? = nil,
+            scanStatus: Inspector2ClientTypes.ScanStatus? = nil
+        ) {
+            self.lastScanAt = lastScanAt
+            self.lastScannedCommitId = lastScannedCommitId
+            self.scanStatus = scanStatus
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum RuleSetCategory: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case iac
+        case sast
+        case sca
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuleSetCategory] {
+            return [
+                .iac,
+                .sast,
+                .sca
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .iac: return "IAC"
+            case .sast: return "SAST"
+            case .sca: return "SCA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum ContinuousIntegrationScanEvent: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case pullRequest
+        case push
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContinuousIntegrationScanEvent] {
+            return [
+                .pullRequest,
+                .push
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .pullRequest: return "PULL_REQUEST"
+            case .push: return "PUSH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains the continuous integration scan configuration settings applied to a specific project.
+    public struct ProjectContinuousIntegrationScanConfiguration: Swift.Sendable {
+        /// The categories of security rules applied during continuous integration scans for the project.
+        public var ruleSetCategories: [Inspector2ClientTypes.RuleSetCategory]?
+        /// The repository event that triggers continuous integration scans for the project.
+        public var supportedEvent: Inspector2ClientTypes.ContinuousIntegrationScanEvent?
+
+        public init(
+            ruleSetCategories: [Inspector2ClientTypes.RuleSetCategory]? = nil,
+            supportedEvent: Inspector2ClientTypes.ContinuousIntegrationScanEvent? = nil
+        ) {
+            self.ruleSetCategories = ruleSetCategories
+            self.supportedEvent = supportedEvent
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains the periodic scan configuration settings applied to a specific project.
+    public struct ProjectPeriodicScanConfiguration: Swift.Sendable {
+        /// The schedule expression for periodic scans, in cron format, applied to the project.
+        public var frequencyExpression: Swift.String?
+        /// The categories of security rules applied during periodic scans for the project.
+        public var ruleSetCategories: [Inspector2ClientTypes.RuleSetCategory]?
+
+        public init(
+            frequencyExpression: Swift.String? = nil,
+            ruleSetCategories: [Inspector2ClientTypes.RuleSetCategory]? = nil
+        ) {
+            self.frequencyExpression = frequencyExpression
+            self.ruleSetCategories = ruleSetCategories
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains the scan configuration settings applied to a specific project in a code repository.
+    public struct ProjectCodeSecurityScanConfiguration: Swift.Sendable {
+        /// The continuous integration scan configurations applied to the project.
+        public var continuousIntegrationScanConfigurations: [Inspector2ClientTypes.ProjectContinuousIntegrationScanConfiguration]?
+        /// The periodic scan configurations applied to the project.
+        public var periodicScanConfigurations: [Inspector2ClientTypes.ProjectPeriodicScanConfiguration]?
+
+        public init(
+            continuousIntegrationScanConfigurations: [Inspector2ClientTypes.ProjectContinuousIntegrationScanConfiguration]? = nil,
+            periodicScanConfigurations: [Inspector2ClientTypes.ProjectPeriodicScanConfiguration]? = nil
+        ) {
+            self.continuousIntegrationScanConfigurations = continuousIntegrationScanConfigurations
+            self.periodicScanConfigurations = periodicScanConfigurations
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains metadata information about a code repository that is being scanned by Amazon Inspector.
+    public struct CodeRepositoryMetadata: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the code security integration associated with the repository.
+        public var integrationArn: Swift.String?
+        /// The ID of the last commit that was scanned in the repository.
+        public var lastScannedCommitId: Swift.String?
+        /// Information about on-demand scans performed on the repository.
+        public var onDemandScan: Inspector2ClientTypes.CodeRepositoryOnDemandScan?
+        /// The name of the project in the code repository.
+        /// This member is required.
+        public var projectName: Swift.String?
+        /// The type of repository provider (such as GitHub, GitLab, etc.).
+        /// This member is required.
+        public var providerType: Swift.String?
+        /// The visibility setting of the repository (public or private).
+        /// This member is required.
+        public var providerTypeVisibility: Swift.String?
+        /// The scan configuration settings applied to the code repository.
+        public var scanConfiguration: Inspector2ClientTypes.ProjectCodeSecurityScanConfiguration?
+
+        public init(
+            integrationArn: Swift.String? = nil,
+            lastScannedCommitId: Swift.String? = nil,
+            onDemandScan: Inspector2ClientTypes.CodeRepositoryOnDemandScan? = nil,
+            projectName: Swift.String? = nil,
+            providerType: Swift.String? = nil,
+            providerTypeVisibility: Swift.String? = nil,
+            scanConfiguration: Inspector2ClientTypes.ProjectCodeSecurityScanConfiguration? = nil
+        ) {
+            self.integrationArn = integrationArn
+            self.lastScannedCommitId = lastScannedCommitId
+            self.onDemandScan = onDemandScan
+            self.projectName = projectName
+            self.providerType = providerType
+            self.providerTypeVisibility = providerTypeVisibility
+            self.scanConfiguration = scanConfiguration
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum CodeScanStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case skipped
+        case successful
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CodeScanStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .skipped,
+                .successful
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .skipped: return "SKIPPED"
+            case .successful: return "SUCCESSFUL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum IntegrationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case disabling
+        case inactive
+        case inProgress
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IntegrationStatus] {
+            return [
+                .active,
+                .disabling,
+                .inactive,
+                .inProgress,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .disabling: return "DISABLING"
+            case .inactive: return "INACTIVE"
+            case .inProgress: return "IN_PROGRESS"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum IntegrationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case github
+        case gitlabSelfManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IntegrationType] {
+            return [
+                .github,
+                .gitlabSelfManaged
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .github: return "GITHUB"
+            case .gitlabSelfManaged: return "GITLAB_SELF_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// A summary of information about a code security integration.
+    public struct CodeSecurityIntegrationSummary: Swift.Sendable {
+        /// The timestamp when the code security integration was created.
+        /// This member is required.
+        public var createdOn: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the code security integration.
+        /// This member is required.
+        public var integrationArn: Swift.String?
+        /// The timestamp when the code security integration was last updated.
+        /// This member is required.
+        public var lastUpdateOn: Foundation.Date?
+        /// The name of the code security integration.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The current status of the code security integration.
+        /// This member is required.
+        public var status: Inspector2ClientTypes.IntegrationStatus?
+        /// The reason for the current status of the code security integration.
+        /// This member is required.
+        public var statusReason: Swift.String?
+        /// The tags associated with the code security integration.
+        public var tags: [Swift.String: Swift.String]?
+        /// The type of repository provider for the integration.
+        /// This member is required.
+        public var type: Inspector2ClientTypes.IntegrationType?
+
+        public init(
+            createdOn: Foundation.Date? = nil,
+            integrationArn: Swift.String? = nil,
+            lastUpdateOn: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            status: Inspector2ClientTypes.IntegrationStatus? = nil,
+            statusReason: Swift.String? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            type: Inspector2ClientTypes.IntegrationType? = nil
+        ) {
+            self.createdOn = createdOn
+            self.integrationArn = integrationArn
+            self.lastUpdateOn = lastUpdateOn
+            self.name = name
+            self.status = status
+            self.statusReason = statusReason
+            self.tags = tags
+            self.type = type
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Configuration settings for continuous integration scans that run automatically when code changes are made.
+    public struct ContinuousIntegrationScanConfiguration: Swift.Sendable {
+        /// The repository events that trigger continuous integration scans, such as pull requests or commits.
+        /// This member is required.
+        public var supportedEvents: [Inspector2ClientTypes.ContinuousIntegrationScanEvent]?
+
+        public init(
+            supportedEvents: [Inspector2ClientTypes.ContinuousIntegrationScanEvent]? = nil
+        ) {
+            self.supportedEvents = supportedEvents
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum PeriodicScanFrequency: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case monthly
+        case never
+        case weekly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PeriodicScanFrequency] {
+            return [
+                .monthly,
+                .never,
+                .weekly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .monthly: return "MONTHLY"
+            case .never: return "NEVER"
+            case .weekly: return "WEEKLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Configuration settings for periodic scans that run on a scheduled basis.
+    public struct PeriodicScanConfiguration: Swift.Sendable {
+        /// The frequency at which periodic scans are performed (such as weekly or monthly). If you don't provide the frequencyExpression Amazon Inspector chooses day for the scan to run. If you provide the frequencyExpression, the schedule must match the specified frequency.
+        public var frequency: Inspector2ClientTypes.PeriodicScanFrequency?
+        /// The schedule expression for periodic scans, in cron format.
+        public var frequencyExpression: Swift.String?
+
+        public init(
+            frequency: Inspector2ClientTypes.PeriodicScanFrequency? = nil,
+            frequencyExpression: Swift.String? = nil
+        ) {
+            self.frequency = frequency
+            self.frequencyExpression = frequencyExpression
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains the configuration settings for code security scans.
+    public struct CodeSecurityScanConfiguration: Swift.Sendable {
+        /// Configuration settings for continuous integration scans that run automatically when code changes are made.
+        public var continuousIntegrationScanConfiguration: Inspector2ClientTypes.ContinuousIntegrationScanConfiguration?
+        /// Configuration settings for periodic scans that run on a scheduled basis.
+        public var periodicScanConfiguration: Inspector2ClientTypes.PeriodicScanConfiguration?
+        /// The categories of security rules to be applied during the scan.
+        /// This member is required.
+        public var ruleSetCategories: [Inspector2ClientTypes.RuleSetCategory]?
+
+        public init(
+            continuousIntegrationScanConfiguration: Inspector2ClientTypes.ContinuousIntegrationScanConfiguration? = nil,
+            periodicScanConfiguration: Inspector2ClientTypes.PeriodicScanConfiguration? = nil,
+            ruleSetCategories: [Inspector2ClientTypes.RuleSetCategory]? = nil
+        ) {
+            self.continuousIntegrationScanConfiguration = continuousIntegrationScanConfiguration
+            self.periodicScanConfiguration = periodicScanConfiguration
+            self.ruleSetCategories = ruleSetCategories
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// A summary of an association between a code repository and a scan configuration.
+    public struct CodeSecurityScanConfigurationAssociationSummary: Swift.Sendable {
+        /// Identifies a specific resource in a code repository that will be scanned.
+        public var resource: Inspector2ClientTypes.CodeSecurityResource?
+
+        public init(
+            resource: Inspector2ClientTypes.CodeSecurityResource? = nil
+        ) {
+            self.resource = resource
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    public enum ProjectSelectionScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProjectSelectionScope] {
+            return [
+                .all
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// Defines the scope of repositories to be included in code security scans.
+    public struct ScopeSettings: Swift.Sendable {
+        /// The scope of projects to be selected for scanning within the integrated repositories. Setting the value to ALL applies the scope settings to all existing and future projects imported into Amazon Inspector.
+        public var projectSelectionScope: Inspector2ClientTypes.ProjectSelectionScope?
+
+        public init(
+            projectSelectionScope: Inspector2ClientTypes.ProjectSelectionScope? = nil
+        ) {
+            self.projectSelectionScope = projectSelectionScope
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
+    /// A summary of information about a code security scan configuration.
+    public struct CodeSecurityScanConfigurationSummary: Swift.Sendable {
+        /// The repository events that trigger continuous integration scans.
+        public var continuousIntegrationScanSupportedEvents: [Inspector2ClientTypes.ContinuousIntegrationScanEvent]?
+        /// The schedule expression for periodic scans, in cron format.
+        public var frequencyExpression: Swift.String?
+        /// The name of the scan configuration.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Web Services account ID that owns the scan configuration.
+        /// This member is required.
+        public var ownerAccountId: Swift.String?
+        /// The frequency at which periodic scans are performed.
+        public var periodicScanFrequency: Inspector2ClientTypes.PeriodicScanFrequency?
+        /// The categories of security rules applied during the scan.
+        /// This member is required.
+        public var ruleSetCategories: [Inspector2ClientTypes.RuleSetCategory]?
+        /// The Amazon Resource Name (ARN) of the scan configuration.
+        /// This member is required.
+        public var scanConfigurationArn: Swift.String?
+        /// The scope settings that define which repositories will be scanned. If the ScopeSetting parameter is ALL the scan configuration applies to all existing and future projects imported into Amazon Inspector.
+        public var scopeSettings: Inspector2ClientTypes.ScopeSettings?
+        /// The tags associated with the scan configuration.
+        public var tags: [Swift.String: Swift.String]?
+
+        public init(
+            continuousIntegrationScanSupportedEvents: [Inspector2ClientTypes.ContinuousIntegrationScanEvent]? = nil,
+            frequencyExpression: Swift.String? = nil,
+            name: Swift.String? = nil,
+            ownerAccountId: Swift.String? = nil,
+            periodicScanFrequency: Inspector2ClientTypes.PeriodicScanFrequency? = nil,
+            ruleSetCategories: [Inspector2ClientTypes.RuleSetCategory]? = nil,
+            scanConfigurationArn: Swift.String? = nil,
+            scopeSettings: Inspector2ClientTypes.ScopeSettings? = nil,
+            tags: [Swift.String: Swift.String]? = nil
+        ) {
+            self.continuousIntegrationScanSupportedEvents = continuousIntegrationScanSupportedEvents
+            self.frequencyExpression = frequencyExpression
+            self.name = name
+            self.ownerAccountId = ownerAccountId
+            self.periodicScanFrequency = periodicScanFrequency
+            self.ruleSetCategories = ruleSetCategories
+            self.scanConfigurationArn = scanConfigurationArn
+            self.scopeSettings = scopeSettings
+            self.tags = tags
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     /// Contains information on the code vulnerability identified in your Lambda function.
     public struct CodeVulnerabilityDetails: Swift.Sendable {
         /// The Common Weakness Enumeration (CWE) item associated with the detected vulnerability.
@@ -4866,37 +5975,32 @@ extension Inspector2ClientTypes {
     }
 }
 
-/// A conflict occurred.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+extension Inspector2ClientTypes {
 
-    public struct Properties: Swift.Sendable {
-        /// This member is required.
-        public internal(set) var message: Swift.String? = nil
-        /// The ID of the conflicting resource.
-        /// This member is required.
-        public internal(set) var resourceId: Swift.String? = nil
-        /// The type of the conflicting resource.
-        /// This member is required.
-        public internal(set) var resourceType: Swift.String? = nil
-    }
+    public enum ConfigurationLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case account
+        case organization
+        case sdkUnknown(Swift.String)
 
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
+        public static var allCases: [ConfigurationLevel] {
+            return [
+                .account,
+                .organization
+            ]
+        }
 
-    public init(
-        message: Swift.String? = nil,
-        resourceId: Swift.String? = nil,
-        resourceType: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.resourceId = resourceId
-        self.properties.resourceType = resourceType
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "ACCOUNT"
+            case .organization: return "ORGANIZATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -5102,6 +6206,12 @@ extension Inspector2ClientTypes {
     public struct CoverageFilterCriteria: Swift.Sendable {
         /// An array of Amazon Web Services account IDs to return coverage statistics for.
         public var accountId: [Inspector2ClientTypes.CoverageStringFilter]?
+        /// Filter criteria for code repositories based on project name.
+        public var codeRepositoryProjectName: [Inspector2ClientTypes.CoverageStringFilter]?
+        /// Filter criteria for code repositories based on provider type (such as GitHub, GitLab, etc.).
+        public var codeRepositoryProviderType: [Inspector2ClientTypes.CoverageStringFilter]?
+        /// Filter criteria for code repositories based on visibility setting (public or private).
+        public var codeRepositoryProviderTypeVisibility: [Inspector2ClientTypes.CoverageStringFilter]?
         /// The Amazon EC2 instance tags to filter on.
         public var ec2InstanceTags: [Inspector2ClientTypes.CoverageMapFilter]?
         /// The number of Amazon ECR images in use.
@@ -5122,6 +6232,8 @@ extension Inspector2ClientTypes {
         public var lambdaFunctionTags: [Inspector2ClientTypes.CoverageMapFilter]?
         /// Filters Amazon Web Services resources based on whether Amazon Inspector has checked them for vulnerabilities within the specified time range.
         public var lastScannedAt: [Inspector2ClientTypes.CoverageDateFilter]?
+        /// Filter criteria for code repositories based on the ID of the last scanned commit.
+        public var lastScannedCommitId: [Inspector2ClientTypes.CoverageStringFilter]?
         /// An array of Amazon Web Services resource IDs to return coverage statistics for.
         public var resourceId: [Inspector2ClientTypes.CoverageStringFilter]?
         /// An array of Amazon Web Services resource types to return coverage statistics for. The values can be AWS_EC2_INSTANCE, AWS_LAMBDA_FUNCTION, AWS_ECR_CONTAINER_IMAGE, AWS_ECR_REPOSITORY or AWS_ACCOUNT.
@@ -5137,6 +6249,9 @@ extension Inspector2ClientTypes {
 
         public init(
             accountId: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
+            codeRepositoryProjectName: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
+            codeRepositoryProviderType: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
+            codeRepositoryProviderTypeVisibility: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             ec2InstanceTags: [Inspector2ClientTypes.CoverageMapFilter]? = nil,
             ecrImageInUseCount: [Inspector2ClientTypes.CoverageNumberFilter]? = nil,
             ecrImageLastInUseAt: [Inspector2ClientTypes.CoverageDateFilter]? = nil,
@@ -5147,6 +6262,7 @@ extension Inspector2ClientTypes {
             lambdaFunctionRuntime: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             lambdaFunctionTags: [Inspector2ClientTypes.CoverageMapFilter]? = nil,
             lastScannedAt: [Inspector2ClientTypes.CoverageDateFilter]? = nil,
+            lastScannedCommitId: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             resourceId: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             resourceType: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
             scanMode: [Inspector2ClientTypes.CoverageStringFilter]? = nil,
@@ -5155,6 +6271,9 @@ extension Inspector2ClientTypes {
             scanType: [Inspector2ClientTypes.CoverageStringFilter]? = nil
         ) {
             self.accountId = accountId
+            self.codeRepositoryProjectName = codeRepositoryProjectName
+            self.codeRepositoryProviderType = codeRepositoryProviderType
+            self.codeRepositoryProviderTypeVisibility = codeRepositoryProviderTypeVisibility
             self.ec2InstanceTags = ec2InstanceTags
             self.ecrImageInUseCount = ecrImageInUseCount
             self.ecrImageLastInUseAt = ecrImageLastInUseAt
@@ -5165,6 +6284,7 @@ extension Inspector2ClientTypes {
             self.lambdaFunctionRuntime = lambdaFunctionRuntime
             self.lambdaFunctionTags = lambdaFunctionTags
             self.lastScannedAt = lastScannedAt
+            self.lastScannedCommitId = lastScannedCommitId
             self.resourceId = resourceId
             self.resourceType = resourceType
             self.scanMode = scanMode
@@ -5182,6 +6302,7 @@ extension Inspector2ClientTypes {
         case awsEcrContainerImage
         case awsEcrRepository
         case awsLambdaFunction
+        case codeRepository
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CoverageResourceType] {
@@ -5189,7 +6310,8 @@ extension Inspector2ClientTypes {
                 .awsEc2Instance,
                 .awsEcrContainerImage,
                 .awsEcrRepository,
-                .awsLambdaFunction
+                .awsLambdaFunction,
+                .codeRepository
             ]
         }
 
@@ -5204,6 +6326,7 @@ extension Inspector2ClientTypes {
             case .awsEcrContainerImage: return "AWS_ECR_CONTAINER_IMAGE"
             case .awsEcrRepository: return "AWS_ECR_REPOSITORY"
             case .awsLambdaFunction: return "AWS_LAMBDA_FUNCTION"
+            case .codeRepository: return "CODE_REPOSITORY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5377,6 +6500,8 @@ extension Inspector2ClientTypes {
 
     /// An object that contains details about the metadata for an Amazon ECR resource.
     public struct ResourceScanMetadata: Swift.Sendable {
+        /// Contains metadata about scan coverage for a code repository resource.
+        public var codeRepository: Inspector2ClientTypes.CodeRepositoryMetadata?
         /// An object that contains metadata details for an Amazon EC2 instance.
         public var ec2: Inspector2ClientTypes.Ec2Metadata?
         /// An object that contains details about the container metadata for an Amazon ECR image.
@@ -5387,11 +6512,13 @@ extension Inspector2ClientTypes {
         public var lambdaFunction: Inspector2ClientTypes.LambdaFunctionMetadata?
 
         public init(
+            codeRepository: Inspector2ClientTypes.CodeRepositoryMetadata? = nil,
             ec2: Inspector2ClientTypes.Ec2Metadata? = nil,
             ecrImage: Inspector2ClientTypes.EcrContainerImageMetadata? = nil,
             ecrRepository: Inspector2ClientTypes.EcrRepositoryMetadata? = nil,
             lambdaFunction: Inspector2ClientTypes.LambdaFunctionMetadata? = nil
         ) {
+            self.codeRepository = codeRepository
             self.ec2 = ec2
             self.ecrImage = ecrImage
             self.ecrRepository = ecrRepository
@@ -5431,164 +6558,10 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
-    public enum ScanStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case accessDenied
-        case agentlessInstanceCollectionTimeLimitExceeded
-        case agentlessInstanceStorageLimitExceeded
-        case deepInspectionCollectionTimeLimitExceeded
-        case deepInspectionDailySsmInventoryLimitExceeded
-        case deepInspectionNoInventory
-        case deepInspectionPackageCollectionLimitExceeded
-        case ec2InstanceStopped
-        case excludedByTag
-        case imageSizeExceeded
-        case internalError
-        case noInventory
-        case noResourcesFound
-        case pendingDisable
-        case pendingInitialScan
-        case pendingRevivalScan
-        case resourceTerminated
-        case scanEligibilityExpired
-        case scanFrequencyManual
-        case scanFrequencyScanOnPush
-        case staleInventory
-        case successful
-        case unmanagedEc2Instance
-        case unsupportedConfigFile
-        case unsupportedMediaType
-        case unsupportedOs
-        case unsupportedRuntime
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ScanStatusReason] {
-            return [
-                .accessDenied,
-                .agentlessInstanceCollectionTimeLimitExceeded,
-                .agentlessInstanceStorageLimitExceeded,
-                .deepInspectionCollectionTimeLimitExceeded,
-                .deepInspectionDailySsmInventoryLimitExceeded,
-                .deepInspectionNoInventory,
-                .deepInspectionPackageCollectionLimitExceeded,
-                .ec2InstanceStopped,
-                .excludedByTag,
-                .imageSizeExceeded,
-                .internalError,
-                .noInventory,
-                .noResourcesFound,
-                .pendingDisable,
-                .pendingInitialScan,
-                .pendingRevivalScan,
-                .resourceTerminated,
-                .scanEligibilityExpired,
-                .scanFrequencyManual,
-                .scanFrequencyScanOnPush,
-                .staleInventory,
-                .successful,
-                .unmanagedEc2Instance,
-                .unsupportedConfigFile,
-                .unsupportedMediaType,
-                .unsupportedOs,
-                .unsupportedRuntime
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .accessDenied: return "ACCESS_DENIED"
-            case .agentlessInstanceCollectionTimeLimitExceeded: return "AGENTLESS_INSTANCE_COLLECTION_TIME_LIMIT_EXCEEDED"
-            case .agentlessInstanceStorageLimitExceeded: return "AGENTLESS_INSTANCE_STORAGE_LIMIT_EXCEEDED"
-            case .deepInspectionCollectionTimeLimitExceeded: return "DEEP_INSPECTION_COLLECTION_TIME_LIMIT_EXCEEDED"
-            case .deepInspectionDailySsmInventoryLimitExceeded: return "DEEP_INSPECTION_DAILY_SSM_INVENTORY_LIMIT_EXCEEDED"
-            case .deepInspectionNoInventory: return "DEEP_INSPECTION_NO_INVENTORY"
-            case .deepInspectionPackageCollectionLimitExceeded: return "DEEP_INSPECTION_PACKAGE_COLLECTION_LIMIT_EXCEEDED"
-            case .ec2InstanceStopped: return "EC2_INSTANCE_STOPPED"
-            case .excludedByTag: return "EXCLUDED_BY_TAG"
-            case .imageSizeExceeded: return "IMAGE_SIZE_EXCEEDED"
-            case .internalError: return "INTERNAL_ERROR"
-            case .noInventory: return "NO_INVENTORY"
-            case .noResourcesFound: return "NO_RESOURCES_FOUND"
-            case .pendingDisable: return "PENDING_DISABLE"
-            case .pendingInitialScan: return "PENDING_INITIAL_SCAN"
-            case .pendingRevivalScan: return "PENDING_REVIVAL_SCAN"
-            case .resourceTerminated: return "RESOURCE_TERMINATED"
-            case .scanEligibilityExpired: return "SCAN_ELIGIBILITY_EXPIRED"
-            case .scanFrequencyManual: return "SCAN_FREQUENCY_MANUAL"
-            case .scanFrequencyScanOnPush: return "SCAN_FREQUENCY_SCAN_ON_PUSH"
-            case .staleInventory: return "STALE_INVENTORY"
-            case .successful: return "SUCCESSFUL"
-            case .unmanagedEc2Instance: return "UNMANAGED_EC2_INSTANCE"
-            case .unsupportedConfigFile: return "UNSUPPORTED_CONFIG_FILE"
-            case .unsupportedMediaType: return "UNSUPPORTED_MEDIA_TYPE"
-            case .unsupportedOs: return "UNSUPPORTED_OS"
-            case .unsupportedRuntime: return "UNSUPPORTED_RUNTIME"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension Inspector2ClientTypes {
-
-    public enum ScanStatusCode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case active
-        case inactive
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ScanStatusCode] {
-            return [
-                .active,
-                .inactive
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .active: return "ACTIVE"
-            case .inactive: return "INACTIVE"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension Inspector2ClientTypes {
-
-    /// The status of the scan.
-    public struct ScanStatus: Swift.Sendable {
-        /// The scan status. Possible return values and descriptions are: PENDING_INITIAL_SCAN - This resource has been identified for scanning, results will be available soon. ACCESS_DENIED - Resource access policy restricting Amazon Inspector access. Please update the IAM policy. INTERNAL_ERROR - Amazon Inspector has encountered an internal error for this resource. Amazon Inspector service will automatically resolve the issue and resume the scanning. No action required from the user. UNMANAGED_EC2_INSTANCE - The EC2 instance is not managed by SSM, please use the following SSM automation to remediate the issue: [https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-awssupport-troubleshoot-managed-instance.html](https://docs.aws.amazon.com/systems-manager-automation-runbooks/latest/userguide/automation-awssupport-troubleshoot-managed-instance.html). Once the instance becomes managed by SSM, Inspector will automatically begin scanning this instance. UNSUPPORTED_OS - Amazon Inspector does not support this OS, architecture, or image manifest type at this time. To see a complete list of supported operating systems see: [https://docs.aws.amazon.com/inspector/latest/user/supported.html](https://docs.aws.amazon.com/inspector/latest/user/supported.html). SCAN_ELIGIBILITY_EXPIRED - The configured scan duration has lapsed for this image. RESOURCE_TERMINATED - This resource has been terminated. The findings and coverage associated with this resource are in the process of being cleaned up. SUCCESSFUL - The scan was successful. NO_RESOURCES_FOUND - Reserved for future use. IMAGE_SIZE_EXCEEDED - Reserved for future use. SCAN_FREQUENCY_MANUAL - This image will not be covered by Amazon Inspector due to the repository scan frequency configuration. SCAN_FREQUENCY_SCAN_ON_PUSH - This image will be scanned one time and will not new findings because of the scan frequency configuration. EC2_INSTANCE_STOPPED - This EC2 instance is in a stopped state, therefore, Amazon Inspector will pause scanning. The existing findings will continue to exist until the instance is terminated. Once the instance is re-started, Inspector will automatically start scanning the instance again. Please note that you will not be charged for this instance while it’s in a stopped state. PENDING_DISABLE - This resource is pending cleanup during disablement. The customer will not be billed while a resource is in the pending disable status. NO INVENTORY - Amazon Inspector couldn’t find software application inventory to scan for vulnerabilities. This might be caused due to required Amazon Inspector associations being deleted or failing to run on your resource. Please verify the status of InspectorInventoryCollection-do-not-delete association in the SSM console for the resource. Additionally, you can verify the instance’s inventory in the SSM Fleet Manager console. STALE_INVENTORY - Amazon Inspector wasn’t able to collect an updated software application inventory in the last 7 days. Please confirm the required Amazon Inspector associations still exist and you can still see an updated inventory in the SSM console. EXCLUDED_BY_TAG - This resource was not scanned because it has been excluded by a tag. UNSUPPORTED_RUNTIME - The function was not scanned because it has an unsupported runtime. To see a complete list of supported runtimes see: [https://docs.aws.amazon.com/inspector/latest/user/supported.html](https://docs.aws.amazon.com/inspector/latest/user/supported.html). UNSUPPORTED_MEDIA_TYPE - The ECR image has an unsupported media type. UNSUPPORTED_CONFIG_FILE - Reserved for future use. DEEP_INSPECTION_PACKAGE_COLLECTION_LIMIT_EXCEEDED - The instance has exceeded the 5000 package limit for Amazon Inspector Deep inspection. To resume Deep inspection for this instance you can try to adjust the custom paths associated with the account. DEEP_INSPECTION_DAILY_SSM_INVENTORY_LIMIT_EXCEEDED - The SSM agent couldn't send inventory to Amazon Inspector because the SSM quota for Inventory data collected per instance per day has already been reached for this instance. DEEP_INSPECTION_COLLECTION_TIME_LIMIT_EXCEEDED - Amazon Inspector failed to extract the package inventory because the package collection time exceeding the maximum threshold of 15 minutes. DEEP_INSPECTION_NO_INVENTORY The Amazon Inspector plugin hasn't yet been able to collect an inventory of packages for this instance. This is usually the result of a pending scan, however, if this status persists after 6 hours, use SSM to ensure that the required Amazon Inspector associations exist and are running for the instance.
-        /// This member is required.
-        public var reason: Inspector2ClientTypes.ScanStatusReason?
-        /// The status code of the scan.
-        /// This member is required.
-        public var statusCode: Inspector2ClientTypes.ScanStatusCode?
-
-        public init(
-            reason: Inspector2ClientTypes.ScanStatusReason? = nil,
-            statusCode: Inspector2ClientTypes.ScanStatusCode? = nil
-        ) {
-            self.reason = reason
-            self.statusCode = statusCode
-        }
-    }
-}
-
-extension Inspector2ClientTypes {
-
     public enum ScanType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case code
         case network
-        case package
+        case `package`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ScanType] {
@@ -5727,6 +6700,135 @@ public struct CreateCisScanConfigurationOutput: Swift.Sendable {
 
 extension Inspector2ClientTypes {
 
+    /// Contains details required to create an integration with a self-managed GitLab instance.
+    public struct CreateGitLabSelfManagedIntegrationDetail: Swift.Sendable {
+        /// The personal access token used to authenticate with the self-managed GitLab instance.
+        /// This member is required.
+        public var accessToken: Swift.String?
+        /// The URL of the self-managed GitLab instance.
+        /// This member is required.
+        public var instanceUrl: Swift.String?
+
+        public init(
+            accessToken: Swift.String? = nil,
+            instanceUrl: Swift.String? = nil
+        ) {
+            self.accessToken = accessToken
+            self.instanceUrl = instanceUrl
+        }
+    }
+}
+
+extension Inspector2ClientTypes.CreateGitLabSelfManagedIntegrationDetail: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateGitLabSelfManagedIntegrationDetail(accessToken: \"CONTENT_REDACTED\", instanceUrl: \"CONTENT_REDACTED\")"}
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains details required to create a code security integration with a specific repository provider.
+    public enum CreateIntegrationDetail: Swift.Sendable {
+        /// Details specific to creating an integration with a self-managed GitLab instance.
+        case gitlabselfmanaged(Inspector2ClientTypes.CreateGitLabSelfManagedIntegrationDetail)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateCodeSecurityIntegrationInput: Swift.Sendable {
+    /// The integration details specific to the repository provider type.
+    public var details: Inspector2ClientTypes.CreateIntegrationDetail?
+    /// The name of the code security integration.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The tags to apply to the code security integration.
+    public var tags: [Swift.String: Swift.String]?
+    /// The type of repository provider for the integration.
+    /// This member is required.
+    public var type: Inspector2ClientTypes.IntegrationType?
+
+    public init(
+        details: Inspector2ClientTypes.CreateIntegrationDetail? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        type: Inspector2ClientTypes.IntegrationType? = nil
+    ) {
+        self.details = details
+        self.name = name
+        self.tags = tags
+        self.type = type
+    }
+}
+
+public struct CreateCodeSecurityIntegrationOutput: Swift.Sendable {
+    /// The URL used to authorize the integration with the repository provider.
+    public var authorizationUrl: Swift.String?
+    /// The Amazon Resource Name (ARN) of the created code security integration.
+    /// This member is required.
+    public var integrationArn: Swift.String?
+    /// The current status of the code security integration.
+    /// This member is required.
+    public var status: Inspector2ClientTypes.IntegrationStatus?
+
+    public init(
+        authorizationUrl: Swift.String? = nil,
+        integrationArn: Swift.String? = nil,
+        status: Inspector2ClientTypes.IntegrationStatus? = nil
+    ) {
+        self.authorizationUrl = authorizationUrl
+        self.integrationArn = integrationArn
+        self.status = status
+    }
+}
+
+extension CreateCodeSecurityIntegrationOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateCodeSecurityIntegrationOutput(integrationArn: \(Swift.String(describing: integrationArn)), status: \(Swift.String(describing: status)), authorizationUrl: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateCodeSecurityScanConfigurationInput: Swift.Sendable {
+    /// The configuration settings for the code security scan.
+    /// This member is required.
+    public var configuration: Inspector2ClientTypes.CodeSecurityScanConfiguration?
+    /// The security level for the scan configuration.
+    /// This member is required.
+    public var level: Inspector2ClientTypes.ConfigurationLevel?
+    /// The name of the scan configuration.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The scope settings that define which repositories will be scanned. Include this parameter to create a default scan configuration. Otherwise Amazon Inspector creates a general scan configuration. A default scan configuration automatically applies to all existing and future projects imported into Amazon Inspector. Use the BatchAssociateCodeSecurityScanConfiguration operation to associate a general scan configuration with projects.
+    public var scopeSettings: Inspector2ClientTypes.ScopeSettings?
+    /// The tags to apply to the scan configuration.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        configuration: Inspector2ClientTypes.CodeSecurityScanConfiguration? = nil,
+        level: Inspector2ClientTypes.ConfigurationLevel? = nil,
+        name: Swift.String? = nil,
+        scopeSettings: Inspector2ClientTypes.ScopeSettings? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.configuration = configuration
+        self.level = level
+        self.name = name
+        self.scopeSettings = scopeSettings
+        self.tags = tags
+    }
+}
+
+public struct CreateCodeSecurityScanConfigurationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the created scan configuration.
+    /// This member is required.
+    public var scanConfigurationArn: Swift.String?
+
+    public init(
+        scanConfigurationArn: Swift.String? = nil
+    ) {
+        self.scanConfigurationArn = scanConfigurationArn
+    }
+}
+
+extension Inspector2ClientTypes {
+
     public enum FilterAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `none`
         case suppress
@@ -5822,6 +6924,10 @@ extension Inspector2ClientTypes {
     public struct FilterCriteria: Swift.Sendable {
         /// Details of the Amazon Web Services account IDs used to filter findings.
         public var awsAccountId: [Inspector2ClientTypes.StringFilter]?
+        /// Filter criteria for findings based on the project name in a code repository.
+        public var codeRepositoryProjectName: [Inspector2ClientTypes.StringFilter]?
+        /// Filter criteria for findings based on the repository provider type (such as GitHub, GitLab, etc.).
+        public var codeRepositoryProviderType: [Inspector2ClientTypes.StringFilter]?
         /// The name of the detector used to identify a code vulnerability in a Lambda function used to filter findings.
         public var codeVulnerabilityDetectorName: [Inspector2ClientTypes.StringFilter]?
         /// The detector type tag associated with the vulnerability used to filter findings. Detector tags group related vulnerabilities by common themes or tactics. For a list of available tags by programming language, see [Java tags](https://docs.aws.amazon.com/codeguru/detector-library/java/tags/), or [Python tags](https://docs.aws.amazon.com/codeguru/detector-library/python/tags/).
@@ -5911,6 +7017,8 @@ extension Inspector2ClientTypes {
 
         public init(
             awsAccountId: [Inspector2ClientTypes.StringFilter]? = nil,
+            codeRepositoryProjectName: [Inspector2ClientTypes.StringFilter]? = nil,
+            codeRepositoryProviderType: [Inspector2ClientTypes.StringFilter]? = nil,
             codeVulnerabilityDetectorName: [Inspector2ClientTypes.StringFilter]? = nil,
             codeVulnerabilityDetectorTags: [Inspector2ClientTypes.StringFilter]? = nil,
             codeVulnerabilityFilePath: [Inspector2ClientTypes.StringFilter]? = nil,
@@ -5956,6 +7064,8 @@ extension Inspector2ClientTypes {
             vulnerablePackages: [Inspector2ClientTypes.PackageFilter]? = nil
         ) {
             self.awsAccountId = awsAccountId
+            self.codeRepositoryProjectName = codeRepositoryProjectName
+            self.codeRepositoryProviderType = codeRepositoryProviderType
             self.codeVulnerabilityDetectorName = codeVulnerabilityDetectorName
             self.codeVulnerabilityDetectorTags = codeVulnerabilityDetectorTags
             self.codeVulnerabilityFilePath = codeVulnerabilityFilePath
@@ -6406,6 +7516,25 @@ extension Inspector2ClientTypes {
 
 extension Inspector2ClientTypes {
 
+    /// The Common Vulnerability Scoring System (CVSS) version 4 details for the vulnerability.
+    public struct Cvss4: Swift.Sendable {
+        /// The base CVSS v4 score for the vulnerability finding, which rates the severity of the vulnerability on a scale from 0 to 10.
+        public var baseScore: Swift.Double
+        /// The CVSS v4 scoring vector, which contains the metrics and measurements that were used to calculate the base score.
+        public var scoringVector: Swift.String?
+
+        public init(
+            baseScore: Swift.Double = 0.0,
+            scoringVector: Swift.String? = nil
+        ) {
+            self.baseScore = baseScore
+            self.scoringVector = scoringVector
+        }
+    }
+}
+
+extension Inspector2ClientTypes {
+
     /// The CVSS score for a finding.
     public struct CvssScore: Swift.Sendable {
         /// The base CVSS score used for the finding.
@@ -6645,6 +7774,52 @@ public struct DeleteCisScanConfigurationOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteCodeSecurityIntegrationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the code security integration to delete.
+    /// This member is required.
+    public var integrationArn: Swift.String?
+
+    public init(
+        integrationArn: Swift.String? = nil
+    ) {
+        self.integrationArn = integrationArn
+    }
+}
+
+public struct DeleteCodeSecurityIntegrationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the deleted code security integration.
+    public var integrationArn: Swift.String?
+
+    public init(
+        integrationArn: Swift.String? = nil
+    ) {
+        self.integrationArn = integrationArn
+    }
+}
+
+public struct DeleteCodeSecurityScanConfigurationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the scan configuration to delete.
+    /// This member is required.
+    public var scanConfigurationArn: Swift.String?
+
+    public init(
+        scanConfigurationArn: Swift.String? = nil
+    ) {
+        self.scanConfigurationArn = scanConfigurationArn
+    }
+}
+
+public struct DeleteCodeSecurityScanConfigurationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the deleted scan configuration.
+    public var scanConfigurationArn: Swift.String?
+
+    public init(
+        scanConfigurationArn: Swift.String? = nil
+    ) {
+        self.scanConfigurationArn = scanConfigurationArn
+    }
+}
+
 public struct DeleteFilterInput: Swift.Sendable {
     /// The Amazon Resource Number (ARN) of the filter to be deleted.
     /// This member is required.
@@ -6692,6 +7867,7 @@ public struct DescribeOrganizationConfigurationOutput: Swift.Sendable {
 extension Inspector2ClientTypes {
 
     public enum ResourceScanType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case codeRepository
         case ec2
         case ecr
         case lambda
@@ -6700,6 +7876,7 @@ extension Inspector2ClientTypes {
 
         public static var allCases: [ResourceScanType] {
             return [
+                .codeRepository,
                 .ec2,
                 .ecr,
                 .lambda,
@@ -6714,6 +7891,7 @@ extension Inspector2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .codeRepository: return "CODE_REPOSITORY"
             case .ec2: return "EC2"
             case .ecr: return "ECR"
             case .lambda: return "LAMBDA"
@@ -7746,15 +8924,19 @@ extension Inspector2ClientTypes {
         public var awsEcrContainerImage: Inspector2ClientTypes.AwsEcrContainerImageDetails?
         /// A summary of the information about an Amazon Web Services Lambda function affected by a finding.
         public var awsLambdaFunction: Inspector2ClientTypes.AwsLambdaFunctionDetails?
+        /// Contains details about a code repository resource associated with a finding.
+        public var codeRepository: Inspector2ClientTypes.CodeRepositoryDetails?
 
         public init(
             awsEc2Instance: Inspector2ClientTypes.AwsEc2InstanceDetails? = nil,
             awsEcrContainerImage: Inspector2ClientTypes.AwsEcrContainerImageDetails? = nil,
-            awsLambdaFunction: Inspector2ClientTypes.AwsLambdaFunctionDetails? = nil
+            awsLambdaFunction: Inspector2ClientTypes.AwsLambdaFunctionDetails? = nil,
+            codeRepository: Inspector2ClientTypes.CodeRepositoryDetails? = nil
         ) {
             self.awsEc2Instance = awsEc2Instance
             self.awsEcrContainerImage = awsEcrContainerImage
             self.awsLambdaFunction = awsLambdaFunction
+            self.codeRepository = codeRepository
         }
     }
 }
@@ -7766,6 +8948,7 @@ extension Inspector2ClientTypes {
         case awsEcrContainerImage
         case awsEcrRepository
         case awsLambdaFunction
+        case codeRepository
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceType] {
@@ -7773,7 +8956,8 @@ extension Inspector2ClientTypes {
                 .awsEc2Instance,
                 .awsEcrContainerImage,
                 .awsEcrRepository,
-                .awsLambdaFunction
+                .awsLambdaFunction,
+                .codeRepository
             ]
         }
 
@@ -7788,6 +8972,7 @@ extension Inspector2ClientTypes {
             case .awsEcrContainerImage: return "AWS_ECR_CONTAINER_IMAGE"
             case .awsEcrRepository: return "AWS_ECR_REPOSITORY"
             case .awsLambdaFunction: return "AWS_LAMBDA_FUNCTION"
+            case .codeRepository: return "CODE_REPOSITORY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -8166,6 +9351,184 @@ public struct GetClustersForImageOutput: Swift.Sendable {
     ) {
         self.cluster = cluster
         self.nextToken = nextToken
+    }
+}
+
+public struct GetCodeSecurityIntegrationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the code security integration to retrieve.
+    /// This member is required.
+    public var integrationArn: Swift.String?
+    /// The tags associated with the code security integration.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        integrationArn: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.integrationArn = integrationArn
+        self.tags = tags
+    }
+}
+
+public struct GetCodeSecurityIntegrationOutput: Swift.Sendable {
+    /// The URL used to authorize the integration with the repository provider. This is only returned if reauthorization is required to fix a connection issue. Otherwise, it is null.
+    public var authorizationUrl: Swift.String?
+    /// The timestamp when the code security integration was created.
+    /// This member is required.
+    public var createdOn: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the code security integration.
+    /// This member is required.
+    public var integrationArn: Swift.String?
+    /// The timestamp when the code security integration was last updated.
+    /// This member is required.
+    public var lastUpdateOn: Foundation.Date?
+    /// The name of the code security integration.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The current status of the code security integration.
+    /// This member is required.
+    public var status: Inspector2ClientTypes.IntegrationStatus?
+    /// The reason for the current status of the code security integration.
+    /// This member is required.
+    public var statusReason: Swift.String?
+    /// The tags associated with the code security integration.
+    public var tags: [Swift.String: Swift.String]?
+    /// The type of repository provider for the integration.
+    /// This member is required.
+    public var type: Inspector2ClientTypes.IntegrationType?
+
+    public init(
+        authorizationUrl: Swift.String? = nil,
+        createdOn: Foundation.Date? = nil,
+        integrationArn: Swift.String? = nil,
+        lastUpdateOn: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        status: Inspector2ClientTypes.IntegrationStatus? = nil,
+        statusReason: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        type: Inspector2ClientTypes.IntegrationType? = nil
+    ) {
+        self.authorizationUrl = authorizationUrl
+        self.createdOn = createdOn
+        self.integrationArn = integrationArn
+        self.lastUpdateOn = lastUpdateOn
+        self.name = name
+        self.status = status
+        self.statusReason = statusReason
+        self.tags = tags
+        self.type = type
+    }
+}
+
+extension GetCodeSecurityIntegrationOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetCodeSecurityIntegrationOutput(createdOn: \(Swift.String(describing: createdOn)), integrationArn: \(Swift.String(describing: integrationArn)), lastUpdateOn: \(Swift.String(describing: lastUpdateOn)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), statusReason: \(Swift.String(describing: statusReason)), tags: \(Swift.String(describing: tags)), type: \(Swift.String(describing: type)), authorizationUrl: \"CONTENT_REDACTED\")"}
+}
+
+public struct GetCodeSecurityScanInput: Swift.Sendable {
+    /// The resource identifier for the code repository that was scanned.
+    /// This member is required.
+    public var resource: Inspector2ClientTypes.CodeSecurityResource?
+    /// The unique identifier of the scan to retrieve.
+    /// This member is required.
+    public var scanId: Swift.String?
+
+    public init(
+        resource: Inspector2ClientTypes.CodeSecurityResource? = nil,
+        scanId: Swift.String? = nil
+    ) {
+        self.resource = resource
+        self.scanId = scanId
+    }
+}
+
+public struct GetCodeSecurityScanOutput: Swift.Sendable {
+    /// The Amazon Web Services account ID associated with the scan.
+    public var accountId: Swift.String?
+    /// The timestamp when the scan was created.
+    public var createdAt: Foundation.Date?
+    /// The identifier of the last commit that was scanned. This is only returned if the scan was successful or skipped.
+    public var lastCommitId: Swift.String?
+    /// The resource identifier for the code repository that was scanned.
+    public var resource: Inspector2ClientTypes.CodeSecurityResource?
+    /// The unique identifier of the scan.
+    public var scanId: Swift.String?
+    /// The current status of the scan.
+    public var status: Inspector2ClientTypes.CodeScanStatus?
+    /// The reason for the current status of the scan.
+    public var statusReason: Swift.String?
+    /// The timestamp when the scan was last updated.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        accountId: Swift.String? = nil,
+        createdAt: Foundation.Date? = nil,
+        lastCommitId: Swift.String? = nil,
+        resource: Inspector2ClientTypes.CodeSecurityResource? = nil,
+        scanId: Swift.String? = nil,
+        status: Inspector2ClientTypes.CodeScanStatus? = nil,
+        statusReason: Swift.String? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.accountId = accountId
+        self.createdAt = createdAt
+        self.lastCommitId = lastCommitId
+        self.resource = resource
+        self.scanId = scanId
+        self.status = status
+        self.statusReason = statusReason
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct GetCodeSecurityScanConfigurationInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the scan configuration to retrieve.
+    /// This member is required.
+    public var scanConfigurationArn: Swift.String?
+
+    public init(
+        scanConfigurationArn: Swift.String? = nil
+    ) {
+        self.scanConfigurationArn = scanConfigurationArn
+    }
+}
+
+public struct GetCodeSecurityScanConfigurationOutput: Swift.Sendable {
+    /// The configuration settings for the code security scan.
+    public var configuration: Inspector2ClientTypes.CodeSecurityScanConfiguration?
+    /// The timestamp when the scan configuration was created.
+    public var createdAt: Foundation.Date?
+    /// The timestamp when the scan configuration was last updated.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The security level for the scan configuration.
+    public var level: Inspector2ClientTypes.ConfigurationLevel?
+    /// The name of the scan configuration.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the scan configuration.
+    public var scanConfigurationArn: Swift.String?
+    /// The scope settings that define which repositories will be scanned. If the ScopeSetting parameter is ALL the scan configuration applies to all existing and future projects imported into Amazon Inspector.
+    public var scopeSettings: Inspector2ClientTypes.ScopeSettings?
+    /// The tags associated with the scan configuration.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        configuration: Inspector2ClientTypes.CodeSecurityScanConfiguration? = nil,
+        createdAt: Foundation.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        level: Inspector2ClientTypes.ConfigurationLevel? = nil,
+        name: Swift.String? = nil,
+        scanConfigurationArn: Swift.String? = nil,
+        scopeSettings: Inspector2ClientTypes.ScopeSettings? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.configuration = configuration
+        self.createdAt = createdAt
+        self.lastUpdatedAt = lastUpdatedAt
+        self.level = level
+        self.name = name
+        self.scanConfigurationArn = scanConfigurationArn
+        self.scopeSettings = scopeSettings
+        self.tags = tags
     }
 }
 
@@ -8885,6 +10248,101 @@ public struct ListCisScansOutput: Swift.Sendable {
     }
 }
 
+public struct ListCodeSecurityIntegrationsInput: Swift.Sendable {
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListCodeSecurityIntegrationsOutput: Swift.Sendable {
+    /// A list of code security integration summaries.
+    public var integrations: [Inspector2ClientTypes.CodeSecurityIntegrationSummary]?
+    /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+    public var nextToken: Swift.String?
+
+    public init(
+        integrations: [Inspector2ClientTypes.CodeSecurityIntegrationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.integrations = integrations
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListCodeSecurityScanConfigurationAssociationsInput: Swift.Sendable {
+    /// The maximum number of results to return in the response. If your request would return more than the maximum the response will return a nextToken value, use this value when you call the action again to get the remaining results.
+    public var maxResults: Swift.Int?
+    /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the scan configuration to list associations for.
+    /// This member is required.
+    public var scanConfigurationArn: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        scanConfigurationArn: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.scanConfigurationArn = scanConfigurationArn
+    }
+}
+
+public struct ListCodeSecurityScanConfigurationAssociationsOutput: Swift.Sendable {
+    /// A list of associations between code repositories and scan configurations.
+    public var associations: [Inspector2ClientTypes.CodeSecurityScanConfigurationAssociationSummary]?
+    /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+    public var nextToken: Swift.String?
+
+    public init(
+        associations: [Inspector2ClientTypes.CodeSecurityScanConfigurationAssociationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.associations = associations
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListCodeSecurityScanConfigurationsInput: Swift.Sendable {
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListCodeSecurityScanConfigurationsOutput: Swift.Sendable {
+    /// A list of code security scan configuration summaries.
+    public var configurations: [Inspector2ClientTypes.CodeSecurityScanConfigurationSummary]?
+    /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
+    public var nextToken: Swift.String?
+
+    public init(
+        configurations: [Inspector2ClientTypes.CodeSecurityScanConfigurationSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.configurations = configurations
+        self.nextToken = nextToken
+    }
+}
+
 public struct ListCoverageInput: Swift.Sendable {
     /// An object that contains details on the filters to apply to the coverage data for your environment.
     public var filterCriteria: Inspector2ClientTypes.CoverageFilterCriteria?
@@ -9287,6 +10745,10 @@ public struct ListUsageTotalsInput: Swift.Sendable {
 extension Inspector2ClientTypes {
 
     public enum UsageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case codeRepositoryIac
+        case codeRepositorySast
+        case codeRepositorySca
+        case ec2AgentlessInstanceHours
         case ec2InstanceHours
         case ecrInitialScan
         case ecrRescan
@@ -9296,6 +10758,10 @@ extension Inspector2ClientTypes {
 
         public static var allCases: [UsageType] {
             return [
+                .codeRepositoryIac,
+                .codeRepositorySast,
+                .codeRepositorySca,
+                .ec2AgentlessInstanceHours,
                 .ec2InstanceHours,
                 .ecrInitialScan,
                 .ecrRescan,
@@ -9311,6 +10777,10 @@ extension Inspector2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .codeRepositoryIac: return "CODE_REPOSITORY_IAC"
+            case .codeRepositorySast: return "CODE_REPOSITORY_SAST"
+            case .codeRepositorySca: return "CODE_REPOSITORY_SCA"
+            case .ec2AgentlessInstanceHours: return "EC2_AGENTLESS_INSTANCE_HOURS"
             case .ec2InstanceHours: return "EC2_INSTANCE_HOURS"
             case .ecrInitialScan: return "ECR_INITIAL_SCAN"
             case .ecrRescan: return "ECR_RESCAN"
@@ -9475,6 +10945,8 @@ extension Inspector2ClientTypes {
         public var cvss2: Inspector2ClientTypes.Cvss2?
         /// An object that contains the Common Vulnerability Scoring System (CVSS) Version 3 details for the vulnerability.
         public var cvss3: Inspector2ClientTypes.Cvss3?
+        /// An object that contains the Common Vulnerability Scoring System (CVSS) Version 4 details for the vulnerability.
+        public var cvss4: Inspector2ClientTypes.Cvss4?
         /// The Common Weakness Enumeration (CWE) associated with the vulnerability.
         public var cwes: [Swift.String]?
         /// A description of the vulnerability.
@@ -9508,6 +10980,7 @@ extension Inspector2ClientTypes {
             cisaData: Inspector2ClientTypes.CisaData? = nil,
             cvss2: Inspector2ClientTypes.Cvss2? = nil,
             cvss3: Inspector2ClientTypes.Cvss3? = nil,
+            cvss4: Inspector2ClientTypes.Cvss4? = nil,
             cwes: [Swift.String]? = nil,
             description: Swift.String? = nil,
             detectionPlatforms: [Swift.String]? = nil,
@@ -9526,6 +10999,7 @@ extension Inspector2ClientTypes {
             self.cisaData = cisaData
             self.cvss2 = cvss2
             self.cvss3 = cvss3
+            self.cvss4 = cvss4
             self.cwes = cwes
             self.description = description
             self.detectionPlatforms = detectionPlatforms
@@ -9644,6 +11118,37 @@ public struct StartCisSessionInput: Swift.Sendable {
 public struct StartCisSessionOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct StartCodeSecurityScanInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The resource identifier for the code repository to scan.
+    /// This member is required.
+    public var resource: Inspector2ClientTypes.CodeSecurityResource?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        resource: Inspector2ClientTypes.CodeSecurityResource? = nil
+    ) {
+        self.clientToken = clientToken
+        self.resource = resource
+    }
+}
+
+public struct StartCodeSecurityScanOutput: Swift.Sendable {
+    /// The unique identifier of the initiated scan.
+    public var scanId: Swift.String?
+    /// The current status of the initiated scan.
+    public var status: Inspector2ClientTypes.CodeScanStatus?
+
+    public init(
+        scanId: Swift.String? = nil,
+        status: Inspector2ClientTypes.CodeScanStatus? = nil
+    ) {
+        self.scanId = scanId
+        self.status = status
+    }
 }
 
 extension Inspector2ClientTypes {
@@ -9891,6 +11396,127 @@ public struct UpdateCisScanConfigurationOutput: Swift.Sendable {
     }
 }
 
+extension Inspector2ClientTypes {
+
+    /// Contains details required to update an integration with GitHub.
+    public struct UpdateGitHubIntegrationDetail: Swift.Sendable {
+        /// The authorization code received from GitHub to update the integration.
+        /// This member is required.
+        public var code: Swift.String?
+        /// The installation ID of the GitHub App associated with the integration.
+        /// This member is required.
+        public var installationId: Swift.String?
+
+        public init(
+            code: Swift.String? = nil,
+            installationId: Swift.String? = nil
+        ) {
+            self.code = code
+            self.installationId = installationId
+        }
+    }
+}
+
+extension Inspector2ClientTypes.UpdateGitHubIntegrationDetail: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateGitHubIntegrationDetail(installationId: \(Swift.String(describing: installationId)), code: \"CONTENT_REDACTED\")"}
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains details required to update an integration with a self-managed GitLab instance.
+    public struct UpdateGitLabSelfManagedIntegrationDetail: Swift.Sendable {
+        /// The authorization code received from the self-managed GitLab instance to update the integration.
+        /// This member is required.
+        public var authCode: Swift.String?
+
+        public init(
+            authCode: Swift.String? = nil
+        ) {
+            self.authCode = authCode
+        }
+    }
+}
+
+extension Inspector2ClientTypes.UpdateGitLabSelfManagedIntegrationDetail: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateGitLabSelfManagedIntegrationDetail(authCode: \"CONTENT_REDACTED\")"}
+}
+
+extension Inspector2ClientTypes {
+
+    /// Contains details required to update a code security integration with a specific repository provider.
+    public enum UpdateIntegrationDetails: Swift.Sendable {
+        /// Details specific to updating an integration with a self-managed GitLab instance.
+        case gitlabselfmanaged(Inspector2ClientTypes.UpdateGitLabSelfManagedIntegrationDetail)
+        /// Details specific to updating an integration with GitHub.
+        case github(Inspector2ClientTypes.UpdateGitHubIntegrationDetail)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct UpdateCodeSecurityIntegrationInput: Swift.Sendable {
+    /// The updated integration details specific to the repository provider type.
+    /// This member is required.
+    public var details: Inspector2ClientTypes.UpdateIntegrationDetails?
+    /// The Amazon Resource Name (ARN) of the code security integration to update.
+    /// This member is required.
+    public var integrationArn: Swift.String?
+
+    public init(
+        details: Inspector2ClientTypes.UpdateIntegrationDetails? = nil,
+        integrationArn: Swift.String? = nil
+    ) {
+        self.details = details
+        self.integrationArn = integrationArn
+    }
+}
+
+public struct UpdateCodeSecurityIntegrationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the updated code security integration.
+    /// This member is required.
+    public var integrationArn: Swift.String?
+    /// The current status of the updated code security integration.
+    /// This member is required.
+    public var status: Inspector2ClientTypes.IntegrationStatus?
+
+    public init(
+        integrationArn: Swift.String? = nil,
+        status: Inspector2ClientTypes.IntegrationStatus? = nil
+    ) {
+        self.integrationArn = integrationArn
+        self.status = status
+    }
+}
+
+public struct UpdateCodeSecurityScanConfigurationInput: Swift.Sendable {
+    /// The updated configuration settings for the code security scan.
+    /// This member is required.
+    public var configuration: Inspector2ClientTypes.CodeSecurityScanConfiguration?
+    /// The Amazon Resource Name (ARN) of the scan configuration to update.
+    /// This member is required.
+    public var scanConfigurationArn: Swift.String?
+
+    public init(
+        configuration: Inspector2ClientTypes.CodeSecurityScanConfiguration? = nil,
+        scanConfigurationArn: Swift.String? = nil
+    ) {
+        self.configuration = configuration
+        self.scanConfigurationArn = scanConfigurationArn
+    }
+}
+
+public struct UpdateCodeSecurityScanConfigurationOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the updated scan configuration.
+    public var scanConfigurationArn: Swift.String?
+
+    public init(
+        scanConfigurationArn: Swift.String? = nil
+    ) {
+        self.scanConfigurationArn = scanConfigurationArn
+    }
+}
+
 public struct UpdateConfigurationInput: Swift.Sendable {
     /// Specifies how the Amazon EC2 automated scan will be updated for your environment.
     public var ec2Configuration: Inspector2ClientTypes.Ec2Configuration?
@@ -10068,6 +11694,20 @@ extension AssociateMemberInput {
     }
 }
 
+extension BatchAssociateCodeSecurityScanConfigurationInput {
+
+    static func urlPathProvider(_ value: BatchAssociateCodeSecurityScanConfigurationInput) -> Swift.String? {
+        return "/codesecurity/scan-configuration/batch/associate"
+    }
+}
+
+extension BatchDisassociateCodeSecurityScanConfigurationInput {
+
+    static func urlPathProvider(_ value: BatchDisassociateCodeSecurityScanConfigurationInput) -> Swift.String? {
+        return "/codesecurity/scan-configuration/batch/disassociate"
+    }
+}
+
 extension BatchGetAccountStatusInput {
 
     static func urlPathProvider(_ value: BatchGetAccountStatusInput) -> Swift.String? {
@@ -10131,6 +11771,20 @@ extension CreateCisScanConfigurationInput {
     }
 }
 
+extension CreateCodeSecurityIntegrationInput {
+
+    static func urlPathProvider(_ value: CreateCodeSecurityIntegrationInput) -> Swift.String? {
+        return "/codesecurity/integration/create"
+    }
+}
+
+extension CreateCodeSecurityScanConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateCodeSecurityScanConfigurationInput) -> Swift.String? {
+        return "/codesecurity/scan-configuration/create"
+    }
+}
+
 extension CreateFilterInput {
 
     static func urlPathProvider(_ value: CreateFilterInput) -> Swift.String? {
@@ -10156,6 +11810,20 @@ extension DeleteCisScanConfigurationInput {
 
     static func urlPathProvider(_ value: DeleteCisScanConfigurationInput) -> Swift.String? {
         return "/cis/scan-configuration/delete"
+    }
+}
+
+extension DeleteCodeSecurityIntegrationInput {
+
+    static func urlPathProvider(_ value: DeleteCodeSecurityIntegrationInput) -> Swift.String? {
+        return "/codesecurity/integration/delete"
+    }
+}
+
+extension DeleteCodeSecurityScanConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteCodeSecurityScanConfigurationInput) -> Swift.String? {
+        return "/codesecurity/scan-configuration/delete"
     }
 }
 
@@ -10226,6 +11894,27 @@ extension GetClustersForImageInput {
 
     static func urlPathProvider(_ value: GetClustersForImageInput) -> Swift.String? {
         return "/cluster/get"
+    }
+}
+
+extension GetCodeSecurityIntegrationInput {
+
+    static func urlPathProvider(_ value: GetCodeSecurityIntegrationInput) -> Swift.String? {
+        return "/codesecurity/integration/get"
+    }
+}
+
+extension GetCodeSecurityScanInput {
+
+    static func urlPathProvider(_ value: GetCodeSecurityScanInput) -> Swift.String? {
+        return "/codesecurity/scan/get"
+    }
+}
+
+extension GetCodeSecurityScanConfigurationInput {
+
+    static func urlPathProvider(_ value: GetCodeSecurityScanConfigurationInput) -> Swift.String? {
+        return "/codesecurity/scan-configuration/get"
     }
 }
 
@@ -10333,6 +12022,75 @@ extension ListCisScansInput {
     }
 }
 
+extension ListCodeSecurityIntegrationsInput {
+
+    static func urlPathProvider(_ value: ListCodeSecurityIntegrationsInput) -> Swift.String? {
+        return "/codesecurity/integration/list"
+    }
+}
+
+extension ListCodeSecurityIntegrationsInput {
+
+    static func queryItemProvider(_ value: ListCodeSecurityIntegrationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListCodeSecurityScanConfigurationAssociationsInput {
+
+    static func urlPathProvider(_ value: ListCodeSecurityScanConfigurationAssociationsInput) -> Swift.String? {
+        return "/codesecurity/scan-configuration/associations/list"
+    }
+}
+
+extension ListCodeSecurityScanConfigurationAssociationsInput {
+
+    static func queryItemProvider(_ value: ListCodeSecurityScanConfigurationAssociationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListCodeSecurityScanConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListCodeSecurityScanConfigurationsInput) -> Swift.String? {
+        return "/codesecurity/scan-configuration/list"
+    }
+}
+
+extension ListCodeSecurityScanConfigurationsInput {
+
+    static func queryItemProvider(_ value: ListCodeSecurityScanConfigurationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListCoverageInput {
 
     static func urlPathProvider(_ value: ListCoverageInput) -> Swift.String? {
@@ -10434,6 +12192,13 @@ extension StartCisSessionInput {
     }
 }
 
+extension StartCodeSecurityScanInput {
+
+    static func urlPathProvider(_ value: StartCodeSecurityScanInput) -> Swift.String? {
+        return "/codesecurity/scan/start"
+    }
+}
+
 extension StopCisSessionInput {
 
     static func urlPathProvider(_ value: StopCisSessionInput) -> Swift.String? {
@@ -10484,6 +12249,20 @@ extension UpdateCisScanConfigurationInput {
     }
 }
 
+extension UpdateCodeSecurityIntegrationInput {
+
+    static func urlPathProvider(_ value: UpdateCodeSecurityIntegrationInput) -> Swift.String? {
+        return "/codesecurity/integration/update"
+    }
+}
+
+extension UpdateCodeSecurityScanConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateCodeSecurityScanConfigurationInput) -> Swift.String? {
+        return "/codesecurity/scan-configuration/update"
+    }
+}
+
 extension UpdateConfigurationInput {
 
     static func urlPathProvider(_ value: UpdateConfigurationInput) -> Swift.String? {
@@ -10531,6 +12310,22 @@ extension AssociateMemberInput {
     static func write(value: AssociateMemberInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["accountId"].write(value.accountId)
+    }
+}
+
+extension BatchAssociateCodeSecurityScanConfigurationInput {
+
+    static func write(value: BatchAssociateCodeSecurityScanConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["associateConfigurationRequests"].writeList(value.associateConfigurationRequests, memberWritingClosure: Inspector2ClientTypes.AssociateConfigurationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchDisassociateCodeSecurityScanConfigurationInput {
+
+    static func write(value: BatchDisassociateCodeSecurityScanConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["disassociateConfigurationRequests"].writeList(value.disassociateConfigurationRequests, memberWritingClosure: Inspector2ClientTypes.DisassociateConfigurationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -10610,6 +12405,29 @@ extension CreateCisScanConfigurationInput {
     }
 }
 
+extension CreateCodeSecurityIntegrationInput {
+
+    static func write(value: CreateCodeSecurityIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["details"].write(value.details, with: Inspector2ClientTypes.CreateIntegrationDetail.write(value:to:))
+        try writer["name"].write(value.name)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension CreateCodeSecurityScanConfigurationInput {
+
+    static func write(value: CreateCodeSecurityScanConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configuration"].write(value.configuration, with: Inspector2ClientTypes.CodeSecurityScanConfiguration.write(value:to:))
+        try writer["level"].write(value.level)
+        try writer["name"].write(value.name)
+        try writer["scopeSettings"].write(value.scopeSettings, with: Inspector2ClientTypes.ScopeSettings.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateFilterInput {
 
     static func write(value: CreateFilterInput?, to writer: SmithyJSON.Writer) throws {
@@ -10646,6 +12464,22 @@ extension CreateSbomExportInput {
 extension DeleteCisScanConfigurationInput {
 
     static func write(value: DeleteCisScanConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scanConfigurationArn"].write(value.scanConfigurationArn)
+    }
+}
+
+extension DeleteCodeSecurityIntegrationInput {
+
+    static func write(value: DeleteCodeSecurityIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["integrationArn"].write(value.integrationArn)
+    }
+}
+
+extension DeleteCodeSecurityScanConfigurationInput {
+
+    static func write(value: DeleteCodeSecurityScanConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["scanConfigurationArn"].write(value.scanConfigurationArn)
     }
@@ -10738,6 +12572,32 @@ extension GetClustersForImageInput {
     }
 }
 
+extension GetCodeSecurityIntegrationInput {
+
+    static func write(value: GetCodeSecurityIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["integrationArn"].write(value.integrationArn)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension GetCodeSecurityScanInput {
+
+    static func write(value: GetCodeSecurityScanInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resource"].write(value.resource, with: Inspector2ClientTypes.CodeSecurityResource.write(value:to:))
+        try writer["scanId"].write(value.scanId)
+    }
+}
+
+extension GetCodeSecurityScanConfigurationInput {
+
+    static func write(value: GetCodeSecurityScanConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scanConfigurationArn"].write(value.scanConfigurationArn)
+    }
+}
+
 extension GetFindingsReportStatusInput {
 
     static func write(value: GetFindingsReportStatusInput?, to writer: SmithyJSON.Writer) throws {
@@ -10820,6 +12680,14 @@ extension ListCisScansInput {
         try writer["nextToken"].write(value.nextToken)
         try writer["sortBy"].write(value.sortBy)
         try writer["sortOrder"].write(value.sortOrder)
+    }
+}
+
+extension ListCodeSecurityScanConfigurationAssociationsInput {
+
+    static func write(value: ListCodeSecurityScanConfigurationAssociationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scanConfigurationArn"].write(value.scanConfigurationArn)
     }
 }
 
@@ -10952,6 +12820,15 @@ extension StartCisSessionInput {
     }
 }
 
+extension StartCodeSecurityScanInput {
+
+    static func write(value: StartCodeSecurityScanInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["resource"].write(value.resource, with: Inspector2ClientTypes.CodeSecurityResource.write(value:to:))
+    }
+}
+
 extension StopCisSessionInput {
 
     static func write(value: StopCisSessionInput?, to writer: SmithyJSON.Writer) throws {
@@ -10979,6 +12856,24 @@ extension UpdateCisScanConfigurationInput {
         try writer["schedule"].write(value.schedule, with: Inspector2ClientTypes.Schedule.write(value:to:))
         try writer["securityLevel"].write(value.securityLevel)
         try writer["targets"].write(value.targets, with: Inspector2ClientTypes.UpdateCisTargets.write(value:to:))
+    }
+}
+
+extension UpdateCodeSecurityIntegrationInput {
+
+    static func write(value: UpdateCodeSecurityIntegrationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["details"].write(value.details, with: Inspector2ClientTypes.UpdateIntegrationDetails.write(value:to:))
+        try writer["integrationArn"].write(value.integrationArn)
+    }
+}
+
+extension UpdateCodeSecurityScanConfigurationInput {
+
+    static func write(value: UpdateCodeSecurityScanConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configuration"].write(value.configuration, with: Inspector2ClientTypes.CodeSecurityScanConfiguration.write(value:to:))
+        try writer["scanConfigurationArn"].write(value.scanConfigurationArn)
     }
 }
 
@@ -11047,6 +12942,32 @@ extension AssociateMemberOutput {
         let reader = responseReader
         var value = AssociateMemberOutput()
         value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BatchAssociateCodeSecurityScanConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchAssociateCodeSecurityScanConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchAssociateCodeSecurityScanConfigurationOutput()
+        value.failedAssociations = try reader["failedAssociations"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.FailedAssociationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.successfulAssociations = try reader["successfulAssociations"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.SuccessfulAssociationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchDisassociateCodeSecurityScanConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchDisassociateCodeSecurityScanConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchDisassociateCodeSecurityScanConfigurationOutput()
+        value.failedAssociations = try reader["failedAssociations"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.FailedAssociationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.successfulAssociations = try reader["successfulAssociations"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.SuccessfulAssociationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11165,6 +13086,32 @@ extension CreateCisScanConfigurationOutput {
     }
 }
 
+extension CreateCodeSecurityIntegrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCodeSecurityIntegrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCodeSecurityIntegrationOutput()
+        value.authorizationUrl = try reader["authorizationUrl"].readIfPresent()
+        value.integrationArn = try reader["integrationArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CreateCodeSecurityScanConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCodeSecurityScanConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCodeSecurityScanConfigurationOutput()
+        value.scanConfigurationArn = try reader["scanConfigurationArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateFilterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateFilterOutput {
@@ -11209,6 +13156,30 @@ extension DeleteCisScanConfigurationOutput {
         let reader = responseReader
         var value = DeleteCisScanConfigurationOutput()
         value.scanConfigurationArn = try reader["scanConfigurationArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DeleteCodeSecurityIntegrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCodeSecurityIntegrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteCodeSecurityIntegrationOutput()
+        value.integrationArn = try reader["integrationArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteCodeSecurityScanConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCodeSecurityScanConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteCodeSecurityScanConfigurationOutput()
+        value.scanConfigurationArn = try reader["scanConfigurationArn"].readIfPresent()
         return value
     }
 }
@@ -11335,6 +13306,64 @@ extension GetClustersForImageOutput {
         var value = GetClustersForImageOutput()
         value.cluster = try reader["cluster"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ClusterInformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension GetCodeSecurityIntegrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCodeSecurityIntegrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCodeSecurityIntegrationOutput()
+        value.authorizationUrl = try reader["authorizationUrl"].readIfPresent()
+        value.createdOn = try reader["createdOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.integrationArn = try reader["integrationArn"].readIfPresent() ?? ""
+        value.lastUpdateOn = try reader["lastUpdateOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent() ?? ""
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GetCodeSecurityScanOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCodeSecurityScanOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCodeSecurityScanOutput()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastCommitId = try reader["lastCommitId"].readIfPresent()
+        value.resource = try reader["resource"].readIfPresent(with: Inspector2ClientTypes.CodeSecurityResource.read(from:))
+        value.scanId = try reader["scanId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GetCodeSecurityScanConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetCodeSecurityScanConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetCodeSecurityScanConfigurationOutput()
+        value.configuration = try reader["configuration"].readIfPresent(with: Inspector2ClientTypes.CodeSecurityScanConfiguration.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.level = try reader["level"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.scanConfigurationArn = try reader["scanConfigurationArn"].readIfPresent()
+        value.scopeSettings = try reader["scopeSettings"].readIfPresent(with: Inspector2ClientTypes.ScopeSettings.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -11503,6 +13532,45 @@ extension ListCisScansOutput {
     }
 }
 
+extension ListCodeSecurityIntegrationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCodeSecurityIntegrationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCodeSecurityIntegrationsOutput()
+        value.integrations = try reader["integrations"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CodeSecurityIntegrationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListCodeSecurityScanConfigurationAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCodeSecurityScanConfigurationAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCodeSecurityScanConfigurationAssociationsOutput()
+        value.associations = try reader["associations"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CodeSecurityScanConfigurationAssociationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListCodeSecurityScanConfigurationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCodeSecurityScanConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCodeSecurityScanConfigurationsOutput()
+        value.configurations = try reader["configurations"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.CodeSecurityScanConfigurationSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListCoverageOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCoverageOutput {
@@ -11662,6 +13730,19 @@ extension StartCisSessionOutput {
     }
 }
 
+extension StartCodeSecurityScanOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartCodeSecurityScanOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartCodeSecurityScanOutput()
+        value.scanId = try reader["scanId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension StopCisSessionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopCisSessionOutput {
@@ -11691,6 +13772,31 @@ extension UpdateCisScanConfigurationOutput {
         let reader = responseReader
         var value = UpdateCisScanConfigurationOutput()
         value.scanConfigurationArn = try reader["scanConfigurationArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension UpdateCodeSecurityIntegrationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCodeSecurityIntegrationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateCodeSecurityIntegrationOutput()
+        value.integrationArn = try reader["integrationArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension UpdateCodeSecurityScanConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCodeSecurityScanConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateCodeSecurityScanConfigurationOutput()
+        value.scanConfigurationArn = try reader["scanConfigurationArn"].readIfPresent()
         return value
     }
 }
@@ -11766,6 +13872,44 @@ enum AssociateMemberOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchAssociateCodeSecurityScanConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchDisassociateCodeSecurityScanConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -11929,6 +14073,44 @@ enum CreateCisScanConfigurationOutputError {
     }
 }
 
+enum CreateCodeSecurityIntegrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateCodeSecurityScanConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateFilterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11985,6 +14167,42 @@ enum CreateSbomExportOutputError {
 }
 
 enum DeleteCisScanConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCodeSecurityIntegrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCodeSecurityScanConfigurationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -12173,6 +14391,61 @@ enum GetClustersForImageOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetCodeSecurityIntegrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetCodeSecurityScanOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetCodeSecurityScanConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -12381,6 +14654,59 @@ enum ListCisScansOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCodeSecurityIntegrationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCodeSecurityScanConfigurationAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListCodeSecurityScanConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -12626,6 +14952,25 @@ enum StartCisSessionOutputError {
     }
 }
 
+enum StartCodeSecurityScanOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StopCisSessionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12688,6 +15033,44 @@ enum UpdateCisScanConfigurationOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateCodeSecurityIntegrationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateCodeSecurityScanConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -12831,21 +15214,6 @@ extension InternalServerException {
     }
 }
 
-extension ValidationException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
-        let reader = baseError.errorBodyReader
-        var value = ValidationException()
-        value.properties.fields = try reader["fields"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ServiceQuotaExceededException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
@@ -12870,6 +15238,36 @@ extension ThrottlingException {
             value.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
         }
         value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ValidationException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+        let reader = baseError.errorBodyReader
+        var value = ValidationException()
+        value.properties.fields = try reader["fields"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
+        let reader = baseError.errorBodyReader
+        var value = ConflictException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
+        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -12903,17 +15301,50 @@ extension BadRequestException {
     }
 }
 
-extension ConflictException {
+extension Inspector2ClientTypes.FailedAssociationResult {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
-        let reader = baseError.errorBodyReader
-        var value = ConflictException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
-        value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.FailedAssociationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.FailedAssociationResult()
+        value.scanConfigurationArn = try reader["scanConfigurationArn"].readIfPresent()
+        value.resource = try reader["resource"].readIfPresent(with: Inspector2ClientTypes.CodeSecurityResource.read(from:))
+        value.statusCode = try reader["statusCode"].readIfPresent()
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.CodeSecurityResource {
+
+    static func write(value: Inspector2ClientTypes.CodeSecurityResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .projectid(projectid):
+                try writer["projectId"].write(projectid)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CodeSecurityResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "projectId":
+                return .projectid(try reader["projectId"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension Inspector2ClientTypes.SuccessfulAssociationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.SuccessfulAssociationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.SuccessfulAssociationResult()
+        value.scanConfigurationArn = try reader["scanConfigurationArn"].readIfPresent()
+        value.resource = try reader["resource"].readIfPresent(with: Inspector2ClientTypes.CodeSecurityResource.read(from:))
         return value
     }
 }
@@ -12939,6 +15370,7 @@ extension Inspector2ClientTypes.ResourceState {
         value.ecr = try reader["ecr"].readIfPresent(with: Inspector2ClientTypes.State.read(from:))
         value.lambda = try reader["lambda"].readIfPresent(with: Inspector2ClientTypes.State.read(from:))
         value.lambdaCode = try reader["lambdaCode"].readIfPresent(with: Inspector2ClientTypes.State.read(from:))
+        value.codeRepository = try reader["codeRepository"].readIfPresent(with: Inspector2ClientTypes.State.read(from:))
         return value
     }
 }
@@ -12978,6 +15410,7 @@ extension Inspector2ClientTypes.ResourceStatus {
         value.ecr = try reader["ecr"].readIfPresent() ?? .sdkUnknown("")
         value.lambda = try reader["lambda"].readIfPresent()
         value.lambdaCode = try reader["lambdaCode"].readIfPresent()
+        value.codeRepository = try reader["codeRepository"].readIfPresent()
         return value
     }
 }
@@ -13160,6 +15593,7 @@ extension Inspector2ClientTypes.AutoEnable {
 
     static func write(value: Inspector2ClientTypes.AutoEnable?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["codeRepository"].write(value.codeRepository)
         try writer["ec2"].write(value.ec2)
         try writer["ecr"].write(value.ecr)
         try writer["lambda"].write(value.lambda)
@@ -13173,6 +15607,7 @@ extension Inspector2ClientTypes.AutoEnable {
         value.ecr = try reader["ecr"].readIfPresent() ?? false
         value.lambda = try reader["lambda"].readIfPresent()
         value.lambdaCode = try reader["lambdaCode"].readIfPresent()
+        value.codeRepository = try reader["codeRepository"].readIfPresent()
         return value
     }
 }
@@ -13283,6 +15718,72 @@ extension Inspector2ClientTypes.AwsEcsMetadataDetails {
     }
 }
 
+extension Inspector2ClientTypes.CodeSecurityScanConfiguration {
+
+    static func write(value: Inspector2ClientTypes.CodeSecurityScanConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["continuousIntegrationScanConfiguration"].write(value.continuousIntegrationScanConfiguration, with: Inspector2ClientTypes.ContinuousIntegrationScanConfiguration.write(value:to:))
+        try writer["periodicScanConfiguration"].write(value.periodicScanConfiguration, with: Inspector2ClientTypes.PeriodicScanConfiguration.write(value:to:))
+        try writer["ruleSetCategories"].writeList(value.ruleSetCategories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<Inspector2ClientTypes.RuleSetCategory>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CodeSecurityScanConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.CodeSecurityScanConfiguration()
+        value.periodicScanConfiguration = try reader["periodicScanConfiguration"].readIfPresent(with: Inspector2ClientTypes.PeriodicScanConfiguration.read(from:))
+        value.continuousIntegrationScanConfiguration = try reader["continuousIntegrationScanConfiguration"].readIfPresent(with: Inspector2ClientTypes.ContinuousIntegrationScanConfiguration.read(from:))
+        value.ruleSetCategories = try reader["ruleSetCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<Inspector2ClientTypes.RuleSetCategory>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.ContinuousIntegrationScanConfiguration {
+
+    static func write(value: Inspector2ClientTypes.ContinuousIntegrationScanConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["supportedEvents"].writeList(value.supportedEvents, memberWritingClosure: SmithyReadWrite.WritingClosureBox<Inspector2ClientTypes.ContinuousIntegrationScanEvent>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ContinuousIntegrationScanConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.ContinuousIntegrationScanConfiguration()
+        value.supportedEvents = try reader["supportedEvents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<Inspector2ClientTypes.ContinuousIntegrationScanEvent>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.PeriodicScanConfiguration {
+
+    static func write(value: Inspector2ClientTypes.PeriodicScanConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["frequency"].write(value.frequency)
+        try writer["frequencyExpression"].write(value.frequencyExpression)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.PeriodicScanConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.PeriodicScanConfiguration()
+        value.frequency = try reader["frequency"].readIfPresent()
+        value.frequencyExpression = try reader["frequencyExpression"].readIfPresent()
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.ScopeSettings {
+
+    static func write(value: Inspector2ClientTypes.ScopeSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["projectSelectionScope"].write(value.projectSelectionScope)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ScopeSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.ScopeSettings()
+        value.projectSelectionScope = try reader["projectSelectionScope"].readIfPresent()
+        return value
+    }
+}
+
 extension Inspector2ClientTypes.EcrConfigurationState {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.EcrConfigurationState {
@@ -13363,6 +15864,8 @@ extension Inspector2ClientTypes.FilterCriteria {
     static func write(value: Inspector2ClientTypes.FilterCriteria?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["awsAccountId"].writeList(value.awsAccountId, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["codeRepositoryProjectName"].writeList(value.codeRepositoryProjectName, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["codeRepositoryProviderType"].writeList(value.codeRepositoryProviderType, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["codeVulnerabilityDetectorName"].writeList(value.codeVulnerabilityDetectorName, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["codeVulnerabilityDetectorTags"].writeList(value.codeVulnerabilityDetectorTags, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["codeVulnerabilityFilePath"].writeList(value.codeVulnerabilityFilePath, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -13455,23 +15958,8 @@ extension Inspector2ClientTypes.FilterCriteria {
         value.codeVulnerabilityDetectorTags = try reader["codeVulnerabilityDetectorTags"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.codeVulnerabilityFilePath = try reader["codeVulnerabilityFilePath"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.epssScore = try reader["epssScore"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.NumberFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension Inspector2ClientTypes.NumberFilter {
-
-    static func write(value: Inspector2ClientTypes.NumberFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lowerInclusive"].write(value.lowerInclusive)
-        try writer["upperInclusive"].write(value.upperInclusive)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.NumberFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.NumberFilter()
-        value.upperInclusive = try reader["upperInclusive"].readIfPresent()
-        value.lowerInclusive = try reader["lowerInclusive"].readIfPresent()
+        value.codeRepositoryProjectName = try reader["codeRepositoryProjectName"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.codeRepositoryProviderType = try reader["codeRepositoryProviderType"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.StringFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -13489,6 +15977,23 @@ extension Inspector2ClientTypes.StringFilter {
         var value = Inspector2ClientTypes.StringFilter()
         value.comparison = try reader["comparison"].readIfPresent() ?? .sdkUnknown("")
         value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.NumberFilter {
+
+    static func write(value: Inspector2ClientTypes.NumberFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["lowerInclusive"].write(value.lowerInclusive)
+        try writer["upperInclusive"].write(value.upperInclusive)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.NumberFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.NumberFilter()
+        value.upperInclusive = try reader["upperInclusive"].readIfPresent()
+        value.lowerInclusive = try reader["lowerInclusive"].readIfPresent()
         return value
     }
 }
@@ -13871,6 +16376,51 @@ extension Inspector2ClientTypes.CisScan {
     }
 }
 
+extension Inspector2ClientTypes.CodeSecurityIntegrationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CodeSecurityIntegrationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.CodeSecurityIntegrationSummary()
+        value.integrationArn = try reader["integrationArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent() ?? ""
+        value.createdOn = try reader["createdOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdateOn = try reader["lastUpdateOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.CodeSecurityScanConfigurationAssociationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CodeSecurityScanConfigurationAssociationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.CodeSecurityScanConfigurationAssociationSummary()
+        value.resource = try reader["resource"].readIfPresent(with: Inspector2ClientTypes.CodeSecurityResource.read(from:))
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.CodeSecurityScanConfigurationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CodeSecurityScanConfigurationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.CodeSecurityScanConfigurationSummary()
+        value.scanConfigurationArn = try reader["scanConfigurationArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.ownerAccountId = try reader["ownerAccountId"].readIfPresent() ?? ""
+        value.periodicScanFrequency = try reader["periodicScanFrequency"].readIfPresent()
+        value.frequencyExpression = try reader["frequencyExpression"].readIfPresent()
+        value.continuousIntegrationScanSupportedEvents = try reader["continuousIntegrationScanSupportedEvents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<Inspector2ClientTypes.ContinuousIntegrationScanEvent>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ruleSetCategories = try reader["ruleSetCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<Inspector2ClientTypes.RuleSetCategory>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.scopeSettings = try reader["scopeSettings"].readIfPresent(with: Inspector2ClientTypes.ScopeSettings.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension Inspector2ClientTypes.CoveredResource {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CoveredResource {
@@ -13897,6 +16447,79 @@ extension Inspector2ClientTypes.ResourceScanMetadata {
         value.ecrImage = try reader["ecrImage"].readIfPresent(with: Inspector2ClientTypes.EcrContainerImageMetadata.read(from:))
         value.ec2 = try reader["ec2"].readIfPresent(with: Inspector2ClientTypes.Ec2Metadata.read(from:))
         value.lambdaFunction = try reader["lambdaFunction"].readIfPresent(with: Inspector2ClientTypes.LambdaFunctionMetadata.read(from:))
+        value.codeRepository = try reader["codeRepository"].readIfPresent(with: Inspector2ClientTypes.CodeRepositoryMetadata.read(from:))
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.CodeRepositoryMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CodeRepositoryMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.CodeRepositoryMetadata()
+        value.projectName = try reader["projectName"].readIfPresent() ?? ""
+        value.integrationArn = try reader["integrationArn"].readIfPresent()
+        value.providerType = try reader["providerType"].readIfPresent() ?? ""
+        value.providerTypeVisibility = try reader["providerTypeVisibility"].readIfPresent() ?? ""
+        value.lastScannedCommitId = try reader["lastScannedCommitId"].readIfPresent()
+        value.scanConfiguration = try reader["scanConfiguration"].readIfPresent(with: Inspector2ClientTypes.ProjectCodeSecurityScanConfiguration.read(from:))
+        value.onDemandScan = try reader["onDemandScan"].readIfPresent(with: Inspector2ClientTypes.CodeRepositoryOnDemandScan.read(from:))
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.CodeRepositoryOnDemandScan {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CodeRepositoryOnDemandScan {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.CodeRepositoryOnDemandScan()
+        value.lastScannedCommitId = try reader["lastScannedCommitId"].readIfPresent()
+        value.lastScanAt = try reader["lastScanAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.scanStatus = try reader["scanStatus"].readIfPresent(with: Inspector2ClientTypes.ScanStatus.read(from:))
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.ScanStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ScanStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.ScanStatus()
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
+        value.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.ProjectCodeSecurityScanConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ProjectCodeSecurityScanConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.ProjectCodeSecurityScanConfiguration()
+        value.periodicScanConfigurations = try reader["periodicScanConfigurations"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ProjectPeriodicScanConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.continuousIntegrationScanConfigurations = try reader["continuousIntegrationScanConfigurations"].readListIfPresent(memberReadingClosure: Inspector2ClientTypes.ProjectContinuousIntegrationScanConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.ProjectContinuousIntegrationScanConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ProjectContinuousIntegrationScanConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.ProjectContinuousIntegrationScanConfiguration()
+        value.supportedEvent = try reader["supportedEvent"].readIfPresent()
+        value.ruleSetCategories = try reader["ruleSetCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<Inspector2ClientTypes.RuleSetCategory>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.ProjectPeriodicScanConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ProjectPeriodicScanConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.ProjectPeriodicScanConfiguration()
+        value.frequencyExpression = try reader["frequencyExpression"].readIfPresent()
+        value.ruleSetCategories = try reader["ruleSetCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<Inspector2ClientTypes.RuleSetCategory>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -13946,17 +16569,6 @@ extension Inspector2ClientTypes.EcrRepositoryMetadata {
         var value = Inspector2ClientTypes.EcrRepositoryMetadata()
         value.name = try reader["name"].readIfPresent()
         value.scanFrequency = try reader["scanFrequency"].readIfPresent()
-        return value
-    }
-}
-
-extension Inspector2ClientTypes.ScanStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.ScanStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.ScanStatus()
-        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
-        value.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -14030,9 +16642,40 @@ extension Inspector2ClientTypes.AggregationResponse {
                 return .lambdalayeraggregation(try reader["lambdaLayerAggregation"].read(with: Inspector2ClientTypes.LambdaLayerAggregationResponse.read(from:)))
             case "lambdaFunctionAggregation":
                 return .lambdafunctionaggregation(try reader["lambdaFunctionAggregation"].read(with: Inspector2ClientTypes.LambdaFunctionAggregationResponse.read(from:)))
+            case "codeRepositoryAggregation":
+                return .coderepositoryaggregation(try reader["codeRepositoryAggregation"].read(with: Inspector2ClientTypes.CodeRepositoryAggregationResponse.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension Inspector2ClientTypes.CodeRepositoryAggregationResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CodeRepositoryAggregationResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.CodeRepositoryAggregationResponse()
+        value.projectNames = try reader["projectNames"].readIfPresent() ?? ""
+        value.providerType = try reader["providerType"].readIfPresent()
+        value.severityCounts = try reader["severityCounts"].readIfPresent(with: Inspector2ClientTypes.SeverityCounts.read(from:))
+        value.exploitAvailableActiveFindingsCount = try reader["exploitAvailableActiveFindingsCount"].readIfPresent()
+        value.fixAvailableActiveFindingsCount = try reader["fixAvailableActiveFindingsCount"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.SeverityCounts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.SeverityCounts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.SeverityCounts()
+        value.all = try reader["all"].readIfPresent()
+        value.medium = try reader["medium"].readIfPresent()
+        value.high = try reader["high"].readIfPresent()
+        value.critical = try reader["critical"].readIfPresent()
+        return value
     }
 }
 
@@ -14048,19 +16691,6 @@ extension Inspector2ClientTypes.LambdaFunctionAggregationResponse {
         value.accountId = try reader["accountId"].readIfPresent()
         value.severityCounts = try reader["severityCounts"].readIfPresent(with: Inspector2ClientTypes.SeverityCounts.read(from:))
         value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension Inspector2ClientTypes.SeverityCounts {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.SeverityCounts {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Inspector2ClientTypes.SeverityCounts()
-        value.all = try reader["all"].readIfPresent()
-        value.medium = try reader["medium"].readIfPresent()
-        value.high = try reader["high"].readIfPresent()
-        value.critical = try reader["critical"].readIfPresent()
         return value
     }
 }
@@ -14440,6 +17070,19 @@ extension Inspector2ClientTypes.ResourceDetails {
         value.awsEc2Instance = try reader["awsEc2Instance"].readIfPresent(with: Inspector2ClientTypes.AwsEc2InstanceDetails.read(from:))
         value.awsEcrContainerImage = try reader["awsEcrContainerImage"].readIfPresent(with: Inspector2ClientTypes.AwsEcrContainerImageDetails.read(from:))
         value.awsLambdaFunction = try reader["awsLambdaFunction"].readIfPresent(with: Inspector2ClientTypes.AwsLambdaFunctionDetails.read(from:))
+        value.codeRepository = try reader["codeRepository"].readIfPresent(with: Inspector2ClientTypes.CodeRepositoryDetails.read(from:))
+        return value
+    }
+}
+
+extension Inspector2ClientTypes.CodeRepositoryDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.CodeRepositoryDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.CodeRepositoryDetails()
+        value.projectName = try reader["projectName"].readIfPresent()
+        value.integrationArn = try reader["integrationArn"].readIfPresent()
+        value.providerType = try reader["providerType"].readIfPresent()
         return value
     }
 }
@@ -14570,6 +17213,7 @@ extension Inspector2ClientTypes.Vulnerability {
         value.description = try reader["description"].readIfPresent()
         value.atigData = try reader["atigData"].readIfPresent(with: Inspector2ClientTypes.AtigData.read(from:))
         value.vendorSeverity = try reader["vendorSeverity"].readIfPresent()
+        value.cvss4 = try reader["cvss4"].readIfPresent(with: Inspector2ClientTypes.Cvss4.read(from:))
         value.cvss3 = try reader["cvss3"].readIfPresent(with: Inspector2ClientTypes.Cvss3.read(from:))
         value.relatedVulnerabilities = try reader["relatedVulnerabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.cvss2 = try reader["cvss2"].readIfPresent(with: Inspector2ClientTypes.Cvss2.read(from:))
@@ -14616,6 +17260,17 @@ extension Inspector2ClientTypes.Cvss3 {
     }
 }
 
+extension Inspector2ClientTypes.Cvss4 {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.Cvss4 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Inspector2ClientTypes.Cvss4()
+        value.baseScore = try reader["baseScore"].readIfPresent() ?? 0
+        value.scoringVector = try reader["scoringVector"].readIfPresent()
+        return value
+    }
+}
+
 extension Inspector2ClientTypes.AtigData {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Inspector2ClientTypes.AtigData {
@@ -14640,6 +17295,24 @@ extension Inspector2ClientTypes.ValidationExceptionField {
     }
 }
 
+extension Inspector2ClientTypes.AssociateConfigurationRequest {
+
+    static func write(value: Inspector2ClientTypes.AssociateConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resource"].write(value.resource, with: Inspector2ClientTypes.CodeSecurityResource.write(value:to:))
+        try writer["scanConfigurationArn"].write(value.scanConfigurationArn)
+    }
+}
+
+extension Inspector2ClientTypes.DisassociateConfigurationRequest {
+
+    static func write(value: Inspector2ClientTypes.DisassociateConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resource"].write(value.resource, with: Inspector2ClientTypes.CodeSecurityResource.write(value:to:))
+        try writer["scanConfigurationArn"].write(value.scanConfigurationArn)
+    }
+}
+
 extension Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus {
 
     static func write(value: Inspector2ClientTypes.MemberAccountEc2DeepInspectionStatus?, to writer: SmithyJSON.Writer) throws {
@@ -14655,6 +17328,28 @@ extension Inspector2ClientTypes.CreateCisTargets {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["targetResourceTags"].writeMap(value.targetResourceTags, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension Inspector2ClientTypes.CreateIntegrationDetail {
+
+    static func write(value: Inspector2ClientTypes.CreateIntegrationDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .gitlabselfmanaged(gitlabselfmanaged):
+                try writer["gitlabSelfManaged"].write(gitlabselfmanaged, with: Inspector2ClientTypes.CreateGitLabSelfManagedIntegrationDetail.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.CreateGitLabSelfManagedIntegrationDetail {
+
+    static func write(value: Inspector2ClientTypes.CreateGitLabSelfManagedIntegrationDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessToken"].write(value.accessToken)
+        try writer["instanceUrl"].write(value.instanceUrl)
     }
 }
 
@@ -14830,6 +17525,9 @@ extension Inspector2ClientTypes.CoverageFilterCriteria {
     static func write(value: Inspector2ClientTypes.CoverageFilterCriteria?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["accountId"].writeList(value.accountId, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["codeRepositoryProjectName"].writeList(value.codeRepositoryProjectName, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["codeRepositoryProviderType"].writeList(value.codeRepositoryProviderType, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["codeRepositoryProviderTypeVisibility"].writeList(value.codeRepositoryProviderTypeVisibility, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ec2InstanceTags"].writeList(value.ec2InstanceTags, memberWritingClosure: Inspector2ClientTypes.CoverageMapFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ecrImageInUseCount"].writeList(value.ecrImageInUseCount, memberWritingClosure: Inspector2ClientTypes.CoverageNumberFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ecrImageLastInUseAt"].writeList(value.ecrImageLastInUseAt, memberWritingClosure: Inspector2ClientTypes.CoverageDateFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -14840,12 +17538,22 @@ extension Inspector2ClientTypes.CoverageFilterCriteria {
         try writer["lambdaFunctionRuntime"].writeList(value.lambdaFunctionRuntime, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["lambdaFunctionTags"].writeList(value.lambdaFunctionTags, memberWritingClosure: Inspector2ClientTypes.CoverageMapFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["lastScannedAt"].writeList(value.lastScannedAt, memberWritingClosure: Inspector2ClientTypes.CoverageDateFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["lastScannedCommitId"].writeList(value.lastScannedCommitId, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["resourceId"].writeList(value.resourceId, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["resourceType"].writeList(value.resourceType, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["scanMode"].writeList(value.scanMode, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["scanStatusCode"].writeList(value.scanStatusCode, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["scanStatusReason"].writeList(value.scanStatusReason, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["scanType"].writeList(value.scanType, memberWritingClosure: Inspector2ClientTypes.CoverageStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension Inspector2ClientTypes.CoverageStringFilter {
+
+    static func write(value: Inspector2ClientTypes.CoverageStringFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["comparison"].write(value.comparison)
+        try writer["value"].write(value.value)
     }
 }
 
@@ -14864,15 +17572,6 @@ extension Inspector2ClientTypes.CoverageDateFilter {
         guard let value else { return }
         try writer["endInclusive"].writeTimestamp(value.endInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["startInclusive"].writeTimestamp(value.startInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension Inspector2ClientTypes.CoverageStringFilter {
-
-    static func write(value: Inspector2ClientTypes.CoverageStringFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["comparison"].write(value.comparison)
-        try writer["value"].write(value.value)
     }
 }
 
@@ -14897,6 +17596,8 @@ extension Inspector2ClientTypes.AggregationRequest {
                 try writer["amiAggregation"].write(amiaggregation, with: Inspector2ClientTypes.AmiAggregation.write(value:to:))
             case let .awsecrcontaineraggregation(awsecrcontaineraggregation):
                 try writer["awsEcrContainerAggregation"].write(awsecrcontaineraggregation, with: Inspector2ClientTypes.AwsEcrContainerAggregation.write(value:to:))
+            case let .coderepositoryaggregation(coderepositoryaggregation):
+                try writer["codeRepositoryAggregation"].write(coderepositoryaggregation, with: Inspector2ClientTypes.CodeRepositoryAggregation.write(value:to:))
             case let .ec2instanceaggregation(ec2instanceaggregation):
                 try writer["ec2InstanceAggregation"].write(ec2instanceaggregation, with: Inspector2ClientTypes.Ec2InstanceAggregation.write(value:to:))
             case let .findingtypeaggregation(findingtypeaggregation):
@@ -14916,6 +17617,18 @@ extension Inspector2ClientTypes.AggregationRequest {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension Inspector2ClientTypes.CodeRepositoryAggregation {
+
+    static func write(value: Inspector2ClientTypes.CodeRepositoryAggregation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["projectNames"].writeList(value.projectNames, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["providerTypes"].writeList(value.providerTypes, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["resourceIds"].writeList(value.resourceIds, memberWritingClosure: Inspector2ClientTypes.StringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sortBy"].write(value.sortBy)
+        try writer["sortOrder"].write(value.sortOrder)
     }
 }
 
@@ -15129,6 +17842,38 @@ extension Inspector2ClientTypes.UpdateCisTargets {
         guard let value else { return }
         try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["targetResourceTags"].writeMap(value.targetResourceTags, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension Inspector2ClientTypes.UpdateIntegrationDetails {
+
+    static func write(value: Inspector2ClientTypes.UpdateIntegrationDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .github(github):
+                try writer["github"].write(github, with: Inspector2ClientTypes.UpdateGitHubIntegrationDetail.write(value:to:))
+            case let .gitlabselfmanaged(gitlabselfmanaged):
+                try writer["gitlabSelfManaged"].write(gitlabselfmanaged, with: Inspector2ClientTypes.UpdateGitLabSelfManagedIntegrationDetail.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension Inspector2ClientTypes.UpdateGitHubIntegrationDetail {
+
+    static func write(value: Inspector2ClientTypes.UpdateGitHubIntegrationDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["code"].write(value.code)
+        try writer["installationId"].write(value.installationId)
+    }
+}
+
+extension Inspector2ClientTypes.UpdateGitLabSelfManagedIntegrationDetail {
+
+    static func write(value: Inspector2ClientTypes.UpdateGitLabSelfManagedIntegrationDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authCode"].write(value.authCode)
     }
 }
 

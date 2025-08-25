@@ -92,7 +92,8 @@ extension ListCollaborationTrainedModelExportJobsInput: ClientRuntime.PaginateTo
             collaborationIdentifier: self.collaborationIdentifier,
             maxResults: self.maxResults,
             nextToken: token,
-            trainedModelArn: self.trainedModelArn
+            trainedModelArn: self.trainedModelArn,
+            trainedModelVersionIdentifier: self.trainedModelVersionIdentifier
         )}
 }
 
@@ -124,7 +125,8 @@ extension ListCollaborationTrainedModelInferenceJobsInput: ClientRuntime.Paginat
             collaborationIdentifier: self.collaborationIdentifier,
             maxResults: self.maxResults,
             nextToken: token,
-            trainedModelArn: self.trainedModelArn
+            trainedModelArn: self.trainedModelArn,
+            trainedModelVersionIdentifier: self.trainedModelVersionIdentifier
         )}
 }
 

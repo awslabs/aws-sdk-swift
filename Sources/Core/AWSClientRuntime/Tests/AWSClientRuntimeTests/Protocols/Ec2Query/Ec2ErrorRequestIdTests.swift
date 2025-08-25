@@ -7,7 +7,6 @@
 
 import SmithyHTTPAPI
 import ClientRuntime
-import SmithyTestUtil
 import XCTest
 @_spi(SmithyReadWrite) import SmithyXML
 @_spi(SmithyReadWrite) @testable import AWSClientRuntime

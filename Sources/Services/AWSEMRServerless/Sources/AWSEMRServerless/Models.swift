@@ -95,6 +95,25 @@ extension EMRServerlessClientTypes {
 
 extension EMRServerlessClientTypes {
 
+    /// The IAM Identity Center Configuration that includes the Identify Center instance and application ARNs that provide trusted-identity propagation.
+    public struct IdentityCenterConfiguration: Swift.Sendable {
+        /// The ARN of the EMR Serverless created IAM Identity Center Application that provides trusted-identity propagation.
+        public var identityCenterApplicationArn: Swift.String?
+        /// The ARN of the IAM Identity Center instance.
+        public var identityCenterInstanceArn: Swift.String?
+
+        public init(
+            identityCenterApplicationArn: Swift.String? = nil,
+            identityCenterInstanceArn: Swift.String? = nil
+        ) {
+            self.identityCenterApplicationArn = identityCenterApplicationArn
+            self.identityCenterInstanceArn = identityCenterInstanceArn
+        }
+    }
+}
+
+extension EMRServerlessClientTypes {
+
     /// The applied image configuration.
     public struct ImageConfiguration: Swift.Sendable {
         /// The image URI.
@@ -575,6 +594,21 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension EMRServerlessClientTypes {
 
+    /// Specifies the IAM Identity Center configuration used to enable or disable trusted identity propagation. When provided, this configuration determines how the application interacts with IAM Identity Center for user authentication and access control.
+    public struct IdentityCenterConfigurationInput: Swift.Sendable {
+        /// The ARN of the IAM Identity Center instance.
+        public var identityCenterInstanceArn: Swift.String?
+
+        public init(
+            identityCenterInstanceArn: Swift.String? = nil
+        ) {
+            self.identityCenterInstanceArn = identityCenterInstanceArn
+        }
+    }
+}
+
+extension EMRServerlessClientTypes {
+
     /// The image configuration.
     public struct ImageConfigurationInput: Swift.Sendable {
         /// The URI of an image in the Amazon ECR registry. This field is required when you create a new application. If you leave this field blank in an update, Amazon EMR will remove the image configuration.
@@ -753,7 +787,7 @@ public struct CancelJobRunInput: Swift.Sendable {
     /// The ID of the job run to cancel.
     /// This member is required.
     public var jobRunId: Swift.String?
-    /// The duration (in seconds) to wait before forcefully terminating the job after cancellation is requested.
+    /// The duration in seconds to wait before forcefully terminating the job after cancellation is requested.
     public var shutdownGracePeriodInSeconds: Swift.Int?
 
     public init(
@@ -860,6 +894,25 @@ extension EMRServerlessClientTypes {
             self.memoryGBHour = memoryGBHour
             self.storageGBHour = storageGBHour
             self.vCPUHour = vCPUHour
+        }
+    }
+}
+
+extension EMRServerlessClientTypes {
+
+    /// Optional IAM policy. The resulting job IAM role permissions will be an intersection of the policies passed and the policy associated with your job execution role.
+    public struct JobRunExecutionIamPolicy: Swift.Sendable {
+        /// An IAM inline policy to use as an execution IAM policy.
+        public var policy: Swift.String?
+        /// A list of Amazon Resource Names (ARNs) to use as an execution IAM policy.
+        public var policyArns: [Swift.String]?
+
+        public init(
+            policy: Swift.String? = nil,
+            policyArns: [Swift.String]? = nil
+        ) {
+            self.policy = policy
+            self.policyArns = policyArns
         }
     }
 }
@@ -1315,25 +1368,6 @@ public struct ListJobRunsOutput: Swift.Sendable {
     }
 }
 
-extension EMRServerlessClientTypes {
-
-    /// Optional IAM policy. The resulting job IAM role permissions will be an intersection of the policies passed and the policy associated with your job execution role.
-    public struct JobRunExecutionIamPolicy: Swift.Sendable {
-        /// An IAM inline policy to use as an execution IAM policy.
-        public var policy: Swift.String?
-        /// A list of Amazon Resource Names (ARNs) to use as an execution IAM policy.
-        public var policyArns: [Swift.String]?
-
-        public init(
-            policy: Swift.String? = nil,
-            policyArns: [Swift.String]? = nil
-        ) {
-            self.policy = policy
-            self.policyArns = policyArns
-        }
-    }
-}
-
 public struct StartJobRunOutput: Swift.Sendable {
     /// This output displays the application ID on which the job run was submitted.
     /// This member is required.
@@ -1471,6 +1505,8 @@ extension EMRServerlessClientTypes {
         /// The date and time when the application run was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
+        /// The IAM Identity Center configuration applied to enable trusted identity propagation.
+        public var identityCenterConfiguration: EMRServerlessClientTypes.IdentityCenterConfiguration?
         /// The image configuration applied to all worker types.
         public var imageConfiguration: EMRServerlessClientTypes.ImageConfiguration?
         /// The initial capacity of the application.
@@ -1515,6 +1551,7 @@ extension EMRServerlessClientTypes {
             autoStartConfiguration: EMRServerlessClientTypes.AutoStartConfig? = nil,
             autoStopConfiguration: EMRServerlessClientTypes.AutoStopConfig? = nil,
             createdAt: Foundation.Date? = nil,
+            identityCenterConfiguration: EMRServerlessClientTypes.IdentityCenterConfiguration? = nil,
             imageConfiguration: EMRServerlessClientTypes.ImageConfiguration? = nil,
             initialCapacity: [Swift.String: EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
             interactiveConfiguration: EMRServerlessClientTypes.InteractiveConfiguration? = nil,
@@ -1538,6 +1575,7 @@ extension EMRServerlessClientTypes {
             self.autoStartConfiguration = autoStartConfiguration
             self.autoStopConfiguration = autoStopConfiguration
             self.createdAt = createdAt
+            self.identityCenterConfiguration = identityCenterConfiguration
             self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
             self.interactiveConfiguration = interactiveConfiguration
@@ -1587,6 +1625,8 @@ public struct CreateApplicationInput: Swift.Sendable {
     /// The client idempotency token of the application to create. Its value must be unique for each request.
     /// This member is required.
     public var clientToken: Swift.String?
+    /// The IAM Identity Center Configuration accepts the Identity Center instance parameter required to enable trusted identity propagation. This configuration allows identity propagation between integrated services and the Identity Center instance.
+    public var identityCenterConfiguration: EMRServerlessClientTypes.IdentityCenterConfigurationInput?
     /// The image configuration for all worker types. You can either set this parameter or imageConfiguration for each worker type in workerTypeSpecifications.
     public var imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput?
     /// The capacity to initialize when the application is created.
@@ -1621,6 +1661,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         autoStartConfiguration: EMRServerlessClientTypes.AutoStartConfig? = nil,
         autoStopConfiguration: EMRServerlessClientTypes.AutoStopConfig? = nil,
         clientToken: Swift.String? = nil,
+        identityCenterConfiguration: EMRServerlessClientTypes.IdentityCenterConfigurationInput? = nil,
         imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput? = nil,
         initialCapacity: [Swift.String: EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
         interactiveConfiguration: EMRServerlessClientTypes.InteractiveConfiguration? = nil,
@@ -1639,6 +1680,7 @@ public struct CreateApplicationInput: Swift.Sendable {
         self.autoStartConfiguration = autoStartConfiguration
         self.autoStopConfiguration = autoStopConfiguration
         self.clientToken = clientToken
+        self.identityCenterConfiguration = identityCenterConfiguration
         self.imageConfiguration = imageConfiguration
         self.initialCapacity = initialCapacity
         self.interactiveConfiguration = interactiveConfiguration
@@ -1668,6 +1710,8 @@ public struct UpdateApplicationInput: Swift.Sendable {
     /// The client idempotency token of the application to update. Its value must be unique for each request.
     /// This member is required.
     public var clientToken: Swift.String?
+    /// Specifies the IAM Identity Center configuration used to enable or disable trusted identity propagation. When provided, this configuration determines how the application interacts with IAM Identity Center for user authentication and access control.
+    public var identityCenterConfiguration: EMRServerlessClientTypes.IdentityCenterConfigurationInput?
     /// The image configuration to be used for all worker types. You can either set this parameter or imageConfiguration for each worker type in WorkerTypeSpecificationInput.
     public var imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput?
     /// The capacity to initialize when the application is updated.
@@ -1695,6 +1739,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         autoStartConfiguration: EMRServerlessClientTypes.AutoStartConfig? = nil,
         autoStopConfiguration: EMRServerlessClientTypes.AutoStopConfig? = nil,
         clientToken: Swift.String? = nil,
+        identityCenterConfiguration: EMRServerlessClientTypes.IdentityCenterConfigurationInput? = nil,
         imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput? = nil,
         initialCapacity: [Swift.String: EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
         interactiveConfiguration: EMRServerlessClientTypes.InteractiveConfiguration? = nil,
@@ -1711,6 +1756,7 @@ public struct UpdateApplicationInput: Swift.Sendable {
         self.autoStartConfiguration = autoStartConfiguration
         self.autoStopConfiguration = autoStopConfiguration
         self.clientToken = clientToken
+        self.identityCenterConfiguration = identityCenterConfiguration
         self.imageConfiguration = imageConfiguration
         self.initialCapacity = initialCapacity
         self.interactiveConfiguration = interactiveConfiguration
@@ -1752,6 +1798,8 @@ extension EMRServerlessClientTypes {
         public var createdBy: Swift.String?
         /// The date and time when the job was terminated.
         public var endedAt: Foundation.Date?
+        /// Optional IAM policy. The resulting job IAM role permissions will be an intersection of the policies passed and the policy associated with your job execution role.
+        public var executionIamPolicy: EMRServerlessClientTypes.JobRunExecutionIamPolicy?
         /// The execution role ARN of the job run.
         /// This member is required.
         public var executionRole: Swift.String?
@@ -1805,6 +1853,7 @@ extension EMRServerlessClientTypes {
             createdAt: Foundation.Date? = nil,
             createdBy: Swift.String? = nil,
             endedAt: Foundation.Date? = nil,
+            executionIamPolicy: EMRServerlessClientTypes.JobRunExecutionIamPolicy? = nil,
             executionRole: Swift.String? = nil,
             executionTimeoutMinutes: Swift.Int? = 0,
             jobDriver: EMRServerlessClientTypes.JobDriver? = nil,
@@ -1833,6 +1882,7 @@ extension EMRServerlessClientTypes {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.endedAt = endedAt
+            self.executionIamPolicy = executionIamPolicy
             self.executionRole = executionRole
             self.executionTimeoutMinutes = executionTimeoutMinutes
             self.jobDriver = jobDriver
@@ -2246,6 +2296,7 @@ extension CreateApplicationInput {
         try writer["autoStartConfiguration"].write(value.autoStartConfiguration, with: EMRServerlessClientTypes.AutoStartConfig.write(value:to:))
         try writer["autoStopConfiguration"].write(value.autoStopConfiguration, with: EMRServerlessClientTypes.AutoStopConfig.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
+        try writer["identityCenterConfiguration"].write(value.identityCenterConfiguration, with: EMRServerlessClientTypes.IdentityCenterConfigurationInput.write(value:to:))
         try writer["imageConfiguration"].write(value.imageConfiguration, with: EMRServerlessClientTypes.ImageConfigurationInput.write(value:to:))
         try writer["initialCapacity"].writeMap(value.initialCapacity, valueWritingClosure: EMRServerlessClientTypes.InitialCapacityConfig.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["interactiveConfiguration"].write(value.interactiveConfiguration, with: EMRServerlessClientTypes.InteractiveConfiguration.write(value:to:))
@@ -2295,6 +2346,7 @@ extension UpdateApplicationInput {
         try writer["autoStartConfiguration"].write(value.autoStartConfiguration, with: EMRServerlessClientTypes.AutoStartConfig.write(value:to:))
         try writer["autoStopConfiguration"].write(value.autoStopConfiguration, with: EMRServerlessClientTypes.AutoStopConfig.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
+        try writer["identityCenterConfiguration"].write(value.identityCenterConfiguration, with: EMRServerlessClientTypes.IdentityCenterConfigurationInput.write(value:to:))
         try writer["imageConfiguration"].write(value.imageConfiguration, with: EMRServerlessClientTypes.ImageConfigurationInput.write(value:to:))
         try writer["initialCapacity"].writeMap(value.initialCapacity, valueWritingClosure: EMRServerlessClientTypes.InitialCapacityConfig.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["interactiveConfiguration"].write(value.interactiveConfiguration, with: EMRServerlessClientTypes.InteractiveConfiguration.write(value:to:))
@@ -2740,11 +2792,11 @@ enum UpdateApplicationOutputError {
     }
 }
 
-extension ValidationException {
+extension InternalServerException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
-        var value = ValidationException()
+        var value = InternalServerException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2766,11 +2818,11 @@ extension ResourceNotFoundException {
     }
 }
 
-extension InternalServerException {
+extension ValidationException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
-        var value = InternalServerException()
+        var value = ValidationException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2832,6 +2884,18 @@ extension EMRServerlessClientTypes.Application {
         value.monitoringConfiguration = try reader["monitoringConfiguration"].readIfPresent(with: EMRServerlessClientTypes.MonitoringConfiguration.read(from:))
         value.interactiveConfiguration = try reader["interactiveConfiguration"].readIfPresent(with: EMRServerlessClientTypes.InteractiveConfiguration.read(from:))
         value.schedulerConfiguration = try reader["schedulerConfiguration"].readIfPresent(with: EMRServerlessClientTypes.SchedulerConfiguration.read(from:))
+        value.identityCenterConfiguration = try reader["identityCenterConfiguration"].readIfPresent(with: EMRServerlessClientTypes.IdentityCenterConfiguration.read(from:))
+        return value
+    }
+}
+
+extension EMRServerlessClientTypes.IdentityCenterConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.IdentityCenterConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.IdentityCenterConfiguration()
+        value.identityCenterInstanceArn = try reader["identityCenterInstanceArn"].readIfPresent()
+        value.identityCenterApplicationArn = try reader["identityCenterApplicationArn"].readIfPresent()
         return value
     }
 }
@@ -3122,6 +3186,7 @@ extension EMRServerlessClientTypes.JobRun {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.executionRole = try reader["executionRole"].readIfPresent() ?? ""
+        value.executionIamPolicy = try reader["executionIamPolicy"].readIfPresent(with: EMRServerlessClientTypes.JobRunExecutionIamPolicy.read(from:))
         value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
         value.stateDetails = try reader["stateDetails"].readIfPresent() ?? ""
         value.releaseLabel = try reader["releaseLabel"].readIfPresent() ?? ""
@@ -3269,6 +3334,23 @@ extension EMRServerlessClientTypes.ConfigurationOverrides {
     }
 }
 
+extension EMRServerlessClientTypes.JobRunExecutionIamPolicy {
+
+    static func write(value: EMRServerlessClientTypes.JobRunExecutionIamPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["policy"].write(value.policy)
+        try writer["policyArns"].writeList(value.policyArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.JobRunExecutionIamPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRServerlessClientTypes.JobRunExecutionIamPolicy()
+        value.policy = try reader["policy"].readIfPresent()
+        value.policyArns = try reader["policyArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension EMRServerlessClientTypes.ApplicationSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EMRServerlessClientTypes.ApplicationSummary {
@@ -3353,12 +3435,11 @@ extension EMRServerlessClientTypes.WorkerTypeSpecificationInput {
     }
 }
 
-extension EMRServerlessClientTypes.JobRunExecutionIamPolicy {
+extension EMRServerlessClientTypes.IdentityCenterConfigurationInput {
 
-    static func write(value: EMRServerlessClientTypes.JobRunExecutionIamPolicy?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EMRServerlessClientTypes.IdentityCenterConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["policy"].write(value.policy)
-        try writer["policyArns"].writeList(value.policyArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["identityCenterInstanceArn"].write(value.identityCenterInstanceArn)
     }
 }
 

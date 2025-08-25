@@ -332,6 +332,7 @@ extension Route53ClientTypes {
     public enum CloudWatchRegion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afSouth1
         case apEast1
+        case apEast2
         case apNortheast1
         case apNortheast2
         case apNortheast3
@@ -349,6 +350,7 @@ extension Route53ClientTypes {
         case cnNorthwest1
         case euCentral1
         case euCentral2
+        case euIsoeWest1
         case euNorth1
         case euSouth1
         case euSouth2
@@ -377,6 +379,7 @@ extension Route53ClientTypes {
             return [
                 .afSouth1,
                 .apEast1,
+                .apEast2,
                 .apNortheast1,
                 .apNortheast2,
                 .apNortheast3,
@@ -394,6 +397,7 @@ extension Route53ClientTypes {
                 .cnNorthwest1,
                 .euCentral1,
                 .euCentral2,
+                .euIsoeWest1,
                 .euNorth1,
                 .euSouth1,
                 .euSouth2,
@@ -428,6 +432,7 @@ extension Route53ClientTypes {
             switch self {
             case .afSouth1: return "af-south-1"
             case .apEast1: return "ap-east-1"
+            case .apEast2: return "ap-east-2"
             case .apNortheast1: return "ap-northeast-1"
             case .apNortheast2: return "ap-northeast-2"
             case .apNortheast3: return "ap-northeast-3"
@@ -445,6 +450,7 @@ extension Route53ClientTypes {
             case .cnNorthwest1: return "cn-northwest-1"
             case .euCentral1: return "eu-central-1"
             case .euCentral2: return "eu-central-2"
+            case .euIsoeWest1: return "eu-isoe-west-1"
             case .euNorth1: return "eu-north-1"
             case .euSouth1: return "eu-south-1"
             case .euSouth2: return "eu-south-2"
@@ -795,6 +801,7 @@ extension Route53ClientTypes {
     public enum VPCRegion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afSouth1
         case apEast1
+        case apEast2
         case apNortheast1
         case apNortheast2
         case apNortheast3
@@ -812,6 +819,7 @@ extension Route53ClientTypes {
         case cnNorthwest1
         case euCentral1
         case euCentral2
+        case euIsoeWest1
         case euNorth1
         case euSouth1
         case euSouth2
@@ -840,6 +848,7 @@ extension Route53ClientTypes {
             return [
                 .afSouth1,
                 .apEast1,
+                .apEast2,
                 .apNortheast1,
                 .apNortheast2,
                 .apNortheast3,
@@ -857,6 +866,7 @@ extension Route53ClientTypes {
                 .cnNorthwest1,
                 .euCentral1,
                 .euCentral2,
+                .euIsoeWest1,
                 .euNorth1,
                 .euSouth1,
                 .euSouth2,
@@ -891,6 +901,7 @@ extension Route53ClientTypes {
             switch self {
             case .afSouth1: return "af-south-1"
             case .apEast1: return "ap-east-1"
+            case .apEast2: return "ap-east-2"
             case .apNortheast1: return "ap-northeast-1"
             case .apNortheast2: return "ap-northeast-2"
             case .apNortheast3: return "ap-northeast-3"
@@ -908,6 +919,7 @@ extension Route53ClientTypes {
             case .cnNorthwest1: return "cn-northwest-1"
             case .euCentral1: return "eu-central-1"
             case .euCentral2: return "eu-central-2"
+            case .euIsoeWest1: return "eu-isoe-west-1"
             case .euNorth1: return "eu-north-1"
             case .euSouth1: return "eu-south-1"
             case .euSouth2: return "eu-south-2"
@@ -1381,6 +1393,7 @@ extension Route53ClientTypes {
     public enum ResourceRecordSetRegion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case afSouth1
         case apEast1
+        case apEast2
         case apNortheast1
         case apNortheast2
         case apNortheast3
@@ -1421,6 +1434,7 @@ extension Route53ClientTypes {
             return [
                 .afSouth1,
                 .apEast1,
+                .apEast2,
                 .apNortheast1,
                 .apNortheast2,
                 .apNortheast3,
@@ -1467,6 +1481,7 @@ extension Route53ClientTypes {
             switch self {
             case .afSouth1: return "af-south-1"
             case .apEast1: return "ap-east-1"
+            case .apEast2: return "ap-east-2"
             case .apNortheast1: return "ap-northeast-1"
             case .apNortheast2: return "ap-northeast-2"
             case .apNortheast3: return "ap-northeast-3"
@@ -10273,11 +10288,11 @@ enum UpdateTrafficPolicyInstanceOutputError {
     }
 }
 
-extension InvalidInput {
+extension ConcurrentModification {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidInput {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ConcurrentModification {
         let reader = baseError.errorBodyReader
-        var value = InvalidInput()
+        var value = ConcurrentModification()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10286,11 +10301,11 @@ extension InvalidInput {
     }
 }
 
-extension InvalidKMSArn {
+extension InvalidInput {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidKMSArn {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidInput {
         let reader = baseError.errorBodyReader
-        var value = InvalidKMSArn()
+        var value = InvalidInput()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10312,24 +10327,11 @@ extension InvalidKeySigningKeyStatus {
     }
 }
 
-extension ConcurrentModification {
+extension InvalidKMSArn {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ConcurrentModification {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidKMSArn {
         let reader = baseError.errorBodyReader
-        var value = ConcurrentModification()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension NoSuchKeySigningKey {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchKeySigningKey {
-        let reader = baseError.errorBodyReader
-        var value = NoSuchKeySigningKey()
+        var value = InvalidKMSArn()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10351,11 +10353,24 @@ extension InvalidSigningStatus {
     }
 }
 
-extension PriorRequestNotComplete {
+extension NoSuchKeySigningKey {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> PriorRequestNotComplete {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchKeySigningKey {
         let reader = baseError.errorBodyReader
-        var value = PriorRequestNotComplete()
+        var value = NoSuchKeySigningKey()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ConflictingDomainExists {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ConflictingDomainExists {
+        let reader = baseError.errorBodyReader
+        var value = ConflictingDomainExists()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10390,19 +10405,6 @@ extension LimitsExceeded {
     }
 }
 
-extension NotAuthorizedException {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NotAuthorizedException {
-        let reader = baseError.errorBodyReader
-        var value = NotAuthorizedException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension NoSuchHostedZone {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchHostedZone {
@@ -10416,11 +10418,24 @@ extension NoSuchHostedZone {
     }
 }
 
-extension ConflictingDomainExists {
+extension NotAuthorizedException {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ConflictingDomainExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NotAuthorizedException {
         let reader = baseError.errorBodyReader
-        var value = ConflictingDomainExists()
+        var value = NotAuthorizedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension PriorRequestNotComplete {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> PriorRequestNotComplete {
+        let reader = baseError.errorBodyReader
+        var value = PriorRequestNotComplete()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10534,19 +10549,6 @@ extension CidrCollectionAlreadyExistsException {
     }
 }
 
-extension TooManyHealthChecks {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyHealthChecks {
-        let reader = baseError.errorBodyReader
-        var value = TooManyHealthChecks()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension HealthCheckAlreadyExists {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> HealthCheckAlreadyExists {
@@ -10560,11 +10562,11 @@ extension HealthCheckAlreadyExists {
     }
 }
 
-extension TooManyHostedZones {
+extension TooManyHealthChecks {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyHostedZones {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyHealthChecks {
         let reader = baseError.errorBodyReader
-        var value = TooManyHostedZones()
+        var value = TooManyHealthChecks()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10599,11 +10601,11 @@ extension DelegationSetNotReusable {
     }
 }
 
-extension NoSuchDelegationSet {
+extension HostedZoneAlreadyExists {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchDelegationSet {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> HostedZoneAlreadyExists {
         let reader = baseError.errorBodyReader
-        var value = NoSuchDelegationSet()
+        var value = HostedZoneAlreadyExists()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10625,11 +10627,11 @@ extension InvalidDomainName {
     }
 }
 
-extension HostedZoneAlreadyExists {
+extension NoSuchDelegationSet {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> HostedZoneAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> NoSuchDelegationSet {
         let reader = baseError.errorBodyReader
-        var value = HostedZoneAlreadyExists()
+        var value = NoSuchDelegationSet()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10638,11 +10640,11 @@ extension HostedZoneAlreadyExists {
     }
 }
 
-extension InvalidKeySigningKeyName {
+extension TooManyHostedZones {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidKeySigningKeyName {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyHostedZones {
         let reader = baseError.errorBodyReader
-        var value = InvalidKeySigningKeyName()
+        var value = TooManyHostedZones()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10664,11 +10666,11 @@ extension InvalidArgument {
     }
 }
 
-extension TooManyKeySigningKeys {
+extension InvalidKeySigningKeyName {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyKeySigningKeys {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> InvalidKeySigningKeyName {
         let reader = baseError.errorBodyReader
-        var value = TooManyKeySigningKeys()
+        var value = InvalidKeySigningKeyName()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10690,11 +10692,11 @@ extension KeySigningKeyAlreadyExists {
     }
 }
 
-extension QueryLoggingConfigAlreadyExists {
+extension TooManyKeySigningKeys {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> QueryLoggingConfigAlreadyExists {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> TooManyKeySigningKeys {
         let reader = baseError.errorBodyReader
-        var value = QueryLoggingConfigAlreadyExists()
+        var value = TooManyKeySigningKeys()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10729,6 +10731,32 @@ extension NoSuchCloudWatchLogsLogGroup {
     }
 }
 
+extension QueryLoggingConfigAlreadyExists {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> QueryLoggingConfigAlreadyExists {
+        let reader = baseError.errorBodyReader
+        var value = QueryLoggingConfigAlreadyExists()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension DelegationSetAlreadyCreated {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DelegationSetAlreadyCreated {
+        let reader = baseError.errorBodyReader
+        var value = DelegationSetAlreadyCreated()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension DelegationSetAlreadyReusable {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DelegationSetAlreadyReusable {
@@ -10747,19 +10775,6 @@ extension HostedZoneNotFound {
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> HostedZoneNotFound {
         let reader = baseError.errorBodyReader
         var value = HostedZoneNotFound()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension DelegationSetAlreadyCreated {
-
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> DelegationSetAlreadyCreated {
-        let reader = baseError.errorBodyReader
-        var value = DelegationSetAlreadyCreated()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10872,11 +10887,11 @@ extension TooManyVPCAssociationAuthorizations {
     }
 }
 
-extension KeySigningKeyInUse {
+extension KeySigningKeyInParentDSRecord {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> KeySigningKeyInUse {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> KeySigningKeyInParentDSRecord {
         let reader = baseError.errorBodyReader
-        var value = KeySigningKeyInUse()
+        var value = KeySigningKeyInParentDSRecord()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10885,11 +10900,11 @@ extension KeySigningKeyInUse {
     }
 }
 
-extension KeySigningKeyInParentDSRecord {
+extension KeySigningKeyInUse {
 
-    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> KeySigningKeyInParentDSRecord {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> KeySigningKeyInUse {
         let reader = baseError.errorBodyReader
-        var value = KeySigningKeyInParentDSRecord()
+        var value = KeySigningKeyInUse()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

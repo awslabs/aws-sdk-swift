@@ -9,7 +9,8 @@ import Smithy
 import SmithyChecksumsAPI
 import SmithyHTTPAPI
 import XCTest
-import AwsCommonRuntimeKit
+import struct AwsCommonRuntimeKit.CommonRuntimeKit
+import struct AwsCommonRuntimeKit.SigningConfig
 @_spi(SmithyReadWrite) import SmithyTestUtil
 @testable import ClientRuntime
 import class SmithyStreams.BufferedStream
@@ -197,7 +198,8 @@ class FlexibleChecksumsMiddlewareTests: XCTestCase {
             signingConfig: signingConfig,
             previousSignature: "test-signature",
             trailingHeaders: Headers(),
-            checksumString: checksumAlgorithm
+            checksumString: checksumAlgorithm,
+            context: Context(attributes: Attributes())
         ))
 
         setStreamingPayload(payload: testData, checksum: checksumAlgorithm)

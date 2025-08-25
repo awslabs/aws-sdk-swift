@@ -321,6 +321,36 @@ extension PaginatorSequence where OperationStackInput == ListKeyValueStoresInput
     }
 }
 extension CloudFrontClient {
+    /// Paginate over `[ListOriginAccessControlsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListOriginAccessControlsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListOriginAccessControlsOutput`
+    public func listOriginAccessControlsPaginated(input: ListOriginAccessControlsInput) -> ClientRuntime.PaginatorSequence<ListOriginAccessControlsInput, ListOriginAccessControlsOutput> {
+        return ClientRuntime.PaginatorSequence<ListOriginAccessControlsInput, ListOriginAccessControlsOutput>(input: input, inputKey: \.marker, outputKey: \.originAccessControlList?.nextMarker, paginationFunction: self.listOriginAccessControls(input:))
+    }
+}
+
+extension ListOriginAccessControlsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListOriginAccessControlsInput {
+        return ListOriginAccessControlsInput(
+            marker: token,
+            maxItems: self.maxItems
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListOriginAccessControlsInput, OperationStackOutput == ListOriginAccessControlsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listOriginAccessControlsPaginated`
+    /// to access the nested member `[CloudFrontClientTypes.OriginAccessControlSummary]`
+    /// - Returns: `[CloudFrontClientTypes.OriginAccessControlSummary]`
+    public func items() async throws -> [CloudFrontClientTypes.OriginAccessControlSummary] {
+        return try await self.asyncCompactMap { item in item.originAccessControlList?.items }
+    }
+}
+extension CloudFrontClient {
     /// Paginate over `[ListPublicKeysOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

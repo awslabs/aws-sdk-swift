@@ -2278,7 +2278,7 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// Details for your use of the account creation fraud prevention managed rule group, AWSManagedRulesACFPRuleSet. This configuration is used in ManagedRuleGroupConfig.
+    /// Details for your use of the account creation fraud prevention managed rule group, AWSManagedRulesACFPRuleSet. This configuration is used in ManagedRuleGroupConfig. For additional information about this and the other intelligent threat mitigation rule groups, see [Intelligent threat mitigation in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-managed-protections) and [Amazon Web Services Managed Rules rule groups list](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list) in the WAF Developer Guide.
     public struct AWSManagedRulesACFPRuleSet: Swift.Sendable {
         /// The path of the account creation endpoint for your application. This is the page on your website that accepts the completed registration form for a new user. This page must accept POST requests. For example, for the URL https://example.com/web/newaccount, you would provide the path /web/newaccount. Account creation page paths that start with the path that you provide are considered a match. For example /web/newaccount matches the account creation paths /web/newaccount, /web/newaccount/, /web/newaccountPage, and /web/newaccount/thisPage, but doesn't match the path /home/web/newaccount or /website/newaccount.
         /// This member is required.
@@ -2306,6 +2306,183 @@ extension WAFV2ClientTypes {
             self.registrationPagePath = registrationPagePath
             self.requestInspection = requestInspection
             self.responseInspection = responseInspection
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// A single regular expression. This is used in a [RegexPatternSet] and also in the configuration for the Amazon Web Services Managed Rules rule group AWSManagedRulesAntiDDoSRuleSet.
+    public struct Regex: Swift.Sendable {
+        /// The string representing the regular expression.
+        public var regexString: Swift.String?
+
+        public init(
+            regexString: Swift.String? = nil
+        ) {
+            self.regexString = regexString
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum SensitivityToAct: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SensitivityToAct] {
+            return [
+                .high,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum UsageOfAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UsageOfAction] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// This is part of the AWSManagedRulesAntiDDoSRuleSetClientSideActionConfig configuration in ManagedRuleGroupConfig.
+    public struct ClientSideAction: Swift.Sendable {
+        /// The regular expression to match against the web request URI, used to identify requests that can't handle a silent browser challenge. When the ClientSideAction setting UsageOfAction is enabled, the managed rule group uses this setting to determine which requests to label with awswaf:managed:aws:anti-ddos:challengeable-request. If UsageOfAction is disabled, this setting has no effect and the managed rule group doesn't add the label to any requests. The anti-DDoS managed rule group doesn't evaluate the rules ChallengeDDoSRequests or ChallengeAllDuringEvent for web requests whose URIs match this regex. This is true regardless of whether you override the rule action for either of the rules in your web ACL configuration. Amazon Web Services recommends using a regular expression. This setting is required if UsageOfAction is set to ENABLED. If required, you can provide between 1 and 5 regex objects in the array of settings. Amazon Web Services recommends starting with the following setting. Review and update it for your application's needs: \/api\/|\.(acc|avi|css|gif|jpe?g|js|mp[34]|ogg|otf|pdf|png|tiff?|ttf|webm|webp|woff2?)$
+        public var exemptUriRegularExpressions: [WAFV2ClientTypes.Regex]?
+        /// The sensitivity that the rule group rule ChallengeDDoSRequests uses when matching against the DDoS suspicion labeling on a request. The managed rule group adds the labeling during DDoS events, before the ChallengeDDoSRequests rule runs. The higher the sensitivity, the more levels of labeling that the rule matches:
+        ///
+        /// * Low sensitivity is less sensitive, causing the rule to match only on the most likely participants in an attack, which are the requests with the high suspicion label awswaf:managed:aws:anti-ddos:high-suspicion-ddos-request.
+        ///
+        /// * Medium sensitivity causes the rule to match on the medium and high suspicion labels.
+        ///
+        /// * High sensitivity causes the rule to match on all of the suspicion labels: low, medium, and high.
+        ///
+        ///
+        /// Default: HIGH
+        public var sensitivity: WAFV2ClientTypes.SensitivityToAct?
+        /// Determines whether to use the AWSManagedRulesAntiDDoSRuleSet rules ChallengeAllDuringEvent and ChallengeDDoSRequests in the rule group evaluation and the related label awswaf:managed:aws:anti-ddos:challengeable-request.
+        ///
+        /// * If usage is enabled:
+        ///
+        /// * The managed rule group adds the label awswaf:managed:aws:anti-ddos:challengeable-request to any web request whose URL does NOT match the regular expressions provided in the ClientSideAction setting ExemptUriRegularExpressions.
+        ///
+        /// * The two rules are evaluated against web requests for protected resources that are experiencing a DDoS attack. The two rules only apply their action to matching requests that have the label awswaf:managed:aws:anti-ddos:challengeable-request.
+        ///
+        ///
+        ///
+        ///
+        /// * If usage is disabled:
+        ///
+        /// * The managed rule group doesn't add the label awswaf:managed:aws:anti-ddos:challengeable-request to any web requests.
+        ///
+        /// * The two rules are not evaluated.
+        ///
+        /// * None of the other ClientSideAction settings have any effect.
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// This setting only enables or disables the use of the two anti-DDOS rules ChallengeAllDuringEvent and ChallengeDDoSRequests in the anti-DDoS managed rule group. This setting doesn't alter the action setting in the two rules. To override the actions used by the rules ChallengeAllDuringEvent and ChallengeDDoSRequests, enable this setting, and then override the rule actions in the usual way, in your managed rule group configuration.
+        /// This member is required.
+        public var usageOfAction: WAFV2ClientTypes.UsageOfAction?
+
+        public init(
+            exemptUriRegularExpressions: [WAFV2ClientTypes.Regex]? = nil,
+            sensitivity: WAFV2ClientTypes.SensitivityToAct? = nil,
+            usageOfAction: WAFV2ClientTypes.UsageOfAction? = nil
+        ) {
+            self.exemptUriRegularExpressions = exemptUriRegularExpressions
+            self.sensitivity = sensitivity
+            self.usageOfAction = usageOfAction
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// This is part of the configuration for the managed rules AWSManagedRulesAntiDDoSRuleSet in ManagedRuleGroupConfig.
+    public struct ClientSideActionConfig: Swift.Sendable {
+        /// Configuration for the use of the AWSManagedRulesAntiDDoSRuleSet rules ChallengeAllDuringEvent and ChallengeDDoSRequests. This setting isn't related to the configuration of the Challenge action itself. It only configures the use of the two anti-DDoS rules named here. You can enable or disable the use of these rules, and you can configure how to use them when they are enabled.
+        /// This member is required.
+        public var challenge: WAFV2ClientTypes.ClientSideAction?
+
+        public init(
+            challenge: WAFV2ClientTypes.ClientSideAction? = nil
+        ) {
+            self.challenge = challenge
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// Configures the use of the anti-DDoS managed rule group, AWSManagedRulesAntiDDoSRuleSet. This configuration is used in ManagedRuleGroupConfig. The configuration that you provide here determines whether and how the rules in the rule group are used. For additional information about this and the other intelligent threat mitigation rule groups, see [Intelligent threat mitigation in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-managed-protections) and [Amazon Web Services Managed Rules rule groups list](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list) in the WAF Developer Guide.
+    public struct AWSManagedRulesAntiDDoSRuleSet: Swift.Sendable {
+        /// Configures the request handling that's applied by the managed rule group rules ChallengeAllDuringEvent and ChallengeDDoSRequests during a distributed denial of service (DDoS) attack.
+        /// This member is required.
+        public var clientSideActionConfig: WAFV2ClientTypes.ClientSideActionConfig?
+        /// The sensitivity that the rule group rule DDoSRequests uses when matching against the DDoS suspicion labeling on a request. The managed rule group adds the labeling during DDoS events, before the DDoSRequests rule runs. The higher the sensitivity, the more levels of labeling that the rule matches:
+        ///
+        /// * Low sensitivity is less sensitive, causing the rule to match only on the most likely participants in an attack, which are the requests with the high suspicion label awswaf:managed:aws:anti-ddos:high-suspicion-ddos-request.
+        ///
+        /// * Medium sensitivity causes the rule to match on the medium and high suspicion labels.
+        ///
+        /// * High sensitivity causes the rule to match on all of the suspicion labels: low, medium, and high.
+        ///
+        ///
+        /// Default: LOW
+        public var sensitivityToBlock: WAFV2ClientTypes.SensitivityToAct?
+
+        public init(
+            clientSideActionConfig: WAFV2ClientTypes.ClientSideActionConfig? = nil,
+            sensitivityToBlock: WAFV2ClientTypes.SensitivityToAct? = nil
+        ) {
+            self.clientSideActionConfig = clientSideActionConfig
+            self.sensitivityToBlock = sensitivityToBlock
         }
     }
 }
@@ -2346,7 +2523,7 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// Details for your use of the account takeover prevention managed rule group, AWSManagedRulesATPRuleSet. This configuration is used in ManagedRuleGroupConfig.
+    /// Details for your use of the account takeover prevention managed rule group, AWSManagedRulesATPRuleSet. This configuration is used in ManagedRuleGroupConfig. For additional information about this and the other intelligent threat mitigation rule groups, see [Intelligent threat mitigation in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-managed-protections) and [Amazon Web Services Managed Rules rule groups list](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list) in the WAF Developer Guide.
     public struct AWSManagedRulesATPRuleSet: Swift.Sendable {
         /// Allow the use of regular expressions in the login page path.
         public var enableRegexInPath: Swift.Bool
@@ -2403,7 +2580,7 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// Details for your use of the Bot Control managed rule group, AWSManagedRulesBotControlRuleSet. This configuration is used in ManagedRuleGroupConfig.
+    /// Details for your use of the Bot Control managed rule group, AWSManagedRulesBotControlRuleSet. This configuration is used in ManagedRuleGroupConfig. For additional information about this and the other intelligent threat mitigation rule groups, see [Intelligent threat mitigation in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-managed-protections) and [Amazon Web Services Managed Rules rule groups list](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-list) in the WAF Developer Guide.
     public struct AWSManagedRulesBotControlRuleSet: Swift.Sendable {
         /// Applies only to the targeted inspection level. Determines whether to use machine learning (ML) to analyze your web traffic for bot-related activity. Machine learning is required for the Bot Control rules TGT_ML_CoordinatedActivityLow and TGT_ML_CoordinatedActivityMedium, which inspect for anomalous behavior that might indicate distributed, coordinated bot activity. For more information about this choice, see the listing for these rules in the table at [Bot Control rules listing](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html#aws-managed-rule-groups-bot-rules) in the WAF Developer Guide. Default: TRUE
         public var enableMachineLearning: Swift.Bool?
@@ -2427,6 +2604,8 @@ extension WAFV2ClientTypes {
     ///
     /// * Use the AWSManagedRulesACFPRuleSet configuration object to configure the account creation fraud prevention managed rule group. The configuration includes the registration and sign-up pages of your application and the locations in the account creation request payload of data, such as the user email and phone number fields.
     ///
+    /// * Use the AWSManagedRulesAntiDDoSRuleSet configuration object to configure the anti-DDoS managed rule group. The configuration includes the sensitivity levels to use in the rules that typically block and challenge requests that might be participating in DDoS attacks and the specification to use to indicate whether a request can handle a silent browser challenge.
+    ///
     /// * Use the AWSManagedRulesATPRuleSet configuration object to configure the account takeover prevention managed rule group. The configuration includes the sign-in page of your application and the locations in the login request payload of data such as the username and password.
     ///
     /// * Use the AWSManagedRulesBotControlRuleSet configuration object to configure the protection level that you want the Bot Control rule group to use.
@@ -2438,6 +2617,8 @@ extension WAFV2ClientTypes {
         public var awsManagedRulesACFPRuleSet: WAFV2ClientTypes.AWSManagedRulesACFPRuleSet?
         /// Additional configuration for using the account takeover prevention (ATP) managed rule group, AWSManagedRulesATPRuleSet. Use this to provide login request information to the rule group. For web ACLs that protect CloudFront distributions, use this to also provide the information about how your distribution responds to login requests. This configuration replaces the individual configuration fields in ManagedRuleGroupConfig and provides additional feature configuration. For information about using the ATP managed rule group, see [WAF Fraud Control account takeover prevention (ATP) rule group](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-atp.html) and [WAF Fraud Control account takeover prevention (ATP)](https://docs.aws.amazon.com/waf/latest/developerguide/waf-atp.html) in the WAF Developer Guide.
         public var awsManagedRulesATPRuleSet: WAFV2ClientTypes.AWSManagedRulesATPRuleSet?
+        /// Additional configuration for using the anti-DDoS managed rule group, AWSManagedRulesAntiDDoSRuleSet. Use this to configure anti-DDoS behavior for the rule group. For information about using the anti-DDoS managed rule group, see [WAF Anti-DDoS rule group](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-anti-ddos.html) and [Distributed Denial of Service (DDoS) prevention](https://docs.aws.amazon.com/waf/latest/developerguide/waf-anti-ddos.html) in the WAF Developer Guide.
+        public var awsManagedRulesAntiDDoSRuleSet: WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet?
         /// Additional configuration for using the Bot Control managed rule group. Use this to specify the inspection level that you want to use. For information about using the Bot Control managed rule group, see [WAF Bot Control rule group](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html) and [WAF Bot Control](https://docs.aws.amazon.com/waf/latest/developerguide/waf-bot-control.html) in the WAF Developer Guide.
         public var awsManagedRulesBotControlRuleSet: WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet?
         /// Instead of this setting, provide your configuration under AWSManagedRulesATPRuleSet.
@@ -2456,6 +2637,7 @@ extension WAFV2ClientTypes {
         public init(
             awsManagedRulesACFPRuleSet: WAFV2ClientTypes.AWSManagedRulesACFPRuleSet? = nil,
             awsManagedRulesATPRuleSet: WAFV2ClientTypes.AWSManagedRulesATPRuleSet? = nil,
+            awsManagedRulesAntiDDoSRuleSet: WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet? = nil,
             awsManagedRulesBotControlRuleSet: WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet? = nil,
             loginPath: Swift.String? = nil,
             passwordField: WAFV2ClientTypes.PasswordField? = nil,
@@ -2464,6 +2646,7 @@ extension WAFV2ClientTypes {
         ) {
             self.awsManagedRulesACFPRuleSet = awsManagedRulesACFPRuleSet
             self.awsManagedRulesATPRuleSet = awsManagedRulesATPRuleSet
+            self.awsManagedRulesAntiDDoSRuleSet = awsManagedRulesAntiDDoSRuleSet
             self.awsManagedRulesBotControlRuleSet = awsManagedRulesBotControlRuleSet
             self.loginPath = loginPath
             self.passwordField = passwordField
@@ -2622,12 +2805,12 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// Action setting to use in the place of a rule action that is configured inside the rule group. You specify one override for each rule whose action you want to change. Take care to verify the rule names in your overrides. If you provide a rule name that doesn't match the name of any rule in the rule group, WAF doesn't return an error and doesn't apply the override setting. You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
+    /// Action setting to use in the place of a rule action that is configured inside the rule group. You specify one override for each rule whose action you want to change. Verify the rule names in your overrides carefully. With managed rule groups, WAF silently ignores any override that uses an invalid rule name. With customer-owned rule groups, invalid rule names in your overrides will cause web ACL updates to fail. An invalid rule name is any name that doesn't exactly match the case-sensitive name of an existing rule in the rule group. You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
     public struct RuleActionOverride: Swift.Sendable {
         /// The override action to use, in place of the configured action of the rule in the rule group.
         /// This member is required.
         public var actionToUse: WAFV2ClientTypes.RuleAction?
-        /// The name of the rule to override. Take care to verify the rule names in your overrides. If you provide a rule name that doesn't match the name of any rule in the rule group, WAF doesn't return an error and doesn't apply the override setting.
+        /// The name of the rule to override. Verify the rule names in your overrides carefully. With managed rule groups, WAF silently ignores any override that uses an invalid rule name. With customer-owned rule groups, invalid rule names in your overrides will cause web ACL updates to fail. An invalid rule name is any name that doesn't exactly match the case-sensitive name of an existing rule in the rule group.
         /// This member is required.
         public var name: Swift.String?
 
@@ -2983,7 +3166,7 @@ extension WAFV2ClientTypes {
         public var arn: Swift.String?
         /// Rules in the referenced rule group whose actions are set to Count. Instead of this option, use RuleActionOverrides. It accepts any valid action setting, including Count.
         public var excludedRules: [WAFV2ClientTypes.ExcludedRule]?
-        /// Action settings to use in the place of the rule actions that are configured inside the rule group. You specify one override for each rule whose action you want to change. Take care to verify the rule names in your overrides. If you provide a rule name that doesn't match the name of any rule in the rule group, WAF doesn't return an error and doesn't apply the override setting. You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
+        /// Action settings to use in the place of the rule actions that are configured inside the rule group. You specify one override for each rule whose action you want to change. Verify the rule names in your overrides carefully. With managed rule groups, WAF silently ignores any override that uses an invalid rule name. With customer-owned rule groups, invalid rule names in your overrides will cause web ACL updates to fail. An invalid rule name is any name that doesn't exactly match the case-sensitive name of an existing rule in the rule group. You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
         public var ruleActionOverrides: [WAFV2ClientTypes.RuleActionOverride]?
 
         public init(
@@ -3174,6 +3357,40 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
+    /// Application details defined during the web ACL creation process. Application attributes help WAF give recommendations for protection packs.
+    public struct ApplicationAttribute: Swift.Sendable {
+        /// Specifies the attribute name.
+        public var name: Swift.String?
+        /// Specifies the attribute value.
+        public var values: [Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// A list of ApplicationAttributes that contains information about the application.
+    public struct ApplicationConfig: Swift.Sendable {
+        /// Contains the attribute name and a list of values for that attribute.
+        public var attributes: [WAFV2ClientTypes.ApplicationAttribute]?
+
+        public init(
+            attributes: [WAFV2ClientTypes.ApplicationAttribute]? = nil
+        ) {
+            self.attributes = attributes
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
     public enum AssociatedResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case apiGateway
         case appRunnerService
@@ -3296,6 +3513,7 @@ extension WAFV2ClientTypes {
         case labelMatchStatement
         case loggingFilter
         case logDestination
+        case lowReputationMode
         case managedRuleGroupConfig
         case managedRuleSet
         case managedRuleSetStatement
@@ -3371,6 +3589,7 @@ extension WAFV2ClientTypes {
                 .labelMatchStatement,
                 .loggingFilter,
                 .logDestination,
+                .lowReputationMode,
                 .managedRuleGroupConfig,
                 .managedRuleSet,
                 .managedRuleSetStatement,
@@ -3452,6 +3671,7 @@ extension WAFV2ClientTypes {
             case .labelMatchStatement: return "LABEL_MATCH_STATEMENT"
             case .loggingFilter: return "LOGGING_FILTER"
             case .logDestination: return "LOG_DESTINATION"
+            case .lowReputationMode: return "LOW_REPUTATION_MODE"
             case .managedRuleGroupConfig: return "MANAGED_RULE_GROUP_CONFIG"
             case .managedRuleSet: return "MANAGED_RULE_SET"
             case .managedRuleSetStatement: return "MANAGED_RULE_SET_STATEMENT"
@@ -4209,21 +4429,6 @@ public struct CreateIPSetOutput: Swift.Sendable {
     }
 }
 
-extension WAFV2ClientTypes {
-
-    /// A single regular expression. This is used in a [RegexPatternSet].
-    public struct Regex: Swift.Sendable {
-        /// The string representing the regular expression.
-        public var regexString: Swift.String?
-
-        public init(
-            regexString: Swift.String? = nil
-        ) {
-            self.regexString = regexString
-        }
-    }
-}
-
 public struct CreateRegexPatternSetInput: Swift.Sendable {
     /// A description of the set that helps with identification.
     public var description: Swift.String?
@@ -4569,6 +4774,51 @@ extension WAFV2ClientTypes {
         ) {
             self.allow = allow
             self.block = block
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    public enum LowReputationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activeUnderDdos
+        case alwaysOn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LowReputationMode] {
+            return [
+                .activeUnderDdos,
+                .alwaysOn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .activeUnderDdos: return "ACTIVE_UNDER_DDOS"
+            case .alwaysOn: return "ALWAYS_ON"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WAFV2ClientTypes {
+
+    /// Configures the level of DDoS protection that applies to web ACLs associated with Application Load Balancers.
+    public struct OnSourceDDoSProtectionConfig: Swift.Sendable {
+        /// The level of DDoS protection that applies to web ACLs associated with Application Load Balancers. ACTIVE_UNDER_DDOS protection is enabled by default whenever a web ACL is associated with an Application Load Balancer. In the event that an Application Load Balancer experiences high-load conditions or suspected DDoS attacks, the ACTIVE_UNDER_DDOS protection automatically rate limits traffic from known low reputation sources without disrupting Application Load Balancer availability. ALWAYS_ON protection provides constant, always-on monitoring of known low reputation sources for suspected DDoS attacks. While this provides a higher level of protection, there may be potential impacts on legitimate traffic.
+        /// This member is required.
+        public var albLowReputationMode: WAFV2ClientTypes.LowReputationMode?
+
+        public init(
+            albLowReputationMode: WAFV2ClientTypes.LowReputationMode? = nil
+        ) {
+            self.albLowReputationMode = albLowReputationMode
         }
     }
 }
@@ -7533,6 +7783,8 @@ extension WAFV2ClientTypes {
         ///
         /// * Use the AWSManagedRulesACFPRuleSet configuration object to configure the account creation fraud prevention managed rule group. The configuration includes the registration and sign-up pages of your application and the locations in the account creation request payload of data, such as the user email and phone number fields.
         ///
+        /// * Use the AWSManagedRulesAntiDDoSRuleSet configuration object to configure the anti-DDoS managed rule group. The configuration includes the sensitivity levels to use in the rules that typically block and challenge requests that might be participating in DDoS attacks and the specification to use to indicate whether a request can handle a silent browser challenge.
+        ///
         /// * Use the AWSManagedRulesATPRuleSet configuration object to configure the account takeover prevention managed rule group. The configuration includes the sign-in page of your application and the locations in the login request payload of data such as the username and password.
         ///
         /// * Use the AWSManagedRulesBotControlRuleSet configuration object to configure the protection level that you want the Bot Control rule group to use.
@@ -7540,7 +7792,7 @@ extension WAFV2ClientTypes {
         /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
         /// This member is required.
         public var name: Swift.String?
-        /// Action settings to use in the place of the rule actions that are configured inside the rule group. You specify one override for each rule whose action you want to change. Take care to verify the rule names in your overrides. If you provide a rule name that doesn't match the name of any rule in the rule group, WAF doesn't return an error and doesn't apply the override setting. You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
+        /// Action settings to use in the place of the rule actions that are configured inside the rule group. You specify one override for each rule whose action you want to change. Verify the rule names in your overrides carefully. With managed rule groups, WAF silently ignores any override that uses an invalid rule name. With customer-owned rule groups, invalid rule names in your overrides will cause web ACL updates to fail. An invalid rule name is any name that doesn't exactly match the case-sensitive name of an existing rule in the rule group. You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
         public var ruleActionOverrides: [WAFV2ClientTypes.RuleActionOverride]?
         /// An optional nested statement that narrows the scope of the web requests that are evaluated by the managed rule group. Requests are only evaluated by the rule group if they match the scope-down statement. You can use any nestable [Statement] in the scope-down statement, and you can nest statements at any level, the same as you can for a rule statement.
         @Indirect public var scopeDownStatement: WAFV2ClientTypes.Statement?
@@ -7964,6 +8216,8 @@ public struct CreateRuleGroupInput: Swift.Sendable {
 }
 
 public struct CreateWebACLInput: Swift.Sendable {
+    /// Configures the ability for the WAF console to store and retrieve application attributes during the web ACL creation process. Application attributes help WAF give recommendations for protection packs.
+    public var applicationConfig: WAFV2ClientTypes.ApplicationConfig?
     /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
     public var associationConfig: WAFV2ClientTypes.AssociationConfig?
     /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
@@ -7982,6 +8236,8 @@ public struct CreateWebACLInput: Swift.Sendable {
     /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
     /// This member is required.
     public var name: Swift.String?
+    /// Specifies the type of DDoS protection to apply to web request data for a web ACL. For most scenarios, it is recommended to use the default protection level, ACTIVE_UNDER_DDOS. If a web ACL is associated with multiple Application Load Balancers, the changes you make to DDoS protection in that web ACL will apply to all associated Application Load Balancers.
+    public var onSourceDDoSProtectionConfig: WAFV2ClientTypes.OnSourceDDoSProtectionConfig?
     /// The [Rule] statements used to identify the web requests that you want to manage. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
     /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
@@ -8000,6 +8256,7 @@ public struct CreateWebACLInput: Swift.Sendable {
     public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
     public init(
+        applicationConfig: WAFV2ClientTypes.ApplicationConfig? = nil,
         associationConfig: WAFV2ClientTypes.AssociationConfig? = nil,
         captchaConfig: WAFV2ClientTypes.CaptchaConfig? = nil,
         challengeConfig: WAFV2ClientTypes.ChallengeConfig? = nil,
@@ -8008,12 +8265,14 @@ public struct CreateWebACLInput: Swift.Sendable {
         defaultAction: WAFV2ClientTypes.DefaultAction? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
+        onSourceDDoSProtectionConfig: WAFV2ClientTypes.OnSourceDDoSProtectionConfig? = nil,
         rules: [WAFV2ClientTypes.Rule]? = nil,
         scope: WAFV2ClientTypes.Scope? = nil,
         tags: [WAFV2ClientTypes.Tag]? = nil,
         tokenDomains: [Swift.String]? = nil,
         visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
     ) {
+        self.applicationConfig = applicationConfig
         self.associationConfig = associationConfig
         self.captchaConfig = captchaConfig
         self.challengeConfig = challengeConfig
@@ -8022,6 +8281,7 @@ public struct CreateWebACLInput: Swift.Sendable {
         self.defaultAction = defaultAction
         self.description = description
         self.name = name
+        self.onSourceDDoSProtectionConfig = onSourceDDoSProtectionConfig
         self.rules = rules
         self.scope = scope
         self.tags = tags
@@ -8079,6 +8339,12 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
 }
 
 public struct UpdateWebACLInput: Swift.Sendable {
+    /// Configures the ability for the WAF console to store and retrieve application attributes. Application attributes help WAF give recommendations for protection packs. When using UpdateWebACL, ApplicationConfig follows these rules:
+    ///
+    /// * If you omit ApplicationConfig from the request, all existing entries in the web ACL are retained.
+    ///
+    /// * If you include ApplicationConfig, entries must match the existing values exactly. Any attempt to modify existing entries will result in an error.
+    public var applicationConfig: WAFV2ClientTypes.ApplicationConfig?
     /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
     public var associationConfig: WAFV2ClientTypes.AssociationConfig?
     /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
@@ -8103,6 +8369,8 @@ public struct UpdateWebACLInput: Swift.Sendable {
     /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
     /// This member is required.
     public var name: Swift.String?
+    /// Specifies the type of DDoS protection to apply to web request data for a web ACL. For most scenarios, it is recommended to use the default protection level, ACTIVE_UNDER_DDOS. If a web ACL is associated with multiple Application Load Balancers, the changes you make to DDoS protection in that web ACL will apply to all associated Application Load Balancers.
+    public var onSourceDDoSProtectionConfig: WAFV2ClientTypes.OnSourceDDoSProtectionConfig?
     /// The [Rule] statements used to identify the web requests that you want to manage. Each rule includes one top-level statement that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
     public var rules: [WAFV2ClientTypes.Rule]?
     /// Specifies whether this is for a global resource type, such as a Amazon CloudFront distribution. For an Amplify application, use CLOUDFRONT. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
@@ -8119,6 +8387,7 @@ public struct UpdateWebACLInput: Swift.Sendable {
     public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
     public init(
+        applicationConfig: WAFV2ClientTypes.ApplicationConfig? = nil,
         associationConfig: WAFV2ClientTypes.AssociationConfig? = nil,
         captchaConfig: WAFV2ClientTypes.CaptchaConfig? = nil,
         challengeConfig: WAFV2ClientTypes.ChallengeConfig? = nil,
@@ -8129,11 +8398,13 @@ public struct UpdateWebACLInput: Swift.Sendable {
         id: Swift.String? = nil,
         lockToken: Swift.String? = nil,
         name: Swift.String? = nil,
+        onSourceDDoSProtectionConfig: WAFV2ClientTypes.OnSourceDDoSProtectionConfig? = nil,
         rules: [WAFV2ClientTypes.Rule]? = nil,
         scope: WAFV2ClientTypes.Scope? = nil,
         tokenDomains: [Swift.String]? = nil,
         visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
     ) {
+        self.applicationConfig = applicationConfig
         self.associationConfig = associationConfig
         self.captchaConfig = captchaConfig
         self.challengeConfig = challengeConfig
@@ -8144,6 +8415,7 @@ public struct UpdateWebACLInput: Swift.Sendable {
         self.id = id
         self.lockToken = lockToken
         self.name = name
+        self.onSourceDDoSProtectionConfig = onSourceDDoSProtectionConfig
         self.rules = rules
         self.scope = scope
         self.tokenDomains = tokenDomains
@@ -8170,6 +8442,8 @@ extension WAFV2ClientTypes {
 
     /// A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, and Amazon Web Services Verified Access instance.
     public struct WebACL: Swift.Sendable {
+        /// Returns a list of ApplicationAttributes.
+        public var applicationConfig: WAFV2ClientTypes.ApplicationConfig?
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
         /// This member is required.
         public var arn: Swift.String?
@@ -8204,6 +8478,8 @@ extension WAFV2ClientTypes {
         /// The name of the web ACL. You cannot change the name of a web ACL after you create it.
         /// This member is required.
         public var name: Swift.String?
+        /// Configures the level of DDoS protection that applies to web ACLs associated with Application Load Balancers.
+        public var onSourceDDoSProtectionConfig: WAFV2ClientTypes.OnSourceDDoSProtectionConfig?
         /// The last set of rules for WAF to process in the web ACL. This is defined in an Firewall Manager WAF policy and contains only rule group references. You can't alter these. Any rules and rule groups that you define for the web ACL are prioritized before these. In the Firewall Manager WAF policy, the Firewall Manager administrator can define a set of rule groups to run first in the web ACL and a set of rule groups to run last. Within each set, the administrator prioritizes the rule groups, to determine their relative processing order.
         public var postProcessFirewallManagerRuleGroups: [WAFV2ClientTypes.FirewallManagerRuleGroup]?
         /// The first set of rules for WAF to process in the web ACL. This is defined in an Firewall Manager WAF policy and contains only rule group references. You can't alter these. Any rules and rule groups that you define for the web ACL are prioritized after these. In the Firewall Manager WAF policy, the Firewall Manager administrator can define a set of rule groups to run first in the web ACL and a set of rule groups to run last. Within each set, the administrator prioritizes the rule groups, to determine their relative processing order.
@@ -8219,6 +8495,7 @@ extension WAFV2ClientTypes {
         public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
         public init(
+            applicationConfig: WAFV2ClientTypes.ApplicationConfig? = nil,
             arn: Swift.String? = nil,
             associationConfig: WAFV2ClientTypes.AssociationConfig? = nil,
             capacity: Swift.Int = 0,
@@ -8232,6 +8509,7 @@ extension WAFV2ClientTypes {
             labelNamespace: Swift.String? = nil,
             managedByFirewallManager: Swift.Bool = false,
             name: Swift.String? = nil,
+            onSourceDDoSProtectionConfig: WAFV2ClientTypes.OnSourceDDoSProtectionConfig? = nil,
             postProcessFirewallManagerRuleGroups: [WAFV2ClientTypes.FirewallManagerRuleGroup]? = nil,
             preProcessFirewallManagerRuleGroups: [WAFV2ClientTypes.FirewallManagerRuleGroup]? = nil,
             retrofittedByFirewallManager: Swift.Bool = false,
@@ -8239,6 +8517,7 @@ extension WAFV2ClientTypes {
             tokenDomains: [Swift.String]? = nil,
             visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
         ) {
+            self.applicationConfig = applicationConfig
             self.arn = arn
             self.associationConfig = associationConfig
             self.capacity = capacity
@@ -8252,6 +8531,7 @@ extension WAFV2ClientTypes {
             self.labelNamespace = labelNamespace
             self.managedByFirewallManager = managedByFirewallManager
             self.name = name
+            self.onSourceDDoSProtectionConfig = onSourceDDoSProtectionConfig
             self.postProcessFirewallManagerRuleGroups = postProcessFirewallManagerRuleGroups
             self.preProcessFirewallManagerRuleGroups = preProcessFirewallManagerRuleGroups
             self.retrofittedByFirewallManager = retrofittedByFirewallManager
@@ -8741,6 +9021,7 @@ extension CreateWebACLInput {
 
     static func write(value: CreateWebACLInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ApplicationConfig"].write(value.applicationConfig, with: WAFV2ClientTypes.ApplicationConfig.write(value:to:))
         try writer["AssociationConfig"].write(value.associationConfig, with: WAFV2ClientTypes.AssociationConfig.write(value:to:))
         try writer["CaptchaConfig"].write(value.captchaConfig, with: WAFV2ClientTypes.CaptchaConfig.write(value:to:))
         try writer["ChallengeConfig"].write(value.challengeConfig, with: WAFV2ClientTypes.ChallengeConfig.write(value:to:))
@@ -8749,6 +9030,7 @@ extension CreateWebACLInput {
         try writer["DefaultAction"].write(value.defaultAction, with: WAFV2ClientTypes.DefaultAction.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
+        try writer["OnSourceDDoSProtectionConfig"].write(value.onSourceDDoSProtectionConfig, with: WAFV2ClientTypes.OnSourceDDoSProtectionConfig.write(value:to:))
         try writer["Rules"].writeList(value.rules, memberWritingClosure: WAFV2ClientTypes.Rule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Scope"].write(value.scope)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: WAFV2ClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -9230,6 +9512,7 @@ extension UpdateWebACLInput {
 
     static func write(value: UpdateWebACLInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ApplicationConfig"].write(value.applicationConfig, with: WAFV2ClientTypes.ApplicationConfig.write(value:to:))
         try writer["AssociationConfig"].write(value.associationConfig, with: WAFV2ClientTypes.AssociationConfig.write(value:to:))
         try writer["CaptchaConfig"].write(value.captchaConfig, with: WAFV2ClientTypes.CaptchaConfig.write(value:to:))
         try writer["ChallengeConfig"].write(value.challengeConfig, with: WAFV2ClientTypes.ChallengeConfig.write(value:to:))
@@ -9240,6 +9523,7 @@ extension UpdateWebACLInput {
         try writer["Id"].write(value.id)
         try writer["LockToken"].write(value.lockToken)
         try writer["Name"].write(value.name)
+        try writer["OnSourceDDoSProtectionConfig"].write(value.onSourceDDoSProtectionConfig, with: WAFV2ClientTypes.OnSourceDDoSProtectionConfig.write(value:to:))
         try writer["Rules"].writeList(value.rules, memberWritingClosure: WAFV2ClientTypes.Rule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Scope"].write(value.scope)
         try writer["TokenDomains"].writeList(value.tokenDomains, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -10859,6 +11143,32 @@ enum UpdateWebACLOutputError {
     }
 }
 
+extension WAFInternalErrorException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFInternalErrorException {
+        let reader = baseError.errorBodyReader
+        var value = WAFInternalErrorException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension WAFInvalidOperationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFInvalidOperationException {
+        let reader = baseError.errorBodyReader
+        var value = WAFInvalidOperationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension WAFInvalidParameterException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFInvalidParameterException {
@@ -10888,37 +11198,11 @@ extension WAFNonexistentItemException {
     }
 }
 
-extension WAFInternalErrorException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFInternalErrorException {
-        let reader = baseError.errorBodyReader
-        var value = WAFInternalErrorException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension WAFUnavailableEntityException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFUnavailableEntityException {
         let reader = baseError.errorBodyReader
         var value = WAFUnavailableEntityException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension WAFInvalidOperationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFInvalidOperationException {
-        let reader = baseError.errorBodyReader
-        var value = WAFInvalidOperationException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10953,19 +11237,6 @@ extension WAFInvalidResourceException {
     }
 }
 
-extension WAFSubscriptionNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFSubscriptionNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = WAFSubscriptionNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension WAFLimitsExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFLimitsExceededException {
@@ -10980,11 +11251,11 @@ extension WAFLimitsExceededException {
     }
 }
 
-extension WAFOptimisticLockException {
+extension WAFSubscriptionNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFOptimisticLockException {
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFSubscriptionNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = WAFOptimisticLockException()
+        var value = WAFSubscriptionNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -10998,6 +11269,19 @@ extension WAFDuplicateItemException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFDuplicateItemException {
         let reader = baseError.errorBodyReader
         var value = WAFDuplicateItemException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension WAFOptimisticLockException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFOptimisticLockException {
+        let reader = baseError.errorBodyReader
+        var value = WAFOptimisticLockException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -12264,6 +12548,7 @@ extension WAFV2ClientTypes.ManagedRuleGroupConfig {
         guard let value else { return }
         try writer["AWSManagedRulesACFPRuleSet"].write(value.awsManagedRulesACFPRuleSet, with: WAFV2ClientTypes.AWSManagedRulesACFPRuleSet.write(value:to:))
         try writer["AWSManagedRulesATPRuleSet"].write(value.awsManagedRulesATPRuleSet, with: WAFV2ClientTypes.AWSManagedRulesATPRuleSet.write(value:to:))
+        try writer["AWSManagedRulesAntiDDoSRuleSet"].write(value.awsManagedRulesAntiDDoSRuleSet, with: WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet.write(value:to:))
         try writer["AWSManagedRulesBotControlRuleSet"].write(value.awsManagedRulesBotControlRuleSet, with: WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet.write(value:to:))
         try writer["LoginPath"].write(value.loginPath)
         try writer["PasswordField"].write(value.passwordField, with: WAFV2ClientTypes.PasswordField.write(value:to:))
@@ -12281,6 +12566,58 @@ extension WAFV2ClientTypes.ManagedRuleGroupConfig {
         value.awsManagedRulesBotControlRuleSet = try reader["AWSManagedRulesBotControlRuleSet"].readIfPresent(with: WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet.read(from:))
         value.awsManagedRulesATPRuleSet = try reader["AWSManagedRulesATPRuleSet"].readIfPresent(with: WAFV2ClientTypes.AWSManagedRulesATPRuleSet.read(from:))
         value.awsManagedRulesACFPRuleSet = try reader["AWSManagedRulesACFPRuleSet"].readIfPresent(with: WAFV2ClientTypes.AWSManagedRulesACFPRuleSet.read(from:))
+        value.awsManagedRulesAntiDDoSRuleSet = try reader["AWSManagedRulesAntiDDoSRuleSet"].readIfPresent(with: WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet {
+
+    static func write(value: WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientSideActionConfig"].write(value.clientSideActionConfig, with: WAFV2ClientTypes.ClientSideActionConfig.write(value:to:))
+        try writer["SensitivityToBlock"].write(value.sensitivityToBlock)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet()
+        value.clientSideActionConfig = try reader["ClientSideActionConfig"].readIfPresent(with: WAFV2ClientTypes.ClientSideActionConfig.read(from:))
+        value.sensitivityToBlock = try reader["SensitivityToBlock"].readIfPresent()
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ClientSideActionConfig {
+
+    static func write(value: WAFV2ClientTypes.ClientSideActionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Challenge"].write(value.challenge, with: WAFV2ClientTypes.ClientSideAction.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ClientSideActionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ClientSideActionConfig()
+        value.challenge = try reader["Challenge"].readIfPresent(with: WAFV2ClientTypes.ClientSideAction.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ClientSideAction {
+
+    static func write(value: WAFV2ClientTypes.ClientSideAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExemptUriRegularExpressions"].writeList(value.exemptUriRegularExpressions, memberWritingClosure: WAFV2ClientTypes.Regex.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Sensitivity"].write(value.sensitivity)
+        try writer["UsageOfAction"].write(value.usageOfAction)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ClientSideAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ClientSideAction()
+        value.usageOfAction = try reader["UsageOfAction"].readIfPresent() ?? .sdkUnknown("")
+        value.sensitivity = try reader["Sensitivity"].readIfPresent()
+        value.exemptUriRegularExpressions = try reader["ExemptUriRegularExpressions"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Regex.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -13138,6 +13475,55 @@ extension WAFV2ClientTypes.WebACL {
         value.tokenDomains = try reader["TokenDomains"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.associationConfig = try reader["AssociationConfig"].readIfPresent(with: WAFV2ClientTypes.AssociationConfig.read(from:))
         value.retrofittedByFirewallManager = try reader["RetrofittedByFirewallManager"].readIfPresent() ?? false
+        value.onSourceDDoSProtectionConfig = try reader["OnSourceDDoSProtectionConfig"].readIfPresent(with: WAFV2ClientTypes.OnSourceDDoSProtectionConfig.read(from:))
+        value.applicationConfig = try reader["ApplicationConfig"].readIfPresent(with: WAFV2ClientTypes.ApplicationConfig.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ApplicationConfig {
+
+    static func write(value: WAFV2ClientTypes.ApplicationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: WAFV2ClientTypes.ApplicationAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ApplicationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ApplicationConfig()
+        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.ApplicationAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ApplicationAttribute {
+
+    static func write(value: WAFV2ClientTypes.ApplicationAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ApplicationAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ApplicationAttribute()
+        value.name = try reader["Name"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.OnSourceDDoSProtectionConfig {
+
+    static func write(value: WAFV2ClientTypes.OnSourceDDoSProtectionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ALBLowReputationMode"].write(value.albLowReputationMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.OnSourceDDoSProtectionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.OnSourceDDoSProtectionConfig()
+        value.albLowReputationMode = try reader["ALBLowReputationMode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }

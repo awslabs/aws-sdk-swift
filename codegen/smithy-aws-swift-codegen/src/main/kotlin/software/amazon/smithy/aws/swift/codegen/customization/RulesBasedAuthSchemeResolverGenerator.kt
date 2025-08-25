@@ -1,5 +1,7 @@
 package software.amazon.smithy.aws.swift.codegen.customization
 
+import software.amazon.smithy.aws.swift.codegen.customization.s3.isS3
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.aws.traits.auth.SigV4ATrait
 import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
@@ -125,6 +127,34 @@ class RulesBasedAuthSchemeResolverGenerator {
                         )
                         write("validAuthOptions.append(sigV4Option)")
                         dedent()
+                        // sigv4-s3express case
+                        if (ctx.service.isS3) {
+                            write("case .sigV4S3Express(let param):")
+                            indent()
+                            write(
+                                "var authOption = \$N(schemeID: \$S)",
+                                SmithyHTTPAuthAPITypes.AuthOption,
+                                "aws.auth#sigv4-s3express",
+                            )
+                            write(
+                                "authOption.signingProperties.set(key: \$N.signingName, value: param.signingName)",
+                                SmithyHTTPAuthAPITypes.SigningPropertyKeys,
+                            )
+                            write(
+                                "authOption.signingProperties.set(key: \$N.signingRegion, value: param.signingRegion)",
+                                SmithyHTTPAuthAPITypes.SigningPropertyKeys,
+                            )
+                            write(
+                                "authOption.identityProperties.set(key: \$N.bucket, value: serviceParams.bucket)",
+                                AWSSDKIdentityTypes.AWSIdentityPropertyKeys,
+                            )
+                            write(
+                                "authOption.identityProperties.set(key: \$N.s3ExpressClient, value: S3ExpressCreateSessionClient())",
+                                AWSSDKIdentityTypes.AWSIdentityPropertyKeys,
+                            )
+                            write("validAuthOptions.append(authOption)")
+                            dedent()
+                        }
                         // Default case: throw error if returned auth scheme is neither SigV4 nor SigV4A
                         write("default:")
                         indent()
@@ -169,6 +199,8 @@ class RulesBasedAuthSchemeResolverGenerator {
                     )
                 }
 
+                writer.write("let authSchemePreference = context.getAuthSchemePreference()")
+
                 // Copy over endpoint param fields to auth param fields
                 val ruleSetNode = ctx.service.getTrait<EndpointRuleSetTrait>()?.ruleSet
                 val ruleSet = if (ruleSetNode != null) EndpointRuleSet.fromNode(ruleSetNode) else null
@@ -181,7 +213,7 @@ class RulesBasedAuthSchemeResolverGenerator {
                 }
 
                 val argStringToAppend = if (paramList.isEmpty()) "" else ", " + paramList.joinToString()
-                write("return $returnTypeName(operation: opName$argStringToAppend)")
+                write("return $returnTypeName(authSchemePreference: authSchemePreference, operation: opName$argStringToAppend)")
             }
         }
     }
