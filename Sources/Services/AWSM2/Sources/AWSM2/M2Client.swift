@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class M2Client: ClientRuntime.Client {
     public static let clientName = "M2Client"
-    public static let version = "1.5.27"
+    public static let version = "1.5.28"
     let client: ClientRuntime.SdkHttpClient
     let config: M2Client.M2ClientConfiguration
     let serviceName = "m2"

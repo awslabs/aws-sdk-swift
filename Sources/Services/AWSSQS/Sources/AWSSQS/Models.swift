@@ -732,7 +732,7 @@ public struct CreateQueueInput: Swift.Sendable {
     ///
     /// * DelaySeconds – The length of time, in seconds, for which the delivery of all messages in the queue is delayed. Valid values: An integer from 0 to 900 seconds (15 minutes). Default: 0.
     ///
-    /// * MaximumMessageSize – The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) to 262,144 bytes (256 KiB). Default: 262,144 (256 KiB).
+    /// * MaximumMessageSize – The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) to 1,048,576 bytes (1 MiB). Default: 1,048,576 bytes (1 MiB).
     ///
     /// * MessageRetentionPeriod – The length of time, in seconds, for which Amazon SQS retains a message. Valid values: An integer from 60 seconds (1 minute) to 1,209,600 seconds (14 days). Default: 345,600 (4 days). When you change a queue's attributes, the change can take up to 60 seconds for most of the attributes to propagate throughout the Amazon SQS system. Changes made to the MessageRetentionPeriod attribute can take up to 15 minutes and will impact existing messages in the queue potentially causing them to be expired and deleted if the MessageRetentionPeriod is reduced below the age of existing messages.
     ///
@@ -1701,7 +1701,7 @@ public struct ReceiveMessageInput: Swift.Sendable {
 
 extension SQSClientTypes {
 
-    /// The user-specified message attribute value. For string data types, the Value attribute has the same restrictions on the content as the message body. For more information, see [SendMessage].Name, type, value and the message body must not be empty or null. All parts of the message attribute, including Name, Type, and Value, are part of the message size restriction (256 KiB or 262,144 bytes).
+    /// The user-specified message attribute value. For string data types, the Value attribute has the same restrictions on the content as the message body. For more information, see [SendMessage].Name, type, value and the message body must not be empty or null. All parts of the message attribute, including Name, Type, and Value, are part of the message size restriction (1 MiB or 1,048,576 bytes).
     public struct MessageAttributeValue: Swift.Sendable {
         /// Not implemented. Reserved for future use.
         public var binaryListValues: [Foundation.Data]?
@@ -1904,7 +1904,7 @@ public struct SendMessageInput: Swift.Sendable {
     public var delaySeconds: Swift.Int?
     /// Each message attribute consists of a Name, Type, and Value. For more information, see [Amazon SQS message attributes](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-metadata.html#sqs-message-attributes) in the Amazon SQS Developer Guide.
     public var messageAttributes: [Swift.String: SQSClientTypes.MessageAttributeValue]?
-    /// The message to send. The minimum size is one character. The maximum size is 256 KiB. A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed. For more information, see the [W3C specification for characters](http://www.w3.org/TR/REC-xml/#charsets). #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF Amazon SQS does not throw an exception or completely reject the message if it contains invalid characters. Instead, it replaces those invalid characters with U+FFFD before storing the message in the queue, as long as the message body contains at least one valid character.
+    /// The message to send. The minimum size is one character. The maximum size is 1 MiB or 1,048,576 bytes A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed. For more information, see the [W3C specification for characters](http://www.w3.org/TR/REC-xml/#charsets). #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF Amazon SQS does not throw an exception or completely reject the message if it contains invalid characters. Instead, it replaces those invalid characters with U+FFFD before storing the message in the queue, as long as the message body contains at least one valid character.
     /// This member is required.
     public var messageBody: Swift.String?
     /// This parameter applies only to FIFO (first-in-first-out) queues. The token used for deduplication of sent messages. If a message with a particular MessageDeduplicationId is sent successfully, any messages sent with the same MessageDeduplicationId are accepted successfully but aren't delivered during the 5-minute deduplication interval. For more information, see [ Exactly-once processing](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues-exactly-once-processing.html) in the Amazon SQS Developer Guide.
@@ -2170,7 +2170,7 @@ public struct SetQueueAttributesInput: Swift.Sendable {
     ///
     /// * DelaySeconds – The length of time, in seconds, for which the delivery of all messages in the queue is delayed. Valid values: An integer from 0 to 900 (15 minutes). Default: 0.
     ///
-    /// * MaximumMessageSize – The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) up to 262,144 bytes (256 KiB). Default: 262,144 (256 KiB).
+    /// * MaximumMessageSize – The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) up to 1,048,576 bytes (1 MiB). Default: 1,048,576 bytes (1 MiB).
     ///
     /// * MessageRetentionPeriod – The length of time, in seconds, for which Amazon SQS retains a message. Valid values: An integer representing seconds, from 60 (1 minute) to 1,209,600 (14 days). Default: 345,600 (4 days). When you change a queue's attributes, the change can take up to 60 seconds for most of the attributes to propagate throughout the Amazon SQS system. Changes made to the MessageRetentionPeriod attribute can take up to 15 minutes and will impact existing messages in the queue potentially causing them to be expired and deleted if the MessageRetentionPeriod is reduced below the age of existing messages.
     ///
