@@ -568,6 +568,7 @@ extension TimestreamInfluxDBClientTypes {
         case deleted
         case deleting
         case failed
+        case maintenance
         case updating
         case sdkUnknown(Swift.String)
 
@@ -578,6 +579,7 @@ extension TimestreamInfluxDBClientTypes {
                 .deleted,
                 .deleting,
                 .failed,
+                .maintenance,
                 .updating
             ]
         }
@@ -594,6 +596,7 @@ extension TimestreamInfluxDBClientTypes {
             case .deleted: return "DELETED"
             case .deleting: return "DELETING"
             case .failed: return "FAILED"
+            case .maintenance: return "MAINTENANCE"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
@@ -919,6 +922,7 @@ extension TimestreamInfluxDBClientTypes {
         case deleted
         case deleting
         case failed
+        case maintenance
         case modifying
         case updating
         case updatingDeploymentType
@@ -932,6 +936,7 @@ extension TimestreamInfluxDBClientTypes {
                 .deleted,
                 .deleting,
                 .failed,
+                .maintenance,
                 .modifying,
                 .updating,
                 .updatingDeploymentType,
@@ -951,6 +956,7 @@ extension TimestreamInfluxDBClientTypes {
             case .deleted: return "DELETED"
             case .deleting: return "DELETING"
             case .failed: return "FAILED"
+            case .maintenance: return "MAINTENANCE"
             case .modifying: return "MODIFYING"
             case .updating: return "UPDATING"
             case .updatingDeploymentType: return "UPDATING_DEPLOYMENT_TYPE"

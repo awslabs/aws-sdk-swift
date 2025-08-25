@@ -129,15 +129,148 @@ extension B2biClientTypes {
 
 extension B2biClientTypes {
 
+    /// Defines a validation rule that modifies the allowed code values for a specific X12 element. This rule allows you to add or remove valid codes from an element's standard code list, providing flexibility to accommodate trading partner-specific requirements or industry variations. You can specify codes to add to expand the allowed values beyond the X12 standard, or codes to remove to restrict the allowed values for stricter validation.
+    public struct X12CodeListValidationRule: Swift.Sendable {
+        /// Specifies a list of code values to add to the element's allowed values. These codes will be considered valid for the specified element in addition to the standard codes defined by the X12 specification.
+        public var codesToAdd: [Swift.String]?
+        /// Specifies a list of code values to remove from the element's allowed values. These codes will be considered invalid for the specified element, even if they are part of the standard codes defined by the X12 specification.
+        public var codesToRemove: [Swift.String]?
+        /// Specifies the four-digit element ID to which the code list modifications apply. This identifies which X12 element will have its allowed code values modified.
+        /// This member is required.
+        public var elementId: Swift.String?
+
+        public init(
+            codesToAdd: [Swift.String]? = nil,
+            codesToRemove: [Swift.String]? = nil,
+            elementId: Swift.String? = nil
+        ) {
+            self.codesToAdd = codesToAdd
+            self.codesToRemove = codesToRemove
+            self.elementId = elementId
+        }
+    }
+}
+
+extension B2biClientTypes {
+
+    /// Defines a validation rule that specifies custom length constraints for a specific X12 element. This rule allows you to override the standard minimum and maximum length requirements for an element, enabling validation of trading partner-specific length requirements that may differ from the X12 specification. Both minimum and maximum length values must be specified and must be between 1 and 200 characters.
+    public struct X12ElementLengthValidationRule: Swift.Sendable {
+        /// Specifies the four-digit element ID to which the length constraints will be applied. This identifies which X12 element will have its length requirements modified.
+        /// This member is required.
+        public var elementId: Swift.String?
+        /// Specifies the maximum allowed length for the identified element. This value must be between 1 and 200 characters and defines the upper limit for the element's content length.
+        /// This member is required.
+        public var maxLength: Swift.Int?
+        /// Specifies the minimum required length for the identified element. This value must be between 1 and 200 characters and defines the lower limit for the element's content length.
+        /// This member is required.
+        public var minLength: Swift.Int?
+
+        public init(
+            elementId: Swift.String? = nil,
+            maxLength: Swift.Int? = nil,
+            minLength: Swift.Int? = nil
+        ) {
+            self.elementId = elementId
+            self.maxLength = maxLength
+            self.minLength = minLength
+        }
+    }
+}
+
+extension B2biClientTypes {
+
+    public enum ElementRequirement: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mandatory
+        case `optional`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ElementRequirement] {
+            return [
+                .mandatory,
+                .optional
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .mandatory: return "MANDATORY"
+            case .optional: return "OPTIONAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension B2biClientTypes {
+
+    /// Defines a validation rule that modifies the requirement status of a specific X12 element within a segment. This rule allows you to make optional elements mandatory or mandatory elements optional, providing flexibility to accommodate different trading partner requirements and business rules. The rule targets a specific element position within a segment and sets its requirement status to either OPTIONAL or MANDATORY.
+    public struct X12ElementRequirementValidationRule: Swift.Sendable {
+        /// Specifies the position of the element within an X12 segment for which the requirement status will be modified. The format follows the pattern of segment identifier followed by element position (e.g., "ST-01" for the first element of the ST segment).
+        /// This member is required.
+        public var elementPosition: Swift.String?
+        /// Specifies the requirement status for the element at the specified position. Valid values are OPTIONAL (the element may be omitted) or MANDATORY (the element must be present).
+        /// This member is required.
+        public var requirement: B2biClientTypes.ElementRequirement?
+
+        public init(
+            elementPosition: Swift.String? = nil,
+            requirement: B2biClientTypes.ElementRequirement? = nil
+        ) {
+            self.elementPosition = elementPosition
+            self.requirement = requirement
+        }
+    }
+}
+
+extension B2biClientTypes {
+
+    /// Represents a single validation rule that can be applied during X12 EDI processing. This is a union type that can contain one of several specific validation rule types: code list validation rules for modifying allowed element codes, element length validation rules for enforcing custom length constraints, or element requirement validation rules for changing mandatory/optional status. Each validation rule targets specific aspects of EDI document validation to ensure compliance with trading partner requirements and business rules.
+    public enum X12ValidationRule: Swift.Sendable {
+        /// Specifies a code list validation rule that modifies the allowed code values for a specific X12 element. This rule enables you to customize which codes are considered valid for an element, allowing for trading partner-specific code requirements.
+        case codelistvalidationrule(B2biClientTypes.X12CodeListValidationRule)
+        /// Specifies an element length validation rule that defines custom length constraints for a specific X12 element. This rule allows you to enforce minimum and maximum length requirements that may differ from the standard X12 specification.
+        case elementlengthvalidationrule(B2biClientTypes.X12ElementLengthValidationRule)
+        /// Specifies an element requirement validation rule that modifies whether a specific X12 element is required or optional within a segment. This rule provides flexibility to accommodate different trading partner requirements for element presence.
+        case elementrequirementvalidationrule(B2biClientTypes.X12ElementRequirementValidationRule)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension B2biClientTypes {
+
+    /// Contains configuration options for X12 EDI validation. This structure allows you to specify custom validation rules that will be applied during EDI document processing, including element length constraints, code list modifications, and element requirement changes. These validation options provide flexibility to accommodate trading partner-specific requirements while maintaining EDI compliance. The validation rules are applied in addition to standard X12 validation to ensure documents meet both standard and custom requirements.
+    public struct X12ValidationOptions: Swift.Sendable {
+        /// Specifies a list of validation rules to apply during EDI document processing. These rules can include code list modifications, element length constraints, and element requirement changes.
+        public var validationRules: [B2biClientTypes.X12ValidationRule]?
+
+        public init(
+            validationRules: [B2biClientTypes.X12ValidationRule]? = nil
+        ) {
+            self.validationRules = validationRules
+        }
+    }
+}
+
+extension B2biClientTypes {
+
     /// Contains advanced options specific to X12 EDI processing, such as splitting large X12 files into smaller units.
     public struct X12AdvancedOptions: Swift.Sendable {
         /// Specifies options for splitting X12 EDI files. These options control how large X12 files are divided into smaller, more manageable units.
         public var splitOptions: B2biClientTypes.X12SplitOptions?
+        /// Specifies validation options for X12 EDI processing. These options control how validation rules are applied during EDI document processing, including custom validation rules for element length constraints, code list validations, and element requirement checks.
+        public var validationOptions: B2biClientTypes.X12ValidationOptions?
 
         public init(
-            splitOptions: B2biClientTypes.X12SplitOptions? = nil
+            splitOptions: B2biClientTypes.X12SplitOptions? = nil,
+            validationOptions: B2biClientTypes.X12ValidationOptions? = nil
         ) {
             self.splitOptions = splitOptions
+            self.validationOptions = validationOptions
         }
     }
 }
@@ -305,7 +438,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-/// Occurs when a B2BI object cannot be validated against a request from another object.
+/// Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2376,7 +2509,7 @@ extension B2biClientTypes {
         public var gs05TimeFormat: B2biClientTypes.X12GS05TimeFormat?
         /// In X12 EDI messages, delimiters are used to mark the end of segments or elements, and are defined in the interchange control header.
         public var interchangeControlHeaders: B2biClientTypes.X12InterchangeControlHeaders?
-        /// Specifies whether or not to validate the EDI for this X12 object: TRUE or FALSE.
+        /// Specifies whether or not to validate the EDI for this X12 object: TRUE or FALSE. When enabled, this performs both standard EDI validation and applies any configured custom validation rules including element length constraints, code list validations, and element requirement checks. Validation results are returned in the response validation messages.
         public var validateEdi: Swift.Bool?
 
         public init(
@@ -3443,6 +3576,8 @@ extension B2biClientTypes {
 
     /// Provide a sample of what the output of the transformation should look like.
     public struct ConversionTarget: Swift.Sendable {
+        /// A structure that contains advanced options for EDI processing. Currently, only X12 advanced options are supported.
+        public var advancedOptions: B2biClientTypes.AdvancedOptions?
         /// Currently, only X12 format is supported.
         /// This member is required.
         public var fileFormat: B2biClientTypes.ConversionTargetFormat?
@@ -3452,10 +3587,12 @@ extension B2biClientTypes {
         public var outputSampleFile: B2biClientTypes.OutputSampleFileSource?
 
         public init(
+            advancedOptions: B2biClientTypes.AdvancedOptions? = nil,
             fileFormat: B2biClientTypes.ConversionTargetFormat? = nil,
             formatDetails: B2biClientTypes.ConversionTargetFormatDetails? = nil,
             outputSampleFile: B2biClientTypes.OutputSampleFileSource? = nil
         ) {
+            self.advancedOptions = advancedOptions
             self.fileFormat = fileFormat
             self.formatDetails = formatDetails
             self.outputSampleFile = outputSampleFile
@@ -3484,7 +3621,7 @@ public struct TestConversionOutput: Swift.Sendable {
     /// Returns the converted file content.
     /// This member is required.
     public var convertedFileContent: Swift.String?
-    /// Returns an array of strings, each containing a message that Amazon Web Services B2B Data Interchange generates during the conversion.
+    /// Returns an array of validation messages that Amazon Web Services B2B Data Interchange generates during the conversion process. These messages include both standard EDI validation results and custom validation messages when custom validation rules are configured. Custom validation messages provide detailed feedback on element length constraints, code list validations, and element requirement checks applied during the outbound EDI generation process.
     public var validationMessages: [Swift.String]?
 
     public init(
@@ -3594,13 +3731,17 @@ public struct TestParsingOutput: Swift.Sendable {
     public var parsedFileContent: Swift.String?
     /// Returns an array of parsed file contents when the input file is split according to the specified split options. Each element in the array represents a separate split file's parsed content.
     public var parsedSplitFileContents: [Swift.String]?
+    /// Returns an array of validation messages generated during EDI validation. These messages provide detailed information about validation errors, warnings, or confirmations based on the configured X12 validation rules such as element length constraints, code list validations, and element requirement checks. This field is populated when the TestParsing API validates EDI documents.
+    public var validationMessages: [Swift.String]?
 
     public init(
         parsedFileContent: Swift.String? = nil,
-        parsedSplitFileContents: [Swift.String]? = nil
+        parsedSplitFileContents: [Swift.String]? = nil,
+        validationMessages: [Swift.String]? = nil
     ) {
         self.parsedFileContent = parsedFileContent
         self.parsedSplitFileContents = parsedSplitFileContents
+        self.validationMessages = validationMessages
     }
 }
 
@@ -3743,6 +3884,8 @@ extension B2biClientTypes {
 
     /// Contains the formatting options for an outbound transformer (takes JSON or XML as input and converts it to an EDI document (currently only X12 format is supported).
     public struct OutputConversion: Swift.Sendable {
+        /// A structure that contains advanced options for EDI processing. Currently, only X12 advanced options are supported.
+        public var advancedOptions: B2biClientTypes.AdvancedOptions?
         /// A structure that contains the X12 transaction set and version for the transformer output.
         public var formatOptions: B2biClientTypes.FormatOptions?
         /// The format for the output from an outbound transformer: only X12 is currently supported.
@@ -3750,9 +3893,11 @@ extension B2biClientTypes {
         public var toFormat: B2biClientTypes.ToFormat?
 
         public init(
+            advancedOptions: B2biClientTypes.AdvancedOptions? = nil,
             formatOptions: B2biClientTypes.FormatOptions? = nil,
             toFormat: B2biClientTypes.ToFormat? = nil
         ) {
+            self.advancedOptions = advancedOptions
             self.formatOptions = formatOptions
             self.toFormat = toFormat
         }
@@ -5211,6 +5356,7 @@ extension TestParsingOutput {
         var value = TestParsingOutput()
         value.parsedFileContent = try reader["parsedFileContent"].readIfPresent() ?? ""
         value.parsedSplitFileContents = try reader["parsedSplitFileContents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.validationMessages = try reader["validationMessages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6340,12 +6486,116 @@ extension B2biClientTypes.X12AdvancedOptions {
     static func write(value: B2biClientTypes.X12AdvancedOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["splitOptions"].write(value.splitOptions, with: B2biClientTypes.X12SplitOptions.write(value:to:))
+        try writer["validationOptions"].write(value.validationOptions, with: B2biClientTypes.X12ValidationOptions.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12AdvancedOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = B2biClientTypes.X12AdvancedOptions()
         value.splitOptions = try reader["splitOptions"].readIfPresent(with: B2biClientTypes.X12SplitOptions.read(from:))
+        value.validationOptions = try reader["validationOptions"].readIfPresent(with: B2biClientTypes.X12ValidationOptions.read(from:))
+        return value
+    }
+}
+
+extension B2biClientTypes.X12ValidationOptions {
+
+    static func write(value: B2biClientTypes.X12ValidationOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["validationRules"].writeList(value.validationRules, memberWritingClosure: B2biClientTypes.X12ValidationRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12ValidationOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.X12ValidationOptions()
+        value.validationRules = try reader["validationRules"].readListIfPresent(memberReadingClosure: B2biClientTypes.X12ValidationRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension B2biClientTypes.X12ValidationRule {
+
+    static func write(value: B2biClientTypes.X12ValidationRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .codelistvalidationrule(codelistvalidationrule):
+                try writer["codeListValidationRule"].write(codelistvalidationrule, with: B2biClientTypes.X12CodeListValidationRule.write(value:to:))
+            case let .elementlengthvalidationrule(elementlengthvalidationrule):
+                try writer["elementLengthValidationRule"].write(elementlengthvalidationrule, with: B2biClientTypes.X12ElementLengthValidationRule.write(value:to:))
+            case let .elementrequirementvalidationrule(elementrequirementvalidationrule):
+                try writer["elementRequirementValidationRule"].write(elementrequirementvalidationrule, with: B2biClientTypes.X12ElementRequirementValidationRule.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12ValidationRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "codeListValidationRule":
+                return .codelistvalidationrule(try reader["codeListValidationRule"].read(with: B2biClientTypes.X12CodeListValidationRule.read(from:)))
+            case "elementLengthValidationRule":
+                return .elementlengthvalidationrule(try reader["elementLengthValidationRule"].read(with: B2biClientTypes.X12ElementLengthValidationRule.read(from:)))
+            case "elementRequirementValidationRule":
+                return .elementrequirementvalidationrule(try reader["elementRequirementValidationRule"].read(with: B2biClientTypes.X12ElementRequirementValidationRule.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension B2biClientTypes.X12ElementRequirementValidationRule {
+
+    static func write(value: B2biClientTypes.X12ElementRequirementValidationRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["elementPosition"].write(value.elementPosition)
+        try writer["requirement"].write(value.requirement)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12ElementRequirementValidationRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.X12ElementRequirementValidationRule()
+        value.elementPosition = try reader["elementPosition"].readIfPresent() ?? ""
+        value.requirement = try reader["requirement"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension B2biClientTypes.X12ElementLengthValidationRule {
+
+    static func write(value: B2biClientTypes.X12ElementLengthValidationRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["elementId"].write(value.elementId)
+        try writer["maxLength"].write(value.maxLength)
+        try writer["minLength"].write(value.minLength)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12ElementLengthValidationRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.X12ElementLengthValidationRule()
+        value.elementId = try reader["elementId"].readIfPresent() ?? ""
+        value.maxLength = try reader["maxLength"].readIfPresent() ?? 0
+        value.minLength = try reader["minLength"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension B2biClientTypes.X12CodeListValidationRule {
+
+    static func write(value: B2biClientTypes.X12CodeListValidationRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["codesToAdd"].writeList(value.codesToAdd, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["codesToRemove"].writeList(value.codesToRemove, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["elementId"].write(value.elementId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> B2biClientTypes.X12CodeListValidationRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = B2biClientTypes.X12CodeListValidationRule()
+        value.elementId = try reader["elementId"].readIfPresent() ?? ""
+        value.codesToAdd = try reader["codesToAdd"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.codesToRemove = try reader["codesToRemove"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6410,6 +6660,7 @@ extension B2biClientTypes.OutputConversion {
 
     static func write(value: B2biClientTypes.OutputConversion?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["advancedOptions"].write(value.advancedOptions, with: B2biClientTypes.AdvancedOptions.write(value:to:))
         try writer["formatOptions"].write(value.formatOptions, with: B2biClientTypes.FormatOptions.write(value:to:))
         try writer["toFormat"].write(value.toFormat)
     }
@@ -6419,6 +6670,7 @@ extension B2biClientTypes.OutputConversion {
         var value = B2biClientTypes.OutputConversion()
         value.toFormat = try reader["toFormat"].readIfPresent() ?? .sdkUnknown("")
         value.formatOptions = try reader["formatOptions"].readIfPresent(with: B2biClientTypes.FormatOptions.read(from:))
+        value.advancedOptions = try reader["advancedOptions"].readIfPresent(with: B2biClientTypes.AdvancedOptions.read(from:))
         return value
     }
 }
@@ -6582,6 +6834,7 @@ extension B2biClientTypes.ConversionTarget {
 
     static func write(value: B2biClientTypes.ConversionTarget?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["advancedOptions"].write(value.advancedOptions, with: B2biClientTypes.AdvancedOptions.write(value:to:))
         try writer["fileFormat"].write(value.fileFormat)
         try writer["formatDetails"].write(value.formatDetails, with: B2biClientTypes.ConversionTargetFormatDetails.write(value:to:))
         try writer["outputSampleFile"].write(value.outputSampleFile, with: B2biClientTypes.OutputSampleFileSource.write(value:to:))

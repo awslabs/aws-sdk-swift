@@ -1935,6 +1935,8 @@ public struct CreateAssetOutput: Swift.Sendable {
     public var formsOutput: [DataZoneClientTypes.FormOutput]?
     /// The glossary terms that are attached to the created asset.
     public var glossaryTerms: [Swift.String]?
+    /// The glossary terms in a restricted glossary.
+    public var governedGlossaryTerms: [Swift.String]?
     /// The unique identifier of the created asset.
     /// This member is required.
     public var id: Swift.String?
@@ -1972,6 +1974,7 @@ public struct CreateAssetOutput: Swift.Sendable {
         firstRevisionCreatedBy: Swift.String? = nil,
         formsOutput: [DataZoneClientTypes.FormOutput]? = nil,
         glossaryTerms: [Swift.String]? = nil,
+        governedGlossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
         latestTimeSeriesDataPointFormsOutput: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil,
         listing: DataZoneClientTypes.AssetListingDetails? = nil,
@@ -1992,6 +1995,7 @@ public struct CreateAssetOutput: Swift.Sendable {
         self.firstRevisionCreatedBy = firstRevisionCreatedBy
         self.formsOutput = formsOutput
         self.glossaryTerms = glossaryTerms
+        self.governedGlossaryTerms = governedGlossaryTerms
         self.id = id
         self.latestTimeSeriesDataPointFormsOutput = latestTimeSeriesDataPointFormsOutput
         self.listing = listing
@@ -2007,7 +2011,7 @@ public struct CreateAssetOutput: Swift.Sendable {
 
 extension CreateAssetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAssetOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), externalIdentifier: \(Swift.String(describing: externalIdentifier)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), formsOutput: \(Swift.String(describing: formsOutput)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), latestTimeSeriesDataPointFormsOutput: \(Swift.String(describing: latestTimeSeriesDataPointFormsOutput)), listing: \(Swift.String(describing: listing)), owningProjectId: \(Swift.String(describing: owningProjectId)), predictionConfiguration: \(Swift.String(describing: predictionConfiguration)), readOnlyFormsOutput: \(Swift.String(describing: readOnlyFormsOutput)), revision: \(Swift.String(describing: revision)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateAssetOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), externalIdentifier: \(Swift.String(describing: externalIdentifier)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), formsOutput: \(Swift.String(describing: formsOutput)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), governedGlossaryTerms: \(Swift.String(describing: governedGlossaryTerms)), id: \(Swift.String(describing: id)), latestTimeSeriesDataPointFormsOutput: \(Swift.String(describing: latestTimeSeriesDataPointFormsOutput)), listing: \(Swift.String(describing: listing)), owningProjectId: \(Swift.String(describing: owningProjectId)), predictionConfiguration: \(Swift.String(describing: predictionConfiguration)), readOnlyFormsOutput: \(Swift.String(describing: readOnlyFormsOutput)), revision: \(Swift.String(describing: revision)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateAssetRevisionInput: Swift.Sendable {
@@ -2082,6 +2086,8 @@ public struct CreateAssetRevisionOutput: Swift.Sendable {
     public var formsOutput: [DataZoneClientTypes.FormOutput]?
     /// The glossary terms that were attached to the asset as part of asset revision.
     public var glossaryTerms: [Swift.String]?
+    /// The glossary terms in a restricted glossary.
+    public var governedGlossaryTerms: [Swift.String]?
     /// The unique identifier of the asset revision.
     /// This member is required.
     public var id: Swift.String?
@@ -2119,6 +2125,7 @@ public struct CreateAssetRevisionOutput: Swift.Sendable {
         firstRevisionCreatedBy: Swift.String? = nil,
         formsOutput: [DataZoneClientTypes.FormOutput]? = nil,
         glossaryTerms: [Swift.String]? = nil,
+        governedGlossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
         latestTimeSeriesDataPointFormsOutput: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil,
         listing: DataZoneClientTypes.AssetListingDetails? = nil,
@@ -2139,6 +2146,7 @@ public struct CreateAssetRevisionOutput: Swift.Sendable {
         self.firstRevisionCreatedBy = firstRevisionCreatedBy
         self.formsOutput = formsOutput
         self.glossaryTerms = glossaryTerms
+        self.governedGlossaryTerms = governedGlossaryTerms
         self.id = id
         self.latestTimeSeriesDataPointFormsOutput = latestTimeSeriesDataPointFormsOutput
         self.listing = listing
@@ -2154,7 +2162,7 @@ public struct CreateAssetRevisionOutput: Swift.Sendable {
 
 extension CreateAssetRevisionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAssetRevisionOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), externalIdentifier: \(Swift.String(describing: externalIdentifier)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), formsOutput: \(Swift.String(describing: formsOutput)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), latestTimeSeriesDataPointFormsOutput: \(Swift.String(describing: latestTimeSeriesDataPointFormsOutput)), listing: \(Swift.String(describing: listing)), owningProjectId: \(Swift.String(describing: owningProjectId)), predictionConfiguration: \(Swift.String(describing: predictionConfiguration)), readOnlyFormsOutput: \(Swift.String(describing: readOnlyFormsOutput)), revision: \(Swift.String(describing: revision)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateAssetRevisionOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), externalIdentifier: \(Swift.String(describing: externalIdentifier)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), formsOutput: \(Swift.String(describing: formsOutput)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), governedGlossaryTerms: \(Swift.String(describing: governedGlossaryTerms)), id: \(Swift.String(describing: id)), latestTimeSeriesDataPointFormsOutput: \(Swift.String(describing: latestTimeSeriesDataPointFormsOutput)), listing: \(Swift.String(describing: listing)), owningProjectId: \(Swift.String(describing: owningProjectId)), predictionConfiguration: \(Swift.String(describing: predictionConfiguration)), readOnlyFormsOutput: \(Swift.String(describing: readOnlyFormsOutput)), revision: \(Swift.String(describing: revision)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct DeleteAssetInput: Swift.Sendable {
@@ -2221,6 +2229,8 @@ public struct GetAssetOutput: Swift.Sendable {
     public var formsOutput: [DataZoneClientTypes.FormOutput]?
     /// The business glossary terms attached to the asset.
     public var glossaryTerms: [Swift.String]?
+    /// The restricted glossary terms attached to an asset.
+    public var governedGlossaryTerms: [Swift.String]?
     /// The ID of the asset.
     /// This member is required.
     public var id: Swift.String?
@@ -2256,6 +2266,7 @@ public struct GetAssetOutput: Swift.Sendable {
         firstRevisionCreatedBy: Swift.String? = nil,
         formsOutput: [DataZoneClientTypes.FormOutput]? = nil,
         glossaryTerms: [Swift.String]? = nil,
+        governedGlossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
         latestTimeSeriesDataPointFormsOutput: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil,
         listing: DataZoneClientTypes.AssetListingDetails? = nil,
@@ -2275,6 +2286,7 @@ public struct GetAssetOutput: Swift.Sendable {
         self.firstRevisionCreatedBy = firstRevisionCreatedBy
         self.formsOutput = formsOutput
         self.glossaryTerms = glossaryTerms
+        self.governedGlossaryTerms = governedGlossaryTerms
         self.id = id
         self.latestTimeSeriesDataPointFormsOutput = latestTimeSeriesDataPointFormsOutput
         self.listing = listing
@@ -2289,7 +2301,7 @@ public struct GetAssetOutput: Swift.Sendable {
 
 extension GetAssetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetAssetOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), externalIdentifier: \(Swift.String(describing: externalIdentifier)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), formsOutput: \(Swift.String(describing: formsOutput)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), latestTimeSeriesDataPointFormsOutput: \(Swift.String(describing: latestTimeSeriesDataPointFormsOutput)), listing: \(Swift.String(describing: listing)), owningProjectId: \(Swift.String(describing: owningProjectId)), readOnlyFormsOutput: \(Swift.String(describing: readOnlyFormsOutput)), revision: \(Swift.String(describing: revision)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetAssetOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), externalIdentifier: \(Swift.String(describing: externalIdentifier)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), formsOutput: \(Swift.String(describing: formsOutput)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), governedGlossaryTerms: \(Swift.String(describing: governedGlossaryTerms)), id: \(Swift.String(describing: id)), latestTimeSeriesDataPointFormsOutput: \(Swift.String(describing: latestTimeSeriesDataPointFormsOutput)), listing: \(Swift.String(describing: listing)), owningProjectId: \(Swift.String(describing: owningProjectId)), readOnlyFormsOutput: \(Swift.String(describing: readOnlyFormsOutput)), revision: \(Swift.String(describing: revision)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -2772,6 +2784,8 @@ extension DataZoneClientTypes {
         public var firstRevisionCreatedBy: Swift.String?
         /// The glossary terms attached to the Amazon DataZone inventory asset.
         public var glossaryTerms: [Swift.String]?
+        /// The restricted glossary terms accociated with an asset.
+        public var governedGlossaryTerms: [Swift.String]?
         /// the identifier of the Amazon DataZone inventory asset.
         /// This member is required.
         public var identifier: Swift.String?
@@ -2798,6 +2812,7 @@ extension DataZoneClientTypes {
             firstRevisionCreatedAt: Foundation.Date? = nil,
             firstRevisionCreatedBy: Swift.String? = nil,
             glossaryTerms: [Swift.String]? = nil,
+            governedGlossaryTerms: [Swift.String]? = nil,
             identifier: Swift.String? = nil,
             name: Swift.String? = nil,
             owningProjectId: Swift.String? = nil,
@@ -2813,6 +2828,7 @@ extension DataZoneClientTypes {
             self.firstRevisionCreatedAt = firstRevisionCreatedAt
             self.firstRevisionCreatedBy = firstRevisionCreatedBy
             self.glossaryTerms = glossaryTerms
+            self.governedGlossaryTerms = governedGlossaryTerms
             self.identifier = identifier
             self.name = name
             self.owningProjectId = owningProjectId
@@ -2824,7 +2840,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.AssetItem: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AssetItem(additionalAttributes: \(Swift.String(describing: additionalAttributes)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), externalIdentifier: \(Swift.String(describing: externalIdentifier)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), identifier: \(Swift.String(describing: identifier)), owningProjectId: \(Swift.String(describing: owningProjectId)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "AssetItem(additionalAttributes: \(Swift.String(describing: additionalAttributes)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), externalIdentifier: \(Swift.String(describing: externalIdentifier)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), governedGlossaryTerms: \(Swift.String(describing: governedGlossaryTerms)), identifier: \(Swift.String(describing: identifier)), owningProjectId: \(Swift.String(describing: owningProjectId)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -2843,6 +2859,8 @@ extension DataZoneClientTypes {
         public var forms: Swift.String?
         /// The glossary terms attached to an asset published in an Amazon DataZone catalog.
         public var glossaryTerms: [DataZoneClientTypes.DetailedGlossaryTerm]?
+        /// The restricted glossary terms associated with an asset.
+        public var governedGlossaryTerms: [DataZoneClientTypes.DetailedGlossaryTerm]?
         /// The latest time series data points forms included in the additional attributes of an asset.
         public var latestTimeSeriesDataPointForms: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]?
         /// The identifier of the project where an asset published in an Amazon DataZone catalog exists.
@@ -2855,6 +2873,7 @@ extension DataZoneClientTypes {
             createdAt: Foundation.Date? = nil,
             forms: Swift.String? = nil,
             glossaryTerms: [DataZoneClientTypes.DetailedGlossaryTerm]? = nil,
+            governedGlossaryTerms: [DataZoneClientTypes.DetailedGlossaryTerm]? = nil,
             latestTimeSeriesDataPointForms: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil,
             owningProjectId: Swift.String? = nil
         ) {
@@ -2864,6 +2883,7 @@ extension DataZoneClientTypes {
             self.createdAt = createdAt
             self.forms = forms
             self.glossaryTerms = glossaryTerms
+            self.governedGlossaryTerms = governedGlossaryTerms
             self.latestTimeSeriesDataPointForms = latestTimeSeriesDataPointForms
             self.owningProjectId = owningProjectId
         }
@@ -2911,6 +2931,8 @@ extension DataZoneClientTypes {
         public var entityType: Swift.String?
         /// Glossary terms attached to the inventory asset.
         public var glossaryTerms: [DataZoneClientTypes.DetailedGlossaryTerm]?
+        /// The restricted glossary terms associated with an asset.
+        public var governedGlossaryTerms: [DataZoneClientTypes.DetailedGlossaryTerm]?
         /// The Amazon DataZone user who created the listing.
         public var listingCreatedBy: Swift.String?
         /// The identifier of the listing (asset published in Amazon DataZone catalog).
@@ -2932,6 +2954,7 @@ extension DataZoneClientTypes {
             entityRevision: Swift.String? = nil,
             entityType: Swift.String? = nil,
             glossaryTerms: [DataZoneClientTypes.DetailedGlossaryTerm]? = nil,
+            governedGlossaryTerms: [DataZoneClientTypes.DetailedGlossaryTerm]? = nil,
             listingCreatedBy: Swift.String? = nil,
             listingId: Swift.String? = nil,
             listingRevision: Swift.String? = nil,
@@ -2946,6 +2969,7 @@ extension DataZoneClientTypes {
             self.entityRevision = entityRevision
             self.entityType = entityType
             self.glossaryTerms = glossaryTerms
+            self.governedGlossaryTerms = governedGlossaryTerms
             self.listingCreatedBy = listingCreatedBy
             self.listingId = listingId
             self.listingRevision = listingRevision
@@ -2958,7 +2982,7 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.AssetListingItem: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AssetListingItem(additionalAttributes: \(Swift.String(describing: additionalAttributes)), createdAt: \(Swift.String(describing: createdAt)), entityId: \(Swift.String(describing: entityId)), entityRevision: \(Swift.String(describing: entityRevision)), entityType: \(Swift.String(describing: entityType)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), listingCreatedBy: \(Swift.String(describing: listingCreatedBy)), listingId: \(Swift.String(describing: listingId)), listingRevision: \(Swift.String(describing: listingRevision)), listingUpdatedBy: \(Swift.String(describing: listingUpdatedBy)), owningProjectId: \(Swift.String(describing: owningProjectId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "AssetListingItem(additionalAttributes: \(Swift.String(describing: additionalAttributes)), createdAt: \(Swift.String(describing: createdAt)), entityId: \(Swift.String(describing: entityId)), entityRevision: \(Swift.String(describing: entityRevision)), entityType: \(Swift.String(describing: entityType)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), governedGlossaryTerms: \(Swift.String(describing: governedGlossaryTerms)), listingCreatedBy: \(Swift.String(describing: listingCreatedBy)), listingId: \(Swift.String(describing: listingId)), listingRevision: \(Swift.String(describing: listingRevision)), listingUpdatedBy: \(Swift.String(describing: listingUpdatedBy)), owningProjectId: \(Swift.String(describing: owningProjectId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -3417,6 +3441,64 @@ public struct AssociateEnvironmentRoleInput: Swift.Sendable {
 }
 
 public struct AssociateEnvironmentRoleOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension DataZoneClientTypes {
+
+    public enum GovernedEntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case asset
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GovernedEntityType] {
+            return [
+                .asset
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .asset: return "ASSET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AssociateGovernedTermsInput: Swift.Sendable {
+    /// The ID of the domain where governed terms are to be associated with an asset.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the asset with which you want to associate a governed term.
+    /// This member is required.
+    public var entityIdentifier: Swift.String?
+    /// The type of the asset with which you want to associate a governed term.
+    /// This member is required.
+    public var entityType: DataZoneClientTypes.GovernedEntityType?
+    /// The glossary terms in a restricted glossary.
+    /// This member is required.
+    public var governedGlossaryTerms: [Swift.String]?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        entityIdentifier: Swift.String? = nil,
+        entityType: DataZoneClientTypes.GovernedEntityType? = nil,
+        governedGlossaryTerms: [Swift.String]? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.entityIdentifier = entityIdentifier
+        self.entityType = entityType
+        self.governedGlossaryTerms = governedGlossaryTerms
+    }
+}
+
+public struct AssociateGovernedTermsOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -8079,6 +8161,32 @@ extension DataZoneClientTypes {
     }
 }
 
+extension DataZoneClientTypes {
+
+    public enum GlossaryUsageRestriction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case assetGovernedTerms
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GlossaryUsageRestriction] {
+            return [
+                .assetGovernedTerms
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .assetGovernedTerms: return "ASSET_GOVERNED_TERMS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateGlossaryInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
     public var clientToken: Swift.String?
@@ -8095,6 +8203,8 @@ public struct CreateGlossaryInput: Swift.Sendable {
     public var owningProjectIdentifier: Swift.String?
     /// The status of this business glossary.
     public var status: DataZoneClientTypes.GlossaryStatus?
+    /// The usage restriction of the restricted glossary.
+    public var usageRestrictions: [DataZoneClientTypes.GlossaryUsageRestriction]?
 
     public init(
         clientToken: Swift.String? = nil,
@@ -8102,7 +8212,8 @@ public struct CreateGlossaryInput: Swift.Sendable {
         domainIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
         owningProjectIdentifier: Swift.String? = nil,
-        status: DataZoneClientTypes.GlossaryStatus? = nil
+        status: DataZoneClientTypes.GlossaryStatus? = nil,
+        usageRestrictions: [DataZoneClientTypes.GlossaryUsageRestriction]? = nil
     ) {
         self.clientToken = clientToken
         self.description = description
@@ -8110,12 +8221,13 @@ public struct CreateGlossaryInput: Swift.Sendable {
         self.name = name
         self.owningProjectIdentifier = owningProjectIdentifier
         self.status = status
+        self.usageRestrictions = usageRestrictions
     }
 }
 
 extension CreateGlossaryInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGlossaryInput(clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), owningProjectIdentifier: \(Swift.String(describing: owningProjectIdentifier)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateGlossaryInput(clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), owningProjectIdentifier: \(Swift.String(describing: owningProjectIdentifier)), status: \(Swift.String(describing: status)), usageRestrictions: \(Swift.String(describing: usageRestrictions)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateGlossaryOutput: Swift.Sendable {
@@ -8135,6 +8247,8 @@ public struct CreateGlossaryOutput: Swift.Sendable {
     public var owningProjectId: Swift.String?
     /// The status of this business glossary.
     public var status: DataZoneClientTypes.GlossaryStatus?
+    /// The usage restriction of the restricted glossary.
+    public var usageRestrictions: [DataZoneClientTypes.GlossaryUsageRestriction]?
 
     public init(
         description: Swift.String? = nil,
@@ -8142,7 +8256,8 @@ public struct CreateGlossaryOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         owningProjectId: Swift.String? = nil,
-        status: DataZoneClientTypes.GlossaryStatus? = nil
+        status: DataZoneClientTypes.GlossaryStatus? = nil,
+        usageRestrictions: [DataZoneClientTypes.GlossaryUsageRestriction]? = nil
     ) {
         self.description = description
         self.domainId = domainId
@@ -8150,12 +8265,13 @@ public struct CreateGlossaryOutput: Swift.Sendable {
         self.name = name
         self.owningProjectId = owningProjectId
         self.status = status
+        self.usageRestrictions = usageRestrictions
     }
 }
 
 extension CreateGlossaryOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGlossaryOutput(domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateGlossaryOutput(domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), usageRestrictions: \(Swift.String(describing: usageRestrictions)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -8275,6 +8391,8 @@ public struct CreateGlossaryTermOutput: Swift.Sendable {
     public var status: DataZoneClientTypes.GlossaryTermStatus?
     /// The term relations of this business glossary term.
     public var termRelations: DataZoneClientTypes.TermRelations?
+    /// The usage restriction of the restricted glossary.
+    public var usageRestrictions: [DataZoneClientTypes.GlossaryUsageRestriction]?
 
     public init(
         domainId: Swift.String? = nil,
@@ -8284,7 +8402,8 @@ public struct CreateGlossaryTermOutput: Swift.Sendable {
         name: Swift.String? = nil,
         shortDescription: Swift.String? = nil,
         status: DataZoneClientTypes.GlossaryTermStatus? = nil,
-        termRelations: DataZoneClientTypes.TermRelations? = nil
+        termRelations: DataZoneClientTypes.TermRelations? = nil,
+        usageRestrictions: [DataZoneClientTypes.GlossaryUsageRestriction]? = nil
     ) {
         self.domainId = domainId
         self.glossaryId = glossaryId
@@ -8294,12 +8413,13 @@ public struct CreateGlossaryTermOutput: Swift.Sendable {
         self.shortDescription = shortDescription
         self.status = status
         self.termRelations = termRelations
+        self.usageRestrictions = usageRestrictions
     }
 }
 
 extension CreateGlossaryTermOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGlossaryTermOutput(domainId: \(Swift.String(describing: domainId)), glossaryId: \(Swift.String(describing: glossaryId)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), termRelations: \(Swift.String(describing: termRelations)), longDescription: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", shortDescription: \"CONTENT_REDACTED\")"}
+        "CreateGlossaryTermOutput(domainId: \(Swift.String(describing: domainId)), glossaryId: \(Swift.String(describing: glossaryId)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), termRelations: \(Swift.String(describing: termRelations)), usageRestrictions: \(Swift.String(describing: usageRestrictions)), longDescription: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", shortDescription: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateGroupProfileInput: Swift.Sendable {
@@ -8647,6 +8767,7 @@ extension DataZoneClientTypes {
         case active
         case deleteFailed
         case deleting
+        case moving
         case updateFailed
         case updating
         case sdkUnknown(Swift.String)
@@ -8656,6 +8777,7 @@ extension DataZoneClientTypes {
                 .active,
                 .deleteFailed,
                 .deleting,
+                .moving,
                 .updateFailed,
                 .updating
             ]
@@ -8671,6 +8793,7 @@ extension DataZoneClientTypes {
             case .active: return "ACTIVE"
             case .deleteFailed: return "DELETE_FAILED"
             case .deleting: return "DELETING"
+            case .moving: return "MOVING"
             case .updateFailed: return "UPDATE_FAILED"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
@@ -12318,6 +12441,38 @@ public struct DisassociateEnvironmentRoleOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DisassociateGovernedTermsInput: Swift.Sendable {
+    /// The ID of the domain where you want to disassociate restricted terms from an asset.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of an asset from which you want to disassociate restricted terms.
+    /// This member is required.
+    public var entityIdentifier: Swift.String?
+    /// The type of the asset from which you want to disassociate restricted terms.
+    /// This member is required.
+    public var entityType: DataZoneClientTypes.GovernedEntityType?
+    /// The restricted glossary terms that you want to disassociate from an asset.
+    /// This member is required.
+    public var governedGlossaryTerms: [Swift.String]?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        entityIdentifier: Swift.String? = nil,
+        entityType: DataZoneClientTypes.GovernedEntityType? = nil,
+        governedGlossaryTerms: [Swift.String]? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+        self.entityIdentifier = entityIdentifier
+        self.entityType = entityType
+        self.governedGlossaryTerms = governedGlossaryTerms
+    }
+}
+
+public struct DisassociateGovernedTermsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteDomainInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
     public var clientToken: Swift.String?
@@ -15053,6 +15208,8 @@ public struct GetGlossaryOutput: Swift.Sendable {
     public var updatedAt: Foundation.Date?
     /// The Amazon DataZone user who updated the business glossary.
     public var updatedBy: Swift.String?
+    /// The usage restriction of the restricted glossary.
+    public var usageRestrictions: [DataZoneClientTypes.GlossaryUsageRestriction]?
 
     public init(
         createdAt: Foundation.Date? = nil,
@@ -15064,7 +15221,8 @@ public struct GetGlossaryOutput: Swift.Sendable {
         owningProjectId: Swift.String? = nil,
         status: DataZoneClientTypes.GlossaryStatus? = nil,
         updatedAt: Foundation.Date? = nil,
-        updatedBy: Swift.String? = nil
+        updatedBy: Swift.String? = nil,
+        usageRestrictions: [DataZoneClientTypes.GlossaryUsageRestriction]? = nil
     ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
@@ -15076,12 +15234,13 @@ public struct GetGlossaryOutput: Swift.Sendable {
         self.status = status
         self.updatedAt = updatedAt
         self.updatedBy = updatedBy
+        self.usageRestrictions = usageRestrictions
     }
 }
 
 extension GetGlossaryOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetGlossaryOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetGlossaryOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), usageRestrictions: \(Swift.String(describing: usageRestrictions)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateGlossaryInput: Swift.Sendable {
@@ -15139,6 +15298,8 @@ public struct UpdateGlossaryOutput: Swift.Sendable {
     public var owningProjectId: Swift.String?
     /// The status to be updated as part of the UpdateGlossary action.
     public var status: DataZoneClientTypes.GlossaryStatus?
+    /// The usage restriction of the restricted glossary.
+    public var usageRestrictions: [DataZoneClientTypes.GlossaryUsageRestriction]?
 
     public init(
         description: Swift.String? = nil,
@@ -15146,7 +15307,8 @@ public struct UpdateGlossaryOutput: Swift.Sendable {
         id: Swift.String? = nil,
         name: Swift.String? = nil,
         owningProjectId: Swift.String? = nil,
-        status: DataZoneClientTypes.GlossaryStatus? = nil
+        status: DataZoneClientTypes.GlossaryStatus? = nil,
+        usageRestrictions: [DataZoneClientTypes.GlossaryUsageRestriction]? = nil
     ) {
         self.description = description
         self.domainId = domainId
@@ -15154,12 +15316,13 @@ public struct UpdateGlossaryOutput: Swift.Sendable {
         self.name = name
         self.owningProjectId = owningProjectId
         self.status = status
+        self.usageRestrictions = usageRestrictions
     }
 }
 
 extension UpdateGlossaryOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGlossaryOutput(domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateGlossaryOutput(domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), usageRestrictions: \(Swift.String(describing: usageRestrictions)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct DeleteGlossaryTermInput: Swift.Sendable {
@@ -15231,6 +15394,8 @@ public struct GetGlossaryTermOutput: Swift.Sendable {
     public var updatedAt: Foundation.Date?
     /// The Amazon DataZone user who updated the business glossary term.
     public var updatedBy: Swift.String?
+    /// The usage restriction of a term within a restricted glossary.
+    public var usageRestrictions: [DataZoneClientTypes.GlossaryUsageRestriction]?
 
     public init(
         createdAt: Foundation.Date? = nil,
@@ -15244,7 +15409,8 @@ public struct GetGlossaryTermOutput: Swift.Sendable {
         status: DataZoneClientTypes.GlossaryTermStatus? = nil,
         termRelations: DataZoneClientTypes.TermRelations? = nil,
         updatedAt: Foundation.Date? = nil,
-        updatedBy: Swift.String? = nil
+        updatedBy: Swift.String? = nil,
+        usageRestrictions: [DataZoneClientTypes.GlossaryUsageRestriction]? = nil
     ) {
         self.createdAt = createdAt
         self.createdBy = createdBy
@@ -15258,12 +15424,13 @@ public struct GetGlossaryTermOutput: Swift.Sendable {
         self.termRelations = termRelations
         self.updatedAt = updatedAt
         self.updatedBy = updatedBy
+        self.usageRestrictions = usageRestrictions
     }
 }
 
 extension GetGlossaryTermOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetGlossaryTermOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), glossaryId: \(Swift.String(describing: glossaryId)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), termRelations: \(Swift.String(describing: termRelations)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), longDescription: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", shortDescription: \"CONTENT_REDACTED\")"}
+        "GetGlossaryTermOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), glossaryId: \(Swift.String(describing: glossaryId)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), termRelations: \(Swift.String(describing: termRelations)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), usageRestrictions: \(Swift.String(describing: usageRestrictions)), longDescription: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", shortDescription: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateGlossaryTermInput: Swift.Sendable {
@@ -15334,6 +15501,8 @@ public struct UpdateGlossaryTermOutput: Swift.Sendable {
     public var status: DataZoneClientTypes.GlossaryTermStatus?
     /// The term relations to be updated as part of the UpdateGlossaryTerm action.
     public var termRelations: DataZoneClientTypes.TermRelations?
+    /// The usage restriction of a term within a restricted glossary.
+    public var usageRestrictions: [DataZoneClientTypes.GlossaryUsageRestriction]?
 
     public init(
         domainId: Swift.String? = nil,
@@ -15343,7 +15512,8 @@ public struct UpdateGlossaryTermOutput: Swift.Sendable {
         name: Swift.String? = nil,
         shortDescription: Swift.String? = nil,
         status: DataZoneClientTypes.GlossaryTermStatus? = nil,
-        termRelations: DataZoneClientTypes.TermRelations? = nil
+        termRelations: DataZoneClientTypes.TermRelations? = nil,
+        usageRestrictions: [DataZoneClientTypes.GlossaryUsageRestriction]? = nil
     ) {
         self.domainId = domainId
         self.glossaryId = glossaryId
@@ -15353,12 +15523,13 @@ public struct UpdateGlossaryTermOutput: Swift.Sendable {
         self.shortDescription = shortDescription
         self.status = status
         self.termRelations = termRelations
+        self.usageRestrictions = usageRestrictions
     }
 }
 
 extension UpdateGlossaryTermOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGlossaryTermOutput(domainId: \(Swift.String(describing: domainId)), glossaryId: \(Swift.String(describing: glossaryId)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), termRelations: \(Swift.String(describing: termRelations)), longDescription: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", shortDescription: \"CONTENT_REDACTED\")"}
+        "UpdateGlossaryTermOutput(domainId: \(Swift.String(describing: domainId)), glossaryId: \(Swift.String(describing: glossaryId)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), termRelations: \(Swift.String(describing: termRelations)), usageRestrictions: \(Swift.String(describing: usageRestrictions)), longDescription: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", shortDescription: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -19650,6 +19821,8 @@ extension DataZoneClientTypes {
         public var updatedAt: Foundation.Date?
         /// The Amazon DataZone user who updated the business glossary.
         public var updatedBy: Swift.String?
+        /// The usage restrictions associated with a goverened glossary term.
+        public var usageRestrictions: [DataZoneClientTypes.GlossaryUsageRestriction]?
 
         public init(
             additionalAttributes: DataZoneClientTypes.GlossaryItemAdditionalAttributes? = nil,
@@ -19662,7 +19835,8 @@ extension DataZoneClientTypes {
             owningProjectId: Swift.String? = nil,
             status: DataZoneClientTypes.GlossaryStatus? = nil,
             updatedAt: Foundation.Date? = nil,
-            updatedBy: Swift.String? = nil
+            updatedBy: Swift.String? = nil,
+            usageRestrictions: [DataZoneClientTypes.GlossaryUsageRestriction]? = nil
         ) {
             self.additionalAttributes = additionalAttributes
             self.createdAt = createdAt
@@ -19675,13 +19849,14 @@ extension DataZoneClientTypes {
             self.status = status
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
+            self.usageRestrictions = usageRestrictions
         }
     }
 }
 
 extension DataZoneClientTypes.GlossaryItem: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GlossaryItem(additionalAttributes: \(Swift.String(describing: additionalAttributes)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GlossaryItem(additionalAttributes: \(Swift.String(describing: additionalAttributes)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), id: \(Swift.String(describing: id)), owningProjectId: \(Swift.String(describing: owningProjectId)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), usageRestrictions: \(Swift.String(describing: usageRestrictions)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -19734,6 +19909,8 @@ extension DataZoneClientTypes {
         public var updatedAt: Foundation.Date?
         /// The Amazon DataZone user who updated the business glossary term.
         public var updatedBy: Swift.String?
+        /// The usage restrictions associated with a goverened glossary term.
+        public var usageRestrictions: [DataZoneClientTypes.GlossaryUsageRestriction]?
 
         public init(
             additionalAttributes: DataZoneClientTypes.GlossaryTermItemAdditionalAttributes? = nil,
@@ -19748,7 +19925,8 @@ extension DataZoneClientTypes {
             status: DataZoneClientTypes.GlossaryTermStatus? = nil,
             termRelations: DataZoneClientTypes.TermRelations? = nil,
             updatedAt: Foundation.Date? = nil,
-            updatedBy: Swift.String? = nil
+            updatedBy: Swift.String? = nil,
+            usageRestrictions: [DataZoneClientTypes.GlossaryUsageRestriction]? = nil
         ) {
             self.additionalAttributes = additionalAttributes
             self.createdAt = createdAt
@@ -19763,13 +19941,14 @@ extension DataZoneClientTypes {
             self.termRelations = termRelations
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
+            self.usageRestrictions = usageRestrictions
         }
     }
 }
 
 extension DataZoneClientTypes.GlossaryTermItem: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GlossaryTermItem(additionalAttributes: \(Swift.String(describing: additionalAttributes)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), glossaryId: \(Swift.String(describing: glossaryId)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), termRelations: \(Swift.String(describing: termRelations)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), longDescription: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", shortDescription: \"CONTENT_REDACTED\")"}
+        "GlossaryTermItem(additionalAttributes: \(Swift.String(describing: additionalAttributes)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), glossaryId: \(Swift.String(describing: glossaryId)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), termRelations: \(Swift.String(describing: termRelations)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), usageRestrictions: \(Swift.String(describing: usageRestrictions)), longDescription: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", shortDescription: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -22028,6 +22207,22 @@ extension AssociateEnvironmentRoleInput {
     }
 }
 
+extension AssociateGovernedTermsInput {
+
+    static func urlPathProvider(_ value: AssociateGovernedTermsInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let entityType = value.entityType else {
+            return nil
+        }
+        guard let entityIdentifier = value.entityIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/entities/\(entityType.rawValue.urlPercentEncoding())/\(entityIdentifier.urlPercentEncoding())/associate-governed-terms"
+    }
+}
+
 extension CancelMetadataGenerationRunInput {
 
     static func urlPathProvider(_ value: CancelMetadataGenerationRunInput) -> Swift.String? {
@@ -22748,6 +22943,22 @@ extension DisassociateEnvironmentRoleInput {
             return nil
         }
         return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/environments/\(environmentIdentifier.urlPercentEncoding())/roles/\(environmentRoleArn.urlPercentEncoding())"
+    }
+}
+
+extension DisassociateGovernedTermsInput {
+
+    static func urlPathProvider(_ value: DisassociateGovernedTermsInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let entityType = value.entityType else {
+            return nil
+        }
+        guard let entityIdentifier = value.entityIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/entities/\(entityType.rawValue.urlPercentEncoding())/\(entityIdentifier.urlPercentEncoding())/disassociate-governed-terms"
     }
 }
 
@@ -25170,6 +25381,14 @@ extension AddPolicyGrantInput {
     }
 }
 
+extension AssociateGovernedTermsInput {
+
+    static func write(value: AssociateGovernedTermsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["governedGlossaryTerms"].writeList(value.governedGlossaryTerms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateAccountPoolInput {
 
     static func write(value: CreateAccountPoolInput?, to writer: SmithyJSON.Writer) throws {
@@ -25384,6 +25603,7 @@ extension CreateGlossaryInput {
         try writer["name"].write(value.name)
         try writer["owningProjectIdentifier"].write(value.owningProjectIdentifier)
         try writer["status"].write(value.status)
+        try writer["usageRestrictions"].writeList(value.usageRestrictions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DataZoneClientTypes.GlossaryUsageRestriction>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -25524,6 +25744,14 @@ extension DeleteProjectMembershipInput {
     static func write(value: DeleteProjectMembershipInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["member"].write(value.member, with: DataZoneClientTypes.Member.write(value:to:))
+    }
+}
+
+extension DisassociateGovernedTermsInput {
+
+    static func write(value: DisassociateGovernedTermsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["governedGlossaryTerms"].writeList(value.governedGlossaryTerms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -25975,6 +26203,13 @@ extension AssociateEnvironmentRoleOutput {
     }
 }
 
+extension AssociateGovernedTermsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateGovernedTermsOutput {
+        return AssociateGovernedTermsOutput()
+    }
+}
+
 extension CancelMetadataGenerationRunOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelMetadataGenerationRunOutput {
@@ -26042,6 +26277,7 @@ extension CreateAssetOutput {
         value.firstRevisionCreatedBy = try reader["firstRevisionCreatedBy"].readIfPresent()
         value.formsOutput = try reader["formsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.governedGlossaryTerms = try reader["governedGlossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.id = try reader["id"].readIfPresent() ?? ""
         value.latestTimeSeriesDataPointFormsOutput = try reader["latestTimeSeriesDataPointFormsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.listing = try reader["listing"].readIfPresent(with: DataZoneClientTypes.AssetListingDetails.read(from:))
@@ -26094,6 +26330,7 @@ extension CreateAssetRevisionOutput {
         value.firstRevisionCreatedBy = try reader["firstRevisionCreatedBy"].readIfPresent()
         value.formsOutput = try reader["formsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.governedGlossaryTerms = try reader["governedGlossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.id = try reader["id"].readIfPresent() ?? ""
         value.latestTimeSeriesDataPointFormsOutput = try reader["latestTimeSeriesDataPointFormsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.listing = try reader["listing"].readIfPresent(with: DataZoneClientTypes.AssetListingDetails.read(from:))
@@ -26382,6 +26619,7 @@ extension CreateGlossaryOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
+        value.usageRestrictions = try reader["usageRestrictions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.GlossaryUsageRestriction>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -26401,6 +26639,7 @@ extension CreateGlossaryTermOutput {
         value.shortDescription = try reader["shortDescription"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.termRelations = try reader["termRelations"].readIfPresent(with: DataZoneClientTypes.TermRelations.read(from:))
+        value.usageRestrictions = try reader["usageRestrictions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.GlossaryUsageRestriction>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -26831,6 +27070,13 @@ extension DisassociateEnvironmentRoleOutput {
     }
 }
 
+extension DisassociateGovernedTermsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateGovernedTermsOutput {
+        return DisassociateGovernedTermsOutput()
+    }
+}
+
 extension GetAccountPoolOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAccountPoolOutput {
@@ -26869,6 +27115,7 @@ extension GetAssetOutput {
         value.firstRevisionCreatedBy = try reader["firstRevisionCreatedBy"].readIfPresent()
         value.formsOutput = try reader["formsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.FormOutput.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.governedGlossaryTerms = try reader["governedGlossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.id = try reader["id"].readIfPresent() ?? ""
         value.latestTimeSeriesDataPointFormsOutput = try reader["latestTimeSeriesDataPointFormsOutput"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.listing = try reader["listing"].readIfPresent(with: DataZoneClientTypes.AssetListingDetails.read(from:))
@@ -27251,6 +27498,7 @@ extension GetGlossaryOutput {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.usageRestrictions = try reader["usageRestrictions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.GlossaryUsageRestriction>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -27274,6 +27522,7 @@ extension GetGlossaryTermOutput {
         value.termRelations = try reader["termRelations"].readIfPresent(with: DataZoneClientTypes.TermRelations.read(from:))
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.usageRestrictions = try reader["usageRestrictions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.GlossaryUsageRestriction>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -28530,6 +28779,7 @@ extension UpdateGlossaryOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
+        value.usageRestrictions = try reader["usageRestrictions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.GlossaryUsageRestriction>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -28549,6 +28799,7 @@ extension UpdateGlossaryTermOutput {
         value.shortDescription = try reader["shortDescription"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.termRelations = try reader["termRelations"].readIfPresent(with: DataZoneClientTypes.TermRelations.read(from:))
+        value.usageRestrictions = try reader["usageRestrictions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.GlossaryUsageRestriction>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -28818,6 +29069,26 @@ enum AddPolicyGrantOutputError {
 }
 
 enum AssociateEnvironmentRoleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AssociateGovernedTermsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -29916,6 +30187,26 @@ enum DeleteTimeSeriesDataPointsOutputError {
 }
 
 enum DisassociateEnvironmentRoleOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DisassociateGovernedTermsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -34307,6 +34598,7 @@ extension DataZoneClientTypes.AssetListing {
         value.forms = try reader["forms"].readIfPresent()
         value.latestTimeSeriesDataPointForms = try reader["latestTimeSeriesDataPointForms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.governedGlossaryTerms = try reader["governedGlossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.owningProjectId = try reader["owningProjectId"].readIfPresent()
         return value
     }
@@ -35616,6 +35908,7 @@ extension DataZoneClientTypes.AssetItem {
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.additionalAttributes = try reader["additionalAttributes"].readIfPresent(with: DataZoneClientTypes.AssetItemAdditionalAttributes.read(from:))
+        value.governedGlossaryTerms = try reader["governedGlossaryTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -35643,6 +35936,7 @@ extension DataZoneClientTypes.GlossaryTermItem {
         value.id = try reader["id"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.shortDescription = try reader["shortDescription"].readIfPresent()
+        value.usageRestrictions = try reader["usageRestrictions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.GlossaryUsageRestriction>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.longDescription = try reader["longDescription"].readIfPresent()
         value.termRelations = try reader["termRelations"].readIfPresent(with: DataZoneClientTypes.TermRelations.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
@@ -35676,6 +35970,7 @@ extension DataZoneClientTypes.GlossaryItem {
         value.owningProjectId = try reader["owningProjectId"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.usageRestrictions = try reader["usageRestrictions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<DataZoneClientTypes.GlossaryUsageRestriction>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["createdBy"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -35785,6 +36080,7 @@ extension DataZoneClientTypes.AssetListingItem {
         value.listingCreatedBy = try reader["listingCreatedBy"].readIfPresent()
         value.listingUpdatedBy = try reader["listingUpdatedBy"].readIfPresent()
         value.glossaryTerms = try reader["glossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.governedGlossaryTerms = try reader["governedGlossaryTerms"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.DetailedGlossaryTerm.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.owningProjectId = try reader["owningProjectId"].readIfPresent()
         value.additionalAttributes = try reader["additionalAttributes"].readIfPresent(with: DataZoneClientTypes.AssetListingItemAdditionalAttributes.read(from:))
         return value
