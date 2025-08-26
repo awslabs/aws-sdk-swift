@@ -317,7 +317,7 @@ extension ConnectParticipantClientTypes.Attendee: Swift.CustomDebugStringConvert
 extension ConnectParticipantClientTypes {
 
     /// A set of endpoints used by clients to connect to the media service group for an Amazon Chime SDK meeting.
-    public struct MediaPlacement: Swift.Sendable {
+    public struct WebRTCMediaPlacement: Swift.Sendable {
         /// The audio fallback URL.
         public var audioFallbackUrl: Swift.String?
         /// The audio host URL.
@@ -326,21 +326,17 @@ extension ConnectParticipantClientTypes {
         public var eventIngestionUrl: Swift.String?
         /// The signaling URL.
         public var signalingUrl: Swift.String?
-        /// The turn control URL.
-        public var turnControlUrl: Swift.String?
 
         public init(
             audioFallbackUrl: Swift.String? = nil,
             audioHostUrl: Swift.String? = nil,
             eventIngestionUrl: Swift.String? = nil,
-            signalingUrl: Swift.String? = nil,
-            turnControlUrl: Swift.String? = nil
+            signalingUrl: Swift.String? = nil
         ) {
             self.audioFallbackUrl = audioFallbackUrl
             self.audioHostUrl = audioHostUrl
             self.eventIngestionUrl = eventIngestionUrl
             self.signalingUrl = signalingUrl
-            self.turnControlUrl = turnControlUrl
         }
     }
 }
@@ -407,24 +403,20 @@ extension ConnectParticipantClientTypes {
 extension ConnectParticipantClientTypes {
 
     /// A meeting created using the Amazon Chime SDK.
-    public struct Meeting: Swift.Sendable {
+    public struct WebRTCMeeting: Swift.Sendable {
         /// The media placement for the meeting.
-        public var mediaPlacement: ConnectParticipantClientTypes.MediaPlacement?
-        /// The Amazon Web Services Region in which you create the meeting.
-        public var mediaRegion: Swift.String?
+        public var mediaPlacement: ConnectParticipantClientTypes.WebRTCMediaPlacement?
         /// The configuration settings of the features available to a meeting.
         public var meetingFeatures: ConnectParticipantClientTypes.MeetingFeaturesConfiguration?
         /// The Amazon Chime SDK meeting ID.
         public var meetingId: Swift.String?
 
         public init(
-            mediaPlacement: ConnectParticipantClientTypes.MediaPlacement? = nil,
-            mediaRegion: Swift.String? = nil,
+            mediaPlacement: ConnectParticipantClientTypes.WebRTCMediaPlacement? = nil,
             meetingFeatures: ConnectParticipantClientTypes.MeetingFeaturesConfiguration? = nil,
             meetingId: Swift.String? = nil
         ) {
             self.mediaPlacement = mediaPlacement
-            self.mediaRegion = mediaRegion
             self.meetingFeatures = meetingFeatures
             self.meetingId = meetingId
         }
@@ -433,16 +425,16 @@ extension ConnectParticipantClientTypes {
 
 extension ConnectParticipantClientTypes {
 
-    /// Information required to join the call.
-    public struct ConnectionData: Swift.Sendable {
+    /// Creates the participant’s WebRTC connection data required for the client application (mobile or web) to connect to the call.
+    public struct WebRTCConnection: Swift.Sendable {
         /// The attendee information, including attendee ID and join token.
         public var attendee: ConnectParticipantClientTypes.Attendee?
         /// A meeting created using the Amazon Chime SDK.
-        public var meeting: ConnectParticipantClientTypes.Meeting?
+        public var meeting: ConnectParticipantClientTypes.WebRTCMeeting?
 
         public init(
             attendee: ConnectParticipantClientTypes.Attendee? = nil,
-            meeting: ConnectParticipantClientTypes.Meeting? = nil
+            meeting: ConnectParticipantClientTypes.WebRTCMeeting? = nil
         ) {
             self.attendee = attendee
             self.meeting = meeting
@@ -473,13 +465,13 @@ public struct CreateParticipantConnectionOutput: Swift.Sendable {
     /// Creates the participant's connection credentials. The authentication token associated with the participant's connection.
     public var connectionCredentials: ConnectParticipantClientTypes.ConnectionCredentials?
     /// Creates the participant's WebRTC connection data required for the client application (mobile application or website) to connect to the call.
-    public var webRTCConnection: ConnectParticipantClientTypes.ConnectionData?
+    public var webRTCConnection: ConnectParticipantClientTypes.WebRTCConnection?
     /// Creates the participant's websocket connection.
     public var websocket: ConnectParticipantClientTypes.Websocket?
 
     public init(
         connectionCredentials: ConnectParticipantClientTypes.ConnectionCredentials? = nil,
-        webRTCConnection: ConnectParticipantClientTypes.ConnectionData? = nil,
+        webRTCConnection: ConnectParticipantClientTypes.WebRTCConnection? = nil,
         websocket: ConnectParticipantClientTypes.Websocket? = nil
     ) {
         self.connectionCredentials = connectionCredentials
@@ -1630,7 +1622,7 @@ extension CreateParticipantConnectionOutput {
         let reader = responseReader
         var value = CreateParticipantConnectionOutput()
         value.connectionCredentials = try reader["ConnectionCredentials"].readIfPresent(with: ConnectParticipantClientTypes.ConnectionCredentials.read(from:))
-        value.webRTCConnection = try reader["WebRTCConnection"].readIfPresent(with: ConnectParticipantClientTypes.ConnectionData.read(from:))
+        value.webRTCConnection = try reader["WebRTCConnection"].readIfPresent(with: ConnectParticipantClientTypes.WebRTCConnection.read(from:))
         value.websocket = try reader["Websocket"].readIfPresent(with: ConnectParticipantClientTypes.Websocket.read(from:))
         return value
     }
@@ -2041,24 +2033,23 @@ extension ConnectParticipantClientTypes.ConnectionCredentials {
     }
 }
 
-extension ConnectParticipantClientTypes.ConnectionData {
+extension ConnectParticipantClientTypes.WebRTCConnection {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.ConnectionData {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.WebRTCConnection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.ConnectionData()
+        var value = ConnectParticipantClientTypes.WebRTCConnection()
         value.attendee = try reader["Attendee"].readIfPresent(with: ConnectParticipantClientTypes.Attendee.read(from:))
-        value.meeting = try reader["Meeting"].readIfPresent(with: ConnectParticipantClientTypes.Meeting.read(from:))
+        value.meeting = try reader["Meeting"].readIfPresent(with: ConnectParticipantClientTypes.WebRTCMeeting.read(from:))
         return value
     }
 }
 
-extension ConnectParticipantClientTypes.Meeting {
+extension ConnectParticipantClientTypes.WebRTCMeeting {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Meeting {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.WebRTCMeeting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.Meeting()
-        value.mediaRegion = try reader["MediaRegion"].readIfPresent()
-        value.mediaPlacement = try reader["MediaPlacement"].readIfPresent(with: ConnectParticipantClientTypes.MediaPlacement.read(from:))
+        var value = ConnectParticipantClientTypes.WebRTCMeeting()
+        value.mediaPlacement = try reader["MediaPlacement"].readIfPresent(with: ConnectParticipantClientTypes.WebRTCMediaPlacement.read(from:))
         value.meetingFeatures = try reader["MeetingFeatures"].readIfPresent(with: ConnectParticipantClientTypes.MeetingFeaturesConfiguration.read(from:))
         value.meetingId = try reader["MeetingId"].readIfPresent()
         return value
@@ -2085,15 +2076,14 @@ extension ConnectParticipantClientTypes.AudioFeatures {
     }
 }
 
-extension ConnectParticipantClientTypes.MediaPlacement {
+extension ConnectParticipantClientTypes.WebRTCMediaPlacement {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.MediaPlacement {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.WebRTCMediaPlacement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.MediaPlacement()
+        var value = ConnectParticipantClientTypes.WebRTCMediaPlacement()
         value.audioHostUrl = try reader["AudioHostUrl"].readIfPresent()
         value.audioFallbackUrl = try reader["AudioFallbackUrl"].readIfPresent()
         value.signalingUrl = try reader["SignalingUrl"].readIfPresent()
-        value.turnControlUrl = try reader["TurnControlUrl"].readIfPresent()
         value.eventIngestionUrl = try reader["EventIngestionUrl"].readIfPresent()
         return value
     }
