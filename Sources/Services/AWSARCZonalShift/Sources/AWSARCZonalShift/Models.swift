@@ -129,11 +129,13 @@ extension ARCZonalShiftClientTypes {
 
     public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case autoshiftUpdateNotAllowed
+        case conflictingPracticeWindows
         case fisExperimentUpdateNotAllowed
         case invalidAlarmCondition
         case invalidAz
         case invalidConditionType
         case invalidExpiresIn
+        case invalidPracticeAllowedWindow
         case invalidPracticeBlocker
         case invalidResourceIdentifier
         case invalidStatus
@@ -146,11 +148,13 @@ extension ARCZonalShiftClientTypes {
         public static var allCases: [ValidationExceptionReason] {
             return [
                 .autoshiftUpdateNotAllowed,
+                .conflictingPracticeWindows,
                 .fisExperimentUpdateNotAllowed,
                 .invalidAlarmCondition,
                 .invalidAz,
                 .invalidConditionType,
                 .invalidExpiresIn,
+                .invalidPracticeAllowedWindow,
                 .invalidPracticeBlocker,
                 .invalidResourceIdentifier,
                 .invalidStatus,
@@ -169,11 +173,13 @@ extension ARCZonalShiftClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .autoshiftUpdateNotAllowed: return "AutoshiftUpdateNotAllowed"
+            case .conflictingPracticeWindows: return "InvalidPracticeWindows"
             case .fisExperimentUpdateNotAllowed: return "FISExperimentUpdateNotAllowed"
             case .invalidAlarmCondition: return "InvalidAlarmCondition"
             case .invalidAz: return "InvalidAz"
             case .invalidConditionType: return "InvalidConditionType"
             case .invalidExpiresIn: return "InvalidExpiresIn"
+            case .invalidPracticeAllowedWindow: return "InvalidPracticeAllowedWindow"
             case .invalidPracticeBlocker: return "InvalidPracticeBlocker"
             case .invalidResourceIdentifier: return "InvalidResourceIdentifier"
             case .invalidStatus: return "InvalidStatus"
@@ -436,6 +442,53 @@ public struct UpdateAutoshiftObserverNotificationStatusOutput: Swift.Sendable {
 
 extension ARCZonalShiftClientTypes {
 
+    public enum ControlConditionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cloudwatch
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ControlConditionType] {
+            return [
+                .cloudwatch
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudwatch: return "CLOUDWATCH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ARCZonalShiftClientTypes {
+
+    /// A control condition is an alarm that you specify for a practice run. When you configure practice runs with zonal autoshift for a resource, you specify Amazon CloudWatch alarms, which you create in CloudWatch to use with the practice run. The alarms that you specify are an outcome alarm, to monitor application health during practice runs and, optionally, a blocking alarm, to block practice runs from starting or to interrupt a practice run in progress. Control condition alarms do not apply for autoshifts. For more information, see [ Considerations when you configure zonal autoshift](https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-autoshift.considerations.html) in the Amazon Application Recovery Controller Developer Guide.
+    public struct ControlCondition: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) for an Amazon CloudWatch alarm that you specify as a control condition for a practice run.
+        /// This member is required.
+        public var alarmIdentifier: Swift.String?
+        /// The type of alarm specified for a practice run. You can only specify Amazon CloudWatch alarms for practice runs, so the only valid value is CLOUDWATCH.
+        /// This member is required.
+        public var type: ARCZonalShiftClientTypes.ControlConditionType?
+
+        public init(
+            alarmIdentifier: Swift.String? = nil,
+            type: ARCZonalShiftClientTypes.ControlConditionType? = nil
+        ) {
+            self.alarmIdentifier = alarmIdentifier
+            self.type = type
+        }
+    }
+}
+
+extension ARCZonalShiftClientTypes {
+
     public enum ConflictExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case autoshiftEnabled
         case practiceBlockingAlarmsRed
@@ -444,6 +497,7 @@ extension ARCZonalShiftClientTypes {
         case practiceInBlockedDates
         case practiceInBlockedWindows
         case practiceOutcomeAlarmsRed
+        case practiceOutsideAllowedWindows
         case simultaneousZonalShiftsConflict
         case zonalAutoshiftActive
         case zonalShiftAlreadyExists
@@ -459,6 +513,7 @@ extension ARCZonalShiftClientTypes {
                 .practiceInBlockedDates,
                 .practiceInBlockedWindows,
                 .practiceOutcomeAlarmsRed,
+                .practiceOutsideAllowedWindows,
                 .simultaneousZonalShiftsConflict,
                 .zonalAutoshiftActive,
                 .zonalShiftAlreadyExists,
@@ -480,6 +535,7 @@ extension ARCZonalShiftClientTypes {
             case .practiceInBlockedDates: return "PracticeInBlockedDates"
             case .practiceInBlockedWindows: return "PracticeInBlockedWindows"
             case .practiceOutcomeAlarmsRed: return "PracticeOutcomeAlarmsRed"
+            case .practiceOutsideAllowedWindows: return "PracticeOutsideAllowedWindows"
             case .simultaneousZonalShiftsConflict: return "SimultaneousZonalShiftsConflict"
             case .zonalAutoshiftActive: return "ZonalAutoshiftActive"
             case .zonalShiftAlreadyExists: return "ZonalShiftAlreadyExists"
@@ -701,61 +757,16 @@ public struct CancelZonalShiftOutput: Swift.Sendable {
     }
 }
 
-extension ARCZonalShiftClientTypes {
-
-    public enum ControlConditionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case cloudwatch
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ControlConditionType] {
-            return [
-                .cloudwatch
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .cloudwatch: return "CLOUDWATCH"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ARCZonalShiftClientTypes {
-
-    /// A control condition is an alarm that you specify for a practice run. When you configure practice runs with zonal autoshift for a resource, you specify Amazon CloudWatch alarms, which you create in CloudWatch to use with the practice run. The alarms that you specify are an outcome alarm, to monitor application health during practice runs and, optionally, a blocking alarm, to block practice runs from starting or to interrupt a practice run in progress. Control condition alarms do not apply for autoshifts. For more information, see [ Considerations when you configure zonal autoshift](https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-autoshift.considerations.html) in the Amazon Application Recovery Controller Developer Guide.
-    public struct ControlCondition: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) for an Amazon CloudWatch alarm that you specify as a control condition for a practice run.
-        /// This member is required.
-        public var alarmIdentifier: Swift.String?
-        /// The type of alarm specified for a practice run. You can only specify Amazon CloudWatch alarms for practice runs, so the only valid value is CLOUDWATCH.
-        /// This member is required.
-        public var type: ARCZonalShiftClientTypes.ControlConditionType?
-
-        public init(
-            alarmIdentifier: Swift.String? = nil,
-            type: ARCZonalShiftClientTypes.ControlConditionType? = nil
-        ) {
-            self.alarmIdentifier = alarmIdentifier
-            self.type = type
-        }
-    }
-}
-
 public struct CreatePracticeRunConfigurationInput: Swift.Sendable {
+    /// Optionally, you can allow ARC to start practice runs for specific windows of days and times. The format for allowed windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments that might be required for daylight saving time differences. Separate multiple allowed windows with spaces. For example, say you want to allow practice runs only on Wednesdays and Fridays from noon to 5 p.m. For this scenario, you could set the following recurring days and times as allowed windows, for example: Wed-12:00-Wed:17:00 Fri-12:00-Fri:17:00. The allowedWindows have to start and end on the same day. Windows that span multiple days aren't supported.
+    public var allowedWindows: [Swift.String]?
     /// Optionally, you can block ARC from starting practice runs for a resource on specific calendar dates. The format for blocked dates is: YYYY-MM-DD. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Separate multiple blocked dates with spaces. For example, if you have an application update scheduled to launch on May 1, 2024, and you don't want practice runs to shift traffic away at that time, you could set a blocked date for 2024-05-01.
     public var blockedDates: [Swift.String]?
-    /// Optionally, you can block ARC from starting practice runs for specific windows of days and times. The format for blocked windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments that might be required for daylight saving time differences. Separate multiple blocked windows with spaces. For example, say you run business report summaries three days a week. For this scenario, you might set the following recurring days and times as blocked windows, for example: MON-20:30-21:30 WED-20:30-21:30 FRI-20:30-21:30.
+    /// Optionally, you can block ARC from starting practice runs for specific windows of days and times. The format for blocked windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments that might be required for daylight saving time differences. Separate multiple blocked windows with spaces. For example, say you run business report summaries three days a week. For this scenario, you could set the following recurring days and times as blocked windows, for example: Mon:00:00-Mon:10:00 Wed-20:30-Wed:21:30 Fri-20:30-Fri:21:30. The blockedWindows have to start and end on the same day. Windows that span multiple days aren't supported.
     public var blockedWindows: [Swift.String]?
-    /// An Amazon CloudWatch alarm that you can specify for zonal autoshift practice runs. This alarm blocks ARC from starting practice run zonal shifts, and ends a practice run that's in progress, when the alarm is in an ALARM state.
+    /// Blocking alarms for practice runs are optional alarms that you can specify that block practice runs when one or more of the alarms is in an ALARM state.
     public var blockingAlarms: [ARCZonalShiftClientTypes.ControlCondition]?
-    /// The outcome alarm for practice runs is a required Amazon CloudWatch alarm that you specify that ends a practice run when the alarm is in an ALARM state. Configure the alarm to monitor the health of your application when traffic is shifted away from an Availability Zone during each practice run. You should configure the alarm to go into an ALARM state if your application is impacted by the zonal shift, and you want to stop the zonal shift, to let traffic for the resource return to the Availability Zone.
+    /// Outcome alarms for practice runs are alarms that you specify that end a practice run when one or more of the alarms is in an ALARM state. Configure one or more of these alarms to monitor the health of your application when traffic is shifted away from an Availability Zone during each practice run. You should configure these alarms to go into an ALARM state if you want to stop a zonal shift, to let traffic for the resource return to the original Availability Zone.
     /// This member is required.
     public var outcomeAlarms: [ARCZonalShiftClientTypes.ControlCondition]?
     /// The identifier of the resource that Amazon Web Services shifts traffic for with a practice run zonal shift. The identifier is the Amazon Resource Name (ARN) for the resource. Amazon Application Recovery Controller currently supports enabling the following resources for zonal shift and zonal autoshift:
@@ -771,12 +782,14 @@ public struct CreatePracticeRunConfigurationInput: Swift.Sendable {
     public var resourceIdentifier: Swift.String?
 
     public init(
+        allowedWindows: [Swift.String]? = nil,
         blockedDates: [Swift.String]? = nil,
         blockedWindows: [Swift.String]? = nil,
         blockingAlarms: [ARCZonalShiftClientTypes.ControlCondition]? = nil,
         outcomeAlarms: [ARCZonalShiftClientTypes.ControlCondition]? = nil,
         resourceIdentifier: Swift.String? = nil
     ) {
+        self.allowedWindows = allowedWindows
         self.blockedDates = blockedDates
         self.blockedWindows = blockedWindows
         self.blockingAlarms = blockingAlarms
@@ -789,22 +802,26 @@ extension ARCZonalShiftClientTypes {
 
     /// A practice run configuration for a resource includes the Amazon CloudWatch alarms that you've specified for a practice run, as well as any blocked dates or blocked windows for the practice run. When a resource has a practice run configuration, ARC shifts traffic for the resource weekly for practice runs. Practice runs are required for zonal autoshift. The zonal shifts that ARC starts for practice runs help you to ensure that shifting away traffic from an Availability Zone during an autoshift is safe for your application. You can update or delete a practice run configuration. Before you delete a practice run configuration, you must disable zonal autoshift for the resource. A practice run configuration is required when zonal autoshift is enabled.
     public struct PracticeRunConfiguration: Swift.Sendable {
+        /// An array of one or more windows of days and times that you can allow ARC to start practice runs for a resource. For example, say you want to allow practice runs only on Wednesdays and Fridays from noon to 5 p.m. For this scenario, you could set the following recurring days and times as allowed windows, for example: Wed-12:00-Wed:17:00 Fri-12:00-Fri:17:00. The allowedWindows have to start and end on the same day. Windows that span multiple days aren't supported.
+        public var allowedWindows: [Swift.String]?
         /// An array of one or more dates that you can specify when Amazon Web Services does not start practice runs for a resource. Specify blocked dates, in UTC, in the format YYYY-MM-DD, separated by spaces.
         public var blockedDates: [Swift.String]?
-        /// An array of one or more windows of days and times that you can block ARC from starting practice runs for a resource. Specify the blocked windows in UTC, using the format DAY:HH:MM-DAY:HH:MM, separated by spaces. For example, MON:18:30-MON:19:30 TUE:18:30-TUE:19:30.
+        /// An array of one or more windows of days and times that you can block ARC from starting practice runs for a resource. Specify the blocked windows in UTC, using the format DAY:HH:MM-DAY:HH:MM, separated by spaces. For example, MON:18:30-MON:19:30 TUE:18:30-TUE:19:30. The blockedWindows have to start and end on the same day. Windows that span multiple days aren't supported.
         public var blockedWindows: [Swift.String]?
-        /// The blocking alarm for practice runs is an optional alarm that you can specify that blocks practice runs when the alarm is in an ALARM state.
+        /// Blocking alarms for practice runs are optional alarms that you can specify that block practice runs when one or more of the alarms is in an ALARM state.
         public var blockingAlarms: [ARCZonalShiftClientTypes.ControlCondition]?
-        /// The outcome alarm for practice runs is an alarm that you specify that ends a practice run when the alarm is in an ALARM state.
+        /// Outcome alarms for practice runs are alarms that you specify that end a practice run when one or more of the alarms is in an ALARM state.
         /// This member is required.
         public var outcomeAlarms: [ARCZonalShiftClientTypes.ControlCondition]?
 
         public init(
+            allowedWindows: [Swift.String]? = nil,
             blockedDates: [Swift.String]? = [],
             blockedWindows: [Swift.String]? = nil,
             blockingAlarms: [ARCZonalShiftClientTypes.ControlCondition]? = nil,
             outcomeAlarms: [ARCZonalShiftClientTypes.ControlCondition]? = nil
         ) {
+            self.allowedWindows = allowedWindows
             self.blockedDates = blockedDates
             self.blockedWindows = blockedWindows
             self.blockingAlarms = blockingAlarms
@@ -1343,25 +1360,29 @@ public struct UpdateZonalAutoshiftConfigurationOutput: Swift.Sendable {
 }
 
 public struct UpdatePracticeRunConfigurationInput: Swift.Sendable {
+    /// Add, change, or remove windows of days and times for when you can, optionally, allow ARC to start a practice run for a resource. The format for allowed windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments that might be required for daylight saving time differences. Separate multiple allowed windows with spaces. For example, say you want to allow practice runs only on Wednesdays and Fridays from noon to 5 p.m. For this scenario, you could set the following recurring days and times as allowed windows, for example: Wed-12:00-Wed:17:00 Fri-12:00-Fri:17:00. The allowedWindows have to start and end on the same day. Windows that span multiple days aren't supported.
+    public var allowedWindows: [Swift.String]?
     /// Add, change, or remove blocked dates for a practice run in zonal autoshift. Optionally, you can block practice runs for specific calendar dates. The format for blocked dates is: YYYY-MM-DD. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Separate multiple blocked dates with spaces. For example, if you have an application update scheduled to launch on May 1, 2024, and you don't want practice runs to shift traffic away at that time, you could set a blocked date for 2024-05-01.
     public var blockedDates: [Swift.String]?
     /// Add, change, or remove windows of days and times for when you can, optionally, block ARC from starting a practice run for a resource. The format for blocked windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind, when you specify dates, that dates and times for practice runs are in UTC. Also, be aware of potential time adjustments that might be required for daylight saving time differences. Separate multiple blocked windows with spaces. For example, say you run business report summaries three days a week. For this scenario, you might set the following recurring days and times as blocked windows, for example: MON-20:30-21:30 WED-20:30-21:30 FRI-20:30-21:30.
     public var blockedWindows: [Swift.String]?
-    /// Add, change, or remove the Amazon CloudWatch alarm that you optionally specify as the blocking alarm for practice runs.
+    /// Add, change, or remove the Amazon CloudWatch alarms that you optionally specify as the blocking alarms for practice runs.
     public var blockingAlarms: [ARCZonalShiftClientTypes.ControlCondition]?
-    /// Specify a new the Amazon CloudWatch alarm as the outcome alarm for practice runs.
+    /// Specify one or more Amazon CloudWatch alarms as the outcome alarms for practice runs.
     public var outcomeAlarms: [ARCZonalShiftClientTypes.ControlCondition]?
     /// The identifier for the resource that you want to update the practice run configuration for. The identifier is the Amazon Resource Name (ARN) for the resource.
     /// This member is required.
     public var resourceIdentifier: Swift.String?
 
     public init(
+        allowedWindows: [Swift.String]? = nil,
         blockedDates: [Swift.String]? = nil,
         blockedWindows: [Swift.String]? = nil,
         blockingAlarms: [ARCZonalShiftClientTypes.ControlCondition]? = nil,
         outcomeAlarms: [ARCZonalShiftClientTypes.ControlCondition]? = nil,
         resourceIdentifier: Swift.String? = nil
     ) {
+        self.allowedWindows = allowedWindows
         self.blockedDates = blockedDates
         self.blockedWindows = blockedWindows
         self.blockingAlarms = blockingAlarms
@@ -1832,6 +1853,7 @@ extension CreatePracticeRunConfigurationInput {
 
     static func write(value: CreatePracticeRunConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["allowedWindows"].writeList(value.allowedWindows, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["blockedDates"].writeList(value.blockedDates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["blockedWindows"].writeList(value.blockedWindows, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["blockingAlarms"].writeList(value.blockingAlarms, memberWritingClosure: ARCZonalShiftClientTypes.ControlCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -1873,6 +1895,7 @@ extension UpdatePracticeRunConfigurationInput {
 
     static func write(value: UpdatePracticeRunConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["allowedWindows"].writeList(value.allowedWindows, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["blockedDates"].writeList(value.blockedDates, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["blockedWindows"].writeList(value.blockedWindows, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["blockingAlarms"].writeList(value.blockingAlarms, memberWritingClosure: ARCZonalShiftClientTypes.ControlCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -2487,6 +2510,7 @@ extension ARCZonalShiftClientTypes.PracticeRunConfiguration {
         value.blockingAlarms = try reader["blockingAlarms"].readListIfPresent(memberReadingClosure: ARCZonalShiftClientTypes.ControlCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.outcomeAlarms = try reader["outcomeAlarms"].readListIfPresent(memberReadingClosure: ARCZonalShiftClientTypes.ControlCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.blockedWindows = try reader["blockedWindows"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedWindows = try reader["allowedWindows"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.blockedDates = try reader["blockedDates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
