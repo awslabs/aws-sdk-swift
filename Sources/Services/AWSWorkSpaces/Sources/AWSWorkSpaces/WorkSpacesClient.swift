@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WorkSpacesClient: ClientRuntime.Client {
     public static let clientName = "WorkSpacesClient"
-    public static let version = "1.5.18"
+    public static let version = "1.5.30"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkSpacesClient.WorkSpacesClientConfiguration
     let serviceName = "WorkSpaces"
@@ -3028,6 +3028,75 @@ extension WorkSpacesClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeCustomWorkspaceImageImport` operation on the `WorkSpaces` service.
+    ///
+    /// Retrieves information about a WorkSpace BYOL image being imported via ImportCustomWorkspaceImage.
+    ///
+    /// - Parameter DescribeCustomWorkspaceImageImportInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCustomWorkspaceImageImportOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user is not authorized to access a resource.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    public func describeCustomWorkspaceImageImport(input: DescribeCustomWorkspaceImageImportInput) async throws -> DescribeCustomWorkspaceImageImportOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeCustomWorkspaceImageImport")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "workspaces")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeCustomWorkspaceImageImportInput, DescribeCustomWorkspaceImageImportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCustomWorkspaceImageImportInput, DescribeCustomWorkspaceImageImportOutput>(DescribeCustomWorkspaceImageImportInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCustomWorkspaceImageImportInput, DescribeCustomWorkspaceImageImportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCustomWorkspaceImageImportInput, DescribeCustomWorkspaceImageImportOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCustomWorkspaceImageImportOutput>(DescribeCustomWorkspaceImageImportOutput.httpOutput(from:), DescribeCustomWorkspaceImageImportOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCustomWorkspaceImageImportInput, DescribeCustomWorkspaceImageImportOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCustomWorkspaceImageImportOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WorkSpaces", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCustomWorkspaceImageImportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeCustomWorkspaceImageImportInput, DescribeCustomWorkspaceImageImportOutput>(xAmzTarget: "WorkspacesService.DescribeCustomWorkspaceImageImport"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCustomWorkspaceImageImportInput, DescribeCustomWorkspaceImageImportOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCustomWorkspaceImageImportInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCustomWorkspaceImageImportInput, DescribeCustomWorkspaceImageImportOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCustomWorkspaceImageImportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCustomWorkspaceImageImportInput, DescribeCustomWorkspaceImageImportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeCustomWorkspaceImageImportInput, DescribeCustomWorkspaceImageImportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeCustomWorkspaceImageImportInput, DescribeCustomWorkspaceImageImportOutput>(serviceID: serviceName, version: WorkSpacesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WorkSpaces")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCustomWorkspaceImageImport")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeImageAssociations` operation on the `WorkSpaces` service.
     ///
     /// Describes the associations between the applications and the specified image.
@@ -4282,6 +4351,79 @@ extension WorkSpacesClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WorkSpaces")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ImportClientBranding")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ImportCustomWorkspaceImage` operation on the `WorkSpaces` service.
+    ///
+    /// Imports the specified Windows 10 or 11 Bring Your Own License (BYOL) image into Amazon WorkSpaces using EC2 Image Builder. The image must be an already licensed image that is in your Amazon Web Services account, and you must own the image. For more information about creating BYOL images, see [ Bring Your Own Windows Desktop Licenses](https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html).
+    ///
+    /// - Parameter ImportCustomWorkspaceImageInput : [no documentation found]
+    ///
+    /// - Returns: `ImportCustomWorkspaceImageOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user is not authorized to access a resource.
+    /// - `InvalidParameterValuesException` : One or more parameter values are not valid.
+    /// - `OperationNotSupportedException` : This operation is not supported.
+    /// - `ResourceAlreadyExistsException` : The specified resource already exists.
+    /// - `ResourceLimitExceededException` : Your resource limits have been exceeded.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    public func importCustomWorkspaceImage(input: ImportCustomWorkspaceImageInput) async throws -> ImportCustomWorkspaceImageOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "importCustomWorkspaceImage")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "workspaces")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ImportCustomWorkspaceImageInput, ImportCustomWorkspaceImageOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ImportCustomWorkspaceImageInput, ImportCustomWorkspaceImageOutput>(ImportCustomWorkspaceImageInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ImportCustomWorkspaceImageInput, ImportCustomWorkspaceImageOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportCustomWorkspaceImageInput, ImportCustomWorkspaceImageOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportCustomWorkspaceImageOutput>(ImportCustomWorkspaceImageOutput.httpOutput(from:), ImportCustomWorkspaceImageOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportCustomWorkspaceImageInput, ImportCustomWorkspaceImageOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ImportCustomWorkspaceImageOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("WorkSpaces", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ImportCustomWorkspaceImageOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<ImportCustomWorkspaceImageInput, ImportCustomWorkspaceImageOutput>(xAmzTarget: "WorkspacesService.ImportCustomWorkspaceImage"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ImportCustomWorkspaceImageInput, ImportCustomWorkspaceImageOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ImportCustomWorkspaceImageInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ImportCustomWorkspaceImageInput, ImportCustomWorkspaceImageOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ImportCustomWorkspaceImageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ImportCustomWorkspaceImageInput, ImportCustomWorkspaceImageOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ImportCustomWorkspaceImageInput, ImportCustomWorkspaceImageOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ImportCustomWorkspaceImageInput, ImportCustomWorkspaceImageOutput>(serviceID: serviceName, version: WorkSpacesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "WorkSpaces")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ImportCustomWorkspaceImage")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

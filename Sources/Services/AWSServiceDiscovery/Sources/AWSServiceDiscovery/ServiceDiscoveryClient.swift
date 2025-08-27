@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ServiceDiscoveryClient: ClientRuntime.Client {
     public static let clientName = "ServiceDiscoveryClient"
-    public static let version = "1.5.18"
+    public static let version = "1.5.30"
     let client: ClientRuntime.SdkHttpClient
     let config: ServiceDiscoveryClient.ServiceDiscoveryClientConfiguration
     let serviceName = "ServiceDiscovery"
@@ -1592,7 +1592,7 @@ extension ServiceDiscoveryClient {
 
     /// Performs the `ListNamespaces` operation on the `ServiceDiscovery` service.
     ///
-    /// Lists summary information about the namespaces that were created by the current Amazon Web Services account.
+    /// Lists summary information about the namespaces that were created by the current Amazon Web Services account and shared with the current Amazon Web Services account.
     ///
     /// - Parameter ListNamespacesInput : [no documentation found]
     ///
@@ -2394,6 +2394,13 @@ extension ServiceDiscoveryClient {
     /// * If you omit any existing DnsRecords or HealthCheckConfig configurations from an UpdateService request, the configurations are deleted from the service.
     ///
     /// * If you omit an existing HealthCheckCustomConfig configuration from an UpdateService request, the configuration isn't deleted from the service.
+    ///
+    ///
+    /// You can't call UpdateService and update settings in the following scenarios:
+    ///
+    /// * When the service is associated with an HTTP namespace
+    ///
+    /// * When the service is associated with a shared namespace and contains instances that were registered by Amazon Web Services accounts other than the account making the UpdateService call
     ///
     ///
     /// When you update settings for a service, Cloud Map also updates the corresponding settings in all the records and health checks that were created by using the specified service.

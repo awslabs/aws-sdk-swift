@@ -311,6 +311,50 @@ extension SyntheticsClientTypes {
 
 extension SyntheticsClientTypes {
 
+    public enum BrowserType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case chrome
+        case firefox
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BrowserType] {
+            return [
+                .chrome,
+                .firefox
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .chrome: return "CHROME"
+            case .firefox: return "FIREFOX"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
+    /// A structure that specifies the browser type to use for a canary run.
+    public struct BrowserConfig: Swift.Sendable {
+        /// The browser type associated with this browser configuration.
+        public var browserType: SyntheticsClientTypes.BrowserType?
+
+        public init(
+            browserType: SyntheticsClientTypes.BrowserType? = nil
+        ) {
+            self.browserType = browserType
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
     public enum DependencyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case lambdalayer
         case sdkUnknown(Swift.String)
@@ -393,6 +437,25 @@ extension SyntheticsClientTypes {
         ) {
             self.dryRunId = dryRunId
             self.lastDryRunExecutionStatus = lastDryRunExecutionStatus
+        }
+    }
+}
+
+extension SyntheticsClientTypes {
+
+    /// A structure of engine configurations for the canary, one for each browser type that the canary is configured to run on.
+    public struct EngineConfig: Swift.Sendable {
+        /// The browser type associated with this engine configuration.
+        public var browserType: SyntheticsClientTypes.BrowserType?
+        /// Each engine configuration contains the ARN of the Lambda function that is used as the canary's engine for a specific browser type.
+        public var engineArn: Swift.String?
+
+        public init(
+            browserType: SyntheticsClientTypes.BrowserType? = nil,
+            engineArn: Swift.String? = nil
+        ) {
+            self.browserType = browserType
+            self.engineArn = engineArn
         }
     }
 }
@@ -658,13 +721,17 @@ extension SyntheticsClientTypes {
         public var baseCanaryRunId: Swift.String?
         /// An array of screenshots that are used as the baseline for comparisons during visual monitoring.
         public var baseScreenshots: [SyntheticsClientTypes.BaseScreenshot]?
+        /// The browser type associated with this visual reference.
+        public var browserType: SyntheticsClientTypes.BrowserType?
 
         public init(
             baseCanaryRunId: Swift.String? = nil,
-            baseScreenshots: [SyntheticsClientTypes.BaseScreenshot]? = nil
+            baseScreenshots: [SyntheticsClientTypes.BaseScreenshot]? = nil,
+            browserType: SyntheticsClientTypes.BrowserType? = nil
         ) {
             self.baseCanaryRunId = baseCanaryRunId
             self.baseScreenshots = baseScreenshots
+            self.browserType = browserType
         }
     }
 }
@@ -704,12 +771,16 @@ extension SyntheticsClientTypes {
         public var artifactConfig: SyntheticsClientTypes.ArtifactConfigOutput?
         /// The location in Amazon S3 where Synthetics stores artifacts from the runs of this canary. Artifacts include the log file, screenshots, and HAR files.
         public var artifactS3Location: Swift.String?
+        /// A structure that specifies the browser type to use for a canary run. CloudWatch Synthetics supports running canaries on both CHROME and FIREFOX browsers. If not specified, browserConfigs defaults to Chrome.
+        public var browserConfigs: [SyntheticsClientTypes.BrowserConfig]?
         /// This structure contains information about the canary's Lambda handler and where its code is stored by CloudWatch Synthetics.
         public var code: SyntheticsClientTypes.CanaryCodeOutput?
         /// Returns the dry run configurations for a canary.
         public var dryRunConfig: SyntheticsClientTypes.DryRunConfigOutput?
         /// The ARN of the Lambda function that is used as your canary's engine. For more information about Lambda ARN format, see [Resources and Conditions for Lambda Actions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-api-permissions-ref.html).
         public var engineArn: Swift.String?
+        /// A list of engine configurations for the canary, one for each browser type that the canary is configured to run on. All runtime versions syn-nodejs-puppeteer-11.0 and above, and syn-nodejs-playwright-3.0 and above, use engineConfigs only. You can no longer use engineArn in these versions. Runtime versions older than syn-nodejs-puppeteer-11.0 and syn-nodejs-playwright-3.0 continue to support engineArn to ensure backward compatibility.
+        public var engineConfigs: [SyntheticsClientTypes.EngineConfig]?
         /// The ARN of the IAM role used to run the canary. This role must include lambda.amazonaws.com as a principal in the trust policy.
         public var executionRoleArn: Swift.String?
         /// The number of days to retain data about failed runs of this canary. This setting affects the range of information returned by [GetCanaryRuns](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_GetCanaryRuns.html), as well as the range of information displayed in the Synthetics console.
@@ -736,15 +807,19 @@ extension SyntheticsClientTypes {
         public var timeline: SyntheticsClientTypes.CanaryTimeline?
         /// If this canary performs visual monitoring by comparing screenshots, this structure contains the ID of the canary run to use as the baseline for screenshots, and the coordinates of any parts of the screen to ignore during the visual monitoring comparison.
         public var visualReference: SyntheticsClientTypes.VisualReferenceOutput?
+        /// A list of visual reference configurations for the canary, one for each browser type that the canary is configured to run on. Visual references are used for visual monitoring comparisons. syn-nodejs-puppeteer-11.0 and above, and syn-nodejs-playwright-3.0 and above, only supports visualReferences. visualReference field is not supported. Versions older than syn-nodejs-puppeteer-11.0 supports both visualReference and visualReferences for backward compatibility. It is recommended to use visualReferences for consistency and future compatibility.
+        public var visualReferences: [SyntheticsClientTypes.VisualReferenceOutput]?
         /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnets and security groups of the VPC endpoint. For more information, see [ Running a Canary in a VPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html).
         public var vpcConfig: SyntheticsClientTypes.VpcConfigOutput?
 
         public init(
             artifactConfig: SyntheticsClientTypes.ArtifactConfigOutput? = nil,
             artifactS3Location: Swift.String? = nil,
+            browserConfigs: [SyntheticsClientTypes.BrowserConfig]? = nil,
             code: SyntheticsClientTypes.CanaryCodeOutput? = nil,
             dryRunConfig: SyntheticsClientTypes.DryRunConfigOutput? = nil,
             engineArn: Swift.String? = nil,
+            engineConfigs: [SyntheticsClientTypes.EngineConfig]? = nil,
             executionRoleArn: Swift.String? = nil,
             failureRetentionPeriodInDays: Swift.Int? = nil,
             id: Swift.String? = nil,
@@ -758,13 +833,16 @@ extension SyntheticsClientTypes {
             tags: [Swift.String: Swift.String]? = nil,
             timeline: SyntheticsClientTypes.CanaryTimeline? = nil,
             visualReference: SyntheticsClientTypes.VisualReferenceOutput? = nil,
+            visualReferences: [SyntheticsClientTypes.VisualReferenceOutput]? = nil,
             vpcConfig: SyntheticsClientTypes.VpcConfigOutput? = nil
         ) {
             self.artifactConfig = artifactConfig
             self.artifactS3Location = artifactS3Location
+            self.browserConfigs = browserConfigs
             self.code = code
             self.dryRunConfig = dryRunConfig
             self.engineArn = engineArn
+            self.engineConfigs = engineConfigs
             self.executionRoleArn = executionRoleArn
             self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
             self.id = id
@@ -778,6 +856,7 @@ extension SyntheticsClientTypes {
             self.tags = tags
             self.timeline = timeline
             self.visualReference = visualReference
+            self.visualReferences = visualReferences
             self.vpcConfig = vpcConfig
         }
     }
@@ -947,6 +1026,8 @@ extension SyntheticsClientTypes {
     public struct CanaryRun: Swift.Sendable {
         /// The location where the canary stored artifacts from the run. Artifacts include the log file, screenshots, and HAR files.
         public var artifactS3Location: Swift.String?
+        /// The browser type associated with this canary run.
+        public var browserType: SyntheticsClientTypes.BrowserType?
         /// Returns the dry run configurations for a canary.
         public var dryRunConfig: SyntheticsClientTypes.CanaryDryRunConfigOutput?
         /// A unique ID that identifies this canary run.
@@ -964,6 +1045,7 @@ extension SyntheticsClientTypes {
 
         public init(
             artifactS3Location: Swift.String? = nil,
+            browserType: SyntheticsClientTypes.BrowserType? = nil,
             dryRunConfig: SyntheticsClientTypes.CanaryDryRunConfigOutput? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -973,6 +1055,7 @@ extension SyntheticsClientTypes {
             timeline: SyntheticsClientTypes.CanaryRunTimeline? = nil
         ) {
             self.artifactS3Location = artifactS3Location
+            self.browserType = browserType
             self.dryRunConfig = dryRunConfig
             self.id = id
             self.name = name
@@ -1192,6 +1275,8 @@ public struct CreateCanaryInput: Swift.Sendable {
     /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files. The name of the Amazon S3 bucket can't include a period (.).
     /// This member is required.
     public var artifactS3Location: Swift.String?
+    /// CloudWatch Synthetics now supports multibrowser canaries for syn-nodejs-puppeteer-11.0 and syn-nodejs-playwright-3.0 runtimes. This feature allows you to run your canaries on both Firefox and Chrome browsers. To create a multibrowser canary, you need to specify the BrowserConfigs with a list of browsers you want to use. If not specified, browserConfigs defaults to Chrome.
+    public var browserConfigs: [SyntheticsClientTypes.BrowserConfig]?
     /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in an Amazon S3 bucket, the bucket name, key, and version are also included.
     /// This member is required.
     public var code: SyntheticsClientTypes.CanaryCodeInput?
@@ -1239,6 +1324,7 @@ public struct CreateCanaryInput: Swift.Sendable {
     public init(
         artifactConfig: SyntheticsClientTypes.ArtifactConfigInput? = nil,
         artifactS3Location: Swift.String? = nil,
+        browserConfigs: [SyntheticsClientTypes.BrowserConfig]? = nil,
         code: SyntheticsClientTypes.CanaryCodeInput? = nil,
         executionRoleArn: Swift.String? = nil,
         failureRetentionPeriodInDays: Swift.Int? = nil,
@@ -1254,6 +1340,7 @@ public struct CreateCanaryInput: Swift.Sendable {
     ) {
         self.artifactConfig = artifactConfig
         self.artifactS3Location = artifactS3Location
+        self.browserConfigs = browserConfigs
         self.code = code
         self.executionRoleArn = executionRoleArn
         self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
@@ -1415,6 +1502,8 @@ public struct DescribeCanariesOutput: Swift.Sendable {
 }
 
 public struct DescribeCanariesLastRunInput: Swift.Sendable {
+    /// The type of browser to use for the canary run.
+    public var browserType: SyntheticsClientTypes.BrowserType?
     /// Specify this parameter to limit how many runs are returned each time you use the DescribeLastRun operation. If you omit this parameter, the default of 100 is used.
     public var maxResults: Swift.Int?
     /// Use this parameter to return only canaries that match the names that you specify here. You can specify as many as five canary names. If you specify this parameter, the operation is successful only if you have authorization to view all the canaries that you specify in your request. If you do not have permission to view any of the canaries, the request fails with a 403 response. You are required to use the Names parameter if you are logged on to a user or role that has an IAM policy that restricts which canaries that you are allowed to view. For more information, see [ Limiting a user to viewing specific canaries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Restricted.html).
@@ -1423,10 +1512,12 @@ public struct DescribeCanariesLastRunInput: Swift.Sendable {
     public var nextToken: Swift.String?
 
     public init(
+        browserType: SyntheticsClientTypes.BrowserType? = nil,
         maxResults: Swift.Int? = nil,
         names: [Swift.String]? = nil,
         nextToken: Swift.String? = nil
     ) {
+        self.browserType = browserType
         self.maxResults = maxResults
         self.names = names
         self.nextToken = nextToken
@@ -1896,13 +1987,17 @@ extension SyntheticsClientTypes {
         public var baseCanaryRunId: Swift.String?
         /// An array of screenshots that will be used as the baseline for visual monitoring in future runs of this canary. If there is a screenshot that you don't want to be used for visual monitoring, remove it from this array.
         public var baseScreenshots: [SyntheticsClientTypes.BaseScreenshot]?
+        /// The browser type associated with this visual reference.
+        public var browserType: SyntheticsClientTypes.BrowserType?
 
         public init(
             baseCanaryRunId: Swift.String? = nil,
-            baseScreenshots: [SyntheticsClientTypes.BaseScreenshot]? = nil
+            baseScreenshots: [SyntheticsClientTypes.BaseScreenshot]? = nil,
+            browserType: SyntheticsClientTypes.BrowserType? = nil
         ) {
             self.baseCanaryRunId = baseCanaryRunId
             self.baseScreenshots = baseScreenshots
+            self.browserType = browserType
         }
     }
 }
@@ -1912,6 +2007,8 @@ public struct StartCanaryDryRunInput: Swift.Sendable {
     public var artifactConfig: SyntheticsClientTypes.ArtifactConfigInput?
     /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files. The name of the Amazon S3 bucket can't include a period (.).
     public var artifactS3Location: Swift.String?
+    /// A structure that specifies the browser type to use for a canary run. CloudWatch Synthetics supports running canaries on both CHROME and FIREFOX browsers. If not specified, browserConfigs defaults to Chrome.
+    public var browserConfigs: [SyntheticsClientTypes.BrowserConfig]?
     /// Use this structure to input your script code for the canary. This structure contains the Lambda handler with the location where the canary should start running the script. If the script is stored in an Amazon S3 bucket, the bucket name, key, and version are also included. If the script was passed into the canary directly, the script code is contained in the value of Zipfile. If you are uploading your canary scripts with an Amazon S3 bucket, your zip file should include your script in a certain folder structure.
     ///
     /// * For Node.js canaries, the folder structure must be nodejs/node_modules/myCanaryFilename.js  For more information, see [Packaging your Node.js canary files](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_WritingCanary_Nodejs.html#CloudWatch_Synthetics_Canaries_package)
@@ -1935,12 +2032,15 @@ public struct StartCanaryDryRunInput: Swift.Sendable {
     public var successRetentionPeriodInDays: Swift.Int?
     /// An object that specifies what screenshots to use as a baseline for visual monitoring by this canary. It can optionally also specify parts of the screenshots to ignore during the visual monitoring comparison. Visual monitoring is supported only on canaries running the syn-puppeteer-node-3.2 runtime or later. For more information, see [ Visual monitoring](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Library_SyntheticsLogger_VisualTesting.html) and [ Visual monitoring blueprint](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Blueprints_VisualTesting.html)
     public var visualReference: SyntheticsClientTypes.VisualReferenceInput?
+    /// A list of visual reference configurations for the canary, one for each browser type that the canary is configured to run on. Visual references are used for visual monitoring comparisons. syn-nodejs-puppeteer-11.0 and above, and syn-nodejs-playwright-3.0 and above, only supports visualReferences. visualReference field is not supported. Versions older than syn-nodejs-puppeteer-11.0 supports both visualReference and visualReferences for backward compatibility. It is recommended to use visualReferences for consistency and future compatibility.
+    public var visualReferences: [SyntheticsClientTypes.VisualReferenceInput]?
     /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnets and security groups of the VPC endpoint. For more information, see [ Running a Canary in a VPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html).
     public var vpcConfig: SyntheticsClientTypes.VpcConfigInput?
 
     public init(
         artifactConfig: SyntheticsClientTypes.ArtifactConfigInput? = nil,
         artifactS3Location: Swift.String? = nil,
+        browserConfigs: [SyntheticsClientTypes.BrowserConfig]? = nil,
         code: SyntheticsClientTypes.CanaryCodeInput? = nil,
         executionRoleArn: Swift.String? = nil,
         failureRetentionPeriodInDays: Swift.Int? = nil,
@@ -1950,10 +2050,12 @@ public struct StartCanaryDryRunInput: Swift.Sendable {
         runtimeVersion: Swift.String? = nil,
         successRetentionPeriodInDays: Swift.Int? = nil,
         visualReference: SyntheticsClientTypes.VisualReferenceInput? = nil,
+        visualReferences: [SyntheticsClientTypes.VisualReferenceInput]? = nil,
         vpcConfig: SyntheticsClientTypes.VpcConfigInput? = nil
     ) {
         self.artifactConfig = artifactConfig
         self.artifactS3Location = artifactS3Location
+        self.browserConfigs = browserConfigs
         self.code = code
         self.executionRoleArn = executionRoleArn
         self.failureRetentionPeriodInDays = failureRetentionPeriodInDays
@@ -1963,6 +2065,7 @@ public struct StartCanaryDryRunInput: Swift.Sendable {
         self.runtimeVersion = runtimeVersion
         self.successRetentionPeriodInDays = successRetentionPeriodInDays
         self.visualReference = visualReference
+        self.visualReferences = visualReferences
         self.vpcConfig = vpcConfig
     }
 }
@@ -2044,6 +2147,8 @@ public struct UpdateCanaryInput: Swift.Sendable {
     public var artifactConfig: SyntheticsClientTypes.ArtifactConfigInput?
     /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files. The name of the Amazon S3 bucket can't include a period (.).
     public var artifactS3Location: Swift.String?
+    /// A structure that specifies the browser type to use for a canary run. CloudWatch Synthetics supports running canaries on both CHROME and FIREFOX browsers. If not specified, browserConfigs defaults to Chrome.
+    public var browserConfigs: [SyntheticsClientTypes.BrowserConfig]?
     /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in an Amazon S3 bucket, the bucket name, key, and version are also included.
     public var code: SyntheticsClientTypes.CanaryCodeInput?
     /// Update the existing canary using the updated configurations from the DryRun associated with the DryRunId. When you use the dryRunId field when updating a canary, the only other field you can provide is the Schedule. Adding any other field will thrown an exception.
@@ -2081,12 +2186,15 @@ public struct UpdateCanaryInput: Swift.Sendable {
     public var successRetentionPeriodInDays: Swift.Int?
     /// Defines the screenshots to use as the baseline for comparisons during visual monitoring comparisons during future runs of this canary. If you omit this parameter, no changes are made to any baseline screenshots that the canary might be using already. Visual monitoring is supported only on canaries running the syn-puppeteer-node-3.2 runtime or later. For more information, see [ Visual monitoring](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Library_SyntheticsLogger_VisualTesting.html) and [ Visual monitoring blueprint](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Blueprints_VisualTesting.html)
     public var visualReference: SyntheticsClientTypes.VisualReferenceInput?
+    /// A list of visual reference configurations for the canary, one for each browser type that the canary is configured to run on. Visual references are used for visual monitoring comparisons. syn-nodejs-puppeteer-11.0 and above, and syn-nodejs-playwright-3.0 and above, only supports visualReferences. visualReference field is not supported. Versions older than syn-nodejs-puppeteer-11.0 supports both visualReference and visualReferences for backward compatibility. It is recommended to use visualReferences for consistency and future compatibility. For multibrowser visual monitoring, you can update the baseline for all configured browsers in a single update call by specifying a list of VisualReference objects, one per browser. Each VisualReference object maps to a specific browser configuration, allowing you to manage visual baselines for multiple browsers simultaneously. For single configuration canaries using Chrome browser (default browser), use visualReferences for syn-nodejs-puppeteer-11.0 and above, and syn-nodejs-playwright-3.0 and above canaries. The browserType in the visualReference object is not mandatory.
+    public var visualReferences: [SyntheticsClientTypes.VisualReferenceInput]?
     /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnet and security groups of the VPC endpoint. For more information, see [ Running a Canary in a VPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html).
     public var vpcConfig: SyntheticsClientTypes.VpcConfigInput?
 
     public init(
         artifactConfig: SyntheticsClientTypes.ArtifactConfigInput? = nil,
         artifactS3Location: Swift.String? = nil,
+        browserConfigs: [SyntheticsClientTypes.BrowserConfig]? = nil,
         code: SyntheticsClientTypes.CanaryCodeInput? = nil,
         dryRunId: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
@@ -2098,10 +2206,12 @@ public struct UpdateCanaryInput: Swift.Sendable {
         schedule: SyntheticsClientTypes.CanaryScheduleInput? = nil,
         successRetentionPeriodInDays: Swift.Int? = nil,
         visualReference: SyntheticsClientTypes.VisualReferenceInput? = nil,
+        visualReferences: [SyntheticsClientTypes.VisualReferenceInput]? = nil,
         vpcConfig: SyntheticsClientTypes.VpcConfigInput? = nil
     ) {
         self.artifactConfig = artifactConfig
         self.artifactS3Location = artifactS3Location
+        self.browserConfigs = browserConfigs
         self.code = code
         self.dryRunId = dryRunId
         self.executionRoleArn = executionRoleArn
@@ -2113,6 +2223,7 @@ public struct UpdateCanaryInput: Swift.Sendable {
         self.schedule = schedule
         self.successRetentionPeriodInDays = successRetentionPeriodInDays
         self.visualReference = visualReference
+        self.visualReferences = visualReferences
         self.vpcConfig = vpcConfig
     }
 }
@@ -2378,6 +2489,7 @@ extension CreateCanaryInput {
         guard let value else { return }
         try writer["ArtifactConfig"].write(value.artifactConfig, with: SyntheticsClientTypes.ArtifactConfigInput.write(value:to:))
         try writer["ArtifactS3Location"].write(value.artifactS3Location)
+        try writer["BrowserConfigs"].writeList(value.browserConfigs, memberWritingClosure: SyntheticsClientTypes.BrowserConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Code"].write(value.code, with: SyntheticsClientTypes.CanaryCodeInput.write(value:to:))
         try writer["ExecutionRoleArn"].write(value.executionRoleArn)
         try writer["FailureRetentionPeriodInDays"].write(value.failureRetentionPeriodInDays)
@@ -2416,6 +2528,7 @@ extension DescribeCanariesLastRunInput {
 
     static func write(value: DescribeCanariesLastRunInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BrowserType"].write(value.browserType)
         try writer["MaxResults"].write(value.maxResults)
         try writer["Names"].writeList(value.names, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["NextToken"].write(value.nextToken)
@@ -2483,6 +2596,7 @@ extension StartCanaryDryRunInput {
         guard let value else { return }
         try writer["ArtifactConfig"].write(value.artifactConfig, with: SyntheticsClientTypes.ArtifactConfigInput.write(value:to:))
         try writer["ArtifactS3Location"].write(value.artifactS3Location)
+        try writer["BrowserConfigs"].writeList(value.browserConfigs, memberWritingClosure: SyntheticsClientTypes.BrowserConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Code"].write(value.code, with: SyntheticsClientTypes.CanaryCodeInput.write(value:to:))
         try writer["ExecutionRoleArn"].write(value.executionRoleArn)
         try writer["FailureRetentionPeriodInDays"].write(value.failureRetentionPeriodInDays)
@@ -2491,6 +2605,7 @@ extension StartCanaryDryRunInput {
         try writer["RuntimeVersion"].write(value.runtimeVersion)
         try writer["SuccessRetentionPeriodInDays"].write(value.successRetentionPeriodInDays)
         try writer["VisualReference"].write(value.visualReference, with: SyntheticsClientTypes.VisualReferenceInput.write(value:to:))
+        try writer["VisualReferences"].writeList(value.visualReferences, memberWritingClosure: SyntheticsClientTypes.VisualReferenceInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VpcConfig"].write(value.vpcConfig, with: SyntheticsClientTypes.VpcConfigInput.write(value:to:))
     }
 }
@@ -2509,6 +2624,7 @@ extension UpdateCanaryInput {
         guard let value else { return }
         try writer["ArtifactConfig"].write(value.artifactConfig, with: SyntheticsClientTypes.ArtifactConfigInput.write(value:to:))
         try writer["ArtifactS3Location"].write(value.artifactS3Location)
+        try writer["BrowserConfigs"].writeList(value.browserConfigs, memberWritingClosure: SyntheticsClientTypes.BrowserConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Code"].write(value.code, with: SyntheticsClientTypes.CanaryCodeInput.write(value:to:))
         try writer["DryRunId"].write(value.dryRunId)
         try writer["ExecutionRoleArn"].write(value.executionRoleArn)
@@ -2519,6 +2635,7 @@ extension UpdateCanaryInput {
         try writer["Schedule"].write(value.schedule, with: SyntheticsClientTypes.CanaryScheduleInput.write(value:to:))
         try writer["SuccessRetentionPeriodInDays"].write(value.successRetentionPeriodInDays)
         try writer["VisualReference"].write(value.visualReference, with: SyntheticsClientTypes.VisualReferenceInput.write(value:to:))
+        try writer["VisualReferences"].writeList(value.visualReferences, memberWritingClosure: SyntheticsClientTypes.VisualReferenceInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VpcConfig"].write(value.vpcConfig, with: SyntheticsClientTypes.VpcConfigInput.write(value:to:))
     }
 }
@@ -3281,6 +3398,9 @@ extension SyntheticsClientTypes.Canary {
         value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: SyntheticsClientTypes.VpcConfigOutput.read(from:))
         value.visualReference = try reader["VisualReference"].readIfPresent(with: SyntheticsClientTypes.VisualReferenceOutput.read(from:))
         value.provisionedResourceCleanup = try reader["ProvisionedResourceCleanup"].readIfPresent()
+        value.browserConfigs = try reader["BrowserConfigs"].readListIfPresent(memberReadingClosure: SyntheticsClientTypes.BrowserConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.engineConfigs = try reader["EngineConfigs"].readListIfPresent(memberReadingClosure: SyntheticsClientTypes.EngineConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visualReferences = try reader["VisualReferences"].readListIfPresent(memberReadingClosure: SyntheticsClientTypes.VisualReferenceOutput.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.artifactConfig = try reader["ArtifactConfig"].readIfPresent(with: SyntheticsClientTypes.ArtifactConfigOutput.read(from:))
         value.dryRunConfig = try reader["DryRunConfig"].readIfPresent(with: SyntheticsClientTypes.DryRunConfigOutput.read(from:))
@@ -3333,6 +3453,7 @@ extension SyntheticsClientTypes.VisualReferenceOutput {
         var value = SyntheticsClientTypes.VisualReferenceOutput()
         value.baseScreenshots = try reader["BaseScreenshots"].readListIfPresent(memberReadingClosure: SyntheticsClientTypes.BaseScreenshot.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.baseCanaryRunId = try reader["BaseCanaryRunId"].readIfPresent()
+        value.browserType = try reader["BrowserType"].readIfPresent()
         return value
     }
 }
@@ -3350,6 +3471,32 @@ extension SyntheticsClientTypes.BaseScreenshot {
         var value = SyntheticsClientTypes.BaseScreenshot()
         value.screenshotName = try reader["ScreenshotName"].readIfPresent() ?? ""
         value.ignoreCoordinates = try reader["IgnoreCoordinates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.EngineConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.EngineConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.EngineConfig()
+        value.engineArn = try reader["EngineArn"].readIfPresent()
+        value.browserType = try reader["BrowserType"].readIfPresent()
+        return value
+    }
+}
+
+extension SyntheticsClientTypes.BrowserConfig {
+
+    static func write(value: SyntheticsClientTypes.BrowserConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BrowserType"].write(value.browserType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SyntheticsClientTypes.BrowserConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SyntheticsClientTypes.BrowserConfig()
+        value.browserType = try reader["BrowserType"].readIfPresent()
         return value
     }
 }
@@ -3495,6 +3642,7 @@ extension SyntheticsClientTypes.CanaryRun {
         value.timeline = try reader["Timeline"].readIfPresent(with: SyntheticsClientTypes.CanaryRunTimeline.read(from:))
         value.artifactS3Location = try reader["ArtifactS3Location"].readIfPresent()
         value.dryRunConfig = try reader["DryRunConfig"].readIfPresent(with: SyntheticsClientTypes.CanaryDryRunConfigOutput.read(from:))
+        value.browserType = try reader["BrowserType"].readIfPresent()
         return value
     }
 }
@@ -3626,6 +3774,7 @@ extension SyntheticsClientTypes.VisualReferenceInput {
         guard let value else { return }
         try writer["BaseCanaryRunId"].write(value.baseCanaryRunId)
         try writer["BaseScreenshots"].writeList(value.baseScreenshots, memberWritingClosure: SyntheticsClientTypes.BaseScreenshot.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["BrowserType"].write(value.browserType)
     }
 }
 

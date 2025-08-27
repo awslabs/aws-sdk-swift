@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AccessAnalyzerClient: ClientRuntime.Client {
     public static let clientName = "AccessAnalyzerClient"
-    public static let version = "1.5.18"
+    public static let version = "1.5.30"
     let client: ClientRuntime.SdkHttpClient
     let config: AccessAnalyzerClient.AccessAnalyzerClientConfiguration
     let serviceName = "AccessAnalyzer"

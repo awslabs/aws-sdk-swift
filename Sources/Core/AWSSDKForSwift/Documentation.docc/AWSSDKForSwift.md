@@ -149,9 +149,13 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSB2bi](../../../../../swift/api/awsb2bi/latest)
 
+[AWSBCMDashboards](../../../../../swift/api/awsbcmdashboards/latest)
+
 [AWSBCMDataExports](../../../../../swift/api/awsbcmdataexports/latest)
 
 [AWSBCMPricingCalculator](../../../../../swift/api/awsbcmpricingcalculator/latest)
+
+[AWSBCMRecommendedActions](../../../../../swift/api/awsbcmrecommendedactions/latest)
 
 [AWSBackup](../../../../../swift/api/awsbackup/latest)
 
@@ -642,10 +646,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSOpenSearch](../../../../../swift/api/awsopensearch/latest)
 
 [AWSOpenSearchServerless](../../../../../swift/api/awsopensearchserverless/latest)
-
-[AWSOpsWorks](../../../../../swift/api/awsopsworks/latest)
-
-[AWSOpsWorksCM](../../../../../swift/api/awsopsworkscm/latest)
 
 [AWSOrganizations](../../../../../swift/api/awsorganizations/latest)
 

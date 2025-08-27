@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KinesisAnalyticsV2Client: ClientRuntime.Client {
     public static let clientName = "KinesisAnalyticsV2Client"
-    public static let version = "1.5.18"
+    public static let version = "1.5.30"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisAnalyticsV2Client.KinesisAnalyticsV2ClientConfiguration
     let serviceName = "Kinesis Analytics V2"
@@ -1605,11 +1605,11 @@ extension KinesisAnalyticsV2Client {
 
     /// Performs the `DescribeApplicationOperation` operation on the `KinesisAnalyticsV2` service.
     ///
-    /// Returns information about a specific operation performed on a Managed Service for Apache Flink application
+    /// Provides a detailed description of a specified application operation. To see a list of all the operations of an application, invoke the [ListApplicationOperations] operation. This operation is supported only for Managed Service for Apache Flink.
     ///
-    /// - Parameter DescribeApplicationOperationInput : Request for information about a specific operation performed on a Managed Service for Apache Flink application
+    /// - Parameter DescribeApplicationOperationInput : A request for information about a specific operation that was performed on a Managed Service for Apache Flink application.
     ///
-    /// - Returns: `DescribeApplicationOperationOutput` : Provides details of the operation corresponding to the operation-ID on a Managed Service for Apache Flink application
+    /// - Returns: `DescribeApplicationOperationOutput` : Provides details of the operation that corresponds to the operation ID on a Managed Service for Apache Flink application.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1888,11 +1888,11 @@ extension KinesisAnalyticsV2Client {
 
     /// Performs the `ListApplicationOperations` operation on the `KinesisAnalyticsV2` service.
     ///
-    /// Lists information about operations performed on a Managed Service for Apache Flink application
+    /// Lists all the operations performed for the specified application such as UpdateApplication, StartApplication etc. The response also includes a summary of the operation. To get the complete description of a specific operation, invoke the [DescribeApplicationOperation] operation. This operation is supported only for Managed Service for Apache Flink.
     ///
-    /// - Parameter ListApplicationOperationsInput : Request to list operations performed on an application
+    /// - Parameter ListApplicationOperationsInput : A request for a list of operations performed on an application.
     ///
-    /// - Returns: `ListApplicationOperationsOutput` : Response with the list of operations for an application
+    /// - Returns: `ListApplicationOperationsOutput` : A response that returns a list of operations for an application.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///

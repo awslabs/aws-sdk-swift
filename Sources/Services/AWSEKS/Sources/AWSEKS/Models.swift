@@ -330,6 +330,21 @@ extension EKSClientTypes {
 
 extension EKSClientTypes {
 
+    /// The namespace configuration response object containing information about the namespace where an addon is installed.
+    public struct AddonNamespaceConfigResponse: Swift.Sendable {
+        /// The name of the Kubernetes namespace where the addon is installed.
+        public var namespace: Swift.String?
+
+        public init(
+            namespace: Swift.String? = nil
+        ) {
+            self.namespace = namespace
+        }
+    }
+}
+
+extension EKSClientTypes {
+
     public enum AddonStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case createFailed
@@ -397,6 +412,8 @@ extension EKSClientTypes {
         public var marketplaceInformation: EKSClientTypes.MarketplaceInformation?
         /// The Unix epoch timestamp for the last modification to the object.
         public var modifiedAt: Foundation.Date?
+        /// The namespace configuration for the addon. This specifies the Kubernetes namespace where the addon is installed.
+        public var namespaceConfig: EKSClientTypes.AddonNamespaceConfigResponse?
         /// The owner of the add-on.
         public var owner: Swift.String?
         /// An array of EKS Pod Identity associations owned by the add-on. Each association maps a role to a service account in a namespace in the cluster. For more information, see [Attach an IAM Role to an Amazon EKS add-on using EKS Pod Identity](https://docs.aws.amazon.com/eks/latest/userguide/add-ons-iam.html) in the Amazon EKS User Guide.
@@ -420,6 +437,7 @@ extension EKSClientTypes {
             health: EKSClientTypes.AddonHealth? = nil,
             marketplaceInformation: EKSClientTypes.MarketplaceInformation? = nil,
             modifiedAt: Foundation.Date? = nil,
+            namespaceConfig: EKSClientTypes.AddonNamespaceConfigResponse? = nil,
             owner: Swift.String? = nil,
             podIdentityAssociations: [Swift.String]? = nil,
             publisher: Swift.String? = nil,
@@ -436,6 +454,7 @@ extension EKSClientTypes {
             self.health = health
             self.marketplaceInformation = marketplaceInformation
             self.modifiedAt = modifiedAt
+            self.namespaceConfig = namespaceConfig
             self.owner = owner
             self.podIdentityAssociations = podIdentityAssociations
             self.publisher = publisher
@@ -531,6 +550,8 @@ extension EKSClientTypes {
         public var addonName: Swift.String?
         /// An object representing information about available add-on versions and compatible Kubernetes versions.
         public var addonVersions: [EKSClientTypes.AddonVersionInfo]?
+        /// The default Kubernetes namespace where this addon is typically installed if no custom namespace is specified.
+        public var defaultNamespace: Swift.String?
         /// Information about the add-on from the Amazon Web Services Marketplace.
         public var marketplaceInformation: EKSClientTypes.MarketplaceInformation?
         /// The owner of the add-on.
@@ -543,6 +564,7 @@ extension EKSClientTypes {
         public init(
             addonName: Swift.String? = nil,
             addonVersions: [EKSClientTypes.AddonVersionInfo]? = nil,
+            defaultNamespace: Swift.String? = nil,
             marketplaceInformation: EKSClientTypes.MarketplaceInformation? = nil,
             owner: Swift.String? = nil,
             publisher: Swift.String? = nil,
@@ -550,10 +572,26 @@ extension EKSClientTypes {
         ) {
             self.addonName = addonName
             self.addonVersions = addonVersions
+            self.defaultNamespace = defaultNamespace
             self.marketplaceInformation = marketplaceInformation
             self.owner = owner
             self.publisher = publisher
             self.type = type
+        }
+    }
+}
+
+extension EKSClientTypes {
+
+    /// The namespace configuration request object for specifying a custom namespace when creating an addon.
+    public struct AddonNamespaceConfigRequest: Swift.Sendable {
+        /// The name of the Kubernetes namespace to install the addon in. Must be a valid RFC 1123 DNS label.
+        public var namespace: Swift.String?
+
+        public init(
+            namespace: Swift.String? = nil
+        ) {
+            self.namespace = namespace
         }
     }
 }
@@ -1720,6 +1758,8 @@ public struct CreateAddonInput: Swift.Sendable {
     public var clusterName: Swift.String?
     /// The set of configuration values for the add-on that's created. The values that you provide are validated against the schema returned by DescribeAddonConfiguration.
     public var configurationValues: Swift.String?
+    /// The namespace configuration for the addon. If specified, this will override the default namespace for the addon.
+    public var namespaceConfig: EKSClientTypes.AddonNamespaceConfigRequest?
     /// An array of EKS Pod Identity associations to be created. Each association maps a Kubernetes service account to an IAM role. For more information, see [Attach an IAM Role to an Amazon EKS add-on using EKS Pod Identity](https://docs.aws.amazon.com/eks/latest/userguide/add-ons-iam.html) in the Amazon EKS User Guide.
     public var podIdentityAssociations: [EKSClientTypes.AddonPodIdentityAssociations]?
     /// How to resolve field value conflicts for an Amazon EKS add-on. Conflicts are handled based on the value you choose:
@@ -1744,6 +1784,7 @@ public struct CreateAddonInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         clusterName: Swift.String? = nil,
         configurationValues: Swift.String? = nil,
+        namespaceConfig: EKSClientTypes.AddonNamespaceConfigRequest? = nil,
         podIdentityAssociations: [EKSClientTypes.AddonPodIdentityAssociations]? = nil,
         resolveConflicts: EKSClientTypes.ResolveConflicts? = nil,
         serviceAccountRoleArn: Swift.String? = nil,
@@ -1754,6 +1795,7 @@ public struct CreateAddonInput: Swift.Sendable {
         self.clientRequestToken = clientRequestToken
         self.clusterName = clusterName
         self.configurationValues = configurationValues
+        self.namespaceConfig = namespaceConfig
         self.podIdentityAssociations = podIdentityAssociations
         self.resolveConflicts = resolveConflicts
         self.serviceAccountRoleArn = serviceAccountRoleArn
@@ -5201,6 +5243,73 @@ public struct DescribeInsightOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeInsightsRefreshInput: Swift.Sendable {
+    /// The name of the cluster associated with the insights refresh operation.
+    /// This member is required.
+    public var clusterName: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil
+    ) {
+        self.clusterName = clusterName
+    }
+}
+
+extension EKSClientTypes {
+
+    public enum InsightsRefreshStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightsRefreshStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeInsightsRefreshOutput: Swift.Sendable {
+    /// The date and time when the insights refresh operation ended.
+    public var endedAt: Foundation.Date?
+    /// The message associated with the insights refresh operation.
+    public var message: Swift.String?
+    /// The date and time when the insights refresh operation started.
+    public var startedAt: Foundation.Date?
+    /// The current status of the insights refresh operation.
+    public var status: EKSClientTypes.InsightsRefreshStatus?
+
+    public init(
+        endedAt: Foundation.Date? = nil,
+        message: Swift.String? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: EKSClientTypes.InsightsRefreshStatus? = nil
+    ) {
+        self.endedAt = endedAt
+        self.message = message
+        self.startedAt = startedAt
+        self.status = status
+    }
+}
+
 public struct DescribeNodegroupInput: Swift.Sendable {
     /// The name of your cluster.
     /// This member is required.
@@ -6167,6 +6276,33 @@ public struct RegisterClusterOutput: Swift.Sendable {
     }
 }
 
+public struct StartInsightsRefreshInput: Swift.Sendable {
+    /// The name of the cluster for the refresh insights operation.
+    /// This member is required.
+    public var clusterName: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil
+    ) {
+        self.clusterName = clusterName
+    }
+}
+
+public struct StartInsightsRefreshOutput: Swift.Sendable {
+    /// The message associated with the insights refresh operation.
+    public var message: Swift.String?
+    /// The current status of the insights refresh operation.
+    public var status: EKSClientTypes.InsightsRefreshStatus?
+
+    public init(
+        message: Swift.String? = nil,
+        status: EKSClientTypes.InsightsRefreshStatus? = nil
+    ) {
+        self.message = message
+        self.status = status
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource to add tags to.
     /// This member is required.
@@ -7079,6 +7215,16 @@ extension DescribeInsightInput {
     }
 }
 
+extension DescribeInsightsRefreshInput {
+
+    static func urlPathProvider(_ value: DescribeInsightsRefreshInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/insights-refresh"
+    }
+}
+
 extension DescribeNodegroupInput {
 
     static func urlPathProvider(_ value: DescribeNodegroupInput) -> Swift.String? {
@@ -7499,6 +7645,16 @@ extension RegisterClusterInput {
     }
 }
 
+extension StartInsightsRefreshInput {
+
+    static func urlPathProvider(_ value: StartInsightsRefreshInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/insights-refresh"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -7679,6 +7835,7 @@ extension CreateAddonInput {
         try writer["addonVersion"].write(value.addonVersion)
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["configurationValues"].write(value.configurationValues)
+        try writer["namespaceConfig"].write(value.namespaceConfig, with: EKSClientTypes.AddonNamespaceConfigRequest.write(value:to:))
         try writer["podIdentityAssociations"].writeList(value.podIdentityAssociations, memberWritingClosure: EKSClientTypes.AddonPodIdentityAssociations.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["resolveConflicts"].write(value.resolveConflicts)
         try writer["serviceAccountRoleArn"].write(value.serviceAccountRoleArn)
@@ -8258,6 +8415,21 @@ extension DescribeInsightOutput {
     }
 }
 
+extension DescribeInsightsRefreshOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeInsightsRefreshOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeInsightsRefreshOutput()
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.message = try reader["message"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeNodegroupOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeNodegroupOutput {
@@ -8491,6 +8663,19 @@ extension RegisterClusterOutput {
         let reader = responseReader
         var value = RegisterClusterOutput()
         value.cluster = try reader["cluster"].readIfPresent(with: EKSClientTypes.Cluster.read(from:))
+        return value
+    }
+}
+
+extension StartInsightsRefreshOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartInsightsRefreshOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartInsightsRefreshOutput()
+        value.message = try reader["message"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -9106,6 +9291,23 @@ enum DescribeInsightOutputError {
     }
 }
 
+enum DescribeInsightsRefreshOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeNodegroupOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9428,6 +9630,23 @@ enum RegisterClusterOutputError {
             case "ResourcePropagationDelayException": return try ResourcePropagationDelayException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartInsightsRefreshOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9947,6 +10166,17 @@ extension EKSClientTypes.Addon {
         value.marketplaceInformation = try reader["marketplaceInformation"].readIfPresent(with: EKSClientTypes.MarketplaceInformation.read(from:))
         value.configurationValues = try reader["configurationValues"].readIfPresent()
         value.podIdentityAssociations = try reader["podIdentityAssociations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.namespaceConfig = try reader["namespaceConfig"].readIfPresent(with: EKSClientTypes.AddonNamespaceConfigResponse.read(from:))
+        return value
+    }
+}
+
+extension EKSClientTypes.AddonNamespaceConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSClientTypes.AddonNamespaceConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSClientTypes.AddonNamespaceConfigResponse()
+        value.namespace = try reader["namespace"].readIfPresent()
         return value
     }
 }
@@ -10661,6 +10891,7 @@ extension EKSClientTypes.AddonInfo {
         value.publisher = try reader["publisher"].readIfPresent()
         value.owner = try reader["owner"].readIfPresent()
         value.marketplaceInformation = try reader["marketplaceInformation"].readIfPresent(with: EKSClientTypes.MarketplaceInformation.read(from:))
+        value.defaultNamespace = try reader["defaultNamespace"].readIfPresent()
         return value
     }
 }
@@ -10915,6 +11146,14 @@ extension EKSClientTypes.AddonPodIdentityAssociations {
         guard let value else { return }
         try writer["roleArn"].write(value.roleArn)
         try writer["serviceAccount"].write(value.serviceAccount)
+    }
+}
+
+extension EKSClientTypes.AddonNamespaceConfigRequest {
+
+    static func write(value: EKSClientTypes.AddonNamespaceConfigRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["namespace"].write(value.namespace)
     }
 }
 

@@ -14,30 +14,30 @@ import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolverParameters
 import struct SmithyHTTPAuthAPI.AuthOption
 
-public struct OpsWorksAuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
+public struct BCMDashboardsAuthSchemeResolverParameters: SmithyHTTPAuthAPI.AuthSchemeResolverParameters {
     public let authSchemePreference: [String]?
     public let operation: Swift.String
     // Region is used for SigV4 auth scheme
     public let region: Swift.String?
 }
 
-public protocol OpsWorksAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
+public protocol BCMDashboardsAuthSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver {
     // Intentionally empty.
     // This is the parent protocol that all auth scheme resolver implementations of
-    // the service OpsWorks must conform to.
+    // the service BCMDashboards must conform to.
 }
 
-public struct DefaultOpsWorksAuthSchemeResolver: OpsWorksAuthSchemeResolver {
+public struct DefaultBCMDashboardsAuthSchemeResolver: BCMDashboardsAuthSchemeResolver {
 
     public func resolveAuthScheme(params: SmithyHTTPAuthAPI.AuthSchemeResolverParameters) throws -> [SmithyHTTPAuthAPI.AuthOption] {
         var validAuthOptions = [SmithyHTTPAuthAPI.AuthOption]()
-        guard let serviceParams = params as? OpsWorksAuthSchemeResolverParameters else {
+        guard let serviceParams = params as? BCMDashboardsAuthSchemeResolverParameters else {
             throw Smithy.ClientError.authError("Service specific auth scheme parameters type must be passed to auth scheme resolver.")
         }
         switch serviceParams.operation {
             default:
                 var sigv4Option = SmithyHTTPAuthAPI.AuthOption(schemeID: "aws.auth#sigv4")
-                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "opsworks")
+                sigv4Option.signingProperties.set(key: SmithyHTTPAuthAPI.SigningPropertyKeys.signingName, value: "bcm-dashboards")
                 guard let region = serviceParams.region else {
                     throw Smithy.ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
                 }
@@ -53,6 +53,6 @@ public struct DefaultOpsWorksAuthSchemeResolver: OpsWorksAuthSchemeResolver {
         }
         let authSchemePreference = context.getAuthSchemePreference()
         let opRegion = context.getRegion()
-        return OpsWorksAuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName, region: opRegion)
+        return BCMDashboardsAuthSchemeResolverParameters(authSchemePreference: authSchemePreference, operation: opName, region: opRegion)
     }
 }

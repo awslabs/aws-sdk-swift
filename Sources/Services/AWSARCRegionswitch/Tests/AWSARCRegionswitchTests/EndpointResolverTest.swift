@@ -172,160 +172,8 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-iso-east-1 with FIPS enabled and DualStack enabled
-    func testResolve9() throws {
-        let endpointParams = EndpointParams(
-            region: "us-iso-east-1",
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://arc-region-switch-fips.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-iso-east-1 with FIPS disabled and DualStack enabled
-    func testResolve10() throws {
-        let endpointParams = EndpointParams(
-            region: "us-iso-east-1",
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://arc-region-switch.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isob-east-1 with FIPS enabled and DualStack enabled
-    func testResolve11() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isob-east-1",
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://arc-region-switch-fips.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isob-east-1 with FIPS disabled and DualStack enabled
-    func testResolve12() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isob-east-1",
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://arc-region-switch.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region eu-isoe-west-1 with FIPS enabled and DualStack enabled
-    func testResolve13() throws {
-        let endpointParams = EndpointParams(
-            region: "eu-isoe-west-1",
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://arc-region-switch-fips.eu-isoe-west-1.cloud.adc-e.uk", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region eu-isoe-west-1 with FIPS disabled and DualStack enabled
-    func testResolve14() throws {
-        let endpointParams = EndpointParams(
-            region: "eu-isoe-west-1",
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://arc-region-switch.eu-isoe-west-1.cloud.adc-e.uk", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isof-south-1 with FIPS enabled and DualStack enabled
-    func testResolve15() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isof-south-1",
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://arc-region-switch-fips.us-isof-south-1.csp.hci.ic.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isof-south-1 with FIPS disabled and DualStack enabled
-    func testResolve16() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isof-south-1",
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://arc-region-switch.us-isof-south-1.csp.hci.ic.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
     /// Missing region
-    func testResolve17() throws {
+    func testResolve9() throws {
         let endpointParams = EndpointParams(
         )
         let resolver = try DefaultEndpointResolver()
@@ -341,7 +189,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Control plane operation with DualStack in us-west-2 routes to us-east-1 DualStack endpoint
-    func testResolve18() throws {
+    func testResolve10() throws {
         let endpointParams = EndpointParams(
             region: "us-west-2",
             useControlPlaneEndpoint: true
@@ -368,7 +216,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Control plane operation with endpoint set in us-east-1 routes to provided endpoint
-    func testResolve19() throws {
+    func testResolve11() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://amazonaws.com",
             region: "us-east-1",
@@ -388,7 +236,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Control plane operation with endpoint set in us-west-2 routes to provided endpoint
-    func testResolve20() throws {
+    func testResolve12() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://amazonaws.com",
             region: "us-west-2",
@@ -408,7 +256,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Control plane operation in us-west-2 (standard partition) routes to us-east-1
-    func testResolve21() throws {
+    func testResolve13() throws {
         let endpointParams = EndpointParams(
             region: "us-west-2",
             useControlPlaneEndpoint: true
@@ -435,7 +283,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Control plane operation in cn-north-1 (China partition) routes to cn-north-1 with China DNS suffix
-    func testResolve22() throws {
+    func testResolve14() throws {
         let endpointParams = EndpointParams(
             region: "cn-north-1",
             useControlPlaneEndpoint: true
@@ -462,7 +310,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Control plane operation in cn-northwest-1 (China partition) routes to cn-north-1 with China DNS suffix
-    func testResolve23() throws {
+    func testResolve15() throws {
         let endpointParams = EndpointParams(
             region: "cn-northwest-1",
             useControlPlaneEndpoint: true
@@ -489,7 +337,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Control plane operation in us-gov-west-1 (GovCloud partition) routes to us-gov-west-1 with GovCloud DNS suffix
-    func testResolve24() throws {
+    func testResolve16() throws {
         let endpointParams = EndpointParams(
             region: "us-gov-west-1",
             useControlPlaneEndpoint: true
@@ -516,7 +364,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Control plane operation in us-gov-east-1 (GovCloud partition) routes to us-gov-west-1 with GovCloud DNS suffix
-    func testResolve25() throws {
+    func testResolve17() throws {
         let endpointParams = EndpointParams(
             region: "us-gov-east-1",
             useControlPlaneEndpoint: true
@@ -543,7 +391,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Control plane operation with FIPS in us-west-2 routes to us-east-1 FIPS endpoint
-    func testResolve26() throws {
+    func testResolve18() throws {
         let endpointParams = EndpointParams(
             region: "us-west-2",
             useControlPlaneEndpoint: true,
@@ -571,7 +419,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Control plane operation with FIPS in us-east-1 routes to us-east-1 FIPS endpoint
-    func testResolve27() throws {
+    func testResolve19() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             useControlPlaneEndpoint: true,
@@ -599,7 +447,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Control plane operation with FIPS in CN returns an error
-    func testResolve28() throws {
+    func testResolve20() throws {
         let endpointParams = EndpointParams(
             region: "cn-north-1",
             useControlPlaneEndpoint: true,
@@ -618,7 +466,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Control plane operation with endpoint set using FIPS in us-east-1 errors
-    func testResolve29() throws {
+    func testResolve21() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://amazonaws.com",
             region: "us-east-1",
@@ -638,7 +486,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Control plane operation with endpoint set using FIPS in us-west-2 routes to provided endpoint
-    func testResolve30() throws {
+    func testResolve22() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://amazonaws.com",
             region: "us-west-2",

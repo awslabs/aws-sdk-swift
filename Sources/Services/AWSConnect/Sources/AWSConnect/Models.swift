@@ -5132,14 +5132,18 @@ extension ConnectClientTypes {
     public struct ParticipantDetailsToAdd: Swift.Sendable {
         /// The display name of the participant.
         public var displayName: Swift.String?
+        /// The configuration for the allowed video and screen sharing capabilities for participants present over the call. For more information, see [Set up in-app, web, video calling, and screen sharing capabilities](https://docs.aws.amazon.com/connect/latest/adminguide/inapp-calling.html) in the Amazon Connect Administrator Guide.
+        public var participantCapabilities: ConnectClientTypes.ParticipantCapabilities?
         /// The role of the participant being added.
         public var participantRole: ConnectClientTypes.ParticipantRole?
 
         public init(
             displayName: Swift.String? = nil,
+            participantCapabilities: ConnectClientTypes.ParticipantCapabilities? = nil,
             participantRole: ConnectClientTypes.ParticipantRole? = nil
         ) {
             self.displayName = displayName
+            self.participantCapabilities = participantCapabilities
             self.participantRole = participantRole
         }
     }
@@ -5148,13 +5152,13 @@ extension ConnectClientTypes {
 public struct CreateParticipantInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the contact in this instance of Amazon Connect. Only contacts in the CHAT channel are supported.
+    /// The identifier of the contact in this instance of Amazon Connect. Supports contacts in the CHAT channel and VOICE (WebRTC) channels. For WebRTC calls, this should be the initial contact ID that was generated when the contact was first created (from the StartWebRTCContact API) in the VOICE channel
     /// This member is required.
     public var contactId: Swift.String?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// Information identifying the participant. The only Valid value for ParticipantRole is CUSTOM_BOT. DisplayName is Required.
+    /// Information identifying the participant. The only valid value for ParticipantRole is CUSTOM_BOT for chat contact and CUSTOMER for voice contact.
     /// This member is required.
     public var participantDetails: ConnectClientTypes.ParticipantDetailsToAdd?
 
@@ -35836,6 +35840,7 @@ enum CreateParticipantOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
@@ -44876,6 +44881,7 @@ extension ConnectClientTypes.ParticipantDetailsToAdd {
     static func write(value: ConnectClientTypes.ParticipantDetailsToAdd?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DisplayName"].write(value.displayName)
+        try writer["ParticipantCapabilities"].write(value.participantCapabilities, with: ConnectClientTypes.ParticipantCapabilities.write(value:to:))
         try writer["ParticipantRole"].write(value.participantRole)
     }
 }

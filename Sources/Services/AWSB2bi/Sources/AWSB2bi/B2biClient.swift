@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class B2biClient: ClientRuntime.Client {
     public static let clientName = "B2biClient"
-    public static let version = "1.5.18"
+    public static let version = "1.5.30"
     let client: ClientRuntime.SdkHttpClient
     let config: B2biClient.B2biClientConfiguration
     let serviceName = "b2bi"
@@ -388,7 +388,7 @@ extension B2biClient {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ServiceQuotaExceededException` : Occurs when the calling command attempts to exceed one of the service quotas, for example trying to create a capability when you already have the maximum number of capabilities allowed.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func createCapability(input: CreateCapabilityInput) async throws -> CreateCapabilityOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -463,7 +463,7 @@ extension B2biClient {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ServiceQuotaExceededException` : Occurs when the calling command attempts to exceed one of the service quotas, for example trying to create a capability when you already have the maximum number of capabilities allowed.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func createPartnership(input: CreatePartnershipInput) async throws -> CreatePartnershipOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -538,7 +538,7 @@ extension B2biClient {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ServiceQuotaExceededException` : Occurs when the calling command attempts to exceed one of the service quotas, for example trying to create a capability when you already have the maximum number of capabilities allowed.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -610,7 +610,7 @@ extension B2biClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func createStarterMappingTemplate(input: CreateStarterMappingTemplateInput) async throws -> CreateStarterMappingTemplateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -697,7 +697,7 @@ extension B2biClient {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ServiceQuotaExceededException` : Occurs when the calling command attempts to exceed one of the service quotas, for example trying to create a capability when you already have the maximum number of capabilities allowed.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func createTransformer(input: CreateTransformerInput) async throws -> CreateTransformerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -771,7 +771,7 @@ extension B2biClient {
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func deleteCapability(input: DeleteCapabilityInput) async throws -> DeleteCapabilityOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -844,7 +844,7 @@ extension B2biClient {
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func deletePartnership(input: DeletePartnershipInput) async throws -> DeletePartnershipOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -917,7 +917,7 @@ extension B2biClient {
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -990,7 +990,7 @@ extension B2biClient {
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func deleteTransformer(input: DeleteTransformerInput) async throws -> DeleteTransformerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1067,7 +1067,7 @@ extension B2biClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func generateMapping(input: GenerateMappingInput) async throws -> GenerateMappingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1139,7 +1139,7 @@ extension B2biClient {
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func getCapability(input: GetCapabilityInput) async throws -> GetCapabilityOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1211,7 +1211,7 @@ extension B2biClient {
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func getPartnership(input: GetPartnershipInput) async throws -> GetPartnershipOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1283,7 +1283,7 @@ extension B2biClient {
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func getProfile(input: GetProfileInput) async throws -> GetProfileOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1355,7 +1355,7 @@ extension B2biClient {
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func getTransformer(input: GetTransformerInput) async throws -> GetTransformerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1427,7 +1427,7 @@ extension B2biClient {
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func getTransformerJob(input: GetTransformerJobInput) async throws -> GetTransformerJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1499,7 +1499,7 @@ extension B2biClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func listCapabilities(input: ListCapabilitiesInput) async throws -> ListCapabilitiesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1572,7 +1572,7 @@ extension B2biClient {
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func listPartnerships(input: ListPartnershipsInput) async throws -> ListPartnershipsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1644,7 +1644,7 @@ extension B2biClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func listProfiles(input: ListProfilesInput) async throws -> ListProfilesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1715,7 +1715,7 @@ extension B2biClient {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1786,7 +1786,7 @@ extension B2biClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func listTransformers(input: ListTransformersInput) async throws -> ListTransformersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1860,7 +1860,7 @@ extension B2biClient {
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func startTransformerJob(input: StartTransformerJobInput) async throws -> StartTransformerJobOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1932,7 +1932,7 @@ extension B2biClient {
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2004,7 +2004,7 @@ extension B2biClient {
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func testConversion(input: TestConversionInput) async throws -> TestConversionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2076,7 +2076,7 @@ extension B2biClient {
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func testMapping(input: TestMappingInput) async throws -> TestMappingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2148,7 +2148,7 @@ extension B2biClient {
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func testParsing(input: TestParsingInput) async throws -> TestParsingOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2218,7 +2218,7 @@ extension B2biClient {
     /// __Possible Exceptions:__
     /// - `InternalServerException` : This exception is thrown when an error occurs in the Amazon Web Services B2B Data Interchange service.
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2293,7 +2293,7 @@ extension B2biClient {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ServiceQuotaExceededException` : Occurs when the calling command attempts to exceed one of the service quotas, for example trying to create a capability when you already have the maximum number of capabilities allowed.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func updateCapability(input: UpdateCapabilityInput) async throws -> UpdateCapabilityOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2367,7 +2367,7 @@ extension B2biClient {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ServiceQuotaExceededException` : Occurs when the calling command attempts to exceed one of the service quotas, for example trying to create a capability when you already have the maximum number of capabilities allowed.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func updatePartnership(input: UpdatePartnershipInput) async throws -> UpdatePartnershipOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2441,7 +2441,7 @@ extension B2biClient {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ServiceQuotaExceededException` : Occurs when the calling command attempts to exceed one of the service quotas, for example trying to create a capability when you already have the maximum number of capabilities allowed.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2515,7 +2515,7 @@ extension B2biClient {
     /// - `ResourceNotFoundException` : Occurs when the requested resource does not exist, or cannot be found. In some cases, the resource exists in a region other than the region specified in the API call.
     /// - `ServiceQuotaExceededException` : Occurs when the calling command attempts to exceed one of the service quotas, for example trying to create a capability when you already have the maximum number of capabilities allowed.
     /// - `ThrottlingException` : The request was denied due to throttling: the data speed and rendering may be limited depending on various parameters and conditions.
-    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object.
+    /// - `ValidationException` : Occurs when a B2BI object cannot be validated against a request from another object. This exception can be thrown during standard EDI validation or when custom validation rules fail, such as when element length constraints are violated, invalid codes are used in code list validations, or required elements are missing based on configured element requirement rules.
     public func updateTransformer(input: UpdateTransformerInput) async throws -> UpdateTransformerOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)

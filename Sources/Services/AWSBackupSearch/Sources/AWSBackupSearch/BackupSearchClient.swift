@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BackupSearchClient: ClientRuntime.Client {
     public static let clientName = "BackupSearchClient"
-    public static let version = "1.5.18"
+    public static let version = "1.5.30"
     let client: ClientRuntime.SdkHttpClient
     let config: BackupSearchClient.BackupSearchClientConfiguration
     let serviceName = "BackupSearch"
@@ -863,6 +863,7 @@ extension BackupSearchClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : This exception occurs when a conflict with a previous successful operation is detected. This generally occurs when the previous operation did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The resource was not found for this request. Confirm the resource information, such as the ARN or type is correct and exists, then retry the request.
     /// - `ServiceQuotaExceededException` : The request denied due to exceeding the quota limits permitted.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.

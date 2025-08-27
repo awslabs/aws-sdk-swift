@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectClient: ClientRuntime.Client {
     public static let clientName = "ConnectClient"
-    public static let version = "1.5.18"
+    public static let version = "1.5.30"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectClient.ConnectClientConfiguration
     let serviceName = "Connect"
@@ -2778,7 +2778,7 @@ extension ConnectClient {
 
     /// Performs the `CreateParticipant` operation on the `Connect` service.
     ///
-    /// Adds a new participant into an on-going chat contact. For more information, see [Customize chat flow experiences by integrating custom participants](https://docs.aws.amazon.com/connect/latest/adminguide/chat-customize-flow.html).
+    /// Adds a new participant into an on-going chat contact or webRTC call. For more information, see [Customize chat flow experiences by integrating custom participants](https://docs.aws.amazon.com/connect/latest/adminguide/chat-customize-flow.html) or [Enable multi-user web, in-app, and video calling](https://docs.aws.amazon.com/connect/latest/adminguide/enable-multiuser-inapp.html).
     ///
     /// - Parameter CreateParticipantInput : [no documentation found]
     ///
@@ -2787,6 +2787,7 @@ extension ConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : Operation cannot be performed at this time as there is a conflict with another operation or contact state.
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -9095,8 +9096,6 @@ extension ConnectClient {
     /// * Each item in MetricResult must include all requested metrics
     ///
     /// * If the response is slow due to large result sets, try these approaches:
-    ///
-    /// * Narrow the time range of your request
     ///
     /// * Add filters to reduce the amount of data returned
     ///

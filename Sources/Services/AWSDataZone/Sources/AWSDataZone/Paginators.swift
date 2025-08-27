@@ -12,6 +12,72 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension DataZoneClient {
+    /// Paginate over `[ListAccountPoolsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAccountPoolsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAccountPoolsOutput`
+    public func listAccountPoolsPaginated(input: ListAccountPoolsInput) -> ClientRuntime.PaginatorSequence<ListAccountPoolsInput, ListAccountPoolsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAccountPoolsInput, ListAccountPoolsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccountPools(input:))
+    }
+}
+
+extension ListAccountPoolsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAccountPoolsInput {
+        return ListAccountPoolsInput(
+            domainIdentifier: self.domainIdentifier,
+            maxResults: self.maxResults,
+            name: self.name,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAccountPoolsInput, OperationStackOutput == ListAccountPoolsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAccountPoolsPaginated`
+    /// to access the nested member `[DataZoneClientTypes.AccountPoolSummary]`
+    /// - Returns: `[DataZoneClientTypes.AccountPoolSummary]`
+    public func items() async throws -> [DataZoneClientTypes.AccountPoolSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension DataZoneClient {
+    /// Paginate over `[ListAccountsInAccountPoolOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAccountsInAccountPoolInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAccountsInAccountPoolOutput`
+    public func listAccountsInAccountPoolPaginated(input: ListAccountsInAccountPoolInput) -> ClientRuntime.PaginatorSequence<ListAccountsInAccountPoolInput, ListAccountsInAccountPoolOutput> {
+        return ClientRuntime.PaginatorSequence<ListAccountsInAccountPoolInput, ListAccountsInAccountPoolOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccountsInAccountPool(input:))
+    }
+}
+
+extension ListAccountsInAccountPoolInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAccountsInAccountPoolInput {
+        return ListAccountsInAccountPoolInput(
+            domainIdentifier: self.domainIdentifier,
+            identifier: self.identifier,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAccountsInAccountPoolInput, OperationStackOutput == ListAccountsInAccountPoolOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAccountsInAccountPoolPaginated`
+    /// to access the nested member `[DataZoneClientTypes.AccountInfo]`
+    /// - Returns: `[DataZoneClientTypes.AccountInfo]`
+    public func items() async throws -> [DataZoneClientTypes.AccountInfo] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension DataZoneClient {
     /// Paginate over `[ListAssetFiltersOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

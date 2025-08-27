@@ -3164,6 +3164,7 @@ extension SageMakerClientTypes {
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlP54xlarge
         case mlP6eGb20036xlarge
         case mlP6B20048xlarge
         case mlR5d12xlarge
@@ -3305,6 +3306,7 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlP54xlarge,
                 .mlP6eGb20036xlarge,
                 .mlP6B20048xlarge,
                 .mlR5d12xlarge,
@@ -3452,6 +3454,7 @@ extension SageMakerClientTypes {
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP54xlarge: return "ml.p5.4xlarge"
             case .mlP6eGb20036xlarge: return "ml.p6e-gb200.36xlarge"
             case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
@@ -10710,14 +10713,176 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum ClusterAutoScalerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case karpenter
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterAutoScalerType] {
+            return [
+                .karpenter
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .karpenter: return "Karpenter"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ClusterAutoScalingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disable
+        case enable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterAutoScalingMode] {
+            return [
+                .disable,
+                .enable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disable: return "Disable"
+            case .enable: return "Enable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Specifies the autoscaling configuration for a HyperPod cluster.
+    public struct ClusterAutoScalingConfig: Swift.Sendable {
+        /// The type of autoscaler to use. Currently supported value is Karpenter.
+        public var autoScalerType: SageMakerClientTypes.ClusterAutoScalerType?
+        /// Describes whether autoscaling is enabled or disabled for the cluster. Valid values are Enable and Disable.
+        /// This member is required.
+        public var mode: SageMakerClientTypes.ClusterAutoScalingMode?
+
+        public init(
+            autoScalerType: SageMakerClientTypes.ClusterAutoScalerType? = nil,
+            mode: SageMakerClientTypes.ClusterAutoScalingMode? = nil
+        ) {
+            self.autoScalerType = autoScalerType
+            self.mode = mode
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ClusterAutoScalingStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creating
+        case deleting
+        case failed
+        case inservice
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterAutoScalingStatus] {
+            return [
+                .creating,
+                .deleting,
+                .failed,
+                .inservice
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creating: return "Creating"
+            case .deleting: return "Deleting"
+            case .failed: return "Failed"
+            case .inservice: return "InService"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The autoscaling configuration and status information for a HyperPod cluster.
+    public struct ClusterAutoScalingConfigOutput: Swift.Sendable {
+        /// The type of autoscaler configured for the cluster.
+        public var autoScalerType: SageMakerClientTypes.ClusterAutoScalerType?
+        /// If the autoscaling status is Failed, this field contains a message describing the failure.
+        public var failureMessage: Swift.String?
+        /// Describes whether autoscaling is enabled or disabled for the cluster.
+        /// This member is required.
+        public var mode: SageMakerClientTypes.ClusterAutoScalingMode?
+        /// The current status of the autoscaling configuration. Valid values are InService, Failed, Creating, and Deleting.
+        /// This member is required.
+        public var status: SageMakerClientTypes.ClusterAutoScalingStatus?
+
+        public init(
+            autoScalerType: SageMakerClientTypes.ClusterAutoScalerType? = nil,
+            failureMessage: Swift.String? = nil,
+            mode: SageMakerClientTypes.ClusterAutoScalingMode? = nil,
+            status: SageMakerClientTypes.ClusterAutoScalingStatus? = nil
+        ) {
+            self.autoScalerType = autoScalerType
+            self.failureMessage = failureMessage
+            self.mode = mode
+            self.status = status
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Defines the configuration for attaching an additional Amazon Elastic Block Store (EBS) volume to each instance of the SageMaker HyperPod cluster instance group. To learn more, see [SageMaker HyperPod release notes: June 20, 2024](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-release-notes.html#sagemaker-hyperpod-release-notes-20240620).
     public struct ClusterEbsVolumeConfig: Swift.Sendable {
+        /// Specifies whether the configuration is for the cluster's root or secondary Amazon EBS volume. You can specify two ClusterEbsVolumeConfig fields to configure both the root and secondary volumes. Set the value to True if you'd like to provide your own customer managed Amazon Web Services KMS key to encrypt the root volume. When True:
+        ///
+        /// * The configuration is applied to the root volume.
+        ///
+        /// * You can't specify the VolumeSizeInGB field. The size of the root volume is determined for you.
+        ///
+        /// * You must specify a KMS key ID for VolumeKmsKeyId to encrypt the root volume with your own KMS key instead of an Amazon Web Services owned KMS key.
+        ///
+        ///
+        /// Otherwise, by default, the value is False, and the following applies:
+        ///
+        /// * The configuration is applied to the secondary volume, while the root volume is encrypted with an Amazon Web Services owned key.
+        ///
+        /// * You must specify the VolumeSizeInGB field.
+        ///
+        /// * You can optionally specify the VolumeKmsKeyId to encrypt the secondary volume with your own KMS key instead of an Amazon Web Services owned KMS key.
+        public var rootVolume: Swift.Bool?
+        /// The ID of a KMS key to encrypt the Amazon EBS volume.
+        public var volumeKmsKeyId: Swift.String?
         /// The size in gigabytes (GB) of the additional EBS volume to be attached to the instances in the SageMaker HyperPod cluster instance group. The additional EBS volume is attached to each instance within the SageMaker HyperPod cluster instance group and mounted to /opt/sagemaker.
         public var volumeSizeInGB: Swift.Int?
 
         public init(
+            rootVolume: Swift.Bool? = nil,
+            volumeKmsKeyId: Swift.String? = nil,
             volumeSizeInGB: Swift.Int? = nil
         ) {
+            self.rootVolume = rootVolume
+            self.volumeKmsKeyId = volumeKmsKeyId
             self.volumeSizeInGB = volumeSizeInGB
         }
     }
@@ -11101,6 +11266,7 @@ extension SageMakerClientTypes {
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlP6eGb20036xlarge
         case mlP6B20048xlarge
         case mlR6i12xlarge
         case mlR6i16xlarge
@@ -11217,6 +11383,7 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlP6eGb20036xlarge,
                 .mlP6B20048xlarge,
                 .mlR6i12xlarge,
                 .mlR6i16xlarge,
@@ -11339,6 +11506,7 @@ extension SageMakerClientTypes {
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP6eGb20036xlarge: return "ml.p6e-gb200.36xlarge"
             case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlR6i12xlarge: return "ml.r6i.12xlarge"
             case .mlR6i16xlarge: return "ml.r6i.16xlarge"
@@ -11631,7 +11799,7 @@ extension SageMakerClientTypes {
         /// * default: Use the default latest system image
         ///
         ///
-        /// f you choose to use a custom AMI (CustomAmiId), ensure it meets the following requirements:
+        /// If you choose to use a custom AMI (CustomAmiId), ensure it meets the following requirements:
         ///
         /// * Encryption: The custom AMI must be unencrypted.
         ///
@@ -11640,7 +11808,7 @@ extension SageMakerClientTypes {
         /// * Volume support: Only the primary AMI snapshot volume is supported; additional AMI volumes are not supported.
         ///
         ///
-        /// When updating the instance group's AMI through the UpdateClusterSoftware operation, if an instance group uses a custom AMI, you must provide an ImageId or use the default as input.
+        /// When updating the instance group's AMI through the UpdateClusterSoftware operation, if an instance group uses a custom AMI, you must provide an ImageId or use the default as input. Note that if you don't specify an instance group in your UpdateClusterSoftware request, then all of the instance groups are patched with the specified image.
         public var imageId: Swift.String?
         /// Specifies the number of instances to add to the instance group of a SageMaker HyperPod cluster.
         /// This member is required.
@@ -13078,18 +13246,30 @@ extension SageMakerClientTypes {
 
     /// Configuration of the resources used for the compute allocation definition.
     public struct ComputeQuotaResourceConfig: Swift.Sendable {
+        /// The number of accelerators to allocate. If you don't specify a value for vCPU and MemoryInGiB, SageMaker AI automatically allocates ratio-based values for those parameters based on the number of accelerators you provide. For example, if you allocate 16 out of 32 total accelerators, SageMaker AI uses the ratio of 0.5 and allocates values to vCPU and MemoryInGiB.
+        public var accelerators: Swift.Int?
         /// The number of instances to add to the instance group of a SageMaker HyperPod cluster.
         public var count: Swift.Int?
         /// The instance type of the instance group for the cluster.
         /// This member is required.
         public var instanceType: SageMakerClientTypes.ClusterInstanceType?
+        /// The amount of memory in GiB to allocate. If you specify a value only for this parameter, SageMaker AI automatically allocates a ratio-based value for vCPU based on this memory that you provide. For example, if you allocate 200 out of 400 total memory in GiB, SageMaker AI uses the ratio of 0.5 and allocates values to vCPU. Accelerators are set to 0.
+        public var memoryInGiB: Swift.Float?
+        /// The number of vCPU to allocate. If you specify a value only for vCPU, SageMaker AI automatically allocates ratio-based values for MemoryInGiB based on this vCPU parameter. For example, if you allocate 20 out of 40 total vCPU, SageMaker AI uses the ratio of 0.5 and allocates values to MemoryInGiB. Accelerators are set to 0.
+        public var vCpu: Swift.Float?
 
         public init(
+            accelerators: Swift.Int? = nil,
             count: Swift.Int? = nil,
-            instanceType: SageMakerClientTypes.ClusterInstanceType? = nil
+            instanceType: SageMakerClientTypes.ClusterInstanceType? = nil,
+            memoryInGiB: Swift.Float? = nil,
+            vCpu: Swift.Float? = nil
         ) {
+            self.accelerators = accelerators
             self.count = count
             self.instanceType = instanceType
+            self.memoryInGiB = memoryInGiB
+            self.vCpu = vCpu
         }
     }
 }
@@ -14434,9 +14614,13 @@ public struct CreateAutoMLJobV2Output: Swift.Sendable {
 }
 
 public struct CreateClusterInput: Swift.Sendable {
+    /// The autoscaling configuration for the cluster. Enables automatic scaling of cluster nodes based on workload demand using a Karpenter-based system.
+    public var autoScaling: SageMakerClientTypes.ClusterAutoScalingConfig?
     /// The name for the new SageMaker HyperPod cluster.
     /// This member is required.
     public var clusterName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that HyperPod assumes to perform cluster autoscaling operations. This role must have permissions for sagemaker:BatchAddClusterNodes and sagemaker:BatchDeleteClusterNodes. This is only required when autoscaling is enabled and when HyperPod is performing autoscaling operations.
+    public var clusterRole: Swift.String?
     /// The instance groups to be created in the SageMaker HyperPod cluster.
     public var instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]?
     /// The mode for provisioning nodes in the cluster. You can specify the following modes:
@@ -14468,7 +14652,9 @@ public struct CreateClusterInput: Swift.Sendable {
     public var vpcConfig: SageMakerClientTypes.VpcConfig?
 
     public init(
+        autoScaling: SageMakerClientTypes.ClusterAutoScalingConfig? = nil,
         clusterName: Swift.String? = nil,
+        clusterRole: Swift.String? = nil,
         instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]? = nil,
         nodeProvisioningMode: SageMakerClientTypes.ClusterNodeProvisioningMode? = nil,
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
@@ -14477,7 +14663,9 @@ public struct CreateClusterInput: Swift.Sendable {
         tags: [SageMakerClientTypes.Tag]? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
     ) {
+        self.autoScaling = autoScaling
         self.clusterName = clusterName
+        self.clusterRole = clusterRole
         self.instanceGroups = instanceGroups
         self.nodeProvisioningMode = nodeProvisioningMode
         self.nodeRecovery = nodeRecovery
@@ -15586,6 +15774,7 @@ extension SageMakerClientTypes {
         case mlP316xlarge
         case mlP32xlarge
         case mlP38xlarge
+        case mlP54xlarge
         case mlR5d12xlarge
         case mlR5d16xlarge
         case mlR5d24xlarge
@@ -15710,6 +15899,7 @@ extension SageMakerClientTypes {
                 .mlP316xlarge,
                 .mlP32xlarge,
                 .mlP38xlarge,
+                .mlP54xlarge,
                 .mlR5d12xlarge,
                 .mlR5d16xlarge,
                 .mlR5d24xlarge,
@@ -15840,6 +16030,7 @@ extension SageMakerClientTypes {
             case .mlP316xlarge: return "ml.p3.16xlarge"
             case .mlP32xlarge: return "ml.p3.2xlarge"
             case .mlP38xlarge: return "ml.p3.8xlarge"
+            case .mlP54xlarge: return "ml.p5.4xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
             case .mlR5d16xlarge: return "ml.r5d.16xlarge"
             case .mlR5d24xlarge: return "ml.r5d.24xlarge"
@@ -16169,6 +16360,7 @@ extension SageMakerClientTypes {
         /// The file system path where the Amazon S3 storage location will be mounted within the Amazon SageMaker Studio environment.
         public var mountPath: Swift.String?
         /// The Amazon S3 URI of the S3 file system configuration.
+        /// This member is required.
         public var s3Uri: Swift.String?
 
         public init(
@@ -16845,14 +17037,18 @@ extension SageMakerClientTypes {
     public struct DockerSettings: Swift.Sendable {
         /// Indicates whether the domain can access Docker.
         public var enableDockerAccess: SageMakerClientTypes.FeatureStatus?
+        /// Indicates whether to use rootless Docker. Default value is DISABLED.
+        public var rootlessDocker: SageMakerClientTypes.FeatureStatus?
         /// The list of Amazon Web Services accounts that are trusted when the domain is created in VPC-only mode.
         public var vpcOnlyTrustedAccounts: [Swift.String]?
 
         public init(
             enableDockerAccess: SageMakerClientTypes.FeatureStatus? = nil,
+            rootlessDocker: SageMakerClientTypes.FeatureStatus? = nil,
             vpcOnlyTrustedAccounts: [Swift.String]? = nil
         ) {
             self.enableDockerAccess = enableDockerAccess
+            self.rootlessDocker = rootlessDocker
             self.vpcOnlyTrustedAccounts = vpcOnlyTrustedAccounts
         }
     }
@@ -16917,6 +17113,26 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The Trusted Identity Propagation (TIP) settings for the SageMaker domain. These settings determine how user identities from IAM Identity Center are propagated through the domain to TIP enabled Amazon Web Services services.
+    public struct TrustedIdentityPropagationSettings: Swift.Sendable {
+        /// The status of Trusted Identity Propagation (TIP) at the SageMaker domain level. When disabled, standard IAM role-based access is used. When enabled:
+        ///
+        /// * User identities from IAM Identity Center are propagated through the application to TIP enabled Amazon Web Services services.
+        ///
+        /// * New applications or existing applications that are automatically patched, will use the domain level configuration.
+        /// This member is required.
+        public var status: SageMakerClientTypes.FeatureStatus?
+
+        public init(
+            status: SageMakerClientTypes.FeatureStatus? = nil
+        ) {
+            self.status = status
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// The settings that apply to an Amazon SageMaker AI domain when you use it in Amazon SageMaker Unified Studio.
     public struct UnifiedStudioSettings: Swift.Sendable {
         /// The ID of the Amazon Web Services account that has the Amazon SageMaker Unified Studio domain. The default value, if you don't specify an ID, is the ID of the account that has the Amazon SageMaker AI domain.
@@ -16972,6 +17188,8 @@ extension SageMakerClientTypes {
         public var rStudioServerProDomainSettings: SageMakerClientTypes.RStudioServerProDomainSettings?
         /// The security groups for the Amazon Virtual Private Cloud that the Domain uses for communication between Domain-level apps and user apps.
         public var securityGroupIds: [Swift.String]?
+        /// The Trusted Identity Propagation (TIP) settings for the SageMaker domain. These settings determine how user identities from IAM Identity Center are propagated through the domain to TIP enabled Amazon Web Services services.
+        public var trustedIdentityPropagationSettings: SageMakerClientTypes.TrustedIdentityPropagationSettings?
         /// The settings that apply to an SageMaker AI domain when you use it in Amazon SageMaker Unified Studio.
         public var unifiedStudioSettings: SageMakerClientTypes.UnifiedStudioSettings?
 
@@ -16981,6 +17199,7 @@ extension SageMakerClientTypes {
             executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig? = nil,
             rStudioServerProDomainSettings: SageMakerClientTypes.RStudioServerProDomainSettings? = nil,
             securityGroupIds: [Swift.String]? = nil,
+            trustedIdentityPropagationSettings: SageMakerClientTypes.TrustedIdentityPropagationSettings? = nil,
             unifiedStudioSettings: SageMakerClientTypes.UnifiedStudioSettings? = nil
         ) {
             self.amazonQSettings = amazonQSettings
@@ -16988,6 +17207,7 @@ extension SageMakerClientTypes {
             self.executionRoleIdentityConfig = executionRoleIdentityConfig
             self.rStudioServerProDomainSettings = rStudioServerProDomainSettings
             self.securityGroupIds = securityGroupIds
+            self.trustedIdentityPropagationSettings = trustedIdentityPropagationSettings
             self.unifiedStudioSettings = unifiedStudioSettings
         }
     }
@@ -20500,6 +20720,7 @@ extension SageMakerClientTypes {
         case mlP4de24xlarge
         case mlP4d24xlarge
         case mlP548xlarge
+        case mlP6B20048xlarge
         case mlR512xlarge
         case mlR516xlarge
         case mlR524xlarge
@@ -20676,6 +20897,7 @@ extension SageMakerClientTypes {
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
                 .mlP548xlarge,
+                .mlP6B20048xlarge,
                 .mlR512xlarge,
                 .mlR516xlarge,
                 .mlR524xlarge,
@@ -20858,6 +21080,7 @@ extension SageMakerClientTypes {
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlR512xlarge: return "ml.r5.12xlarge"
             case .mlR516xlarge: return "ml.r5.16xlarge"
             case .mlR524xlarge: return "ml.r5.24xlarge"
@@ -22648,7 +22871,7 @@ public struct CreateLabelingJobInput: Swift.Sendable {
     ///
     /// * If you are using one of the following [built-in task types](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-task-types.html), the attribute name must end with "-ref". If the task type you are using is not listed below, the attribute name must not end with "-ref".
     ///
-    /// * Image semantic segmentation (SemanticSegmentation), and adjustment (AdjustmentSemanticSegmentation) and verification (VerificationSemanticSegmentation) labeling jobs for this task type.
+    /// * Verification (VerificationSemanticSegmentation) labeling jobs for this task type.
     ///
     /// * Video frame object detection (VideoObjectDetection), and adjustment and verification (AdjustmentVideoObjectDetection) labeling jobs for this task type.
     ///
@@ -26199,6 +26422,7 @@ extension SageMakerClientTypes {
     /// A custom file system in Amazon S3. This is only supported in Amazon SageMaker Unified Studio.
     public struct S3FileSystem: Swift.Sendable {
         /// The Amazon S3 URI that specifies the location in S3 where files are stored, which is mounted within the Studio environment. For example: s3://<bucket-name>/<prefix>/.
+        /// This member is required.
         public var s3Uri: Swift.String?
 
         public init(
@@ -29223,6 +29447,8 @@ public struct DescribeAppOutput: Swift.Sendable {
     public var creationTime: Foundation.Date?
     /// The domain ID.
     public var domainId: Swift.String?
+    /// The effective status of Trusted Identity Propagation (TIP) for this application. When enabled, user identities from IAM Identity Center are being propagated through the application to TIP enabled Amazon Web Services services. When disabled, standard IAM role-based access is used.
+    public var effectiveTrustedIdentityPropagationStatus: SageMakerClientTypes.FeatureStatus?
     /// The failure reason.
     public var failureReason: Swift.String?
     /// The timestamp of the last health check.
@@ -29247,6 +29473,7 @@ public struct DescribeAppOutput: Swift.Sendable {
         builtInLifecycleConfigArn: Swift.String? = nil,
         creationTime: Foundation.Date? = nil,
         domainId: Swift.String? = nil,
+        effectiveTrustedIdentityPropagationStatus: SageMakerClientTypes.FeatureStatus? = nil,
         failureReason: Swift.String? = nil,
         lastHealthCheckTimestamp: Foundation.Date? = nil,
         lastUserActivityTimestamp: Foundation.Date? = nil,
@@ -29262,6 +29489,7 @@ public struct DescribeAppOutput: Swift.Sendable {
         self.builtInLifecycleConfigArn = builtInLifecycleConfigArn
         self.creationTime = creationTime
         self.domainId = domainId
+        self.effectiveTrustedIdentityPropagationStatus = effectiveTrustedIdentityPropagationStatus
         self.failureReason = failureReason
         self.lastHealthCheckTimestamp = lastHealthCheckTimestamp
         self.lastUserActivityTimestamp = lastUserActivityTimestamp
@@ -29666,11 +29894,15 @@ public struct DescribeClusterInput: Swift.Sendable {
 }
 
 public struct DescribeClusterOutput: Swift.Sendable {
+    /// The current autoscaling configuration and status for the autoscaler.
+    public var autoScaling: SageMakerClientTypes.ClusterAutoScalingConfigOutput?
     /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster.
     /// This member is required.
     public var clusterArn: Swift.String?
     /// The name of the SageMaker HyperPod cluster.
     public var clusterName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that HyperPod uses for cluster autoscaling operations.
+    public var clusterRole: Swift.String?
     /// The status of the SageMaker HyperPod cluster.
     /// This member is required.
     public var clusterStatus: SageMakerClientTypes.ClusterStatus?
@@ -29693,8 +29925,10 @@ public struct DescribeClusterOutput: Swift.Sendable {
     public var vpcConfig: SageMakerClientTypes.VpcConfig?
 
     public init(
+        autoScaling: SageMakerClientTypes.ClusterAutoScalingConfigOutput? = nil,
         clusterArn: Swift.String? = nil,
         clusterName: Swift.String? = nil,
+        clusterRole: Swift.String? = nil,
         clusterStatus: SageMakerClientTypes.ClusterStatus? = nil,
         creationTime: Foundation.Date? = nil,
         failureMessage: Swift.String? = nil,
@@ -29705,8 +29939,10 @@ public struct DescribeClusterOutput: Swift.Sendable {
         restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupDetails]? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
     ) {
+        self.autoScaling = autoScaling
         self.clusterArn = clusterArn
         self.clusterName = clusterName
+        self.clusterRole = clusterRole
         self.clusterStatus = clusterStatus
         self.creationTime = creationTime
         self.failureMessage = failureMessage
@@ -36488,6 +36724,7 @@ extension SageMakerClientTypes {
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlP54xlarge
         case mlP6eGb20036xlarge
         case mlP6B20048xlarge
         case mlTrn132xlarge
@@ -36501,6 +36738,7 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlP54xlarge,
                 .mlP6eGb20036xlarge,
                 .mlP6B20048xlarge,
                 .mlTrn132xlarge,
@@ -36520,6 +36758,7 @@ extension SageMakerClientTypes {
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP54xlarge: return "ml.p5.4xlarge"
             case .mlP6eGb20036xlarge: return "ml.p6e-gb200.36xlarge"
             case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlTrn132xlarge: return "ml.trn1.32xlarge"
@@ -39021,6 +39260,8 @@ extension SageMakerClientTypes {
         public var rStudioServerProDomainSettingsForUpdate: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate?
         /// The security groups for the Amazon Virtual Private Cloud that the Domain uses for communication between Domain-level apps and user apps.
         public var securityGroupIds: [Swift.String]?
+        /// The Trusted Identity Propagation (TIP) settings for the SageMaker domain. These settings determine how user identities from IAM Identity Center are propagated through the domain to TIP enabled Amazon Web Services services.
+        public var trustedIdentityPropagationSettings: SageMakerClientTypes.TrustedIdentityPropagationSettings?
         /// The settings that apply to an SageMaker AI domain when you use it in Amazon SageMaker Unified Studio.
         public var unifiedStudioSettings: SageMakerClientTypes.UnifiedStudioSettings?
 
@@ -39030,6 +39271,7 @@ extension SageMakerClientTypes {
             executionRoleIdentityConfig: SageMakerClientTypes.ExecutionRoleIdentityConfig? = nil,
             rStudioServerProDomainSettingsForUpdate: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate? = nil,
             securityGroupIds: [Swift.String]? = nil,
+            trustedIdentityPropagationSettings: SageMakerClientTypes.TrustedIdentityPropagationSettings? = nil,
             unifiedStudioSettings: SageMakerClientTypes.UnifiedStudioSettings? = nil
         ) {
             self.amazonQSettings = amazonQSettings
@@ -39037,6 +39279,7 @@ extension SageMakerClientTypes {
             self.executionRoleIdentityConfig = executionRoleIdentityConfig
             self.rStudioServerProDomainSettingsForUpdate = rStudioServerProDomainSettingsForUpdate
             self.securityGroupIds = securityGroupIds
+            self.trustedIdentityPropagationSettings = trustedIdentityPropagationSettings
             self.unifiedStudioSettings = unifiedStudioSettings
         }
     }
@@ -52792,9 +53035,13 @@ public struct UpdateArtifactOutput: Swift.Sendable {
 }
 
 public struct UpdateClusterInput: Swift.Sendable {
+    /// Updates the autoscaling configuration for the cluster. Use to enable or disable automatic node scaling.
+    public var autoScaling: SageMakerClientTypes.ClusterAutoScalingConfig?
     /// Specify the name of the SageMaker HyperPod cluster you want to update.
     /// This member is required.
     public var clusterName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that HyperPod assumes for cluster autoscaling operations. Cannot be updated while autoscaling is enabled.
+    public var clusterRole: Swift.String?
     /// Specify the instance groups to update.
     public var instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]?
     /// Specify the names of the instance groups to delete. Use a single , as the separator between multiple names.
@@ -52805,13 +53052,17 @@ public struct UpdateClusterInput: Swift.Sendable {
     public var restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]?
 
     public init(
+        autoScaling: SageMakerClientTypes.ClusterAutoScalingConfig? = nil,
         clusterName: Swift.String? = nil,
+        clusterRole: Swift.String? = nil,
         instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]? = nil,
         instanceGroupsToDelete: [Swift.String]? = nil,
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
         restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]? = nil
     ) {
+        self.autoScaling = autoScaling
         self.clusterName = clusterName
+        self.clusterRole = clusterRole
         self.instanceGroups = instanceGroups
         self.instanceGroupsToDelete = instanceGroupsToDelete
         self.nodeRecovery = nodeRecovery
@@ -52904,7 +53155,7 @@ public struct UpdateClusterSoftwareInput: Swift.Sendable {
     /// * default: Use the default latest system image
     ///
     ///
-    /// f you choose to use a custom AMI (CustomAmiId), ensure it meets the following requirements:
+    /// If you choose to use a custom AMI (CustomAmiId), ensure it meets the following requirements:
     ///
     /// * Encryption: The custom AMI must be unencrypted.
     ///
@@ -52913,7 +53164,7 @@ public struct UpdateClusterSoftwareInput: Swift.Sendable {
     /// * Volume support: Only the primary AMI snapshot volume is supported; additional AMI volumes are not supported.
     ///
     ///
-    /// When updating the instance group's AMI through the UpdateClusterSoftware operation, if an instance group uses a custom AMI, you must provide an ImageId or use the default as input.
+    /// When updating the instance group's AMI through the UpdateClusterSoftware operation, if an instance group uses a custom AMI, you must provide an ImageId or use the default as input. Note that if you don't specify an instance group in your UpdateClusterSoftware request, then all of the instance groups are patched with the specified image.
     public var imageId: Swift.String?
     /// The array of instance groups for which to update AMI versions.
     public var instanceGroups: [SageMakerClientTypes.UpdateClusterSoftwareInstanceGroupSpecification]?
@@ -57460,7 +57711,9 @@ extension CreateClusterInput {
 
     static func write(value: CreateClusterInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AutoScaling"].write(value.autoScaling, with: SageMakerClientTypes.ClusterAutoScalingConfig.write(value:to:))
         try writer["ClusterName"].write(value.clusterName)
+        try writer["ClusterRole"].write(value.clusterRole)
         try writer["InstanceGroups"].writeList(value.instanceGroups, memberWritingClosure: SageMakerClientTypes.ClusterInstanceGroupSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["NodeProvisioningMode"].write(value.nodeProvisioningMode)
         try writer["NodeRecovery"].write(value.nodeRecovery)
@@ -61061,7 +61314,9 @@ extension UpdateClusterInput {
 
     static func write(value: UpdateClusterInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AutoScaling"].write(value.autoScaling, with: SageMakerClientTypes.ClusterAutoScalingConfig.write(value:to:))
         try writer["ClusterName"].write(value.clusterName)
+        try writer["ClusterRole"].write(value.clusterRole)
         try writer["InstanceGroups"].writeList(value.instanceGroups, memberWritingClosure: SageMakerClientTypes.ClusterInstanceGroupSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["InstanceGroupsToDelete"].writeList(value.instanceGroupsToDelete, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["NodeRecovery"].write(value.nodeRecovery)
@@ -62951,6 +63206,7 @@ extension DescribeAppOutput {
         value.builtInLifecycleConfigArn = try reader["BuiltInLifecycleConfigArn"].readIfPresent()
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.domainId = try reader["DomainId"].readIfPresent()
+        value.effectiveTrustedIdentityPropagationStatus = try reader["EffectiveTrustedIdentityPropagationStatus"].readIfPresent()
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.lastHealthCheckTimestamp = try reader["LastHealthCheckTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUserActivityTimestamp = try reader["LastUserActivityTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -63076,8 +63332,10 @@ extension DescribeClusterOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeClusterOutput()
+        value.autoScaling = try reader["AutoScaling"].readIfPresent(with: SageMakerClientTypes.ClusterAutoScalingConfigOutput.read(from:))
         value.clusterArn = try reader["ClusterArn"].readIfPresent() ?? ""
         value.clusterName = try reader["ClusterName"].readIfPresent()
+        value.clusterRole = try reader["ClusterRole"].readIfPresent()
         value.clusterStatus = try reader["ClusterStatus"].readIfPresent() ?? .sdkUnknown("")
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.failureMessage = try reader["FailureMessage"].readIfPresent()
@@ -73778,6 +74036,8 @@ extension SageMakerClientTypes.ClusterEbsVolumeConfig {
 
     static func write(value: SageMakerClientTypes.ClusterEbsVolumeConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["RootVolume"].write(value.rootVolume)
+        try writer["VolumeKmsKeyId"].write(value.volumeKmsKeyId)
         try writer["VolumeSizeInGB"].write(value.volumeSizeInGB)
     }
 
@@ -73785,6 +74045,8 @@ extension SageMakerClientTypes.ClusterEbsVolumeConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ClusterEbsVolumeConfig()
         value.volumeSizeInGB = try reader["VolumeSizeInGB"].readIfPresent()
+        value.volumeKmsKeyId = try reader["VolumeKmsKeyId"].readIfPresent()
+        value.rootVolume = try reader["RootVolume"].readIfPresent()
         return value
     }
 }
@@ -73883,6 +74145,19 @@ extension SageMakerClientTypes.ClusterOrchestratorEksConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ClusterOrchestratorEksConfig()
         value.clusterArn = try reader["ClusterArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ClusterAutoScalingConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterAutoScalingConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ClusterAutoScalingConfigOutput()
+        value.mode = try reader["Mode"].readIfPresent() ?? .sdkUnknown("")
+        value.autoScalerType = try reader["AutoScalerType"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
         return value
     }
 }
@@ -74272,8 +74547,11 @@ extension SageMakerClientTypes.ComputeQuotaResourceConfig {
 
     static func write(value: SageMakerClientTypes.ComputeQuotaResourceConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Accelerators"].write(value.accelerators)
         try writer["Count"].write(value.count)
         try writer["InstanceType"].write(value.instanceType)
+        try writer["MemoryInGiB"].write(value.memoryInGiB)
+        try writer["VCpu"].write(value.vCpu)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ComputeQuotaResourceConfig {
@@ -74281,6 +74559,9 @@ extension SageMakerClientTypes.ComputeQuotaResourceConfig {
         var value = SageMakerClientTypes.ComputeQuotaResourceConfig()
         value.instanceType = try reader["InstanceType"].readIfPresent() ?? .sdkUnknown("")
         value.count = try reader["Count"].readIfPresent()
+        value.accelerators = try reader["Accelerators"].readIfPresent()
+        value.vCpu = try reader["VCpu"].readIfPresent()
+        value.memoryInGiB = try reader["MemoryInGiB"].readIfPresent()
         return value
     }
 }
@@ -74832,7 +75113,7 @@ extension SageMakerClientTypes.S3FileSystemConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.S3FileSystemConfig()
         value.mountPath = try reader["MountPath"].readIfPresent()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -75333,6 +75614,7 @@ extension SageMakerClientTypes.DomainSettings {
         try writer["ExecutionRoleIdentityConfig"].write(value.executionRoleIdentityConfig)
         try writer["RStudioServerProDomainSettings"].write(value.rStudioServerProDomainSettings, with: SageMakerClientTypes.RStudioServerProDomainSettings.write(value:to:))
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TrustedIdentityPropagationSettings"].write(value.trustedIdentityPropagationSettings, with: SageMakerClientTypes.TrustedIdentityPropagationSettings.write(value:to:))
         try writer["UnifiedStudioSettings"].write(value.unifiedStudioSettings, with: SageMakerClientTypes.UnifiedStudioSettings.write(value:to:))
     }
 
@@ -75342,6 +75624,7 @@ extension SageMakerClientTypes.DomainSettings {
         value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.rStudioServerProDomainSettings = try reader["RStudioServerProDomainSettings"].readIfPresent(with: SageMakerClientTypes.RStudioServerProDomainSettings.read(from:))
         value.executionRoleIdentityConfig = try reader["ExecutionRoleIdentityConfig"].readIfPresent()
+        value.trustedIdentityPropagationSettings = try reader["TrustedIdentityPropagationSettings"].readIfPresent(with: SageMakerClientTypes.TrustedIdentityPropagationSettings.read(from:))
         value.dockerSettings = try reader["DockerSettings"].readIfPresent(with: SageMakerClientTypes.DockerSettings.read(from:))
         value.amazonQSettings = try reader["AmazonQSettings"].readIfPresent(with: SageMakerClientTypes.AmazonQSettings.read(from:))
         value.unifiedStudioSettings = try reader["UnifiedStudioSettings"].readIfPresent(with: SageMakerClientTypes.UnifiedStudioSettings.read(from:))
@@ -75400,6 +75683,7 @@ extension SageMakerClientTypes.DockerSettings {
     static func write(value: SageMakerClientTypes.DockerSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["EnableDockerAccess"].write(value.enableDockerAccess)
+        try writer["RootlessDocker"].write(value.rootlessDocker)
         try writer["VpcOnlyTrustedAccounts"].writeList(value.vpcOnlyTrustedAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -75408,6 +75692,22 @@ extension SageMakerClientTypes.DockerSettings {
         var value = SageMakerClientTypes.DockerSettings()
         value.enableDockerAccess = try reader["EnableDockerAccess"].readIfPresent()
         value.vpcOnlyTrustedAccounts = try reader["VpcOnlyTrustedAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rootlessDocker = try reader["RootlessDocker"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.TrustedIdentityPropagationSettings {
+
+    static func write(value: SageMakerClientTypes.TrustedIdentityPropagationSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.TrustedIdentityPropagationSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.TrustedIdentityPropagationSettings()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -79665,7 +79965,7 @@ extension SageMakerClientTypes.S3FileSystem {
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.S3FileSystem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.S3FileSystem()
-        value.s3Uri = try reader["S3Uri"].readIfPresent()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
         return value
     }
 }
@@ -82928,6 +83228,15 @@ extension SageMakerClientTypes.EnvironmentConfig {
     }
 }
 
+extension SageMakerClientTypes.ClusterAutoScalingConfig {
+
+    static func write(value: SageMakerClientTypes.ClusterAutoScalingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AutoScalerType"].write(value.autoScalerType)
+        try writer["Mode"].write(value.mode)
+    }
+}
+
 extension SageMakerClientTypes.DeploymentStage {
 
     static func write(value: SageMakerClientTypes.DeploymentStage?, to writer: SmithyJSON.Writer) throws {
@@ -83241,6 +83550,7 @@ extension SageMakerClientTypes.DomainSettingsForUpdate {
         try writer["ExecutionRoleIdentityConfig"].write(value.executionRoleIdentityConfig)
         try writer["RStudioServerProDomainSettingsForUpdate"].write(value.rStudioServerProDomainSettingsForUpdate, with: SageMakerClientTypes.RStudioServerProDomainSettingsForUpdate.write(value:to:))
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TrustedIdentityPropagationSettings"].write(value.trustedIdentityPropagationSettings, with: SageMakerClientTypes.TrustedIdentityPropagationSettings.write(value:to:))
         try writer["UnifiedStudioSettings"].write(value.unifiedStudioSettings, with: SageMakerClientTypes.UnifiedStudioSettings.write(value:to:))
     }
 }

@@ -13,6 +13,5 @@
     "SmithyRetries",
     "SmithyRetriesAPI",
     "SmithyTestUtil",
-    "SmithyTimestamps",
-    "SmithyWaitersAPI"
+    "SmithyTimestamps"
 ]

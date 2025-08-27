@@ -17,7 +17,7 @@ import struct AWSSDKHTTPAuth.SigV4AuthScheme
 @_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class OpsWorksCMClientEndpointPlugin: Plugin {
+public class BCMRecommendedActionsClientEndpointPlugin: Plugin {
     private var endpointResolver: EndpointResolver
 
     public init(endpointResolver: EndpointResolver) {
@@ -29,7 +29,7 @@ public class OpsWorksCMClientEndpointPlugin: Plugin {
     }
 
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? OpsWorksCMClient.OpsWorksCMClientConfiguration {
+        if let config = clientConfiguration as? BCMRecommendedActionsClient.BCMRecommendedActionsClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -40,8 +40,8 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
     public init() {}
 
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? OpsWorksCMClient.OpsWorksCMClientConfiguration {
-            config.authSchemeResolver = DefaultOpsWorksCMAuthSchemeResolver()
+        if let config = clientConfiguration as? BCMRecommendedActionsClient.BCMRecommendedActionsClientConfiguration {
+            config.authSchemeResolver = DefaultBCMRecommendedActionsAuthSchemeResolver()
             config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
             config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver()
@@ -49,14 +49,14 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
     }
 }
 
-public class OpsWorksCMClientAuthSchemePlugin: ClientRuntime.Plugin {
+public class BCMRecommendedActionsClientAuthSchemePlugin: ClientRuntime.Plugin {
     private var authSchemes: SmithyHTTPAuthAPI.AuthSchemes?
     private var authSchemePreference: [String]
     private var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver?
     private var awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)?
     private var bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)?
 
-    public init(authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemePreference: [String]? = nil, authSchemeResolver: OpsWorksCMAuthSchemeResolver? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil) {
+    public init(authSchemes: SmithyHTTPAuthAPI.AuthSchemes? = nil, authSchemePreference: [String]? = nil, authSchemeResolver: BCMRecommendedActionsAuthSchemeResolver? = nil, awsCredentialIdentityResolver: (any SmithyIdentity.AWSCredentialIdentityResolver)? = nil, bearerTokenIdentityResolver: (any SmithyIdentity.BearerTokenIdentityResolver)? = nil) {
         self.authSchemeResolver = authSchemeResolver
         self.authSchemes = authSchemes
         self.authSchemePreference = authSchemePreference ?? []
@@ -65,7 +65,7 @@ public class OpsWorksCMClientAuthSchemePlugin: ClientRuntime.Plugin {
     }
 
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? OpsWorksCMClient.OpsWorksCMClientConfiguration {
+        if let config = clientConfiguration as? BCMRecommendedActionsClient.BCMRecommendedActionsClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }
