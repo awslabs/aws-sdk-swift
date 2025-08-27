@@ -145,10 +145,10 @@ struct PackageManifestBuilder {
     /// and calls the `addServiceTarget` for each item.
     private func buildServiceTargets() -> String {
         guard !services.isEmpty else {
-            return "let serviceTargets: [String: [Target.Dependency]] = [:]"
+            return "let serviceTargetDefs: [String: [Target.Dependency]] = [:]"
         }
         var lines: [String] = []
-        lines += ["let serviceTargets: [String: [Target.Dependency]] = ["]
+        lines += ["let serviceTargetDefs: [String: [Target.Dependency]] = ["]
         lines += services.map {
             let jsonFilePath = "Sources/Services/\($0.name)/Dependencies.json"
             let dependencies = clientDependencies(service: $0, jsonFilePath: jsonFilePath)

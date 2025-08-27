@@ -54,14 +54,14 @@ let package = Package(
     ],
     products:
         runtimeProducts +
-        serviceTargets.map(productForService(_:_:)),
+        serviceProducts,
     dependencies:
-        [smithySwiftDependency, crtDependency, doccDependencyOrNil].compactMap { $0 },
+        dependencies,
     targets:
         runtimeTargets +
         runtimeTestTargets +
-        serviceTargets.map(target(_:_:)) +
-        serviceTargets.map(unitTestTarget(_:_:))
+        serviceTargets +
+        serviceUnitTestTargets
 )
 
 // MARK: Products
@@ -75,11 +75,15 @@ private var runtimeProducts: [Product] {
         "AWSSDKIdentityAPI",
         "AWSSDKIdentity",
         "AWSSDKChecksums",
-    ].map { .library(name: $0, targets: [$0]) }
+    ].map { product($0) }
 }
 
-private func productForService(_ service: String, _ dependencies: [Target.Dependency]) -> Product {
-    .library(name: service, targets: [service])
+private var serviceProducts: [Product] {
+    serviceTargetDefs.keys.map(product(_:))
+}
+
+private func product(_ name: String) -> Product {
+    .library(name: name, targets: [name])
 }
 
 // MARK: Dependencies
@@ -105,6 +109,10 @@ private var crtDependency: Package.Dependency {
 private var doccDependencyOrNil: Package.Dependency? {
     guard ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_ENABLE_DOCC"] != nil else { return nil }
     return .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0")
+}
+
+private var dependencies: [Package.Dependency] {
+    [smithySwiftDependency, crtDependency, doccDependencyOrNil].compactMap { $0 }
 }
 
 // MARK: Targets
@@ -270,24 +278,37 @@ private var runtimeTestTargets: [Target] {
     ]
 }
 
-private func target(_ service: String, _ dependencies: [Target.Dependency]) -> Target {
+private var serviceTargets: [Target] {
+    serviceTargetDefs.map(serviceTarget(_:_:))
+}
+
+private func serviceTarget(_ name: String, _ dependencies: [Target.Dependency]) -> Target {
     .target(
-        name: service,
+        name: name,
         dependencies: dependencies,
-        path: "Sources/Services/\(service)/Sources/\(service)"
+        path: "Sources/Services/\(name)/Sources/\(name)"
     )
 }
 
-private func unitTestTarget(_ service: String, _ dependencies: [Target.Dependency]) -> Target {
-    let testName = "\(service)Tests"
+private var serviceUnitTestTargets: [Target] {
+    guard areServiceUnitTestsEnabled else { return [] }
+    return serviceTargetDefs.map(serviceUnitTestTarget(_:_:))
+}
+
+private func serviceUnitTestTarget(_ name: String, _ dependencies: [Target.Dependency]) -> Target {
+    let testName = "\(name)Tests"
     return .testTarget(
         name: "\(testName)",
         dependencies: [
-            .byName(name: service),
+            .byName(name: name),
             .ClientRuntime,
             .AWSClientRuntime,
             .SmithyTestUtil,
         ],
-        path: "Sources/Services/\(service)/Tests/\(testName)"
+        path: "Sources/Services/\(name)/Tests/\(testName)"
     )
+}
+
+private var areServiceUnitTestsEnabled: Bool {
+    ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_INCLUDE_SERVICE_UNIT_TESTS"] != nil
 }
