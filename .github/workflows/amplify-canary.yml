@@ -1,0 +1,52 @@
+name: AmplifyCanary
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  amplify-canary:
+    if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
+    runs-on: macos-15
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Checkout aws-sdk-swift
+        uses: actions/checkout@v4
+        with:
+          path: aws-sdk-swift
+      - name: Checkout smithy-swift with composite action
+        uses: ./aws-sdk-swift/.github/actions/checkout-smithy-swift-composite-action
+        with:
+          AUTOMATION_USER_SSH_PRIVATE_KEY: ${{ secrets.AUTOMATION_USER_SSH_PRIVATE_KEY }}
+          STAGING_PARTNER_REPO: ${{ secrets.STAGING_PARTNER_REPO }}
+      - name: Checkout amplify-swift
+        uses: actions/checkout@v4
+        with:
+          repository: aws-amplify/amplify-swift
+          ref: main
+          path: amplify-swift
+      - name: Resolve amplify-swift dependencies
+        run: |
+          cd amplify-swift
+          swift package resolve
+      - name: Setup local aws-sdk-swift
+        run: |
+          cd amplify-swift
+          swift package edit aws-sdk-swift --path ../aws-sdk-swift
+      - name: Setup local smithy-swift
+        run: |
+          cd amplify-swift
+          swift package edit smithy-swift --path ../smithy-swift
+      - name: Build amplify-swift with local aws-sdk-swift & smithy-swift
+        run: |
+          cd amplify-swift
+          swift build
+
+
