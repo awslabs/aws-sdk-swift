@@ -647,10 +647,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSOpenSearchServerless](../../../../../swift/api/awsopensearchserverless/latest)
 
-[AWSOpsWorks](../../../../../swift/api/awsopsworks/latest)
-
-[AWSOpsWorksCM](../../../../../swift/api/awsopsworkscm/latest)
-
 [AWSOrganizations](../../../../../swift/api/awsorganizations/latest)
 
 [AWSOutposts](../../../../../swift/api/awsoutposts/latest)

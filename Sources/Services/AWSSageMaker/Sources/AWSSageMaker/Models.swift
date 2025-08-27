@@ -10713,6 +10713,145 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum ClusterAutoScalerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case karpenter
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterAutoScalerType] {
+            return [
+                .karpenter
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .karpenter: return "Karpenter"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ClusterAutoScalingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disable
+        case enable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterAutoScalingMode] {
+            return [
+                .disable,
+                .enable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disable: return "Disable"
+            case .enable: return "Enable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Specifies the autoscaling configuration for a HyperPod cluster.
+    public struct ClusterAutoScalingConfig: Swift.Sendable {
+        /// The type of autoscaler to use. Currently supported value is Karpenter.
+        public var autoScalerType: SageMakerClientTypes.ClusterAutoScalerType?
+        /// Describes whether autoscaling is enabled or disabled for the cluster. Valid values are Enable and Disable.
+        /// This member is required.
+        public var mode: SageMakerClientTypes.ClusterAutoScalingMode?
+
+        public init(
+            autoScalerType: SageMakerClientTypes.ClusterAutoScalerType? = nil,
+            mode: SageMakerClientTypes.ClusterAutoScalingMode? = nil
+        ) {
+            self.autoScalerType = autoScalerType
+            self.mode = mode
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum ClusterAutoScalingStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case creating
+        case deleting
+        case failed
+        case inservice
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterAutoScalingStatus] {
+            return [
+                .creating,
+                .deleting,
+                .failed,
+                .inservice
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .creating: return "Creating"
+            case .deleting: return "Deleting"
+            case .failed: return "Failed"
+            case .inservice: return "InService"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The autoscaling configuration and status information for a HyperPod cluster.
+    public struct ClusterAutoScalingConfigOutput: Swift.Sendable {
+        /// The type of autoscaler configured for the cluster.
+        public var autoScalerType: SageMakerClientTypes.ClusterAutoScalerType?
+        /// If the autoscaling status is Failed, this field contains a message describing the failure.
+        public var failureMessage: Swift.String?
+        /// Describes whether autoscaling is enabled or disabled for the cluster.
+        /// This member is required.
+        public var mode: SageMakerClientTypes.ClusterAutoScalingMode?
+        /// The current status of the autoscaling configuration. Valid values are InService, Failed, Creating, and Deleting.
+        /// This member is required.
+        public var status: SageMakerClientTypes.ClusterAutoScalingStatus?
+
+        public init(
+            autoScalerType: SageMakerClientTypes.ClusterAutoScalerType? = nil,
+            failureMessage: Swift.String? = nil,
+            mode: SageMakerClientTypes.ClusterAutoScalingMode? = nil,
+            status: SageMakerClientTypes.ClusterAutoScalingStatus? = nil
+        ) {
+            self.autoScalerType = autoScalerType
+            self.failureMessage = failureMessage
+            self.mode = mode
+            self.status = status
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Defines the configuration for attaching an additional Amazon Elastic Block Store (EBS) volume to each instance of the SageMaker HyperPod cluster instance group. To learn more, see [SageMaker HyperPod release notes: June 20, 2024](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-release-notes.html#sagemaker-hyperpod-release-notes-20240620).
     public struct ClusterEbsVolumeConfig: Swift.Sendable {
         /// Specifies whether the configuration is for the cluster's root or secondary Amazon EBS volume. You can specify two ClusterEbsVolumeConfig fields to configure both the root and secondary volumes. Set the value to True if you'd like to provide your own customer managed Amazon Web Services KMS key to encrypt the root volume. When True:
@@ -14475,9 +14614,13 @@ public struct CreateAutoMLJobV2Output: Swift.Sendable {
 }
 
 public struct CreateClusterInput: Swift.Sendable {
+    /// The autoscaling configuration for the cluster. Enables automatic scaling of cluster nodes based on workload demand using a Karpenter-based system.
+    public var autoScaling: SageMakerClientTypes.ClusterAutoScalingConfig?
     /// The name for the new SageMaker HyperPod cluster.
     /// This member is required.
     public var clusterName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that HyperPod assumes to perform cluster autoscaling operations. This role must have permissions for sagemaker:BatchAddClusterNodes and sagemaker:BatchDeleteClusterNodes. This is only required when autoscaling is enabled and when HyperPod is performing autoscaling operations.
+    public var clusterRole: Swift.String?
     /// The instance groups to be created in the SageMaker HyperPod cluster.
     public var instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]?
     /// The mode for provisioning nodes in the cluster. You can specify the following modes:
@@ -14509,7 +14652,9 @@ public struct CreateClusterInput: Swift.Sendable {
     public var vpcConfig: SageMakerClientTypes.VpcConfig?
 
     public init(
+        autoScaling: SageMakerClientTypes.ClusterAutoScalingConfig? = nil,
         clusterName: Swift.String? = nil,
+        clusterRole: Swift.String? = nil,
         instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]? = nil,
         nodeProvisioningMode: SageMakerClientTypes.ClusterNodeProvisioningMode? = nil,
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
@@ -14518,7 +14663,9 @@ public struct CreateClusterInput: Swift.Sendable {
         tags: [SageMakerClientTypes.Tag]? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
     ) {
+        self.autoScaling = autoScaling
         self.clusterName = clusterName
+        self.clusterRole = clusterRole
         self.instanceGroups = instanceGroups
         self.nodeProvisioningMode = nodeProvisioningMode
         self.nodeRecovery = nodeRecovery
@@ -29747,11 +29894,15 @@ public struct DescribeClusterInput: Swift.Sendable {
 }
 
 public struct DescribeClusterOutput: Swift.Sendable {
+    /// The current autoscaling configuration and status for the autoscaler.
+    public var autoScaling: SageMakerClientTypes.ClusterAutoScalingConfigOutput?
     /// The Amazon Resource Name (ARN) of the SageMaker HyperPod cluster.
     /// This member is required.
     public var clusterArn: Swift.String?
     /// The name of the SageMaker HyperPod cluster.
     public var clusterName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that HyperPod uses for cluster autoscaling operations.
+    public var clusterRole: Swift.String?
     /// The status of the SageMaker HyperPod cluster.
     /// This member is required.
     public var clusterStatus: SageMakerClientTypes.ClusterStatus?
@@ -29774,8 +29925,10 @@ public struct DescribeClusterOutput: Swift.Sendable {
     public var vpcConfig: SageMakerClientTypes.VpcConfig?
 
     public init(
+        autoScaling: SageMakerClientTypes.ClusterAutoScalingConfigOutput? = nil,
         clusterArn: Swift.String? = nil,
         clusterName: Swift.String? = nil,
+        clusterRole: Swift.String? = nil,
         clusterStatus: SageMakerClientTypes.ClusterStatus? = nil,
         creationTime: Foundation.Date? = nil,
         failureMessage: Swift.String? = nil,
@@ -29786,8 +29939,10 @@ public struct DescribeClusterOutput: Swift.Sendable {
         restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupDetails]? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
     ) {
+        self.autoScaling = autoScaling
         self.clusterArn = clusterArn
         self.clusterName = clusterName
+        self.clusterRole = clusterRole
         self.clusterStatus = clusterStatus
         self.creationTime = creationTime
         self.failureMessage = failureMessage
@@ -52880,9 +53035,13 @@ public struct UpdateArtifactOutput: Swift.Sendable {
 }
 
 public struct UpdateClusterInput: Swift.Sendable {
+    /// Updates the autoscaling configuration for the cluster. Use to enable or disable automatic node scaling.
+    public var autoScaling: SageMakerClientTypes.ClusterAutoScalingConfig?
     /// Specify the name of the SageMaker HyperPod cluster you want to update.
     /// This member is required.
     public var clusterName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the IAM role that HyperPod assumes for cluster autoscaling operations. Cannot be updated while autoscaling is enabled.
+    public var clusterRole: Swift.String?
     /// Specify the instance groups to update.
     public var instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]?
     /// Specify the names of the instance groups to delete. Use a single , as the separator between multiple names.
@@ -52893,13 +53052,17 @@ public struct UpdateClusterInput: Swift.Sendable {
     public var restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]?
 
     public init(
+        autoScaling: SageMakerClientTypes.ClusterAutoScalingConfig? = nil,
         clusterName: Swift.String? = nil,
+        clusterRole: Swift.String? = nil,
         instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]? = nil,
         instanceGroupsToDelete: [Swift.String]? = nil,
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
         restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]? = nil
     ) {
+        self.autoScaling = autoScaling
         self.clusterName = clusterName
+        self.clusterRole = clusterRole
         self.instanceGroups = instanceGroups
         self.instanceGroupsToDelete = instanceGroupsToDelete
         self.nodeRecovery = nodeRecovery
@@ -57548,7 +57711,9 @@ extension CreateClusterInput {
 
     static func write(value: CreateClusterInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AutoScaling"].write(value.autoScaling, with: SageMakerClientTypes.ClusterAutoScalingConfig.write(value:to:))
         try writer["ClusterName"].write(value.clusterName)
+        try writer["ClusterRole"].write(value.clusterRole)
         try writer["InstanceGroups"].writeList(value.instanceGroups, memberWritingClosure: SageMakerClientTypes.ClusterInstanceGroupSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["NodeProvisioningMode"].write(value.nodeProvisioningMode)
         try writer["NodeRecovery"].write(value.nodeRecovery)
@@ -61149,7 +61314,9 @@ extension UpdateClusterInput {
 
     static func write(value: UpdateClusterInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AutoScaling"].write(value.autoScaling, with: SageMakerClientTypes.ClusterAutoScalingConfig.write(value:to:))
         try writer["ClusterName"].write(value.clusterName)
+        try writer["ClusterRole"].write(value.clusterRole)
         try writer["InstanceGroups"].writeList(value.instanceGroups, memberWritingClosure: SageMakerClientTypes.ClusterInstanceGroupSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["InstanceGroupsToDelete"].writeList(value.instanceGroupsToDelete, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["NodeRecovery"].write(value.nodeRecovery)
@@ -63165,8 +63332,10 @@ extension DescribeClusterOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeClusterOutput()
+        value.autoScaling = try reader["AutoScaling"].readIfPresent(with: SageMakerClientTypes.ClusterAutoScalingConfigOutput.read(from:))
         value.clusterArn = try reader["ClusterArn"].readIfPresent() ?? ""
         value.clusterName = try reader["ClusterName"].readIfPresent()
+        value.clusterRole = try reader["ClusterRole"].readIfPresent()
         value.clusterStatus = try reader["ClusterStatus"].readIfPresent() ?? .sdkUnknown("")
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.failureMessage = try reader["FailureMessage"].readIfPresent()
@@ -73980,6 +74149,19 @@ extension SageMakerClientTypes.ClusterOrchestratorEksConfig {
     }
 }
 
+extension SageMakerClientTypes.ClusterAutoScalingConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterAutoScalingConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ClusterAutoScalingConfigOutput()
+        value.mode = try reader["Mode"].readIfPresent() ?? .sdkUnknown("")
+        value.autoScalerType = try reader["AutoScalerType"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        return value
+    }
+}
+
 extension SageMakerClientTypes.ClusterEventDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterEventDetail {
@@ -83043,6 +83225,15 @@ extension SageMakerClientTypes.EnvironmentConfig {
     static func write(value: SageMakerClientTypes.EnvironmentConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["FSxLustreConfig"].write(value.fSxLustreConfig, with: SageMakerClientTypes.FSxLustreConfig.write(value:to:))
+    }
+}
+
+extension SageMakerClientTypes.ClusterAutoScalingConfig {
+
+    static func write(value: SageMakerClientTypes.ClusterAutoScalingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AutoScalerType"].write(value.autoScalerType)
+        try writer["Mode"].write(value.mode)
     }
 }
 

@@ -1032,6 +1032,47 @@ public struct AuthenticationFailedException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
+extension DirectoryClientTypes {
+
+    public enum CaEnrollmentPolicyStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case disabling
+        case failed
+        case impaired
+        case inProgress
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CaEnrollmentPolicyStatus] {
+            return [
+                .disabled,
+                .disabling,
+                .failed,
+                .impaired,
+                .inProgress,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .disabling: return "Disabling"
+            case .failed: return "Failed"
+            case .impaired: return "Impaired"
+            case .inProgress: return "InProgress"
+            case .success: return "Success"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CancelSchemaExtensionInput: Swift.Sendable {
     /// The identifier of the directory whose schema extension will be canceled.
     /// This member is required.
@@ -2434,6 +2475,59 @@ public struct DescribeADAssessmentOutput: Swift.Sendable {
     ) {
         self.assessment = assessment
         self.assessmentReports = assessmentReports
+    }
+}
+
+/// Contains the inputs for the [DescribeCAEnrollmentPolicy] operation.
+public struct DescribeCAEnrollmentPolicyInput: Swift.Sendable {
+    /// The identifier of the directory for which to retrieve the CA enrollment policy information.
+    /// This member is required.
+    public var directoryId: Swift.String?
+
+    public init(
+        directoryId: Swift.String? = nil
+    ) {
+        self.directoryId = directoryId
+    }
+}
+
+/// Contains the results of the [DescribeCAEnrollmentPolicy] operation.
+public struct DescribeCAEnrollmentPolicyOutput: Swift.Sendable {
+    /// The current status of the CA enrollment policy. This indicates if automatic certificate enrollment is currently active, inactive, or in a transitional state. Valid values:
+    ///
+    /// * IN_PROGRESS - The policy is being activated T
+    ///
+    /// * SUCCESS - The policy is active and automatic certificate enrollment is operational
+    ///
+    /// * FAILED - The policy activation or deactivation failed
+    ///
+    /// * DISABLING - The policy is being deactivated
+    ///
+    /// * DISABLED - The policy is inactive and automatic certificate enrollment is not available
+    ///
+    /// * IMPAIRED - Network connectivity is impaired.
+    public var caEnrollmentPolicyStatus: DirectoryClientTypes.CaEnrollmentPolicyStatus?
+    /// Additional information explaining the current status of the CA enrollment policy, particularly useful when the policy is in an error or transitional state.
+    public var caEnrollmentPolicyStatusReason: Swift.String?
+    /// The identifier of the directory associated with this CA enrollment policy.
+    public var directoryId: Swift.String?
+    /// The date and time when the CA enrollment policy was last modified or updated.
+    public var lastUpdatedDateTime: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Private Certificate Authority (PCA) connector that is configured for automatic certificate enrollment in this directory.
+    public var pcaConnectorArn: Swift.String?
+
+    public init(
+        caEnrollmentPolicyStatus: DirectoryClientTypes.CaEnrollmentPolicyStatus? = nil,
+        caEnrollmentPolicyStatusReason: Swift.String? = nil,
+        directoryId: Swift.String? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
+        pcaConnectorArn: Swift.String? = nil
+    ) {
+        self.caEnrollmentPolicyStatus = caEnrollmentPolicyStatus
+        self.caEnrollmentPolicyStatusReason = caEnrollmentPolicyStatusReason
+        self.directoryId = directoryId
+        self.lastUpdatedDateTime = lastUpdatedDateTime
+        self.pcaConnectorArn = pcaConnectorArn
     }
 }
 
@@ -4459,6 +4553,53 @@ public struct DirectoryNotSharedException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
+/// A disable operation for CA enrollment policy is already in progress for this directory.
+public struct DisableAlreadyInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The descriptive message for the exception.
+        public internal(set) var message: Swift.String? = nil
+        /// The Amazon Web Services request identifier.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DisableAlreadyInProgressException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.requestId = requestId
+    }
+}
+
+/// Contains the inputs for the [DisableCAEnrollmentPolicy] operation.
+public struct DisableCAEnrollmentPolicyInput: Swift.Sendable {
+    /// The identifier of the directory for which to disable the CA enrollment policy.
+    /// This member is required.
+    public var directoryId: Swift.String?
+
+    public init(
+        directoryId: Swift.String? = nil
+    ) {
+        self.directoryId = directoryId
+    }
+}
+
+/// Contains the results of the [DisableCAEnrollmentPolicy] operation.
+public struct DisableCAEnrollmentPolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 /// Client authentication is already enabled.
 public struct InvalidClientAuthStatusException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -4623,6 +4764,58 @@ extension DisableSsoInput: Swift.CustomDebugStringConvertible {
 
 /// Contains the results of the [DisableSso] operation.
 public struct DisableSsoOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// An enable operation for CA enrollment policy is already in progress for this directory.
+public struct EnableAlreadyInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The descriptive message for the exception.
+        public internal(set) var message: Swift.String? = nil
+        /// The Amazon Web Services request identifier.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EnableAlreadyInProgressException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.requestId = requestId
+    }
+}
+
+/// Contains the inputs for the [EnableCAEnrollmentPolicy] operation.
+public struct EnableCAEnrollmentPolicyInput: Swift.Sendable {
+    /// The identifier of the directory for which to enable the CA enrollment policy.
+    /// This member is required.
+    public var directoryId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Private Certificate Authority (PCA) connector to use for automatic certificate enrollment. This connector must be properly configured and accessible from the directory. The ARN format is: arn:aws:pca-connector-ad:region:account-id:connector/connector-id
+    /// This member is required.
+    public var pcaConnectorArn: Swift.String?
+
+    public init(
+        directoryId: Swift.String? = nil,
+        pcaConnectorArn: Swift.String? = nil
+    ) {
+        self.directoryId = directoryId
+        self.pcaConnectorArn = pcaConnectorArn
+    }
+}
+
+/// Contains the results of the [EnableCAEnrollmentPolicy] operation.
+public struct EnableCAEnrollmentPolicyOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -6333,6 +6526,13 @@ extension DescribeADAssessmentInput {
     }
 }
 
+extension DescribeCAEnrollmentPolicyInput {
+
+    static func urlPathProvider(_ value: DescribeCAEnrollmentPolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeCertificateInput {
 
     static func urlPathProvider(_ value: DescribeCertificateInput) -> Swift.String? {
@@ -6438,6 +6638,13 @@ extension DescribeUpdateDirectoryInput {
     }
 }
 
+extension DisableCAEnrollmentPolicyInput {
+
+    static func urlPathProvider(_ value: DisableCAEnrollmentPolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DisableClientAuthenticationInput {
 
     static func urlPathProvider(_ value: DisableClientAuthenticationInput) -> Swift.String? {
@@ -6469,6 +6676,13 @@ extension DisableRadiusInput {
 extension DisableSsoInput {
 
     static func urlPathProvider(_ value: DisableSsoInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension EnableCAEnrollmentPolicyInput {
+
+    static func urlPathProvider(_ value: EnableCAEnrollmentPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6941,6 +7155,14 @@ extension DescribeADAssessmentInput {
     }
 }
 
+extension DescribeCAEnrollmentPolicyInput {
+
+    static func write(value: DescribeCAEnrollmentPolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectoryId"].write(value.directoryId)
+    }
+}
+
 extension DescribeCertificateInput {
 
     static func write(value: DescribeCertificateInput?, to writer: SmithyJSON.Writer) throws {
@@ -7093,6 +7315,14 @@ extension DescribeUpdateDirectoryInput {
     }
 }
 
+extension DisableCAEnrollmentPolicyInput {
+
+    static func write(value: DisableCAEnrollmentPolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectoryId"].write(value.directoryId)
+    }
+}
+
 extension DisableClientAuthenticationInput {
 
     static func write(value: DisableClientAuthenticationInput?, to writer: SmithyJSON.Writer) throws {
@@ -7134,6 +7364,15 @@ extension DisableSsoInput {
         try writer["DirectoryId"].write(value.directoryId)
         try writer["Password"].write(value.password)
         try writer["UserName"].write(value.userName)
+    }
+}
+
+extension EnableCAEnrollmentPolicyInput {
+
+    static func write(value: EnableCAEnrollmentPolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectoryId"].write(value.directoryId)
+        try writer["PcaConnectorArn"].write(value.pcaConnectorArn)
     }
 }
 
@@ -7685,6 +7924,22 @@ extension DescribeADAssessmentOutput {
     }
 }
 
+extension DescribeCAEnrollmentPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeCAEnrollmentPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeCAEnrollmentPolicyOutput()
+        value.caEnrollmentPolicyStatus = try reader["CaEnrollmentPolicyStatus"].readIfPresent()
+        value.caEnrollmentPolicyStatusReason = try reader["CaEnrollmentPolicyStatusReason"].readIfPresent()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.lastUpdatedDateTime = try reader["LastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.pcaConnectorArn = try reader["PcaConnectorArn"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeCertificateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeCertificateOutput {
@@ -7877,6 +8132,13 @@ extension DescribeUpdateDirectoryOutput {
     }
 }
 
+extension DisableCAEnrollmentPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisableCAEnrollmentPolicyOutput {
+        return DisableCAEnrollmentPolicyOutput()
+    }
+}
+
 extension DisableClientAuthenticationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisableClientAuthenticationOutput {
@@ -7909,6 +8171,13 @@ extension DisableSsoOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisableSsoOutput {
         return DisableSsoOutput()
+    }
+}
+
+extension EnableCAEnrollmentPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableCAEnrollmentPolicyOutput {
+        return EnableCAEnrollmentPolicyOutput()
     }
 }
 
@@ -8684,6 +8953,23 @@ enum DescribeADAssessmentOutputError {
     }
 }
 
+enum DescribeCAEnrollmentPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "DirectoryDoesNotExistException": return try DirectoryDoesNotExistException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeCertificateOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8965,6 +9251,27 @@ enum DescribeUpdateDirectoryOutputError {
     }
 }
 
+enum DisableCAEnrollmentPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "DirectoryDoesNotExistException": return try DirectoryDoesNotExistException.makeError(baseError: baseError)
+            case "DirectoryUnavailableException": return try DirectoryUnavailableException.makeError(baseError: baseError)
+            case "DisableAlreadyInProgressException": return try DisableAlreadyInProgressException.makeError(baseError: baseError)
+            case "EntityDoesNotExistException": return try EntityDoesNotExistException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DisableClientAuthenticationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9052,6 +9359,28 @@ enum DisableSsoOutputError {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "EntityDoesNotExistException": return try EntityDoesNotExistException.makeError(baseError: baseError)
             case "InsufficientPermissionsException": return try InsufficientPermissionsException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum EnableCAEnrollmentPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "DirectoryDoesNotExistException": return try DirectoryDoesNotExistException.makeError(baseError: baseError)
+            case "DirectoryUnavailableException": return try DirectoryUnavailableException.makeError(baseError: baseError)
+            case "EnableAlreadyInProgressException": return try EnableAlreadyInProgressException.makeError(baseError: baseError)
+            case "EntityAlreadyExistsException": return try EntityAlreadyExistsException.makeError(baseError: baseError)
+            case "EntityDoesNotExistException": return try EntityDoesNotExistException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -9982,6 +10311,20 @@ extension InvalidNextTokenException {
     }
 }
 
+extension DisableAlreadyInProgressException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DisableAlreadyInProgressException {
+        let reader = baseError.errorBodyReader
+        var value = DisableAlreadyInProgressException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidClientAuthStatusException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidClientAuthStatusException {
@@ -10015,6 +10358,20 @@ extension InvalidLDAPSStatusException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLDAPSStatusException {
         let reader = baseError.errorBodyReader
         var value = InvalidLDAPSStatusException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension EnableAlreadyInProgressException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EnableAlreadyInProgressException {
+        let reader = baseError.errorBodyReader
+        var value = EnableAlreadyInProgressException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse

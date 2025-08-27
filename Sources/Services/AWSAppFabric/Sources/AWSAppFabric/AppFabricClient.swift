@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppFabricClient: ClientRuntime.Client {
     public static let clientName = "AppFabricClient"
-    public static let version = "1.5.29"
+    public static let version = "1.5.30"
     let client: ClientRuntime.SdkHttpClient
     let config: AppFabricClient.AppFabricClientConfiguration
     let serviceName = "AppFabric"
