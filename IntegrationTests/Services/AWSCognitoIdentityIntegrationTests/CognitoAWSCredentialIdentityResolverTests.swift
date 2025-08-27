@@ -6,11 +6,12 @@
 //
 
 import XCTest
-import AWSSTS
 import AWSCognitoIdentity
-import AWSSDKIdentity
-import ClientRuntime
 import AWSIAM
+import AWSSDKIdentity
+import AWSSTS
+import ClientRuntime
+import SmithyWaitersAPI
 
 /// Tests CognitoAWSCredentialIdentityResolver using STS::getCallerIdentity.
 class CognitoAWSCredentialIdentityResolverTests: XCTestCase {
@@ -18,7 +19,6 @@ class CognitoAWSCredentialIdentityResolverTests: XCTestCase {
 
     private var cognitoIdentityClient: CognitoIdentityClient!
     private var iamClient: IAMClient!
-    
     private let identityPoolName = "aws-cognito-integration-test-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
     private var identityPoolId: String!
     private var roleName: String!
@@ -37,7 +37,6 @@ class CognitoAWSCredentialIdentityResolverTests: XCTestCase {
                 identityPoolName: identityPoolName
             )
         ).identityPoolId
-        
         // Create an IAM role for unauthenticated users
         roleName = "CognitoUnauth_\(identityPoolName)"
         let trustPolicy = """
@@ -54,14 +53,15 @@ class CognitoAWSCredentialIdentityResolverTests: XCTestCase {
             }]
         }
         """
-        
         let createRoleInput = CreateRoleInput(
             assumeRolePolicyDocument: trustPolicy,
             roleName: roleName
         )
         let createRoleResponse = try await iamClient.createRole(input: createRoleInput)
 
-        try await Task.sleep(nanoseconds: 10_000_000_000) // 10 seconds
+        let getRoleInput = GetRoleInput(roleName: roleName)
+        let waiterOptions = WaiterOptions(maxWaitTime: 60.0) // 60 seconds max wait
+        _ = try await iamClient.waitUntilRoleExists(options: waiterOptions, input: getRoleInput)
 
         // Assign the role to the identity pool
         _ = try await cognitoIdentityClient.setIdentityPoolRoles(
@@ -76,7 +76,6 @@ class CognitoAWSCredentialIdentityResolverTests: XCTestCase {
         _ = try? await cognitoIdentityClient.deleteIdentityPool(
             input: DeleteIdentityPoolInput(identityPoolId: identityPoolId)
         )
-        
         _ = try? await iamClient.deleteRole(
             input: DeleteRoleInput(roleName: roleName)
         )
