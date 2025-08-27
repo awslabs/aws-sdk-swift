@@ -5243,6 +5243,73 @@ public struct DescribeInsightOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeInsightsRefreshInput: Swift.Sendable {
+    /// The name of the cluster associated with the insights refresh operation.
+    /// This member is required.
+    public var clusterName: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil
+    ) {
+        self.clusterName = clusterName
+    }
+}
+
+extension EKSClientTypes {
+
+    public enum InsightsRefreshStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightsRefreshStatus] {
+            return [
+                .completed,
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeInsightsRefreshOutput: Swift.Sendable {
+    /// The date and time when the insights refresh operation ended.
+    public var endedAt: Foundation.Date?
+    /// The message associated with the insights refresh operation.
+    public var message: Swift.String?
+    /// The date and time when the insights refresh operation started.
+    public var startedAt: Foundation.Date?
+    /// The current status of the insights refresh operation.
+    public var status: EKSClientTypes.InsightsRefreshStatus?
+
+    public init(
+        endedAt: Foundation.Date? = nil,
+        message: Swift.String? = nil,
+        startedAt: Foundation.Date? = nil,
+        status: EKSClientTypes.InsightsRefreshStatus? = nil
+    ) {
+        self.endedAt = endedAt
+        self.message = message
+        self.startedAt = startedAt
+        self.status = status
+    }
+}
+
 public struct DescribeNodegroupInput: Swift.Sendable {
     /// The name of your cluster.
     /// This member is required.
@@ -6209,6 +6276,33 @@ public struct RegisterClusterOutput: Swift.Sendable {
     }
 }
 
+public struct StartInsightsRefreshInput: Swift.Sendable {
+    /// The name of the cluster for the refresh insights operation.
+    /// This member is required.
+    public var clusterName: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil
+    ) {
+        self.clusterName = clusterName
+    }
+}
+
+public struct StartInsightsRefreshOutput: Swift.Sendable {
+    /// The message associated with the insights refresh operation.
+    public var message: Swift.String?
+    /// The current status of the insights refresh operation.
+    public var status: EKSClientTypes.InsightsRefreshStatus?
+
+    public init(
+        message: Swift.String? = nil,
+        status: EKSClientTypes.InsightsRefreshStatus? = nil
+    ) {
+        self.message = message
+        self.status = status
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the resource to add tags to.
     /// This member is required.
@@ -7121,6 +7215,16 @@ extension DescribeInsightInput {
     }
 }
 
+extension DescribeInsightsRefreshInput {
+
+    static func urlPathProvider(_ value: DescribeInsightsRefreshInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/insights-refresh"
+    }
+}
+
 extension DescribeNodegroupInput {
 
     static func urlPathProvider(_ value: DescribeNodegroupInput) -> Swift.String? {
@@ -7538,6 +7642,16 @@ extension RegisterClusterInput {
 
     static func urlPathProvider(_ value: RegisterClusterInput) -> Swift.String? {
         return "/cluster-registrations"
+    }
+}
+
+extension StartInsightsRefreshInput {
+
+    static func urlPathProvider(_ value: StartInsightsRefreshInput) -> Swift.String? {
+        guard let clusterName = value.clusterName else {
+            return nil
+        }
+        return "/clusters/\(clusterName.urlPercentEncoding())/insights-refresh"
     }
 }
 
@@ -8301,6 +8415,21 @@ extension DescribeInsightOutput {
     }
 }
 
+extension DescribeInsightsRefreshOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeInsightsRefreshOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeInsightsRefreshOutput()
+        value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.message = try reader["message"].readIfPresent()
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeNodegroupOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeNodegroupOutput {
@@ -8534,6 +8663,19 @@ extension RegisterClusterOutput {
         let reader = responseReader
         var value = RegisterClusterOutput()
         value.cluster = try reader["cluster"].readIfPresent(with: EKSClientTypes.Cluster.read(from:))
+        return value
+    }
+}
+
+extension StartInsightsRefreshOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartInsightsRefreshOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartInsightsRefreshOutput()
+        value.message = try reader["message"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -9149,6 +9291,23 @@ enum DescribeInsightOutputError {
     }
 }
 
+enum DescribeInsightsRefreshOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeNodegroupOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9471,6 +9630,23 @@ enum RegisterClusterOutputError {
             case "ResourcePropagationDelayException": return try ResourcePropagationDelayException.makeError(baseError: baseError)
             case "ServerException": return try ServerException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartInsightsRefreshOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServerException": return try ServerException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }

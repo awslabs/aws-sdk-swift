@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QAppsClient: ClientRuntime.Client {
     public static let clientName = "QAppsClient"
-    public static let version = "1.5.29"
+    public static let version = "1.5.30"
     let client: ClientRuntime.SdkHttpClient
     let config: QAppsClient.QAppsClientConfiguration
     let serviceName = "QApps"
