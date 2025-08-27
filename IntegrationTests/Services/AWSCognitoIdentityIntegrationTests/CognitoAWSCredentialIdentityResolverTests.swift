@@ -5,13 +5,13 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import XCTest
 import AWSCognitoIdentity
 import AWSIAM
 import AWSSDKIdentity
 import AWSSTS
 import ClientRuntime
 import SmithyWaitersAPI
+import XCTest
 
 /// Tests CognitoAWSCredentialIdentityResolver using STS::getCallerIdentity.
 class CognitoAWSCredentialIdentityResolverTests: XCTestCase {
@@ -59,9 +59,7 @@ class CognitoAWSCredentialIdentityResolverTests: XCTestCase {
         )
         let createRoleResponse = try await iamClient.createRole(input: createRoleInput)
 
-        let getRoleInput = GetRoleInput(roleName: roleName)
-        let waiterOptions = WaiterOptions(maxWaitTime: 60.0) // 60 seconds max wait
-        _ = try await iamClient.waitUntilRoleExists(options: waiterOptions, input: getRoleInput)
+        try await Task.sleep(nanoseconds: 10_000_000_000) // 10 seconds
 
         // Assign the role to the identity pool
         _ = try await cognitoIdentityClient.setIdentityPoolRoles(
