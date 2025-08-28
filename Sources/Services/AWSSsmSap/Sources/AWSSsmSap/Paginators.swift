@@ -73,6 +73,69 @@ extension PaginatorSequence where OperationStackInput == ListComponentsInput, Op
     }
 }
 extension SsmSapClient {
+    /// Paginate over `[ListConfigurationCheckDefinitionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListConfigurationCheckDefinitionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConfigurationCheckDefinitionsOutput`
+    public func listConfigurationCheckDefinitionsPaginated(input: ListConfigurationCheckDefinitionsInput) -> ClientRuntime.PaginatorSequence<ListConfigurationCheckDefinitionsInput, ListConfigurationCheckDefinitionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListConfigurationCheckDefinitionsInput, ListConfigurationCheckDefinitionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConfigurationCheckDefinitions(input:))
+    }
+}
+
+extension ListConfigurationCheckDefinitionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListConfigurationCheckDefinitionsInput {
+        return ListConfigurationCheckDefinitionsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListConfigurationCheckDefinitionsInput, OperationStackOutput == ListConfigurationCheckDefinitionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listConfigurationCheckDefinitionsPaginated`
+    /// to access the nested member `[SsmSapClientTypes.ConfigurationCheckDefinition]`
+    /// - Returns: `[SsmSapClientTypes.ConfigurationCheckDefinition]`
+    public func configurationChecks() async throws -> [SsmSapClientTypes.ConfigurationCheckDefinition] {
+        return try await self.asyncCompactMap { item in item.configurationChecks }
+    }
+}
+extension SsmSapClient {
+    /// Paginate over `[ListConfigurationCheckOperationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListConfigurationCheckOperationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListConfigurationCheckOperationsOutput`
+    public func listConfigurationCheckOperationsPaginated(input: ListConfigurationCheckOperationsInput) -> ClientRuntime.PaginatorSequence<ListConfigurationCheckOperationsInput, ListConfigurationCheckOperationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListConfigurationCheckOperationsInput, ListConfigurationCheckOperationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listConfigurationCheckOperations(input:))
+    }
+}
+
+extension ListConfigurationCheckOperationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListConfigurationCheckOperationsInput {
+        return ListConfigurationCheckOperationsInput(
+            applicationId: self.applicationId,
+            filters: self.filters,
+            listMode: self.listMode,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListConfigurationCheckOperationsInput, OperationStackOutput == ListConfigurationCheckOperationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listConfigurationCheckOperationsPaginated`
+    /// to access the nested member `[SsmSapClientTypes.ConfigurationCheckOperation]`
+    /// - Returns: `[SsmSapClientTypes.ConfigurationCheckOperation]`
+    public func configurationCheckOperations() async throws -> [SsmSapClientTypes.ConfigurationCheckOperation] {
+        return try await self.asyncCompactMap { item in item.configurationCheckOperations }
+    }
+}
+extension SsmSapClient {
     /// Paginate over `[ListDatabasesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -166,5 +229,67 @@ extension PaginatorSequence where OperationStackInput == ListOperationsInput, Op
     /// - Returns: `[SsmSapClientTypes.Operation]`
     public func operations() async throws -> [SsmSapClientTypes.Operation] {
         return try await self.asyncCompactMap { item in item.operations }
+    }
+}
+extension SsmSapClient {
+    /// Paginate over `[ListSubCheckResultsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSubCheckResultsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSubCheckResultsOutput`
+    public func listSubCheckResultsPaginated(input: ListSubCheckResultsInput) -> ClientRuntime.PaginatorSequence<ListSubCheckResultsInput, ListSubCheckResultsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSubCheckResultsInput, ListSubCheckResultsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSubCheckResults(input:))
+    }
+}
+
+extension ListSubCheckResultsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSubCheckResultsInput {
+        return ListSubCheckResultsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            operationId: self.operationId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSubCheckResultsInput, OperationStackOutput == ListSubCheckResultsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSubCheckResultsPaginated`
+    /// to access the nested member `[SsmSapClientTypes.SubCheckResult]`
+    /// - Returns: `[SsmSapClientTypes.SubCheckResult]`
+    public func subCheckResults() async throws -> [SsmSapClientTypes.SubCheckResult] {
+        return try await self.asyncCompactMap { item in item.subCheckResults }
+    }
+}
+extension SsmSapClient {
+    /// Paginate over `[ListSubCheckRuleResultsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSubCheckRuleResultsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSubCheckRuleResultsOutput`
+    public func listSubCheckRuleResultsPaginated(input: ListSubCheckRuleResultsInput) -> ClientRuntime.PaginatorSequence<ListSubCheckRuleResultsInput, ListSubCheckRuleResultsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSubCheckRuleResultsInput, ListSubCheckRuleResultsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSubCheckRuleResults(input:))
+    }
+}
+
+extension ListSubCheckRuleResultsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSubCheckRuleResultsInput {
+        return ListSubCheckRuleResultsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            subCheckResultId: self.subCheckResultId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSubCheckRuleResultsInput, OperationStackOutput == ListSubCheckRuleResultsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSubCheckRuleResultsPaginated`
+    /// to access the nested member `[SsmSapClientTypes.RuleResult]`
+    /// - Returns: `[SsmSapClientTypes.RuleResult]`
+    public func ruleResults() async throws -> [SsmSapClientTypes.RuleResult] {
+        return try await self.asyncCompactMap { item in item.ruleResults }
     }
 }

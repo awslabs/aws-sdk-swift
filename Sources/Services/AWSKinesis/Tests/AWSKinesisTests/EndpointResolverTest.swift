@@ -1180,29 +1180,8 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// Dual Stack not supported region.
-    func testResolve59() throws {
-        let endpointParams = EndpointParams(
-            operationType: "control",
-            region: "us-iso-west-1",
-            streamARN: "arn:aws-iso:kinesis:us-iso-west-1:123456789012:stream/testStream",
-            useDualStack: true,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("FIPS and DualStack are enabled, but this partition does not support one or both", message)
-            default:
-                XCTFail()
-            }
-        }
-    }
-
     /// OperationType not set
-    func testResolve60() throws {
+    func testResolve59() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             streamARN: "arn:aws:kinesis:us-east-1:123456789012:stream/testStream",
@@ -1222,7 +1201,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Custom Endpoint is specified
-    func testResolve61() throws {
+    func testResolve60() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             operationType: "control",
@@ -1245,7 +1224,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint targeting control operation type
-    func testResolve62() throws {
+    func testResolve61() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-east-1",
@@ -1267,7 +1246,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint targeting data operation type
-    func testResolve63() throws {
+    func testResolve62() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-east-1",
@@ -1289,7 +1268,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint with fips targeting data operation type
-    func testResolve64() throws {
+    func testResolve63() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-east-1",
@@ -1311,7 +1290,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint with fips targeting control operation type
-    func testResolve65() throws {
+    func testResolve64() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-east-1",
@@ -1333,7 +1312,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint with Dual Stack and FIPS enabled
-    func testResolve66() throws {
+    func testResolve65() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-east-1",
@@ -1355,7 +1334,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint with Dual Stack enabled
-    func testResolve67() throws {
+    func testResolve66() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-west-1",
@@ -1377,7 +1356,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint with FIPS and DualStack disabled
-    func testResolve68() throws {
+    func testResolve67() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-west-1",
@@ -1399,7 +1378,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// RegionMismatch: client region should be used for endpoint region
-    func testResolve69() throws {
+    func testResolve68() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-east-1",
@@ -1421,7 +1400,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint with FIPS enabled
-    func testResolve70() throws {
+    func testResolve69() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "cn-northwest-1",
@@ -1443,7 +1422,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint with FIPS and DualStack enabled for cn regions.
-    func testResolve71() throws {
+    func testResolve70() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "cn-northwest-1",
@@ -1465,7 +1444,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint targeting control operation type in ADC regions
-    func testResolve72() throws {
+    func testResolve71() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-iso-east-1",
@@ -1487,7 +1466,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint targeting control operation type in ADC regions
-    func testResolve73() throws {
+    func testResolve72() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-iso-west-1",
@@ -1509,7 +1488,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint targeting data operation type in ADC regions
-    func testResolve74() throws {
+    func testResolve73() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-isob-east-1",
@@ -1531,7 +1510,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint with fips targeting control operation type in ADC regions
-    func testResolve75() throws {
+    func testResolve74() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-iso-east-1",
@@ -1553,7 +1532,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint with fips targeting data operation type in ADC regions
-    func testResolve76() throws {
+    func testResolve75() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-isob-east-1",
@@ -1575,7 +1554,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Invalid ConsumerARN: Failed to parse ARN.
-    func testResolve77() throws {
+    func testResolve76() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn",
             region: "us-east-1",
@@ -1595,7 +1574,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Invalid ConsumerARN: partition missing from ARN.
-    func testResolve78() throws {
+    func testResolve77() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn::kinesis:us-west-2:123456789012:stream/testStream/consumer/test-consumer:1525898737",
             region: "us-east-1",
@@ -1615,7 +1594,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Invalid ARN: partitions mismatch.
-    func testResolve79() throws {
+    func testResolve78() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-west-2:123456789012:stream/testStream/consumer/test-consumer:1525898737",
             region: "us-gov-west-1",
@@ -1635,7 +1614,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Invalid ARN: Not Kinesis
-    func testResolve80() throws {
+    func testResolve79() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:s3:us-west-2:123456789012:stream/testStream/consumer/test-consumer:1525898737",
             region: "us-east-1",
@@ -1655,7 +1634,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Invalid ARN: Region is missing in ARN
-    func testResolve81() throws {
+    func testResolve80() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis::123456789012:stream/testStream/consumer/test-consumer:1525898737",
             region: "us-east-1",
@@ -1675,7 +1654,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Invalid ARN: Region is empty string in ARN
-    func testResolve82() throws {
+    func testResolve81() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:  :123456789012:stream/testStream/consumer/test-consumer:1525898737",
             region: "us-east-1",
@@ -1695,7 +1674,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Invalid ARN: Invalid account id
-    func testResolve83() throws {
+    func testResolve82() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1::stream/testStream/consumer/test-consumer:1525898737",
             operationType: "control",
@@ -1716,7 +1695,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Invalid ARN: Invalid account id
-    func testResolve84() throws {
+    func testResolve83() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:   :stream/testStream/consumer/test-consumer:1525898737",
             operationType: "control",
@@ -1737,7 +1716,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Invalid ARN: Kinesis ARNs only support stream arn/consumer arn types
-    func testResolve85() throws {
+    func testResolve84() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:123:accesspoint/testStream/consumer/test-consumer:1525898737",
             region: "us-east-1",
@@ -1756,29 +1735,8 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// Dual Stack not supported region.
-    func testResolve86() throws {
-        let endpointParams = EndpointParams(
-            consumerARN: "arn:aws-iso:kinesis:us-iso-west-1:123456789012:stream/testStream/consumer/test-consumer:1525898737",
-            operationType: "control",
-            region: "us-iso-west-1",
-            useDualStack: true,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("FIPS and DualStack are enabled, but this partition does not support one or both", message)
-            default:
-                XCTFail()
-            }
-        }
-    }
-
     /// OperationType not set
-    func testResolve87() throws {
+    func testResolve85() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:123456789012:stream/testStream/consumer/test-consumer:1525898737",
             region: "us-east-1",
@@ -1798,7 +1756,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Custom Endpoint is specified
-    func testResolve88() throws {
+    func testResolve86() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             endpoint: "https://example.com",
@@ -1821,7 +1779,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint targeting control operation type
-    func testResolve89() throws {
+    func testResolve87() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "control",
@@ -1843,7 +1801,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint targeting data operation type
-    func testResolve90() throws {
+    func testResolve88() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "data",
@@ -1865,7 +1823,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint with fips targeting data operation type
-    func testResolve91() throws {
+    func testResolve89() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "data",
@@ -1887,7 +1845,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint with fips targeting control operation type
-    func testResolve92() throws {
+    func testResolve90() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "control",
@@ -1909,7 +1867,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint with Dual Stack and FIPS enabled
-    func testResolve93() throws {
+    func testResolve91() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "control",
@@ -1931,7 +1889,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint with Dual Stack enabled
-    func testResolve94() throws {
+    func testResolve92() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-west-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "data",
@@ -1953,7 +1911,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint with FIPS and DualStack disabled
-    func testResolve95() throws {
+    func testResolve93() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-west-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "control",
@@ -1975,7 +1933,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// RegionMismatch: client region should be used for endpoint region
-    func testResolve96() throws {
+    func testResolve94() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-west-1:123:stream/testStream/consumer/test-consumer:1525898737",
             operationType: "data",
@@ -1997,7 +1955,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint with FIPS enabled
-    func testResolve97() throws {
+    func testResolve95() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws-cn:kinesis:cn-northwest-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "data",
@@ -2019,7 +1977,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint with FIPS and DualStack enabled for cn regions.
-    func testResolve98() throws {
+    func testResolve96() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws-cn:kinesis:cn-northwest-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "data",
@@ -2041,7 +1999,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint targeting control operation type in ADC regions
-    func testResolve99() throws {
+    func testResolve97() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws-iso:kinesis:us-iso-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "control",
@@ -2063,7 +2021,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint targeting control operation type in ADC regions
-    func testResolve100() throws {
+    func testResolve98() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws-iso:kinesis:us-iso-west-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "control",
@@ -2085,7 +2043,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint targeting data operation type in ADC regions
-    func testResolve101() throws {
+    func testResolve99() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws-iso-b:kinesis:us-isob-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "data",
@@ -2107,7 +2065,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint with fips targeting control operation type in ADC regions
-    func testResolve102() throws {
+    func testResolve100() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws-iso:kinesis:us-iso-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "control",
@@ -2129,7 +2087,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Account endpoint with fips targeting data operation type in ADC regions
-    func testResolve103() throws {
+    func testResolve101() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws-iso-b:kinesis:us-isob-east-1:123:stream/test-stream/consumer/test-consumer:1525898737",
             operationType: "data",
@@ -2151,7 +2109,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ConsumerARN targeting US-EAST-1
-    func testResolve104() throws {
+    func testResolve102() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:123456789123:stream/foobar/consumer/test-consumer:1525898737",
             operationType: "data",
@@ -2173,7 +2131,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// Both StreamARN and ConsumerARN specified. StreamARN should take precedence
-    func testResolve105() throws {
+    func testResolve103() throws {
         let endpointParams = EndpointParams(
             consumerARN: "arn:aws:kinesis:us-east-1:123456789123:stream/foobar/consumer/test-consumer:1525898737",
             operationType: "data",
@@ -2196,7 +2154,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN test: Invalid ARN: Failed to parse ARN.
-    func testResolve106() throws {
+    func testResolve104() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             resourceARN: "arn",
@@ -2216,7 +2174,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Invalid ARN: partition missing from ARN.
-    func testResolve107() throws {
+    func testResolve105() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             resourceARN: "arn::kinesis:us-west-2:123456789012:stream/testStream",
@@ -2236,7 +2194,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Invalid ARN: partitions mismatch.
-    func testResolve108() throws {
+    func testResolve106() throws {
         let endpointParams = EndpointParams(
             region: "us-gov-west-1",
             resourceARN: "arn:aws:kinesis:us-west-2:123456789012:stream/testStream",
@@ -2256,7 +2214,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Invalid ARN: Not Kinesis
-    func testResolve109() throws {
+    func testResolve107() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             resourceARN: "arn:aws:s3:us-west-2:123456789012:stream/testStream",
@@ -2276,7 +2234,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Invalid ARN: Region is missing in ARN
-    func testResolve110() throws {
+    func testResolve108() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             resourceARN: "arn:aws:kinesis::123456789012:stream/testStream",
@@ -2296,7 +2254,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Invalid ARN: Region is empty string in ARN
-    func testResolve111() throws {
+    func testResolve109() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             resourceARN: "arn:aws:kinesis:  :123456789012:stream/testStream",
@@ -2316,7 +2274,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Invalid ARN: Invalid account id
-    func testResolve112() throws {
+    func testResolve110() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-east-1",
@@ -2337,7 +2295,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Invalid ARN: Invalid account id
-    func testResolve113() throws {
+    func testResolve111() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-east-1",
@@ -2358,7 +2316,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Invalid ARN: Kinesis ARNs only support stream arn types
-    func testResolve114() throws {
+    func testResolve112() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             resourceARN: "arn:aws:kinesis:us-east-1:123:accesspoint/testStream",
@@ -2377,29 +2335,8 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// ResourceARN as StreamARN test: Dual Stack not supported region.
-    func testResolve115() throws {
-        let endpointParams = EndpointParams(
-            operationType: "control",
-            region: "us-iso-west-1",
-            resourceARN: "arn:aws-iso:kinesis:us-iso-west-1:123456789012:stream/testStream",
-            useDualStack: true,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("FIPS and DualStack are enabled, but this partition does not support one or both", message)
-            default:
-                XCTFail()
-            }
-        }
-    }
-
     /// ResourceARN as StreamARN test: OperationType not set
-    func testResolve116() throws {
+    func testResolve113() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             resourceARN: "arn:aws:kinesis:us-east-1:123456789012:stream/testStream",
@@ -2419,7 +2356,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Custom Endpoint is specified
-    func testResolve117() throws {
+    func testResolve114() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             operationType: "control",
@@ -2442,7 +2379,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Account endpoint targeting control operation type
-    func testResolve118() throws {
+    func testResolve115() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-east-1",
@@ -2464,7 +2401,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Account endpoint targeting data operation type
-    func testResolve119() throws {
+    func testResolve116() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-east-1",
@@ -2486,7 +2423,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Account endpoint with fips targeting data operation type
-    func testResolve120() throws {
+    func testResolve117() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-east-1",
@@ -2508,7 +2445,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Account endpoint with fips targeting control operation type
-    func testResolve121() throws {
+    func testResolve118() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-east-1",
@@ -2530,7 +2467,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Account endpoint with Dual Stack and FIPS enabled
-    func testResolve122() throws {
+    func testResolve119() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-east-1",
@@ -2552,7 +2489,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Account endpoint with Dual Stack enabled
-    func testResolve123() throws {
+    func testResolve120() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-west-1",
@@ -2574,7 +2511,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Account endpoint with FIPS and DualStack disabled
-    func testResolve124() throws {
+    func testResolve121() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-west-1",
@@ -2596,7 +2533,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: RegionMismatch: client region should be used for endpoint region
-    func testResolve125() throws {
+    func testResolve122() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-east-1",
@@ -2618,7 +2555,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Account endpoint with FIPS enabled
-    func testResolve126() throws {
+    func testResolve123() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "cn-northwest-1",
@@ -2640,7 +2577,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Account endpoint with FIPS and DualStack enabled for cn regions.
-    func testResolve127() throws {
+    func testResolve124() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "cn-northwest-1",
@@ -2662,7 +2599,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Account endpoint targeting control operation type in ADC regions
-    func testResolve128() throws {
+    func testResolve125() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-iso-east-1",
@@ -2684,7 +2621,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Account endpoint targeting control operation type in ADC regions
-    func testResolve129() throws {
+    func testResolve126() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-iso-west-1",
@@ -2706,7 +2643,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Account endpoint targeting data operation type in ADC regions
-    func testResolve130() throws {
+    func testResolve127() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-isob-east-1",
@@ -2728,7 +2665,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Account endpoint with fips targeting control operation type in ADC regions
-    func testResolve131() throws {
+    func testResolve128() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-iso-east-1",
@@ -2750,7 +2687,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as StreamARN test: Account endpoint with fips targeting data operation type in ADC regions
-    func testResolve132() throws {
+    func testResolve129() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-isob-east-1",
@@ -2772,7 +2709,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Invalid ARN: partition missing from ARN.
-    func testResolve133() throws {
+    func testResolve130() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             resourceARN: "arn::kinesis:us-west-2:123456789012:stream/testStream/consumer/test-consumer:1525898737",
@@ -2792,7 +2729,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Invalid ARN: partitions mismatch.
-    func testResolve134() throws {
+    func testResolve131() throws {
         let endpointParams = EndpointParams(
             region: "us-gov-west-1",
             resourceARN: "arn:aws:kinesis:us-west-2:123456789012:stream/testStream/consumer/test-consumer:1525898737",
@@ -2812,7 +2749,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Invalid ARN: Not Kinesis
-    func testResolve135() throws {
+    func testResolve132() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             resourceARN: "arn:aws:s3:us-west-2:123456789012:stream/testStream/consumer/test-consumer:1525898737",
@@ -2832,7 +2769,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Invalid ARN: Region is missing in ARN
-    func testResolve136() throws {
+    func testResolve133() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             resourceARN: "arn:aws:kinesis::123456789012:stream/testStream/consumer/test-consumer:1525898737",
@@ -2852,7 +2789,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Invalid ARN: Region is empty string in ARN
-    func testResolve137() throws {
+    func testResolve134() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             resourceARN: "arn:aws:kinesis:  :123456789012:stream/testStream/consumer/test-consumer:1525898737",
@@ -2872,7 +2809,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Invalid ARN: Invalid account id
-    func testResolve138() throws {
+    func testResolve135() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-east-1",
@@ -2893,7 +2830,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Invalid ARN: Invalid account id
-    func testResolve139() throws {
+    func testResolve136() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-east-1",
@@ -2914,7 +2851,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Invalid ARN: Kinesis ARNs only support stream arn/consumer arn types
-    func testResolve140() throws {
+    func testResolve137() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             resourceARN: "arn:aws:kinesis:us-east-1:123:accesspoint/testStream/consumer/test-consumer:1525898737",
@@ -2933,29 +2870,8 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// ResourceARN as ConsumerARN test: Dual Stack not supported region.
-    func testResolve141() throws {
-        let endpointParams = EndpointParams(
-            operationType: "control",
-            region: "us-iso-west-1",
-            resourceARN: "arn:aws-iso:kinesis:us-iso-west-1:123456789012:stream/testStream/consumer/test-consumer:1525898737",
-            useDualStack: true,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("FIPS and DualStack are enabled, but this partition does not support one or both", message)
-            default:
-                XCTFail()
-            }
-        }
-    }
-
     /// ResourceARN as ConsumerARN test: OperationType not set
-    func testResolve142() throws {
+    func testResolve138() throws {
         let endpointParams = EndpointParams(
             region: "us-east-1",
             resourceARN: "arn:aws:kinesis:us-east-1:123456789012:stream/testStream/consumer/test-consumer:1525898737",
@@ -2975,7 +2891,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Custom Endpoint is specified
-    func testResolve143() throws {
+    func testResolve139() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             operationType: "control",
@@ -2998,7 +2914,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Account endpoint targeting control operation type
-    func testResolve144() throws {
+    func testResolve140() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-east-1",
@@ -3020,7 +2936,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Account endpoint targeting data operation type
-    func testResolve145() throws {
+    func testResolve141() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-east-1",
@@ -3042,7 +2958,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Account endpoint with fips targeting data operation type
-    func testResolve146() throws {
+    func testResolve142() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-east-1",
@@ -3064,7 +2980,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Account endpoint with fips targeting control operation type
-    func testResolve147() throws {
+    func testResolve143() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-east-1",
@@ -3086,7 +3002,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Account endpoint with Dual Stack and FIPS enabled
-    func testResolve148() throws {
+    func testResolve144() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-east-1",
@@ -3108,7 +3024,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Account endpoint with Dual Stack enabled
-    func testResolve149() throws {
+    func testResolve145() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-west-1",
@@ -3130,7 +3046,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Account endpoint with FIPS and DualStack disabled
-    func testResolve150() throws {
+    func testResolve146() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-west-1",
@@ -3152,7 +3068,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: RegionMismatch: client region should be used for endpoint region
-    func testResolve151() throws {
+    func testResolve147() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-east-1",
@@ -3174,7 +3090,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Account endpoint with FIPS enabled
-    func testResolve152() throws {
+    func testResolve148() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "cn-northwest-1",
@@ -3196,7 +3112,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Account endpoint with FIPS and DualStack enabled for cn regions.
-    func testResolve153() throws {
+    func testResolve149() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "cn-northwest-1",
@@ -3218,7 +3134,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Account endpoint targeting control operation type in ADC regions
-    func testResolve154() throws {
+    func testResolve150() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-iso-east-1",
@@ -3240,7 +3156,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Account endpoint targeting control operation type in ADC regions
-    func testResolve155() throws {
+    func testResolve151() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-iso-west-1",
@@ -3262,7 +3178,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Account endpoint targeting data operation type in ADC regions
-    func testResolve156() throws {
+    func testResolve152() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-isob-east-1",
@@ -3284,7 +3200,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Account endpoint with fips targeting control operation type in ADC regions
-    func testResolve157() throws {
+    func testResolve153() throws {
         let endpointParams = EndpointParams(
             operationType: "control",
             region: "us-iso-east-1",
@@ -3306,7 +3222,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// ResourceARN as ConsumerARN test: Account endpoint with fips targeting data operation type in ADC regions
-    func testResolve158() throws {
+    func testResolve154() throws {
         let endpointParams = EndpointParams(
             operationType: "data",
             region: "us-isob-east-1",

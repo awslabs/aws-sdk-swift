@@ -73,7 +73,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OmicsClient: ClientRuntime.Client {
     public static let clientName = "OmicsClient"
-    public static let version = "1.5.30"
+    public static let version = "1.5.31"
     let client: ClientRuntime.SdkHttpClient
     let config: OmicsClient.OmicsClientConfiguration
     let serviceName = "Omics"
@@ -377,7 +377,7 @@ extension OmicsClient {
 extension OmicsClient {
     /// Performs the `AbortMultipartReadSetUpload` operation on the `Omics` service.
     ///
-    /// Stops a multipart upload.
+    /// Stops a multipart read set upload into a sequence store and returns a response with no body if the operation is successful. To confirm that a multipart read set upload has been stopped, use the ListMultipartReadSetUploads API operation to view all active multipart read set uploads.
     ///
     /// - Parameter AbortMultipartReadSetUploadInput : [no documentation found]
     ///
@@ -518,7 +518,7 @@ extension OmicsClient {
 
     /// Performs the `BatchDeleteReadSet` operation on the `Omics` service.
     ///
-    /// Deletes one or more read sets.
+    /// Deletes one or more read sets. If the operation is successful, it returns a response with no body. If there is an error with deleting one of the read sets, the operation returns an error list. If the operation successfully deletes only a subset of files, it will return an error list for the remaining files that fail to be deleted. There is a limit of 100 read sets that can be deleted in each BatchDeleteReadSet API call.
     ///
     /// - Parameter BatchDeleteReadSetInput : [no documentation found]
     ///
@@ -797,7 +797,7 @@ extension OmicsClient {
 
     /// Performs the `CompleteMultipartReadSetUpload` operation on the `Omics` service.
     ///
-    /// Concludes a multipart upload once you have uploaded all the components.
+    /// Completes a multipart read set upload into a sequence store after you have initiated the upload process with CreateMultipartReadSetUpload and uploaded all read set parts using UploadReadSetPart. You must specify the parts you uploaded using the parts parameter. If the operation is successful, it returns the read set ID(s) of the uploaded read set(s). For more information, see [Direct upload to a sequence store](https://docs.aws.amazon.com/omics/latest/dev/synchronous-uploads.html) in the Amazon Web Services HealthOmics User Guide.
     ///
     /// - Parameter CompleteMultipartReadSetUploadInput : [no documentation found]
     ///
@@ -1017,7 +1017,14 @@ extension OmicsClient {
 
     /// Performs the `CreateMultipartReadSetUpload` operation on the `Omics` service.
     ///
-    /// Begins a multipart read set upload.
+    /// Initiates a multipart read set upload for uploading partitioned source files into a sequence store. You can directly import source files from an EC2 instance and other local compute, or from an S3 bucket. To separate these source files into parts, use the split operation. Each part cannot be larger than 100 MB. If the operation is successful, it provides an uploadId which is required by the UploadReadSetPart API operation to upload parts into a sequence store. To continue uploading a multipart read set into your sequence store, you must use the UploadReadSetPart API operation to upload each part individually following the steps below:
+    ///
+    /// * Specify the uploadId obtained from the previous call to CreateMultipartReadSetUpload.
+    ///
+    /// * Upload parts for that uploadId.
+    ///
+    ///
+    /// When you have finished uploading parts, use the CompleteMultipartReadSetUpload API to complete the multipart read set upload and to retrieve the final read set IDs in the response. To learn more about creating parts and the split operation, see [Direct upload to a sequence store](https://docs.aws.amazon.com/omics/latest/dev/synchronous-uploads.html) in the Amazon Web Services HealthOmics User Guide.
     ///
     /// - Parameter CreateMultipartReadSetUploadInput : [no documentation found]
     ///
@@ -1091,7 +1098,7 @@ extension OmicsClient {
 
     /// Performs the `CreateReferenceStore` operation on the `Omics` service.
     ///
-    /// Creates a reference store.
+    /// Creates a reference store and returns metadata in JSON format. Reference stores are used to store reference genomes in FASTA format. A reference store is created when the first reference genome is imported. To import additional reference genomes from an Amazon S3 bucket, use the StartReferenceImportJob API operation. For more information, see [Creating a HealthOmics reference store](https://docs.aws.amazon.com/omics/latest/dev/create-reference-store.html) in the Amazon Web Services HealthOmics User Guide.
     ///
     /// - Parameter CreateReferenceStoreInput : [no documentation found]
     ///
@@ -1313,7 +1320,20 @@ extension OmicsClient {
 
     /// Performs the `CreateSequenceStore` operation on the `Omics` service.
     ///
-    /// Creates a sequence store.
+    /// Creates a sequence store and returns its metadata. Sequence stores are used to store sequence data files called read sets that are saved in FASTQ, BAM, uBAM, or CRAM formats. For aligned formats (BAM and CRAM), a sequence store can only use one reference genome. For unaligned formats (FASTQ and uBAM), a reference genome is not required. You can create multiple sequence stores per region per account. The following are optional parameters you can specify for your sequence store:
+    ///
+    /// * Use s3AccessConfig to configure your sequence store with S3 access logs (recommended).
+    ///
+    /// * Use sseConfig to define your own KMS key for encryption.
+    ///
+    /// * Use eTagAlgorithmFamily to define which algorithm to use for the HealthOmics eTag on objects.
+    ///
+    /// * Use fallbackLocation to define a backup location for storing files that have failed a direct upload.
+    ///
+    /// * Use propagatedSetLevelTags to configure tags that propagate to all objects in your store.
+    ///
+    ///
+    /// For more information, see [Creating a HealthOmics sequence store](https://docs.aws.amazon.com/omics/latest/dev/create-sequence-store.html) in the Amazon Web Services HealthOmics User Guide.
     ///
     /// - Parameter CreateSequenceStoreInput : [no documentation found]
     ///
@@ -1544,7 +1564,7 @@ extension OmicsClient {
     ///
     /// * (Optional) Parameter template: You can create a parameter template file that defines the run parameters, or Amazon Web Services HealthOmics can generate the parameter template for you.
     ///
-    /// * ECR container images: Create one or more container images for the workflow. Store the images in a private ECR repository.
+    /// * ECR container images: Create container images for the workflow in a private ECR repository, or synchronize images from a supported upstream registry with your Amazon ECR private repository.
     ///
     /// * (Optional) Sentieon licenses: Request a Sentieon license if using the Sentieon software in a private workflow.
     ///
@@ -1624,7 +1644,7 @@ extension OmicsClient {
 
     /// Performs the `CreateWorkflowVersion` operation on the `Omics` service.
     ///
-    /// Creates a new workflow version for the workflow that you specify with the workflowId parameter. When you create a new version of a workflow, you need to specify the configuration for the new version. It doesn't inherit any configuration values from the workflow. Provide a version name that is unique for this workflow. You cannot change the name after HealthOmics creates the version. Don’t include any personally identifiable information (PII) in the version name. Version names appear in the workflow version ARN. For more information, see [Workflow versioning in Amazon Web Services HealthOmics](https://docs.aws.amazon.com/omics/latest/dev/workflow-versions.html) in the Amazon Web Services HealthOmics User Guide.
+    /// Creates a new workflow version for the workflow that you specify with the workflowId parameter. When you create a new version of a workflow, you need to specify the configuration for the new version. It doesn't inherit any configuration values from the workflow. Provide a version name that is unique for this workflow. You cannot change the name after HealthOmics creates the version. Don't include any personally identifiable information (PII) in the version name. Version names appear in the workflow version ARN. For more information, see [Workflow versioning in Amazon Web Services HealthOmics](https://docs.aws.amazon.com/omics/latest/dev/workflow-versions.html) in the Amazon Web Services HealthOmics User Guide.
     ///
     /// - Parameter CreateWorkflowVersionInput : [no documentation found]
     ///
@@ -1842,7 +1862,7 @@ extension OmicsClient {
 
     /// Performs the `DeleteReference` operation on the `Omics` service.
     ///
-    /// Deletes a genome reference.
+    /// Deletes a reference genome and returns a response with no body if the operation is successful. The read set associated with the reference genome must first be deleted before deleting the reference genome. After the reference genome is deleted, you can delete the reference store using the DeleteReferenceStore API operation. For more information, see [Deleting HealthOmics reference and sequence stores](https://docs.aws.amazon.com/omics/latest/dev/deleting-reference-and-sequence-stores.html) in the Amazon Web Services HealthOmics User Guide.
     ///
     /// - Parameter DeleteReferenceInput : [no documentation found]
     ///
@@ -1912,7 +1932,7 @@ extension OmicsClient {
 
     /// Performs the `DeleteReferenceStore` operation on the `Omics` service.
     ///
-    /// Deletes a genome reference store.
+    /// Deletes a reference store and returns a response with no body if the operation is successful. You can only delete a reference store when it does not contain any reference genomes. To empty a reference store, use DeleteReference. For more information about your workflow status, see [Deleting HealthOmics reference and sequence stores](https://docs.aws.amazon.com/omics/latest/dev/deleting-reference-and-sequence-stores.html) in the Amazon Web Services HealthOmics User Guide.
     ///
     /// - Parameter DeleteReferenceStoreInput : [no documentation found]
     ///
@@ -2273,7 +2293,7 @@ extension OmicsClient {
 
     /// Performs the `DeleteSequenceStore` operation on the `Omics` service.
     ///
-    /// Deletes a sequence store.
+    /// Deletes a sequence store and returns a response with no body if the operation is successful. You can only delete a sequence store when it does not contain any read sets. Use the BatchDeleteReadSet API operation to ensure that all read sets in the sequence store are deleted. When a sequence store is deleted, all tags associated with the store are also deleted. For more information, see [Deleting HealthOmics reference and sequence stores](https://docs.aws.amazon.com/omics/latest/dev/deleting-reference-and-sequence-stores.html) in the Amazon Web Services HealthOmics User Guide.
     ///
     /// - Parameter DeleteSequenceStoreInput : [no documentation found]
     ///
@@ -2483,7 +2503,7 @@ extension OmicsClient {
 
     /// Performs the `DeleteWorkflow` operation on the `Omics` service.
     ///
-    /// Deletes a workflow by specifying its ID. No response is returned if the deletion is successful. To verify that the workflow is deleted:
+    /// Deletes a workflow by specifying its ID. This operation returns a response with no body if the deletion is successful. To verify that the workflow is deleted:
     ///
     /// * Use ListWorkflows to confirm the workflow no longer appears in the list.
     ///
@@ -2833,7 +2853,7 @@ extension OmicsClient {
 
     /// Performs the `GetReadSet` operation on the `Omics` service.
     ///
-    /// Gets a file from a read set.
+    /// Retrieves detailed information from parts of a read set and returns the read set in the same format that it was uploaded. You must have read sets uploaded to your sequence store in order to run this operation.
     ///
     /// - Parameter GetReadSetInput : [no documentation found]
     ///
@@ -2905,7 +2925,7 @@ extension OmicsClient {
 
     /// Performs the `GetReadSetActivationJob` operation on the `Omics` service.
     ///
-    /// Gets information about a read set activation job.
+    /// Returns detailed information about the status of a read set activation job in JSON format.
     ///
     /// - Parameter GetReadSetActivationJobInput : [no documentation found]
     ///
@@ -2974,7 +2994,7 @@ extension OmicsClient {
 
     /// Performs the `GetReadSetExportJob` operation on the `Omics` service.
     ///
-    /// Gets information about a read set export job.
+    /// Retrieves status information about a read set export job and returns the data in JSON format. Use this operation to actively monitor the progress of an export job.
     ///
     /// - Parameter GetReadSetExportJobInput : [no documentation found]
     ///
@@ -3043,7 +3063,7 @@ extension OmicsClient {
 
     /// Performs the `GetReadSetImportJob` operation on the `Omics` service.
     ///
-    /// Gets information about a read set import job.
+    /// Gets detailed and status information about a read set import job and returns the data in JSON format.
     ///
     /// - Parameter GetReadSetImportJobInput : [no documentation found]
     ///
@@ -3112,7 +3132,7 @@ extension OmicsClient {
 
     /// Performs the `GetReadSetMetadata` operation on the `Omics` service.
     ///
-    /// Gets details about a read set.
+    /// Retrieves the metadata for a read set from a sequence store in JSON format. This operation does not return tags. To retrieve the list of tags for a read set, use the ListTagsForResource API operation.
     ///
     /// - Parameter GetReadSetMetadataInput : [no documentation found]
     ///
@@ -3181,7 +3201,7 @@ extension OmicsClient {
 
     /// Performs the `GetReference` operation on the `Omics` service.
     ///
-    /// Gets a reference file.
+    /// Downloads parts of data from a reference genome and returns the reference file in the same format that it was uploaded. For more information, see [Creating a HealthOmics reference store](https://docs.aws.amazon.com/omics/latest/dev/create-reference-store.html) in the Amazon Web Services HealthOmics User Guide.
     ///
     /// - Parameter GetReferenceInput : [no documentation found]
     ///
@@ -3253,7 +3273,7 @@ extension OmicsClient {
 
     /// Performs the `GetReferenceImportJob` operation on the `Omics` service.
     ///
-    /// Gets information about a reference import job.
+    /// Monitors the status of a reference import job. This operation can be called after calling the StartReferenceImportJob operation.
     ///
     /// - Parameter GetReferenceImportJobInput : [no documentation found]
     ///
@@ -3322,7 +3342,7 @@ extension OmicsClient {
 
     /// Performs the `GetReferenceMetadata` operation on the `Omics` service.
     ///
-    /// Gets information about a genome reference's metadata.
+    /// Retrieves metadata for a reference genome. This operation returns the number of parts, part size, and MD5 of an entire file. This operation does not return tags. To retrieve the list of tags for a read set, use the ListTagsForResource API operation.
     ///
     /// - Parameter GetReferenceMetadataInput : [no documentation found]
     ///
@@ -3816,7 +3836,7 @@ extension OmicsClient {
 
     /// Performs the `GetSequenceStore` operation on the `Omics` service.
     ///
-    /// Gets information about a sequence store.
+    /// Retrieves metadata for a sequence store using its ID and returns it in JSON format.
     ///
     /// - Parameter GetSequenceStoreInput : [no documentation found]
     ///
@@ -4451,7 +4471,7 @@ extension OmicsClient {
 
     /// Performs the `ListMultipartReadSetUploads` operation on the `Omics` service.
     ///
-    /// Lists multipart read set uploads and for in progress uploads. Once the upload is completed, a read set is created and the upload will no longer be returned in the response.
+    /// Lists in-progress multipart read set uploads for a sequence store and returns it in a JSON formatted output. Multipart read set uploads are initiated by the CreateMultipartReadSetUploads API operation. This operation returns a response with no body when the upload is complete.
     ///
     /// - Parameter ListMultipartReadSetUploadsInput : [no documentation found]
     ///
@@ -4523,7 +4543,7 @@ extension OmicsClient {
 
     /// Performs the `ListReadSetActivationJobs` operation on the `Omics` service.
     ///
-    /// Retrieves a list of read set activation jobs.
+    /// Retrieves a list of read set activation jobs and returns the metadata in a JSON formatted output. To extract metadata from a read set activation job, use the GetReadSetActivationJob API operation.
     ///
     /// - Parameter ListReadSetActivationJobsInput : [no documentation found]
     ///
@@ -4596,7 +4616,7 @@ extension OmicsClient {
 
     /// Performs the `ListReadSetExportJobs` operation on the `Omics` service.
     ///
-    /// Retrieves a list of read set export jobs.
+    /// Retrieves a list of read set export jobs in a JSON formatted response. This API operation is used to check the status of a read set export job initiated by the StartReadSetExportJob API operation.
     ///
     /// - Parameter ListReadSetExportJobsInput : [no documentation found]
     ///
@@ -4669,7 +4689,7 @@ extension OmicsClient {
 
     /// Performs the `ListReadSetImportJobs` operation on the `Omics` service.
     ///
-    /// Retrieves a list of read set import jobs.
+    /// Retrieves a list of read set import jobs and returns the data in JSON format.
     ///
     /// - Parameter ListReadSetImportJobsInput : [no documentation found]
     ///
@@ -4742,7 +4762,7 @@ extension OmicsClient {
 
     /// Performs the `ListReadSetUploadParts` operation on the `Omics` service.
     ///
-    /// This operation will list all parts in a requested multipart upload for a sequence store.
+    /// Lists all parts in a multipart read set upload for a sequence store and returns the metadata in a JSON formatted output.
     ///
     /// - Parameter ListReadSetUploadPartsInput : [no documentation found]
     ///
@@ -4817,7 +4837,7 @@ extension OmicsClient {
 
     /// Performs the `ListReadSets` operation on the `Omics` service.
     ///
-    /// Retrieves a list of read sets.
+    /// Retrieves a list of read sets from a sequence store ID and returns the metadata in JSON format.
     ///
     /// - Parameter ListReadSetsInput : [no documentation found]
     ///
@@ -4890,7 +4910,7 @@ extension OmicsClient {
 
     /// Performs the `ListReferenceImportJobs` operation on the `Omics` service.
     ///
-    /// Retrieves a list of reference import jobs.
+    /// Retrieves the metadata of one or more reference import jobs for a reference store.
     ///
     /// - Parameter ListReferenceImportJobsInput : [no documentation found]
     ///
@@ -4963,7 +4983,7 @@ extension OmicsClient {
 
     /// Performs the `ListReferenceStores` operation on the `Omics` service.
     ///
-    /// Retrieves a list of reference stores.
+    /// Retrieves a list of reference stores linked to your account and returns their metadata in JSON format. For more information, see [Creating a reference store](https://docs.aws.amazon.com/omics/latest/dev/create-reference-store.html) in the Amazon Web Services HealthOmics User Guide.
     ///
     /// - Parameter ListReferenceStoresInput : [no documentation found]
     ///
@@ -5035,7 +5055,7 @@ extension OmicsClient {
 
     /// Performs the `ListReferences` operation on the `Omics` service.
     ///
-    /// Retrieves a list of references.
+    /// Retrieves the metadata of one or more reference genomes in a reference store. For more information, see [Creating a reference store](https://docs.aws.amazon.com/omics/latest/dev/create-reference-store.html) in the Amazon Web Services HealthOmics User Guide.
     ///
     /// - Parameter ListReferencesInput : [no documentation found]
     ///
@@ -5396,7 +5416,7 @@ extension OmicsClient {
 
     /// Performs the `ListSequenceStores` operation on the `Omics` service.
     ///
-    /// Retrieves a list of sequence stores.
+    /// Retrieves a list of sequence stores and returns each sequence store's metadata. For more information, see [Creating a HealthOmics sequence store](https://docs.aws.amazon.com/omics/latest/dev/create-sequence-store.html) in the Amazon Web Services HealthOmics User Guide.
     ///
     /// - Parameter ListSequenceStoresInput : [no documentation found]
     ///
@@ -6046,7 +6066,7 @@ extension OmicsClient {
 
     /// Performs the `StartReadSetActivationJob` operation on the `Omics` service.
     ///
-    /// Activates an archived read set. To reduce storage charges, Amazon Omics archives unused read sets after 30 days.
+    /// Activates an archived read set and returns its metadata in a JSON formatted output. AWS HealthOmics automatically archives unused read sets after 30 days. To monitor the status of your read set activation job, use the GetReadSetActivationJob operation. To learn more, see [Activating read sets](https://docs.aws.amazon.com/omics/latest/dev/activating-read-sets.html) in the Amazon Web Services HealthOmics User Guide.
     ///
     /// - Parameter StartReadSetActivationJobInput : [no documentation found]
     ///
@@ -6119,7 +6139,7 @@ extension OmicsClient {
 
     /// Performs the `StartReadSetExportJob` operation on the `Omics` service.
     ///
-    /// Exports a read set to Amazon S3.
+    /// Starts a read set export job. When the export job is finished, the read set is exported to an Amazon S3 bucket which can be retrieved using the GetReadSetExportJob API operation. To monitor the status of the export job, use the ListReadSetExportJobs API operation.
     ///
     /// - Parameter StartReadSetExportJobInput : [no documentation found]
     ///
@@ -6192,7 +6212,7 @@ extension OmicsClient {
 
     /// Performs the `StartReadSetImportJob` operation on the `Omics` service.
     ///
-    /// Starts a read set import job.
+    /// Imports a read set from the sequence store. Read set import jobs support a maximum of 100 read sets of different types. Monitor the progress of your read set import job by calling the GetReadSetImportJob API operation.
     ///
     /// - Parameter StartReadSetImportJobInput : [no documentation found]
     ///
@@ -6265,7 +6285,7 @@ extension OmicsClient {
 
     /// Performs the `StartReferenceImportJob` operation on the `Omics` service.
     ///
-    /// Starts a reference import job.
+    /// Imports a reference genome from Amazon S3 into a specified reference store. You can have multiple reference genomes in a reference store. You can only import reference genomes one at a time into each reference store. Monitor the status of your reference import job by using the GetReferenceImportJob API operation.
     ///
     /// - Parameter StartReferenceImportJobInput : [no documentation found]
     ///
@@ -7267,7 +7287,7 @@ extension OmicsClient {
 
     /// Performs the `UploadReadSetPart` operation on the `Omics` service.
     ///
-    /// This operation uploads a specific part of a read set. If you upload a new part using a previously used part number, the previously uploaded part will be overwritten.
+    /// Uploads a specific part of a read set into a sequence store. When you a upload a read set part with a part number that already exists, the new part replaces the existing one. This operation returns a JSON formatted response containing a string identifier that is used to confirm that parts are being added to the intended upload. For more information, see [Direct upload to a sequence store](https://docs.aws.amazon.com/omics/latest/dev/synchronous-uploads.html) in the Amazon Web Services HealthOmics User Guide.
     ///
     /// - Parameter UploadReadSetPartInput : [no documentation found]
     ///

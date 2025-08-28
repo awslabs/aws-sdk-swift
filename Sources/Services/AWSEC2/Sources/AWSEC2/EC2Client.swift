@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EC2Client: ClientRuntime.Client {
     public static let clientName = "EC2Client"
-    public static let version = "1.5.30"
+    public static let version = "1.5.31"
     let client: ClientRuntime.SdkHttpClient
     let config: EC2Client.EC2ClientConfiguration
     let serviceName = "EC2"
@@ -4009,7 +4009,55 @@ extension EC2Client {
 
     /// Performs the `CopyImage` operation on the `EC2` service.
     ///
-    /// Initiates an AMI copy operation. You can copy an AMI from one Region to another, or from a Region to an Outpost. You can't copy an AMI from an Outpost to a Region, from one Outpost to another, or within the same Outpost. To copy an AMI to another partition, see [CreateStoreImageTask](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateStoreImageTask.html). When you copy an AMI from one Region to another, the destination Region is the current Region. When you copy an AMI from a Region to an Outpost, specify the ARN of the Outpost as the destination. Backing snapshots copied to an Outpost are encrypted by default using the default encryption key for the Region or the key that you specify. Outposts do not support unencrypted snapshots. For information about the prerequisites when copying an AMI, see [Copy an Amazon EC2 AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/CopyingAMIs.html) in the Amazon EC2 User Guide.
+    /// Initiates an AMI copy operation. You must specify the source AMI ID and both the source and destination locations. The copy operation must be initiated in the destination Region. CopyImage supports the following source to destination copies:
+    ///
+    /// * Region to Region
+    ///
+    /// * Region to Outpost
+    ///
+    /// * Parent Region to Local Zone
+    ///
+    /// * Local Zone to parent Region
+    ///
+    /// * Between Local Zones with the same parent Region (only supported for certain Local Zones)
+    ///
+    ///
+    /// CopyImage does not support the following source to destination copies:
+    ///
+    /// * Local Zone to non-parent Regions
+    ///
+    /// * Between Local Zones with different parent Regions
+    ///
+    /// * Local Zone to Outpost
+    ///
+    /// * Outpost to Local Zone
+    ///
+    /// * Outpost to Region
+    ///
+    /// * Between Outposts
+    ///
+    /// * Within same Outpost
+    ///
+    /// * Cross-partition copies (use [CreateStoreImageTask](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateStoreImageTask.html) instead)
+    ///
+    ///
+    /// Destination specification
+    ///
+    /// * Region to Region: The destination Region is the Region in which you initiate the copy operation.
+    ///
+    /// * Region to Outpost: Specify the destination using the DestinationOutpostArn parameter (the ARN of the Outpost)
+    ///
+    /// * Region to Local Zone, and Local Zone to Local Zone copies: Specify the destination using the DestinationAvailabilityZone parameter (the name of the destination Local Zone) or DestinationAvailabilityZoneId parameter (the ID of the destination Local Zone).
+    ///
+    ///
+    /// Snapshot encryption
+    ///
+    /// * Region to Outpost: Backing snapshots copied to an Outpost are encrypted by default using the default encryption key for the Region or the key that you specify. Outposts do not support unencrypted snapshots.
+    ///
+    /// * Region to Local Zone, and Local Zone to Local Zone: Not all Local Zones require encrypted snapshots. In Local Zones that require encrypted snapshots, backing snapshots are automatically encrypted during copy. In Local Zones where encryption is not required, snapshots retain their original encryption state (encrypted or unencrypted) by default.
+    ///
+    ///
+    /// For more information, including the required permissions for copying an AMI, see [Copy an Amazon EC2 AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/CopyingAMIs.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter CopyImageInput : Contains the parameters for CopyImage.
     ///
@@ -4072,7 +4120,16 @@ extension EC2Client {
 
     /// Performs the `CopySnapshot` operation on the `EC2` service.
     ///
-    /// Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You can copy a snapshot within the same Region, from one Region to another, or from a Region to an Outpost. You can't copy a snapshot from an Outpost to a Region, from one Outpost to another, or within the same Outpost. You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs). When copying snapshots to a Region, copies of encrypted EBS snapshots remain encrypted. Copies of unencrypted snapshots remain unencrypted, unless you enable encryption for the snapshot copy operation. By default, encrypted snapshot copies use the default KMS key; however, you can specify a different KMS key. To copy an encrypted snapshot that has been shared from another account, you must have permissions for the KMS key used to encrypt the snapshot. Snapshots copied to an Outpost are encrypted by default using the default encryption key for the Region, or a different key that you specify in the request using KmsKeyId. Outposts do not support unencrypted snapshots. For more information, see [Amazon EBS local snapshots on Outposts](https://docs.aws.amazon.com/ebs/latest/userguide/snapshots-outposts.html#ami) in the Amazon EBS User Guide. Snapshots created by copying another snapshot have an arbitrary volume ID that should not be used for any purpose. For more information, see [Copy an Amazon EBS snapshot](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-copy-snapshot.html) in the Amazon EBS User Guide.
+    /// Creates an exact copy of an Amazon EBS snapshot. The location of the source snapshot determines whether you can copy it or not, and the allowed destinations for the snapshot copy.
+    ///
+    /// * If the source snapshot is in a Region, you can copy it within that Region, to another Region, to an Outpost associated with that Region, or to a Local Zone in that Region.
+    ///
+    /// * If the source snapshot is in a Local Zone, you can copy it within that Local Zone, to another Local Zone in the same zone group, or to the parent Region of the Local Zone.
+    ///
+    /// * If the source snapshot is on an Outpost, you can't copy it.
+    ///
+    ///
+    /// When copying snapshots to a Region, copies of encrypted EBS snapshots remain encrypted. Copies of unencrypted snapshots remain unencrypted, unless you enable encryption for the snapshot copy operation. By default, encrypted snapshot copies use the default KMS key; however, you can specify a different KMS key. To copy an encrypted snapshot that has been shared from another account, you must have permissions for the KMS key used to encrypt the snapshot. Snapshots copied to an Outpost are encrypted by default using the default encryption key for the Region, or a different key that you specify in the request using KmsKeyId. Outposts do not support unencrypted snapshots. For more information, see [Amazon EBS local snapshots on Outposts](https://docs.aws.amazon.com/ebs/latest/userguide/snapshots-outposts.html#ami) in the Amazon EBS User Guide. Snapshots copies have an arbitrary source volume ID. Do not use this volume ID for any purpose. For more information, see [Copy an Amazon EBS snapshot](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-copy-snapshot.html) in the Amazon EBS User Guide.
     ///
     /// - Parameter CopySnapshotInput : [no documentation found]
     ///
@@ -5280,7 +5337,7 @@ extension EC2Client {
 
     /// Performs the `CreateImageUsageReport` operation on the `EC2` service.
     ///
-    /// Creates a report that shows how your image is used across other Amazon Web Services accounts. The report provides visibility into which accounts are using the specified image, and how many resources (EC2 instances or launch templates) are referencing it. For more information, see [View your AMI usage](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-ami-usage.html) in the Amazon EC2 User Guide.
+    /// Creates a report that shows how your image is used across other Amazon Web Services accounts. The report provides visibility into which accounts are using the specified image, and how many resources (EC2 instances or launch templates) are referencing it. For more information, see [View your AMI usage](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/your-ec2-ami-usage.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter CreateImageUsageReportInput : [no documentation found]
     ///
@@ -10719,7 +10776,7 @@ extension EC2Client {
 
     /// Performs the `DeleteImageUsageReport` operation on the `EC2` service.
     ///
-    /// Deletes the specified image usage report. For more information, see [View your AMI usage](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-ami-usage.html) in the Amazon EC2 User Guide.
+    /// Deletes the specified image usage report. For more information, see [View your AMI usage](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/your-ec2-ami-usage.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter DeleteImageUsageReportInput : [no documentation found]
     ///
@@ -18636,7 +18693,7 @@ extension EC2Client {
 
     /// Performs the `DescribeImageReferences` operation on the `EC2` service.
     ///
-    /// Describes your Amazon Web Services resources that are referencing the specified images. For more information, see [Identiy your resources referencing selected AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-ami-references.html) in the Amazon EC2 User Guide.
+    /// Describes your Amazon Web Services resources that are referencing the specified images. For more information, see [Identify your resources referencing specified AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-ami-references.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter DescribeImageReferencesInput : [no documentation found]
     ///
@@ -18698,7 +18755,7 @@ extension EC2Client {
 
     /// Performs the `DescribeImageUsageReportEntries` operation on the `EC2` service.
     ///
-    /// Describes the entries in image usage reports, showing how your images are used across other Amazon Web Services accounts. For more information, see [View your AMI usage](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-ami-usage.html) in the Amazon EC2 User Guide.
+    /// Describes the entries in image usage reports, showing how your images are used across other Amazon Web Services accounts. For more information, see [View your AMI usage](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/your-ec2-ami-usage.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter DescribeImageUsageReportEntriesInput : [no documentation found]
     ///
@@ -18760,7 +18817,7 @@ extension EC2Client {
 
     /// Performs the `DescribeImageUsageReports` operation on the `EC2` service.
     ///
-    /// Describes the configuration and status of image usage reports, filtered by report IDs or image IDs. For more information, see [View your AMI usage](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-ami-usage.html) in the Amazon EC2 User Guide.
+    /// Describes the configuration and status of image usage reports, filtered by report IDs or image IDs. For more information, see [View your AMI usage](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/your-ec2-ami-usage.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter DescribeImageUsageReportsInput : [no documentation found]
     ///

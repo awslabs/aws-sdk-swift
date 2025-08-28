@@ -912,7 +912,7 @@ public struct GetStaticMapInput: Swift.Sendable {
 
 extension GetStaticMapInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetStaticMapInput(boundedPositions: \(Swift.String(describing: boundedPositions)), boundingBox: \(Swift.String(describing: boundingBox)), center: \(Swift.String(describing: center)), colorScheme: \(Swift.String(describing: colorScheme)), compactOverlay: \(Swift.String(describing: compactOverlay)), cropLabels: \(Swift.String(describing: cropLabels)), fileName: \(Swift.String(describing: fileName)), geoJsonOverlay: \(Swift.String(describing: geoJsonOverlay)), height: \(Swift.String(describing: height)), labelSize: \(Swift.String(describing: labelSize)), language: \(Swift.String(describing: language)), padding: \(Swift.String(describing: padding)), pointsOfInterests: \(Swift.String(describing: pointsOfInterests)), politicalView: \(Swift.String(describing: politicalView)), radius: \(Swift.String(describing: radius)), scaleBarUnit: \(Swift.String(describing: scaleBarUnit)), style: \(Swift.String(describing: style)), width: \(Swift.String(describing: width)), zoom: \(Swift.String(describing: zoom)), key: \"CONTENT_REDACTED\")"}
+        "GetStaticMapInput(colorScheme: \(Swift.String(describing: colorScheme)), cropLabels: \(Swift.String(describing: cropLabels)), fileName: \(Swift.String(describing: fileName)), labelSize: \(Swift.String(describing: labelSize)), language: \(Swift.String(describing: language)), pointsOfInterests: \(Swift.String(describing: pointsOfInterests)), scaleBarUnit: \(Swift.String(describing: scaleBarUnit)), style: \(Swift.String(describing: style)), boundedPositions: \"CONTENT_REDACTED\", boundingBox: \"CONTENT_REDACTED\", center: \"CONTENT_REDACTED\", compactOverlay: \"CONTENT_REDACTED\", geoJsonOverlay: \"CONTENT_REDACTED\", height: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", padding: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\", radius: \"CONTENT_REDACTED\", width: \"CONTENT_REDACTED\", zoom: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetStaticMapOutput: Swift.Sendable {
@@ -997,7 +997,7 @@ public struct GetStyleDescriptorInput: Swift.Sendable {
 
 extension GetStyleDescriptorInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetStyleDescriptorInput(colorScheme: \(Swift.String(describing: colorScheme)), politicalView: \(Swift.String(describing: politicalView)), style: \(Swift.String(describing: style)), key: \"CONTENT_REDACTED\")"}
+        "GetStyleDescriptorInput(colorScheme: \(Swift.String(describing: colorScheme)), style: \(Swift.String(describing: style)), key: \"CONTENT_REDACTED\", politicalView: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetStyleDescriptorOutput: Swift.Sendable {
@@ -1020,6 +1020,30 @@ public struct GetStyleDescriptorOutput: Swift.Sendable {
         self.cacheControl = cacheControl
         self.contentType = contentType
         self.eTag = eTag
+    }
+}
+
+/// Exception thrown when the associated resource could not be found.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
     }
 }
 
@@ -1056,7 +1080,7 @@ public struct GetTileInput: Swift.Sendable {
 
 extension GetTileInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetTileInput(tileset: \(Swift.String(describing: tileset)), x: \(Swift.String(describing: x)), y: \(Swift.String(describing: y)), z: \(Swift.String(describing: z)), key: \"CONTENT_REDACTED\")"}
+        "GetTileInput(tileset: \(Swift.String(describing: tileset)), key: \"CONTENT_REDACTED\", x: \"CONTENT_REDACTED\", y: \"CONTENT_REDACTED\", z: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetTileOutput: Swift.Sendable {
@@ -1475,6 +1499,7 @@ enum GetTileOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1529,6 +1554,19 @@ extension ValidationException {
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: GeoMapsClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

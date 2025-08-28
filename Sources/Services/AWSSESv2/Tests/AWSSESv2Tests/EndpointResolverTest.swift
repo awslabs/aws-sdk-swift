@@ -1089,23 +1089,4 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// Valid EndpointId with DualStack enabled and partition does not support DualStack
-    func testResolve53() throws {
-        let endpointParams = EndpointParams(
-            endpointId: "abc123.456def",
-            region: "us-isob-east-1",
-            useDualStack: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("DualStack is enabled but this partition does not support DualStack", message)
-            default:
-                XCTFail()
-            }
-        }
-    }
-
 }

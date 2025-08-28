@@ -1385,6 +1385,25 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// Information about the agent status assigned to the user.
+    public struct AgentStatusIdentifier: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the agent status.
+        public var arn: Swift.String?
+        /// The identifier of the agent status.
+        public var id: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            id: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.id = id
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Information about the agent's status.
     public struct AgentStatusReference: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the agent's status.
@@ -8443,7 +8462,7 @@ public struct DescribeAuthenticationProfileInput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web ServicesSupport. Information about an authentication profile. An authentication profile is a resource that stores the authentication settings for users in your contact center. You use authentication profiles to set up IP address range restrictions and session timeouts. For more information, see [Set IP address restrictions or session timeouts](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html).
+    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. Information about an authentication profile. An authentication profile is a resource that stores the authentication settings for users in your contact center. You use authentication profiles to set up IP address range restrictions and session timeouts. For more information, see [Set IP address restrictions or session timeouts](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html).
     public struct AuthenticationProfile: Swift.Sendable {
         /// A list of IP address range strings that are allowed to access the Amazon Connect instance. For more information about how to configure IP addresses, see [Configure IP address based access control](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-ip-based-ac) in the Amazon Connect Administrator Guide.
         public var allowedIps: [Swift.String]?
@@ -13082,6 +13101,8 @@ extension ConnectClientTypes {
 
     /// Contains the filter to apply when retrieving metrics.
     public struct Filters: Swift.Sendable {
+        /// A list of up to 50 agent status IDs or ARNs.
+        public var agentStatuses: [Swift.String]?
         /// The channel to use to filter the metrics.
         public var channels: [ConnectClientTypes.Channel]?
         /// The queues to use to filter the metrics. You should specify at least one queue, and can specify up to 100 queues per request. The GetCurrentMetricsData API in particular requires a queue when you include a Filter in your request.
@@ -13092,11 +13113,13 @@ extension ConnectClientTypes {
         public var routingStepExpressions: [Swift.String]?
 
         public init(
+            agentStatuses: [Swift.String]? = nil,
             channels: [ConnectClientTypes.Channel]? = nil,
             queues: [Swift.String]? = nil,
             routingProfiles: [Swift.String]? = nil,
             routingStepExpressions: [Swift.String]? = nil
         ) {
+            self.agentStatuses = agentStatuses
             self.channels = channels
             self.queues = queues
             self.routingProfiles = routingProfiles
@@ -13108,6 +13131,7 @@ extension ConnectClientTypes {
 extension ConnectClientTypes {
 
     public enum Grouping: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case agentStatus
         case channel
         case queue
         case routingProfile
@@ -13116,6 +13140,7 @@ extension ConnectClientTypes {
 
         public static var allCases: [Grouping] {
             return [
+                .agentStatus,
                 .channel,
                 .queue,
                 .routingProfile,
@@ -13130,6 +13155,7 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .agentStatus: return "AGENT_STATUS"
             case .channel: return "CHANNEL"
             case .queue: return "QUEUE"
             case .routingProfile: return "ROUTING_PROFILE"
@@ -13202,17 +13228,19 @@ public struct GetCurrentMetricDataInput: Swift.Sendable {
     ///
     /// * RoutingStepExpressions: 50
     ///
+    /// * AgentStatuses: 50
     ///
-    /// Metric data is retrieved only for the resources associated with the queues or routing profiles, and by any channels included in the filter. (You cannot filter by both queue AND routing profile.) You can include both resource IDs and resource ARNs in the same request. When using the RoutingStepExpression filter, you need to pass exactly one QueueId. The filter is also case sensitive so when using the RoutingStepExpression filter, grouping by ROUTING_STEP_EXPRESSION is required. Currently tagging is only supported on the resources that are passed in the filter.
+    ///
+    /// Metric data is retrieved only for the resources associated with the queues or routing profiles, and by any channels included in the filter. (You cannot filter by both queue AND routing profile.) You can include both resource IDs and resource ARNs in the same request. When using AgentStatuses as filter make sure Queues is added as primary filter. When using the RoutingStepExpression filter, you need to pass exactly one QueueId. The filter is also case sensitive so when using the RoutingStepExpression filter, grouping by ROUTING_STEP_EXPRESSION is required. Currently tagging is only supported on the resources that are passed in the filter.
     /// This member is required.
     public var filters: ConnectClientTypes.Filters?
-    /// The grouping applied to the metrics returned. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues.
+    /// Defines the level of aggregation for metrics data by a dimension(s). Its similar to sorting items into buckets based on a common characteristic, then counting or calculating something for each bucket. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues. The grouping list is an ordered list, with the first item in the list defined as the primary grouping. If no grouping is included in the request, the aggregation happens at the instance-level.
     ///
     /// * If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels are supported.
     ///
-    /// * If you group by ROUTING_PROFILE, you must include either a queue or routing profile filter. In addition, a routing profile filter is required for metrics CONTACTS_SCHEDULED, CONTACTS_IN_QUEUE, and  OLDEST_CONTACT_AGE.
+    /// * If you group by AGENT_STATUS, you must include the QUEUE as the primary grouping and use queue filter. When you group by AGENT_STATUS, the only metric available is the AGENTS_ONLINE metric.
     ///
-    /// * If no Grouping is included in the request, a summary of metrics is returned.
+    /// * If you group by ROUTING_PROFILE, you must include either a queue or routing profile filter. In addition, a routing profile filter is required for metrics CONTACTS_SCHEDULED, CONTACTS_IN_QUEUE, and  OLDEST_CONTACT_AGE.
     ///
     /// * When using the RoutingStepExpression filter, group by ROUTING_STEP_EXPRESSION is required.
     public var groupings: [ConnectClientTypes.Grouping]?
@@ -13289,6 +13317,8 @@ extension ConnectClientTypes {
 
     /// Contains information about the dimensions for a set of metrics.
     public struct Dimensions: Swift.Sendable {
+        /// Information about the agent status assigned to the user.
+        public var agentStatus: ConnectClientTypes.AgentStatusIdentifier?
         /// The channel used for grouping and filters.
         public var channel: ConnectClientTypes.Channel?
         /// Information about the queue for which metrics are returned.
@@ -13299,11 +13329,13 @@ extension ConnectClientTypes {
         public var routingStepExpression: Swift.String?
 
         public init(
+            agentStatus: ConnectClientTypes.AgentStatusIdentifier? = nil,
             channel: ConnectClientTypes.Channel? = nil,
             queue: ConnectClientTypes.QueueReference? = nil,
             routingProfile: ConnectClientTypes.RoutingProfileReference? = nil,
             routingStepExpression: Swift.String? = nil
         ) {
+            self.agentStatus = agentStatus
             self.channel = channel
             self.queue = queue
             self.routingProfile = routingProfile
@@ -14983,7 +15015,7 @@ public struct ListAuthenticationProfilesInput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web ServicesSupport. A summary of a given authentication profile.
+    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. A summary of a given authentication profile.
     public struct AuthenticationProfileSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the authentication profile summary.
         public var arn: Swift.String?
@@ -23093,7 +23125,7 @@ public struct UpdateHoursOfOperationOverrideInput: Swift.Sendable {
 }
 
 public struct UpdateInstanceAttributeInput: Swift.Sendable {
-    /// The type of attribute. Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web ServicesSupport for allowlisting.
+    /// The type of attribute. Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for allowlisting.
     /// This member is required.
     public var attributeType: ConnectClientTypes.InstanceAttributeType?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
@@ -43166,6 +43198,18 @@ extension ConnectClientTypes.Dimensions {
         value.channel = try reader["Channel"].readIfPresent()
         value.routingProfile = try reader["RoutingProfile"].readIfPresent(with: ConnectClientTypes.RoutingProfileReference.read(from:))
         value.routingStepExpression = try reader["RoutingStepExpression"].readIfPresent()
+        value.agentStatus = try reader["AgentStatus"].readIfPresent(with: ConnectClientTypes.AgentStatusIdentifier.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.AgentStatusIdentifier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AgentStatusIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.AgentStatusIdentifier()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
         return value
     }
 }
@@ -44926,6 +44970,7 @@ extension ConnectClientTypes.Filters {
 
     static func write(value: ConnectClientTypes.Filters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AgentStatuses"].writeList(value.agentStatuses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Channels"].writeList(value.channels, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectClientTypes.Channel>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Queues"].writeList(value.queues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RoutingProfiles"].writeList(value.routingProfiles, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)

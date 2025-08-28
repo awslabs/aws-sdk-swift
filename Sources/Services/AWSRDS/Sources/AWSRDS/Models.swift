@@ -7041,7 +7041,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     /// The DB instance identifier of the read replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.
     /// This member is required.
     public var dbInstanceIdentifier: Swift.String?
-    /// The name of the DB parameter group to associate with this read replica DB instance. For the Db2 DB engine, if your source DB instance uses the Bring Your Own License model, then a custom parameter group must be associated with the replica. For a same Amazon Web Services Region replica, if you don't specify a custom parameter group, Amazon RDS associates the custom parameter group associated with the source DB instance. For a cross-Region replica, you must specify a custom parameter group. This custom parameter group must include your IBM Site ID and IBM Customer ID. For more information, see [ IBM IDs for Bring Your Own License for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html#db2-prereqs-ibm-info). For Single-AZ or Multi-AZ DB instance read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the DBParameterGroup of the source DB instance for a same Region read replica, or the default DBParameterGroup for the specified DB engine for a cross-Region read replica. For Multi-AZ DB cluster same Region read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the default DBParameterGroup. Specifying a parameter group for this operation is only supported for MySQL DB instances for cross-Region read replicas, for Multi-AZ DB cluster read replica instances, for Db2 DB instances, and for Oracle DB instances. It isn't supported for MySQL DB instances for same Region read replicas or for RDS Custom. Constraints:
+    /// The name of the DB parameter group to associate with this read replica DB instance. For the Db2 DB engine, if your source DB instance uses the bring your own license (BYOL) model, then a custom parameter group must be associated with the replica. For a same Amazon Web Services Region replica, if you don't specify a custom parameter group, Amazon RDS associates the custom parameter group associated with the source DB instance. For a cross-Region replica, you must specify a custom parameter group. This custom parameter group must include your IBM Site ID and IBM Customer ID. For more information, see [IBM IDs for bring your own license (BYOL) for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html#db2-prereqs-ibm-info). For Single-AZ or Multi-AZ DB instance read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the DBParameterGroup of the source DB instance for a same Region read replica, or the default DBParameterGroup for the specified DB engine for a cross-Region read replica. For Multi-AZ DB cluster same Region read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the default DBParameterGroup. Specifying a parameter group for this operation is only supported for MySQL DB instances for cross-Region read replicas, for Multi-AZ DB cluster read replica instances, for Db2 DB instances, and for Oracle DB instances. It isn't supported for MySQL DB instances for same Region read replicas or for RDS Custom. Constraints:
     ///
     /// * Must be 1 to 255 letters, numbers, or hyphens.
     ///
@@ -8985,7 +8985,7 @@ extension RDSClientTypes {
         public var globalClusterIdentifier: Swift.String?
         /// The list of primary and secondary clusters within the global database cluster.
         public var globalClusterMembers: [RDSClientTypes.GlobalClusterMember]?
-        /// The Amazon Web Services Region-unique, immutable identifier for the global database cluster. This identifier is found in Amazon Web Services CloudTrail log entries whenever the Amazon Web Services KMS key for the DB cluster is accessed.
+        /// The Amazon Web Services [partition](https://docs.aws.amazon.com/glossary/latest/reference/glos-chap.html?id=docs_gateway#partition)-unique, immutable identifier for the global database cluster. This identifier is found in Amazon Web Services CloudTrail log entries whenever the Amazon Web Services KMS key for the DB cluster is accessed.
         public var globalClusterResourceId: Swift.String?
         /// Specifies the current state of this global database cluster.
         public var status: Swift.String?
@@ -15426,6 +15426,8 @@ extension RDSClientTypes {
         public var supportsEnhancedMonitoring: Swift.Bool?
         /// Indicates whether you can use Aurora global databases with a specific combination of other DB engine attributes.
         public var supportsGlobalDatabases: Swift.Bool?
+        /// Indicates whether a DB instance supports HTTP endpoints.
+        public var supportsHttpEndpoint: Swift.Bool?
         /// Indicates whether a DB instance supports IAM database authentication.
         public var supportsIAMDatabaseAuthentication: Swift.Bool?
         /// Indicates whether a DB instance supports provisioned IOPS.
@@ -15472,6 +15474,7 @@ extension RDSClientTypes {
             supportsDedicatedLogVolume: Swift.Bool? = nil,
             supportsEnhancedMonitoring: Swift.Bool? = nil,
             supportsGlobalDatabases: Swift.Bool? = nil,
+            supportsHttpEndpoint: Swift.Bool? = nil,
             supportsIAMDatabaseAuthentication: Swift.Bool? = nil,
             supportsIops: Swift.Bool? = nil,
             supportsKerberosAuthentication: Swift.Bool? = nil,
@@ -15509,6 +15512,7 @@ extension RDSClientTypes {
             self.supportsDedicatedLogVolume = supportsDedicatedLogVolume
             self.supportsEnhancedMonitoring = supportsEnhancedMonitoring
             self.supportsGlobalDatabases = supportsGlobalDatabases
+            self.supportsHttpEndpoint = supportsHttpEndpoint
             self.supportsIAMDatabaseAuthentication = supportsIAMDatabaseAuthentication
             self.supportsIops = supportsIops
             self.supportsKerberosAuthentication = supportsKerberosAuthentication
@@ -34142,6 +34146,7 @@ extension RDSClientTypes.OrderableDBInstanceOption {
         value.minStorageThroughputPerIops = try reader["MinStorageThroughputPerIops"].readIfPresent()
         value.maxStorageThroughputPerIops = try reader["MaxStorageThroughputPerIops"].readIfPresent()
         value.supportsDedicatedLogVolume = try reader["SupportsDedicatedLogVolume"].readIfPresent()
+        value.supportsHttpEndpoint = try reader["SupportsHttpEndpoint"].readIfPresent()
         return value
     }
 }

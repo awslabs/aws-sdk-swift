@@ -19054,11 +19054,13 @@ extension GlueClientTypes {
 
     public enum DatabaseAttributes: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case name
+        case targetDatabase
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DatabaseAttributes] {
             return [
-                .name
+                .name,
+                .targetDatabase
             ]
         }
 
@@ -19070,6 +19072,7 @@ extension GlueClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .name: return "NAME"
+            case .targetDatabase: return "TARGET_DATABASE"
             case let .sdkUnknown(s): return s
             }
         }
