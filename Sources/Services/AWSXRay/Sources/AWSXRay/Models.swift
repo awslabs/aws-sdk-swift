@@ -27,6 +27,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 extension XRayClientTypes {
 
@@ -226,7 +227,7 @@ extension XRayClientTypes {
 
     /// A collection of segment documents with matching trace IDs.
     public struct Trace: Swift.Sendable {
-        /// The length of time in seconds between the start time of the root segment and the end time of the last segment that completed.
+        /// The length of time in seconds between the start time of the earliest segment that started and the end time of the last segment that completed.
         public var duration: Swift.Double?
         /// The unique identifier for the request that generated the trace's segments and subsegments.
         public var id: Swift.String?
@@ -464,6 +465,27 @@ public struct RuleLimitExceededException: ClientRuntime.ModeledError, AWSClientR
 
 extension XRayClientTypes {
 
+    /// Enable temporary sampling rate increases when you detect anomalies to improve visibility.
+    public struct SamplingRateBoost: Swift.Sendable {
+        /// Sets the time window (in minutes) in which only one sampling rate boost can be triggered. After a boost occurs, no further boosts are allowed until the next window.
+        /// This member is required.
+        public var cooldownWindowMinutes: Swift.Int
+        /// Defines max temporary sampling rate to apply when a boost is triggered. Calculated boost rate by X-Ray will be less than or equal to this max rate.
+        /// This member is required.
+        public var maxRate: Swift.Double
+
+        public init(
+            cooldownWindowMinutes: Swift.Int = 0,
+            maxRate: Swift.Double = 0.0
+        ) {
+            self.cooldownWindowMinutes = cooldownWindowMinutes
+            self.maxRate = maxRate
+        }
+    }
+}
+
+extension XRayClientTypes {
+
     /// A sampling rule that services use to decide whether to instrument a request. Rule fields can match properties of the service, or properties of a request. The service can ignore rules that don't match its properties.
     public struct SamplingRule: Swift.Sendable {
         /// Matches attributes derived from the request.
@@ -490,6 +512,8 @@ extension XRayClientTypes {
         public var ruleARN: Swift.String?
         /// The name of the sampling rule. Specify a rule by either name or ARN, but not both.
         public var ruleName: Swift.String?
+        /// Specifies the multiplier applied to the base sampling rate. This boost allows you to temporarily increase sampling without changing the rule's configuration.
+        public var samplingRateBoost: XRayClientTypes.SamplingRateBoost?
         /// Matches the name that the service uses to identify itself in segments.
         /// This member is required.
         public var serviceName: Swift.String?
@@ -513,6 +537,7 @@ extension XRayClientTypes {
             resourceARN: Swift.String? = nil,
             ruleARN: Swift.String? = nil,
             ruleName: Swift.String? = nil,
+            samplingRateBoost: XRayClientTypes.SamplingRateBoost? = nil,
             serviceName: Swift.String? = nil,
             serviceType: Swift.String? = nil,
             urlPath: Swift.String? = nil,
@@ -527,6 +552,7 @@ extension XRayClientTypes {
             self.resourceARN = resourceARN
             self.ruleARN = ruleARN
             self.ruleName = ruleName
+            self.samplingRateBoost = samplingRateBoost
             self.serviceName = serviceName
             self.serviceType = serviceType
             self.urlPath = urlPath
@@ -1846,6 +1872,47 @@ public struct GetSamplingStatisticSummariesOutput: Swift.Sendable {
 
 extension XRayClientTypes {
 
+    /// Request anomaly stats for a single rule from a service. Results are for the last 10 seconds unless the service has been assigned a longer reporting interval after a previous call to [GetSamplingTargets](https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingTargets.html).
+    public struct SamplingBoostStatisticsDocument: Swift.Sendable {
+        /// The number of requests with anomaly.
+        /// This member is required.
+        public var anomalyCount: Swift.Int
+        /// The name of the sampling rule.
+        /// This member is required.
+        public var ruleName: Swift.String?
+        /// The number of requests with anomaly recorded.
+        /// This member is required.
+        public var sampledAnomalyCount: Swift.Int
+        /// Matches the name that the service uses to identify itself in segments.
+        /// This member is required.
+        public var serviceName: Swift.String?
+        /// The current time.
+        /// This member is required.
+        public var timestamp: Foundation.Date?
+        /// The number of requests that associated to the rule.
+        /// This member is required.
+        public var totalCount: Swift.Int
+
+        public init(
+            anomalyCount: Swift.Int = 0,
+            ruleName: Swift.String? = nil,
+            sampledAnomalyCount: Swift.Int = 0,
+            serviceName: Swift.String? = nil,
+            timestamp: Foundation.Date? = nil,
+            totalCount: Swift.Int = 0
+        ) {
+            self.anomalyCount = anomalyCount
+            self.ruleName = ruleName
+            self.sampledAnomalyCount = sampledAnomalyCount
+            self.serviceName = serviceName
+            self.timestamp = timestamp
+            self.totalCount = totalCount
+        }
+    }
+}
+
+extension XRayClientTypes {
+
     /// Request sampling results for a single rule from a service. Results are for the last 10 seconds unless the service has been assigned a longer reporting interval after a previous call to [GetSamplingTargets](https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingTargets.html).
     public struct SamplingStatisticsDocument: Swift.Sendable {
         /// The number of requests recorded with borrowed reservoir quota.
@@ -1885,14 +1952,39 @@ extension XRayClientTypes {
 }
 
 public struct GetSamplingTargetsInput: Swift.Sendable {
+    /// Information about rules that the service is using to boost sampling rate.
+    public var samplingBoostStatisticsDocuments: [XRayClientTypes.SamplingBoostStatisticsDocument]?
     /// Information about rules that the service is using to sample requests.
     /// This member is required.
     public var samplingStatisticsDocuments: [XRayClientTypes.SamplingStatisticsDocument]?
 
     public init(
+        samplingBoostStatisticsDocuments: [XRayClientTypes.SamplingBoostStatisticsDocument]? = nil,
         samplingStatisticsDocuments: [XRayClientTypes.SamplingStatisticsDocument]? = nil
     ) {
+        self.samplingBoostStatisticsDocuments = samplingBoostStatisticsDocuments
         self.samplingStatisticsDocuments = samplingStatisticsDocuments
+    }
+}
+
+extension XRayClientTypes {
+
+    /// Temporary boost sampling rate. X-Ray calculates sampling boost for each service based on the recent sampling boost stats of all services that called [GetSamplingTargets](https://docs.aws.amazon.com/xray/latest/api/API_GetSamplingTargets.html).
+    public struct SamplingBoost: Swift.Sendable {
+        /// The calculated sampling boost rate for this service
+        /// This member is required.
+        public var boostRate: Swift.Double
+        /// When the sampling boost expires.
+        /// This member is required.
+        public var boostRateTTL: Foundation.Date?
+
+        public init(
+            boostRate: Swift.Double = 0.0,
+            boostRateTTL: Foundation.Date? = nil
+        ) {
+            self.boostRate = boostRate
+            self.boostRateTTL = boostRateTTL
+        }
     }
 }
 
@@ -1910,19 +2002,23 @@ extension XRayClientTypes {
         public var reservoirQuotaTTL: Foundation.Date?
         /// The name of the sampling rule.
         public var ruleName: Swift.String?
+        /// The sampling boost that X-Ray allocated for this service.
+        public var samplingBoost: XRayClientTypes.SamplingBoost?
 
         public init(
             fixedRate: Swift.Double = 0.0,
             interval: Swift.Int? = nil,
             reservoirQuota: Swift.Int? = nil,
             reservoirQuotaTTL: Foundation.Date? = nil,
-            ruleName: Swift.String? = nil
+            ruleName: Swift.String? = nil,
+            samplingBoost: XRayClientTypes.SamplingBoost? = nil
         ) {
             self.fixedRate = fixedRate
             self.interval = interval
             self.reservoirQuota = reservoirQuota
             self.reservoirQuotaTTL = reservoirQuotaTTL
             self.ruleName = ruleName
+            self.samplingBoost = samplingBoost
         }
     }
 }
@@ -1955,16 +2051,20 @@ public struct GetSamplingTargetsOutput: Swift.Sendable {
     public var lastRuleModification: Foundation.Date?
     /// Updated rules that the service should use to sample requests.
     public var samplingTargetDocuments: [XRayClientTypes.SamplingTargetDocument]?
+    /// Information about [SamplingBoostStatisticsDocument](https://docs.aws.amazon.com/xray/latest/api/API_SamplingBoostStatisticsDocument.html) that X-Ray could not process.
+    public var unprocessedBoostStatistics: [XRayClientTypes.UnprocessedStatistics]?
     /// Information about [SamplingStatisticsDocument](https://docs.aws.amazon.com/xray/latest/api/API_SamplingStatisticsDocument.html) that X-Ray could not process.
     public var unprocessedStatistics: [XRayClientTypes.UnprocessedStatistics]?
 
     public init(
         lastRuleModification: Foundation.Date? = nil,
         samplingTargetDocuments: [XRayClientTypes.SamplingTargetDocument]? = nil,
+        unprocessedBoostStatistics: [XRayClientTypes.UnprocessedStatistics]? = nil,
         unprocessedStatistics: [XRayClientTypes.UnprocessedStatistics]? = nil
     ) {
         self.lastRuleModification = lastRuleModification
         self.samplingTargetDocuments = samplingTargetDocuments
+        self.unprocessedBoostStatistics = unprocessedBoostStatistics
         self.unprocessedStatistics = unprocessedStatistics
     }
 }
@@ -2699,7 +2799,7 @@ extension XRayClientTypes {
         public var annotations: [Swift.String: [XRayClientTypes.ValueWithServiceIds]]?
         /// A list of Availability Zones for any zone corresponding to the trace segments.
         public var availabilityZones: [XRayClientTypes.AvailabilityZoneDetail]?
-        /// The length of time in seconds between the start time of the root segment and the end time of the last segment that completed.
+        /// The length of time in seconds between the start time of the earliest segment that started and the end time of the last segment that completed.
         public var duration: Swift.Double?
         /// The root of a trace.
         public var entryPoint: XRayClientTypes.ServiceId?
@@ -3546,6 +3646,8 @@ extension XRayClientTypes {
         public var ruleARN: Swift.String?
         /// The name of the sampling rule. Specify a rule by either name or ARN, but not both.
         public var ruleName: Swift.String?
+        /// Specifies the multiplier applied to the base sampling rate. This boost allows you to temporarily increase sampling without changing the rule's configuration.
+        public var samplingRateBoost: XRayClientTypes.SamplingRateBoost?
         /// Matches the name that the service uses to identify itself in segments.
         public var serviceName: Swift.String?
         /// Matches the origin that the service uses to identify its type in segments.
@@ -3563,6 +3665,7 @@ extension XRayClientTypes {
             resourceARN: Swift.String? = nil,
             ruleARN: Swift.String? = nil,
             ruleName: Swift.String? = nil,
+            samplingRateBoost: XRayClientTypes.SamplingRateBoost? = nil,
             serviceName: Swift.String? = nil,
             serviceType: Swift.String? = nil,
             urlPath: Swift.String? = nil
@@ -3576,6 +3679,7 @@ extension XRayClientTypes {
             self.resourceARN = resourceARN
             self.ruleARN = ruleARN
             self.ruleName = ruleName
+            self.samplingRateBoost = samplingRateBoost
             self.serviceName = serviceName
             self.serviceType = serviceType
             self.urlPath = urlPath
@@ -4059,6 +4163,7 @@ extension GetSamplingTargetsInput {
 
     static func write(value: GetSamplingTargetsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["SamplingBoostStatisticsDocuments"].writeList(value.samplingBoostStatisticsDocuments, memberWritingClosure: XRayClientTypes.SamplingBoostStatisticsDocument.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SamplingStatisticsDocuments"].writeList(value.samplingStatisticsDocuments, memberWritingClosure: XRayClientTypes.SamplingStatisticsDocument.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -4469,6 +4574,7 @@ extension GetSamplingTargetsOutput {
         var value = GetSamplingTargetsOutput()
         value.lastRuleModification = try reader["LastRuleModification"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.samplingTargetDocuments = try reader["SamplingTargetDocuments"].readListIfPresent(memberReadingClosure: XRayClientTypes.SamplingTargetDocument.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.unprocessedBoostStatistics = try reader["UnprocessedBoostStatistics"].readListIfPresent(memberReadingClosure: XRayClientTypes.UnprocessedStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.unprocessedStatistics = try reader["UnprocessedStatistics"].readListIfPresent(memberReadingClosure: XRayClientTypes.UnprocessedStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -5500,6 +5606,7 @@ extension XRayClientTypes.SamplingRule {
         try writer["ResourceARN"].write(value.resourceARN)
         try writer["RuleARN"].write(value.ruleARN)
         try writer["RuleName"].write(value.ruleName)
+        try writer["SamplingRateBoost"].write(value.samplingRateBoost, with: XRayClientTypes.SamplingRateBoost.write(value:to:))
         try writer["ServiceName"].write(value.serviceName)
         try writer["ServiceType"].write(value.serviceType)
         try writer["URLPath"].write(value.urlPath)
@@ -5522,6 +5629,24 @@ extension XRayClientTypes.SamplingRule {
         value.urlPath = try reader["URLPath"].readIfPresent() ?? ""
         value.version = try reader["Version"].readIfPresent() ?? 0
         value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.samplingRateBoost = try reader["SamplingRateBoost"].readIfPresent(with: XRayClientTypes.SamplingRateBoost.read(from:))
+        return value
+    }
+}
+
+extension XRayClientTypes.SamplingRateBoost {
+
+    static func write(value: XRayClientTypes.SamplingRateBoost?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CooldownWindowMinutes"].write(value.cooldownWindowMinutes)
+        try writer["MaxRate"].write(value.maxRate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.SamplingRateBoost {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.SamplingRateBoost()
+        value.maxRate = try reader["MaxRate"].readIfPresent() ?? 0
+        value.cooldownWindowMinutes = try reader["CooldownWindowMinutes"].readIfPresent() ?? 0
         return value
     }
 }
@@ -5865,6 +5990,18 @@ extension XRayClientTypes.SamplingTargetDocument {
         value.reservoirQuota = try reader["ReservoirQuota"].readIfPresent()
         value.reservoirQuotaTTL = try reader["ReservoirQuotaTTL"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.interval = try reader["Interval"].readIfPresent()
+        value.samplingBoost = try reader["SamplingBoost"].readIfPresent(with: XRayClientTypes.SamplingBoost.read(from:))
+        return value
+    }
+}
+
+extension XRayClientTypes.SamplingBoost {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.SamplingBoost {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.SamplingBoost()
+        value.boostRate = try reader["BoostRate"].readIfPresent() ?? 0
+        value.boostRateTTL = try reader["BoostRateTTL"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -6223,6 +6360,19 @@ extension XRayClientTypes.SamplingStatisticsDocument {
     }
 }
 
+extension XRayClientTypes.SamplingBoostStatisticsDocument {
+
+    static func write(value: XRayClientTypes.SamplingBoostStatisticsDocument?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AnomalyCount"].write(value.anomalyCount)
+        try writer["RuleName"].write(value.ruleName)
+        try writer["SampledAnomalyCount"].write(value.sampledAnomalyCount)
+        try writer["ServiceName"].write(value.serviceName)
+        try writer["Timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["TotalCount"].write(value.totalCount)
+    }
+}
+
 extension XRayClientTypes.SamplingStrategy {
 
     static func write(value: XRayClientTypes.SamplingStrategy?, to writer: SmithyJSON.Writer) throws {
@@ -6292,6 +6442,7 @@ extension XRayClientTypes.SamplingRuleUpdate {
         try writer["ResourceARN"].write(value.resourceARN)
         try writer["RuleARN"].write(value.ruleARN)
         try writer["RuleName"].write(value.ruleName)
+        try writer["SamplingRateBoost"].write(value.samplingRateBoost, with: XRayClientTypes.SamplingRateBoost.write(value:to:))
         try writer["ServiceName"].write(value.serviceName)
         try writer["ServiceType"].write(value.serviceType)
         try writer["URLPath"].write(value.urlPath)

@@ -60,6 +60,9 @@ public let partitions = #"""
       "ap-southeast-5" : {
         "description" : "Asia Pacific (Malaysia)"
       },
+      "ap-southeast-6" : {
+        "description" : "Asia Pacific (New Zealand)"
+      },
       "ap-southeast-7" : {
         "description" : "Asia Pacific (Thailand)"
       },
@@ -153,7 +156,7 @@ public let partitions = #"""
       "dualStackDnsSuffix" : "api.amazonwebservices.eu",
       "implicitGlobalRegion" : "eusc-de-east-1",
       "name" : "aws-eusc",
-      "supportsDualStack" : false,
+      "supportsDualStack" : true,
       "supportsFIPS" : true
     },
     "regionRegex" : "^eusc\\-(de)\\-\\w+\\-\\d+$",
