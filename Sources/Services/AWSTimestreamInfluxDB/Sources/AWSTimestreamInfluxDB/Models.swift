@@ -265,6 +265,7 @@ extension TimestreamInfluxDBClientTypes {
     public enum DbInstanceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dbInflux12xlarge
         case dbInflux16xlarge
+        case dbInflux24xlarge
         case dbInflux2xlarge
         case dbInflux4xlarge
         case dbInflux8xlarge
@@ -277,6 +278,7 @@ extension TimestreamInfluxDBClientTypes {
             return [
                 .dbInflux12xlarge,
                 .dbInflux16xlarge,
+                .dbInflux24xlarge,
                 .dbInflux2xlarge,
                 .dbInflux4xlarge,
                 .dbInflux8xlarge,
@@ -295,6 +297,7 @@ extension TimestreamInfluxDBClientTypes {
             switch self {
             case .dbInflux12xlarge: return "db.influx.12xlarge"
             case .dbInflux16xlarge: return "db.influx.16xlarge"
+            case .dbInflux24xlarge: return "db.influx.24xlarge"
             case .dbInflux2xlarge: return "db.influx.2xlarge"
             case .dbInflux4xlarge: return "db.influx.4xlarge"
             case .dbInflux8xlarge: return "db.influx.8xlarge"
@@ -565,6 +568,7 @@ extension TimestreamInfluxDBClientTypes {
         case deleted
         case deleting
         case failed
+        case maintenance
         case updating
         case sdkUnknown(Swift.String)
 
@@ -575,6 +579,7 @@ extension TimestreamInfluxDBClientTypes {
                 .deleted,
                 .deleting,
                 .failed,
+                .maintenance,
                 .updating
             ]
         }
@@ -591,6 +596,7 @@ extension TimestreamInfluxDBClientTypes {
             case .deleted: return "DELETED"
             case .deleting: return "DELETING"
             case .failed: return "FAILED"
+            case .maintenance: return "MAINTENANCE"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
@@ -916,6 +922,7 @@ extension TimestreamInfluxDBClientTypes {
         case deleted
         case deleting
         case failed
+        case maintenance
         case modifying
         case updating
         case updatingDeploymentType
@@ -929,6 +936,7 @@ extension TimestreamInfluxDBClientTypes {
                 .deleted,
                 .deleting,
                 .failed,
+                .maintenance,
                 .modifying,
                 .updating,
                 .updatingDeploymentType,
@@ -948,6 +956,7 @@ extension TimestreamInfluxDBClientTypes {
             case .deleted: return "DELETED"
             case .deleting: return "DELETING"
             case .failed: return "FAILED"
+            case .maintenance: return "MAINTENANCE"
             case .modifying: return "MODIFYING"
             case .updating: return "UPDATING"
             case .updatingDeploymentType: return "UPDATING_DEPLOYMENT_TYPE"

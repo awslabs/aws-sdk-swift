@@ -971,13 +971,15 @@ extension PaymentCryptographyDataClientTypes {
         case ansiX924
         case cmac
         case hmac
+        case sha1
         case sdkUnknown(Swift.String)
 
         public static var allCases: [KeyCheckValueAlgorithm] {
             return [
                 .ansiX924,
                 .cmac,
-                .hmac
+                .hmac,
+                .sha1
             ]
         }
 
@@ -991,6 +993,7 @@ extension PaymentCryptographyDataClientTypes {
             case .ansiX924: return "ANSI_X9_24"
             case .cmac: return "CMAC"
             case .hmac: return "HMAC"
+            case .sha1: return "SHA_1"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1652,6 +1655,7 @@ extension PaymentCryptographyDataClientTypes {
 
     public enum MacAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cmac
+        case hmac
         case hmacSha224
         case hmacSha256
         case hmacSha384
@@ -1663,6 +1667,7 @@ extension PaymentCryptographyDataClientTypes {
         public static var allCases: [MacAlgorithm] {
             return [
                 .cmac,
+                .hmac,
                 .hmacSha224,
                 .hmacSha256,
                 .hmacSha384,
@@ -1680,6 +1685,7 @@ extension PaymentCryptographyDataClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cmac: return "CMAC"
+            case .hmac: return "HMAC"
             case .hmacSha224: return "HMAC_SHA224"
             case .hmacSha256: return "HMAC_SHA256"
             case .hmacSha384: return "HMAC_SHA384"

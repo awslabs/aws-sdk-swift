@@ -2805,12 +2805,12 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes {
 
-    /// Action setting to use in the place of a rule action that is configured inside the rule group. You specify one override for each rule whose action you want to change. Take care to verify the rule names in your overrides. If you provide a rule name that doesn't match the name of any rule in the rule group, WAF doesn't return an error and doesn't apply the override setting. You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
+    /// Action setting to use in the place of a rule action that is configured inside the rule group. You specify one override for each rule whose action you want to change. Verify the rule names in your overrides carefully. With managed rule groups, WAF silently ignores any override that uses an invalid rule name. With customer-owned rule groups, invalid rule names in your overrides will cause web ACL updates to fail. An invalid rule name is any name that doesn't exactly match the case-sensitive name of an existing rule in the rule group. You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
     public struct RuleActionOverride: Swift.Sendable {
         /// The override action to use, in place of the configured action of the rule in the rule group.
         /// This member is required.
         public var actionToUse: WAFV2ClientTypes.RuleAction?
-        /// The name of the rule to override. Take care to verify the rule names in your overrides. If you provide a rule name that doesn't match the name of any rule in the rule group, WAF doesn't return an error and doesn't apply the override setting.
+        /// The name of the rule to override. Verify the rule names in your overrides carefully. With managed rule groups, WAF silently ignores any override that uses an invalid rule name. With customer-owned rule groups, invalid rule names in your overrides will cause web ACL updates to fail. An invalid rule name is any name that doesn't exactly match the case-sensitive name of an existing rule in the rule group.
         /// This member is required.
         public var name: Swift.String?
 
@@ -8339,6 +8339,12 @@ public struct UpdateRuleGroupInput: Swift.Sendable {
 }
 
 public struct UpdateWebACLInput: Swift.Sendable {
+    /// Configures the ability for the WAF console to store and retrieve application attributes. Application attributes help WAF give recommendations for protection packs. When using UpdateWebACL, ApplicationConfig follows these rules:
+    ///
+    /// * If you omit ApplicationConfig from the request, all existing entries in the web ACL are retained.
+    ///
+    /// * If you include ApplicationConfig, entries must match the existing values exactly. Any attempt to modify existing entries will result in an error.
+    public var applicationConfig: WAFV2ClientTypes.ApplicationConfig?
     /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
     public var associationConfig: WAFV2ClientTypes.AssociationConfig?
     /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
@@ -8381,6 +8387,7 @@ public struct UpdateWebACLInput: Swift.Sendable {
     public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
     public init(
+        applicationConfig: WAFV2ClientTypes.ApplicationConfig? = nil,
         associationConfig: WAFV2ClientTypes.AssociationConfig? = nil,
         captchaConfig: WAFV2ClientTypes.CaptchaConfig? = nil,
         challengeConfig: WAFV2ClientTypes.ChallengeConfig? = nil,
@@ -8397,6 +8404,7 @@ public struct UpdateWebACLInput: Swift.Sendable {
         tokenDomains: [Swift.String]? = nil,
         visibilityConfig: WAFV2ClientTypes.VisibilityConfig? = nil
     ) {
+        self.applicationConfig = applicationConfig
         self.associationConfig = associationConfig
         self.captchaConfig = captchaConfig
         self.challengeConfig = challengeConfig
@@ -9504,6 +9512,7 @@ extension UpdateWebACLInput {
 
     static func write(value: UpdateWebACLInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ApplicationConfig"].write(value.applicationConfig, with: WAFV2ClientTypes.ApplicationConfig.write(value:to:))
         try writer["AssociationConfig"].write(value.associationConfig, with: WAFV2ClientTypes.AssociationConfig.write(value:to:))
         try writer["CaptchaConfig"].write(value.captchaConfig, with: WAFV2ClientTypes.CaptchaConfig.write(value:to:))
         try writer["ChallengeConfig"].write(value.challengeConfig, with: WAFV2ClientTypes.ChallengeConfig.write(value:to:))

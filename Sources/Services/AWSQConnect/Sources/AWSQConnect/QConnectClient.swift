@@ -41,7 +41,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -61,14 +61,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QConnectClient: ClientRuntime.Client {
     public static let clientName = "QConnectClient"
-    public static let version = "1.3.50"
+    public static let version = "1.5.31"
     let client: ClientRuntime.SdkHttpClient
     let config: QConnectClient.QConnectClientConfiguration
     let serviceName = "QConnect"
@@ -739,7 +739,7 @@ extension QConnectClient {
 
     /// Performs the `CreateAIPrompt` operation on the `QConnect` service.
     ///
-    /// Creates an Amazon Q in Connect AI Prompt.
+    /// Creates an Amazon Q in Connect AI Prompt. For more information on supported models, see [Supported models for system and custom prompts](https://docs.aws.amazon.com/connect/latest/adminguide/create-ai-prompts.html#cli-create-aiprompt).
     ///
     /// - Parameter CreateAIPromptInput : [no documentation found]
     ///

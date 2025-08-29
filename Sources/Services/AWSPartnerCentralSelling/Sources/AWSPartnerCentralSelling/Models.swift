@@ -2586,10 +2586,10 @@ extension PartnerCentralSellingClientTypes {
         public var currencyCode: PartnerCentralSellingClientTypes.CurrencyCode?
         /// A URL providing additional information or context about the spend estimation.
         public var estimationUrl: Swift.String?
-        /// Indicates how frequently the customer is expected to spend the projected amount. This can include values such as Monthly, Quarterly, or Annually. The default value is Monthly, representing recurring monthly spend.
+        /// Indicates how frequently the customer is expected to spend the projected amount. Only the value Monthly is allowed for the Frequency field, representing recurring monthly spend.
         /// This member is required.
         public var frequency: PartnerCentralSellingClientTypes.PaymentFrequency?
-        /// Specifies the name of the partner company that is expected to generate revenue from the opportunity. This field helps track the partner’s involvement in the opportunity.
+        /// Specifies the name of the partner company that is expected to generate revenue from the opportunity. This field helps track the partner’s involvement in the opportunity. This field only accepts the value AWS. If any other value is provided, the system will automatically set it to AWS.
         /// This member is required.
         public var targetCompany: Swift.String?
 
@@ -2611,7 +2611,7 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes.ExpectedCustomerSpend: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ExpectedCustomerSpend(amount: \(Swift.String(describing: amount)), frequency: \(Swift.String(describing: frequency)), targetCompany: \(Swift.String(describing: targetCompany)), currencyCode: \"CONTENT_REDACTED\", estimationUrl: \"CONTENT_REDACTED\")"}
+        "ExpectedCustomerSpend(frequency: \(Swift.String(describing: frequency)), targetCompany: \(Swift.String(describing: targetCompany)), amount: \"CONTENT_REDACTED\", currencyCode: \"CONTENT_REDACTED\", estimationUrl: \"CONTENT_REDACTED\")"}
 }
 
 extension PartnerCentralSellingClientTypes {
@@ -4798,7 +4798,7 @@ extension PartnerCentralSellingClientTypes {
         public var nextSteps: Swift.String?
         /// Captures a chronological record of the next steps or actions planned or taken for the current opportunity, along with the timestamp.
         public var nextStepsHistory: [PartnerCentralSellingClientTypes.NextStepsHistory]?
-        /// Indicates why an opportunity was sent back for further details. Partners must take corrective action based on the ReviewComments.
+        /// Contains detailed feedback from Amazon Web Services when requesting additional information from partners. Provides specific guidance on what partners need to provide or clarify for opportunity validation, complementing the ReviewStatusReason field.
         public var reviewComments: Swift.String?
         /// Indicates the review status of an opportunity referred by a partner. This field is read-only and only applicable for partner referrals. The possible values are:
         ///
@@ -4839,7 +4839,7 @@ extension PartnerCentralSellingClientTypes {
         ///
         /// * Rejected: Disqualified (read-only).
         public var reviewStatus: PartnerCentralSellingClientTypes.ReviewStatus?
-        /// Indicates the reason a decision was made during the opportunity review process. This field combines the reasons for both disqualified and action required statuses, and provide clarity for why an opportunity was disqualified or requires further action.
+        /// Code indicating the validation decision during the Amazon Web Services opportunity review. Applies when status is Rejected or Action Required. Used to document validation results for AWS Partner Referrals and indicate when additional information is needed from partners as part of the APN Customer Engagement (ACE) program.
         public var reviewStatusReason: Swift.String?
         /// Specifies the current stage of the Opportunity's lifecycle as it maps to Amazon Web Services stages from the current stage in the partner CRM. This field provides a translated value of the stage, and offers insight into the Opportunity's progression in the sales cycle, according to Amazon Web Services definitions. A lead and a prospect must be further matured to a Qualified opportunity before submission. Opportunities that were closed/lost before submission aren't suitable for submission. The descriptions of each sales stage are:
         ///
@@ -5518,6 +5518,8 @@ public struct CreateOpportunityInput: Swift.Sendable {
     public var project: PartnerCentralSellingClientTypes.Project?
     /// Specifies details of a customer's procurement terms. This is required only for partners in eligible programs.
     public var softwareRevenue: PartnerCentralSellingClientTypes.SoftwareRevenue?
+    /// A map of the key-value pairs of the tag or tags to assign.
+    public var tags: [PartnerCentralSellingClientTypes.Tag]?
 
     public init(
         catalog: Swift.String? = nil,
@@ -5532,7 +5534,8 @@ public struct CreateOpportunityInput: Swift.Sendable {
         partnerOpportunityIdentifier: Swift.String? = nil,
         primaryNeedsFromAws: [PartnerCentralSellingClientTypes.PrimaryNeedFromAws]? = nil,
         project: PartnerCentralSellingClientTypes.Project? = nil,
-        softwareRevenue: PartnerCentralSellingClientTypes.SoftwareRevenue? = nil
+        softwareRevenue: PartnerCentralSellingClientTypes.SoftwareRevenue? = nil,
+        tags: [PartnerCentralSellingClientTypes.Tag]? = nil
     ) {
         self.catalog = catalog
         self.clientToken = clientToken
@@ -5547,6 +5550,7 @@ public struct CreateOpportunityInput: Swift.Sendable {
         self.primaryNeedsFromAws = primaryNeedsFromAws
         self.project = project
         self.softwareRevenue = softwareRevenue
+        self.tags = tags
     }
 }
 
@@ -7749,6 +7753,7 @@ extension CreateOpportunityInput {
         try writer["PrimaryNeedsFromAws"].writeList(value.primaryNeedsFromAws, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralSellingClientTypes.PrimaryNeedFromAws>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Project"].write(value.project, with: PartnerCentralSellingClientTypes.Project.write(value:to:))
         try writer["SoftwareRevenue"].write(value.softwareRevenue, with: PartnerCentralSellingClientTypes.SoftwareRevenue.write(value:to:))
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: PartnerCentralSellingClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

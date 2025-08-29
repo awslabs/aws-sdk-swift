@@ -5,10 +5,13 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSOperationEndpointResolverMiddleware
+import software.amazon.smithy.aws.swift.codegen.middleware.BedrockAPIKeyMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.UserAgentMiddleware
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
+import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
+import software.amazon.smithy.model.traits.HttpBearerAuthTrait
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
 import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
 import software.amazon.smithy.rulesengine.traits.EndpointTestsTrait
@@ -21,6 +24,7 @@ import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestRequ
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.model.getTrait
+import software.amazon.smithy.swift.codegen.model.hasTrait
 import software.amazon.smithy.swift.codegen.testModuleName
 
 abstract class AWSHTTPBindingProtocolGenerator(
@@ -79,6 +83,15 @@ abstract class AWSHTTPBindingProtocolGenerator(
             operation,
             AWSOperationEndpointResolverMiddleware(ctx, customizations.endpointMiddlewareSymbol),
         )
+    }
+
+    override fun addServiceSpecificMiddleware(
+        ctx: ProtocolGenerator.GenerationContext,
+        operation: OperationShape,
+    ) {
+        if (ctx.service.getTrait<SigV4Trait>()?.name == "bedrock" && ctx.service.hasTrait<HttpBearerAuthTrait>()) {
+            operationMiddleware.appendMiddleware(operation, BedrockAPIKeyMiddleware())
+        }
     }
 
     override fun addUserAgentMiddleware(

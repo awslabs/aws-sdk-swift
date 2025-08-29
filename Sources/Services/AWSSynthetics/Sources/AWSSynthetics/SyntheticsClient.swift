@@ -40,7 +40,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -59,14 +59,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SyntheticsClient: ClientRuntime.Client {
     public static let clientName = "SyntheticsClient"
-    public static let version = "1.3.50"
+    public static let version = "1.5.31"
     let client: ClientRuntime.SdkHttpClient
     let config: SyntheticsClient.SyntheticsClientConfiguration
     let serviceName = "synthetics"
@@ -1822,7 +1822,14 @@ extension SyntheticsClient {
 
     /// Performs the `UpdateCanary` operation on the `Synthetics` service.
     ///
-    /// Updates the configuration of a canary that has already been created. You can't use this operation to update the tags of an existing canary. To change the tags of an existing canary, use [TagResource](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_TagResource.html). When you use the dryRunId field when updating a canary, the only other field you can provide is the Schedule. Adding any other field will thrown an exception.
+    /// Updates the configuration of a canary that has already been created. For multibrowser canaries, you can add or remove browsers by updating the browserConfig list in the update call. For example:
+    ///
+    /// * To add Firefox to a canary that currently uses Chrome, specify browserConfigs as [CHROME, FIREFOX]
+    ///
+    /// * To remove Firefox and keep only Chrome, specify browserConfigs as [CHROME]
+    ///
+    ///
+    /// You can't use this operation to update the tags of an existing canary. To change the tags of an existing canary, use [TagResource](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_TagResource.html). When you use the dryRunId field when updating a canary, the only other field you can provide is the Schedule. Adding any other field will thrown an exception.
     ///
     /// - Parameter UpdateCanaryInput : [no documentation found]
     ///

@@ -2151,6 +2151,102 @@ extension CustomerProfilesClientTypes {
 
 extension CustomerProfilesClientTypes {
 
+    public enum ContactType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case businessEmailAddress
+        case businessPhoneNumber
+        case emailAddress
+        case homePhoneNumber
+        case mobilePhoneNumber
+        case personalEmailAddress
+        case phoneNumber
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContactType] {
+            return [
+                .businessEmailAddress,
+                .businessPhoneNumber,
+                .emailAddress,
+                .homePhoneNumber,
+                .mobilePhoneNumber,
+                .personalEmailAddress,
+                .phoneNumber
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .businessEmailAddress: return "BusinessEmailAddress"
+            case .businessPhoneNumber: return "BusinessPhoneNumber"
+            case .emailAddress: return "EmailAddress"
+            case .homePhoneNumber: return "HomePhoneNumber"
+            case .mobilePhoneNumber: return "MobilePhoneNumber"
+            case .personalEmailAddress: return "PersonalEmailAddress"
+            case .phoneNumber: return "PhoneNumber"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Object that defines users contact preference.
+    public struct ContactPreference: Swift.Sendable {
+        /// The contact type used for engagement. For example: HomePhoneNumber, PersonalEmailAddress.
+        public var contactType: CustomerProfilesClientTypes.ContactType?
+        /// A searchable, unique identifier of a customer profile.
+        public var keyName: Swift.String?
+        /// The key value used to look up profile based off the keyName.
+        public var keyValue: Swift.String?
+        /// The unique identifier of a customer profile.
+        public var profileId: Swift.String?
+
+        public init(
+            contactType: CustomerProfilesClientTypes.ContactType? = nil,
+            keyName: Swift.String? = nil,
+            keyValue: Swift.String? = nil,
+            profileId: Swift.String? = nil
+        ) {
+            self.contactType = contactType
+            self.keyName = keyName
+            self.keyValue = keyValue
+            self.profileId = profileId
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Object that defines users preferred methods of engagement.
+    public struct EngagementPreferences: Swift.Sendable {
+        /// A list of email-related contact preferences
+        public var email: [CustomerProfilesClientTypes.ContactPreference]?
+        /// A list of phone-related contact preferences
+        public var phone: [CustomerProfilesClientTypes.ContactPreference]?
+
+        public init(
+            email: [CustomerProfilesClientTypes.ContactPreference]? = nil,
+            phone: [CustomerProfilesClientTypes.ContactPreference]? = nil
+        ) {
+            self.email = email
+            self.phone = phone
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes.EngagementPreferences: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
     /// A data type pair that consists of a KeyName and Values list that were used to find a profile returned in response to a [SearchProfiles](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html) request.
     public struct FoundByKeyValue: Swift.Sendable {
         /// A searchable identifier of a customer profile.
@@ -2236,6 +2332,35 @@ extension CustomerProfilesClientTypes {
 
 extension CustomerProfilesClientTypes {
 
+    public enum ProfileType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accountProfile
+        case profile
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProfileType] {
+            return [
+                .accountProfile,
+                .profile
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountProfile: return "ACCOUNT_PROFILE"
+            case .profile: return "PROFILE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
     /// The standard profile of a customer.
     public struct Profile: Swift.Sendable {
         /// An account number that you have assigned to the customer.
@@ -2258,6 +2383,8 @@ extension CustomerProfilesClientTypes {
         public var businessPhoneNumber: Swift.String?
         /// The customer’s email address, which has not been specified as a personal or business address.
         public var emailAddress: Swift.String?
+        /// The customer or account’s engagement preferences.
+        public var engagementPreferences: CustomerProfilesClientTypes.EngagementPreferences?
         /// The customer’s first name.
         public var firstName: Swift.String?
         /// A list of items used to find a profile returned in a [SearchProfiles](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html) response. An item is a key-value(s) pair that matches an attribute in the profile. If the optional AdditionalSearchKeys parameter was included in the [SearchProfiles](https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_SearchProfiles.html) request, the FoundByItems list should be interpreted based on the LogicalOperator used in the request:
@@ -2295,6 +2422,8 @@ extension CustomerProfilesClientTypes {
         public var phoneNumber: Swift.String?
         /// The unique identifier of a customer profile.
         public var profileId: Swift.String?
+        /// The type of the profile.
+        public var profileType: CustomerProfilesClientTypes.ProfileType?
         /// The customer’s shipping address.
         public var shippingAddress: CustomerProfilesClientTypes.Address?
 
@@ -2309,6 +2438,7 @@ extension CustomerProfilesClientTypes {
             businessName: Swift.String? = nil,
             businessPhoneNumber: Swift.String? = nil,
             emailAddress: Swift.String? = nil,
+            engagementPreferences: CustomerProfilesClientTypes.EngagementPreferences? = nil,
             firstName: Swift.String? = nil,
             foundByItems: [CustomerProfilesClientTypes.FoundByKeyValue]? = nil,
             gender: CustomerProfilesClientTypes.Gender? = nil,
@@ -2323,6 +2453,7 @@ extension CustomerProfilesClientTypes {
             personalEmailAddress: Swift.String? = nil,
             phoneNumber: Swift.String? = nil,
             profileId: Swift.String? = nil,
+            profileType: CustomerProfilesClientTypes.ProfileType? = nil,
             shippingAddress: CustomerProfilesClientTypes.Address? = nil
         ) {
             self.accountNumber = accountNumber
@@ -2335,6 +2466,7 @@ extension CustomerProfilesClientTypes {
             self.businessName = businessName
             self.businessPhoneNumber = businessPhoneNumber
             self.emailAddress = emailAddress
+            self.engagementPreferences = engagementPreferences
             self.firstName = firstName
             self.foundByItems = foundByItems
             self.gender = gender
@@ -2349,6 +2481,7 @@ extension CustomerProfilesClientTypes {
             self.personalEmailAddress = personalEmailAddress
             self.phoneNumber = phoneNumber
             self.profileId = profileId
+            self.profileType = profileType
             self.shippingAddress = shippingAddress
         }
     }
@@ -2356,7 +2489,7 @@ extension CustomerProfilesClientTypes {
 
 extension CustomerProfilesClientTypes.Profile: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Profile(foundByItems: \(Swift.String(describing: foundByItems)), profileId: \(Swift.String(describing: profileId)), accountNumber: \"CONTENT_REDACTED\", additionalInformation: \"CONTENT_REDACTED\", address: \"CONTENT_REDACTED\", attributes: \"CONTENT_REDACTED\", billingAddress: \"CONTENT_REDACTED\", birthDate: \"CONTENT_REDACTED\", businessEmailAddress: \"CONTENT_REDACTED\", businessName: \"CONTENT_REDACTED\", businessPhoneNumber: \"CONTENT_REDACTED\", emailAddress: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", gender: \"CONTENT_REDACTED\", genderString: \"CONTENT_REDACTED\", homePhoneNumber: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", mailingAddress: \"CONTENT_REDACTED\", middleName: \"CONTENT_REDACTED\", mobilePhoneNumber: \"CONTENT_REDACTED\", partyType: \"CONTENT_REDACTED\", partyTypeString: \"CONTENT_REDACTED\", personalEmailAddress: \"CONTENT_REDACTED\", phoneNumber: \"CONTENT_REDACTED\", shippingAddress: \"CONTENT_REDACTED\")"}
+        "Profile(foundByItems: \(Swift.String(describing: foundByItems)), profileId: \(Swift.String(describing: profileId)), accountNumber: \"CONTENT_REDACTED\", additionalInformation: \"CONTENT_REDACTED\", address: \"CONTENT_REDACTED\", attributes: \"CONTENT_REDACTED\", billingAddress: \"CONTENT_REDACTED\", birthDate: \"CONTENT_REDACTED\", businessEmailAddress: \"CONTENT_REDACTED\", businessName: \"CONTENT_REDACTED\", businessPhoneNumber: \"CONTENT_REDACTED\", emailAddress: \"CONTENT_REDACTED\", engagementPreferences: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", gender: \"CONTENT_REDACTED\", genderString: \"CONTENT_REDACTED\", homePhoneNumber: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", mailingAddress: \"CONTENT_REDACTED\", middleName: \"CONTENT_REDACTED\", mobilePhoneNumber: \"CONTENT_REDACTED\", partyType: \"CONTENT_REDACTED\", partyTypeString: \"CONTENT_REDACTED\", personalEmailAddress: \"CONTENT_REDACTED\", phoneNumber: \"CONTENT_REDACTED\", profileType: \"CONTENT_REDACTED\", shippingAddress: \"CONTENT_REDACTED\")"}
 }
 
 public struct BatchGetProfileOutput: Swift.Sendable {
@@ -4045,6 +4178,8 @@ public struct CreateProfileInput: Swift.Sendable {
     public var domainName: Swift.String?
     /// The customer’s email address, which has not been specified as a personal or business address.
     public var emailAddress: Swift.String?
+    /// Object that defines the preferred methods of engagement, per channel.
+    public var engagementPreferences: CustomerProfilesClientTypes.EngagementPreferences?
     /// The customer’s first name.
     public var firstName: Swift.String?
     /// The gender with which the customer identifies.
@@ -4071,6 +4206,8 @@ public struct CreateProfileInput: Swift.Sendable {
     public var personalEmailAddress: Swift.String?
     /// The customer’s phone number, which has not been specified as a mobile, home, or business number.
     public var phoneNumber: Swift.String?
+    /// The type of the profile.
+    public var profileType: CustomerProfilesClientTypes.ProfileType?
     /// The customer’s shipping address.
     public var shippingAddress: CustomerProfilesClientTypes.Address?
 
@@ -4086,6 +4223,7 @@ public struct CreateProfileInput: Swift.Sendable {
         businessPhoneNumber: Swift.String? = nil,
         domainName: Swift.String? = nil,
         emailAddress: Swift.String? = nil,
+        engagementPreferences: CustomerProfilesClientTypes.EngagementPreferences? = nil,
         firstName: Swift.String? = nil,
         gender: CustomerProfilesClientTypes.Gender? = nil,
         genderString: Swift.String? = nil,
@@ -4098,6 +4236,7 @@ public struct CreateProfileInput: Swift.Sendable {
         partyTypeString: Swift.String? = nil,
         personalEmailAddress: Swift.String? = nil,
         phoneNumber: Swift.String? = nil,
+        profileType: CustomerProfilesClientTypes.ProfileType? = nil,
         shippingAddress: CustomerProfilesClientTypes.Address? = nil
     ) {
         self.accountNumber = accountNumber
@@ -4111,6 +4250,7 @@ public struct CreateProfileInput: Swift.Sendable {
         self.businessPhoneNumber = businessPhoneNumber
         self.domainName = domainName
         self.emailAddress = emailAddress
+        self.engagementPreferences = engagementPreferences
         self.firstName = firstName
         self.gender = gender
         self.genderString = genderString
@@ -4123,13 +4263,14 @@ public struct CreateProfileInput: Swift.Sendable {
         self.partyTypeString = partyTypeString
         self.personalEmailAddress = personalEmailAddress
         self.phoneNumber = phoneNumber
+        self.profileType = profileType
         self.shippingAddress = shippingAddress
     }
 }
 
 extension CreateProfileInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateProfileInput(domainName: \(Swift.String(describing: domainName)), accountNumber: \"CONTENT_REDACTED\", additionalInformation: \"CONTENT_REDACTED\", address: \"CONTENT_REDACTED\", attributes: \"CONTENT_REDACTED\", billingAddress: \"CONTENT_REDACTED\", birthDate: \"CONTENT_REDACTED\", businessEmailAddress: \"CONTENT_REDACTED\", businessName: \"CONTENT_REDACTED\", businessPhoneNumber: \"CONTENT_REDACTED\", emailAddress: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", gender: \"CONTENT_REDACTED\", genderString: \"CONTENT_REDACTED\", homePhoneNumber: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", mailingAddress: \"CONTENT_REDACTED\", middleName: \"CONTENT_REDACTED\", mobilePhoneNumber: \"CONTENT_REDACTED\", partyType: \"CONTENT_REDACTED\", partyTypeString: \"CONTENT_REDACTED\", personalEmailAddress: \"CONTENT_REDACTED\", phoneNumber: \"CONTENT_REDACTED\", shippingAddress: \"CONTENT_REDACTED\")"}
+        "CreateProfileInput(domainName: \(Swift.String(describing: domainName)), accountNumber: \"CONTENT_REDACTED\", additionalInformation: \"CONTENT_REDACTED\", address: \"CONTENT_REDACTED\", attributes: \"CONTENT_REDACTED\", billingAddress: \"CONTENT_REDACTED\", birthDate: \"CONTENT_REDACTED\", businessEmailAddress: \"CONTENT_REDACTED\", businessName: \"CONTENT_REDACTED\", businessPhoneNumber: \"CONTENT_REDACTED\", emailAddress: \"CONTENT_REDACTED\", engagementPreferences: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", gender: \"CONTENT_REDACTED\", genderString: \"CONTENT_REDACTED\", homePhoneNumber: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", mailingAddress: \"CONTENT_REDACTED\", middleName: \"CONTENT_REDACTED\", mobilePhoneNumber: \"CONTENT_REDACTED\", partyType: \"CONTENT_REDACTED\", partyTypeString: \"CONTENT_REDACTED\", personalEmailAddress: \"CONTENT_REDACTED\", phoneNumber: \"CONTENT_REDACTED\", profileType: \"CONTENT_REDACTED\", shippingAddress: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateProfileOutput: Swift.Sendable {
@@ -4226,6 +4367,61 @@ extension CustomerProfilesClientTypes {
 
 extension CustomerProfilesClientTypes {
 
+    public enum ProfileTypeDimensionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exclusive
+        case inclusive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProfileTypeDimensionType] {
+            return [
+                .exclusive,
+                .inclusive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exclusive: return "EXCLUSIVE"
+            case .inclusive: return "INCLUSIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes {
+
+    /// Object to hold the dimension of a profile type field to segment on.
+    public struct ProfileTypeDimension: Swift.Sendable {
+        /// The action to segment on.
+        /// This member is required.
+        public var dimensionType: CustomerProfilesClientTypes.ProfileTypeDimensionType?
+        /// The values to apply the DimensionType on.
+        /// This member is required.
+        public var values: [CustomerProfilesClientTypes.ProfileType]?
+
+        public init(
+            dimensionType: CustomerProfilesClientTypes.ProfileTypeDimensionType? = nil,
+            values: [CustomerProfilesClientTypes.ProfileType]? = nil
+        ) {
+            self.dimensionType = dimensionType
+            self.values = values
+        }
+    }
+}
+
+extension CustomerProfilesClientTypes.ProfileTypeDimension: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ProfileTypeDimension(dimensionType: \(Swift.String(describing: dimensionType)), values: \"CONTENT_REDACTED\")"}
+}
+
+extension CustomerProfilesClientTypes {
+
     /// The object used to segment on attributes within the customer profile.
     public struct ProfileAttributes: Swift.Sendable {
         /// A field to describe values to segment on within account number.
@@ -4268,6 +4464,8 @@ extension CustomerProfilesClientTypes {
         public var personalEmailAddress: CustomerProfilesClientTypes.ProfileDimension?
         /// A field to describe values to segment on within phone number.
         public var phoneNumber: CustomerProfilesClientTypes.ProfileDimension?
+        /// A field to describe values to segment on within profile type.
+        public var profileType: CustomerProfilesClientTypes.ProfileTypeDimension?
         /// A field to describe values to segment on within shipping address.
         public var shippingAddress: CustomerProfilesClientTypes.AddressDimension?
 
@@ -4292,6 +4490,7 @@ extension CustomerProfilesClientTypes {
             partyTypeString: CustomerProfilesClientTypes.ProfileDimension? = nil,
             personalEmailAddress: CustomerProfilesClientTypes.ProfileDimension? = nil,
             phoneNumber: CustomerProfilesClientTypes.ProfileDimension? = nil,
+            profileType: CustomerProfilesClientTypes.ProfileTypeDimension? = nil,
             shippingAddress: CustomerProfilesClientTypes.AddressDimension? = nil
         ) {
             self.accountNumber = accountNumber
@@ -4314,6 +4513,7 @@ extension CustomerProfilesClientTypes {
             self.partyTypeString = partyTypeString
             self.personalEmailAddress = personalEmailAddress
             self.phoneNumber = phoneNumber
+            self.profileType = profileType
             self.shippingAddress = shippingAddress
         }
     }
@@ -8372,6 +8572,8 @@ extension CustomerProfilesClientTypes {
         public var businessPhoneNumber: Swift.String?
         /// A unique identifier for the email address field to be merged.
         public var emailAddress: Swift.String?
+        /// A unique identifier for the engagement preferences field to be merged.
+        public var engagementPreferences: Swift.String?
         /// A unique identifier for the first name field to be merged.
         public var firstName: Swift.String?
         /// A unique identifier for the gender field to be merged.
@@ -8392,6 +8594,8 @@ extension CustomerProfilesClientTypes {
         public var personalEmailAddress: Swift.String?
         /// A unique identifier for the phone number field to be merged.
         public var phoneNumber: Swift.String?
+        /// A unique identifier for the profile type field to be merged.
+        public var profileType: Swift.String?
         /// A unique identifier for the shipping address field to be merged.
         public var shippingAddress: Swift.String?
 
@@ -8406,6 +8610,7 @@ extension CustomerProfilesClientTypes {
             businessName: Swift.String? = nil,
             businessPhoneNumber: Swift.String? = nil,
             emailAddress: Swift.String? = nil,
+            engagementPreferences: Swift.String? = nil,
             firstName: Swift.String? = nil,
             gender: Swift.String? = nil,
             homePhoneNumber: Swift.String? = nil,
@@ -8416,6 +8621,7 @@ extension CustomerProfilesClientTypes {
             partyType: Swift.String? = nil,
             personalEmailAddress: Swift.String? = nil,
             phoneNumber: Swift.String? = nil,
+            profileType: Swift.String? = nil,
             shippingAddress: Swift.String? = nil
         ) {
             self.accountNumber = accountNumber
@@ -8428,6 +8634,7 @@ extension CustomerProfilesClientTypes {
             self.businessName = businessName
             self.businessPhoneNumber = businessPhoneNumber
             self.emailAddress = emailAddress
+            self.engagementPreferences = engagementPreferences
             self.firstName = firstName
             self.gender = gender
             self.homePhoneNumber = homePhoneNumber
@@ -8438,6 +8645,7 @@ extension CustomerProfilesClientTypes {
             self.partyType = partyType
             self.personalEmailAddress = personalEmailAddress
             self.phoneNumber = phoneNumber
+            self.profileType = profileType
             self.shippingAddress = shippingAddress
         }
     }
@@ -9369,6 +9577,8 @@ public struct UpdateProfileInput: Swift.Sendable {
     public var domainName: Swift.String?
     /// The customer’s email address, which has not been specified as a personal or business address.
     public var emailAddress: Swift.String?
+    /// Object that defines users preferred methods of engagement.
+    public var engagementPreferences: CustomerProfilesClientTypes.EngagementPreferences?
     /// The customer’s first name.
     public var firstName: Swift.String?
     /// The gender with which the customer identifies.
@@ -9398,6 +9608,8 @@ public struct UpdateProfileInput: Swift.Sendable {
     /// The unique identifier of a customer profile.
     /// This member is required.
     public var profileId: Swift.String?
+    /// Determines the type of the profile.
+    public var profileType: CustomerProfilesClientTypes.ProfileType?
     /// The customer’s shipping address.
     public var shippingAddress: CustomerProfilesClientTypes.UpdateAddress?
 
@@ -9413,6 +9625,7 @@ public struct UpdateProfileInput: Swift.Sendable {
         businessPhoneNumber: Swift.String? = nil,
         domainName: Swift.String? = nil,
         emailAddress: Swift.String? = nil,
+        engagementPreferences: CustomerProfilesClientTypes.EngagementPreferences? = nil,
         firstName: Swift.String? = nil,
         gender: CustomerProfilesClientTypes.Gender? = nil,
         genderString: Swift.String? = nil,
@@ -9426,6 +9639,7 @@ public struct UpdateProfileInput: Swift.Sendable {
         personalEmailAddress: Swift.String? = nil,
         phoneNumber: Swift.String? = nil,
         profileId: Swift.String? = nil,
+        profileType: CustomerProfilesClientTypes.ProfileType? = nil,
         shippingAddress: CustomerProfilesClientTypes.UpdateAddress? = nil
     ) {
         self.accountNumber = accountNumber
@@ -9439,6 +9653,7 @@ public struct UpdateProfileInput: Swift.Sendable {
         self.businessPhoneNumber = businessPhoneNumber
         self.domainName = domainName
         self.emailAddress = emailAddress
+        self.engagementPreferences = engagementPreferences
         self.firstName = firstName
         self.gender = gender
         self.genderString = genderString
@@ -9452,13 +9667,14 @@ public struct UpdateProfileInput: Swift.Sendable {
         self.personalEmailAddress = personalEmailAddress
         self.phoneNumber = phoneNumber
         self.profileId = profileId
+        self.profileType = profileType
         self.shippingAddress = shippingAddress
     }
 }
 
 extension UpdateProfileInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateProfileInput(domainName: \(Swift.String(describing: domainName)), profileId: \(Swift.String(describing: profileId)), accountNumber: \"CONTENT_REDACTED\", additionalInformation: \"CONTENT_REDACTED\", address: \"CONTENT_REDACTED\", attributes: \"CONTENT_REDACTED\", billingAddress: \"CONTENT_REDACTED\", birthDate: \"CONTENT_REDACTED\", businessEmailAddress: \"CONTENT_REDACTED\", businessName: \"CONTENT_REDACTED\", businessPhoneNumber: \"CONTENT_REDACTED\", emailAddress: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", gender: \"CONTENT_REDACTED\", genderString: \"CONTENT_REDACTED\", homePhoneNumber: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", mailingAddress: \"CONTENT_REDACTED\", middleName: \"CONTENT_REDACTED\", mobilePhoneNumber: \"CONTENT_REDACTED\", partyType: \"CONTENT_REDACTED\", partyTypeString: \"CONTENT_REDACTED\", personalEmailAddress: \"CONTENT_REDACTED\", phoneNumber: \"CONTENT_REDACTED\", shippingAddress: \"CONTENT_REDACTED\")"}
+        "UpdateProfileInput(domainName: \(Swift.String(describing: domainName)), profileId: \(Swift.String(describing: profileId)), accountNumber: \"CONTENT_REDACTED\", additionalInformation: \"CONTENT_REDACTED\", address: \"CONTENT_REDACTED\", attributes: \"CONTENT_REDACTED\", billingAddress: \"CONTENT_REDACTED\", birthDate: \"CONTENT_REDACTED\", businessEmailAddress: \"CONTENT_REDACTED\", businessName: \"CONTENT_REDACTED\", businessPhoneNumber: \"CONTENT_REDACTED\", emailAddress: \"CONTENT_REDACTED\", engagementPreferences: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", gender: \"CONTENT_REDACTED\", genderString: \"CONTENT_REDACTED\", homePhoneNumber: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", mailingAddress: \"CONTENT_REDACTED\", middleName: \"CONTENT_REDACTED\", mobilePhoneNumber: \"CONTENT_REDACTED\", partyType: \"CONTENT_REDACTED\", partyTypeString: \"CONTENT_REDACTED\", personalEmailAddress: \"CONTENT_REDACTED\", phoneNumber: \"CONTENT_REDACTED\", profileType: \"CONTENT_REDACTED\", shippingAddress: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateProfileOutput: Swift.Sendable {
@@ -10870,6 +11086,7 @@ extension CreateProfileInput {
         try writer["BusinessName"].write(value.businessName)
         try writer["BusinessPhoneNumber"].write(value.businessPhoneNumber)
         try writer["EmailAddress"].write(value.emailAddress)
+        try writer["EngagementPreferences"].write(value.engagementPreferences, with: CustomerProfilesClientTypes.EngagementPreferences.write(value:to:))
         try writer["FirstName"].write(value.firstName)
         try writer["Gender"].write(value.gender)
         try writer["GenderString"].write(value.genderString)
@@ -10882,6 +11099,7 @@ extension CreateProfileInput {
         try writer["PartyTypeString"].write(value.partyTypeString)
         try writer["PersonalEmailAddress"].write(value.personalEmailAddress)
         try writer["PhoneNumber"].write(value.phoneNumber)
+        try writer["ProfileType"].write(value.profileType)
         try writer["ShippingAddress"].write(value.shippingAddress, with: CustomerProfilesClientTypes.Address.write(value:to:))
     }
 }
@@ -11166,6 +11384,7 @@ extension UpdateProfileInput {
         try writer["BusinessName"].write(value.businessName)
         try writer["BusinessPhoneNumber"].write(value.businessPhoneNumber)
         try writer["EmailAddress"].write(value.emailAddress)
+        try writer["EngagementPreferences"].write(value.engagementPreferences, with: CustomerProfilesClientTypes.EngagementPreferences.write(value:to:))
         try writer["FirstName"].write(value.firstName)
         try writer["Gender"].write(value.gender)
         try writer["GenderString"].write(value.genderString)
@@ -11179,6 +11398,7 @@ extension UpdateProfileInput {
         try writer["PersonalEmailAddress"].write(value.personalEmailAddress)
         try writer["PhoneNumber"].write(value.phoneNumber)
         try writer["ProfileId"].write(value.profileId)
+        try writer["ProfileType"].write(value.profileType)
         try writer["ShippingAddress"].write(value.shippingAddress, with: CustomerProfilesClientTypes.UpdateAddress.write(value:to:))
     }
 }
@@ -14007,6 +14227,46 @@ extension CustomerProfilesClientTypes.Profile {
         value.foundByItems = try reader["FoundByItems"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.FoundByKeyValue.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.partyTypeString = try reader["PartyTypeString"].readIfPresent()
         value.genderString = try reader["GenderString"].readIfPresent()
+        value.profileType = try reader["ProfileType"].readIfPresent()
+        value.engagementPreferences = try reader["EngagementPreferences"].readIfPresent(with: CustomerProfilesClientTypes.EngagementPreferences.read(from:))
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.EngagementPreferences {
+
+    static func write(value: CustomerProfilesClientTypes.EngagementPreferences?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Email"].writeList(value.email, memberWritingClosure: CustomerProfilesClientTypes.ContactPreference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Phone"].writeList(value.phone, memberWritingClosure: CustomerProfilesClientTypes.ContactPreference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.EngagementPreferences {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.EngagementPreferences()
+        value.phone = try reader["Phone"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.ContactPreference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.email = try reader["Email"].readListIfPresent(memberReadingClosure: CustomerProfilesClientTypes.ContactPreference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.ContactPreference {
+
+    static func write(value: CustomerProfilesClientTypes.ContactPreference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContactType"].write(value.contactType)
+        try writer["KeyName"].write(value.keyName)
+        try writer["KeyValue"].write(value.keyValue)
+        try writer["ProfileId"].write(value.profileId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ContactPreference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.ContactPreference()
+        value.keyName = try reader["KeyName"].readIfPresent()
+        value.keyValue = try reader["KeyValue"].readIfPresent()
+        value.profileId = try reader["ProfileId"].readIfPresent()
+        value.contactType = try reader["ContactType"].readIfPresent()
         return value
     }
 }
@@ -14742,6 +15002,7 @@ extension CustomerProfilesClientTypes.ProfileAttributes {
         try writer["PartyTypeString"].write(value.partyTypeString, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
         try writer["PersonalEmailAddress"].write(value.personalEmailAddress, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
         try writer["PhoneNumber"].write(value.phoneNumber, with: CustomerProfilesClientTypes.ProfileDimension.write(value:to:))
+        try writer["ProfileType"].write(value.profileType, with: CustomerProfilesClientTypes.ProfileTypeDimension.write(value:to:))
         try writer["ShippingAddress"].write(value.shippingAddress, with: CustomerProfilesClientTypes.AddressDimension.write(value:to:))
     }
 
@@ -14769,6 +15030,24 @@ extension CustomerProfilesClientTypes.ProfileAttributes {
         value.mailingAddress = try reader["MailingAddress"].readIfPresent(with: CustomerProfilesClientTypes.AddressDimension.read(from:))
         value.billingAddress = try reader["BillingAddress"].readIfPresent(with: CustomerProfilesClientTypes.AddressDimension.read(from:))
         value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: CustomerProfilesClientTypes.AttributeDimension.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.profileType = try reader["ProfileType"].readIfPresent(with: CustomerProfilesClientTypes.ProfileTypeDimension.read(from:))
+        return value
+    }
+}
+
+extension CustomerProfilesClientTypes.ProfileTypeDimension {
+
+    static func write(value: CustomerProfilesClientTypes.ProfileTypeDimension?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DimensionType"].write(value.dimensionType)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CustomerProfilesClientTypes.ProfileType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CustomerProfilesClientTypes.ProfileTypeDimension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CustomerProfilesClientTypes.ProfileTypeDimension()
+        value.dimensionType = try reader["DimensionType"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CustomerProfilesClientTypes.ProfileType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -15446,6 +15725,7 @@ extension CustomerProfilesClientTypes.FieldSourceProfileIds {
         try writer["BusinessName"].write(value.businessName)
         try writer["BusinessPhoneNumber"].write(value.businessPhoneNumber)
         try writer["EmailAddress"].write(value.emailAddress)
+        try writer["EngagementPreferences"].write(value.engagementPreferences)
         try writer["FirstName"].write(value.firstName)
         try writer["Gender"].write(value.gender)
         try writer["HomePhoneNumber"].write(value.homePhoneNumber)
@@ -15456,6 +15736,7 @@ extension CustomerProfilesClientTypes.FieldSourceProfileIds {
         try writer["PartyType"].write(value.partyType)
         try writer["PersonalEmailAddress"].write(value.personalEmailAddress)
         try writer["PhoneNumber"].write(value.phoneNumber)
+        try writer["ProfileType"].write(value.profileType)
         try writer["ShippingAddress"].write(value.shippingAddress)
     }
 }

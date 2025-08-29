@@ -2277,7 +2277,7 @@ extension EMRClientTypes {
 public struct CreatePersistentAppUIInput: Swift.Sendable {
     /// The EMR containers configuration.
     public var emrContainersConfig: EMRClientTypes.EMRContainersConfig?
-    /// The profiler type for the persistent application user interface. Valid values are SHS, TEZUI, or YTS.
+    /// The profiler type for the persistent application user interface.
     public var profilerType: EMRClientTypes.ProfilerType?
     /// Tags for the persistent application user interface.
     public var tags: [EMRClientTypes.Tag]?
@@ -5614,25 +5614,33 @@ public struct ModifyClusterInput: Swift.Sendable {
     /// The unique identifier of the cluster.
     /// This member is required.
     public var clusterId: Swift.String?
+    /// Reserved.
+    public var extendedSupport: Swift.Bool?
     /// The number of steps that can be executed concurrently. You can specify a minimum of 1 step and a maximum of 256 steps. We recommend that you do not change this parameter while steps are running or the ActionOnFailure setting may not behave as expected. For more information see [Step$ActionOnFailure].
     public var stepConcurrencyLevel: Swift.Int?
 
     public init(
         clusterId: Swift.String? = nil,
+        extendedSupport: Swift.Bool? = nil,
         stepConcurrencyLevel: Swift.Int? = nil
     ) {
         self.clusterId = clusterId
+        self.extendedSupport = extendedSupport
         self.stepConcurrencyLevel = stepConcurrencyLevel
     }
 }
 
 public struct ModifyClusterOutput: Swift.Sendable {
+    /// Reserved.
+    public var extendedSupport: Swift.Bool?
     /// The number of steps that can be executed concurrently.
     public var stepConcurrencyLevel: Swift.Int?
 
     public init(
+        extendedSupport: Swift.Bool? = nil,
         stepConcurrencyLevel: Swift.Int? = nil
     ) {
+        self.extendedSupport = extendedSupport
         self.stepConcurrencyLevel = stepConcurrencyLevel
     }
 }
@@ -6216,6 +6224,8 @@ extension EMRClientTypes {
         public var ebsRootVolumeThroughput: Swift.Int?
         /// Provides information about the Amazon EC2 instances in a cluster grouped by category. For example, key name, subnet ID, IAM instance profile, and so on.
         public var ec2InstanceAttributes: EMRClientTypes.Ec2InstanceAttributes?
+        /// Reserved.
+        public var extendedSupport: Swift.Bool?
         /// The unique identifier for the cluster.
         public var id: Swift.String?
         /// The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. The instance group configuration of the cluster. A value of INSTANCE_GROUP indicates a uniform instance group configuration. A value of INSTANCE_FLEET indicates an instance fleets configuration.
@@ -6276,6 +6286,7 @@ extension EMRClientTypes {
             ebsRootVolumeSize: Swift.Int? = nil,
             ebsRootVolumeThroughput: Swift.Int? = nil,
             ec2InstanceAttributes: EMRClientTypes.Ec2InstanceAttributes? = nil,
+            extendedSupport: Swift.Bool? = nil,
             id: Swift.String? = nil,
             instanceCollectionType: EMRClientTypes.InstanceCollectionType? = nil,
             kerberosAttributes: EMRClientTypes.KerberosAttributes? = nil,
@@ -6311,6 +6322,7 @@ extension EMRClientTypes {
             self.ebsRootVolumeSize = ebsRootVolumeSize
             self.ebsRootVolumeThroughput = ebsRootVolumeThroughput
             self.ec2InstanceAttributes = ec2InstanceAttributes
+            self.extendedSupport = extendedSupport
             self.id = id
             self.instanceCollectionType = instanceCollectionType
             self.kerberosAttributes = kerberosAttributes
@@ -6989,6 +7001,8 @@ public struct RunJobFlowInput: Swift.Sendable {
     public var ebsRootVolumeSize: Swift.Int?
     /// The throughput, in MiB/s, of the Amazon EBS root device volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 6.15.0 and later.
     public var ebsRootVolumeThroughput: Swift.Int?
+    /// Reserved.
+    public var extendedSupport: Swift.Bool?
     /// A specification of the number and type of Amazon EC2 instances.
     /// This member is required.
     public var instances: EMRClientTypes.JobFlowInstancesConfig?
@@ -7064,6 +7078,7 @@ public struct RunJobFlowInput: Swift.Sendable {
         ebsRootVolumeIops: Swift.Int? = nil,
         ebsRootVolumeSize: Swift.Int? = nil,
         ebsRootVolumeThroughput: Swift.Int? = nil,
+        extendedSupport: Swift.Bool? = nil,
         instances: EMRClientTypes.JobFlowInstancesConfig? = nil,
         jobFlowRole: Swift.String? = nil,
         kerberosAttributes: EMRClientTypes.KerberosAttributes? = nil,
@@ -7096,6 +7111,7 @@ public struct RunJobFlowInput: Swift.Sendable {
         self.ebsRootVolumeIops = ebsRootVolumeIops
         self.ebsRootVolumeSize = ebsRootVolumeSize
         self.ebsRootVolumeThroughput = ebsRootVolumeThroughput
+        self.extendedSupport = extendedSupport
         self.instances = instances
         self.jobFlowRole = jobFlowRole
         self.kerberosAttributes = kerberosAttributes
@@ -7934,6 +7950,7 @@ extension ModifyClusterInput {
     static func write(value: ModifyClusterInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ClusterId"].write(value.clusterId)
+        try writer["ExtendedSupport"].write(value.extendedSupport)
         try writer["StepConcurrencyLevel"].write(value.stepConcurrencyLevel)
     }
 }
@@ -8041,6 +8058,7 @@ extension RunJobFlowInput {
         try writer["EbsRootVolumeIops"].write(value.ebsRootVolumeIops)
         try writer["EbsRootVolumeSize"].write(value.ebsRootVolumeSize)
         try writer["EbsRootVolumeThroughput"].write(value.ebsRootVolumeThroughput)
+        try writer["ExtendedSupport"].write(value.extendedSupport)
         try writer["Instances"].write(value.instances, with: EMRClientTypes.JobFlowInstancesConfig.write(value:to:))
         try writer["JobFlowRole"].write(value.jobFlowRole)
         try writer["KerberosAttributes"].write(value.kerberosAttributes, with: EMRClientTypes.KerberosAttributes.write(value:to:))
@@ -8638,6 +8656,7 @@ extension ModifyClusterOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = ModifyClusterOutput()
+        value.extendedSupport = try reader["ExtendedSupport"].readIfPresent()
         value.stepConcurrencyLevel = try reader["StepConcurrencyLevel"].readIfPresent()
         return value
     }
@@ -9765,6 +9784,7 @@ extension EMRClientTypes.Cluster {
         value.osReleaseLabel = try reader["OSReleaseLabel"].readIfPresent()
         value.ebsRootVolumeIops = try reader["EbsRootVolumeIops"].readIfPresent()
         value.ebsRootVolumeThroughput = try reader["EbsRootVolumeThroughput"].readIfPresent()
+        value.extendedSupport = try reader["ExtendedSupport"].readIfPresent()
         return value
     }
 }

@@ -53,6 +53,33 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension ECSClientTypes {
 
+    /// The advanced settings for a load balancer used in blue/green deployments. Specify the alternate target group, listener rules, and IAM role required for traffic shifting during blue/green deployments. For more information, see [Required resources for Amazon ECS blue/green deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/blue-green-deployment-implementation.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct AdvancedConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the alternate target group for Amazon ECS blue/green deployments.
+        public var alternateTargetGroupArn: Swift.String?
+        /// The Amazon Resource Name (ARN) that that identifies the production listener rule (in the case of an Application Load Balancer) or listener (in the case for an Network Load Balancer) for routing production traffic.
+        public var productionListenerRule: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon ECS permission to call the Elastic Load Balancing APIs for you.
+        public var roleArn: Swift.String?
+        /// The Amazon Resource Name (ARN) that identifies ) that identifies the test listener rule (in the case of an Application Load Balancer) or listener (in the case for an Network Load Balancer) for routing test traffic.
+        public var testListenerRule: Swift.String?
+
+        public init(
+            alternateTargetGroupArn: Swift.String? = nil,
+            productionListenerRule: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            testListenerRule: Swift.String? = nil
+        ) {
+            self.alternateTargetGroupArn = alternateTargetGroupArn
+            self.productionListenerRule = productionListenerRule
+            self.roleArn = roleArn
+            self.testListenerRule = testListenerRule
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     public enum AgentUpdateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failed
         case pending
@@ -278,7 +305,7 @@ extension ECSClientTypes {
         public var instanceWarmupPeriod: Swift.Int?
         /// The maximum number of Amazon EC2 instances that Amazon ECS will scale out at one time. If this parameter is omitted, the default value of 10000 is used.
         public var maximumScalingStepSize: Swift.Int?
-        /// The minimum number of Amazon EC2 instances that Amazon ECS will scale out at one time. The scale in process is not affected by this parameter If this parameter is omitted, the default value of 1 is used. When additional capacity is required, Amazon ECS will scale up the minimum scaling step size even if the actual demand is less than the minimum scaling step size. If you use a capacity provider with an Auto Scaling group configured with more than one Amazon EC2 instance type or Availability Zone, Amazon ECS will scale up by the exact minimum scaling step size value and will ignore both the maximum scaling step size as well as the capacity demand.
+        /// The minimum number of Amazon EC2 instances that Amazon ECS will scale out at one time. The scale in process is not affected by this parameter If this parameter is omitted, the default value of 1 is used. When additional capacity is required, Amazon ECS will scale up the minimum scaling step size even if the actual demand is less than the minimum scaling step size.
         public var minimumScalingStepSize: Swift.Int?
         /// Determines whether to use managed scaling for the capacity provider.
         public var status: ECSClientTypes.ManagedScalingStatus?
@@ -718,12 +745,40 @@ extension ECSClientTypes {
 
     /// The details of a capacity provider strategy. A capacity provider strategy can be set when using the [RunTask](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_RunTask.html)or [CreateCluster](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateCluster.html) APIs or as the default capacity provider strategy for a cluster with the CreateCluster API. Only capacity providers that are already associated with a cluster and have an ACTIVE or UPDATING status can be used in a capacity provider strategy. The [PutClusterCapacityProviders](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutClusterCapacityProviders.html) API is used to associate a capacity provider with a cluster. If specifying a capacity provider that uses an Auto Scaling group, the capacity provider must already be created. New Auto Scaling group capacity providers can be created with the [CreateClusterCapacityProvider](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateClusterCapacityProvider.html) API operation. To use a Fargate capacity provider, specify either the FARGATE or FARGATE_SPOT capacity providers. The Fargate capacity providers are available to all accounts and only need to be associated with a cluster to be used in a capacity provider strategy. With FARGATE_SPOT, you can run interruption tolerant tasks at a rate that's discounted compared to the FARGATE price. FARGATE_SPOT runs tasks on spare compute capacity. When Amazon Web Services needs the capacity back, your tasks are interrupted with a two-minute warning. FARGATE_SPOT supports Linux tasks with the X86_64 architecture on platform version 1.3.0 or later. FARGATE_SPOT supports Linux tasks with the ARM64 architecture on platform version 1.4.0 or later. A capacity provider strategy can contain a maximum of 20 capacity providers.
     public struct CapacityProviderStrategyItem: Swift.Sendable {
-        /// The base value designates how many tasks, at a minimum, to run on the specified capacity provider. Only one capacity provider in a capacity provider strategy can have a base defined. If no value is specified, the default value of 0 is used.
+        /// The base value designates how many tasks, at a minimum, to run on the specified capacity provider for each service. Only one capacity provider in a capacity provider strategy can have a base defined. If no value is specified, the default value of 0 is used. Base value characteristics:
+        ///
+        /// * Only one capacity provider in a strategy can have a base defined
+        ///
+        /// * Default value is 0 if not specified
+        ///
+        /// * Valid range: 0 to 100,000
+        ///
+        /// * Base requirements are satisfied first before weight distribution
         public var base: Swift.Int
         /// The short name of the capacity provider.
         /// This member is required.
         public var capacityProvider: Swift.String?
-        /// The weight value designates the relative percentage of the total number of tasks launched that should use the specified capacity provider. The weight value is taken into consideration after the base value, if defined, is satisfied. If no weight value is specified, the default value of 0 is used. When multiple capacity providers are specified within a capacity provider strategy, at least one of the capacity providers must have a weight value greater than zero and any capacity providers with a weight of 0 can't be used to place tasks. If you specify multiple capacity providers in a strategy that all have a weight of 0, any RunTask or CreateService actions using the capacity provider strategy will fail. An example scenario for using weights is defining a strategy that contains two capacity providers and both have a weight of 1, then when the base is satisfied, the tasks will be split evenly across the two capacity providers. Using that same logic, if you specify a weight of 1 for capacityProviderA and a weight of 4 for capacityProviderB, then for every one task that's run using capacityProviderA, four tasks would use capacityProviderB.
+        /// The weight value designates the relative percentage of the total number of tasks launched that should use the specified capacity provider. The weight value is taken into consideration after the base value, if defined, is satisfied. If no weight value is specified, the default value of 0 is used. When multiple capacity providers are specified within a capacity provider strategy, at least one of the capacity providers must have a weight value greater than zero and any capacity providers with a weight of 0 can't be used to place tasks. If you specify multiple capacity providers in a strategy that all have a weight of 0, any RunTask or CreateService actions using the capacity provider strategy will fail. Weight value characteristics:
+        ///
+        /// * Weight is considered after the base value is satisfied
+        ///
+        /// * Default value is 0 if not specified
+        ///
+        /// * Valid range: 0 to 1,000
+        ///
+        /// * At least one capacity provider must have a weight greater than zero
+        ///
+        /// * Capacity providers with weight of 0 cannot place tasks
+        ///
+        ///
+        /// Task distribution logic:
+        ///
+        /// * Base satisfaction: The minimum number of tasks specified by the base value are placed on that capacity provider
+        ///
+        /// * Weight distribution: After base requirements are met, additional tasks are distributed according to weight ratios
+        ///
+        ///
+        /// Examples: Equal Distribution: Two capacity providers both with weight 1 will split tasks evenly after base requirements are met. Weighted Distribution: If capacityProviderA has weight 1 and capacityProviderB has weight 4, then for every 1 task on A, 4 tasks will run on B.
         public var weight: Swift.Int
 
         public init(
@@ -913,7 +968,7 @@ extension ECSClientTypes {
 
     /// A regional grouping of one or more container instances where you can run task requests. Each account receives a default cluster the first time you use the Amazon ECS service, but you may also create other clusters. Clusters may contain more than one instance type simultaneously.
     public struct Cluster: Swift.Sendable {
-        /// The number of services that are running on the cluster in an ACTIVE state. You can view these services with [PListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html).
+        /// The number of services that are running on the cluster in an ACTIVE state. You can view these services with [ListServices](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ListServices.html).
         public var activeServicesCount: Swift.Int
         /// The resources attached to a cluster. When using a capacity provider with a cluster, the capacity provider and associated resources are returned as cluster attachments.
         public var attachments: [ECSClientTypes.Attachment]?
@@ -1152,7 +1207,7 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// One of the methods which provide a way for you to quickly identify when a deployment has failed, and then to optionally roll back the failure to the last working deployment. When the alarms are generated, Amazon ECS sets the service deployment to failed. Set the rollback parameter to have Amazon ECS to roll back your service to the last completed deployment after a failure. You can only use the DeploymentAlarms method to detect failures when the DeploymentController is set to ECS (rolling update). For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide .
+    /// One of the methods which provide a way for you to quickly identify when a deployment has failed, and then to optionally roll back the failure to the last working deployment. When the alarms are generated, Amazon ECS sets the service deployment to failed. Set the rollback parameter to have Amazon ECS to roll back your service to the last completed deployment after a failure. You can only use the DeploymentAlarms method to detect failures when the DeploymentController is set to ECS. For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide .
     public struct DeploymentAlarms: Swift.Sendable {
         /// One or more CloudWatch alarm names. Use a "," to separate the alarms.
         /// This member is required.
@@ -1199,12 +1254,129 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    public enum DeploymentLifecycleHookStage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case postProductionTrafficShift
+        case postScaleUp
+        case postTestTrafficShift
+        case preScaleUp
+        case productionTrafficShift
+        case reconcileService
+        case testTrafficShift
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeploymentLifecycleHookStage] {
+            return [
+                .postProductionTrafficShift,
+                .postScaleUp,
+                .postTestTrafficShift,
+                .preScaleUp,
+                .productionTrafficShift,
+                .reconcileService,
+                .testTrafficShift
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .postProductionTrafficShift: return "POST_PRODUCTION_TRAFFIC_SHIFT"
+            case .postScaleUp: return "POST_SCALE_UP"
+            case .postTestTrafficShift: return "POST_TEST_TRAFFIC_SHIFT"
+            case .preScaleUp: return "PRE_SCALE_UP"
+            case .productionTrafficShift: return "PRODUCTION_TRAFFIC_SHIFT"
+            case .reconcileService: return "RECONCILE_SERVICE"
+            case .testTrafficShift: return "TEST_TRAFFIC_SHIFT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// A deployment lifecycle hook runs custom logic at specific stages of the deployment process. Currently, you can use Lambda functions as hook targets. For more information, see [Lifecycle hooks for Amazon ECS service deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-lifecycle-hooks.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct DeploymentLifecycleHook: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the hook target. Currently, only Lambda function ARNs are supported. You must provide this parameter when configuring a deployment lifecycle hook.
+        public var hookTargetArn: Swift.String?
+        /// The lifecycle stages at which to run the hook. Choose from these valid values:
+        ///
+        /// * RECONCILE_SERVICE The reconciliation stage that only happens when you start a new service deployment with more than 1 service revision in an ACTIVE state. You can use a lifecycle hook for this stage.
+        ///
+        /// * PRE_SCALE_UP The green service revision has not started. The blue service revision is handling 100% of the production traffic. There is no test traffic. You can use a lifecycle hook for this stage.
+        ///
+        /// * POST_SCALE_UP The green service revision has started. The blue service revision is handling 100% of the production traffic. There is no test traffic. You can use a lifecycle hook for this stage.
+        ///
+        /// * TEST_TRAFFIC_SHIFT The blue and green service revisions are running. The blue service revision handles 100% of the production traffic. The green service revision is migrating from 0% to 100% of test traffic. You can use a lifecycle hook for this stage.
+        ///
+        /// * POST_TEST_TRAFFIC_SHIFT The test traffic shift is complete. The green service revision handles 100% of the test traffic. You can use a lifecycle hook for this stage.
+        ///
+        /// * PRODUCTION_TRAFFIC_SHIFT Production traffic is shifting to the green service revision. The green service revision is migrating from 0% to 100% of production traffic. You can use a lifecycle hook for this stage.
+        ///
+        /// * POST_PRODUCTION_TRAFFIC_SHIFT The production traffic shift is complete. You can use a lifecycle hook for this stage.
+        ///
+        ///
+        /// You must provide this parameter when configuring a deployment lifecycle hook.
+        public var lifecycleStages: [ECSClientTypes.DeploymentLifecycleHookStage]?
+        /// The Amazon Resource Name (ARN) of the IAM role that grants Amazon ECS permission to call Lambda functions on your behalf. For more information, see [Permissions required for Lambda functions in Amazon ECS blue/green deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/blue-green-permissions.html) in the Amazon Elastic Container Service Developer Guide.
+        public var roleArn: Swift.String?
+
+        public init(
+            hookTargetArn: Swift.String? = nil,
+            lifecycleStages: [ECSClientTypes.DeploymentLifecycleHookStage]? = nil,
+            roleArn: Swift.String? = nil
+        ) {
+            self.hookTargetArn = hookTargetArn
+            self.lifecycleStages = lifecycleStages
+            self.roleArn = roleArn
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    public enum DeploymentStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case blueGreen
+        case rolling
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeploymentStrategy] {
+            return [
+                .blueGreen,
+                .rolling
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .blueGreen: return "BLUE_GREEN"
+            case .rolling: return "ROLLING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// Optional deployment parameters that control how many tasks run during a deployment and the ordering of stopping and starting tasks.
     public struct DeploymentConfiguration: Swift.Sendable {
         /// Information about the CloudWatch alarms.
         public var alarms: ECSClientTypes.DeploymentAlarms?
+        /// The time period when both blue and green service revisions are running simultaneously after the production traffic has shifted. You must provide this parameter when you use the BLUE_GREEN deployment strategy.
+        public var bakeTimeInMinutes: Swift.Int?
         /// The deployment circuit breaker can only be used for services using the rolling update (ECS) deployment type. The deployment circuit breaker determines whether a service deployment will fail if the service can't reach a steady state. If you use the deployment circuit breaker, a service deployment will transition to a failed state and stop launching new tasks. If you use the rollback option, when a service deployment fails, the service is rolled back to the last deployment that completed successfully. For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide
         public var deploymentCircuitBreaker: ECSClientTypes.DeploymentCircuitBreaker?
+        /// An array of deployment lifecycle hook objects to run custom logic at specific stages of the deployment lifecycle.
+        public var lifecycleHooks: [ECSClientTypes.DeploymentLifecycleHook]?
         /// If a service is using the rolling update (ECS) deployment type, the maximumPercent parameter represents an upper limit on the number of your service's tasks that are allowed in the RUNNING or PENDING state during a deployment, as a percentage of the desiredCount (rounded down to the nearest integer). This parameter enables you to define the deployment batch size. For example, if your service is using the REPLICA service scheduler and has a desiredCount of four tasks and a maximumPercent value of 200%, the scheduler may start four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available). The default maximumPercent value for a service using the REPLICA service scheduler is 200%. The Amazon ECS scheduler uses this parameter to replace unhealthy tasks by starting replacement tasks first and then stopping the unhealthy tasks, as long as cluster resources for starting replacement tasks are available. For more information about how the scheduler replaces unhealthy tasks, see [Amazon ECS services](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html). If a service is using either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types, and tasks in the service use the EC2 launch type, the maximum percent value is set to the default value. The maximum percent value is used to define the upper limit on the number of the tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. You can't specify a custom maximumPercent value for a service that uses either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and has tasks that use the EC2 launch type. If the service uses either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types, and the tasks in the service use the Fargate launch type, the maximum percent value is not used. The value is still returned when describing your service.
         public var maximumPercent: Swift.Int?
         /// If a service is using the rolling update (ECS) deployment type, the minimumHealthyPercent represents a lower limit on the number of your service's tasks that must remain in the RUNNING state during a deployment, as a percentage of the desiredCount (rounded up to the nearest integer). This parameter enables you to deploy without using additional cluster capacity. For example, if your service has a desiredCount of four tasks and a minimumHealthyPercent of 50%, the service scheduler may stop two existing tasks to free up cluster capacity before starting two new tasks. If any tasks are unhealthy and if maximumPercent doesn't allow the Amazon ECS scheduler to start replacement tasks, the scheduler stops the unhealthy tasks one-by-one — using the minimumHealthyPercent as a constraint — to clear up capacity to launch replacement tasks. For more information about how the scheduler replaces unhealthy tasks, see [Amazon ECS services](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html) . For services that do not use a load balancer, the following should be noted:
@@ -1225,17 +1397,29 @@ extension ECSClientTypes {
         ///
         /// The default value for a replica service for minimumHealthyPercent is 100%. The default minimumHealthyPercent value for a service using the DAEMON service schedule is 0% for the CLI, the Amazon Web Services SDKs, and the APIs and 50% for the Amazon Web Services Management Console. The minimum number of healthy tasks during a deployment is the desiredCount multiplied by the minimumHealthyPercent/100, rounded up to the nearest integer value. If a service is using either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and is running tasks that use the EC2 launch type, the minimum healthy percent value is set to the default value. The minimum healthy percent value is used to define the lower limit on the number of the tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. You can't specify a custom minimumHealthyPercent value for a service that uses either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and has tasks that use the EC2 launch type. If a service is using either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and is running tasks that use the Fargate launch type, the minimum healthy percent value is not used, although it is returned when describing your service.
         public var minimumHealthyPercent: Swift.Int?
+        /// The deployment strategy for the service. Choose from these valid values:
+        ///
+        /// * ROLLING - When you create a service which uses the rolling update (ROLLING) deployment strategy, the Amazon ECS service scheduler replaces the currently running tasks with new tasks. The number of tasks that Amazon ECS adds or removes from the service during a rolling update is controlled by the service deployment configuration.
+        ///
+        /// * BLUE_GREEN - A blue/green deployment strategy (BLUE_GREEN) is a release methodology that reduces downtime and risk by running two identical production environments called blue and green. With Amazon ECS blue/green deployments, you can validate new service revisions before directing production traffic to them. This approach provides a safer way to deploy changes with the ability to quickly roll back if needed.
+        public var strategy: ECSClientTypes.DeploymentStrategy?
 
         public init(
             alarms: ECSClientTypes.DeploymentAlarms? = nil,
+            bakeTimeInMinutes: Swift.Int? = nil,
             deploymentCircuitBreaker: ECSClientTypes.DeploymentCircuitBreaker? = nil,
+            lifecycleHooks: [ECSClientTypes.DeploymentLifecycleHook]? = nil,
             maximumPercent: Swift.Int? = nil,
-            minimumHealthyPercent: Swift.Int? = nil
+            minimumHealthyPercent: Swift.Int? = nil,
+            strategy: ECSClientTypes.DeploymentStrategy? = nil
         ) {
             self.alarms = alarms
+            self.bakeTimeInMinutes = bakeTimeInMinutes
             self.deploymentCircuitBreaker = deploymentCircuitBreaker
+            self.lifecycleHooks = lifecycleHooks
             self.maximumPercent = maximumPercent
             self.minimumHealthyPercent = minimumHealthyPercent
+            self.strategy = strategy
         }
     }
 }
@@ -1276,7 +1460,50 @@ extension ECSClientTypes {
 
     /// The deployment controller to use for the service.
     public struct DeploymentController: Swift.Sendable {
-        /// The deployment controller type to use. There are three deployment controller types available: ECS The rolling update (ECS) deployment type involves replacing the current running version of the container with the latest version. The number of containers Amazon ECS adds or removes from the service during a rolling update is controlled by adjusting the minimum and maximum number of healthy tasks allowed during a service deployment, as specified in the [DeploymentConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_DeploymentConfiguration.html). For more information about rolling deployments, see [Deploy Amazon ECS services by replacing tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide. CODE_DEPLOY The blue/green (CODE_DEPLOY) deployment type uses the blue/green deployment model powered by CodeDeploy, which allows you to verify a new deployment of a service before sending production traffic to it. For more information about blue/green deployments, see [Validate the state of an Amazon ECS service before deployment ](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-bluegreen.html) in the Amazon Elastic Container Service Developer Guide. EXTERNAL The external (EXTERNAL) deployment type enables you to use any third-party deployment controller for full control over the deployment process for an Amazon ECS service. For more information about external deployments, see [Deploy Amazon ECS services using a third-party controller ](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-external.html) in the Amazon Elastic Container Service Developer Guide.
+        /// The deployment controller type to use. The deployment controller is the mechanism that determines how tasks are deployed for your service. The valid options are:
+        ///
+        /// * ECS When you create a service which uses the ECS deployment controller, you can choose between the following deployment strategies:
+        ///
+        /// * ROLLING: When you create a service which uses the rolling update (ROLLING) deployment strategy, the Amazon ECS service scheduler replaces the currently running tasks with new tasks. The number of tasks that Amazon ECS adds or removes from the service during a rolling update is controlled by the service deployment configuration. Rolling update deployments are best suited for the following scenarios:
+        ///
+        /// * Gradual service updates: You need to update your service incrementally without taking the entire service offline at once.
+        ///
+        /// * Limited resource requirements: You want to avoid the additional resource costs of running two complete environments simultaneously (as required by blue/green deployments).
+        ///
+        /// * Acceptable deployment time: Your application can tolerate a longer deployment process, as rolling updates replace tasks one by one.
+        ///
+        /// * No need for instant roll back: Your service can tolerate a rollback process that takes minutes rather than seconds.
+        ///
+        /// * Simple deployment process: You prefer a straightforward deployment approach without the complexity of managing multiple environments, target groups, and listeners.
+        ///
+        /// * No load balancer requirement: Your service doesn't use or require a load balancer, Application Load Balancer, Network Load Balancer, or Service Connect (which are required for blue/green deployments).
+        ///
+        /// * Stateful applications: Your application maintains state that makes it difficult to run two parallel environments.
+        ///
+        /// * Cost sensitivity: You want to minimize deployment costs by not running duplicate environments during deployment.
+        ///
+        ///
+        /// Rolling updates are the default deployment strategy for services and provide a balance between deployment safety and resource efficiency for many common application scenarios.
+        ///
+        /// * BLUE_GREEN: A blue/green deployment strategy (BLUE_GREEN) is a release methodology that reduces downtime and risk by running two identical production environments called blue and green. With Amazon ECS blue/green deployments, you can validate new service revisions before directing production traffic to them. This approach provides a safer way to deploy changes with the ability to quickly roll back if needed. Amazon ECS blue/green deployments are best suited for the following scenarios:
+        ///
+        /// * Service validation: When you need to validate new service revisions before directing production traffic to them
+        ///
+        /// * Zero downtime: When your service requires zero-downtime deployments
+        ///
+        /// * Instant roll back: When you need the ability to quickly roll back if issues are detected
+        ///
+        /// * Load balancer requirement: When your service uses Application Load Balancer, Network Load Balancer, or Service Connect
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// * External Use a third-party deployment controller.
+        ///
+        /// * Blue/green deployment (powered by CodeDeploy) CodeDeploy installs an updated version of the application as a new replacement task set and reroutes production traffic from the original application task set to the replacement task set. The original task set is terminated after a successful deployment. Use this deployment controller to verify a new deployment of a service before sending production traffic to it.
         /// This member is required.
         public var type: ECSClientTypes.DeploymentControllerType?
 
@@ -1324,6 +1551,8 @@ extension ECSClientTypes {
 
     /// The load balancer configuration to use with a service or task set. When you add, update, or remove a load balancer configuration, Amazon ECS starts a new deployment with the updated Elastic Load Balancing configuration. This causes tasks to register to and deregister from load balancers. We recommend that you verify this on a test environment before you update the Elastic Load Balancing configuration. A service-linked role is required for services that use multiple target groups. For more information, see [Using service-linked roles](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide.
     public struct LoadBalancer: Swift.Sendable {
+        /// The advanced settings for the load balancer used in blue/green deployments. Specify the alternate target group, listener rules, and IAM role required for traffic shifting during blue/green deployments.
+        public var advancedConfiguration: ECSClientTypes.AdvancedConfiguration?
         /// The name of the container (as it appears in a container definition) to associate with the load balancer. You need to specify the container name when configuring the target group for an Amazon ECS load balancer.
         public var containerName: Swift.String?
         /// The port on the container to associate with the load balancer. This port must correspond to a containerPort in the task definition the tasks in the service are using. For tasks that use the EC2 launch type, the container instance they're launched on must allow ingress traffic on the hostPort of the port mapping.
@@ -1334,11 +1563,13 @@ extension ECSClientTypes {
         public var targetGroupArn: Swift.String?
 
         public init(
+            advancedConfiguration: ECSClientTypes.AdvancedConfiguration? = nil,
             containerName: Swift.String? = nil,
             containerPort: Swift.Int? = nil,
             loadBalancerName: Swift.String? = nil,
             targetGroupArn: Swift.String? = nil
         ) {
+            self.advancedConfiguration = advancedConfiguration
             self.containerName = containerName
             self.containerPort = containerPort
             self.loadBalancerName = loadBalancerName
@@ -1676,7 +1907,7 @@ extension ECSClientTypes {
         /// * Set the defaultLogDriverMode account setting to blocking.
         ///
         ///
-        /// max-buffer-size Required: No Default value: 1m When non-blocking mode is used, the max-buffer-size log option controls the size of the buffer that's used for intermediate message storage. Make sure to specify an adequate buffer size based on your application. When the buffer fills up, further logs cannot be stored. Logs that cannot be stored are lost. To route logs using the splunk log router, you need to specify a splunk-token and a splunk-url. When you use the awsfirelens log router to route logs to an Amazon Web Services Service or Amazon Web Services Partner Network destination for log storage and analytics, you can set the log-driver-buffer-limit option to limit the number of events that are buffered in memory, before being sent to the log router container. It can help to resolve potential log loss issue because high throughput might result in memory running out for the buffer inside of Docker. Other options you can specify when using awsfirelens to route logs depend on the destination. When you export logs to Amazon Data Firehose, you can specify the Amazon Web Services Region with region and a name for the log stream with delivery_stream. When you export logs to Amazon Kinesis Data Streams, you can specify an Amazon Web Services Region with region and a data stream name with stream. When you export logs to Amazon OpenSearch Service, you can specify options like Name, Host (OpenSearch Service endpoint without protocol), Port, Index, Type, Aws_auth, Aws_region, Suppress_Type_Name, and tls. For more information, see [Under the hood: FireLens for Amazon ECS Tasks](http://aws.amazon.com/blogs/containers/under-the-hood-firelens-for-amazon-ecs-tasks/). When you export logs to Amazon S3, you can specify the bucket using the bucket option. You can also specify region, total_file_size, upload_timeout, and use_put_object as options. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'
+        /// max-buffer-size Required: No Default value: 10m When non-blocking mode is used, the max-buffer-size log option controls the size of the buffer that's used for intermediate message storage. Make sure to specify an adequate buffer size based on your application. When the buffer fills up, further logs cannot be stored. Logs that cannot be stored are lost. To route logs using the splunk log router, you need to specify a splunk-token and a splunk-url. When you use the awsfirelens log router to route logs to an Amazon Web Services Service or Amazon Web Services Partner Network destination for log storage and analytics, you can set the log-driver-buffer-limit option to limit the number of events that are buffered in memory, before being sent to the log router container. It can help to resolve potential log loss issue because high throughput might result in memory running out for the buffer inside of Docker. Other options you can specify when using awsfirelens to route logs depend on the destination. When you export logs to Amazon Data Firehose, you can specify the Amazon Web Services Region with region and a name for the log stream with delivery_stream. When you export logs to Amazon Kinesis Data Streams, you can specify an Amazon Web Services Region with region and a data stream name with stream. When you export logs to Amazon OpenSearch Service, you can specify options like Name, Host (OpenSearch Service endpoint without protocol), Port, Index, Type, Aws_auth, Aws_region, Suppress_Type_Name, and tls. For more information, see [Under the hood: FireLens for Amazon ECS Tasks](http://aws.amazon.com/blogs/containers/under-the-hood-firelens-for-amazon-ecs-tasks/). When you export logs to Amazon S3, you can specify the bucket using the bucket option. You can also specify region, total_file_size, upload_timeout, and use_put_object as options. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}'
         public var options: [Swift.String: Swift.String]?
         /// The secrets to pass to the log configuration. For more information, see [Specifying sensitive data](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html) in the Amazon Elastic Container Service Developer Guide.
         public var secretOptions: [ECSClientTypes.Secret]?
@@ -1695,6 +1926,58 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The header matching rules for test traffic routing in Amazon ECS blue/green deployments. These rules determine how incoming requests are matched based on HTTP headers to route test traffic to the new service revision.
+    public struct ServiceConnectTestTrafficHeaderMatchRules: Swift.Sendable {
+        /// The exact value that the HTTP header must match for the test traffic routing rule to apply. This provides precise control over which requests are routed to the new service revision during blue/green deployments.
+        /// This member is required.
+        public var exact: Swift.String?
+
+        public init(
+            exact: Swift.String? = nil
+        ) {
+            self.exact = exact
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The HTTP header rules used to identify and route test traffic during Amazon ECS blue/green deployments. These rules specify which HTTP headers to examine and what values to match for routing decisions. For more information, see [Service Connect for Amazon ECS blue/green deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect-blue-green.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct ServiceConnectTestTrafficHeaderRules: Swift.Sendable {
+        /// The name of the HTTP header to examine for test traffic routing. Common examples include custom headers like X-Test-Version or X-Canary-Request that can be used to identify test traffic.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The header value matching configuration that determines how the HTTP header value is evaluated for test traffic routing decisions.
+        public var value: ECSClientTypes.ServiceConnectTestTrafficHeaderMatchRules?
+
+        public init(
+            name: Swift.String? = nil,
+            value: ECSClientTypes.ServiceConnectTestTrafficHeaderMatchRules? = nil
+        ) {
+            self.name = name
+            self.value = value
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The test traffic routing configuration for Amazon ECS blue/green deployments. This configuration allows you to define rules for routing specific traffic to the new service revision during the deployment process, allowing for safe testing before full production traffic shift. For more information, see [Service Connect for Amazon ECS blue/green deployments](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect-blue-green.html) in the Amazon Elastic Container Service Developer Guide.
+    public struct ServiceConnectTestTrafficRules: Swift.Sendable {
+        /// The HTTP header-based routing rules that determine which requests should be routed to the new service version during blue/green deployment testing. These rules provide fine-grained control over test traffic routing based on request headers.
+        /// This member is required.
+        public var header: ECSClientTypes.ServiceConnectTestTrafficHeaderRules?
+
+        public init(
+            header: ECSClientTypes.ServiceConnectTestTrafficHeaderRules? = nil
+        ) {
+            self.header = header
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// Each alias ("endpoint") is a fully-qualified name and port number that other tasks ("clients") can use to connect to this service. Each name and port mapping must be unique within the namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
     public struct ServiceConnectClientAlias: Swift.Sendable {
         /// The dnsName is the name that you use in the applications of client tasks to connect to this service. The name must be a valid DNS name but doesn't need to be fully-qualified. The name can include up to 127 characters. The name can include lowercase letters, numbers, underscores (_), hyphens (-), and periods (.). The name can't start with a hyphen. If this parameter isn't specified, the default value of discoveryName.namespace is used. If the discoveryName isn't specified, the port mapping name from the task definition is used in portName.namespace. To avoid changing your applications in client Amazon ECS services, set this to the same name that the client application uses by default. For example, a few common names are database, db, or the lowercase name of a database, such as mysql or redis. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
@@ -1702,13 +1985,17 @@ extension ECSClientTypes {
         /// The listening port number for the Service Connect proxy. This port is available inside of all of the tasks within the same namespace. To avoid changing your applications in client Amazon ECS services, set this to the same port that the client application uses by default. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
         /// This member is required.
         public var port: Swift.Int?
+        /// The configuration for test traffic routing rules used during blue/green deployments with Amazon ECS Service Connect. This allows you to route a portion of traffic to the new service revision of your service for testing before shifting all production traffic.
+        public var testTrafficRules: ECSClientTypes.ServiceConnectTestTrafficRules?
 
         public init(
             dnsName: Swift.String? = nil,
-            port: Swift.Int? = nil
+            port: Swift.Int? = nil,
+            testTrafficRules: ECSClientTypes.ServiceConnectTestTrafficRules? = nil
         ) {
             self.dnsName = dnsName
             self.port = port
+            self.testTrafficRules = testTrafficRules
         }
     }
 }
@@ -2099,7 +2386,7 @@ public struct CreateServiceInput: Swift.Sendable {
     public var deploymentController: ECSClientTypes.DeploymentController?
     /// The number of instantiations of the specified task definition to place and keep running in your service. This is required if schedulingStrategy is REPLICA or isn't specified. If schedulingStrategy is DAEMON then this isn't required.
     public var desiredCount: Swift.Int?
-    /// Specifies whether to turn on Amazon ECS managed tags for the tasks within the service. For more information, see [Tagging your Amazon ECS resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html) in the Amazon Elastic Container Service Developer Guide. When you use Amazon ECS managed tags, you need to set the propagateTags request parameter.
+    /// Specifies whether to turn on Amazon ECS managed tags for the tasks within the service. For more information, see [Tagging your Amazon ECS resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html) in the Amazon Elastic Container Service Developer Guide. When you use Amazon ECS managed tags, you must set the propagateTags request parameter.
     public var enableECSManagedTags: Swift.Bool?
     /// Determines whether the execute command functionality is turned on for the service. If true, this enables execute command functionality on all containers in the service tasks.
     public var enableExecuteCommand: Swift.Bool?
@@ -2265,7 +2552,7 @@ extension ECSClientTypes {
 
     /// The Service Connect resource. Each configuration maps a discovery name to a Cloud Map service name. The data is stored in Cloud Map as part of the Service Connect configuration for each discovery name of this Amazon ECS service. A task can resolve the dnsName for each of the clientAliases of a service. However a task can't resolve the discovery names. If you want to connect to a service, refer to the ServiceConnectConfiguration of that service for the list of clientAliases that you can use.
     public struct ServiceConnectServiceResource: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) for the namespace in Cloud Map that matches the discovery name for this Service Connect resource. You can use this ARN in other integrations with Cloud Map. However, Service Connect can't ensure connectivity outside of Amazon ECS.
+        /// The Amazon Resource Name (ARN) for the service in Cloud Map that matches the discovery name for this Service Connect resource. You can use this ARN in other integrations with Cloud Map. However, Service Connect can't ensure connectivity outside of Amazon ECS.
         public var discoveryArn: Swift.String?
         /// The discovery name of this Service Connect resource. The discoveryName is the name of the new Cloud Map service that Amazon ECS creates for this Amazon ECS service. This must be unique within the Cloud Map namespace. The name can contain up to 64 characters. The name can include lowercase letters, numbers, underscores (_), and hyphens (-). The name can't start with a hyphen. If the discoveryName isn't specified, the port mapping name from the task definition is used in portName.namespace.
         public var discoveryName: Swift.String?
@@ -5954,6 +6241,59 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    public enum ServiceDeploymentLifecycleStage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case bakeTime
+        case cleanUp
+        case postProductionTrafficShift
+        case postScaleUp
+        case postTestTrafficShift
+        case preScaleUp
+        case productionTrafficShift
+        case reconcileService
+        case scaleUp
+        case testTrafficShift
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceDeploymentLifecycleStage] {
+            return [
+                .bakeTime,
+                .cleanUp,
+                .postProductionTrafficShift,
+                .postScaleUp,
+                .postTestTrafficShift,
+                .preScaleUp,
+                .productionTrafficShift,
+                .reconcileService,
+                .scaleUp,
+                .testTrafficShift
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .bakeTime: return "BAKE_TIME"
+            case .cleanUp: return "CLEAN_UP"
+            case .postProductionTrafficShift: return "POST_PRODUCTION_TRAFFIC_SHIFT"
+            case .postScaleUp: return "POST_SCALE_UP"
+            case .postTestTrafficShift: return "POST_TEST_TRAFFIC_SHIFT"
+            case .preScaleUp: return "PRE_SCALE_UP"
+            case .productionTrafficShift: return "PRODUCTION_TRAFFIC_SHIFT"
+            case .reconcileService: return "RECONCILE_SERVICE"
+            case .scaleUp: return "SCALE_UP"
+            case .testTrafficShift: return "TEST_TRAFFIC_SHIFT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// Information about the service deployment rollback.
     public struct Rollback: Swift.Sendable {
         /// The reason the rollback happened. For example, the circuit breaker initiated the rollback operation.
@@ -6068,6 +6408,28 @@ extension ECSClientTypes {
         public var deploymentConfiguration: ECSClientTypes.DeploymentConfiguration?
         /// The time the service deployment finished. The format is yyyy-MM-dd HH:mm:ss.SSSSSS.
         public var finishedAt: Foundation.Date?
+        /// The current lifecycle stage of the deployment. Possible values include:
+        ///
+        /// * RECONCILE_SERVICE The reconciliation stage that only happens when you start a new service deployment with more than 1 service revision in an ACTIVE state.
+        ///
+        /// * PRE_SCALE_UP The green service revision has not started. The blue service revision is handling 100% of the production traffic. There is no test traffic.
+        ///
+        /// * SCALE_UP The stage when the green service revision scales up to 100% and launches new tasks. The green service revision is not serving any traffic at this point.
+        ///
+        /// * POST_SCALE_UP The green service revision has started. The blue service revision is handling 100% of the production traffic. There is no test traffic.
+        ///
+        /// * TEST_TRAFFIC_SHIFT The blue and green service revisions are running. The blue service revision handles 100% of the production traffic. The green service revision is migrating from 0% to 100% of test traffic.
+        ///
+        /// * POST_TEST_TRAFFIC_SHIFT The test traffic shift is complete. The green service revision handles 100% of the test traffic.
+        ///
+        /// * PRODUCTION_TRAFFIC_SHIFT Production traffic is shifting to the green service revision. The green service revision is migrating from 0% to 100% of production traffic.
+        ///
+        /// * POST_PRODUCTION_TRAFFIC_SHIFT The production traffic shift is complete.
+        ///
+        /// * BAKE_TIME The stage when both blue and green service revisions are running simultaneously after the production traffic has shifted.
+        ///
+        /// * CLEAN_UP The stage when the blue service revision has completely scaled down to 0 running tasks. The green service revision is now the production service revision after this stage.
+        public var lifecycleStage: ECSClientTypes.ServiceDeploymentLifecycleStage?
         /// The rollback options the service deployment uses when the deployment fails.
         public var rollback: ECSClientTypes.Rollback?
         /// The ARN of the service for this service deployment.
@@ -6100,6 +6462,7 @@ extension ECSClientTypes {
             deploymentCircuitBreaker: ECSClientTypes.ServiceDeploymentCircuitBreaker? = nil,
             deploymentConfiguration: ECSClientTypes.DeploymentConfiguration? = nil,
             finishedAt: Foundation.Date? = nil,
+            lifecycleStage: ECSClientTypes.ServiceDeploymentLifecycleStage? = nil,
             rollback: ECSClientTypes.Rollback? = nil,
             serviceArn: Swift.String? = nil,
             serviceDeploymentArn: Swift.String? = nil,
@@ -6117,6 +6480,7 @@ extension ECSClientTypes {
             self.deploymentCircuitBreaker = deploymentCircuitBreaker
             self.deploymentConfiguration = deploymentConfiguration
             self.finishedAt = finishedAt
+            self.lifecycleStage = lifecycleStage
             self.rollback = rollback
             self.serviceArn = serviceArn
             self.serviceDeploymentArn = serviceDeploymentArn
@@ -6183,6 +6547,40 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The resolved load balancer configuration for a service revision. This includes information about which target groups serve traffic and which listener rules direct traffic to them.
+    public struct ServiceRevisionLoadBalancer: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the production listener rule or listener that directs traffic to the target group associated with the service revision.
+        public var productionListenerRule: Swift.String?
+        /// The Amazon Resource Name (ARN) of the target group associated with the service revision.
+        public var targetGroupArn: Swift.String?
+
+        public init(
+            productionListenerRule: Swift.String? = nil,
+            targetGroupArn: Swift.String? = nil
+        ) {
+            self.productionListenerRule = productionListenerRule
+            self.targetGroupArn = targetGroupArn
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// The resolved configuration for a service revision, which contains the actual resources your service revision uses, such as which target groups serve traffic.
+    public struct ResolvedConfiguration: Swift.Sendable {
+        /// The resolved load balancer configuration for the service revision. This includes information about which target groups serve traffic and which listener rules direct traffic to them.
+        public var loadBalancers: [ECSClientTypes.ServiceRevisionLoadBalancer]?
+
+        public init(
+            loadBalancers: [ECSClientTypes.ServiceRevisionLoadBalancer]? = nil
+        ) {
+            self.loadBalancers = loadBalancers
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// Information about the service revision. A service revision contains a record of the workload configuration Amazon ECS is attempting to deploy. Whenever you create or deploy a service, Amazon ECS automatically creates and captures the configuration that you're trying to deploy in the service revision. For information about service revisions, see [Amazon ECS service revisions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-revision.html) in the Amazon Elastic Container Service Developer Guide .
     public struct ServiceRevision: Swift.Sendable {
         /// The capacity provider strategy the service revision uses.
@@ -6207,6 +6605,8 @@ extension ECSClientTypes {
         public var platformFamily: Swift.String?
         /// For the Fargate launch type, the platform version the service revision uses.
         public var platformVersion: Swift.String?
+        /// The resolved configuration for the service revision which contains the actual resources your service revision uses, such as which target groups serve traffic.
+        public var resolvedConfiguration: ECSClientTypes.ResolvedConfiguration?
         /// The ARN of the service for the service revision.
         public var serviceArn: Swift.String?
         /// The Service Connect configuration of your Amazon ECS service. The configuration for this service to discover and connect to services, and be discovered by, and connected from, other services within a namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
@@ -6234,6 +6634,7 @@ extension ECSClientTypes {
             networkConfiguration: ECSClientTypes.NetworkConfiguration? = nil,
             platformFamily: Swift.String? = nil,
             platformVersion: Swift.String? = nil,
+            resolvedConfiguration: ECSClientTypes.ResolvedConfiguration? = nil,
             serviceArn: Swift.String? = nil,
             serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration? = nil,
             serviceRegistries: [ECSClientTypes.ServiceRegistry]? = nil,
@@ -6253,6 +6654,7 @@ extension ECSClientTypes {
             self.networkConfiguration = networkConfiguration
             self.platformFamily = platformFamily
             self.platformVersion = platformVersion
+            self.resolvedConfiguration = resolvedConfiguration
             self.serviceArn = serviceArn
             self.serviceConnectConfiguration = serviceConnectConfiguration
             self.serviceRegistries = serviceRegistries
@@ -6438,7 +6840,7 @@ extension ECSClientTypes {
 }
 
 public struct DescribeTasksInput: Swift.Sendable {
-    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task or tasks to describe. If you do not specify a cluster, the default cluster is assumed. This parameter is required. If you do not specify a value, the default cluster is used.
+    /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task or tasks to describe. If you do not specify a cluster, the default cluster is assumed.
     public var cluster: Swift.String?
     /// Specifies whether you want to see the resource tags for the task. If TAGS is specified, the tags are included in the response. If this field is omitted, tags aren't included in the response.
     public var include: [ECSClientTypes.TaskField]?
@@ -9560,7 +9962,7 @@ public struct UpdateContainerInstancesStateOutput: Swift.Sendable {
 }
 
 public struct UpdateServiceInput: Swift.Sendable {
-    /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide .
+    /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see [Balancing an Amazon ECS service across Availability Zones](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-rebalancing.html) in the Amazon Elastic Container Service Developer Guide . This parameter doesn't trigger a new service deployment.
     public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
     /// The details of a capacity provider strategy. You can set a capacity provider when you create a cluster, run a task, or update a service. When you use Fargate, the capacity providers are FARGATE or FARGATE_SPOT. When you use Amazon EC2, the capacity providers are Auto Scaling groups. You can change capacity providers for rolling deployments and blue/green deployments. The following list provides the valid transitions:
     ///
@@ -9575,46 +9977,48 @@ public struct UpdateServiceInput: Swift.Sendable {
     /// * Update the Auto Scaling group or Fargate capacity provider back to the launch type. Pass an empty list in the capacityProviderStrategy parameter.
     ///
     ///
-    /// For information about Amazon Web Services CDK considerations, see [Amazon Web Services CDK considerations](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/update-service-parameters.html).
+    /// For information about Amazon Web Services CDK considerations, see [Amazon Web Services CDK considerations](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/update-service-parameters.html). This parameter doesn't trigger a new service deployment.
     public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
     /// The short name or full Amazon Resource Name (ARN) of the cluster that your service runs on. If you do not specify a cluster, the default cluster is assumed. You can't change the cluster name.
     public var cluster: Swift.String?
-    /// Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks.
+    /// Optional deployment parameters that control how many tasks run during the deployment and the ordering of stopping and starting tasks. This parameter doesn't trigger a new service deployment.
     public var deploymentConfiguration: ECSClientTypes.DeploymentConfiguration?
-    /// The number of instantiations of the task to place and keep running in your service.
+    /// The deployment controller to use for the service.
+    public var deploymentController: ECSClientTypes.DeploymentController?
+    /// The number of instantiations of the task to place and keep running in your service. This parameter doesn't trigger a new service deployment.
     public var desiredCount: Swift.Int?
-    /// Determines whether to turn on Amazon ECS managed tags for the tasks in the service. For more information, see [Tagging Your Amazon ECS Resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html) in the Amazon Elastic Container Service Developer Guide. Only tasks launched after the update will reflect the update. To update the tags on all tasks, set forceNewDeployment to true, so that Amazon ECS starts new tasks with the updated tags.
+    /// Determines whether to turn on Amazon ECS managed tags for the tasks in the service. For more information, see [Tagging Your Amazon ECS Resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html) in the Amazon Elastic Container Service Developer Guide. Only tasks launched after the update will reflect the update. To update the tags on all tasks, set forceNewDeployment to true, so that Amazon ECS starts new tasks with the updated tags. This parameter doesn't trigger a new service deployment.
     public var enableECSManagedTags: Swift.Bool?
-    /// If true, this enables execute command functionality on all task containers. If you do not want to override the value that was set when the service was created, you can set this to null when performing this action.
+    /// If true, this enables execute command functionality on all task containers. If you do not want to override the value that was set when the service was created, you can set this to null when performing this action. This parameter doesn't trigger a new service deployment.
     public var enableExecuteCommand: Swift.Bool?
     /// Determines whether to force a new deployment of the service. By default, deployments aren't forced. You can use this option to start a new deployment with no service definition changes. For example, you can update a service's tasks to use a newer Docker image with the same image/tag combination (my_image:latest) or to roll Fargate tasks onto a newer platform version.
     public var forceNewDeployment: Swift.Bool?
-    /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you don't specify a health check grace period value, the default value of 0 is used. If you don't use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service's tasks take a while to start and respond to health checks, you can specify a health check grace period of up to 2,147,483,647 seconds (about 69 years). During that time, the Amazon ECS service scheduler ignores health check status. This grace period can prevent the service scheduler from marking tasks as unhealthy and stopping them before they have time to come up.
+    /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you don't specify a health check grace period value, the default value of 0 is used. If you don't use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service's tasks take a while to start and respond to health checks, you can specify a health check grace period of up to 2,147,483,647 seconds (about 69 years). During that time, the Amazon ECS service scheduler ignores health check status. This grace period can prevent the service scheduler from marking tasks as unhealthy and stopping them before they have time to come up. This parameter doesn't trigger a new service deployment.
     public var healthCheckGracePeriodSeconds: Swift.Int?
-    /// You must have a service-linked role when you update this property A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the container name, and the container port to access from the load balancer. The container name is as it appears in a container definition. When you add, update, or remove a load balancer configuration, Amazon ECS starts new tasks with the updated Elastic Load Balancing configuration, and then stops the old tasks when the new tasks are running. For services that use rolling updates, you can add, update, or remove Elastic Load Balancing target groups. You can update from a single target group to multiple target groups and from multiple target groups to a single target group. For services that use blue/green deployments, you can update Elastic Load Balancing target groups by using [CreateDeployment](https://docs.aws.amazon.com/codedeploy/latest/APIReference/API_CreateDeployment.html) through CodeDeploy. Note that multiple target groups are not supported for blue/green deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. For services that use the external deployment controller, you can add, update, or remove load balancers by using [CreateTaskSet](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateTaskSet.html). Note that multiple target groups are not supported for external deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. You can remove existing loadBalancers by passing an empty list.
+    /// You must have a service-linked role when you update this property A list of Elastic Load Balancing load balancer objects. It contains the load balancer name, the container name, and the container port to access from the load balancer. The container name is as it appears in a container definition. When you add, update, or remove a load balancer configuration, Amazon ECS starts new tasks with the updated Elastic Load Balancing configuration, and then stops the old tasks when the new tasks are running. For services that use rolling updates, you can add, update, or remove Elastic Load Balancing target groups. You can update from a single target group to multiple target groups and from multiple target groups to a single target group. For services that use blue/green deployments, you can update Elastic Load Balancing target groups by using [CreateDeployment](https://docs.aws.amazon.com/codedeploy/latest/APIReference/API_CreateDeployment.html) through CodeDeploy. Note that multiple target groups are not supported for blue/green deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. For services that use the external deployment controller, you can add, update, or remove load balancers by using [CreateTaskSet](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateTaskSet.html). Note that multiple target groups are not supported for external deployments. For more information see [Register multiple target groups with a service](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/register-multiple-targetgroups.html) in the Amazon Elastic Container Service Developer Guide. You can remove existing loadBalancers by passing an empty list. This parameter triggers a new service deployment.
     public var loadBalancers: [ECSClientTypes.LoadBalancer]?
-    /// An object representing the network configuration for the service.
+    /// An object representing the network configuration for the service. This parameter triggers a new service deployment.
     public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
-    /// An array of task placement constraint objects to update the service to use. If no value is specified, the existing placement constraints for the service will remain unchanged. If this value is specified, it will override any existing placement constraints defined for the service. To remove all existing placement constraints, specify an empty array. You can specify a maximum of 10 constraints for each task. This limit includes constraints in the task definition and those specified at runtime.
+    /// An array of task placement constraint objects to update the service to use. If no value is specified, the existing placement constraints for the service will remain unchanged. If this value is specified, it will override any existing placement constraints defined for the service. To remove all existing placement constraints, specify an empty array. You can specify a maximum of 10 constraints for each task. This limit includes constraints in the task definition and those specified at runtime. This parameter doesn't trigger a new service deployment.
     public var placementConstraints: [ECSClientTypes.PlacementConstraint]?
-    /// The task placement strategy objects to update the service to use. If no value is specified, the existing placement strategy for the service will remain unchanged. If this value is specified, it will override the existing placement strategy defined for the service. To remove an existing placement strategy, specify an empty object. You can specify a maximum of five strategy rules for each service.
+    /// The task placement strategy objects to update the service to use. If no value is specified, the existing placement strategy for the service will remain unchanged. If this value is specified, it will override the existing placement strategy defined for the service. To remove an existing placement strategy, specify an empty object. You can specify a maximum of five strategy rules for each service. This parameter doesn't trigger a new service deployment.
     public var placementStrategy: [ECSClientTypes.PlacementStrategy]?
-    /// The platform version that your tasks in the service run on. A platform version is only specified for tasks using the Fargate launch type. If a platform version is not specified, the LATEST platform version is used. For more information, see [Fargate Platform Versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html) in the Amazon Elastic Container Service Developer Guide.
+    /// The platform version that your tasks in the service run on. A platform version is only specified for tasks using the Fargate launch type. If a platform version is not specified, the LATEST platform version is used. For more information, see [Fargate Platform Versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html) in the Amazon Elastic Container Service Developer Guide. This parameter triggers a new service deployment.
     public var platformVersion: Swift.String?
-    /// Determines whether to propagate the tags from the task definition or the service to the task. If no value is specified, the tags aren't propagated. Only tasks launched after the update will reflect the update. To update the tags on all tasks, set forceNewDeployment to true, so that Amazon ECS starts new tasks with the updated tags.
+    /// Determines whether to propagate the tags from the task definition or the service to the task. If no value is specified, the tags aren't propagated. Only tasks launched after the update will reflect the update. To update the tags on all tasks, set forceNewDeployment to true, so that Amazon ECS starts new tasks with the updated tags. This parameter doesn't trigger a new service deployment.
     public var propagateTags: ECSClientTypes.PropagateTags?
     /// The name of the service to update.
     /// This member is required.
     public var service: Swift.String?
-    /// The configuration for this service to discover and connect to services, and be discovered by, and connected from, other services within a namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
+    /// The configuration for this service to discover and connect to services, and be discovered by, and connected from, other services within a namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide. This parameter triggers a new service deployment.
     public var serviceConnectConfiguration: ECSClientTypes.ServiceConnectConfiguration?
-    /// You must have a service-linked role when you update this property. For more information about the role see the CreateService request parameter [role](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html#ECS-CreateService-request-role). The details for the service discovery registries to assign to this service. For more information, see [Service Discovery](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html). When you add, update, or remove the service registries configuration, Amazon ECS starts new tasks with the updated service registries configuration, and then stops the old tasks when the new tasks are running. You can remove existing serviceRegistries by passing an empty list.
+    /// You must have a service-linked role when you update this property. For more information about the role see the CreateService request parameter [role](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html#ECS-CreateService-request-role). The details for the service discovery registries to assign to this service. For more information, see [Service Discovery](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html). When you add, update, or remove the service registries configuration, Amazon ECS starts new tasks with the updated service registries configuration, and then stops the old tasks when the new tasks are running. You can remove existing serviceRegistries by passing an empty list. This parameter triggers a new service deployment.
     public var serviceRegistries: [ECSClientTypes.ServiceRegistry]?
-    /// The family and revision (family:revision) or full ARN of the task definition to run in your service. If a revision is not specified, the latest ACTIVE revision is used. If you modify the task definition with UpdateService, Amazon ECS spawns a task with the new version of the task definition and then stops an old task after the new version is running.
+    /// The family and revision (family:revision) or full ARN of the task definition to run in your service. If a revision is not specified, the latest ACTIVE revision is used. If you modify the task definition with UpdateService, Amazon ECS spawns a task with the new version of the task definition and then stops an old task after the new version is running. This parameter triggers a new service deployment.
     public var taskDefinition: Swift.String?
-    /// The details of the volume that was configuredAtLaunch. You can configure the size, volumeType, IOPS, throughput, snapshot and encryption in [ServiceManagedEBSVolumeConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ServiceManagedEBSVolumeConfiguration.html). The name of the volume must match the name from the task definition. If set to null, no new deployment is triggered. Otherwise, if this configuration differs from the existing one, it triggers a new deployment.
+    /// The details of the volume that was configuredAtLaunch. You can configure the size, volumeType, IOPS, throughput, snapshot and encryption in [ServiceManagedEBSVolumeConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ServiceManagedEBSVolumeConfiguration.html). The name of the volume must match the name from the task definition. If set to null, no new deployment is triggered. Otherwise, if this configuration differs from the existing one, it triggers a new deployment. This parameter triggers a new service deployment.
     public var volumeConfigurations: [ECSClientTypes.ServiceVolumeConfiguration]?
-    /// An object representing the VPC Lattice configuration for the service being updated.
+    /// An object representing the VPC Lattice configuration for the service being updated. This parameter triggers a new service deployment.
     public var vpcLatticeConfigurations: [ECSClientTypes.VpcLatticeConfiguration]?
 
     public init(
@@ -9622,6 +10026,7 @@ public struct UpdateServiceInput: Swift.Sendable {
         capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]? = nil,
         cluster: Swift.String? = nil,
         deploymentConfiguration: ECSClientTypes.DeploymentConfiguration? = nil,
+        deploymentController: ECSClientTypes.DeploymentController? = nil,
         desiredCount: Swift.Int? = nil,
         enableECSManagedTags: Swift.Bool? = nil,
         enableExecuteCommand: Swift.Bool? = nil,
@@ -9644,6 +10049,7 @@ public struct UpdateServiceInput: Swift.Sendable {
         self.capacityProviderStrategy = capacityProviderStrategy
         self.cluster = cluster
         self.deploymentConfiguration = deploymentConfiguration
+        self.deploymentController = deploymentController
         self.desiredCount = desiredCount
         self.enableECSManagedTags = enableECSManagedTags
         self.enableExecuteCommand = enableExecuteCommand
@@ -10875,6 +11281,7 @@ extension UpdateServiceInput {
         try writer["capacityProviderStrategy"].writeList(value.capacityProviderStrategy, memberWritingClosure: ECSClientTypes.CapacityProviderStrategyItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["cluster"].write(value.cluster)
         try writer["deploymentConfiguration"].write(value.deploymentConfiguration, with: ECSClientTypes.DeploymentConfiguration.write(value:to:))
+        try writer["deploymentController"].write(value.deploymentController, with: ECSClientTypes.DeploymentController.write(value:to:))
         try writer["desiredCount"].write(value.desiredCount)
         try writer["enableECSManagedTags"].write(value.enableECSManagedTags)
         try writer["enableExecuteCommand"].write(value.enableExecuteCommand)
@@ -13771,6 +14178,7 @@ extension ECSClientTypes.ServiceConnectClientAlias {
         guard let value else { return }
         try writer["dnsName"].write(value.dnsName)
         try writer["port"].write(value.port)
+        try writer["testTrafficRules"].write(value.testTrafficRules, with: ECSClientTypes.ServiceConnectTestTrafficRules.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ServiceConnectClientAlias {
@@ -13778,6 +14186,54 @@ extension ECSClientTypes.ServiceConnectClientAlias {
         var value = ECSClientTypes.ServiceConnectClientAlias()
         value.port = try reader["port"].readIfPresent() ?? 0
         value.dnsName = try reader["dnsName"].readIfPresent()
+        value.testTrafficRules = try reader["testTrafficRules"].readIfPresent(with: ECSClientTypes.ServiceConnectTestTrafficRules.read(from:))
+        return value
+    }
+}
+
+extension ECSClientTypes.ServiceConnectTestTrafficRules {
+
+    static func write(value: ECSClientTypes.ServiceConnectTestTrafficRules?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["header"].write(value.header, with: ECSClientTypes.ServiceConnectTestTrafficHeaderRules.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ServiceConnectTestTrafficRules {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ServiceConnectTestTrafficRules()
+        value.header = try reader["header"].readIfPresent(with: ECSClientTypes.ServiceConnectTestTrafficHeaderRules.read(from:))
+        return value
+    }
+}
+
+extension ECSClientTypes.ServiceConnectTestTrafficHeaderRules {
+
+    static func write(value: ECSClientTypes.ServiceConnectTestTrafficHeaderRules?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value, with: ECSClientTypes.ServiceConnectTestTrafficHeaderMatchRules.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ServiceConnectTestTrafficHeaderRules {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ServiceConnectTestTrafficHeaderRules()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent(with: ECSClientTypes.ServiceConnectTestTrafficHeaderMatchRules.read(from:))
+        return value
+    }
+}
+
+extension ECSClientTypes.ServiceConnectTestTrafficHeaderMatchRules {
+
+    static func write(value: ECSClientTypes.ServiceConnectTestTrafficHeaderMatchRules?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["exact"].write(value.exact)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ServiceConnectTestTrafficHeaderMatchRules {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ServiceConnectTestTrafficHeaderMatchRules()
+        value.exact = try reader["exact"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13858,6 +14314,7 @@ extension ECSClientTypes.LoadBalancer {
 
     static func write(value: ECSClientTypes.LoadBalancer?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["advancedConfiguration"].write(value.advancedConfiguration, with: ECSClientTypes.AdvancedConfiguration.write(value:to:))
         try writer["containerName"].write(value.containerName)
         try writer["containerPort"].write(value.containerPort)
         try writer["loadBalancerName"].write(value.loadBalancerName)
@@ -13871,6 +14328,28 @@ extension ECSClientTypes.LoadBalancer {
         value.loadBalancerName = try reader["loadBalancerName"].readIfPresent()
         value.containerName = try reader["containerName"].readIfPresent()
         value.containerPort = try reader["containerPort"].readIfPresent()
+        value.advancedConfiguration = try reader["advancedConfiguration"].readIfPresent(with: ECSClientTypes.AdvancedConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ECSClientTypes.AdvancedConfiguration {
+
+    static func write(value: ECSClientTypes.AdvancedConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["alternateTargetGroupArn"].write(value.alternateTargetGroupArn)
+        try writer["productionListenerRule"].write(value.productionListenerRule)
+        try writer["roleArn"].write(value.roleArn)
+        try writer["testListenerRule"].write(value.testListenerRule)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.AdvancedConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.AdvancedConfiguration()
+        value.alternateTargetGroupArn = try reader["alternateTargetGroupArn"].readIfPresent()
+        value.productionListenerRule = try reader["productionListenerRule"].readIfPresent()
+        value.testListenerRule = try reader["testListenerRule"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent()
         return value
     }
 }
@@ -13880,9 +14359,12 @@ extension ECSClientTypes.DeploymentConfiguration {
     static func write(value: ECSClientTypes.DeploymentConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["alarms"].write(value.alarms, with: ECSClientTypes.DeploymentAlarms.write(value:to:))
+        try writer["bakeTimeInMinutes"].write(value.bakeTimeInMinutes)
         try writer["deploymentCircuitBreaker"].write(value.deploymentCircuitBreaker, with: ECSClientTypes.DeploymentCircuitBreaker.write(value:to:))
+        try writer["lifecycleHooks"].writeList(value.lifecycleHooks, memberWritingClosure: ECSClientTypes.DeploymentLifecycleHook.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["maximumPercent"].write(value.maximumPercent)
         try writer["minimumHealthyPercent"].write(value.minimumHealthyPercent)
+        try writer["strategy"].write(value.strategy)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DeploymentConfiguration {
@@ -13892,6 +14374,28 @@ extension ECSClientTypes.DeploymentConfiguration {
         value.maximumPercent = try reader["maximumPercent"].readIfPresent()
         value.minimumHealthyPercent = try reader["minimumHealthyPercent"].readIfPresent()
         value.alarms = try reader["alarms"].readIfPresent(with: ECSClientTypes.DeploymentAlarms.read(from:))
+        value.strategy = try reader["strategy"].readIfPresent()
+        value.bakeTimeInMinutes = try reader["bakeTimeInMinutes"].readIfPresent()
+        value.lifecycleHooks = try reader["lifecycleHooks"].readListIfPresent(memberReadingClosure: ECSClientTypes.DeploymentLifecycleHook.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ECSClientTypes.DeploymentLifecycleHook {
+
+    static func write(value: ECSClientTypes.DeploymentLifecycleHook?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["hookTargetArn"].write(value.hookTargetArn)
+        try writer["lifecycleStages"].writeList(value.lifecycleStages, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ECSClientTypes.DeploymentLifecycleHookStage>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["roleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.DeploymentLifecycleHook {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.DeploymentLifecycleHook()
+        value.hookTargetArn = try reader["hookTargetArn"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.lifecycleStages = try reader["lifecycleStages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ECSClientTypes.DeploymentLifecycleHookStage>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -14766,6 +15270,7 @@ extension ECSClientTypes.ServiceDeployment {
         value.targetServiceRevision = try reader["targetServiceRevision"].readIfPresent(with: ECSClientTypes.ServiceRevisionSummary.read(from:))
         value.status = try reader["status"].readIfPresent()
         value.statusReason = try reader["statusReason"].readIfPresent()
+        value.lifecycleStage = try reader["lifecycleStage"].readIfPresent()
         value.deploymentConfiguration = try reader["deploymentConfiguration"].readIfPresent(with: ECSClientTypes.DeploymentConfiguration.read(from:))
         value.rollback = try reader["rollback"].readIfPresent(with: ECSClientTypes.Rollback.read(from:))
         value.deploymentCircuitBreaker = try reader["deploymentCircuitBreaker"].readIfPresent(with: ECSClientTypes.ServiceDeploymentCircuitBreaker.read(from:))
@@ -14846,6 +15351,28 @@ extension ECSClientTypes.ServiceRevision {
         value.fargateEphemeralStorage = try reader["fargateEphemeralStorage"].readIfPresent(with: ECSClientTypes.DeploymentEphemeralStorage.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.vpcLatticeConfigurations = try reader["vpcLatticeConfigurations"].readListIfPresent(memberReadingClosure: ECSClientTypes.VpcLatticeConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resolvedConfiguration = try reader["resolvedConfiguration"].readIfPresent(with: ECSClientTypes.ResolvedConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ECSClientTypes.ResolvedConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ResolvedConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ResolvedConfiguration()
+        value.loadBalancers = try reader["loadBalancers"].readListIfPresent(memberReadingClosure: ECSClientTypes.ServiceRevisionLoadBalancer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ECSClientTypes.ServiceRevisionLoadBalancer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ServiceRevisionLoadBalancer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ServiceRevisionLoadBalancer()
+        value.targetGroupArn = try reader["targetGroupArn"].readIfPresent()
+        value.productionListenerRule = try reader["productionListenerRule"].readIfPresent()
         return value
     }
 }

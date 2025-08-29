@@ -59,14 +59,14 @@
                 "shardIterator": {
                     "target": "com.amazonaws.keyspacesstreams#ShardIterator",
                     "traits": {
-                        "smithy.api#documentation": "<p> The unique identifier of the shard iterator. A shard iterator specifies the position in the shard from which you want to start reading data records sequentially. You obtain this value by calling the <code>GetShardIterator</code> operation. Each shard iterator is valid for 5 minutes after creation. </p>",
+                        "smithy.api#documentation": "<p> The unique identifier of the shard iterator. A shard iterator specifies the position in the shard from which you want to start reading data records sequentially. You obtain this value by calling the <code>GetShardIterator</code> operation. Each shard iterator is valid for 15 minutes after creation. </p>",
                         "smithy.api#required": {}
                     }
                 },
                 "maxResults": {
                     "target": "smithy.api#Integer",
                     "traits": {
-                        "smithy.api#documentation": "<p> The maximum number of records to return in a single <code>GetRecords</code> request. Default value is 1000. You can specify a limit between 1 and 10000, but the actual number returned might be less than the specified maximum if the size of the data for the returned records exceeds the internal size limit. </p>",
+                        "smithy.api#documentation": "<p> The maximum number of records to return in a single <code>GetRecords</code> request. Default value is 1000. You can specify a limit between 1 and 1000, but the actual number returned might be less than the specified maximum if the size of the data for the returned records exceeds the internal size limit. </p>",
                         "smithy.api#range": {
                             "min": 1,
                             "max": 1000
@@ -168,7 +168,7 @@
                 "shardIterator": {
                     "target": "com.amazonaws.keyspacesstreams#ShardIterator",
                     "traits": {
-                        "smithy.api#documentation": "<p> The unique identifier for the shard iterator. This value is used in the <code>GetRecords</code> operation to retrieve data records from the specified shard. Each shard iterator expires 5 minutes after it is returned to the requester. </p>"
+                        "smithy.api#documentation": "<p> The unique identifier for the shard iterator. This value is used in the <code>GetRecords</code> operation to retrieve data records from the specified shard. Each shard iterator expires 15 minutes after it is returned to the requester. </p>"
                     }
                 }
             },
@@ -224,7 +224,7 @@
                 "maxResults": {
                     "target": "smithy.api#Integer",
                     "traits": {
-                        "smithy.api#documentation": "<p> The maximum number of shard objects to return in a single <code>GetStream</code> request. Default value is 100. The minimum value is 1 and the maximum value is 1000. </p>",
+                        "smithy.api#documentation": "<p> The maximum number of shard objects to return in a single <code>GetStream</code> request. Default value is 100. The minimum value is 1 and the maximum value is 100. </p>",
                         "smithy.api#range": {
                             "min": 1,
                             "max": 100
@@ -893,102 +893,6 @@
                             }
                         },
                         {
-                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://cassandra-streams-fips.us-iso-east-1.c2s.ic.gov"
-                                }
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": true
-                            }
-                        },
-                        {
-                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://cassandra-streams.us-iso-east-1.c2s.ic.gov"
-                                }
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://cassandra-streams-fips.us-isob-east-1.sc2s.sgov.gov"
-                                }
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": true
-                            }
-                        },
-                        {
-                            "documentation": "For region us-isob-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://cassandra-streams.us-isob-east-1.sc2s.sgov.gov"
-                                }
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": false
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-isoe-west-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://cassandra-streams-fips.eu-isoe-west-1.cloud.adc-e.uk"
-                                }
-                            },
-                            "params": {
-                                "Region": "eu-isoe-west-1",
-                                "UseFIPS": true
-                            }
-                        },
-                        {
-                            "documentation": "For region eu-isoe-west-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://cassandra-streams.eu-isoe-west-1.cloud.adc-e.uk"
-                                }
-                            },
-                            "params": {
-                                "Region": "eu-isoe-west-1",
-                                "UseFIPS": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-isof-south-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://cassandra-streams-fips.us-isof-south-1.csp.hci.ic.gov"
-                                }
-                            },
-                            "params": {
-                                "Region": "us-isof-south-1",
-                                "UseFIPS": true
-                            }
-                        },
-                        {
-                            "documentation": "For region us-isof-south-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "endpoint": {
-                                    "url": "https://cassandra-streams.us-isof-south-1.csp.hci.ic.gov"
-                                }
-                            },
-                            "params": {
-                                "Region": "us-isof-south-1",
-                                "UseFIPS": false
-                            }
-                        },
-                        {
                             "documentation": "Missing region",
                             "expect": {
                                 "error": "Invalid Configuration: Missing Region"
@@ -1074,7 +978,7 @@
                 "maxResults": {
                     "target": "smithy.api#Integer",
                     "traits": {
-                        "smithy.api#documentation": "<p> The maximum number of streams to return in a single <code>ListStreams</code> request. Default value is 100. The minimum value is 1 and the maximum value is 1000. </p>",
+                        "smithy.api#documentation": "<p> The maximum number of streams to return in a single <code>ListStreams</code> request. Default value is 100. The minimum value is 1 and the maximum value is 100. </p>",
                         "smithy.api#range": {
                             "min": 1,
                             "max": 100

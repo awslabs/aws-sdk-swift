@@ -348,6 +348,34 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
+/// A directory assessment is automatically created when you create a hybrid directory. There are two types of assessments: CUSTOMER and SYSTEM. Your Amazon Web Services account has a limit of 100 CUSTOMER directory assessments. If you attempt to create a hybrid directory; and you already have 100 CUSTOMER directory assessments;, you will encounter an error. Delete assessments to free up capacity before trying again. You can request an increase to your CUSTOMER directory assessment quota by contacting customer support or delete existing CUSTOMER directory assessments; to free up capacity.
+public struct ADAssessmentLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The descriptive message for the exception.
+        public internal(set) var message: Swift.String? = nil
+        /// The Amazon Web Services request identifier.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ADAssessmentLimitExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.requestId = requestId
+    }
+}
+
 /// The specified directory is unavailable.
 public struct DirectoryUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -633,7 +661,7 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
 
 extension DirectoryClientTypes {
 
-    /// Contains VPC information for the [CreateDirectory] or [CreateMicrosoftAD] operation.
+    /// Contains VPC information for the [CreateDirectory], [CreateMicrosoftAD], or [CreateHybridAD] operation.
     public struct DirectoryVpcSettings: Swift.Sendable {
         /// The identifiers of the subnets for the directory servers. The two subnets must be in different Availability Zones. Directory Service creates a directory server and a DNS server in each of these subnets.
         /// This member is required.
@@ -659,7 +687,7 @@ public struct AddRegionInput: Swift.Sendable {
     /// The name of the Region where you want to add domain controllers for replication. For example, us-east-1.
     /// This member is required.
     public var regionName: Swift.String?
-    /// Contains VPC information for the [CreateDirectory] or [CreateMicrosoftAD] operation.
+    /// Contains VPC information for the [CreateDirectory], [CreateMicrosoftAD], or [CreateHybridAD] operation.
     /// This member is required.
     public var vpcSettings: DirectoryClientTypes.DirectoryVpcSettings?
 
@@ -752,6 +780,213 @@ public struct AddTagsToResourceOutput: Swift.Sendable {
 
 extension DirectoryClientTypes {
 
+    /// Contains detailed information about a directory assessment, including configuration parameters, status, and validation results.
+    public struct Assessment: Swift.Sendable {
+        /// The unique identifier of the directory assessment.
+        public var assessmentId: Swift.String?
+        /// The IP addresses of the DNS servers or domain controllers in your self-managed AD environment.
+        public var customerDnsIps: [Swift.String]?
+        /// The identifier of the directory associated with this assessment.
+        public var directoryId: Swift.String?
+        /// The fully qualified domain name (FQDN) of the Active Directory domain being assessed.
+        public var dnsName: Swift.String?
+        /// The date and time when the assessment status was last updated.
+        public var lastUpdateDateTime: Foundation.Date?
+        /// The type of assessment report generated. Valid values are CUSTOMER and SYSTEM.
+        public var reportType: Swift.String?
+        /// The security groups identifiers attached to the network interfaces.
+        public var securityGroupIds: [Swift.String]?
+        /// The identifiers of the self-managed AD instances used to perform the assessment.
+        public var selfManagedInstanceIds: [Swift.String]?
+        /// The date and time when the assessment was initiated.
+        public var startTime: Foundation.Date?
+        /// The current status of the assessment. Valid values include SUCCESS, FAILED, PENDING, and IN_PROGRESS.
+        public var status: Swift.String?
+        /// A detailed status code providing additional information about the assessment state.
+        public var statusCode: Swift.String?
+        /// A human-readable description of the current assessment status, including any error details or progress information.
+        public var statusReason: Swift.String?
+        /// A list of subnet identifiers in the Amazon VPC in which the hybrid directory is created.
+        public var subnetIds: [Swift.String]?
+        /// The version of the assessment framework used to evaluate your self-managed AD environment.
+        public var version: Swift.String?
+        /// Contains Amazon VPC information for the StartADAssessment operation.
+        public var vpcId: Swift.String?
+
+        public init(
+            assessmentId: Swift.String? = nil,
+            customerDnsIps: [Swift.String]? = nil,
+            directoryId: Swift.String? = nil,
+            dnsName: Swift.String? = nil,
+            lastUpdateDateTime: Foundation.Date? = nil,
+            reportType: Swift.String? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            selfManagedInstanceIds: [Swift.String]? = nil,
+            startTime: Foundation.Date? = nil,
+            status: Swift.String? = nil,
+            statusCode: Swift.String? = nil,
+            statusReason: Swift.String? = nil,
+            subnetIds: [Swift.String]? = nil,
+            version: Swift.String? = nil,
+            vpcId: Swift.String? = nil
+        ) {
+            self.assessmentId = assessmentId
+            self.customerDnsIps = customerDnsIps
+            self.directoryId = directoryId
+            self.dnsName = dnsName
+            self.lastUpdateDateTime = lastUpdateDateTime
+            self.reportType = reportType
+            self.securityGroupIds = securityGroupIds
+            self.selfManagedInstanceIds = selfManagedInstanceIds
+            self.startTime = startTime
+            self.status = status
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+            self.subnetIds = subnetIds
+            self.version = version
+            self.vpcId = vpcId
+        }
+    }
+}
+
+extension DirectoryClientTypes {
+
+    /// Contains configuration parameters required to perform a directory assessment.
+    public struct AssessmentConfiguration: Swift.Sendable {
+        /// A list of IP addresses for the DNS servers or domain controllers in your self-managed AD that are tested during the assessment.
+        /// This member is required.
+        public var customerDnsIps: [Swift.String]?
+        /// The fully qualified domain name (FQDN) of the self-managed AD domain to assess.
+        /// This member is required.
+        public var dnsName: Swift.String?
+        /// The identifiers of the self-managed instances with SSM that are used to perform connectivity and validation tests.
+        /// This member is required.
+        public var instanceIds: [Swift.String]?
+        /// By default, the service attaches a security group to allow network access to the self-managed nodes in your Amazon VPC. You can optionally supply your own security group that allows network traffic to and from your self-managed domain controllers outside of your Amazon VPC.
+        public var securityGroupIds: [Swift.String]?
+        /// Contains VPC information for the [CreateDirectory], [CreateMicrosoftAD], or [CreateHybridAD] operation.
+        /// This member is required.
+        public var vpcSettings: DirectoryClientTypes.DirectoryVpcSettings?
+
+        public init(
+            customerDnsIps: [Swift.String]? = nil,
+            dnsName: Swift.String? = nil,
+            instanceIds: [Swift.String]? = nil,
+            securityGroupIds: [Swift.String]? = nil,
+            vpcSettings: DirectoryClientTypes.DirectoryVpcSettings? = nil
+        ) {
+            self.customerDnsIps = customerDnsIps
+            self.dnsName = dnsName
+            self.instanceIds = instanceIds
+            self.securityGroupIds = securityGroupIds
+            self.vpcSettings = vpcSettings
+        }
+    }
+}
+
+extension DirectoryClientTypes {
+
+    /// Contains information about a specific validation test performed during a directory assessment.
+    public struct AssessmentValidation: Swift.Sendable {
+        /// The category of the validation test.
+        public var category: Swift.String?
+        /// The date and time when the validation test was completed or last updated.
+        public var lastUpdateDateTime: Foundation.Date?
+        /// The name of the specific validation test performed within the category.
+        public var name: Swift.String?
+        /// The date and time when the validation test was started.
+        public var startTime: Foundation.Date?
+        /// The result status of the validation test. Valid values include SUCCESS, FAILED, PENDING, and IN_PROGRESS.
+        public var status: Swift.String?
+        /// A detailed status code providing additional information about the validation result.
+        public var statusCode: Swift.String?
+        /// A human-readable description of the validation result, including any error details or recommendations.
+        public var statusReason: Swift.String?
+
+        public init(
+            category: Swift.String? = nil,
+            lastUpdateDateTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            status: Swift.String? = nil,
+            statusCode: Swift.String? = nil,
+            statusReason: Swift.String? = nil
+        ) {
+            self.category = category
+            self.lastUpdateDateTime = lastUpdateDateTime
+            self.name = name
+            self.startTime = startTime
+            self.status = status
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+        }
+    }
+}
+
+extension DirectoryClientTypes {
+
+    /// Contains the results of validation tests performed against a specific domain controller during a directory assessment.
+    public struct AssessmentReport: Swift.Sendable {
+        /// The IP address of the domain controller that was tested during the assessment.
+        public var domainControllerIp: Swift.String?
+        /// A list of validation results for different test categories performed against this domain controller.
+        public var validations: [DirectoryClientTypes.AssessmentValidation]?
+
+        public init(
+            domainControllerIp: Swift.String? = nil,
+            validations: [DirectoryClientTypes.AssessmentValidation]? = nil
+        ) {
+            self.domainControllerIp = domainControllerIp
+            self.validations = validations
+        }
+    }
+}
+
+extension DirectoryClientTypes {
+
+    /// Contains summary information about a directory assessment, providing a high-level overview without detailed validation results.
+    public struct AssessmentSummary: Swift.Sendable {
+        /// The unique identifier of the directory assessment.
+        public var assessmentId: Swift.String?
+        /// The IP addresses of the DNS servers or domain controllers in your self-managed AD environment.
+        public var customerDnsIps: [Swift.String]?
+        /// The identifier of the directory associated with this assessment.
+        public var directoryId: Swift.String?
+        /// The fully qualified domain name (FQDN) of the Active Directory domain being assessed.
+        public var dnsName: Swift.String?
+        /// The date and time when the assessment status was last updated.
+        public var lastUpdateDateTime: Foundation.Date?
+        /// The type of assessment report generated. Valid values include CUSTOMER and SYSTEM.
+        public var reportType: Swift.String?
+        /// The date and time when the assessment was initiated.
+        public var startTime: Foundation.Date?
+        /// The current status of the assessment. Valid values include SUCCESS, FAILED, PENDING, and IN_PROGRESS.
+        public var status: Swift.String?
+
+        public init(
+            assessmentId: Swift.String? = nil,
+            customerDnsIps: [Swift.String]? = nil,
+            directoryId: Swift.String? = nil,
+            dnsName: Swift.String? = nil,
+            lastUpdateDateTime: Foundation.Date? = nil,
+            reportType: Swift.String? = nil,
+            startTime: Foundation.Date? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.assessmentId = assessmentId
+            self.customerDnsIps = customerDnsIps
+            self.directoryId = directoryId
+            self.dnsName = dnsName
+            self.lastUpdateDateTime = lastUpdateDateTime
+            self.reportType = reportType
+            self.startTime = startTime
+            self.status = status
+        }
+    }
+}
+
+extension DirectoryClientTypes {
+
     /// Represents a named directory attribute.
     public struct Attribute: Swift.Sendable {
         /// The name of the attribute.
@@ -794,6 +1029,47 @@ public struct AuthenticationFailedException: ClientRuntime.ModeledError, AWSClie
     ) {
         self.properties.message = message
         self.properties.requestId = requestId
+    }
+}
+
+extension DirectoryClientTypes {
+
+    public enum CaEnrollmentPolicyStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case disabling
+        case failed
+        case impaired
+        case inProgress
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CaEnrollmentPolicyStatus] {
+            return [
+                .disabled,
+                .disabling,
+                .failed,
+                .impaired,
+                .inProgress,
+                .success
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .disabling: return "Disabling"
+            case .failed: return "Failed"
+            case .impaired: return "Impaired"
+            case .inProgress: return "InProgress"
+            case .success: return "Success"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -1577,6 +1853,38 @@ public struct CreateDirectoryOutput: Swift.Sendable {
     }
 }
 
+public struct CreateHybridADInput: Swift.Sendable {
+    /// The unique identifier of the successful directory assessment that validates your self-managed AD environment. You must have a successful directory assessment before you create a hybrid directory.
+    /// This member is required.
+    public var assessmentId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the credentials for the service account used to join hybrid domain controllers to your self-managed AD domain. This secret is used once and not stored. The secret must contain key-value pairs with keys matching customerAdAdminDomainUsername and customerAdAdminDomainPassword. For example: {"customerAdAdminDomainUsername":"carlos_salazar","customerAdAdminDomainPassword":"ExamplePassword123!"}.
+    /// This member is required.
+    public var secretArn: Swift.String?
+    /// The tags to be assigned to the directory. Each tag consists of a key and value pair. You can specify multiple tags as a list.
+    public var tags: [DirectoryClientTypes.Tag]?
+
+    public init(
+        assessmentId: Swift.String? = nil,
+        secretArn: Swift.String? = nil,
+        tags: [DirectoryClientTypes.Tag]? = nil
+    ) {
+        self.assessmentId = assessmentId
+        self.secretArn = secretArn
+        self.tags = tags
+    }
+}
+
+public struct CreateHybridADOutput: Swift.Sendable {
+    /// The unique identifier of the newly created hybrid directory.
+    public var directoryId: Swift.String?
+
+    public init(
+        directoryId: Swift.String? = nil
+    ) {
+        self.directoryId = directoryId
+    }
+}
+
 /// The account does not have sufficient permission to perform the operation.
 public struct InsufficientPermissionsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1954,6 +2262,29 @@ extension DirectoryClientTypes {
     }
 }
 
+public struct DeleteADAssessmentInput: Swift.Sendable {
+    /// The unique identifier of the directory assessment to delete.
+    /// This member is required.
+    public var assessmentId: Swift.String?
+
+    public init(
+        assessmentId: Swift.String? = nil
+    ) {
+        self.assessmentId = assessmentId
+    }
+}
+
+public struct DeleteADAssessmentOutput: Swift.Sendable {
+    /// The unique identifier of the deleted directory assessment.
+    public var assessmentId: Swift.String?
+
+    public init(
+        assessmentId: Swift.String? = nil
+    ) {
+        self.assessmentId = assessmentId
+    }
+}
+
 /// Deletes a conditional forwarder.
 public struct DeleteConditionalForwarderInput: Swift.Sendable {
     /// The directory ID for which you are deleting the conditional forwarder.
@@ -2118,6 +2449,86 @@ public struct DeregisterEventTopicInput: Swift.Sendable {
 public struct DeregisterEventTopicOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct DescribeADAssessmentInput: Swift.Sendable {
+    /// The identifier of the directory assessment to describe.
+    /// This member is required.
+    public var assessmentId: Swift.String?
+
+    public init(
+        assessmentId: Swift.String? = nil
+    ) {
+        self.assessmentId = assessmentId
+    }
+}
+
+public struct DescribeADAssessmentOutput: Swift.Sendable {
+    /// Detailed information about the self-managed instance settings (IDs and DNS IPs).
+    public var assessment: DirectoryClientTypes.Assessment?
+    /// A list of assessment reports containing validation results for each domain controller and test category. Each report includes specific validation details and outcomes.
+    public var assessmentReports: [DirectoryClientTypes.AssessmentReport]?
+
+    public init(
+        assessment: DirectoryClientTypes.Assessment? = nil,
+        assessmentReports: [DirectoryClientTypes.AssessmentReport]? = nil
+    ) {
+        self.assessment = assessment
+        self.assessmentReports = assessmentReports
+    }
+}
+
+/// Contains the inputs for the [DescribeCAEnrollmentPolicy] operation.
+public struct DescribeCAEnrollmentPolicyInput: Swift.Sendable {
+    /// The identifier of the directory for which to retrieve the CA enrollment policy information.
+    /// This member is required.
+    public var directoryId: Swift.String?
+
+    public init(
+        directoryId: Swift.String? = nil
+    ) {
+        self.directoryId = directoryId
+    }
+}
+
+/// Contains the results of the [DescribeCAEnrollmentPolicy] operation.
+public struct DescribeCAEnrollmentPolicyOutput: Swift.Sendable {
+    /// The current status of the CA enrollment policy. This indicates if automatic certificate enrollment is currently active, inactive, or in a transitional state. Valid values:
+    ///
+    /// * IN_PROGRESS - The policy is being activated T
+    ///
+    /// * SUCCESS - The policy is active and automatic certificate enrollment is operational
+    ///
+    /// * FAILED - The policy activation or deactivation failed
+    ///
+    /// * DISABLING - The policy is being deactivated
+    ///
+    /// * DISABLED - The policy is inactive and automatic certificate enrollment is not available
+    ///
+    /// * IMPAIRED - Network connectivity is impaired.
+    public var caEnrollmentPolicyStatus: DirectoryClientTypes.CaEnrollmentPolicyStatus?
+    /// Additional information explaining the current status of the CA enrollment policy, particularly useful when the policy is in an error or transitional state.
+    public var caEnrollmentPolicyStatusReason: Swift.String?
+    /// The identifier of the directory associated with this CA enrollment policy.
+    public var directoryId: Swift.String?
+    /// The date and time when the CA enrollment policy was last modified or updated.
+    public var lastUpdatedDateTime: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Private Certificate Authority (PCA) connector that is configured for automatic certificate enrollment in this directory.
+    public var pcaConnectorArn: Swift.String?
+
+    public init(
+        caEnrollmentPolicyStatus: DirectoryClientTypes.CaEnrollmentPolicyStatus? = nil,
+        caEnrollmentPolicyStatusReason: Swift.String? = nil,
+        directoryId: Swift.String? = nil,
+        lastUpdatedDateTime: Foundation.Date? = nil,
+        pcaConnectorArn: Swift.String? = nil
+    ) {
+        self.caEnrollmentPolicyStatus = caEnrollmentPolicyStatus
+        self.caEnrollmentPolicyStatusReason = caEnrollmentPolicyStatusReason
+        self.directoryId = directoryId
+        self.lastUpdatedDateTime = lastUpdatedDateTime
+        self.pcaConnectorArn = pcaConnectorArn
+    }
 }
 
 public struct DescribeCertificateInput: Swift.Sendable {
@@ -2295,6 +2706,25 @@ extension DirectoryClientTypes {
             self.securityGroupId = securityGroupId
             self.subnetIds = subnetIds
             self.vpcId = vpcId
+        }
+    }
+}
+
+extension DirectoryClientTypes {
+
+    /// Describes the current hybrid directory configuration settings for a directory.
+    public struct HybridSettingsDescription: Swift.Sendable {
+        /// The IP addresses of the DNS servers in your self-managed AD environment.
+        public var selfManagedDnsIpAddrs: [Swift.String]?
+        /// The identifiers of the self-managed instances with SSM used for hybrid directory operations.
+        public var selfManagedInstanceIds: [Swift.String]?
+
+        public init(
+            selfManagedDnsIpAddrs: [Swift.String]? = nil,
+            selfManagedInstanceIds: [Swift.String]? = nil
+        ) {
+            self.selfManagedDnsIpAddrs = selfManagedDnsIpAddrs
+            self.selfManagedInstanceIds = selfManagedInstanceIds
         }
     }
 }
@@ -2638,6 +3068,8 @@ extension DirectoryClientTypes {
         public var dnsIpAddrs: [Swift.String]?
         /// The edition associated with this directory.
         public var edition: DirectoryClientTypes.DirectoryEdition?
+        /// Contains information about the hybrid directory configuration for the directory, including Amazon Web Services System Manager managed node identifiers and DNS IPs.
+        public var hybridSettings: DirectoryClientTypes.HybridSettingsDescription?
         /// Specifies when the directory was created.
         public var launchTime: Foundation.Date?
         /// The fully qualified name of the directory.
@@ -2684,6 +3116,7 @@ extension DirectoryClientTypes {
             directoryId: Swift.String? = nil,
             dnsIpAddrs: [Swift.String]? = nil,
             edition: DirectoryClientTypes.DirectoryEdition? = nil,
+            hybridSettings: DirectoryClientTypes.HybridSettingsDescription? = nil,
             launchTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             osVersion: DirectoryClientTypes.OSVersion? = nil,
@@ -2711,6 +3144,7 @@ extension DirectoryClientTypes {
             self.directoryId = directoryId
             self.dnsIpAddrs = dnsIpAddrs
             self.edition = edition
+            self.hybridSettings = hybridSettings
             self.launchTime = launchTime
             self.name = name
             self.osVersion = osVersion
@@ -2735,7 +3169,7 @@ extension DirectoryClientTypes {
 
 extension DirectoryClientTypes.DirectoryDescription: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DirectoryDescription(accessUrl: \(Swift.String(describing: accessUrl)), alias: \(Swift.String(describing: alias)), connectSettings: \(Swift.String(describing: connectSettings)), description: \(Swift.String(describing: description)), desiredNumberOfDomainControllers: \(Swift.String(describing: desiredNumberOfDomainControllers)), directoryId: \(Swift.String(describing: directoryId)), dnsIpAddrs: \(Swift.String(describing: dnsIpAddrs)), edition: \(Swift.String(describing: edition)), launchTime: \(Swift.String(describing: launchTime)), name: \(Swift.String(describing: name)), osVersion: \(Swift.String(describing: osVersion)), ownerDirectoryDescription: \(Swift.String(describing: ownerDirectoryDescription)), radiusSettings: \(Swift.String(describing: radiusSettings)), radiusStatus: \(Swift.String(describing: radiusStatus)), regionsInfo: \(Swift.String(describing: regionsInfo)), shareMethod: \(Swift.String(describing: shareMethod)), shareStatus: \(Swift.String(describing: shareStatus)), shortName: \(Swift.String(describing: shortName)), size: \(Swift.String(describing: size)), ssoEnabled: \(Swift.String(describing: ssoEnabled)), stage: \(Swift.String(describing: stage)), stageLastUpdatedDateTime: \(Swift.String(describing: stageLastUpdatedDateTime)), stageReason: \(Swift.String(describing: stageReason)), type: \(Swift.String(describing: type)), vpcSettings: \(Swift.String(describing: vpcSettings)), shareNotes: \"CONTENT_REDACTED\")"}
+        "DirectoryDescription(accessUrl: \(Swift.String(describing: accessUrl)), alias: \(Swift.String(describing: alias)), connectSettings: \(Swift.String(describing: connectSettings)), description: \(Swift.String(describing: description)), desiredNumberOfDomainControllers: \(Swift.String(describing: desiredNumberOfDomainControllers)), directoryId: \(Swift.String(describing: directoryId)), dnsIpAddrs: \(Swift.String(describing: dnsIpAddrs)), edition: \(Swift.String(describing: edition)), hybridSettings: \(Swift.String(describing: hybridSettings)), launchTime: \(Swift.String(describing: launchTime)), name: \(Swift.String(describing: name)), osVersion: \(Swift.String(describing: osVersion)), ownerDirectoryDescription: \(Swift.String(describing: ownerDirectoryDescription)), radiusSettings: \(Swift.String(describing: radiusSettings)), radiusStatus: \(Swift.String(describing: radiusStatus)), regionsInfo: \(Swift.String(describing: regionsInfo)), shareMethod: \(Swift.String(describing: shareMethod)), shareStatus: \(Swift.String(describing: shareStatus)), shortName: \(Swift.String(describing: shortName)), size: \(Swift.String(describing: size)), ssoEnabled: \(Swift.String(describing: ssoEnabled)), stage: \(Swift.String(describing: stage)), stageLastUpdatedDateTime: \(Swift.String(describing: stageLastUpdatedDateTime)), stageReason: \(Swift.String(describing: stageReason)), type: \(Swift.String(describing: type)), vpcSettings: \(Swift.String(describing: vpcSettings)), shareNotes: \"CONTENT_REDACTED\")"}
 }
 
 /// Contains the results of the [DescribeDirectories] operation.
@@ -3010,6 +3444,183 @@ public struct DescribeEventTopicsOutput: Swift.Sendable {
 
 extension DirectoryClientTypes {
 
+    public enum HybridUpdateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case hybridAdministratorAccount
+        case selfManagedInstances
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HybridUpdateType] {
+            return [
+                .hybridAdministratorAccount,
+                .selfManagedInstances
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .hybridAdministratorAccount: return "HybridAdministratorAccount"
+            case .selfManagedInstances: return "SelfManagedInstances"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeHybridADUpdateInput: Swift.Sendable {
+    /// The identifier of the hybrid directory for which to retrieve update information.
+    /// This member is required.
+    public var directoryId: Swift.String?
+    /// The pagination token from a previous request to [DescribeHybridADUpdate]. Pass null if this is the first request.
+    public var nextToken: Swift.String?
+    /// The type of update activities to retrieve. Valid values include SelfManagedInstances and HybridAdministratorAccount.
+    public var updateType: DirectoryClientTypes.HybridUpdateType?
+
+    public init(
+        directoryId: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        updateType: DirectoryClientTypes.HybridUpdateType? = nil
+    ) {
+        self.directoryId = directoryId
+        self.nextToken = nextToken
+        self.updateType = updateType
+    }
+}
+
+extension DirectoryClientTypes {
+
+    /// Contains the configuration values for a hybrid directory update, including Amazon Web Services System Manager managed node and DNS information.
+    public struct HybridUpdateValue: Swift.Sendable {
+        /// The IP addresses of the DNS servers or domain controllers in the hybrid directory configuration.
+        public var dnsIps: [Swift.String]?
+        /// The identifiers of the self-managed instances with SSM in the hybrid directory configuration.
+        public var instanceIds: [Swift.String]?
+
+        public init(
+            dnsIps: [Swift.String]? = nil,
+            instanceIds: [Swift.String]? = nil
+        ) {
+            self.dnsIps = dnsIps
+            self.instanceIds = instanceIds
+        }
+    }
+}
+
+extension DirectoryClientTypes {
+
+    public enum UpdateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case updated
+        case updateFailed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateStatus] {
+            return [
+                .updated,
+                .updateFailed,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .updated: return "Updated"
+            case .updateFailed: return "UpdateFailed"
+            case .updating: return "Updating"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DirectoryClientTypes {
+
+    /// Contains detailed information about a specific update activity for a hybrid directory component.
+    public struct HybridUpdateInfoEntry: Swift.Sendable {
+        /// The identifier of the assessment performed to validate this update configuration.
+        public var assessmentId: Swift.String?
+        /// Specifies if the update was initiated by the customer or Amazon Web Services.
+        public var initiatedBy: Swift.String?
+        /// The date and time when the update activity status was last updated.
+        public var lastUpdatedDateTime: Foundation.Date?
+        /// The new configuration values being applied in this update.
+        public var newValue: DirectoryClientTypes.HybridUpdateValue?
+        /// The previous configuration values before this update was applied.
+        public var previousValue: DirectoryClientTypes.HybridUpdateValue?
+        /// The date and time when the update activity was initiated.
+        public var startTime: Foundation.Date?
+        /// The current status of the update activity. Valid values include UPDATED, UPDATING, and UPDATE_FAILED.
+        public var status: DirectoryClientTypes.UpdateStatus?
+        /// A human-readable description of the update status, including any error details or progress information.
+        public var statusReason: Swift.String?
+
+        public init(
+            assessmentId: Swift.String? = nil,
+            initiatedBy: Swift.String? = nil,
+            lastUpdatedDateTime: Foundation.Date? = nil,
+            newValue: DirectoryClientTypes.HybridUpdateValue? = nil,
+            previousValue: DirectoryClientTypes.HybridUpdateValue? = nil,
+            startTime: Foundation.Date? = nil,
+            status: DirectoryClientTypes.UpdateStatus? = nil,
+            statusReason: Swift.String? = nil
+        ) {
+            self.assessmentId = assessmentId
+            self.initiatedBy = initiatedBy
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.newValue = newValue
+            self.previousValue = previousValue
+            self.startTime = startTime
+            self.status = status
+            self.statusReason = statusReason
+        }
+    }
+}
+
+extension DirectoryClientTypes {
+
+    /// Contains information about update activities for different components of a hybrid directory.
+    public struct HybridUpdateActivities: Swift.Sendable {
+        /// A list of update activities related to hybrid directory administrator account changes.
+        public var hybridAdministratorAccount: [DirectoryClientTypes.HybridUpdateInfoEntry]?
+        /// A list of update activities related to the self-managed instances with SSM in the self-managed instances with SSM hybrid directory configuration.
+        public var selfManagedInstances: [DirectoryClientTypes.HybridUpdateInfoEntry]?
+
+        public init(
+            hybridAdministratorAccount: [DirectoryClientTypes.HybridUpdateInfoEntry]? = nil,
+            selfManagedInstances: [DirectoryClientTypes.HybridUpdateInfoEntry]? = nil
+        ) {
+            self.hybridAdministratorAccount = hybridAdministratorAccount
+            self.selfManagedInstances = selfManagedInstances
+        }
+    }
+}
+
+public struct DescribeHybridADUpdateOutput: Swift.Sendable {
+    /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent request to retrieve the next set of items.
+    public var nextToken: Swift.String?
+    /// Information about update activities for the hybrid directory, organized by update type.
+    public var updateActivities: DirectoryClientTypes.HybridUpdateActivities?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        updateActivities: DirectoryClientTypes.HybridUpdateActivities? = nil
+    ) {
+        self.nextToken = nextToken
+        self.updateActivities = updateActivities
+    }
+}
+
+extension DirectoryClientTypes {
+
     public enum LDAPSType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case client
         case sdkUnknown(Swift.String)
@@ -3200,7 +3811,7 @@ extension DirectoryClientTypes {
         public var status: DirectoryClientTypes.DirectoryStage?
         /// The date and time that the Region status was last updated.
         public var statusLastUpdatedDateTime: Foundation.Date?
-        /// Contains VPC information for the [CreateDirectory] or [CreateMicrosoftAD] operation.
+        /// Contains VPC information for the [CreateDirectory], [CreateMicrosoftAD], or [CreateHybridAD] operation.
         public var vpcSettings: DirectoryClientTypes.DirectoryVpcSettings?
 
         public init(
@@ -3783,38 +4394,6 @@ extension DirectoryClientTypes {
 
 extension DirectoryClientTypes {
 
-    public enum UpdateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case updated
-        case updateFailed
-        case updating
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [UpdateStatus] {
-            return [
-                .updated,
-                .updateFailed,
-                .updating
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .updated: return "Updated"
-            case .updateFailed: return "UpdateFailed"
-            case .updating: return "Updating"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension DirectoryClientTypes {
-
     /// An entry of update information related to a requested update type.
     public struct UpdateInfoEntry: Swift.Sendable {
         /// This specifies if the update was initiated by the customer or by the service team.
@@ -3972,6 +4551,53 @@ public struct DirectoryNotSharedException: ClientRuntime.ModeledError, AWSClient
         self.properties.message = message
         self.properties.requestId = requestId
     }
+}
+
+/// A disable operation for CA enrollment policy is already in progress for this directory.
+public struct DisableAlreadyInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The descriptive message for the exception.
+        public internal(set) var message: Swift.String? = nil
+        /// The Amazon Web Services request identifier.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DisableAlreadyInProgressException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.requestId = requestId
+    }
+}
+
+/// Contains the inputs for the [DisableCAEnrollmentPolicy] operation.
+public struct DisableCAEnrollmentPolicyInput: Swift.Sendable {
+    /// The identifier of the directory for which to disable the CA enrollment policy.
+    /// This member is required.
+    public var directoryId: Swift.String?
+
+    public init(
+        directoryId: Swift.String? = nil
+    ) {
+        self.directoryId = directoryId
+    }
+}
+
+/// Contains the results of the [DisableCAEnrollmentPolicy] operation.
+public struct DisableCAEnrollmentPolicyOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 /// Client authentication is already enabled.
@@ -4138,6 +4764,58 @@ extension DisableSsoInput: Swift.CustomDebugStringConvertible {
 
 /// Contains the results of the [DisableSso] operation.
 public struct DisableSsoOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+/// An enable operation for CA enrollment policy is already in progress for this directory.
+public struct EnableAlreadyInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The descriptive message for the exception.
+        public internal(set) var message: Swift.String? = nil
+        /// The Amazon Web Services request identifier.
+        public internal(set) var requestId: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EnableAlreadyInProgressException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        requestId: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.requestId = requestId
+    }
+}
+
+/// Contains the inputs for the [EnableCAEnrollmentPolicy] operation.
+public struct EnableCAEnrollmentPolicyInput: Swift.Sendable {
+    /// The identifier of the directory for which to enable the CA enrollment policy.
+    /// This member is required.
+    public var directoryId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the Private Certificate Authority (PCA) connector to use for automatic certificate enrollment. This connector must be properly configured and accessible from the directory. The ARN format is: arn:aws:pca-connector-ad:region:account-id:connector/connector-id
+    /// This member is required.
+    public var pcaConnectorArn: Swift.String?
+
+    public init(
+        directoryId: Swift.String? = nil,
+        pcaConnectorArn: Swift.String? = nil
+    ) {
+        self.directoryId = directoryId
+        self.pcaConnectorArn = pcaConnectorArn
+    }
+}
+
+/// Contains the results of the [EnableCAEnrollmentPolicy] operation.
+public struct EnableCAEnrollmentPolicyOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -4350,6 +5028,40 @@ public struct GetSnapshotLimitsOutput: Swift.Sendable {
         snapshotLimits: DirectoryClientTypes.SnapshotLimits? = nil
     ) {
         self.snapshotLimits = snapshotLimits
+    }
+}
+
+public struct ListADAssessmentsInput: Swift.Sendable {
+    /// The identifier of the directory for which to list assessments. If not specified, all assessments in your account are returned.
+    public var directoryId: Swift.String?
+    /// The maximum number of assessment summaries to return.
+    public var limit: Swift.Int?
+    /// The pagination token from a previous request to [ListADAssessments]. Pass null if this is the first request.
+    public var nextToken: Swift.String?
+
+    public init(
+        directoryId: Swift.String? = nil,
+        limit: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.directoryId = directoryId
+        self.limit = limit
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListADAssessmentsOutput: Swift.Sendable {
+    /// A list of assessment summaries containing basic information about each directory assessment.
+    public var assessments: [DirectoryClientTypes.AssessmentSummary]?
+    /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent request to retrieve the next set of items.
+    public var nextToken: Swift.String?
+
+    public init(
+        assessments: [DirectoryClientTypes.AssessmentSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.assessments = assessments
+        self.nextToken = nextToken
     }
 }
 
@@ -5167,6 +5879,32 @@ public struct ShareDirectoryOutput: Swift.Sendable {
     }
 }
 
+public struct StartADAssessmentInput: Swift.Sendable {
+    /// Configuration parameters for the directory assessment, including DNS server information, domain name, Amazon VPC subnet, and Amazon Web Services System Manager managed node details.
+    public var assessmentConfiguration: DirectoryClientTypes.AssessmentConfiguration?
+    /// The identifier of the directory for which to perform the assessment. This should be an existing directory. If the assessment is not for an existing directory, this parameter should be omitted.
+    public var directoryId: Swift.String?
+
+    public init(
+        assessmentConfiguration: DirectoryClientTypes.AssessmentConfiguration? = nil,
+        directoryId: Swift.String? = nil
+    ) {
+        self.assessmentConfiguration = assessmentConfiguration
+        self.directoryId = directoryId
+    }
+}
+
+public struct StartADAssessmentOutput: Swift.Sendable {
+    /// The unique identifier of the newly started directory assessment. Use this identifier to monitor assessment progress and retrieve results.
+    public var assessmentId: Swift.String?
+
+    public init(
+        assessmentId: Swift.String? = nil
+    ) {
+        self.assessmentId = assessmentId
+    }
+}
+
 public struct StartSchemaExtensionInput: Swift.Sendable {
     /// If true, creates a snapshot of the directory before applying the schema extension.
     /// This member is required.
@@ -5311,6 +6049,78 @@ public struct UpdateDirectorySetupInput: Swift.Sendable {
 public struct UpdateDirectorySetupOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension DirectoryClientTypes {
+
+    /// Use to recover to the hybrid directory administrator account credentials.
+    public struct HybridAdministratorAccountUpdate: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that contains the credentials for the AD administrator user, and enables hybrid domain controllers to join the managed AD domain. For example:  {"customerAdAdminDomainUsername":"carlos_salazar","customerAdAdminDomainPassword":"ExamplePassword123!"}.
+        /// This member is required.
+        public var secretArn: Swift.String?
+
+        public init(
+            secretArn: Swift.String? = nil
+        ) {
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension DirectoryClientTypes {
+
+    /// Contains configuration settings for self-managed instances with SSM used in hybrid directory operations.
+    public struct HybridCustomerInstancesSettings: Swift.Sendable {
+        /// The IP addresses of the DNS servers or domain controllers in your self-managed AD environment.
+        /// This member is required.
+        public var customerDnsIps: [Swift.String]?
+        /// The identifiers of the self-managed instances with SSM used in hybrid directory.
+        /// This member is required.
+        public var instanceIds: [Swift.String]?
+
+        public init(
+            customerDnsIps: [Swift.String]? = nil,
+            instanceIds: [Swift.String]? = nil
+        ) {
+            self.customerDnsIps = customerDnsIps
+            self.instanceIds = instanceIds
+        }
+    }
+}
+
+public struct UpdateHybridADInput: Swift.Sendable {
+    /// The identifier of the hybrid directory to update.
+    /// This member is required.
+    public var directoryId: Swift.String?
+    /// We create a hybrid directory administrator account when we create a hybrid directory. Use HybridAdministratorAccountUpdate to recover the hybrid directory administrator account if you have deleted it. To recover your hybrid directory administrator account, we need temporary access to a user in your self-managed AD with administrator permissions in the form of a secret from Amazon Web Services Secrets Manager. We use these credentials once during recovery and don't store them. If your hybrid directory administrator account exists, then you don’t need to use HybridAdministratorAccountUpdate, even if you have updated your self-managed AD administrator user.
+    public var hybridAdministratorAccountUpdate: DirectoryClientTypes.HybridAdministratorAccountUpdate?
+    /// Updates to the self-managed AD configuration, including DNS server IP addresses and Amazon Web Services System Manager managed node identifiers.
+    public var selfManagedInstancesSettings: DirectoryClientTypes.HybridCustomerInstancesSettings?
+
+    public init(
+        directoryId: Swift.String? = nil,
+        hybridAdministratorAccountUpdate: DirectoryClientTypes.HybridAdministratorAccountUpdate? = nil,
+        selfManagedInstancesSettings: DirectoryClientTypes.HybridCustomerInstancesSettings? = nil
+    ) {
+        self.directoryId = directoryId
+        self.hybridAdministratorAccountUpdate = hybridAdministratorAccountUpdate
+        self.selfManagedInstancesSettings = selfManagedInstancesSettings
+    }
+}
+
+public struct UpdateHybridADOutput: Swift.Sendable {
+    /// The identifier of the assessment performed to validate the update configuration. This assessment ensures the updated settings are compatible with your environment.
+    public var assessmentId: Swift.String?
+    /// The identifier of the updated hybrid directory.
+    public var directoryId: Swift.String?
+
+    public init(
+        assessmentId: Swift.String? = nil,
+        directoryId: Swift.String? = nil
+    ) {
+        self.assessmentId = assessmentId
+        self.directoryId = directoryId
+    }
 }
 
 /// The maximum allowed number of domain controllers per directory was exceeded. The default limit per directory is 20 domain controllers.
@@ -5618,6 +6428,13 @@ extension CreateDirectoryInput {
     }
 }
 
+extension CreateHybridADInput {
+
+    static func urlPathProvider(_ value: CreateHybridADInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateLogSubscriptionInput {
 
     static func urlPathProvider(_ value: CreateLogSubscriptionInput) -> Swift.String? {
@@ -5642,6 +6459,13 @@ extension CreateSnapshotInput {
 extension CreateTrustInput {
 
     static func urlPathProvider(_ value: CreateTrustInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteADAssessmentInput {
+
+    static func urlPathProvider(_ value: DeleteADAssessmentInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5695,6 +6519,20 @@ extension DeregisterEventTopicInput {
     }
 }
 
+extension DescribeADAssessmentInput {
+
+    static func urlPathProvider(_ value: DescribeADAssessmentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeCAEnrollmentPolicyInput {
+
+    static func urlPathProvider(_ value: DescribeCAEnrollmentPolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeCertificateInput {
 
     static func urlPathProvider(_ value: DescribeCertificateInput) -> Swift.String? {
@@ -5740,6 +6578,13 @@ extension DescribeDomainControllersInput {
 extension DescribeEventTopicsInput {
 
     static func urlPathProvider(_ value: DescribeEventTopicsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeHybridADUpdateInput {
+
+    static func urlPathProvider(_ value: DescribeHybridADUpdateInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5793,6 +6638,13 @@ extension DescribeUpdateDirectoryInput {
     }
 }
 
+extension DisableCAEnrollmentPolicyInput {
+
+    static func urlPathProvider(_ value: DisableCAEnrollmentPolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DisableClientAuthenticationInput {
 
     static func urlPathProvider(_ value: DisableClientAuthenticationInput) -> Swift.String? {
@@ -5824,6 +6676,13 @@ extension DisableRadiusInput {
 extension DisableSsoInput {
 
     static func urlPathProvider(_ value: DisableSsoInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension EnableCAEnrollmentPolicyInput {
+
+    static func urlPathProvider(_ value: EnableCAEnrollmentPolicyInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5873,6 +6732,13 @@ extension GetDirectoryLimitsInput {
 extension GetSnapshotLimitsInput {
 
     static func urlPathProvider(_ value: GetSnapshotLimitsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ListADAssessmentsInput {
+
+    static func urlPathProvider(_ value: ListADAssessmentsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -5975,6 +6841,13 @@ extension ShareDirectoryInput {
     }
 }
 
+extension StartADAssessmentInput {
+
+    static func urlPathProvider(_ value: StartADAssessmentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StartSchemaExtensionInput {
 
     static func urlPathProvider(_ value: StartSchemaExtensionInput) -> Swift.String? {
@@ -5999,6 +6872,13 @@ extension UpdateConditionalForwarderInput {
 extension UpdateDirectorySetupInput {
 
     static func urlPathProvider(_ value: UpdateDirectorySetupInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension UpdateHybridADInput {
+
+    static func urlPathProvider(_ value: UpdateHybridADInput) -> Swift.String? {
         return "/"
     }
 }
@@ -6143,6 +7023,16 @@ extension CreateDirectoryInput {
     }
 }
 
+extension CreateHybridADInput {
+
+    static func write(value: CreateHybridADInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssessmentId"].write(value.assessmentId)
+        try writer["SecretArn"].write(value.secretArn)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: DirectoryClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension CreateLogSubscriptionInput {
 
     static func write(value: CreateLogSubscriptionInput?, to writer: SmithyJSON.Writer) throws {
@@ -6186,6 +7076,14 @@ extension CreateTrustInput {
         try writer["TrustDirection"].write(value.trustDirection)
         try writer["TrustPassword"].write(value.trustPassword)
         try writer["TrustType"].write(value.trustType)
+    }
+}
+
+extension DeleteADAssessmentInput {
+
+    static func write(value: DeleteADAssessmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssessmentId"].write(value.assessmentId)
     }
 }
 
@@ -6246,6 +7144,22 @@ extension DeregisterEventTopicInput {
         guard let value else { return }
         try writer["DirectoryId"].write(value.directoryId)
         try writer["TopicName"].write(value.topicName)
+    }
+}
+
+extension DescribeADAssessmentInput {
+
+    static func write(value: DescribeADAssessmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssessmentId"].write(value.assessmentId)
+    }
+}
+
+extension DescribeCAEnrollmentPolicyInput {
+
+    static func write(value: DescribeCAEnrollmentPolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectoryId"].write(value.directoryId)
     }
 }
 
@@ -6313,6 +7227,16 @@ extension DescribeEventTopicsInput {
         guard let value else { return }
         try writer["DirectoryId"].write(value.directoryId)
         try writer["TopicNames"].writeList(value.topicNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DescribeHybridADUpdateInput {
+
+    static func write(value: DescribeHybridADUpdateInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectoryId"].write(value.directoryId)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["UpdateType"].write(value.updateType)
     }
 }
 
@@ -6391,6 +7315,14 @@ extension DescribeUpdateDirectoryInput {
     }
 }
 
+extension DisableCAEnrollmentPolicyInput {
+
+    static func write(value: DisableCAEnrollmentPolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectoryId"].write(value.directoryId)
+    }
+}
+
 extension DisableClientAuthenticationInput {
 
     static func write(value: DisableClientAuthenticationInput?, to writer: SmithyJSON.Writer) throws {
@@ -6432,6 +7364,15 @@ extension DisableSsoInput {
         try writer["DirectoryId"].write(value.directoryId)
         try writer["Password"].write(value.password)
         try writer["UserName"].write(value.userName)
+    }
+}
+
+extension EnableCAEnrollmentPolicyInput {
+
+    static func write(value: EnableCAEnrollmentPolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectoryId"].write(value.directoryId)
+        try writer["PcaConnectorArn"].write(value.pcaConnectorArn)
     }
 }
 
@@ -6493,6 +7434,16 @@ extension GetSnapshotLimitsInput {
     static func write(value: GetSnapshotLimitsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DirectoryId"].write(value.directoryId)
+    }
+}
+
+extension ListADAssessmentsInput {
+
+    static func write(value: ListADAssessmentsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectoryId"].write(value.directoryId)
+        try writer["Limit"].write(value.limit)
+        try writer["NextToken"].write(value.nextToken)
     }
 }
 
@@ -6629,6 +7580,15 @@ extension ShareDirectoryInput {
     }
 }
 
+extension StartADAssessmentInput {
+
+    static func write(value: StartADAssessmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssessmentConfiguration"].write(value.assessmentConfiguration, with: DirectoryClientTypes.AssessmentConfiguration.write(value:to:))
+        try writer["DirectoryId"].write(value.directoryId)
+    }
+}
+
 extension StartSchemaExtensionInput {
 
     static func write(value: StartSchemaExtensionInput?, to writer: SmithyJSON.Writer) throws {
@@ -6667,6 +7627,16 @@ extension UpdateDirectorySetupInput {
         try writer["DirectoryId"].write(value.directoryId)
         try writer["OSUpdateSettings"].write(value.osUpdateSettings, with: DirectoryClientTypes.OSUpdateSettings.write(value:to:))
         try writer["UpdateType"].write(value.updateType)
+    }
+}
+
+extension UpdateHybridADInput {
+
+    static func write(value: UpdateHybridADInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectoryId"].write(value.directoryId)
+        try writer["HybridAdministratorAccountUpdate"].write(value.hybridAdministratorAccountUpdate, with: DirectoryClientTypes.HybridAdministratorAccountUpdate.write(value:to:))
+        try writer["SelfManagedInstancesSettings"].write(value.selfManagedInstancesSettings, with: DirectoryClientTypes.HybridCustomerInstancesSettings.write(value:to:))
     }
 }
 
@@ -6810,6 +7780,18 @@ extension CreateDirectoryOutput {
     }
 }
 
+extension CreateHybridADOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateHybridADOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateHybridADOutput()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateLogSubscriptionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateLogSubscriptionOutput {
@@ -6849,6 +7831,18 @@ extension CreateTrustOutput {
         let reader = responseReader
         var value = CreateTrustOutput()
         value.trustId = try reader["TrustId"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteADAssessmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteADAssessmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteADAssessmentOutput()
+        value.assessmentId = try reader["AssessmentId"].readIfPresent()
         return value
     }
 }
@@ -6914,6 +7908,35 @@ extension DeregisterEventTopicOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeregisterEventTopicOutput {
         return DeregisterEventTopicOutput()
+    }
+}
+
+extension DescribeADAssessmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeADAssessmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeADAssessmentOutput()
+        value.assessment = try reader["Assessment"].readIfPresent(with: DirectoryClientTypes.Assessment.read(from:))
+        value.assessmentReports = try reader["AssessmentReports"].readListIfPresent(memberReadingClosure: DirectoryClientTypes.AssessmentReport.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeCAEnrollmentPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeCAEnrollmentPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeCAEnrollmentPolicyOutput()
+        value.caEnrollmentPolicyStatus = try reader["CaEnrollmentPolicyStatus"].readIfPresent()
+        value.caEnrollmentPolicyStatusReason = try reader["CaEnrollmentPolicyStatusReason"].readIfPresent()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.lastUpdatedDateTime = try reader["LastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.pcaConnectorArn = try reader["PcaConnectorArn"].readIfPresent()
+        return value
     }
 }
 
@@ -7000,6 +8023,19 @@ extension DescribeEventTopicsOutput {
         let reader = responseReader
         var value = DescribeEventTopicsOutput()
         value.eventTopics = try reader["EventTopics"].readListIfPresent(memberReadingClosure: DirectoryClientTypes.EventTopic.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeHybridADUpdateOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeHybridADUpdateOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeHybridADUpdateOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.updateActivities = try reader["UpdateActivities"].readIfPresent(with: DirectoryClientTypes.HybridUpdateActivities.read(from:))
         return value
     }
 }
@@ -7096,6 +8132,13 @@ extension DescribeUpdateDirectoryOutput {
     }
 }
 
+extension DisableCAEnrollmentPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisableCAEnrollmentPolicyOutput {
+        return DisableCAEnrollmentPolicyOutput()
+    }
+}
+
 extension DisableClientAuthenticationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisableClientAuthenticationOutput {
@@ -7128,6 +8171,13 @@ extension DisableSsoOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisableSsoOutput {
         return DisableSsoOutput()
+    }
+}
+
+extension EnableCAEnrollmentPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableCAEnrollmentPolicyOutput {
+        return EnableCAEnrollmentPolicyOutput()
     }
 }
 
@@ -7186,6 +8236,19 @@ extension GetSnapshotLimitsOutput {
         let reader = responseReader
         var value = GetSnapshotLimitsOutput()
         value.snapshotLimits = try reader["SnapshotLimits"].readIfPresent(with: DirectoryClientTypes.SnapshotLimits.read(from:))
+        return value
+    }
+}
+
+extension ListADAssessmentsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListADAssessmentsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListADAssessmentsOutput()
+        value.assessments = try reader["Assessments"].readListIfPresent(memberReadingClosure: DirectoryClientTypes.AssessmentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -7333,6 +8396,18 @@ extension ShareDirectoryOutput {
     }
 }
 
+extension StartADAssessmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartADAssessmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartADAssessmentOutput()
+        value.assessmentId = try reader["AssessmentId"].readIfPresent()
+        return value
+    }
+}
+
 extension StartSchemaExtensionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartSchemaExtensionOutput {
@@ -7368,6 +8443,19 @@ extension UpdateDirectorySetupOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDirectorySetupOutput {
         return UpdateDirectorySetupOutput()
+    }
+}
+
+extension UpdateHybridADOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateHybridADOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateHybridADOutput()
+        value.assessmentId = try reader["AssessmentId"].readIfPresent()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        return value
     }
 }
 
@@ -7610,6 +8698,26 @@ enum CreateDirectoryOutputError {
     }
 }
 
+enum CreateHybridADOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ADAssessmentLimitExceededException": return try ADAssessmentLimitExceededException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "DirectoryLimitExceededException": return try DirectoryLimitExceededException.makeError(baseError: baseError)
+            case "EntityDoesNotExistException": return try EntityDoesNotExistException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateLogSubscriptionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7675,6 +8783,24 @@ enum CreateTrustOutputError {
         switch baseError.code {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "EntityAlreadyExistsException": return try EntityAlreadyExistsException.makeError(baseError: baseError)
+            case "EntityDoesNotExistException": return try EntityDoesNotExistException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteADAssessmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "EntityDoesNotExistException": return try EntityDoesNotExistException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
@@ -7809,6 +8935,41 @@ enum DeregisterEventTopicOutputError {
     }
 }
 
+enum DescribeADAssessmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "EntityDoesNotExistException": return try EntityDoesNotExistException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeCAEnrollmentPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "DirectoryDoesNotExistException": return try DirectoryDoesNotExistException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeCertificateOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7933,6 +9094,25 @@ enum DescribeEventTopicsOutputError {
             case "EntityDoesNotExistException": return try EntityDoesNotExistException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeHybridADUpdateOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "DirectoryDoesNotExistException": return try DirectoryDoesNotExistException.makeError(baseError: baseError)
+            case "InvalidNextTokenException": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -8071,6 +9251,27 @@ enum DescribeUpdateDirectoryOutputError {
     }
 }
 
+enum DisableCAEnrollmentPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "DirectoryDoesNotExistException": return try DirectoryDoesNotExistException.makeError(baseError: baseError)
+            case "DirectoryUnavailableException": return try DirectoryUnavailableException.makeError(baseError: baseError)
+            case "DisableAlreadyInProgressException": return try DisableAlreadyInProgressException.makeError(baseError: baseError)
+            case "EntityDoesNotExistException": return try EntityDoesNotExistException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DisableClientAuthenticationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8158,6 +9359,28 @@ enum DisableSsoOutputError {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "EntityDoesNotExistException": return try EntityDoesNotExistException.makeError(baseError: baseError)
             case "InsufficientPermissionsException": return try InsufficientPermissionsException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum EnableCAEnrollmentPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "DirectoryDoesNotExistException": return try DirectoryDoesNotExistException.makeError(baseError: baseError)
+            case "DirectoryUnavailableException": return try DirectoryUnavailableException.makeError(baseError: baseError)
+            case "EnableAlreadyInProgressException": return try EnableAlreadyInProgressException.makeError(baseError: baseError)
+            case "EntityAlreadyExistsException": return try EntityAlreadyExistsException.makeError(baseError: baseError)
+            case "EntityDoesNotExistException": return try EntityDoesNotExistException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8288,6 +9511,24 @@ enum GetSnapshotLimitsOutputError {
             case "ClientException": return try ClientException.makeError(baseError: baseError)
             case "EntityDoesNotExistException": return try EntityDoesNotExistException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListADAssessmentsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "DirectoryDoesNotExistException": return try DirectoryDoesNotExistException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -8553,6 +9794,25 @@ enum ShareDirectoryOutputError {
     }
 }
 
+enum StartADAssessmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ADAssessmentLimitExceededException": return try ADAssessmentLimitExceededException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "DirectoryDoesNotExistException": return try DirectoryDoesNotExistException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartSchemaExtensionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -8625,6 +9885,25 @@ enum UpdateDirectorySetupOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "SnapshotLimitExceededException": return try SnapshotLimitExceededException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateHybridADOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ADAssessmentLimitExceededException": return try ADAssessmentLimitExceededException.makeError(baseError: baseError)
+            case "ClientException": return try ClientException.makeError(baseError: baseError)
+            case "DirectoryDoesNotExistException": return try DirectoryDoesNotExistException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8948,6 +10227,20 @@ extension AuthenticationFailedException {
     }
 }
 
+extension ADAssessmentLimitExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ADAssessmentLimitExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ADAssessmentLimitExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InsufficientPermissionsException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InsufficientPermissionsException {
@@ -9018,6 +10311,20 @@ extension InvalidNextTokenException {
     }
 }
 
+extension DisableAlreadyInProgressException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> DisableAlreadyInProgressException {
+        let reader = baseError.errorBodyReader
+        var value = DisableAlreadyInProgressException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidClientAuthStatusException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidClientAuthStatusException {
@@ -9051,6 +10358,20 @@ extension InvalidLDAPSStatusException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InvalidLDAPSStatusException {
         let reader = baseError.errorBodyReader
         var value = InvalidLDAPSStatusException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.requestId = try reader["RequestId"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension EnableAlreadyInProgressException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> EnableAlreadyInProgressException {
+        let reader = baseError.errorBodyReader
+        var value = EnableAlreadyInProgressException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.requestId = try reader["RequestId"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -9289,6 +10610,57 @@ extension DirectoryClientTypes.Attribute {
     }
 }
 
+extension DirectoryClientTypes.Assessment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Assessment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.Assessment()
+        value.assessmentId = try reader["AssessmentId"].readIfPresent()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.dnsName = try reader["DnsName"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdateDateTime = try reader["LastUpdateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.statusCode = try reader["StatusCode"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.customerDnsIps = try reader["CustomerDnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.selfManagedInstanceIds = try reader["SelfManagedInstanceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.reportType = try reader["ReportType"].readIfPresent()
+        value.version = try reader["Version"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectoryClientTypes.AssessmentReport {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.AssessmentReport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.AssessmentReport()
+        value.domainControllerIp = try reader["DomainControllerIp"].readIfPresent()
+        value.validations = try reader["Validations"].readListIfPresent(memberReadingClosure: DirectoryClientTypes.AssessmentValidation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.AssessmentValidation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.AssessmentValidation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.AssessmentValidation()
+        value.category = try reader["Category"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusCode = try reader["StatusCode"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdateDateTime = try reader["LastUpdateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension DirectoryClientTypes.Certificate {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.Certificate {
@@ -9376,6 +10748,18 @@ extension DirectoryClientTypes.DirectoryDescription {
         value.ownerDirectoryDescription = try reader["OwnerDirectoryDescription"].readIfPresent(with: DirectoryClientTypes.OwnerDirectoryDescription.read(from:))
         value.regionsInfo = try reader["RegionsInfo"].readIfPresent(with: DirectoryClientTypes.RegionsInfo.read(from:))
         value.osVersion = try reader["OsVersion"].readIfPresent()
+        value.hybridSettings = try reader["HybridSettings"].readIfPresent(with: DirectoryClientTypes.HybridSettingsDescription.read(from:))
+        return value
+    }
+}
+
+extension DirectoryClientTypes.HybridSettingsDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.HybridSettingsDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.HybridSettingsDescription()
+        value.selfManagedDnsIpAddrs = try reader["SelfManagedDnsIpAddrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.selfManagedInstanceIds = try reader["SelfManagedInstanceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9492,6 +10876,45 @@ extension DirectoryClientTypes.EventTopic {
         value.topicArn = try reader["TopicArn"].readIfPresent()
         value.createdDateTime = try reader["CreatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectoryClientTypes.HybridUpdateActivities {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.HybridUpdateActivities {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.HybridUpdateActivities()
+        value.selfManagedInstances = try reader["SelfManagedInstances"].readListIfPresent(memberReadingClosure: DirectoryClientTypes.HybridUpdateInfoEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hybridAdministratorAccount = try reader["HybridAdministratorAccount"].readListIfPresent(memberReadingClosure: DirectoryClientTypes.HybridUpdateInfoEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DirectoryClientTypes.HybridUpdateInfoEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.HybridUpdateInfoEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.HybridUpdateInfoEntry()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.initiatedBy = try reader["InitiatedBy"].readIfPresent()
+        value.newValue = try reader["NewValue"].readIfPresent(with: DirectoryClientTypes.HybridUpdateValue.read(from:))
+        value.previousValue = try reader["PreviousValue"].readIfPresent(with: DirectoryClientTypes.HybridUpdateValue.read(from:))
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDateTime = try reader["LastUpdatedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.assessmentId = try reader["AssessmentId"].readIfPresent()
+        return value
+    }
+}
+
+extension DirectoryClientTypes.HybridUpdateValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.HybridUpdateValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.HybridUpdateValue()
+        value.instanceIds = try reader["InstanceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dnsIps = try reader["DnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9670,6 +11093,23 @@ extension DirectoryClientTypes.SnapshotLimits {
     }
 }
 
+extension DirectoryClientTypes.AssessmentSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.AssessmentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DirectoryClientTypes.AssessmentSummary()
+        value.assessmentId = try reader["AssessmentId"].readIfPresent()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.dnsName = try reader["DnsName"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdateDateTime = try reader["LastUpdateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.customerDnsIps = try reader["CustomerDnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.reportType = try reader["ReportType"].readIfPresent()
+        return value
+    }
+}
+
 extension DirectoryClientTypes.CertificateInfo {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DirectoryClientTypes.CertificateInfo {
@@ -9773,12 +11213,41 @@ extension DirectoryClientTypes.ShareTarget {
     }
 }
 
+extension DirectoryClientTypes.AssessmentConfiguration {
+
+    static func write(value: DirectoryClientTypes.AssessmentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomerDnsIps"].writeList(value.customerDnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DnsName"].write(value.dnsName)
+        try writer["InstanceIds"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VpcSettings"].write(value.vpcSettings, with: DirectoryClientTypes.DirectoryVpcSettings.write(value:to:))
+    }
+}
+
 extension DirectoryClientTypes.UnshareTarget {
 
     static func write(value: DirectoryClientTypes.UnshareTarget?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Id"].write(value.id)
         try writer["Type"].write(value.type)
+    }
+}
+
+extension DirectoryClientTypes.HybridAdministratorAccountUpdate {
+
+    static func write(value: DirectoryClientTypes.HybridAdministratorAccountUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SecretArn"].write(value.secretArn)
+    }
+}
+
+extension DirectoryClientTypes.HybridCustomerInstancesSettings {
+
+    static func write(value: DirectoryClientTypes.HybridCustomerInstancesSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomerDnsIps"].writeList(value.customerDnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InstanceIds"].writeList(value.instanceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

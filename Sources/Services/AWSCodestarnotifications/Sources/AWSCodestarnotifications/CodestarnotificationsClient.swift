@@ -41,7 +41,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -61,14 +61,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodestarnotificationsClient: ClientRuntime.Client {
     public static let clientName = "CodestarnotificationsClient"
-    public static let version = "1.3.50"
+    public static let version = "1.5.31"
     let client: ClientRuntime.SdkHttpClient
     let config: CodestarnotificationsClient.CodestarnotificationsClientConfiguration
     let serviceName = "codestar notifications"
@@ -372,7 +372,7 @@ extension CodestarnotificationsClient {
 extension CodestarnotificationsClient {
     /// Performs the `CreateNotificationRule` operation on the `Codestarnotifications` service.
     ///
-    /// Creates a notification rule for a resource. The rule specifies the events you want notifications about and the targets (such as Chatbot topics or Chatbot clients configured for Slack) where you want to receive them.
+    /// Creates a notification rule for a resource. The rule specifies the events you want notifications about and the targets (such as Amazon Q Developer in chat applications topics or Amazon Q Developer in chat applications clients configured for Slack) where you want to receive them.
     ///
     /// - Parameter CreateNotificationRuleInput : [no documentation found]
     ///
@@ -921,7 +921,7 @@ extension CodestarnotificationsClient {
 
     /// Performs the `Subscribe` operation on the `Codestarnotifications` service.
     ///
-    /// Creates an association between a notification rule and an Chatbot topic or Chatbot client so that the associated target can receive notifications when the events described in the rule are triggered.
+    /// Creates an association between a notification rule and an Amazon Q Developer in chat applications topic or Amazon Q Developer in chat applications client so that the associated target can receive notifications when the events described in the rule are triggered.
     ///
     /// - Parameter SubscribeInput : [no documentation found]
     ///
@@ -1060,7 +1060,7 @@ extension CodestarnotificationsClient {
 
     /// Performs the `Unsubscribe` operation on the `Codestarnotifications` service.
     ///
-    /// Removes an association between a notification rule and an Chatbot topic so that subscribers to that topic stop receiving notifications when the events described in the rule are triggered.
+    /// Removes an association between a notification rule and an Amazon Q Developer in chat applications topic so that subscribers to that topic stop receiving notifications when the events described in the rule are triggered.
     ///
     /// - Parameter UnsubscribeInput : [no documentation found]
     ///

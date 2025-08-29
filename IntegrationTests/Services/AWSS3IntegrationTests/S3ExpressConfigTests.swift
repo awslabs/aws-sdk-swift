@@ -13,6 +13,7 @@ import SmithyHTTPAPI
 import SmithyHTTPAuthAPI
 import SmithyTestUtil
 import AWSSDKIdentity
+import AWSSDKIdentityAPI
 import AWSSDKHTTPAuth
 
 // These tests confirm that the disableS3ExpressSessionAuth option
@@ -146,7 +147,7 @@ class CheckSelectedAuthSchemeProvider: HttpInterceptorProvider {
 // CreateSession call before the GetObject.
 private actor MockS3ExpressIdentityResolver: S3ExpressIdentityResolver {
 
-    func getIdentity(identityProperties: Smithy.Attributes?) async throws -> AWSSDKIdentity.S3ExpressIdentity {
+    func getIdentity(identityProperties: Smithy.Attributes?) async throws -> S3ExpressIdentity {
         return S3ExpressIdentity(
             accessKeyID: "AKIAIOSFODNN7EXAMPLE",
             secretAccessKey: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",

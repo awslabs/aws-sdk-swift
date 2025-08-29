@@ -9,8 +9,6 @@ import software.amazon.smithy.aws.swift.codegen.customization.RulesBasedAuthSche
 import software.amazon.smithy.aws.swift.codegen.customization.s3.isS3
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKEventStreamsAuthTypes
-import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
-import software.amazon.smithy.aws.swift.codegen.swiftmodules.InternalClientTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
@@ -66,36 +64,7 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
     }
 
     override fun renderInternals(ctx: ProtocolGenerator.GenerationContext) {
-        AuthSchemeResolverGenerator(
-            // Skip auth option customization w/ internal service clients for protocol test codegen.
-            // Internal service clients are contained in aws-sdk-swift targets that ARE NOT vended externally
-            //  via a product, meaning service clients generated outside of aws-sdk-swift CANNOT depend on
-            //  the internal service clients. Not to mention it's not even needed for protocol tests.
-            //
-            // Also skip auth option customization for internal service clients themselves.
-            // SSO::getRoleCredentials, SSOOIDC::createToken, and STS::assumeRoleWithWebIdentity are all noAuth.
-            if (ctx.settings.forProtocolTests || ctx.settings.visibility == "internal") {
-                null
-            } else {
-                { authOptionName, writer ->
-                    writer.write(
-                        "$authOptionName.identityProperties.set(key: \$N.internalSTSClientKey, value: \$N())",
-                        AWSSDKIdentityTypes.InternalClientKeys,
-                        InternalClientTypes.IdentityProvidingSTSClient,
-                    )
-                    writer.write(
-                        "$authOptionName.identityProperties.set(key: \$N.internalSSOClientKey, value: \$N())",
-                        AWSSDKIdentityTypes.InternalClientKeys,
-                        InternalClientTypes.IdentityProvidingSSOClient,
-                    )
-                    writer.write(
-                        "$authOptionName.identityProperties.set(key: \$N.internalSSOOIDCClientKey, value: \$N())",
-                        AWSSDKIdentityTypes.InternalClientKeys,
-                        InternalClientTypes.IdentityProvidingSSOOIDCClient,
-                    )
-                }
-            },
-        ).render(ctx)
+        AuthSchemeResolverGenerator().render(ctx)
         // Generate rules-based auth scheme resolver for services that depend on endpoint resolver for auth scheme resolution
         if (AuthSchemeResolverGenerator.usesRulesBasedAuthResolver(ctx)) {
             RulesBasedAuthSchemeResolverGenerator().render(ctx)

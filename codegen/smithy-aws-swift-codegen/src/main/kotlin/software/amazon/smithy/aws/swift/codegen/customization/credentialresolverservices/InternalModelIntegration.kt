@@ -21,11 +21,16 @@ class InternalModelIntegration : SwiftIntegration {
         listOf(
             "com.amazonaws.ssooidc#CreateToken",
         )
+    private val cognitoOps =
+        listOf(
+            "com.amazonaws.cognitoidentity#GetId",
+            "com.amazonaws.cognitoidentity#GetCredentialsForIdentity",
+        )
 
     override fun enabledForService(
         model: Model,
         settings: SwiftSettings,
-    ): Boolean = settings.visibility == "internal"
+    ): Boolean = settings.internalClient
 
     override fun preprocessModel(
         model: Model?,
@@ -48,6 +53,7 @@ class InternalModelIntegration : SwiftIntegration {
             "STS" -> stsOps
             "SSO" -> ssoOps
             "SSO OIDC" -> ssoOIDCOps
+            "Cognito Identity" -> cognitoOps
             else -> emptyList()
         }
 }

@@ -3723,19 +3723,53 @@ public struct PutMLConfigurationInput: Swift.Sendable {
 
 extension CleanRoomsMLClientTypes {
 
+    /// File format of the returned data.
+    public enum ResultFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case csv
+        case parquet
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResultFormat] {
+            return [
+                .csv,
+                .parquet
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .csv: return "CSV"
+            case .parquet: return "PARQUET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
     /// Provides information necessary to perform the protected query.
     public struct ProtectedQueryInputParameters: Swift.Sendable {
         /// Provides configuration information for the workers that will perform the protected query.
         public var computeConfiguration: CleanRoomsMLClientTypes.ComputeConfiguration?
+        /// The format in which the query results should be returned. If not specified, defaults to CSV.
+        public var resultFormat: CleanRoomsMLClientTypes.ResultFormat?
         /// The parameters for the SQL type Protected Query.
         /// This member is required.
         public var sqlParameters: CleanRoomsMLClientTypes.ProtectedQuerySQLParameters?
 
         public init(
             computeConfiguration: CleanRoomsMLClientTypes.ComputeConfiguration? = nil,
+            resultFormat: CleanRoomsMLClientTypes.ResultFormat? = .csv,
             sqlParameters: CleanRoomsMLClientTypes.ProtectedQuerySQLParameters? = nil
         ) {
             self.computeConfiguration = computeConfiguration
+            self.resultFormat = resultFormat
             self.sqlParameters = sqlParameters
         }
     }
@@ -3743,7 +3777,7 @@ extension CleanRoomsMLClientTypes {
 
 extension CleanRoomsMLClientTypes.ProtectedQueryInputParameters: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ProtectedQueryInputParameters(computeConfiguration: \(Swift.String(describing: computeConfiguration)), sqlParameters: \"CONTENT_REDACTED\")"}
+        "ProtectedQueryInputParameters(computeConfiguration: \(Swift.String(describing: computeConfiguration)), resultFormat: \(Swift.String(describing: resultFormat)), sqlParameters: \"CONTENT_REDACTED\")"}
 }
 
 extension CleanRoomsMLClientTypes {
@@ -9999,6 +10033,7 @@ extension CleanRoomsMLClientTypes.ProtectedQueryInputParameters {
     static func write(value: CleanRoomsMLClientTypes.ProtectedQueryInputParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["computeConfiguration"].write(value.computeConfiguration, with: CleanRoomsMLClientTypes.ComputeConfiguration.write(value:to:))
+        try writer["resultFormat"].write(value.resultFormat)
         try writer["sqlParameters"].write(value.sqlParameters, with: CleanRoomsMLClientTypes.ProtectedQuerySQLParameters.write(value:to:))
     }
 
@@ -10007,6 +10042,7 @@ extension CleanRoomsMLClientTypes.ProtectedQueryInputParameters {
         var value = CleanRoomsMLClientTypes.ProtectedQueryInputParameters()
         value.sqlParameters = try reader["sqlParameters"].readIfPresent(with: CleanRoomsMLClientTypes.ProtectedQuerySQLParameters.read(from:))
         value.computeConfiguration = try reader["computeConfiguration"].readIfPresent(with: CleanRoomsMLClientTypes.ComputeConfiguration.read(from:))
+        value.resultFormat = try reader["resultFormat"].readIfPresent() ?? CleanRoomsMLClientTypes.ResultFormat.csv
         return value
     }
 }

@@ -732,7 +732,7 @@ public struct CreateQueueInput: Swift.Sendable {
     ///
     /// * DelaySeconds – The length of time, in seconds, for which the delivery of all messages in the queue is delayed. Valid values: An integer from 0 to 900 seconds (15 minutes). Default: 0.
     ///
-    /// * MaximumMessageSize – The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) to 262,144 bytes (256 KiB). Default: 262,144 (256 KiB).
+    /// * MaximumMessageSize – The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) to 1,048,576 bytes (1 MiB). Default: 1,048,576 bytes (1 MiB).
     ///
     /// * MessageRetentionPeriod – The length of time, in seconds, for which Amazon SQS retains a message. Valid values: An integer from 60 seconds (1 minute) to 1,209,600 seconds (14 days). Default: 345,600 (4 days). When you change a queue's attributes, the change can take up to 60 seconds for most of the attributes to propagate throughout the Amazon SQS system. Changes made to the MessageRetentionPeriod attribute can take up to 15 minutes and will impact existing messages in the queue potentially causing them to be expired and deleted if the MessageRetentionPeriod is reduced below the age of existing messages.
     ///
@@ -1591,7 +1591,7 @@ public struct ReceiveMessageInput: Swift.Sendable {
     ///
     /// * MessageDeduplicationId – Returns the value provided by the producer that calls the [SendMessage] action.
     ///
-    /// * MessageGroupId – Returns the value provided by the producer that calls the [SendMessage] action. Messages with the same MessageGroupId are returned in sequence.
+    /// * MessageGroupId – Returns the value provided by the producer that calls the [SendMessage] action.
     ///
     /// * SequenceNumber – Returns the value provided by Amazon SQS.
     @available(*, deprecated, message: "AttributeNames has been replaced by MessageSystemAttributeNames")
@@ -1638,7 +1638,7 @@ public struct ReceiveMessageInput: Swift.Sendable {
     ///
     /// * MessageDeduplicationId – Returns the value provided by the producer that calls the [SendMessage] action.
     ///
-    /// * MessageGroupId – Returns the value provided by the producer that calls the [SendMessage] action. Messages with the same MessageGroupId are returned in sequence.
+    /// * MessageGroupId – Returns the value provided by the producer that calls the [SendMessage] action.
     ///
     /// * SequenceNumber – Returns the value provided by Amazon SQS.
     public var messageSystemAttributeNames: [SQSClientTypes.MessageSystemAttributeName]?
@@ -1655,7 +1655,7 @@ public struct ReceiveMessageInput: Swift.Sendable {
     ///
     /// * During a visibility timeout, subsequent calls with the same ReceiveRequestAttemptId return the same messages and receipt handles. If a retry occurs within the deduplication interval, it resets the visibility timeout. For more information, see [Visibility Timeout](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-visibility-timeout.html) in the Amazon SQS Developer Guide. If a caller of the ReceiveMessage action still processes messages when the visibility timeout expires and messages become visible, another worker consuming from the same queue can receive the same messages and therefore process duplicates. Also, if a consumer whose message processing time is longer than the visibility timeout tries to delete the processed messages, the action fails with an error. To mitigate this effect, ensure that your application observes a safe threshold before the visibility timeout expires and extend the visibility timeout as necessary.
     ///
-    /// * While messages with a particular MessageGroupId are invisible, no more messages belonging to the same MessageGroupId are returned until the visibility timeout expires. You can still receive messages with another MessageGroupId as long as it is also visible.
+    /// * While messages with a particular MessageGroupId are invisible, no more messages belonging to the same MessageGroupId are returned until the visibility timeout expires. You can still receive messages with another MessageGroupId from your FIFO queue as long as they are visible.
     ///
     /// * If a caller of ReceiveMessage can't track the ReceiveRequestAttemptId, no retries work until the original visibility timeout expires. As a result, delays might occur but the messages in the queue remain in a strict order.
     ///
@@ -1701,7 +1701,7 @@ public struct ReceiveMessageInput: Swift.Sendable {
 
 extension SQSClientTypes {
 
-    /// The user-specified message attribute value. For string data types, the Value attribute has the same restrictions on the content as the message body. For more information, see [SendMessage].Name, type, value and the message body must not be empty or null. All parts of the message attribute, including Name, Type, and Value, are part of the message size restriction (256 KiB or 262,144 bytes).
+    /// The user-specified message attribute value. For string data types, the Value attribute has the same restrictions on the content as the message body. For more information, see [SendMessage].Name, type, value and the message body must not be empty or null. All parts of the message attribute, including Name, Type, and Value, are part of the message size restriction (1 MiB or 1,048,576 bytes).
     public struct MessageAttributeValue: Swift.Sendable {
         /// Not implemented. Reserved for future use.
         public var binaryListValues: [Foundation.Data]?
@@ -1904,7 +1904,7 @@ public struct SendMessageInput: Swift.Sendable {
     public var delaySeconds: Swift.Int?
     /// Each message attribute consists of a Name, Type, and Value. For more information, see [Amazon SQS message attributes](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-message-metadata.html#sqs-message-attributes) in the Amazon SQS Developer Guide.
     public var messageAttributes: [Swift.String: SQSClientTypes.MessageAttributeValue]?
-    /// The message to send. The minimum size is one character. The maximum size is 256 KiB. A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed. For more information, see the [W3C specification for characters](http://www.w3.org/TR/REC-xml/#charsets). #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF Amazon SQS does not throw an exception or completely reject the message if it contains invalid characters. Instead, it replaces those invalid characters with U+FFFD before storing the message in the queue, as long as the message body contains at least one valid character.
+    /// The message to send. The minimum size is one character. The maximum size is 1 MiB or 1,048,576 bytes A message can include only XML, JSON, and unformatted text. The following Unicode characters are allowed. For more information, see the [W3C specification for characters](http://www.w3.org/TR/REC-xml/#charsets). #x9 | #xA | #xD | #x20 to #xD7FF | #xE000 to #xFFFD | #x10000 to #x10FFFF Amazon SQS does not throw an exception or completely reject the message if it contains invalid characters. Instead, it replaces those invalid characters with U+FFFD before storing the message in the queue, as long as the message body contains at least one valid character.
     /// This member is required.
     public var messageBody: Swift.String?
     /// This parameter applies only to FIFO (first-in-first-out) queues. The token used for deduplication of sent messages. If a message with a particular MessageDeduplicationId is sent successfully, any messages sent with the same MessageDeduplicationId are accepted successfully but aren't delivered during the 5-minute deduplication interval. For more information, see [ Exactly-once processing](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues-exactly-once-processing.html) in the Amazon SQS Developer Guide.
@@ -1929,14 +1929,14 @@ public struct SendMessageInput: Swift.Sendable {
     ///
     /// The MessageDeduplicationId is available to the consumer of the message (this can be useful for troubleshooting delivery issues). If a message is sent successfully but the acknowledgement is lost and the message is resent with the same MessageDeduplicationId after the deduplication interval, Amazon SQS can't detect duplicate messages. Amazon SQS continues to keep track of the message deduplication ID even after the message is received and deleted. The maximum length of MessageDeduplicationId is 128 characters. MessageDeduplicationId can contain alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~). For best practices of using MessageDeduplicationId, see [Using the MessageDeduplicationId Property](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagededuplicationid-property.html) in the Amazon SQS Developer Guide.
     public var messageDeduplicationId: Swift.String?
-    /// This parameter applies only to FIFO (first-in-first-out) queues. The tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner (however, messages in different message groups might be processed out of order). To interleave multiple ordered streams within a single queue, use MessageGroupId values (for example, session data for multiple users). In this scenario, multiple consumers can process the queue, but the session data of each user is processed in a FIFO fashion.
+    /// MessageGroupId is an attribute used in Amazon SQS FIFO (First-In-First-Out) and standard queues. In FIFO queues, MessageGroupId organizes messages into distinct groups. Messages within the same message group are always processed one at a time, in strict order, ensuring that no two messages from the same group are processed simultaneously. In standard queues, using MessageGroupId enables fair queues. It is used to identify the tenant a message belongs to, helping maintain consistent message dwell time across all tenants during noisy neighbor events. Unlike FIFO queues, messages with the same MessageGroupId can be processed in parallel, maintaining the high throughput of standard queues.
     ///
-    /// * You must associate a non-empty MessageGroupId with a message. If you don't provide a MessageGroupId, the action fails.
+    /// * FIFO queues: MessageGroupId acts as the tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner (however, messages in different message groups might be processed out of order). To interleave multiple ordered streams within a single queue, use MessageGroupId values (for example, session data for multiple users). In this scenario, multiple consumers can process the queue, but the session data of each user is processed in a FIFO fashion. If you do not provide a MessageGroupId when sending a message to a FIFO queue, the action fails. ReceiveMessage might return messages with multiple MessageGroupId values. For each MessageGroupId, the messages are sorted by time sent.
     ///
-    /// * ReceiveMessage might return messages with multiple MessageGroupId values. For each MessageGroupId, the messages are sorted by time sent. The caller can't specify a MessageGroupId.
+    /// * Standard queues:Use MessageGroupId in standard queues to enable fair queues. The MessageGroupId identifies the tenant a message belongs to. A tenant can be any entity that shares a queue with others, such as your customer, a client application, or a request type. When one tenant sends a disproportionately large volume of messages or has messages that require longer processing time, fair queues ensure other tenants' messages maintain low dwell time. This preserves quality of service for all tenants while maintaining the scalability and throughput of standard queues. We recommend that you include a MessageGroupId in all messages when using fair queues.
     ///
     ///
-    /// The maximum length of MessageGroupId is 128 characters. Valid values: alphanumeric characters and punctuation (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~). For best practices of using MessageGroupId, see [Using the MessageGroupId Property](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html) in the Amazon SQS Developer Guide. MessageGroupId is required for FIFO queues. You can't use it for Standard queues.
+    /// The length of MessageGroupId is 128 characters. Valid values: alphanumeric characters and punctuation (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~). For best practices of using MessageGroupId, see [Using the MessageGroupId Property](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html) in the Amazon SQS Developer Guide.
     public var messageGroupId: Swift.String?
     /// The message system attribute to send. Each message system attribute consists of a Name, Type, and Value.
     ///
@@ -2054,14 +2054,14 @@ extension SQSClientTypes {
         ///
         /// The MessageDeduplicationId is available to the consumer of the message (this can be useful for troubleshooting delivery issues). If a message is sent successfully but the acknowledgement is lost and the message is resent with the same MessageDeduplicationId after the deduplication interval, Amazon SQS can't detect duplicate messages. Amazon SQS continues to keep track of the message deduplication ID even after the message is received and deleted. The length of MessageDeduplicationId is 128 characters. MessageDeduplicationId can contain alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~). For best practices of using MessageDeduplicationId, see [Using the MessageDeduplicationId Property](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagededuplicationid-property.html) in the Amazon SQS Developer Guide.
         public var messageDeduplicationId: Swift.String?
-        /// This parameter applies only to FIFO (first-in-first-out) queues. The tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner (however, messages in different message groups might be processed out of order). To interleave multiple ordered streams within a single queue, use MessageGroupId values (for example, session data for multiple users). In this scenario, multiple consumers can process the queue, but the session data of each user is processed in a FIFO fashion.
+        /// MessageGroupId is an attribute used in Amazon SQS FIFO (First-In-First-Out) and standard queues. In FIFO queues, MessageGroupId organizes messages into distinct groups. Messages within the same message group are always processed one at a time, in strict order, ensuring that no two messages from the same group are processed simultaneously. In standard queues, using MessageGroupId enables fair queues. It is used to identify the tenant a message belongs to, helping maintain consistent message dwell time across all tenants during noisy neighbor events. Unlike FIFO queues, messages with the same MessageGroupId can be processed in parallel, maintaining the high throughput of standard queues.
         ///
-        /// * You must associate a non-empty MessageGroupId with a message. If you don't provide a MessageGroupId, the action fails.
+        /// * FIFO queues: MessageGroupId acts as the tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner (however, messages in different message groups might be processed out of order). To interleave multiple ordered streams within a single queue, use MessageGroupId values (for example, session data for multiple users). In this scenario, multiple consumers can process the queue, but the session data of each user is processed in a FIFO fashion. If you do not provide a MessageGroupId when sending a message to a FIFO queue, the action fails. ReceiveMessage might return messages with multiple MessageGroupId values. For each MessageGroupId, the messages are sorted by time sent.
         ///
-        /// * ReceiveMessage might return messages with multiple MessageGroupId values. For each MessageGroupId, the messages are sorted by time sent. The caller can't specify a MessageGroupId.
+        /// * Standard queues:Use MessageGroupId in standard queues to enable fair queues. The MessageGroupId identifies the tenant a message belongs to. A tenant can be any entity that shares a queue with others, such as your customer, a client application, or a request type. When one tenant sends a disproportionately large volume of messages or has messages that require longer processing time, fair queues ensure other tenants' messages maintain low dwell time. This preserves quality of service for all tenants while maintaining the scalability and throughput of standard queues. We recommend that you include a MessageGroupId in all messages when using fair queues.
         ///
         ///
-        /// The length of MessageGroupId is 128 characters. Valid values: alphanumeric characters and punctuation (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~). For best practices of using MessageGroupId, see [Using the MessageGroupId Property](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html) in the Amazon SQS Developer Guide. MessageGroupId is required for FIFO queues. You can't use it for Standard queues.
+        /// The length of MessageGroupId is 128 characters. Valid values: alphanumeric characters and punctuation (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~). For best practices of using MessageGroupId, see [Using the MessageGroupId Property](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html) in the Amazon SQS Developer Guide.
         public var messageGroupId: Swift.String?
         /// The message system attribute to send Each message system attribute consists of a Name, Type, and Value.
         ///
@@ -2170,7 +2170,7 @@ public struct SetQueueAttributesInput: Swift.Sendable {
     ///
     /// * DelaySeconds – The length of time, in seconds, for which the delivery of all messages in the queue is delayed. Valid values: An integer from 0 to 900 (15 minutes). Default: 0.
     ///
-    /// * MaximumMessageSize – The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) up to 262,144 bytes (256 KiB). Default: 262,144 (256 KiB).
+    /// * MaximumMessageSize – The limit of how many bytes a message can contain before Amazon SQS rejects it. Valid values: An integer from 1,024 bytes (1 KiB) up to 1,048,576 bytes (1 MiB). Default: 1,048,576 bytes (1 MiB).
     ///
     /// * MessageRetentionPeriod – The length of time, in seconds, for which Amazon SQS retains a message. Valid values: An integer representing seconds, from 60 (1 minute) to 1,209,600 (14 days). Default: 345,600 (4 days). When you change a queue's attributes, the change can take up to 60 seconds for most of the attributes to propagate throughout the Amazon SQS system. Changes made to the MessageRetentionPeriod attribute can take up to 15 minutes and will impact existing messages in the queue potentially causing them to be expired and deleted if the MessageRetentionPeriod is reduced below the age of existing messages.
     ///

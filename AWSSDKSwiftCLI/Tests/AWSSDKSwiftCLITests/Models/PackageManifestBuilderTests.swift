@@ -22,13 +22,18 @@ class PackageManifestBuilderTests: XCTestCase {
 
         let isPreviewBuild = false
 
-        let serviceTargets: [String] = [
-            "A",
-            "B",
-            "C",
-            "D",
-            "E",
+        let serviceTargets: [String: [Target.Dependency]] = [
+            "A": [],
+            "B": [],
+            "C": [],
+            "D": [],
+            "E": [],
         ]
+
+        let internalAWSSTSDependencies: [Target.Dependency] = []
+        let internalAWSSSODependencies: [Target.Dependency] = []
+        let internalAWSSSOOIDCDependencies: [Target.Dependency] = []
+        let internalAWSCognitoIdentityDependencies: [Target.Dependency] = []
 
         <contents of base package>
         """
@@ -60,13 +65,18 @@ class PackageManifestBuilderTests: XCTestCase {
 
         let isPreviewBuild = true
 
-        let serviceTargets: [String] = [
-            "A",
-            "B",
-            "C",
-            "D",
-            "E",
+        let serviceTargets: [String: [Target.Dependency]] = [
+            "A": [],
+            "B": [],
+            "C": [],
+            "D": [],
+            "E": [],
         ]
+
+        let internalAWSSTSDependencies: [Target.Dependency] = []
+        let internalAWSSSODependencies: [Target.Dependency] = []
+        let internalAWSSSOOIDCDependencies: [Target.Dependency] = []
+        let internalAWSCognitoIdentityDependencies: [Target.Dependency] = []
 
         <contents of base package>
         """

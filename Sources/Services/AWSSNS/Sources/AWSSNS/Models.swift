@@ -259,7 +259,7 @@ public struct CheckIfPhoneNumberIsOptedOutOutput: Swift.Sendable {
     }
 }
 
-/// Indicates that the number of filter polices in your Amazon Web Services account exceeds the limit. To add more filter polices, submit an Amazon SNS Limit Increase case in the Amazon Web Services Support Center.
+/// Indicates that the number of filter polices in your Amazon Web Services account exceeds the limit. To add more filter polices, submit an Amazon SNS Limit Increase case in the Amazon Web ServicesSupport Center.
 public struct FilterPolicyLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -737,16 +737,67 @@ public struct CreateTopicInput: Swift.Sendable {
     ///
     /// * DisplayName – The display name to use for a topic with SMS subscriptions.
     ///
-    /// * FifoTopic – Set to true to create a FIFO topic.
-    ///
     /// * Policy – The policy that defines who can access your topic. By default, only the topic owner can publish or subscribe to the topic.
-    ///
-    /// * SignatureVersion – The signature version corresponds to the hashing algorithm used while creating the signature of the notifications, subscription confirmations, or unsubscribe confirmation messages sent by Amazon SNS. By default, SignatureVersion is set to 1.
     ///
     /// * TracingConfig – Tracing mode of an Amazon SNS topic. By default TracingConfig is set to PassThrough, and the topic passes through the tracing header it receives from an Amazon SNS publisher to its subscriptions. If set to Active, Amazon SNS will vend X-Ray segment data to topic owner account if the sampled flag in the tracing header is true. This is only supported on standard topics.
     ///
+    /// * HTTP
     ///
-    /// The following attribute applies only to [server-side encryption](https://docs.aws.amazon.com/sns/latest/dg/sns-server-side-encryption.html):
+    /// * HTTPSuccessFeedbackRoleArn – Indicates successful message delivery status for an Amazon SNS topic that is subscribed to an HTTP endpoint.
+    ///
+    /// * HTTPSuccessFeedbackSampleRate – Indicates percentage of successful messages to sample for an Amazon SNS topic that is subscribed to an HTTP endpoint.
+    ///
+    /// * HTTPFailureFeedbackRoleArn – Indicates failed message delivery status for an Amazon SNS topic that is subscribed to an HTTP endpoint.
+    ///
+    ///
+    ///
+    ///
+    /// * Amazon Data Firehose
+    ///
+    /// * FirehoseSuccessFeedbackRoleArn – Indicates successful message delivery status for an Amazon SNS topic that is subscribed to an Amazon Data Firehose endpoint.
+    ///
+    /// * FirehoseSuccessFeedbackSampleRate – Indicates percentage of successful messages to sample for an Amazon SNS topic that is subscribed to an Amazon Data Firehose endpoint.
+    ///
+    /// * FirehoseFailureFeedbackRoleArn – Indicates failed message delivery status for an Amazon SNS topic that is subscribed to an Amazon Data Firehose endpoint.
+    ///
+    ///
+    ///
+    ///
+    /// * Lambda
+    ///
+    /// * LambdaSuccessFeedbackRoleArn – Indicates successful message delivery status for an Amazon SNS topic that is subscribed to an Lambda endpoint.
+    ///
+    /// * LambdaSuccessFeedbackSampleRate – Indicates percentage of successful messages to sample for an Amazon SNS topic that is subscribed to an Lambda endpoint.
+    ///
+    /// * LambdaFailureFeedbackRoleArn – Indicates failed message delivery status for an Amazon SNS topic that is subscribed to an Lambda endpoint.
+    ///
+    ///
+    ///
+    ///
+    /// * Platform application endpoint
+    ///
+    /// * ApplicationSuccessFeedbackRoleArn – Indicates successful message delivery status for an Amazon SNS topic that is subscribed to a platform application endpoint.
+    ///
+    /// * ApplicationSuccessFeedbackSampleRate – Indicates percentage of successful messages to sample for an Amazon SNS topic that is subscribed to an platform application endpoint.
+    ///
+    /// * ApplicationFailureFeedbackRoleArn – Indicates failed message delivery status for an Amazon SNS topic that is subscribed to an platform application endpoint.
+    ///
+    ///
+    /// In addition to being able to configure topic attributes for message delivery status of notification messages sent to Amazon SNS application endpoints, you can also configure application attributes for the delivery status of push notification messages sent to push notification services. For example, For more information, see [Using Amazon SNS Application Attributes for Message Delivery Status](https://docs.aws.amazon.com/sns/latest/dg/sns-msg-status.html).
+    ///
+    /// * Amazon SQS
+    ///
+    /// * SQSSuccessFeedbackRoleArn – Indicates successful message delivery status for an Amazon SNS topic that is subscribed to an Amazon SQS endpoint.
+    ///
+    /// * SQSSuccessFeedbackSampleRate – Indicates percentage of successful messages to sample for an Amazon SNS topic that is subscribed to an Amazon SQS endpoint.
+    ///
+    /// * SQSFailureFeedbackRoleArn – Indicates failed message delivery status for an Amazon SNS topic that is subscribed to an Amazon SQS endpoint.
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// The SuccessFeedbackRoleArn and FailureFeedbackRoleArn attributes are used to give Amazon SNS write access to use CloudWatch Logs on your behalf. The SuccessFeedbackSampleRate attribute is for specifying the sample rate percentage (0-100) of successfully delivered messages. After you configure the FailureFeedbackRoleArn attribute, then all failed message deliveries generate CloudWatch Logs. The following attribute applies only to [server-side encryption](https://docs.aws.amazon.com/sns/latest/dg/sns-server-side-encryption.html):
     ///
     /// * KmsMasterKeyId – The ID of an Amazon Web Services managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see [Key Terms](https://docs.aws.amazon.com/sns/latest/dg/sns-server-side-encryption.html#sse-key-terms). For more examples, see [KeyId](https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters) in the Key Management Service API Reference.
     ///
@@ -2047,7 +2098,7 @@ public struct PublishInput: Swift.Sendable {
     ///
     /// * If you send one message with ContentBasedDeduplication enabled, and then another message with a MessageDeduplicationId that is the same as the one generated for the first MessageDeduplicationId, the two messages are treated as duplicates, within the deduplication scope and interval, and only one copy of the message is delivered.
     public var messageDeduplicationId: Swift.String?
-    /// This parameter applies only to FIFO (first-in-first-out) topics. The MessageGroupId can contain up to 128 alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~). The MessageGroupId is a tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner (however, messages in different message groups might be processed out of order). Every message must include a MessageGroupId.
+    /// The MessageGroupId can contain up to 128 alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~). For FIFO topics: The MessageGroupId is a tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner (however, messages in different message groups might be processed out of order). Every message must include a MessageGroupId. For standard topics: The MessageGroupId is optional and is forwarded only to Amazon SQS standard subscriptions to activate [fair queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-fair-queues.html). The MessageGroupId is not used for, or sent to, any other endpoint types. When provided, the same validation rules apply as for FIFO topics.
     public var messageGroupId: Swift.String?
     /// Set MessageStructure to json if you want to send a different message for each protocol. For example, using one publish action, you can send a short message to your SMS subscribers and a longer message to your email subscribers. If you set MessageStructure to json, the value of the Message parameter must:
     ///
@@ -2203,7 +2254,7 @@ public struct InvalidBatchEntryIdException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-/// The batch request contains more entries than permissible.
+/// The batch request contains more entries than permissible (more than 10).
 public struct TooManyEntriesInBatchRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -2268,7 +2319,7 @@ extension SNSClientTypes {
         ///
         /// The MessageDeduplicationId is available to the consumer of the message (this can be useful for troubleshooting delivery issues). If a message is sent successfully but the acknowledgement is lost and the message is resent with the same MessageDeduplicationId after the deduplication interval, Amazon SNS can't detect duplicate messages. Amazon SNS continues to keep track of the message deduplication ID even after the message is received and deleted.
         public var messageDeduplicationId: Swift.String?
-        /// This parameter applies only to FIFO (first-in-first-out) topics. The tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner (however, messages in different message groups might be processed out of order). To interleave multiple ordered streams within a single topic, use MessageGroupId values (for example, session data for multiple users). In this scenario, multiple consumers can process the topic, but the session data of each user is processed in a FIFO fashion. You must associate a non-empty MessageGroupId with a message. If you don't provide a MessageGroupId, the action fails. The length of MessageGroupId is 128 characters. MessageGroupId can contain alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~). MessageGroupId is required for FIFO topics. You can't use it for standard topics.
+        /// FIFO topics: The tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner (however, messages in different message groups might be processed out of order). To interleave multiple ordered streams within a single topic, use MessageGroupId values (for example, session data for multiple users). In this scenario, multiple consumers can process the topic, but the session data of each user is processed in a FIFO fashion. You must associate a non-empty MessageGroupId with a message. If you do not provide a MessageGroupId, the action fails. Standard topics: The MessageGroupId is optional and is forwarded only to Amazon SQS standard subscriptions to activate [fair queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-fair-queues.html). The MessageGroupId is not used for, or sent to, any other endpoint types. The length of MessageGroupId is 128 characters. MessageGroupId can contain alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~).
         public var messageGroupId: Swift.String?
         /// Set MessageStructure to json if you want to send a different message for each protocol. For example, using one publish action, you can send a short message to your SMS subscribers and a longer message to your email subscribers. If you set MessageStructure to json, the value of the Message parameter must:
         ///
@@ -2277,7 +2328,7 @@ extension SNSClientTypes {
         /// * contain at least a top-level JSON key of "default" with a value that is a string.
         ///
         ///
-        /// You can define other top-level keys that define the message you want to send to a specific transport protocol (e.g. http).
+        /// You can define other top-level keys that define the message you want to send to a specific transport protocol (for example, http).
         public var messageStructure: Swift.String?
         /// The subject of the batch message.
         public var subject: Swift.String?
@@ -2619,8 +2670,6 @@ public struct SetSubscriptionAttributesInput: Swift.Sendable {
 public struct SetTopicAttributesInput: Swift.Sendable {
     /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the SetTopicAttributes action uses:
     ///
-    /// * ApplicationSuccessFeedbackRoleArn – Indicates failed message delivery status for an Amazon SNS topic that is subscribed to a platform application endpoint.
-    ///
     /// * DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.
     ///
     /// * DisplayName – The display name to use for a topic with SMS subscriptions.
@@ -2640,13 +2689,13 @@ public struct SetTopicAttributesInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * Amazon Kinesis Data Firehose
+    /// * Amazon Data Firehose
     ///
-    /// * FirehoseSuccessFeedbackRoleArn – Indicates successful message delivery status for an Amazon SNS topic that is subscribed to an Amazon Kinesis Data Firehose endpoint.
+    /// * FirehoseSuccessFeedbackRoleArn – Indicates successful message delivery status for an Amazon SNS topic that is subscribed to an Amazon Data Firehose endpoint.
     ///
-    /// * FirehoseSuccessFeedbackSampleRate – Indicates percentage of successful messages to sample for an Amazon SNS topic that is subscribed to an Amazon Kinesis Data Firehose endpoint.
+    /// * FirehoseSuccessFeedbackSampleRate – Indicates percentage of successful messages to sample for an Amazon SNS topic that is subscribed to an Amazon Data Firehose endpoint.
     ///
-    /// * FirehoseFailureFeedbackRoleArn – Indicates failed message delivery status for an Amazon SNS topic that is subscribed to an Amazon Kinesis Data Firehose endpoint.
+    /// * FirehoseFailureFeedbackRoleArn – Indicates failed message delivery status for an Amazon SNS topic that is subscribed to an Amazon Data Firehose endpoint.
     ///
     ///
     ///
@@ -2664,11 +2713,11 @@ public struct SetTopicAttributesInput: Swift.Sendable {
     ///
     /// * Platform application endpoint
     ///
-    /// * ApplicationSuccessFeedbackRoleArn – Indicates successful message delivery status for an Amazon SNS topic that is subscribed to an Amazon Web Services application endpoint.
+    /// * ApplicationSuccessFeedbackRoleArn – Indicates successful message delivery status for an Amazon SNS topic that is subscribed to an platform application endpoint.
     ///
-    /// * ApplicationSuccessFeedbackSampleRate – Indicates percentage of successful messages to sample for an Amazon SNS topic that is subscribed to an Amazon Web Services application endpoint.
+    /// * ApplicationSuccessFeedbackSampleRate – Indicates percentage of successful messages to sample for an Amazon SNS topic that is subscribed to an platform application endpoint.
     ///
-    /// * ApplicationFailureFeedbackRoleArn – Indicates failed message delivery status for an Amazon SNS topic that is subscribed to an Amazon Web Services application endpoint.
+    /// * ApplicationFailureFeedbackRoleArn – Indicates failed message delivery status for an Amazon SNS topic that is subscribed to an platform application endpoint.
     ///
     ///
     /// In addition to being able to configure topic attributes for message delivery status of notification messages sent to Amazon SNS application endpoints, you can also configure application attributes for the delivery status of push notification messages sent to push notification services. For example, For more information, see [Using Amazon SNS Application Attributes for Message Delivery Status](https://docs.aws.amazon.com/sns/latest/dg/sns-msg-status.html).
@@ -2798,7 +2847,7 @@ public struct SubscribeInput: Swift.Sendable {
     ///
     /// * For the lambda protocol, the endpoint is the ARN of an Lambda function.
     ///
-    /// * For the firehose protocol, the endpoint is the ARN of an Amazon Kinesis Data Firehose delivery stream.
+    /// * For the firehose protocol, the endpoint is the ARN of an Amazon Data Firehose delivery stream.
     public var endpoint: Swift.String?
     /// The protocol that you want to use. Supported protocols include:
     ///
@@ -2818,7 +2867,7 @@ public struct SubscribeInput: Swift.Sendable {
     ///
     /// * lambda – delivery of JSON-encoded message to an Lambda function
     ///
-    /// * firehose – delivery of JSON-encoded message to an Amazon Kinesis Data Firehose delivery stream.
+    /// * firehose – delivery of JSON-encoded message to an Amazon Data Firehose delivery stream.
     /// This member is required.
     public var `protocol`: Swift.String?
     /// Sets whether the response from the Subscribe request includes the subscription ARN, even if the subscription is not yet confirmed. If you set this parameter to true, the response includes the ARN in all cases, even if the subscription is not yet confirmed. In addition to the ARN for confirmed subscriptions, the response also includes the pending subscription ARN value for subscriptions that aren't yet confirmed. A subscription becomes confirmed when the subscriber calls the ConfirmSubscription action with a confirmation token. The default value is false.

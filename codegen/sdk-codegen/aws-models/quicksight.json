@@ -5773,7 +5773,7 @@
             "traits": {
                 "smithy.api#length": {
                     "min": 0,
-                    "max": 500
+                    "max": 2000
                 }
             }
         },
@@ -11296,6 +11296,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The Folder ARN of the folder that you want the topic to reside in.</p>"
                     }
+                },
+                "CustomInstructions": {
+                    "target": "com.amazonaws.quicksight#CustomInstructions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Custom instructions for the topic.</p>"
+                    }
                 }
             },
             "traits": {
@@ -11986,6 +11992,31 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>A list of custom filter values.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#CustomInstructions": {
+            "type": "structure",
+            "members": {
+                "CustomInstructionsString": {
+                    "target": "com.amazonaws.quicksight#CustomInstructionsString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A text field for providing additional guidance or context for response generation.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Instructions that provide additional guidance and context for response generation.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#CustomInstructionsString": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 5000
+                },
+                "smithy.api#sensitive": {}
             }
         },
         "com.amazonaws.quicksight#CustomLabel": {
@@ -14373,6 +14404,12 @@
                     "target": "com.amazonaws.quicksight#BigQueryParameters",
                     "traits": {
                         "smithy.api#documentation": "<p>The parameters that are required to connect to a Google BigQuery data source.</p>"
+                    }
+                },
+                "ImpalaParameters": {
+                    "target": "com.amazonaws.quicksight#ImpalaParameters",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The parameters for Impala.</p>"
                     }
                 }
             },
@@ -24143,6 +24180,12 @@
                         "smithy.api#documentation": "<p>The HTTP status of the request.</p>",
                         "smithy.api#httpResponseCode": {}
                     }
+                },
+                "CustomInstructions": {
+                    "target": "com.amazonaws.quicksight#CustomInstructions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Custom instructions for the topic.</p>"
+                    }
                 }
             },
             "traits": {
@@ -30260,10 +30303,22 @@
                         "smithy.api#documentation": "<p>The sort configuration of a heat map.</p>"
                     }
                 },
+                "RowAxisDisplayOptions": {
+                    "target": "com.amazonaws.quicksight#AxisDisplayOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The options that determine the presentation of the row axis label.</p>"
+                    }
+                },
                 "RowLabelOptions": {
                     "target": "com.amazonaws.quicksight#ChartAxisLabelOptions",
                     "traits": {
                         "smithy.api#documentation": "<p>The label options of the row that is displayed in a <code>heat map</code>.</p>"
+                    }
+                },
+                "ColumnAxisDisplayOptions": {
+                    "target": "com.amazonaws.quicksight#AxisDisplayOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The options that determine the presentation of the row axis label.</p>"
                     }
                 },
                 "ColumnLabelOptions": {
@@ -31301,6 +31356,41 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>A static file that contains an image.</p>"
+            }
+        },
+        "com.amazonaws.quicksight#ImpalaParameters": {
+            "type": "structure",
+            "members": {
+                "Host": {
+                    "target": "com.amazonaws.quicksight#Host",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The host name of the Impala data source.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Port": {
+                    "target": "com.amazonaws.quicksight#Port",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The port of the Impala data source.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "Database": {
+                    "target": "com.amazonaws.quicksight#Database",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The database of the Impala data source.</p>"
+                    }
+                },
+                "SqlEndpointPath": {
+                    "target": "com.amazonaws.quicksight#SqlEndpointPath",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The HTTP path of the Impala data source.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The parameters that are required to connect to a Impala data source.</p>"
             }
         },
         "com.amazonaws.quicksight#IncludeFolderMembers": {
@@ -35829,7 +35919,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Lists the history of SPICE ingestions for a dataset.</p>",
+                "smithy.api#documentation": "<p>Lists the history of SPICE ingestions for a dataset. Limited to 5 TPS per user and 25 TPS per account.</p>",
                 "smithy.api#http": {
                     "method": "GET",
                     "uri": "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions",
@@ -41991,6 +42081,12 @@
                         "smithy.api#documentation": "<p>\n       A description of the plugin field wells and their persisted properties.\n      </p>"
                     }
                 },
+                "Actions": {
+                    "target": "com.amazonaws.quicksight#VisualCustomActionList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of custom actions that are configured for a visual.</p>"
+                    }
+                },
                 "VisualContentAltText": {
                     "target": "com.amazonaws.quicksight#LongPlainText",
                     "traits": {
@@ -44199,17 +44295,6 @@
                             }
                         },
                         {
-                            "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
                             "documentation": "For region us-iso-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -44220,17 +44305,6 @@
                                 "Region": "us-iso-east-1",
                                 "UseFIPS": true,
                                 "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-iso-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "Region": "us-iso-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
                             }
                         },
                         {
@@ -44247,17 +44321,6 @@
                             }
                         },
                         {
-                            "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack enabled",
-                            "expect": {
-                                "error": "FIPS and DualStack are enabled, but this partition does not support one or both"
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": true,
-                                "UseDualStack": true
-                            }
-                        },
-                        {
                             "documentation": "For region us-isob-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
@@ -44268,17 +44331,6 @@
                                 "Region": "us-isob-east-1",
                                 "UseFIPS": true,
                                 "UseDualStack": false
-                            }
-                        },
-                        {
-                            "documentation": "For region us-isob-east-1 with FIPS disabled and DualStack enabled",
-                            "expect": {
-                                "error": "DualStack is enabled but this partition does not support DualStack"
-                            },
-                            "params": {
-                                "Region": "us-isob-east-1",
-                                "UseFIPS": false,
-                                "UseDualStack": true
                             }
                         },
                         {
@@ -61545,6 +61597,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The definition of the topic that you want to update.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "CustomInstructions": {
+                    "target": "com.amazonaws.quicksight#CustomInstructions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Custom instructions for the topic.</p>"
                     }
                 }
             },

@@ -41,7 +41,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -61,14 +61,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectClient: ClientRuntime.Client {
     public static let clientName = "ConnectClient"
-    public static let version = "1.3.50"
+    public static let version = "1.5.31"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectClient.ConnectClientConfiguration
     let serviceName = "Connect"
@@ -1097,7 +1097,7 @@ extension ConnectClient {
 
     /// Performs the `AssociateQueueQuickConnects` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Associates a set of quick connects with a queue.
+    /// Associates a set of quick connects with a queue.
     ///
     /// - Parameter AssociateQueueQuickConnectsInput : [no documentation found]
     ///
@@ -1958,7 +1958,7 @@ extension ConnectClient {
 
     /// Performs the `CreateAgentStatus` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Creates an agent status for the specified Amazon Connect instance.
+    /// Creates an agent status for the specified Amazon Connect instance.
     ///
     /// - Parameter CreateAgentStatusInput : [no documentation found]
     ///
@@ -2489,7 +2489,7 @@ extension ConnectClient {
 
     /// Performs the `CreateHoursOfOperation` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Creates hours of operation.
+    /// Creates hours of operation.
     ///
     /// - Parameter CreateHoursOfOperationInput : [no documentation found]
     ///
@@ -2562,7 +2562,7 @@ extension ConnectClient {
 
     /// Performs the `CreateHoursOfOperationOverride` operation on the `Connect` service.
     ///
-    /// Creates an hours of operation override in an Amazon Connect hours of operation resource
+    /// Creates an hours of operation override in an Amazon Connect hours of operation resource.
     ///
     /// - Parameter CreateHoursOfOperationOverrideInput : [no documentation found]
     ///
@@ -2778,7 +2778,7 @@ extension ConnectClient {
 
     /// Performs the `CreateParticipant` operation on the `Connect` service.
     ///
-    /// Adds a new participant into an on-going chat contact. For more information, see [Customize chat flow experiences by integrating custom participants](https://docs.aws.amazon.com/connect/latest/adminguide/chat-customize-flow.html).
+    /// Adds a new participant into an on-going chat contact or webRTC call. For more information, see [Customize chat flow experiences by integrating custom participants](https://docs.aws.amazon.com/connect/latest/adminguide/chat-customize-flow.html) or [Enable multi-user web, in-app, and video calling](https://docs.aws.amazon.com/connect/latest/adminguide/enable-multiuser-inapp.html).
     ///
     /// - Parameter CreateParticipantInput : [no documentation found]
     ///
@@ -2787,6 +2787,7 @@ extension ConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConflictException` : Operation cannot be performed at this time as there is a conflict with another operation or contact state.
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
     /// - `ResourceNotFoundException` : The specified resource was not found.
@@ -3731,7 +3732,7 @@ extension ConnectClient {
 
     /// Performs the `CreateUser` operation on the `Connect` service.
     ///
-    /// Creates a user account for the specified Amazon Connect instance. Certain [UserIdentityInfo](https://docs.aws.amazon.com/connect/latest/APIReference/API_UserIdentityInfo.html) parameters are required in some situations. For example, Email is required if you are using SAML for identity management. FirstName and LastName are required if you are using Amazon Connect or SAML for identity management. For information about how to create users using the Amazon Connect admin website, see [Add Users](https://docs.aws.amazon.com/connect/latest/adminguide/user-management.html) in the Amazon Connect Administrator Guide.
+    /// Creates a user account for the specified Amazon Connect instance. Certain [UserIdentityInfo](https://docs.aws.amazon.com/connect/latest/APIReference/API_UserIdentityInfo.html) parameters are required in some situations. For example, Email, FirstName and LastName are required if you are using Amazon Connect or SAML for identity management. For information about how to create users using the Amazon Connect admin website, see [Add Users](https://docs.aws.amazon.com/connect/latest/adminguide/user-management.html) in the Amazon Connect Administrator Guide.
     ///
     /// - Parameter CreateUserInput : [no documentation found]
     ///
@@ -3891,7 +3892,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
@@ -3965,7 +3966,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
@@ -4658,7 +4659,7 @@ extension ConnectClient {
 
     /// Performs the `DeleteHoursOfOperation` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Deletes an hours of operation.
+    /// Deletes an hours of operation.
     ///
     /// - Parameter DeleteHoursOfOperationInput : [no documentation found]
     ///
@@ -4726,7 +4727,7 @@ extension ConnectClient {
 
     /// Performs the `DeleteHoursOfOperationOverride` operation on the `Connect` service.
     ///
-    /// Deletes an hours of operation override in an Amazon Connect hours of operation resource
+    /// Deletes an hours of operation override in an Amazon Connect hours of operation resource.
     ///
     /// - Parameter DeleteHoursOfOperationOverrideInput : [no documentation found]
     ///
@@ -4941,7 +4942,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deletePredefinedAttribute(input: DeletePredefinedAttributeInput) async throws -> DeletePredefinedAttributeOutput {
@@ -5147,7 +5148,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteQueue(input: DeleteQueueInput) async throws -> DeleteQueueOutput {
@@ -5290,7 +5291,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteRoutingProfile(input: DeleteRoutingProfileInput) async throws -> DeleteRoutingProfileOutput {
@@ -5428,7 +5429,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteSecurityProfile(input: DeleteSecurityProfileInput) async throws -> DeleteSecurityProfileOutput {
@@ -5565,7 +5566,7 @@ extension ConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteTrafficDistributionGroup(input: DeleteTrafficDistributionGroupInput) async throws -> DeleteTrafficDistributionGroupOutput {
         let context = Smithy.ContextBuilder()
@@ -5774,7 +5775,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteUserHierarchyGroup(input: DeleteUserHierarchyGroupInput) async throws -> DeleteUserHierarchyGroupOutput {
@@ -5844,7 +5845,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
     public func deleteView(input: DeleteViewInput) async throws -> DeleteViewOutput {
@@ -5914,7 +5915,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
     public func deleteViewVersion(input: DeleteViewVersionInput) async throws -> DeleteViewVersionOutput {
@@ -5983,7 +5984,7 @@ extension ConnectClient {
     /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func deleteVocabulary(input: DeleteVocabularyInput) async throws -> DeleteVocabularyOutput {
@@ -6040,7 +6041,7 @@ extension ConnectClient {
 
     /// Performs the `DescribeAgentStatus` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Describes an agent status.
+    /// Describes an agent status.
     ///
     /// - Parameter DescribeAgentStatusInput : [no documentation found]
     ///
@@ -6108,7 +6109,7 @@ extension ConnectClient {
 
     /// Performs the `DescribeAuthenticationProfile` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web ServicesSupport. Describes the target authentication profile.
+    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. Describes the target authentication profile.
     ///
     /// - Parameter DescribeAuthenticationProfileInput : [no documentation found]
     ///
@@ -6590,7 +6591,7 @@ extension ConnectClient {
 
     /// Performs the `DescribeHoursOfOperation` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Describes the hours of operation.
+    /// Describes the hours of operation.
     ///
     /// - Parameter DescribeHoursOfOperationInput : [no documentation found]
     ///
@@ -7133,7 +7134,7 @@ extension ConnectClient {
 
     /// Performs the `DescribeQueue` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified queue.
+    /// Describes the specified queue.
     ///
     /// - Parameter DescribeQueueInput : [no documentation found]
     ///
@@ -8442,7 +8443,7 @@ extension ConnectClient {
 
     /// Performs the `DisassociateQueueQuickConnects` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Disassociates a set of quick connects from a queue.
+    /// Disassociates a set of quick connects from a queue.
     ///
     /// - Parameter DisassociateQueueQuickConnectsInput : [no documentation found]
     ///
@@ -9000,9 +9001,103 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetContactMetrics` operation on the `Connect` service.
+    ///
+    /// Gets the real-time metrics of the specified contact. Use cases Following are common uses cases for this API:
+    ///
+    /// * You can use this API to retrieve the position of the contact in the queue.
+    ///
+    ///
+    /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+    ///
+    /// - Parameter GetContactMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `GetContactMetricsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func getContactMetrics(input: GetContactMetricsInput) async throws -> GetContactMetricsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getContactMetrics")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetContactMetricsInput, GetContactMetricsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetContactMetricsInput, GetContactMetricsOutput>(GetContactMetricsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetContactMetricsInput, GetContactMetricsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetContactMetricsInput, GetContactMetricsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetContactMetricsInput, GetContactMetricsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetContactMetricsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContactMetricsInput, GetContactMetricsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContactMetricsOutput>(GetContactMetricsOutput.httpOutput(from:), GetContactMetricsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContactMetricsInput, GetContactMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetContactMetricsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetContactMetricsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetContactMetricsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetContactMetricsInput, GetContactMetricsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetContactMetricsInput, GetContactMetricsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetContactMetricsInput, GetContactMetricsOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetContactMetrics")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetCurrentMetricData` operation on the `Connect` service.
     ///
-    /// Gets the real-time metric data from the specified Amazon Connect instance. For a description of each metric, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide.
+    /// Gets the real-time metric data from the specified Amazon Connect instance. For a description of each metric, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide. When you make a successful API request, you can expect the following metric values in the response:
+    ///
+    /// * Metric value is null: The calculation cannot be performed due to divide by zero or insufficient data
+    ///
+    /// * Metric value is a number (including 0) of defined type: The number provided is the calculation result
+    ///
+    /// * MetricResult list is empty: The request cannot find any data in the system
+    ///
+    ///
+    /// The following guidelines can help you work with the API:
+    ///
+    /// * Each dimension in the metric response must contain a value
+    ///
+    /// * Each item in MetricResult must include all requested metrics
+    ///
+    /// * If the response is slow due to large result sets, try these approaches:
+    ///
+    /// * Add filters to reduce the amount of data returned
     ///
     /// - Parameter GetCurrentMetricDataInput : [no documentation found]
     ///
@@ -9422,7 +9517,26 @@ extension ConnectClient {
 
     /// Performs the `GetMetricDataV2` operation on the `Connect` service.
     ///
-    /// Gets metric data from the specified Amazon Connect instance. GetMetricDataV2 offers more features than [GetMetricData](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricData.html), the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals. It does not support agent queues. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide.
+    /// Gets metric data from the specified Amazon Connect instance. GetMetricDataV2 offers more features than [GetMetricData](https://docs.aws.amazon.com/connect/latest/APIReference/API_GetMetricData.html), the previous version of this API. It has new metrics, offers filtering at a metric level, and offers the ability to filter and group data by channels, queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical data for the last 3 months, at varying intervals. It does not support agent queues. For a description of the historical metrics that are supported by GetMetricDataV2 and GetMetricData, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide. When you make a successful API request, you can expect the following metric values in the response:
+    ///
+    /// * Metric value is null: The calculation cannot be performed due to divide by zero or insufficient data
+    ///
+    /// * Metric value is a number (including 0) of defined type: The number provided is the calculation result
+    ///
+    /// * MetricResult list is empty: The request cannot find any data in the system
+    ///
+    ///
+    /// The following guidelines can help you work with the API:
+    ///
+    /// * Each dimension in the metric response must contain a value
+    ///
+    /// * Each item in MetricResult must include all requested metrics
+    ///
+    /// * If the response is slow due to large result sets, try these approaches:
+    ///
+    /// * Narrow the time range of your request
+    ///
+    /// * Add filters to reduce the amount of data returned
     ///
     /// - Parameter GetMetricDataV2Input : [no documentation found]
     ///
@@ -9698,7 +9812,7 @@ extension ConnectClient {
 
     /// Performs the `ImportPhoneNumber` operation on the `Connect` service.
     ///
-    /// Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an Amazon Connect instance. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance was created. Call the [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous ImportPhoneNumber operation. If you plan to claim or import numbers and then release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim or import and then release up to 200% of your maximum number of active phone numbers. If you claim or import and then release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming or importing any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed or imported numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web ServicesSupport ticket.
+    /// Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an Amazon Connect instance. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance was created. Call the [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous ImportPhoneNumber operation. If you plan to claim or import numbers and then release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim or import and then release up to 200% of your maximum number of active phone numbers. If you claim or import and then release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming or importing any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed or imported numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services Support ticket.
     ///
     /// - Parameter ImportPhoneNumberInput : [no documentation found]
     ///
@@ -9771,7 +9885,7 @@ extension ConnectClient {
 
     /// Performs the `ListAgentStatuses` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Lists agent statuses.
+    /// Lists agent statuses.
     ///
     /// - Parameter ListAgentStatusesInput : [no documentation found]
     ///
@@ -10116,7 +10230,7 @@ extension ConnectClient {
 
     /// Performs the `ListAuthenticationProfiles` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web ServicesSupport. Provides summary information about the authentication profiles in a specified Amazon Connect instance.
+    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. Provides summary information about the authentication profiles in a specified Amazon Connect instance.
     ///
     /// - Parameter ListAuthenticationProfilesInput : [no documentation found]
     ///
@@ -11709,7 +11823,7 @@ extension ConnectClient {
 
     /// Performs the `ListQueueQuickConnects` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Lists the quick connects associated with a queue.
+    /// Lists the quick connects associated with a queue.
     ///
     /// - Parameter ListQueueQuickConnectsInput : [no documentation found]
     ///
@@ -13380,7 +13494,7 @@ extension ConnectClient {
 
     /// Performs the `ReleasePhoneNumber` operation on the `Connect` service.
     ///
-    /// Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed. To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Amazon Connect admin website. After releasing a phone number, the phone number enters into a cooldown period for up to 180 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web ServicesSupport. If you plan to claim and release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
+    /// Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed. To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Amazon Connect admin website. After releasing a phone number, the phone number enters into a cooldown period for up to 180 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web Services Support. If you plan to claim and release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
     ///
     /// - Parameter ReleasePhoneNumberInput : [no documentation found]
     ///
@@ -13393,7 +13507,7 @@ extension ConnectClient {
     /// - `IdempotencyException` : An entity with the same name already exists.
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func releasePhoneNumber(input: ReleasePhoneNumberInput) async throws -> ReleasePhoneNumberOutput {
@@ -15180,7 +15294,7 @@ extension ConnectClient {
     /// * The [quota for concurrent active chats](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) is exceeded. Active chat throttling returns a LimitExceededException.
     ///
     ///
-    /// If you use the ChatDurationInMinutes parameter and receive a 400 error, your account may not support the ability to configure custom chat durations. For more information, contact Amazon Web ServicesSupport. For more information about chat, see the following topics in the Amazon Connect Administrator Guide:
+    /// If you use the ChatDurationInMinutes parameter and receive a 400 error, your account may not support the ability to configure custom chat durations. For more information, contact Amazon Web Services Support. For more information about chat, see the following topics in the Amazon Connect Administrator Guide:
     ///
     /// * [Concepts: Web and mobile messaging capabilities in Amazon Connect](https://docs.aws.amazon.com/connect/latest/adminguide/web-and-mobile-chat.html)
     ///
@@ -16750,7 +16864,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateAgentStatus` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates agent status.
+    /// Updates agent status.
     ///
     /// - Parameter UpdateAgentStatusInput : [no documentation found]
     ///
@@ -16823,7 +16937,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateAuthenticationProfile` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web ServicesSupport. Updates the selected authentication profile.
+    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. Updates the selected authentication profile.
     ///
     /// - Parameter UpdateAuthenticationProfileInput : [no documentation found]
     ///
@@ -17759,7 +17873,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateHoursOfOperation` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the hours of operation.
+    /// Updates the hours of operation.
     ///
     /// - Parameter UpdateHoursOfOperationInput : [no documentation found]
     ///
@@ -18224,7 +18338,7 @@ extension ConnectClient {
     /// - `IdempotencyException` : An entity with the same name already exists.
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updatePhoneNumber(input: UpdatePhoneNumberInput) async throws -> UpdatePhoneNumberOutput {
@@ -18299,7 +18413,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updatePhoneNumberMetadata(input: UpdatePhoneNumberMetadataInput) async throws -> UpdatePhoneNumberMetadataOutput {
@@ -18502,7 +18616,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateQueueHoursOfOperation` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the hours of operation for the specified queue.
+    /// Updates the hours of operation for the specified queue.
     ///
     /// - Parameter UpdateQueueHoursOfOperationInput : [no documentation found]
     ///
@@ -18573,7 +18687,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateQueueMaxContacts` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the maximum number of contacts allowed in a queue before it is considered full.
+    /// Updates the maximum number of contacts allowed in a queue before it is considered full.
     ///
     /// - Parameter UpdateQueueMaxContactsInput : [no documentation found]
     ///
@@ -18644,7 +18758,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateQueueName` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the name and description of a queue. At least Name or Description must be provided.
+    /// Updates the name and description of a queue. At least Name or Description must be provided.
     ///
     /// - Parameter UpdateQueueNameInput : [no documentation found]
     ///
@@ -18716,7 +18830,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateQueueOutboundCallerConfig` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue.
+    /// Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue.
     ///
     /// * If the phone number is claimed to a traffic distribution group that was created in the same Region as the Amazon Connect instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId. However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
     ///
@@ -18866,7 +18980,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateQueueStatus` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the status of the queue.
+    /// Updates the status of the queue.
     ///
     /// - Parameter UpdateQueueStatusInput : [no documentation found]
     ///
@@ -19877,7 +19991,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     public func updateUserHierarchyStructure(input: UpdateUserHierarchyStructureInput) async throws -> UpdateUserHierarchyStructureOutput {
@@ -20305,7 +20419,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
     public func updateViewContent(input: UpdateViewContentInput) async throws -> UpdateViewContentOutput {
@@ -20379,7 +20493,7 @@ extension ConnectClient {
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
-    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceInUseException` : That resource is already in use (for example, you're trying to add a record with the same name as an existing record). If you are trying to delete a resource (for example, DeleteHoursOfOperation or DeletePredefinedAttribute), remove its reference from related resources and then try again.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
     public func updateViewMetadata(input: UpdateViewMetadataInput) async throws -> UpdateViewMetadataOutput {

@@ -41,7 +41,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -61,14 +61,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSMContactsClient: ClientRuntime.Client {
     public static let clientName = "SSMContactsClient"
-    public static let version = "1.3.50"
+    public static let version = "1.5.31"
     let client: ClientRuntime.SdkHttpClient
     let config: SSMContactsClient.SSMContactsClientConfiguration
     let serviceName = "SSM Contacts"
@@ -883,7 +883,7 @@ extension SSMContactsClient {
 
     /// Performs the `DeleteContact` operation on the `SSMContacts` service.
     ///
-    /// To remove a contact from Incident Manager, you can delete the contact. Deleting a contact removes them from all escalation plans and related response plans. Deleting an escalation plan removes it from all related response plans. You will have to recreate the contact and its contact channels before you can use it again.
+    /// To remove a contact from Incident Manager, you can delete the contact. However, deleting a contact does not remove it from escalation plans and related response plans. Deleting an escalation plan also does not remove it from all related response plans. To modify an escalation plan, we recommend using the [UpdateContact] action to specify a different existing contact.
     ///
     /// - Parameter DeleteContactInput : [no documentation found]
     ///
@@ -956,7 +956,7 @@ extension SSMContactsClient {
 
     /// Performs the `DeleteContactChannel` operation on the `SSMContacts` service.
     ///
-    /// To no longer receive engagements on a contact channel, you can delete the channel from a contact. Deleting the contact channel removes it from the contact's engagement plan. If you delete the only contact channel for a contact, you won't be able to engage that contact during an incident.
+    /// To stop receiving engagements on a contact channel, you can delete the channel from a contact. Deleting the contact channel does not remove it from the contact's engagement plan, but the stage that includes the channel will be ignored. If you delete the only contact channel for a contact, you'll no longer be able to engage that contact during an incident.
     ///
     /// - Parameter DeleteContactChannelInput : [no documentation found]
     ///
@@ -2472,7 +2472,7 @@ extension SSMContactsClient {
 
     /// Performs the `ListTagsForResource` operation on the `SSMContacts` service.
     ///
-    /// Lists the tags of an escalation plan or contact.
+    /// Lists the tags of a contact, escalation plan, rotation, or on-call schedule.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///

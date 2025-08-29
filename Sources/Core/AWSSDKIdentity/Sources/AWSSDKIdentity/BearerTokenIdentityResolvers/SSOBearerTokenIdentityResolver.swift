@@ -16,7 +16,6 @@ import struct Foundation.TimeInterval
 import class Foundation.JSONDecoder
 import class Foundation.JSONEncoder
 import struct Smithy.Attributes
-import AwsCommonRuntimeKit
 import enum Smithy.ClientError
 import func Foundation.NSHomeDirectory
 @_spi(FileBasedConfig) import AWSSDKCommon
@@ -28,6 +27,7 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
     private let profileName: String?
     private let configFilePath: String?
     private let logger: SwiftLogger = SwiftLogger(label: "SSOBearerTokenIdentityResolver")
+    private let credentialFeatureIDs: [String]
 
     /// - Parameters:
     ///    - profileName: The profile name to use. If not provided it will be resolved internally via the `AWS_PROFILE` environment variable or defaulted to `default` if not configured.
@@ -36,26 +36,31 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
         profileName: String? = nil,
         configFilePath: String? = nil
     ) {
+        self.init(
+            profileName: profileName,
+            configFilePath: configFilePath,
+            credentialFeatureIDs: []
+        )
+    }
+
+    // Initializer used by SSOAWSCredentialIdentityResolver.
+    internal init(
+        profileName: String? = nil,
+        configFilePath: String? = nil,
+        credentialFeatureIDs: [String]
+    ) {
         self.profileName = profileName
         self.configFilePath = configFilePath
+        self.credentialFeatureIDs = credentialFeatureIDs
     }
 
     public func getIdentity(
         identityProperties: Smithy.Attributes?
     ) async throws -> SmithyIdentity.BearerTokenIdentity {
-        guard let identityProperties, let internalSSOOIDCClient = identityProperties.get(
-            key: InternalClientKeys.internalSSOOIDCClientKey
-        ) else {
-            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
-                "SSOBearerTokenIdentityResolver: "
-                + "Missing IdentityProvidingSSOOIDCClient in identity properties."
-            )
-        }
-
         let fileBasedConfig = try CRTFileBasedConfiguration(configFilePath: configFilePath)
         let resolvedSSOToken = try await resolveSSOAccessToken(
             fileBasedConfig: fileBasedConfig,
-            ssoOIDCClient: internalSSOOIDCClient
+            ssoOIDCClient: IdentityProvidingSSOOIDCClient()
         )
         return BearerTokenIdentity(token: resolvedSSOToken)
     }
@@ -88,7 +93,7 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
     ) throws -> (ssoSessionName: String, SSOToken) {
         // Get sso session name connected to given profile name; or to default profile name, if no profile name was given.
         let ssoSessionName = fileBasedConfig.getSection(
-            name: profileName ?? FileBasedConfiguration.defaultProfileName, sectionType: .profile
+            name: profileName ?? "default", sectionType: .profile
         )?.getProperty(name: "sso_session")?.value
 
         // Get SHA1 hash of the name
@@ -151,7 +156,8 @@ public struct SSOBearerTokenIdentityResolver: BearerTokenIdentityResolver {
             // 3 fields below are guaranteed to be non-nil for execution flow to reach here.
             clientID: token.clientId!,
             clientSecret: token.clientSecret!,
-            refreshToken: token.refreshToken!
+            refreshToken: token.refreshToken!,
+            credentialFeatureIDs: credentialFeatureIDs
         )
 
         guard !newAccessToken.token.isEmpty else {

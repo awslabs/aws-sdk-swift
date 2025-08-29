@@ -610,11 +610,7 @@ public struct CreateComputeNodeGroupInput: Swift.Sendable {
     /// An Amazon EC2 launch template Amazon Web Services PCS uses to launch compute nodes.
     /// This member is required.
     public var customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate?
-    /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with AWSPCS or it must have /aws-pcs/ in its path. Examples
-    ///
-    /// * arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1
-    ///
-    /// * arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
+    /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see [IAM instance profiles for PCS](https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html) in the PCS User Guide.
     /// This member is required.
     public var iamInstanceProfileArn: Swift.String?
     /// A list of EC2 instance configurations that Amazon Web Services PCS can provision in the compute node group.
@@ -794,11 +790,7 @@ extension PCSClientTypes {
         public var customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate?
         /// The list of errors that occurred during compute node group provisioning.
         public var errorInfo: [PCSClientTypes.ErrorInfo]?
-        /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with AWSPCS or it must have /aws-pcs/ in its path. Examples
-        ///
-        /// * arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1
-        ///
-        /// * arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
+        /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see [IAM instance profiles for PCS](https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html) in the PCS User Guide.
         /// This member is required.
         public var iamInstanceProfileArn: Swift.String?
         /// The generated unique ID of the compute node group.
@@ -1044,11 +1036,7 @@ public struct UpdateComputeNodeGroupInput: Swift.Sendable {
     public var computeNodeGroupIdentifier: Swift.String?
     /// An Amazon EC2 launch template Amazon Web Services PCS uses to launch compute nodes.
     public var customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate?
-    /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission. The resource identifier of the ARN must start with AWSPCS or it must have /aws-pcs/ in its path. Examples
-    ///
-    /// * arn:aws:iam::111122223333:instance-profile/AWSPCS-example-role-1
-    ///
-    /// * arn:aws:iam::111122223333:instance-profile/aws-pcs/example-role-2
+    /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see [IAM instance profiles for PCS](https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html) in the PCS User Guide.
     public var iamInstanceProfileArn: Swift.String?
     /// Specifies how EC2 instances are purchased on your behalf. Amazon Web Services PCS supports On-Demand and Spot instances. For more information, see [Instance purchasing options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html) in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to On-Demand.
     public var purchaseOption: PCSClientTypes.PurchaseOption?
@@ -1101,17 +1089,50 @@ public struct UpdateComputeNodeGroupOutput: Swift.Sendable {
 
 extension PCSClientTypes {
 
+    public enum NetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkType] {
+            return [
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PCSClientTypes {
+
     /// The networking configuration for the cluster's control plane.
     public struct NetworkingRequest: Swift.Sendable {
+        /// The IP address version the cluster uses. The default is IPV4.
+        public var networkType: PCSClientTypes.NetworkType?
         /// A list of security group IDs associated with the Elastic Network Interface (ENI) created in subnets.
         public var securityGroupIds: [Swift.String]?
         /// The list of subnet IDs where Amazon Web Services PCS creates an Elastic Network Interface (ENI) to enable communication between managed controllers and Amazon Web Services PCS resources. Subnet IDs have the form subnet-0123456789abcdef0. Subnets can't be in Outposts, Wavelength or an Amazon Web Services Local Zone. Amazon Web Services PCS currently supports only 1 subnet in this list.
         public var subnetIds: [Swift.String]?
 
         public init(
+            networkType: PCSClientTypes.NetworkType? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
         ) {
+            self.networkType = networkType
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -1298,24 +1319,28 @@ extension PCSClientTypes {
 
     /// An endpoint available for interaction with the scheduler.
     public struct Endpoint: Swift.Sendable {
+        /// The endpoint's IPv6 address. Example: 2001:db8::1
+        public var ipv6Address: Swift.String?
         /// The endpoint's connection port number. Example: 1234
         /// This member is required.
         public var port: Swift.String?
-        /// The endpoint's private IP address. Example: 2.2.2.2
+        /// For clusters that use IPv4, this is the endpoint's private IP address. Example: 10.1.2.3 For clusters configured to use IPv6, this is an empty string.
         /// This member is required.
         public var privateIpAddress: Swift.String?
-        /// The endpoint's public IP address. Example: 1.1.1.1
+        /// The endpoint's public IP address. Example: 192.0.2.1
         public var publicIpAddress: Swift.String?
         /// Indicates the type of endpoint running at the specific IP address.
         /// This member is required.
         public var type: PCSClientTypes.EndpointType?
 
         public init(
+            ipv6Address: Swift.String? = nil,
             port: Swift.String? = nil,
             privateIpAddress: Swift.String? = nil,
             publicIpAddress: Swift.String? = nil,
             type: PCSClientTypes.EndpointType? = nil
         ) {
+            self.ipv6Address = ipv6Address
             self.port = port
             self.privateIpAddress = privateIpAddress
             self.publicIpAddress = publicIpAddress
@@ -1328,6 +1353,8 @@ extension PCSClientTypes {
 
     /// The networking configuration for the cluster's control plane.
     public struct Networking: Swift.Sendable {
+        /// The IP address version the cluster uses. The default is IPV4.
+        public var networkType: PCSClientTypes.NetworkType?
         /// The list of security group IDs associated with the Elastic Network Interface (ENI) created in subnets. The following rules are required:
         ///
         /// * Inbound rule 1
@@ -1347,7 +1374,7 @@ extension PCSClientTypes {
         ///
         /// * Ports: All
         ///
-        /// * Destination: 0.0.0.0/0 (IPv4)
+        /// * Destination: 0.0.0.0/0 (IPv4) or ::/0 (IPv6)
         ///
         ///
         ///
@@ -1364,9 +1391,11 @@ extension PCSClientTypes {
         public var subnetIds: [Swift.String]?
 
         public init(
+            networkType: PCSClientTypes.NetworkType? = nil,
             securityGroupIds: [Swift.String]? = nil,
             subnetIds: [Swift.String]? = nil
         ) {
+            self.networkType = networkType
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
         }
@@ -3115,6 +3144,7 @@ extension PCSClientTypes.Endpoint {
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.privateIpAddress = try reader["privateIpAddress"].readIfPresent() ?? ""
         value.publicIpAddress = try reader["publicIpAddress"].readIfPresent()
+        value.ipv6Address = try reader["ipv6Address"].readIfPresent()
         value.port = try reader["port"].readIfPresent() ?? ""
         return value
     }
@@ -3127,6 +3157,7 @@ extension PCSClientTypes.Networking {
         var value = PCSClientTypes.Networking()
         value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.networkType = try reader["networkType"].readIfPresent()
         return value
     }
 }
@@ -3392,6 +3423,7 @@ extension PCSClientTypes.NetworkingRequest {
 
     static func write(value: PCSClientTypes.NetworkingRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["networkType"].write(value.networkType)
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }

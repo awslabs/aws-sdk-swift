@@ -41,7 +41,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -61,14 +61,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SFNClient: ClientRuntime.Client {
     public static let clientName = "SFNClient"
-    public static let version = "1.3.50"
+    public static let version = "1.5.31"
     let client: ClientRuntime.SdkHttpClient
     let config: SFNClient.SFNClientConfiguration
     let serviceName = "SFN"
@@ -2683,7 +2683,7 @@ extension SFNClient {
     ///
     /// * An [Amazon Web Services service integration](https://docs.aws.amazon.com/step-functions/latest/dg/connect-to-services.html) request and response
     ///
-    /// * An [HTTP Task](https://docs.aws.amazon.com/step-functions/latest/dg/connect-third-party-apis.html) request and response
+    /// * An [HTTP Task](https://docs.aws.amazon.com/step-functions/latest/dg/call-https-apis.html) request and response
     ///
     ///
     /// You can call this API on only one state at a time. The states that you can test include the following:

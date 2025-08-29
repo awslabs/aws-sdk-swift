@@ -194,9 +194,9 @@ extension EvsClientTypes {
 
 extension EvsClientTypes {
 
-    /// An object that represents an initial VLAN subnet for the environment. Amazon EVS creates initial VLAN subnets when you first create the environment. You must specify a non-overlapping CIDR block for each VLAN subnet. Amazon EVS creates the following 10 VLAN subnets: host management VLAN, vMotion VLAN, vSAN VLAN, VTEP VLAN, Edge VTEP VLAN, Management VM VLAN, HCX uplink VLAN, NSX uplink VLAN, expansion VLAN 1, expansion VLAN 2.
+    /// An object that represents an initial VLAN subnet for the Amazon EVS environment. Amazon EVS creates initial VLAN subnets when you first create the environment. Amazon EVS creates the following 10 VLAN subnets: host management VLAN, vMotion VLAN, vSAN VLAN, VTEP VLAN, Edge VTEP VLAN, Management VM VLAN, HCX uplink VLAN, NSX uplink VLAN, expansion VLAN 1, expansion VLAN 2. For each Amazon EVS VLAN subnet, you must specify a non-overlapping CIDR block. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24.
     public struct InitialVlanInfo: Swift.Sendable {
-        /// The CIDR block that you provide to create a VLAN subnet. VLAN CIDR blocks must not overlap with other subnets in the VPC.
+        /// The CIDR block that you provide to create an Amazon EVS VLAN subnet. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC.
         /// This member is required.
         public var cidr: Swift.String?
 
@@ -210,7 +210,7 @@ extension EvsClientTypes {
 
 extension EvsClientTypes {
 
-    /// The initial VLAN subnets for the environment. You must specify a non-overlapping CIDR block for each VLAN subnet.
+    /// The initial VLAN subnets for the environment. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24. Amazon EVS VLAN subnet CIDR blocks must not overlap with other subnets in the VPC.
     public struct InitialVlans: Swift.Sendable {
         /// The edge VTEP VLAN subnet. This VLAN subnet manages traffic flowing between the internal network and external networks, including internet access and other site connections.
         /// This member is required.
@@ -239,7 +239,7 @@ extension EvsClientTypes {
         /// The VM management VLAN subnet. This VLAN subnet carries traffic for vSphere virtual machines.
         /// This member is required.
         public var vmManagement: EvsClientTypes.InitialVlanInfo?
-        /// The VMkernel management VLAN subnet. This VLAN subnet carries traffic for managing ESXi hosts and communicating with VMware vCenter Server.
+        /// The host VMkernel management VLAN subnet. This VLAN subnet carries traffic for managing ESXi hosts and communicating with VMware vCenter Server.
         /// This member is required.
         public var vmkManagement: EvsClientTypes.InitialVlanInfo?
 
@@ -273,10 +273,10 @@ extension EvsClientTypes {
 
     /// The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key.
     public struct LicenseInfo: Swift.Sendable {
-        /// The VCF solution key. This license unlocks VMware VCF product features, including vSphere, NSX, SDDC Manager, and vCenter Server.
+        /// The VCF solution key. This license unlocks VMware VCF product features, including vSphere, NSX, SDDC Manager, and vCenter Server. The VCF solution key must cover a minimum of 256 cores.
         /// This member is required.
         public var solutionKey: Swift.String?
-        /// The VSAN license key. This license unlocks vSAN features.
+        /// The VSAN license key. This license unlocks vSAN features. The vSAN license key must provide at least 110 TiB of vSAN capacity.
         /// This member is required.
         public var vsanKey: Swift.String?
 
@@ -390,20 +390,20 @@ extension EvsClientTypes {
 public struct CreateEnvironmentInput: Swift.Sendable {
     /// This parameter is not used in Amazon EVS currently. If you supply input for this parameter, it will have no effect. A unique, case-sensitive identifier that you provide to ensure the idempotency of the environment creation request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
     public var clientToken: Swift.String?
-    /// The connectivity configuration for the environment. Amazon EVS requires that you specify two route server peer IDs. During environment creation, the route server endpoints peer with the NSX edges over the NSX, providing BGP dynamic routing for overlay networks.
+    /// The connectivity configuration for the environment. Amazon EVS requires that you specify two route server peer IDs. During environment creation, the route server endpoints peer with the NSX edges over the NSX uplink subnet, providing BGP-based dynamic routing for overlay networks.
     /// This member is required.
     public var connectivityInfo: EvsClientTypes.ConnectivityInfo?
     /// The name to give to your environment. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphanumeric character, and can't be longer than 100 characters. The name must be unique within the Amazon Web Services Region and Amazon Web Services account that you're creating the environment in.
     public var environmentName: Swift.String?
-    /// The ESXi hosts to add to the environment. Amazon EVS requires that you provide details for a minimum of 4 hosts during environment creation. For each host, you must provide the desired hostname, EC2 SSH key, and EC2 instance type. Optionally, you can also provide a partition or cluster placement group to use, or use Amazon EC2 Dedicated Hosts.
+    /// The ESXi hosts to add to the environment. Amazon EVS requires that you provide details for a minimum of 4 hosts during environment creation. For each host, you must provide the desired hostname, EC2 SSH keypair name, and EC2 instance type. Optionally, you can also provide a partition or cluster placement group to use, or use Amazon EC2 Dedicated Hosts.
     /// This member is required.
     public var hosts: [EvsClientTypes.HostInfoForCreate]?
-    /// The initial VLAN subnets for the environment. You must specify a non-overlapping CIDR block for each VLAN subnet.
+    /// The initial VLAN subnets for the Amazon EVS environment. For each Amazon EVS VLAN subnet, you must specify a non-overlapping CIDR block. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24.
     /// This member is required.
     public var initialVlans: EvsClientTypes.InitialVlans?
     /// A unique ID for the customer-managed KMS key that is used to encrypt the VCF credential pairs for SDDC Manager, NSX Manager, and vCenter appliances. These credentials are stored in Amazon Web Services Secrets Manager.
     public var kmsKeyId: Swift.String?
-    /// The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key. VCF licenses must have sufficient core entitlements to cover vCPU core and vSAN storage capacity needs. VCF licenses can be used for only one Amazon EVS environment. Amazon EVS does not support reuse of VCF licenses for multiple environments. VCF license information can be retrieved from the Broadcom portal.
+    /// The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key. The VCF solution key must cover a minimum of 256 cores. The vSAN license key must provide at least 110 TiB of vSAN capacity. VCF licenses can be used for only one Amazon EVS environment. Amazon EVS does not support reuse of VCF licenses for multiple environments. VCF license information can be retrieved from the Broadcom portal.
     /// This member is required.
     public var licenseInfo: [EvsClientTypes.LicenseInfo]?
     /// The security group that controls communication between the Amazon EVS control plane and VPC. The default security group is used if a custom security group isn't specified. The security group should allow access to the following.
@@ -425,7 +425,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
     public var siteId: Swift.String?
     /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
     public var tags: [Swift.String: Swift.String]?
-    /// Customer confirmation that the customer has purchased and maintains sufficient VCF software licenses to cover all physical processor cores in the environment, in compliance with VMware's licensing requirements and terms of use.
+    /// Customer confirmation that the customer has purchased and will continue to maintain the required number of VCF software licenses to cover all physical processor cores in the Amazon EVS environment. Information about your VCF software in Amazon EVS will be shared with Broadcom to verify license compliance. Amazon EVS does not validate license keys. To validate license keys, visit the Broadcom support portal.
     /// This member is required.
     public var termsAccepted: Swift.Bool?
     /// The DNS hostnames for the virtual machines that host the VCF management appliances. Amazon EVS requires that you provide DNS hostnames for the following appliances: vCenter, NSX Manager, SDDC Manager, and Cloud Builder.
@@ -434,7 +434,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
     /// The VCF version to use for the environment. Amazon EVS only supports VCF version 5.2.1 at this time.
     /// This member is required.
     public var vcfVersion: EvsClientTypes.VcfVersion?
-    /// A unique ID for the VPC that connects to the environment control plane for service access. Amazon EVS requires that all VPC subnets exist in a single Availability Zone in a Region where the service is available. The VPC that you select must have a valid DHCP option set with domain name, at least two DNS servers, and an NTP server. These settings are used to configure your VCF appliances and hosts. If you plan to use HCX over the internet, choose a VPC that has a primary CIDR block and a /28 secondary CIDR block from an IPAM pool. Make sure that your VPC also has an attached internet gateway. Amazon EVS does not support the following Amazon Web Services networking options for NSX overlay connectivity: cross-Region VPC peering, Amazon S3 gateway endpoints, or Amazon Web Services Direct Connect virtual private gateway associations.
+    /// A unique ID for the VPC that the environment is deployed inside. Amazon EVS requires that all VPC subnets exist in a single Availability Zone in a Region where the service is available. The VPC that you specify must have a valid DHCP option set with domain name, at least two DNS servers, and an NTP server. These settings are used to configure your VCF appliances and hosts. The VPC cannot be used with any other deployed Amazon EVS environment. Amazon EVS does not provide multi-VPC support for environments at this time. Amazon EVS does not support the following Amazon Web Services networking options for NSX overlay connectivity: cross-Region VPC peering, Amazon S3 gateway endpoints, or Amazon Web Services Direct Connect virtual private gateway associations. Ensure that you specify a VPC that is adequately sized to accommodate the {evws} subnets.
     /// This member is required.
     public var vpcId: Swift.String?
 
@@ -648,7 +648,7 @@ extension EvsClientTypes {
         public var environmentStatus: EvsClientTypes.CheckResult?
         /// The Amazon Web Services KMS key ID that Amazon Web Services Secrets Manager uses to encrypt secrets that are associated with the environment. These secrets contain the VCF credentials that are needed to install vCenter Server, NSX, and SDDC Manager. By default, Amazon EVS use the Amazon Web Services Secrets Manager managed key aws/secretsmanager. You can also specify a customer managed key.
         public var kmsKeyId: Swift.String?
-        /// The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key.
+        /// The license information that Amazon EVS requires to create an environment. Amazon EVS requires two license keys: a VCF solution key and a vSAN license key. The VCF solution key must cover a minimum of 256 cores. The vSAN license key must provide at least 110 TiB of vSAN capacity.
         public var licenseInfo: [EvsClientTypes.LicenseInfo]?
         /// The date and time that the environment was modified.
         public var modifiedAt: Foundation.Date?
@@ -660,7 +660,7 @@ extension EvsClientTypes {
         public var siteId: Swift.String?
         /// A detailed description of the environmentState of an environment.
         public var stateDetails: Swift.String?
-        /// Customer confirmation that the customer has purchased and maintains sufficient VCF software licenses to cover all physical processor cores in the environment, in compliance with VMware's licensing requirements and terms of use.
+        /// Customer confirmation that the customer has purchased and will continue to maintain the required number of VCF software licenses to cover all physical processor cores in the Amazon EVS environment. Information about your VCF software in Amazon EVS will be shared with Broadcom to verify license compliance. Amazon EVS does not validate license keys. To validate license keys, visit the Broadcom support portal.
         public var termsAccepted: Swift.Bool?
         /// The DNS hostnames to be used by the VCF management appliances in your environment. For environment creation to be successful, each hostname entry must resolve to a domain name that you've registered in your DNS service of choice and configured in the DHCP option set of your VPC. DNS hostnames cannot be changed after environment creation has started.
         public var vcfHostnames: EvsClientTypes.VcfHostnames?
@@ -1206,7 +1206,7 @@ extension EvsClientTypes {
     public struct Vlan: Swift.Sendable {
         /// The availability zone of the VLAN.
         public var availabilityZone: Swift.String?
-        /// The CIDR block of the VLAN.
+        /// The CIDR block of the VLAN. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24.
         public var cidr: Swift.String?
         /// The date and time that the VLAN was created.
         public var createdAt: Foundation.Date?
@@ -1285,7 +1285,32 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
-/// The request doesn't comply with IAM tag policy. Correct your request and then retry it.
+/// The number of one or more Amazon EVS resources exceeds the maximum allowed. For a list of Amazon EVS quotas, see [Amazon EVS endpoints and quotas](https://docs.aws.amazon.com/evs/latest/userguide/service-quotas-evs.html) in the Amazon EVS User Guide. Delete some resources or request an increase in your service quota. To request an increase, see [Amazon Web Services Service Quotas](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) in the Amazon Web Services General Reference Guide.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Describes the error encountered.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// TagPolicyException is deprecated. See [ValidationException](https://docs.aws.amazon.com/evs/latest/APIReference/API_ValidationException.html) instead. The request doesn't comply with IAM tag policy. Correct your request and then retry it.
 public struct TagPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1310,7 +1335,7 @@ public struct TagPolicyException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-/// A service resource associated with the request has more than 200 tags.
+/// TooManyTagsException is deprecated. See [ServiceQuotaExceededException](https://docs.aws.amazon.com/evs/latest/APIReference/API_ServiceQuotaExceededException.html) instead. A service resource associated with the request has more than 200 tags.
 public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -1839,6 +1864,7 @@ enum TagResourceOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "TagPolicyException": return try TagPolicyException.makeError(baseError: baseError)
             case "TooManyTagsException": return try TooManyTagsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -1901,6 +1927,19 @@ extension ResourceNotFoundException {
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.resourceId = try reader["resourceId"].readIfPresent() ?? ""
         value.properties.resourceType = try reader["resourceType"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

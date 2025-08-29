@@ -5,7 +5,11 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import struct Smithy.Attributes
-import protocol SmithyIdentityAPI.IdentityResolver
+import protocol AWSSDKIdentityAPI.S3ExpressIdentityResolver
 
-public protocol S3ExpressIdentityResolver: IdentityResolver where IdentityT == S3ExpressIdentity {}
+// This type was moved from this module to AWSSDKIdentityAPI in order to separate this
+// protocol from the concrete credential resolver implementations in this module.
+//
+// This typealias makes the type available in its original location to prevent breaking
+// customers who expect it to be here.
+public typealias S3ExpressIdentityResolver = AWSSDKIdentityAPI.S3ExpressIdentityResolver

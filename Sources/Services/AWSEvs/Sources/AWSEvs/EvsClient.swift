@@ -40,7 +40,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -60,14 +60,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EvsClient: ClientRuntime.Client {
     public static let clientName = "EvsClient"
-    public static let version = "1.3.50"
+    public static let version = "1.5.31"
     let client: ClientRuntime.SdkHttpClient
     let config: EvsClient.EvsClientConfiguration
     let serviceName = "evs"
@@ -371,7 +371,7 @@ extension EvsClient {
 extension EvsClient {
     /// Performs the `CreateEnvironment` operation on the `Evs` service.
     ///
-    /// Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server. During environment creation, Amazon EVS performs validations on DNS settings, provisions VLAN subnets and hosts, and deploys the supplied version of VCF. It can take several hours to create an environment. After the deployment completes, you can configure VCF according to your unique requirements. You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironment action. This results in a ValidationException response. EC2 instances created through Amazon EVS do not support associating an IAM instance profile.
+    /// Creates an Amazon EVS environment that runs VCF software, such as SDDC Manager, NSX Manager, and vCenter Server. During environment creation, Amazon EVS performs validations on DNS settings, provisions VLAN subnets and hosts, and deploys the supplied version of VCF. It can take several hours to create an environment. After the deployment completes, you can configure VCF in the vSphere user interface according to your needs. You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironment action. This results in a ValidationException response.
     ///
     /// - Parameter CreateEnvironmentInput : [no documentation found]
     ///
@@ -440,7 +440,7 @@ extension EvsClient {
 
     /// Performs the `CreateEnvironmentHost` operation on the `Evs` service.
     ///
-    /// Creates an ESXi host and adds it to an Amazon EVS environment. Amazon EVS supports 4-16 hosts per environment. This action can only be used after the Amazon EVS environment is deployed. All Amazon EVS hosts are created with the latest AMI release version for the respective VCF version of the environment. You can use the dedicatedHostId parameter to specify an Amazon EC2 Dedicated Host for ESXi host creation. You can use the placementGroupId parameter to specify a cluster or partition placement group to launch EC2 instances into. You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironmentHost action. This results in a ValidationException response. EC2 instances created through Amazon EVS do not support associating an IAM instance profile.
+    /// Creates an ESXi host and adds it to an Amazon EVS environment. Amazon EVS supports 4-16 hosts per environment. This action can only be used after the Amazon EVS environment is deployed. You can use the dedicatedHostId parameter to specify an Amazon EC2 Dedicated Host for ESXi host creation. You can use the placementGroupId parameter to specify a cluster or partition placement group to launch EC2 instances into. You cannot use the dedicatedHostId and placementGroupId parameters together in the same CreateEnvironmentHost action. This results in a ValidationException response.
     ///
     /// - Parameter CreateEnvironmentHostInput : [no documentation found]
     ///
@@ -510,7 +510,7 @@ extension EvsClient {
 
     /// Performs the `DeleteEnvironment` operation on the `Evs` service.
     ///
-    /// Deletes an Amazon EVS environment. Amazon EVS environments will only be enabled for deletion once the hosts are deleted. You can delete hosts using the DeleteEnvironmentHost action. Environment deletion also deletes the associated Amazon EVS VLAN subnets. Other associated Amazon Web Services resources are not deleted. These resources may continue to incur costs.
+    /// Deletes an Amazon EVS environment. Amazon EVS environments will only be enabled for deletion once the hosts are deleted. You can delete hosts using the DeleteEnvironmentHost action. Environment deletion also deletes the associated Amazon EVS VLAN subnets and Amazon Web Services Secrets Manager secrets that Amazon EVS created. Amazon Web Services resources that you create are not deleted. These resources may continue to incur costs.
     ///
     /// - Parameter DeleteEnvironmentInput : [no documentation found]
     ///
@@ -1003,8 +1003,9 @@ extension EvsClient {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : A service resource associated with the request could not be found. The resource might not be specified correctly, or it may have a state of DELETED.
-    /// - `TagPolicyException` : The request doesn't comply with IAM tag policy. Correct your request and then retry it.
-    /// - `TooManyTagsException` : A service resource associated with the request has more than 200 tags.
+    /// - `ServiceQuotaExceededException` : The number of one or more Amazon EVS resources exceeds the maximum allowed. For a list of Amazon EVS quotas, see [Amazon EVS endpoints and quotas](https://docs.aws.amazon.com/evs/latest/userguide/service-quotas-evs.html) in the Amazon EVS User Guide. Delete some resources or request an increase in your service quota. To request an increase, see [Amazon Web Services Service Quotas](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) in the Amazon Web Services General Reference Guide.
+    /// - `TagPolicyException` : TagPolicyException is deprecated. See [ValidationException](https://docs.aws.amazon.com/evs/latest/APIReference/API_ValidationException.html) instead. The request doesn't comply with IAM tag policy. Correct your request and then retry it.
+    /// - `TooManyTagsException` : TooManyTagsException is deprecated. See [ServiceQuotaExceededException](https://docs.aws.amazon.com/evs/latest/APIReference/API_ServiceQuotaExceededException.html) instead. A service resource associated with the request has more than 200 tags.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1073,7 +1074,7 @@ extension EvsClient {
     ///
     /// __Possible Exceptions:__
     /// - `ResourceNotFoundException` : A service resource associated with the request could not be found. The resource might not be specified correctly, or it may have a state of DELETED.
-    /// - `TagPolicyException` : The request doesn't comply with IAM tag policy. Correct your request and then retry it.
+    /// - `TagPolicyException` : TagPolicyException is deprecated. See [ValidationException](https://docs.aws.amazon.com/evs/latest/APIReference/API_ValidationException.html) instead. The request doesn't comply with IAM tag policy. Correct your request and then retry it.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)

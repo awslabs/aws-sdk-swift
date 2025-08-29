@@ -41,7 +41,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -61,14 +61,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSMClient: ClientRuntime.Client {
     public static let clientName = "SSMClient"
-    public static let version = "1.3.50"
+    public static let version = "1.5.31"
     let client: ClientRuntime.SdkHttpClient
     let config: SSMClient.SSMClientConfiguration
     let serviceName = "SSM"
@@ -4442,7 +4442,7 @@ extension SSMClient {
 
     /// Performs the `DescribeParameters` operation on the `SSM` service.
     ///
-    /// Lists the parameters in your Amazon Web Services account or the parameters shared with you when you enable the [Shared](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_DescribeParameters.html#systemsmanager-DescribeParameters-request-Shared) option. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, DescribeParameters retrieves whatever the original key alias was referencing.
+    /// Lists the parameters in your Amazon Web Services account or the parameters shared with you when you enable the [Shared](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_DescribeParameters.html#systemsmanager-DescribeParameters-request-Shared) option. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, DescribeParameters retrieves whatever the original key alias was referencing.
     ///
     /// - Parameter DescribeParametersInput : [no documentation found]
     ///
@@ -6268,7 +6268,7 @@ extension SSMClient {
 
     /// Performs the `GetParameter` operation on the `SSM` service.
     ///
-    /// Get information about a single parameter by specifying the parameter name. To get information about more than one parameter at a time, use the [GetParameters] operation.
+    /// Get information about a single parameter by specifying the parameter name. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. To get information about more than one parameter at a time, use the [GetParameters] operation.
     ///
     /// - Parameter GetParameterInput : [no documentation found]
     ///
@@ -6339,7 +6339,7 @@ extension SSMClient {
 
     /// Performs the `GetParameterHistory` operation on the `SSM` service.
     ///
-    /// Retrieves the history of all changes to a parameter. If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, GetParameterHistory retrieves whatever the original key alias was referencing.
+    /// Retrieves the history of all changes to a parameter. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, GetParameterHistory retrieves whatever the original key alias was referencing.
     ///
     /// - Parameter GetParameterHistoryInput : [no documentation found]
     ///
@@ -6410,7 +6410,7 @@ extension SSMClient {
 
     /// Performs the `GetParameters` operation on the `SSM` service.
     ///
-    /// Get information about one or more parameters by specifying multiple parameter names. To get information about a single parameter, you can use the [GetParameter] operation instead.
+    /// Get information about one or more parameters by specifying multiple parameter names. To get information about a single parameter, you can use the [GetParameter] operation instead. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.
     ///
     /// - Parameter GetParametersInput : [no documentation found]
     ///
@@ -6479,7 +6479,7 @@ extension SSMClient {
 
     /// Performs the `GetParametersByPath` operation on the `SSM` service.
     ///
-    /// Retrieve information about one or more parameters under a specified level in a hierarchy. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results.
+    /// Retrieve information about one or more parameters under a specified level in a hierarchy. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.
     ///
     /// - Parameter GetParametersByPathInput : [no documentation found]
     ///
@@ -6846,6 +6846,8 @@ extension SSMClient {
     /// * Labels can contain letters (case sensitive), numbers, periods (.), hyphens (-), or underscores (_).
     ///
     /// * Labels can't begin with a number, "aws" or "ssm" (not case sensitive). If a label fails to meet these requirements, then the label isn't associated with a parameter and the system displays it in the list of InvalidLabels.
+    ///
+    /// * Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.
     ///
     /// - Parameter LabelParameterVersionInput : [no documentation found]
     ///
@@ -8291,7 +8293,7 @@ extension SSMClient {
     ///
     /// * ExecutionType: Specify patch, association, or Custom:string.
     ///
-    /// * ExecutionTime. The time the patch, association, or custom compliance item was applied to the managed node.
+    /// * ExecutionTime. The time the patch, association, or custom compliance item was applied to the managed node. For State Manager associations, this represents the time when compliance status was captured by the Systems Manager service during its internal compliance aggregation workflow, not necessarily when the association was executed on the managed node. State Manager updates compliance information for all associations on an instance whenever any association executes, which may result in multiple associations showing the same execution time.
     ///
     /// * Id: The patch, association, or custom compliance ID.
     ///
@@ -9857,7 +9859,7 @@ extension SSMClient {
 
     /// Performs the `UnlabelParameterVersion` operation on the `SSM` service.
     ///
-    /// Remove a label or labels from a parameter.
+    /// Remove a label or labels from a parameter. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.
     ///
     /// - Parameter UnlabelParameterVersionInput : [no documentation found]
     ///

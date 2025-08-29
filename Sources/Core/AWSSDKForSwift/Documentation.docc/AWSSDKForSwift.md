@@ -72,6 +72,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSDKIdentity](../../../../../swift/api/awssdkidentity/latest)
 
+[AWSSDKIdentityAPI](../../../../../swift/api/awssdkidentityapi/latest)
+
 [AWSSDKPartitions](../../../../../swift/api/awssdkpartitions/latest)
 
 
@@ -84,6 +86,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSAIOps](../../../../../swift/api/awsaiops/latest)
 
 [AWSAPIGateway](../../../../../swift/api/awsapigateway/latest)
+
+[AWSARCRegionswitch](../../../../../swift/api/awsarcregionswitch/latest)
 
 [AWSARCZonalShift](../../../../../swift/api/awsarczonalshift/latest)
 
@@ -145,9 +149,13 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSB2bi](../../../../../swift/api/awsb2bi/latest)
 
+[AWSBCMDashboards](../../../../../swift/api/awsbcmdashboards/latest)
+
 [AWSBCMDataExports](../../../../../swift/api/awsbcmdataexports/latest)
 
 [AWSBCMPricingCalculator](../../../../../swift/api/awsbcmpricingcalculator/latest)
+
+[AWSBCMRecommendedActions](../../../../../swift/api/awsbcmrecommendedactions/latest)
 
 [AWSBackup](../../../../../swift/api/awsbackup/latest)
 
@@ -160,6 +168,10 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSBedrock](../../../../../swift/api/awsbedrock/latest)
 
 [AWSBedrockAgent](../../../../../swift/api/awsbedrockagent/latest)
+
+[AWSBedrockAgentCore](../../../../../swift/api/awsbedrockagentcore/latest)
+
+[AWSBedrockAgentCoreControl](../../../../../swift/api/awsbedrockagentcorecontrol/latest)
 
 [AWSBedrockAgentRuntime](../../../../../swift/api/awsbedrockagentruntime/latest)
 
@@ -635,10 +647,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSOpenSearchServerless](../../../../../swift/api/awsopensearchserverless/latest)
 
-[AWSOpsWorks](../../../../../swift/api/awsopsworks/latest)
-
-[AWSOpsWorksCM](../../../../../swift/api/awsopsworkscm/latest)
-
 [AWSOrganizations](../../../../../swift/api/awsorganizations/latest)
 
 [AWSOutposts](../../../../../swift/api/awsoutposts/latest)
@@ -746,6 +754,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSS3Outposts](../../../../../swift/api/awss3outposts/latest)
 
 [AWSS3Tables](../../../../../swift/api/awss3tables/latest)
+
+[AWSS3Vectors](../../../../../swift/api/awss3vectors/latest)
 
 [AWSSES](../../../../../swift/api/awsses/latest)
 

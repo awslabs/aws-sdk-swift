@@ -4,7 +4,6 @@
  */
 
 import class SmithyHTTPAPI.HTTPResponse
-import ClientRuntime
 
 public extension HTTPResponse {
 

@@ -5,19 +5,11 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import protocol SmithyIdentityAPI.Identity
-import struct Foundation.Date
+import struct AWSSDKIdentityAPI.S3ExpressIdentity
 
-public struct S3ExpressIdentity: Identity {
-    public var accessKeyID: String
-    public var secretAccessKey: String
-    public var sessionToken: String
-    public var expiration: Date?
-
-    public init(accessKeyID: String, secretAccessKey: String, sessionToken: String, expiration: Date?) {
-        self.accessKeyID = accessKeyID
-        self.secretAccessKey = secretAccessKey
-        self.sessionToken = sessionToken
-        self.expiration = expiration
-    }
-}
+// This type was moved from this module to AWSSDKIdentityAPI in order to separate this
+// struct from the concrete credential resolver implementations in this module.
+//
+// This typealias makes the type available in its original location to prevent breaking
+// customers who expect it to be here.
+public typealias S3ExpressIdentity = AWSSDKIdentityAPI.S3ExpressIdentity

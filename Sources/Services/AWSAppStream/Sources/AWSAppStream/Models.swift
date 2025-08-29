@@ -2306,6 +2306,24 @@ public struct CreateFleetInput: Swift.Sendable {
     ///
     /// * stream.graphics-pro.16xlarge
     ///
+    /// * stream.graphics.g6.xlarge
+    ///
+    /// * stream.graphics.g6.2xlarge
+    ///
+    /// * stream.graphics.g6.4xlarge
+    ///
+    /// * stream.graphics.g6.8xlarge
+    ///
+    /// * stream.graphics.g6.16xlarge
+    ///
+    /// * stream.graphics.g6.12xlarge
+    ///
+    /// * stream.graphics.g6.24xlarge
+    ///
+    /// * stream.graphics.gr6.4xlarge
+    ///
+    /// * stream.graphics.gr6.8xlarge
+    ///
     ///
     /// The following instance types are available for Elastic fleets:
     ///
@@ -2546,6 +2564,38 @@ extension AppStreamClientTypes {
         /// * stream.graphics-pro.8xlarge
         ///
         /// * stream.graphics-pro.16xlarge
+        ///
+        /// * stream.graphics.g5.xlarge
+        ///
+        /// * stream.graphics.g5.2xlarge
+        ///
+        /// * stream.graphics.g5.4xlarge
+        ///
+        /// * stream.graphics.g5.8xlarge
+        ///
+        /// * stream.graphics.g5.16xlarge
+        ///
+        /// * stream.graphics.g5.12xlarge
+        ///
+        /// * stream.graphics.g5.24xlarge
+        ///
+        /// * stream.graphics.g6.xlarge
+        ///
+        /// * stream.graphics.g6.2xlarge
+        ///
+        /// * stream.graphics.g6.4xlarge
+        ///
+        /// * stream.graphics.g6.8xlarge
+        ///
+        /// * stream.graphics.g6.16xlarge
+        ///
+        /// * stream.graphics.g6.12xlarge
+        ///
+        /// * stream.graphics.g6.24xlarge
+        ///
+        /// * stream.graphics.gr6.4xlarge
+        ///
+        /// * stream.graphics.gr6.8xlarge
         /// This member is required.
         public var instanceType: Swift.String?
         /// The maximum number of concurrent sessions for the fleet.
@@ -2724,6 +2774,38 @@ public struct CreateImageBuilderInput: Swift.Sendable {
     /// * stream.graphics-pro.8xlarge
     ///
     /// * stream.graphics-pro.16xlarge
+    ///
+    /// * stream.graphics.g5.xlarge
+    ///
+    /// * stream.graphics.g5.2xlarge
+    ///
+    /// * stream.graphics.g5.4xlarge
+    ///
+    /// * stream.graphics.g5.8xlarge
+    ///
+    /// * stream.graphics.g5.16xlarge
+    ///
+    /// * stream.graphics.g5.12xlarge
+    ///
+    /// * stream.graphics.g5.24xlarge
+    ///
+    /// * stream.graphics.g6.xlarge
+    ///
+    /// * stream.graphics.g6.2xlarge
+    ///
+    /// * stream.graphics.g6.4xlarge
+    ///
+    /// * stream.graphics.g6.8xlarge
+    ///
+    /// * stream.graphics.g6.16xlarge
+    ///
+    /// * stream.graphics.g6.12xlarge
+    ///
+    /// * stream.graphics.g6.24xlarge
+    ///
+    /// * stream.graphics.gr6.4xlarge
+    ///
+    /// * stream.graphics.gr6.8xlarge
     /// This member is required.
     public var instanceType: Swift.String?
     /// A unique name for the image builder.
@@ -3010,6 +3092,38 @@ extension AppStreamClientTypes {
         /// * stream.graphics-pro.8xlarge
         ///
         /// * stream.graphics-pro.16xlarge
+        ///
+        /// * stream.graphics.g5.xlarge
+        ///
+        /// * stream.graphics.g5.2xlarge
+        ///
+        /// * stream.graphics.g5.4xlarge
+        ///
+        /// * stream.graphics.g5.8xlarge
+        ///
+        /// * stream.graphics.g5.16xlarge
+        ///
+        /// * stream.graphics.g5.12xlarge
+        ///
+        /// * stream.graphics.g5.24xlarge
+        ///
+        /// * stream.graphics.g6.xlarge
+        ///
+        /// * stream.graphics.g6.2xlarge
+        ///
+        /// * stream.graphics.g6.4xlarge
+        ///
+        /// * stream.graphics.g6.8xlarge
+        ///
+        /// * stream.graphics.g6.16xlarge
+        ///
+        /// * stream.graphics.g6.12xlarge
+        ///
+        /// * stream.graphics.g6.24xlarge
+        ///
+        /// * stream.graphics.gr6.4xlarge
+        ///
+        /// * stream.graphics.gr6.8xlarge
         public var instanceType: Swift.String?
         /// Indicates whether the image builder is using the latest AppStream 2.0 agent version or not.
         public var latestAppstreamAgentVersion: AppStreamClientTypes.LatestAppstreamAgentVersion?
@@ -3934,7 +4048,7 @@ extension AppStreamClientTypes {
         public var displayName: Swift.String?
         /// Indicates whether dynamic app providers are enabled within an AppStream 2.0 image or not.
         public var dynamicAppProvidersEnabled: AppStreamClientTypes.DynamicAppProvidersEnabled?
-        /// The name of the image builder that was used to create the private image. If the image is shared, this value is null.
+        /// The name of the image builder that was used to create the private image. If the image is shared, copied, or updated by using Managed Image Updates, this value is null.
         public var imageBuilderName: Swift.String?
         /// Indicates whether an image builder can be launched from this image.
         public var imageBuilderSupported: Swift.Bool?

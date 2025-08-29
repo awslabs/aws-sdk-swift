@@ -41,7 +41,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -60,14 +60,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EC2Client: ClientRuntime.Client {
     public static let clientName = "EC2Client"
-    public static let version = "1.3.50"
+    public static let version = "1.5.31"
     let client: ClientRuntime.SdkHttpClient
     let config: EC2Client.EC2ClientConfiguration
     let serviceName = "EC2"
@@ -867,7 +867,7 @@ extension EC2Client {
 
     /// Performs the `AdvertiseByoipCidr` operation on the `EC2` service.
     ///
-    /// Advertises an IPv4 or IPv6 address range that is provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP). You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. We recommend that you stop advertising the BYOIP CIDR from other locations when you advertise it from Amazon Web Services. To minimize down time, you can configure your Amazon Web Services resources to use an address from a BYOIP CIDR before it is advertised, and then simultaneously stop advertising it from the current location and start advertising it through Amazon Web Services. It can take a few minutes before traffic to the specified addresses starts routing to Amazon Web Services because of BGP propagation delays. To stop advertising the BYOIP CIDR, use [WithdrawByoipCidr].
+    /// Advertises an IPv4 or IPv6 address range that is provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP). You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. We recommend that you stop advertising the BYOIP CIDR from other locations when you advertise it from Amazon Web Services. To minimize down time, you can configure your Amazon Web Services resources to use an address from a BYOIP CIDR before it is advertised, and then simultaneously stop advertising it from the current location and start advertising it through Amazon Web Services. It can take a few minutes before traffic to the specified addresses starts routing to Amazon Web Services because of BGP propagation delays.
     ///
     /// - Parameter AdvertiseByoipCidrInput : [no documentation found]
     ///
@@ -4009,7 +4009,55 @@ extension EC2Client {
 
     /// Performs the `CopyImage` operation on the `EC2` service.
     ///
-    /// Initiates an AMI copy operation. You can copy an AMI from one Region to another, or from a Region to an Outpost. You can't copy an AMI from an Outpost to a Region, from one Outpost to another, or within the same Outpost. To copy an AMI to another partition, see [CreateStoreImageTask](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateStoreImageTask.html). When you copy an AMI from one Region to another, the destination Region is the current Region. When you copy an AMI from a Region to an Outpost, specify the ARN of the Outpost as the destination. Backing snapshots copied to an Outpost are encrypted by default using the default encryption key for the Region or the key that you specify. Outposts do not support unencrypted snapshots. For information about the prerequisites when copying an AMI, see [Copy an Amazon EC2 AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/CopyingAMIs.html) in the Amazon EC2 User Guide.
+    /// Initiates an AMI copy operation. You must specify the source AMI ID and both the source and destination locations. The copy operation must be initiated in the destination Region. CopyImage supports the following source to destination copies:
+    ///
+    /// * Region to Region
+    ///
+    /// * Region to Outpost
+    ///
+    /// * Parent Region to Local Zone
+    ///
+    /// * Local Zone to parent Region
+    ///
+    /// * Between Local Zones with the same parent Region (only supported for certain Local Zones)
+    ///
+    ///
+    /// CopyImage does not support the following source to destination copies:
+    ///
+    /// * Local Zone to non-parent Regions
+    ///
+    /// * Between Local Zones with different parent Regions
+    ///
+    /// * Local Zone to Outpost
+    ///
+    /// * Outpost to Local Zone
+    ///
+    /// * Outpost to Region
+    ///
+    /// * Between Outposts
+    ///
+    /// * Within same Outpost
+    ///
+    /// * Cross-partition copies (use [CreateStoreImageTask](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateStoreImageTask.html) instead)
+    ///
+    ///
+    /// Destination specification
+    ///
+    /// * Region to Region: The destination Region is the Region in which you initiate the copy operation.
+    ///
+    /// * Region to Outpost: Specify the destination using the DestinationOutpostArn parameter (the ARN of the Outpost)
+    ///
+    /// * Region to Local Zone, and Local Zone to Local Zone copies: Specify the destination using the DestinationAvailabilityZone parameter (the name of the destination Local Zone) or DestinationAvailabilityZoneId parameter (the ID of the destination Local Zone).
+    ///
+    ///
+    /// Snapshot encryption
+    ///
+    /// * Region to Outpost: Backing snapshots copied to an Outpost are encrypted by default using the default encryption key for the Region or the key that you specify. Outposts do not support unencrypted snapshots.
+    ///
+    /// * Region to Local Zone, and Local Zone to Local Zone: Not all Local Zones require encrypted snapshots. In Local Zones that require encrypted snapshots, backing snapshots are automatically encrypted during copy. In Local Zones where encryption is not required, snapshots retain their original encryption state (encrypted or unencrypted) by default.
+    ///
+    ///
+    /// For more information, including the required permissions for copying an AMI, see [Copy an Amazon EC2 AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/CopyingAMIs.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter CopyImageInput : Contains the parameters for CopyImage.
     ///
@@ -4072,7 +4120,16 @@ extension EC2Client {
 
     /// Performs the `CopySnapshot` operation on the `EC2` service.
     ///
-    /// Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You can copy a snapshot within the same Region, from one Region to another, or from a Region to an Outpost. You can't copy a snapshot from an Outpost to a Region, from one Outpost to another, or within the same Outpost. You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs). When copying snapshots to a Region, copies of encrypted EBS snapshots remain encrypted. Copies of unencrypted snapshots remain unencrypted, unless you enable encryption for the snapshot copy operation. By default, encrypted snapshot copies use the default KMS key; however, you can specify a different KMS key. To copy an encrypted snapshot that has been shared from another account, you must have permissions for the KMS key used to encrypt the snapshot. Snapshots copied to an Outpost are encrypted by default using the default encryption key for the Region, or a different key that you specify in the request using KmsKeyId. Outposts do not support unencrypted snapshots. For more information, see [Amazon EBS local snapshots on Outposts](https://docs.aws.amazon.com/ebs/latest/userguide/snapshots-outposts.html#ami) in the Amazon EBS User Guide. Snapshots created by copying another snapshot have an arbitrary volume ID that should not be used for any purpose. For more information, see [Copy an Amazon EBS snapshot](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-copy-snapshot.html) in the Amazon EBS User Guide.
+    /// Creates an exact copy of an Amazon EBS snapshot. The location of the source snapshot determines whether you can copy it or not, and the allowed destinations for the snapshot copy.
+    ///
+    /// * If the source snapshot is in a Region, you can copy it within that Region, to another Region, to an Outpost associated with that Region, or to a Local Zone in that Region.
+    ///
+    /// * If the source snapshot is in a Local Zone, you can copy it within that Local Zone, to another Local Zone in the same zone group, or to the parent Region of the Local Zone.
+    ///
+    /// * If the source snapshot is on an Outpost, you can't copy it.
+    ///
+    ///
+    /// When copying snapshots to a Region, copies of encrypted EBS snapshots remain encrypted. Copies of unencrypted snapshots remain unencrypted, unless you enable encryption for the snapshot copy operation. By default, encrypted snapshot copies use the default KMS key; however, you can specify a different KMS key. To copy an encrypted snapshot that has been shared from another account, you must have permissions for the KMS key used to encrypt the snapshot. Snapshots copied to an Outpost are encrypted by default using the default encryption key for the Region, or a different key that you specify in the request using KmsKeyId. Outposts do not support unencrypted snapshots. For more information, see [Amazon EBS local snapshots on Outposts](https://docs.aws.amazon.com/ebs/latest/userguide/snapshots-outposts.html#ami) in the Amazon EBS User Guide. Snapshots copies have an arbitrary source volume ID. Do not use this volume ID for any purpose. For more information, see [Copy an Amazon EBS snapshot](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-copy-snapshot.html) in the Amazon EBS User Guide.
     ///
     /// - Parameter CopySnapshotInput : [no documentation found]
     ///
@@ -5278,9 +5335,72 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateImageUsageReport` operation on the `EC2` service.
+    ///
+    /// Creates a report that shows how your image is used across other Amazon Web Services accounts. The report provides visibility into which accounts are using the specified image, and how many resources (EC2 instances or launch templates) are referencing it. For more information, see [View your AMI usage](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/your-ec2-ami-usage.html) in the Amazon EC2 User Guide.
+    ///
+    /// - Parameter CreateImageUsageReportInput : [no documentation found]
+    ///
+    /// - Returns: `CreateImageUsageReportOutput` : [no documentation found]
+    public func createImageUsageReport(input: CreateImageUsageReportInput) async throws -> CreateImageUsageReportOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createImageUsageReport")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateImageUsageReportInput, CreateImageUsageReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateImageUsageReportInput, CreateImageUsageReportOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateImageUsageReportInput, CreateImageUsageReportOutput>(CreateImageUsageReportInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateImageUsageReportInput, CreateImageUsageReportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateImageUsageReportInput, CreateImageUsageReportOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateImageUsageReportOutput>(CreateImageUsageReportOutput.httpOutput(from:), CreateImageUsageReportOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateImageUsageReportInput, CreateImageUsageReportOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateImageUsageReportOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateImageUsageReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateImageUsageReportInput, CreateImageUsageReportOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateImageUsageReportInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateImageUsageReportInput, CreateImageUsageReportOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateImageUsageReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateImageUsageReportInput, CreateImageUsageReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateImageUsageReportInput, CreateImageUsageReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateImageUsageReportInput, CreateImageUsageReportOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateImageUsageReport")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateInstanceConnectEndpoint` operation on the `EC2` service.
     ///
-    /// Creates an EC2 Instance Connect Endpoint. An EC2 Instance Connect Endpoint allows you to connect to an instance, without requiring the instance to have a public IPv4 address. For more information, see [Connect to your instances using EC2 Instance Connect Endpoint](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Connect-using-EC2-Instance-Connect-Endpoint.html) in the Amazon EC2 User Guide.
+    /// Creates an EC2 Instance Connect Endpoint. An EC2 Instance Connect Endpoint allows you to connect to an instance, without requiring the instance to have a public IPv4 or public IPv6 address. For more information, see [Connect to your instances using EC2 Instance Connect Endpoint](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Connect-using-EC2-Instance-Connect-Endpoint.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter CreateInstanceConnectEndpointInput : [no documentation found]
     ///
@@ -10654,6 +10774,68 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteImageUsageReport` operation on the `EC2` service.
+    ///
+    /// Deletes the specified image usage report. For more information, see [View your AMI usage](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/your-ec2-ami-usage.html) in the Amazon EC2 User Guide.
+    ///
+    /// - Parameter DeleteImageUsageReportInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteImageUsageReportOutput` : [no documentation found]
+    public func deleteImageUsageReport(input: DeleteImageUsageReportInput) async throws -> DeleteImageUsageReportOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteImageUsageReport")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteImageUsageReportInput, DeleteImageUsageReportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteImageUsageReportInput, DeleteImageUsageReportOutput>(DeleteImageUsageReportInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteImageUsageReportInput, DeleteImageUsageReportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteImageUsageReportInput, DeleteImageUsageReportOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteImageUsageReportOutput>(DeleteImageUsageReportOutput.httpOutput(from:), DeleteImageUsageReportOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteImageUsageReportInput, DeleteImageUsageReportOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteImageUsageReportOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteImageUsageReportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteImageUsageReportInput, DeleteImageUsageReportOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteImageUsageReportInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteImageUsageReportInput, DeleteImageUsageReportOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteImageUsageReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteImageUsageReportInput, DeleteImageUsageReportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteImageUsageReportInput, DeleteImageUsageReportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteImageUsageReportInput, DeleteImageUsageReportOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteImageUsageReport")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteInstanceConnectEndpoint` operation on the `EC2` service.
     ///
     /// Deletes the specified EC2 Instance Connect Endpoint.
@@ -15015,7 +15197,7 @@ extension EC2Client {
 
     /// Performs the `DeprovisionByoipCidr` operation on the `EC2` service.
     ///
-    /// Releases the specified address range that you provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and deletes the corresponding address pool. Before you can release an address range, you must stop advertising it using [WithdrawByoipCidr] and you must not have any IP addresses allocated from its address range.
+    /// Releases the specified address range that you provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and deletes the corresponding address pool. Before you can release an address range, you must stop advertising it and you must not have any IP addresses allocated from its address range.
     ///
     /// - Parameter DeprovisionByoipCidrInput : [no documentation found]
     ///
@@ -16031,7 +16213,7 @@ extension EC2Client {
 
     /// Performs the `DescribeByoipCidrs` operation on the `EC2` service.
     ///
-    /// Describes the IP address ranges that were specified in calls to [ProvisionByoipCidr]. To describe the address pools that were created when you provisioned the address ranges, use [DescribePublicIpv4Pools] or [DescribeIpv6Pools].
+    /// Describes the IP address ranges that were provisioned for use with Amazon Web Services resources through through bring your own IP addresses (BYOIP).
     ///
     /// - Parameter DescribeByoipCidrsInput : [no documentation found]
     ///
@@ -16217,7 +16399,7 @@ extension EC2Client {
 
     /// Performs the `DescribeCapacityBlockOfferings` operation on the `EC2` service.
     ///
-    /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you purchase a specific instance type for a period of time. To search for an available Capacity Block offering, you specify a reservation duration and instance count.
+    /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you can purchase a specific GPU instance type or EC2 UltraServer for a period of time. To search for an available Capacity Block offering, you specify a reservation duration and instance count.
     ///
     /// - Parameter DescribeCapacityBlockOfferingsInput : [no documentation found]
     ///
@@ -16265,6 +16447,130 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCapacityBlockOfferings")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeCapacityBlockStatus` operation on the `EC2` service.
+    ///
+    /// Describes the availability of capacity for the specified Capacity blocks, or all of your Capacity Blocks.
+    ///
+    /// - Parameter DescribeCapacityBlockStatusInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCapacityBlockStatusOutput` : [no documentation found]
+    public func describeCapacityBlockStatus(input: DescribeCapacityBlockStatusInput) async throws -> DescribeCapacityBlockStatusOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeCapacityBlockStatus")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeCapacityBlockStatusInput, DescribeCapacityBlockStatusOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCapacityBlockStatusInput, DescribeCapacityBlockStatusOutput>(DescribeCapacityBlockStatusInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCapacityBlockStatusInput, DescribeCapacityBlockStatusOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCapacityBlockStatusInput, DescribeCapacityBlockStatusOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCapacityBlockStatusOutput>(DescribeCapacityBlockStatusOutput.httpOutput(from:), DescribeCapacityBlockStatusOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCapacityBlockStatusInput, DescribeCapacityBlockStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCapacityBlockStatusOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCapacityBlockStatusOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCapacityBlockStatusInput, DescribeCapacityBlockStatusOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCapacityBlockStatusInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCapacityBlockStatusInput, DescribeCapacityBlockStatusOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCapacityBlockStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCapacityBlockStatusInput, DescribeCapacityBlockStatusOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeCapacityBlockStatusInput, DescribeCapacityBlockStatusOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeCapacityBlockStatusInput, DescribeCapacityBlockStatusOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCapacityBlockStatus")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeCapacityBlocks` operation on the `EC2` service.
+    ///
+    /// Describes details about Capacity Blocks in the Amazon Web Services Region that you're currently using.
+    ///
+    /// - Parameter DescribeCapacityBlocksInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCapacityBlocksOutput` : [no documentation found]
+    public func describeCapacityBlocks(input: DescribeCapacityBlocksInput) async throws -> DescribeCapacityBlocksOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeCapacityBlocks")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeCapacityBlocksInput, DescribeCapacityBlocksOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCapacityBlocksInput, DescribeCapacityBlocksOutput>(DescribeCapacityBlocksInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCapacityBlocksInput, DescribeCapacityBlocksOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCapacityBlocksInput, DescribeCapacityBlocksOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCapacityBlocksOutput>(DescribeCapacityBlocksOutput.httpOutput(from:), DescribeCapacityBlocksOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCapacityBlocksInput, DescribeCapacityBlocksOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCapacityBlocksOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCapacityBlocksOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCapacityBlocksInput, DescribeCapacityBlocksOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCapacityBlocksInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCapacityBlocksInput, DescribeCapacityBlocksOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCapacityBlocksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCapacityBlocksInput, DescribeCapacityBlocksOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeCapacityBlocksInput, DescribeCapacityBlocksOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeCapacityBlocksInput, DescribeCapacityBlocksOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCapacityBlocks")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -18385,9 +18691,195 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeImageReferences` operation on the `EC2` service.
+    ///
+    /// Describes your Amazon Web Services resources that are referencing the specified images. For more information, see [Identify your resources referencing specified AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-ami-references.html) in the Amazon EC2 User Guide.
+    ///
+    /// - Parameter DescribeImageReferencesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeImageReferencesOutput` : [no documentation found]
+    public func describeImageReferences(input: DescribeImageReferencesInput) async throws -> DescribeImageReferencesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeImageReferences")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeImageReferencesInput, DescribeImageReferencesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeImageReferencesInput, DescribeImageReferencesOutput>(DescribeImageReferencesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeImageReferencesInput, DescribeImageReferencesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImageReferencesInput, DescribeImageReferencesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImageReferencesOutput>(DescribeImageReferencesOutput.httpOutput(from:), DescribeImageReferencesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImageReferencesInput, DescribeImageReferencesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImageReferencesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeImageReferencesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeImageReferencesInput, DescribeImageReferencesOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeImageReferencesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImageReferencesInput, DescribeImageReferencesOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeImageReferencesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeImageReferencesInput, DescribeImageReferencesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeImageReferencesInput, DescribeImageReferencesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeImageReferencesInput, DescribeImageReferencesOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeImageReferences")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeImageUsageReportEntries` operation on the `EC2` service.
+    ///
+    /// Describes the entries in image usage reports, showing how your images are used across other Amazon Web Services accounts. For more information, see [View your AMI usage](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/your-ec2-ami-usage.html) in the Amazon EC2 User Guide.
+    ///
+    /// - Parameter DescribeImageUsageReportEntriesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeImageUsageReportEntriesOutput` : [no documentation found]
+    public func describeImageUsageReportEntries(input: DescribeImageUsageReportEntriesInput) async throws -> DescribeImageUsageReportEntriesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeImageUsageReportEntries")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeImageUsageReportEntriesInput, DescribeImageUsageReportEntriesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeImageUsageReportEntriesInput, DescribeImageUsageReportEntriesOutput>(DescribeImageUsageReportEntriesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeImageUsageReportEntriesInput, DescribeImageUsageReportEntriesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImageUsageReportEntriesInput, DescribeImageUsageReportEntriesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImageUsageReportEntriesOutput>(DescribeImageUsageReportEntriesOutput.httpOutput(from:), DescribeImageUsageReportEntriesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImageUsageReportEntriesInput, DescribeImageUsageReportEntriesOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImageUsageReportEntriesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeImageUsageReportEntriesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeImageUsageReportEntriesInput, DescribeImageUsageReportEntriesOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeImageUsageReportEntriesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImageUsageReportEntriesInput, DescribeImageUsageReportEntriesOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeImageUsageReportEntriesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeImageUsageReportEntriesInput, DescribeImageUsageReportEntriesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeImageUsageReportEntriesInput, DescribeImageUsageReportEntriesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeImageUsageReportEntriesInput, DescribeImageUsageReportEntriesOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeImageUsageReportEntries")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeImageUsageReports` operation on the `EC2` service.
+    ///
+    /// Describes the configuration and status of image usage reports, filtered by report IDs or image IDs. For more information, see [View your AMI usage](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/your-ec2-ami-usage.html) in the Amazon EC2 User Guide.
+    ///
+    /// - Parameter DescribeImageUsageReportsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeImageUsageReportsOutput` : [no documentation found]
+    public func describeImageUsageReports(input: DescribeImageUsageReportsInput) async throws -> DescribeImageUsageReportsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeImageUsageReports")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeImageUsageReportsInput, DescribeImageUsageReportsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeImageUsageReportsInput, DescribeImageUsageReportsOutput>(DescribeImageUsageReportsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeImageUsageReportsInput, DescribeImageUsageReportsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImageUsageReportsInput, DescribeImageUsageReportsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImageUsageReportsOutput>(DescribeImageUsageReportsOutput.httpOutput(from:), DescribeImageUsageReportsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImageUsageReportsInput, DescribeImageUsageReportsOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImageUsageReportsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeImageUsageReportsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeImageUsageReportsInput, DescribeImageUsageReportsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeImageUsageReportsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeImageUsageReportsInput, DescribeImageUsageReportsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeImageUsageReportsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeImageUsageReportsInput, DescribeImageUsageReportsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeImageUsageReportsInput, DescribeImageUsageReportsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeImageUsageReportsInput, DescribeImageUsageReportsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeImageUsageReports")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeImages` operation on the `EC2` service.
     ///
-    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found. When Allowed AMIs is set to enabled, only allowed images are returned in the results, with the imageAllowed field set to true for each image. In audit-mode, the imageAllowed field is set to true for images that meet the account's Allowed AMIs criteria, and false for images that don't meet the criteria. For more information, see [EnableAllowedImagesSettings]. The Amazon EC2 API follows an eventual consistency model. This means that the result of an API command you run that creates or modifies resources might not be immediately available to all subsequent commands you run. For guidance on how to manage eventual consistency, see [Eventual consistency in the Amazon EC2 API](https://docs.aws.amazon.com/ec2/latest/devguide/eventual-consistency.html) in the Amazon EC2 Developer Guide. We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found. When Allowed AMIs is set to enabled, only allowed images are returned in the results, with the imageAllowed field set to true for each image. In audit-mode, the imageAllowed field is set to true for images that meet the account's Allowed AMIs criteria, and false for images that don't meet the criteria. For more information, see [Allowed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-allowed-amis.html). The Amazon EC2 API follows an eventual consistency model. This means that the result of an API command you run that creates or modifies resources might not be immediately available to all subsequent commands you run. For guidance on how to manage eventual consistency, see [Eventual consistency in the Amazon EC2 API](https://docs.aws.amazon.com/ec2/latest/devguide/eventual-consistency.html) in the Amazon EC2 Developer Guide. We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
     /// - Parameter DescribeImagesInput : [no documentation found]
     ///
@@ -19016,42 +19508,7 @@ extension EC2Client {
 
     /// Performs the `DescribeInstanceTopology` operation on the `EC2` service.
     ///
-    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads. Limitations
-    ///
-    /// * Supported zones
-    ///
-    /// * Availability Zone
-    ///
-    /// * Local Zone
-    ///
-    ///
-    ///
-    ///
-    /// * Supported instance types
-    ///
-    /// * Returns 3 network nodes in the response
-    ///
-    /// * hpc6a.48xlarge | hpc6id.32xlarge | hpc7a.12xlarge | hpc7a.24xlarge | hpc7a.48xlarge | hpc7a.96xlarge | hpc7g.4xlarge | hpc7g.8xlarge | hpc7g.16xlarge
-    ///
-    /// * p3dn.24xlarge | p4d.24xlarge | p4de.24xlarge | p5.48xlarge | p5e.48xlarge | p5en.48xlarge
-    ///
-    /// * trn1.2xlarge | trn1.32xlarge | trn1n.32xlarge | trn2.48xlarge | trn2u.48xlarge
-    ///
-    ///
-    ///
-    ///
-    /// * Returns 4 network nodes in the response
-    ///
-    /// * p6-b200.48xlarge
-    ///
-    ///
-    ///
-    ///
-    ///
-    ///
-    ///
-    ///
-    /// For more information, see [Amazon EC2 instance topology](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-topology.html) in the Amazon EC2 User Guide.
+    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads. Instance topology is supported for specific instance types only. For more information, see [ Prerequisites for Amazon EC2 instance topology](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-topology-prerequisites.html) in the Amazon EC2 User Guide. The Amazon EC2 API follows an eventual consistency model due to the distributed nature of the system supporting it. As a result, when you call the DescribeInstanceTopology API command immediately after launching instances, the response might return a null value for capacityBlockId because the data might not have fully propagated across all subsystems. For more information, see [Eventual consistency in the Amazon EC2 API](https://docs.aws.amazon.com/ec2/latest/devguide/eventual-consistency.html) in the Amazon EC2 Developer Guide. For more information, see [Amazon EC2 instance topology](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-topology.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter DescribeInstanceTopologyInput : [no documentation found]
     ///
@@ -20601,7 +21058,7 @@ extension EC2Client {
 
     /// Performs the `DescribeManagedPrefixLists` operation on the `EC2` service.
     ///
-    /// Describes your managed prefix lists and any Amazon Web Services-managed prefix lists. To view the entries for your prefix list, use [GetManagedPrefixListEntries].
+    /// Describes your managed prefix lists and any Amazon Web Services-managed prefix lists.
     ///
     /// - Parameter DescribeManagedPrefixListsInput : [no documentation found]
     ///
@@ -21407,7 +21864,7 @@ extension EC2Client {
 
     /// Performs the `DescribePrefixLists` operation on the `EC2` service.
     ///
-    /// Describes available Amazon Web Services services in a prefix list format, which includes the prefix list name and prefix list ID of the service and the IP address range for the service. We recommend that you use [DescribeManagedPrefixLists] instead.
+    /// Describes available Amazon Web Services services in a prefix list format, which includes the prefix list name and prefix list ID of the service and the IP address range for the service.
     ///
     /// - Parameter DescribePrefixListsInput : [no documentation found]
     ///
@@ -22798,7 +23255,7 @@ extension EC2Client {
     /// * implicit: An Amazon Web Services account has implicit create volume permissions for all snapshots it owns.
     ///
     ///
-    /// The list of snapshots returned can be filtered by specifying snapshot IDs, snapshot owners, or Amazon Web Services accounts with create volume permissions. If no options are specified, Amazon EC2 returns all snapshots for which you have create volume permissions. If you specify one or more snapshot IDs, only snapshots that have the specified IDs are returned. If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID for which you do not have access, it is not included in the returned results. If you specify one or more snapshot owners using the OwnerIds option, only snapshots from the specified owners and for which you have access are returned. The results can include the Amazon Web Services account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for snapshots that you own. If you specify a list of restorable users, only snapshots with create snapshot permissions for those users are returned. You can specify Amazon Web Services account IDs (if you own the snapshots), self for snapshots for which you own or have explicit permissions, or all for public snapshots. If you are describing a long list of snapshots, we recommend that you paginate the output to make the list more manageable. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination). To get the state of fast snapshot restores for a snapshot, use [DescribeFastSnapshotRestores]. For more information about EBS snapshots, see [Amazon EBS snapshots](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-snapshots.html) in the Amazon EBS User Guide. We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.
+    /// The list of snapshots returned can be filtered by specifying snapshot IDs, snapshot owners, or Amazon Web Services accounts with create volume permissions. If no options are specified, Amazon EC2 returns all snapshots for which you have create volume permissions. If you specify one or more snapshot IDs, only snapshots that have the specified IDs are returned. If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID for which you do not have access, it is not included in the returned results. If you specify one or more snapshot owners using the OwnerIds option, only snapshots from the specified owners and for which you have access are returned. The results can include the Amazon Web Services account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for snapshots that you own. If you specify a list of restorable users, only snapshots with create snapshot permissions for those users are returned. You can specify Amazon Web Services account IDs (if you own the snapshots), self for snapshots for which you own or have explicit permissions, or all for public snapshots. If you are describing a long list of snapshots, we recommend that you paginate the output to make the list more manageable. For more information, see [Pagination](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination). For more information about EBS snapshots, see [Amazon EBS snapshots](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-snapshots.html) in the Amazon EBS User Guide. We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.
     ///
     /// - Parameter DescribeSnapshotsInput : [no documentation found]
     ///
@@ -24782,7 +25239,7 @@ extension EC2Client {
 
     /// Performs the `DescribeVolumeStatus` operation on the `EC2` service.
     ///
-    /// Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data inconsistencies on the volume. Volume events notify you if this occurs. Volume actions notify you if any action needs to be taken in response to the event. The DescribeVolumeStatus operation provides the following information about the specified volumes: Status: Reflects the current status of the volume. The possible values are ok, impaired , warning, or insufficient-data. If all checks pass, the overall status of the volume is ok. If the check fails, the overall status is impaired. If the status is insufficient-data, then the checks might still be taking place on your volume at the time. We recommend that you retry the request. For more information about volume status, see [Monitor the status of your volumes](https://docs.aws.amazon.com/ebs/latest/userguide/monitoring-volume-status.html) in the Amazon EBS User Guide. Events: Reflect the cause of a volume status and might require you to take action. For example, if your volume returns an impaired status, then the volume event might be potential-data-inconsistency. This means that your volume has been affected by an issue with the underlying host, has all I/O operations disabled, and might have inconsistent data. Actions: Reflect the actions you might have to take in response to an event. For example, if the status of the volume is impaired and the volume event shows potential-data-inconsistency, then the action shows enable-volume-io. This means that you may want to enable the I/O operations for the volume by calling the [EnableVolumeIO] action and then check the volume for data consistency. Volume status is based on the volume status checks, and does not reflect the volume state. Therefore, volume status does not indicate volumes in the error state (for example, when a volume is incapable of accepting I/O.) The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the status of the specified volumes. Volume status provides the result of the checks performed on your volumes to determine events that can impair the performance of your volumes. The performance of a volume can be affected if an issue occurs on the volume's underlying host. If the volume's underlying host experiences a power outage or system issue, after the system is restored, there could be data inconsistencies on the volume. Volume events notify you if this occurs. Volume actions notify you if any action needs to be taken in response to the event. The DescribeVolumeStatus operation provides the following information about the specified volumes: Status: Reflects the current status of the volume. The possible values are ok, impaired , warning, or insufficient-data. If all checks pass, the overall status of the volume is ok. If the check fails, the overall status is impaired. If the status is insufficient-data, then the checks might still be taking place on your volume at the time. We recommend that you retry the request. For more information about volume status, see [Monitor the status of your volumes](https://docs.aws.amazon.com/ebs/latest/userguide/monitoring-volume-status.html) in the Amazon EBS User Guide. Events: Reflect the cause of a volume status and might require you to take action. For example, if your volume returns an impaired status, then the volume event might be potential-data-inconsistency. This means that your volume has been affected by an issue with the underlying host, has all I/O operations disabled, and might have inconsistent data. Actions: Reflect the actions you might have to take in response to an event. For example, if the status of the volume is impaired and the volume event shows potential-data-inconsistency, then the action shows enable-volume-io. This means that you may want to enable the I/O operations for the volume and then check the volume for data consistency. For more information, see [Work with an impaired EBS volume](https://docs.aws.amazon.com/ebs/latest/userguide/work_volumes_impaired.html). Volume status is based on the volume status checks, and does not reflect the volume state. Therefore, volume status does not indicate volumes in the error state (for example, when a volume is incapable of accepting I/O.) The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
     /// - Parameter DescribeVolumeStatusInput : [no documentation found]
     ///
@@ -26209,7 +26666,7 @@ extension EC2Client {
 
     /// Performs the `DetachVolume` operation on the `EC2` service.
     ///
-    /// Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an instance, it can't be detached while the instance is running. To detach the root volume, stop the instance first. When a volume with an Amazon Web Services Marketplace product code is detached from an instance, the product code is no longer associated with the instance. You can't detach or force detach volumes that are attached to Amazon ECS or Fargate tasks. Attempting to do this results in the UnsupportedOperationException exception with the Unable to detach volume attached to ECS tasks error message. For more information, see [Detach an Amazon EBS volume](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-detaching-volume.html) in the Amazon EBS User Guide.
+    /// Detaches an EBS volume from an instance. Make sure to unmount any file systems on the device within your operating system before detaching the volume. Failure to do so can result in the volume becoming stuck in the busy state while detaching. If this happens, detachment can be delayed indefinitely until you unmount the volume, force detachment, reboot the instance, or all three. If an EBS volume is the root device of an instance, it can't be detached while the instance is running. To detach the root volume, stop the instance first. When a volume with an Amazon Web Services Marketplace product code is detached from an instance, the product code is no longer associated with the instance. You can't detach or force detach volumes that are attached to Amazon Web Services-managed resources. Attempting to do this results in the UnsupportedOperationException exception. For more information, see [Detach an Amazon EBS volume](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-detaching-volume.html) in the Amazon EBS User Guide.
     ///
     /// - Parameter DetachVolumeInput : [no documentation found]
     ///
@@ -28782,7 +29239,7 @@ extension EC2Client {
 
     /// Performs the `EnableEbsEncryptionByDefault` operation on the `EC2` service.
     ///
-    /// Enables EBS encryption by default for your account in the current Region. After you enable encryption by default, the EBS volumes that you create are always encrypted, either using the default KMS key or the KMS key that you specified when you created each volume. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide. You can specify the default KMS key for encryption by default using [ModifyEbsDefaultKmsKeyId] or [ResetEbsDefaultKmsKeyId]. Enabling encryption by default has no effect on the encryption status of your existing volumes. After you enable encryption by default, you can no longer launch instances using instance types that do not support encryption. For more information, see [Supported instance types](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption-requirements.html#ebs-encryption_supported_instances).
+    /// Enables EBS encryption by default for your account in the current Region. After you enable encryption by default, the EBS volumes that you create are always encrypted, either using the default KMS key or the KMS key that you specified when you created each volume. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide. Enabling encryption by default has no effect on the encryption status of your existing volumes. After you enable encryption by default, you can no longer launch instances using instance types that do not support encryption. For more information, see [Supported instance types](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption-requirements.html#ebs-encryption_supported_instances).
     ///
     /// - Parameter EnableEbsEncryptionByDefaultInput : [no documentation found]
     ///
@@ -28906,7 +29363,7 @@ extension EC2Client {
 
     /// Performs the `EnableFastSnapshotRestores` operation on the `EC2` service.
     ///
-    /// Enables fast snapshot restores for the specified snapshots in the specified Availability Zones. You get the full benefit of fast snapshot restores after they enter the enabled state. To get the current state of fast snapshot restores, use [DescribeFastSnapshotRestores]. To disable fast snapshot restores, use [DisableFastSnapshotRestores]. For more information, see [Amazon EBS fast snapshot restore](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-fast-snapshot-restore.html) in the Amazon EBS User Guide.
+    /// Enables fast snapshot restores for the specified snapshots in the specified Availability Zones. You get the full benefit of fast snapshot restores after they enter the enabled state. For more information, see [Amazon EBS fast snapshot restore](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-fast-snapshot-restore.html) in the Amazon EBS User Guide.
     ///
     /// - Parameter EnableFastSnapshotRestoresInput : [no documentation found]
     ///
@@ -29154,7 +29611,7 @@ extension EC2Client {
 
     /// Performs the `EnableImageDeregistrationProtection` operation on the `EC2` service.
     ///
-    /// Enables deregistration protection for an AMI. When deregistration protection is enabled, the AMI can't be deregistered. To allow the AMI to be deregistered, you must first disable deregistration protection using [DisableImageDeregistrationProtection]. For more information, see [Protect an Amazon EC2 AMI from deregistration](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-deregistration-protection.html) in the Amazon EC2 User Guide.
+    /// Enables deregistration protection for an AMI. When deregistration protection is enabled, the AMI can't be deregistered. To allow the AMI to be deregistered, you must first disable deregistration protection. For more information, see [Protect an Amazon EC2 AMI from deregistration](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-deregistration-protection.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter EnableImageDeregistrationProtectionInput : [no documentation found]
     ///
@@ -30829,7 +31286,7 @@ extension EC2Client {
 
     /// Performs the `GetEbsDefaultKmsKeyId` operation on the `EC2` service.
     ///
-    /// Describes the default KMS key for EBS encryption by default for your account in this Region. You can change the default KMS key for encryption by default using [ModifyEbsDefaultKmsKeyId] or [ResetEbsDefaultKmsKeyId]. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide.
+    /// Describes the default KMS key for EBS encryption by default for your account in this Region. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide.
     ///
     /// - Parameter GetEbsDefaultKmsKeyIdInput : [no documentation found]
     ///
@@ -34594,7 +35051,7 @@ extension EC2Client {
 
     /// Performs the `ModifyEbsDefaultKmsKeyId` operation on the `EC2` service.
     ///
-    /// Changes the default KMS key for EBS encryption by default for your account in this Region. Amazon Web Services creates a unique Amazon Web Services managed KMS key in each Region for use with encryption by default. If you change the default KMS key to a symmetric customer managed KMS key, it is used instead of the Amazon Web Services managed KMS key. To reset the default KMS key to the Amazon Web Services managed KMS key for EBS, use [ResetEbsDefaultKmsKeyId]. Amazon EBS does not support asymmetric KMS keys. If you delete or disable the customer managed KMS key that you specified for use with encryption by default, your instances will fail to launch. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide.
+    /// Changes the default KMS key for EBS encryption by default for your account in this Region. Amazon Web Services creates a unique Amazon Web Services managed KMS key in each Region for use with encryption by default. If you change the default KMS key to a symmetric customer managed KMS key, it is used instead of the Amazon Web Services managed KMS key. Amazon EBS does not support asymmetric KMS keys. If you delete or disable the customer managed KMS key that you specified for use with encryption by default, your instances will fail to launch. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide.
     ///
     /// - Parameter ModifyEbsDefaultKmsKeyIdInput : [no documentation found]
     ///
@@ -35138,6 +35595,68 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyInstanceCapacityReservationAttributes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `ModifyInstanceConnectEndpoint` operation on the `EC2` service.
+    ///
+    /// Modifies the specified EC2 Instance Connect Endpoint. For more information, see [Modify an EC2 Instance Connect Endpoint](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/modify-ec2-instance-connect-endpoint.html) in the Amazon EC2 User Guide.
+    ///
+    /// - Parameter ModifyInstanceConnectEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyInstanceConnectEndpointOutput` : [no documentation found]
+    public func modifyInstanceConnectEndpoint(input: ModifyInstanceConnectEndpointInput) async throws -> ModifyInstanceConnectEndpointOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyInstanceConnectEndpoint")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ModifyInstanceConnectEndpointInput, ModifyInstanceConnectEndpointOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ModifyInstanceConnectEndpointInput, ModifyInstanceConnectEndpointOutput>(ModifyInstanceConnectEndpointInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ModifyInstanceConnectEndpointInput, ModifyInstanceConnectEndpointOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyInstanceConnectEndpointInput, ModifyInstanceConnectEndpointOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyInstanceConnectEndpointOutput>(ModifyInstanceConnectEndpointOutput.httpOutput(from:), ModifyInstanceConnectEndpointOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyInstanceConnectEndpointInput, ModifyInstanceConnectEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ModifyInstanceConnectEndpointOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ModifyInstanceConnectEndpointOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<ModifyInstanceConnectEndpointInput, ModifyInstanceConnectEndpointOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: ModifyInstanceConnectEndpointInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ModifyInstanceConnectEndpointInput, ModifyInstanceConnectEndpointOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ModifyInstanceConnectEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ModifyInstanceConnectEndpointInput, ModifyInstanceConnectEndpointOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ModifyInstanceConnectEndpointInput, ModifyInstanceConnectEndpointOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ModifyInstanceConnectEndpointInput, ModifyInstanceConnectEndpointOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ModifyInstanceConnectEndpoint")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -38736,7 +39255,7 @@ extension EC2Client {
 
     /// Performs the `MoveAddressToVpc` operation on the `EC2` service.
     ///
-    /// This action is deprecated. Moves an Elastic IP address from the EC2-Classic platform to the EC2-VPC platform. The Elastic IP address must be allocated to your account for more than 24 hours, and it must not be associated with an instance. After the Elastic IP address is moved, it is no longer available for use in the EC2-Classic platform, unless you move it back using the [RestoreAddressToClassic] request. You cannot move an Elastic IP address that was originally allocated for use in the EC2-VPC platform to the EC2-Classic platform.
+    /// This action is deprecated. Moves an Elastic IP address from the EC2-Classic platform to the EC2-VPC platform. The Elastic IP address must be allocated to your account for more than 24 hours, and it must not be associated with an instance. After the Elastic IP address is moved, it is no longer available for use in the EC2-Classic platform. You cannot move an Elastic IP address that was originally allocated for use in the EC2-VPC platform to the EC2-Classic platform.
     ///
     /// - Parameter MoveAddressToVpcInput : [no documentation found]
     ///
@@ -38935,7 +39454,7 @@ extension EC2Client {
 
     /// Performs the `ProvisionByoipCidr` operation on the `EC2` service.
     ///
-    /// Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised using [AdvertiseByoipCidr]. Amazon Web Services verifies that you own the address range and are authorized to advertise it. You must ensure that the address range is registered to you and that you created an RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address range. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html) in the Amazon EC2 User Guide. Provisioning an address range is an asynchronous operation, so the call returns immediately, but the address range is not ready to use until its status changes from pending-provision to provisioned. To monitor the status of an address range, use [DescribeByoipCidrs]. To allocate an Elastic IP address from your IPv4 address pool, use [AllocateAddress] with either the specific address from the address pool or the ID of the address pool.
+    /// Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised. Amazon Web Services verifies that you own the address range and are authorized to advertise it. You must ensure that the address range is registered to you and that you created an RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address range. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html) in the Amazon EC2 User Guide. Provisioning an address range is an asynchronous operation, so the call returns immediately, but the address range is not ready to use until its status changes from pending-provision to provisioned. For more information, see [Onboard your address range](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/byoip-onboard.html).
     ///
     /// - Parameter ProvisionByoipCidrInput : [no documentation found]
     ///
@@ -39557,7 +40076,7 @@ extension EC2Client {
 
     /// Performs the `RegisterImage` operation on the `EC2` service.
     ///
-    /// Registers an AMI. When you're creating an instance-store backed AMI, registering the AMI is the final step in the creation process. For more information about creating AMIs, see [Create an AMI from a snapshot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#creating-launching-ami-from-snapshot) and [Create an instance-store backed AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-instance-store.html) in the Amazon EC2 User Guide. For Amazon EBS-backed instances, [CreateImage] creates and registers the AMI in a single request, so you don't have to register the AMI yourself. We recommend that you always use [CreateImage] unless you have a specific reason to use RegisterImage. If needed, you can deregister an AMI at any time. Any modifications you make to an AMI backed by an instance store volume invalidates its registration. If you make changes to an image, deregister the previous image and register the new image. Register a snapshot of a root device volume You can use RegisterImage to create an Amazon EBS-backed Linux AMI from a snapshot of a root device volume. You specify the snapshot using a block device mapping. You can't set the encryption state of the volume using the block device mapping. If the snapshot is encrypted, or encryption by default is enabled, the root volume of an instance launched from the AMI is encrypted. For more information, see [Create an AMI from a snapshot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#creating-launching-ami-from-snapshot) and [Use encryption with EBS-backed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIEncryption.html) in the Amazon EC2 User Guide. Amazon Web Services Marketplace product codes If any snapshots have Amazon Web Services Marketplace product codes, they are copied to the new AMI. In most cases, AMIs for Windows, RedHat, SUSE, and SQL Server require correct licensing information to be present on the AMI. For more information, see [Understand AMI billing information](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-billing-info.html) in the Amazon EC2 User Guide. When creating an AMI from a snapshot, the RegisterImage operation derives the correct billing information from the snapshot's metadata, but this requires the appropriate metadata to be present. To verify if the correct billing information was applied, check the PlatformDetails field on the new AMI. If the field is empty or doesn't match the expected operating system code (for example, Windows, RedHat, SUSE, or SQL), the AMI creation was unsuccessful, and you should discard the AMI and instead create the AMI from an instance using [CreateImage]. For more information, see [Create an AMI from an instance ](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#how-to-create-ebs-ami) in the Amazon EC2 User Guide. If you purchase a Reserved Instance to apply to an On-Demand Instance that was launched from an AMI with a billing product code, make sure that the Reserved Instance has the matching billing product code. If you purchase a Reserved Instance without the matching billing product code, the Reserved Instance will not be applied to the On-Demand Instance. For information about how to obtain the platform details and billing information of an AMI, see [Understand AMI billing information](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-billing-info.html) in the Amazon EC2 User Guide.
+    /// Registers an AMI. When you're creating an instance-store backed AMI, registering the AMI is the final step in the creation process. For more information about creating AMIs, see [Create an AMI from a snapshot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#creating-launching-ami-from-snapshot) and [Create an instance-store backed AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-instance-store.html) in the Amazon EC2 User Guide. If needed, you can deregister an AMI at any time. Any modifications you make to an AMI backed by an instance store volume invalidates its registration. If you make changes to an image, deregister the previous image and register the new image. Register a snapshot of a root device volume You can use RegisterImage to create an Amazon EBS-backed Linux AMI from a snapshot of a root device volume. You specify the snapshot using a block device mapping. You can't set the encryption state of the volume using the block device mapping. If the snapshot is encrypted, or encryption by default is enabled, the root volume of an instance launched from the AMI is encrypted. For more information, see [Create an AMI from a snapshot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#creating-launching-ami-from-snapshot) and [Use encryption with EBS-backed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIEncryption.html) in the Amazon EC2 User Guide. Amazon Web Services Marketplace product codes If any snapshots have Amazon Web Services Marketplace product codes, they are copied to the new AMI. In most cases, AMIs for Windows, RedHat, SUSE, and SQL Server require correct licensing information to be present on the AMI. For more information, see [Understand AMI billing information](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-billing-info.html) in the Amazon EC2 User Guide. When creating an AMI from a snapshot, the RegisterImage operation derives the correct billing information from the snapshot's metadata, but this requires the appropriate metadata to be present. To verify if the correct billing information was applied, check the PlatformDetails field on the new AMI. If the field is empty or doesn't match the expected operating system code (for example, Windows, RedHat, SUSE, or SQL), the AMI creation was unsuccessful, and you should discard the AMI and instead create the AMI from an instance. For more information, see [Create an AMI from an instance ](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#how-to-create-ebs-ami) in the Amazon EC2 User Guide. If you purchase a Reserved Instance to apply to an On-Demand Instance that was launched from an AMI with a billing product code, make sure that the Reserved Instance has the matching billing product code. If you purchase a Reserved Instance without the matching billing product code, the Reserved Instance is not applied to the On-Demand Instance. For information about how to obtain the platform details and billing information of an AMI, see [Understand AMI billing information](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-billing-info.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter RegisterImageInput : Contains the parameters for RegisterImage.
     ///
@@ -40177,7 +40696,7 @@ extension EC2Client {
 
     /// Performs the `ReleaseAddress` operation on the `EC2` service.
     ///
-    /// Releases the specified Elastic IP address. [Default VPC] Releasing an Elastic IP address automatically disassociates it from any instance that it's associated with. To disassociate an Elastic IP address without releasing it, use [DisassociateAddress]. [Nondefault VPC] You must use [DisassociateAddress] to disassociate the Elastic IP address before you can release it. Otherwise, Amazon EC2 returns an error (InvalidIPAddress.InUse). After releasing an Elastic IP address, it is released to the IP address pool. Be sure to update your DNS records and any servers or devices that communicate with the address. If you attempt to release an Elastic IP address that you already released, you'll get an AuthFailure error if the address is already allocated to another Amazon Web Services account. After you release an Elastic IP address, you might be able to recover it. For more information, see [AllocateAddress].
+    /// Releases the specified Elastic IP address. [Default VPC] Releasing an Elastic IP address automatically disassociates it from any instance that it's associated with. Alternatively, you can disassociate an Elastic IP address without releasing it. [Nondefault VPC] You must disassociate the Elastic IP address before you can release it. Otherwise, Amazon EC2 returns an error (InvalidIPAddress.InUse). After releasing an Elastic IP address, it is released to the IP address pool. Be sure to update your DNS records and any servers or devices that communicate with the address. If you attempt to release an Elastic IP address that you already released, you'll get an AuthFailure error if the address is already allocated to another Amazon Web Services account. After you release an Elastic IP address, you might be able to recover it. For more information, see [Release an Elastic IP address](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing-eips-releasing.html).
     ///
     /// - Parameter ReleaseAddressInput : [no documentation found]
     ///
@@ -42362,7 +42881,7 @@ extension EC2Client {
 
     /// Performs the `StartDeclarativePoliciesReport` operation on the `EC2` service.
     ///
-    /// Generates an account status report. The report is generated asynchronously, and can take several hours to complete. The report provides the current status of all attributes supported by declarative policies for the accounts within the specified scope. The scope is determined by the specified TargetId, which can represent an individual account, or all the accounts that fall under the specified organizational unit (OU) or root (the entire Amazon Web Services Organization). The report is saved to your specified S3 bucket, using the following path structure (with the italicized placeholders representing your specific values): s3://amzn-s3-demo-bucket/your-optional-s3-prefix/ec2_targetId_reportId_yyyyMMddThhmmZ.csv Prerequisites for generating a report
+    /// Generates an account status report. The report is generated asynchronously, and can take several hours to complete. The report provides the current status of all attributes supported by declarative policies for the accounts within the specified scope. The scope is determined by the specified TargetId, which can represent an individual account, or all the accounts that fall under the specified organizational unit (OU) or root (the entire Amazon Web Services Organization). The report is saved to your specified S3 bucket, using the following path structure (with the capitalized placeholders representing your specific values): s3://AMZN-S3-DEMO-BUCKET/YOUR-OPTIONAL-S3-PREFIX/ec2_TARGETID_REPORTID_YYYYMMDDTHHMMZ.csv Prerequisites for generating a report
     ///
     /// * The StartDeclarativePoliciesReport API can only be called by the management account or delegated administrators for the organization.
     ///
@@ -42685,7 +43204,7 @@ extension EC2Client {
 
     /// Performs the `StopInstances` operation on the `EC2` service.
     ///
-    /// Stops an Amazon EBS-backed instance. You can restart your instance at any time using the [StartInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_StartInstances.html) API. For more information, see [Stop and start Amazon EC2 instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html) in the Amazon EC2 User Guide. When you stop an instance, we shut it down. You can use the Stop operation together with the Hibernate parameter to hibernate an instance if the instance is [enabled for hibernation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enabling-hibernation.html) and meets the [hibernation prerequisites](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/hibernating-prerequisites.html). Stopping an instance doesn't preserve data stored in RAM, while hibernation does. If hibernation fails, a normal shutdown occurs. For more information, see [Hibernate your Amazon EC2 instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html) in the Amazon EC2 User Guide. If your instance appears stuck in the stopping state, there might be an issue with the underlying host computer. You can use the Stop operation together with the Force parameter to force stop your instance. For more information, see [Troubleshoot Amazon EC2 instance stop issues](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesStopping.html) in the Amazon EC2 User Guide. Stopping and hibernating an instance differs from rebooting or terminating it. For example, a stopped or hibernated instance retains its root volume and any data volumes, unlike terminated instances where these volumes are automatically deleted. For more information about the differences between stopping, hibernating, rebooting, and terminating instances, see [Amazon EC2 instance state changes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html) in the Amazon EC2 User Guide. We don't charge for instance usage or data transfer fees when an instance is stopped. However, the root volume and any data volumes remain and continue to persist your data, and you're charged for volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, followed by per-second billing. You can't stop or hibernate instance store-backed instances.
+    /// Stops an Amazon EBS-backed instance. You can restart your instance at any time using the [StartInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_StartInstances.html) API. For more information, see [Stop and start Amazon EC2 instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html) in the Amazon EC2 User Guide. When you stop or hibernate an instance, we shut it down. By default, this includes a graceful operating system (OS) shutdown. To bypass the graceful shutdown, use the skipOsShutdown parameter; however, this might risk data integrity. You can use the StopInstances operation together with the Hibernate parameter to hibernate an instance if the instance is [enabled for hibernation](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enabling-hibernation.html) and meets the [hibernation prerequisites](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/hibernating-prerequisites.html). Stopping an instance doesn't preserve data stored in RAM, while hibernation does. If hibernation fails, a normal shutdown occurs. For more information, see [Hibernate your Amazon EC2 instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html) in the Amazon EC2 User Guide. If your instance appears stuck in the stopping state, there might be an issue with the underlying host computer. You can use the StopInstances operation together with the Force parameter to force stop your instance. For more information, see [Troubleshoot Amazon EC2 instance stop issues](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesStopping.html) in the Amazon EC2 User Guide. Stopping and hibernating an instance differs from rebooting or terminating it. For example, a stopped or hibernated instance retains its root volume and any data volumes, unlike terminated instances where these volumes are automatically deleted. For more information about the differences between stopping, hibernating, rebooting, and terminating instances, see [Amazon EC2 instance state changes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html) in the Amazon EC2 User Guide. We don't charge for instance usage or data transfer fees when an instance is stopped. However, the root volume and any data volumes remain and continue to persist your data, and you're charged for volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, followed by per-second billing. You can't stop or hibernate instance store-backed instances.
     ///
     /// - Parameter StopInstancesInput : [no documentation found]
     ///
@@ -42834,7 +43353,7 @@ extension EC2Client {
     /// * Instance C and Instance D fail to terminate because at least one of the specified instances in us-east-1b (Instance C) is enabled for termination protection.
     ///
     ///
-    /// Terminated instances remain visible after termination (for approximately one hour). By default, Amazon EC2 deletes all EBS volumes that were attached when the instance launched. Volumes attached after instance launch continue running. You can stop, start, and terminate EBS-backed instances. You can only terminate instance store-backed instances. What happens to an instance differs if you stop or terminate it. For example, when you stop an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, any attached EBS volumes with the DeleteOnTermination block device mapping parameter set to true are automatically deleted. For more information about the differences between stopping and terminating instances, see [Instance lifecycle](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html) in the Amazon EC2 User Guide. For more information about troubleshooting, see [Troubleshooting terminating your instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesShuttingDown.html) in the Amazon EC2 User Guide.
+    /// Terminated instances remain visible after termination (for approximately one hour). By default, Amazon EC2 deletes all EBS volumes that were attached when the instance launched. Volumes attached after instance launch continue running. By default, the TerminateInstances operation includes a graceful operating system (OS) shutdown. To bypass the graceful shutdown, use the skipOsShutdown parameter; however, this might risk data integrity. You can stop, start, and terminate EBS-backed instances. You can only terminate instance store-backed instances. What happens to an instance differs if you stop or terminate it. For example, when you stop an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, any attached EBS volumes with the DeleteOnTermination block device mapping parameter set to true are automatically deleted. For more information about the differences between stopping and terminating instances, see [Amazon EC2 instance state changes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html) in the Amazon EC2 User Guide. When you terminate an instance, we attempt to terminate it forcibly after a short while. If your instance appears stuck in the shutting-down state after a period of time, there might be an issue with the underlying host computer. For more information about terminating and troubleshooting terminating your instances, see [Terminate Amazon EC2 instances](https://docs.aws.amazon.com/) and [Troubleshooting terminating your instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesShuttingDown.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter TerminateInstancesInput : [no documentation found]
     ///

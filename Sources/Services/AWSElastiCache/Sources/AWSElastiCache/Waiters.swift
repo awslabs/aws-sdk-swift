@@ -28,7 +28,7 @@ extension ElastiCacheClient {
                     let cacheClusterStatus = original.cacheClusterStatus
                     return cacheClusterStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeCacheClustersInput, result: Swift.Result<DescribeCacheClustersOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "CacheClusters[].CacheClusterStatus"
@@ -110,7 +110,7 @@ extension ElastiCacheClient {
                     let cacheClusterStatus = original.cacheClusterStatus
                     return cacheClusterStatus
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "deleted") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "deleted") } ?? false)
             }),
             .init(state: .success, matcher: { (input: DescribeCacheClustersInput, result: Swift.Result<DescribeCacheClustersOutput, Swift.Error>) -> Bool in
                 guard case .failure(let error) = result else { return false }
@@ -220,7 +220,7 @@ extension ElastiCacheClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "available") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeReplicationGroupsInput, result: Swift.Result<DescribeReplicationGroupsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "ReplicationGroups[].Status"
@@ -266,7 +266,7 @@ extension ElastiCacheClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "deleted") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "deleted") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeReplicationGroupsInput, result: Swift.Result<DescribeReplicationGroupsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "ReplicationGroups[].Status"

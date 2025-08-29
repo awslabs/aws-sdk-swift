@@ -1251,6 +1251,48 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    public enum ErrorMessageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case detailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ErrorMessageType] {
+            return [
+                .detailed
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .detailed: return "DETAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// A structure that defines the level of detail included in error messages returned by PySpark jobs. This configuration allows you to control the verbosity of error messages to help with troubleshooting PySpark jobs while maintaining appropriate security controls.
+    public struct ErrorMessageConfiguration: Swift.Sendable {
+        /// The level of detail for error messages returned by the PySpark job. When set to DETAILED, error messages include more information to help troubleshoot issues with your PySpark job. Because this setting may expose sensitive data, it is recommended for development and testing environments.
+        /// This member is required.
+        public var type: CleanRoomsClientTypes.ErrorMessageType?
+
+        public init(
+            type: CleanRoomsClientTypes.ErrorMessageType? = nil
+        ) {
+            self.type = type
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// The reasons for the validation results.
     public struct AnalysisTemplateValidationStatusReason: Swift.Sendable {
         /// The validation message.
@@ -1368,6 +1410,8 @@ extension CleanRoomsClientTypes {
         public var createTime: Foundation.Date?
         /// The description of the analysis template.
         public var description: Swift.String?
+        /// The configuration that specifies the level of detail in error messages returned by analyses using this template. When set to DETAILED, error messages include more information to help troubleshoot issues with PySpark jobs. Detailed error messages may expose underlying data, including sensitive information. Recommended for faster troubleshooting in development and testing environments.
+        public var errorMessageConfiguration: CleanRoomsClientTypes.ErrorMessageConfiguration?
         /// The format of the analysis template.
         /// This member is required.
         public var format: CleanRoomsClientTypes.AnalysisFormat?
@@ -1404,6 +1448,7 @@ extension CleanRoomsClientTypes {
             collaborationId: Swift.String? = nil,
             createTime: Foundation.Date? = nil,
             description: Swift.String? = nil,
+            errorMessageConfiguration: CleanRoomsClientTypes.ErrorMessageConfiguration? = nil,
             format: CleanRoomsClientTypes.AnalysisFormat? = nil,
             id: Swift.String? = nil,
             membershipArn: Swift.String? = nil,
@@ -1421,6 +1466,7 @@ extension CleanRoomsClientTypes {
             self.collaborationId = collaborationId
             self.createTime = createTime
             self.description = description
+            self.errorMessageConfiguration = errorMessageConfiguration
             self.format = format
             self.id = id
             self.membershipArn = membershipArn
@@ -1437,7 +1483,7 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes.AnalysisTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AnalysisTemplate(arn: \(Swift.String(describing: arn)), collaborationArn: \(Swift.String(describing: collaborationArn)), collaborationId: \(Swift.String(describing: collaborationId)), createTime: \(Swift.String(describing: createTime)), description: \(Swift.String(describing: description)), format: \(Swift.String(describing: format)), id: \(Swift.String(describing: id)), membershipArn: \(Swift.String(describing: membershipArn)), membershipId: \(Swift.String(describing: membershipId)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), source: \(Swift.String(describing: source)), sourceMetadata: \(Swift.String(describing: sourceMetadata)), updateTime: \(Swift.String(describing: updateTime)), validations: \(Swift.String(describing: validations)), analysisParameters: \"CONTENT_REDACTED\")"}
+        "AnalysisTemplate(arn: \(Swift.String(describing: arn)), collaborationArn: \(Swift.String(describing: collaborationArn)), collaborationId: \(Swift.String(describing: collaborationId)), createTime: \(Swift.String(describing: createTime)), description: \(Swift.String(describing: description)), errorMessageConfiguration: \(Swift.String(describing: errorMessageConfiguration)), format: \(Swift.String(describing: format)), id: \(Swift.String(describing: id)), membershipArn: \(Swift.String(describing: membershipArn)), membershipId: \(Swift.String(describing: membershipId)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), source: \(Swift.String(describing: source)), sourceMetadata: \(Swift.String(describing: sourceMetadata)), updateTime: \(Swift.String(describing: updateTime)), validations: \(Swift.String(describing: validations)), analysisParameters: \"CONTENT_REDACTED\")"}
 }
 
 extension CleanRoomsClientTypes {
@@ -1748,6 +1794,8 @@ public struct CreateAnalysisTemplateInput: Swift.Sendable {
     public var analysisParameters: [CleanRoomsClientTypes.AnalysisParameter]?
     /// The description of the analysis template.
     public var description: Swift.String?
+    /// The configuration that specifies the level of detail in error messages returned by analyses using this template. When set to DETAILED, error messages include more information to help troubleshoot issues with PySpark jobs. Detailed error messages may expose underlying data, including sensitive information. Recommended for faster troubleshooting in development and testing environments.
+    public var errorMessageConfiguration: CleanRoomsClientTypes.ErrorMessageConfiguration?
     /// The format of the analysis template.
     /// This member is required.
     public var format: CleanRoomsClientTypes.AnalysisFormat?
@@ -1759,7 +1807,7 @@ public struct CreateAnalysisTemplateInput: Swift.Sendable {
     public var name: Swift.String?
     /// A relation within an analysis.
     public var schema: CleanRoomsClientTypes.AnalysisSchema?
-    /// The information in the analysis template. Currently supports text, the query text for the analysis template.
+    /// The information in the analysis template.
     /// This member is required.
     public var source: CleanRoomsClientTypes.AnalysisSource?
     /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
@@ -1768,6 +1816,7 @@ public struct CreateAnalysisTemplateInput: Swift.Sendable {
     public init(
         analysisParameters: [CleanRoomsClientTypes.AnalysisParameter]? = nil,
         description: Swift.String? = nil,
+        errorMessageConfiguration: CleanRoomsClientTypes.ErrorMessageConfiguration? = nil,
         format: CleanRoomsClientTypes.AnalysisFormat? = nil,
         membershipIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -1777,6 +1826,7 @@ public struct CreateAnalysisTemplateInput: Swift.Sendable {
     ) {
         self.analysisParameters = analysisParameters
         self.description = description
+        self.errorMessageConfiguration = errorMessageConfiguration
         self.format = format
         self.membershipIdentifier = membershipIdentifier
         self.name = name
@@ -1788,7 +1838,7 @@ public struct CreateAnalysisTemplateInput: Swift.Sendable {
 
 extension CreateAnalysisTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAnalysisTemplateInput(description: \(Swift.String(describing: description)), format: \(Swift.String(describing: format)), membershipIdentifier: \(Swift.String(describing: membershipIdentifier)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), source: \(Swift.String(describing: source)), tags: \(Swift.String(describing: tags)), analysisParameters: \"CONTENT_REDACTED\")"}
+        "CreateAnalysisTemplateInput(description: \(Swift.String(describing: description)), errorMessageConfiguration: \(Swift.String(describing: errorMessageConfiguration)), format: \(Swift.String(describing: format)), membershipIdentifier: \(Swift.String(describing: membershipIdentifier)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), source: \(Swift.String(describing: source)), tags: \(Swift.String(describing: tags)), analysisParameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateAnalysisTemplateOutput: Swift.Sendable {
@@ -2111,6 +2161,8 @@ extension CleanRoomsClientTypes {
         public var creatorAccountId: Swift.String?
         /// The description of the analysis template.
         public var description: Swift.String?
+        /// The configuration that specifies the level of detail in error messages returned by analyses using this template. When set to DETAILED, error messages include more information to help troubleshoot issues with PySpark jobs. Detailed error messages may expose underlying data, including sensitive information. Recommended for faster troubleshooting in development and testing environments.
+        public var errorMessageConfiguration: CleanRoomsClientTypes.ErrorMessageConfiguration?
         /// The format of the analysis template in the collaboration.
         /// This member is required.
         public var format: CleanRoomsClientTypes.AnalysisFormat?
@@ -2141,6 +2193,7 @@ extension CleanRoomsClientTypes {
             createTime: Foundation.Date? = nil,
             creatorAccountId: Swift.String? = nil,
             description: Swift.String? = nil,
+            errorMessageConfiguration: CleanRoomsClientTypes.ErrorMessageConfiguration? = nil,
             format: CleanRoomsClientTypes.AnalysisFormat? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -2157,6 +2210,7 @@ extension CleanRoomsClientTypes {
             self.createTime = createTime
             self.creatorAccountId = creatorAccountId
             self.description = description
+            self.errorMessageConfiguration = errorMessageConfiguration
             self.format = format
             self.id = id
             self.name = name
@@ -2171,7 +2225,7 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes.CollaborationAnalysisTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CollaborationAnalysisTemplate(arn: \(Swift.String(describing: arn)), collaborationArn: \(Swift.String(describing: collaborationArn)), collaborationId: \(Swift.String(describing: collaborationId)), createTime: \(Swift.String(describing: createTime)), creatorAccountId: \(Swift.String(describing: creatorAccountId)), description: \(Swift.String(describing: description)), format: \(Swift.String(describing: format)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), source: \(Swift.String(describing: source)), sourceMetadata: \(Swift.String(describing: sourceMetadata)), updateTime: \(Swift.String(describing: updateTime)), validations: \(Swift.String(describing: validations)), analysisParameters: \"CONTENT_REDACTED\")"}
+        "CollaborationAnalysisTemplate(arn: \(Swift.String(describing: arn)), collaborationArn: \(Swift.String(describing: collaborationArn)), collaborationId: \(Swift.String(describing: collaborationId)), createTime: \(Swift.String(describing: createTime)), creatorAccountId: \(Swift.String(describing: creatorAccountId)), description: \(Swift.String(describing: description)), errorMessageConfiguration: \(Swift.String(describing: errorMessageConfiguration)), format: \(Swift.String(describing: format)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), source: \(Swift.String(describing: source)), sourceMetadata: \(Swift.String(describing: sourceMetadata)), updateTime: \(Swift.String(describing: updateTime)), validations: \(Swift.String(describing: validations)), analysisParameters: \"CONTENT_REDACTED\")"}
 }
 
 extension CleanRoomsClientTypes {
@@ -3074,7 +3128,7 @@ extension CleanRoomsClientTypes {
 }
 
 public struct CreateCollaborationInput: Swift.Sendable {
-    /// The analytics engine.
+    /// The analytics engine. After July 16, 2025, the CLEAN_ROOMS_SQL parameter will no longer be available.
     public var analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine?
     /// The display name of the collaboration creator.
     /// This member is required.
@@ -3173,7 +3227,7 @@ extension CleanRoomsClientTypes {
 
     /// The multi-party data share environment. The collaboration contains metadata about its purpose and participants.
     public struct Collaboration: Swift.Sendable {
-        /// The analytics engine for the collaboration.
+        /// The analytics engine for the collaboration. After July 16, 2025, the CLEAN_ROOMS_SQL parameter will no longer be available.
         public var analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine?
         /// The unique ARN for the collaboration.
         /// This member is required.
@@ -4472,7 +4526,7 @@ extension CleanRoomsClientTypes {
 
     /// The metadata of the collaboration.
     public struct CollaborationSummary: Swift.Sendable {
-        /// The analytics engine.
+        /// The analytics engine. After July 16, 2025, the CLEAN_ROOMS_SQL parameter will no longer be available.
         public var analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine?
         /// The ARN of the collaboration.
         /// This member is required.
@@ -4741,7 +4795,7 @@ public struct ListSchemasOutput: Swift.Sendable {
 }
 
 public struct UpdateCollaborationInput: Swift.Sendable {
-    /// The analytics engine.
+    /// The analytics engine. After July 16, 2025, the CLEAN_ROOMS_SQL parameter will no longer be available.
     public var analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine?
     /// The identifier for the collaboration.
     /// This member is required.
@@ -6123,6 +6177,8 @@ public struct ListConfiguredTablesOutput: Swift.Sendable {
 }
 
 public struct UpdateConfiguredTableInput: Swift.Sendable {
+    /// The columns of the underlying table that can be used by collaborations or analysis rules.
+    public var allowedColumns: [Swift.String]?
     /// The analysis method for the configured table. DIRECT_QUERY allows SQL queries to be run directly on this table. DIRECT_JOB allows PySpark jobs to be run directly on this table. MULTIPLE allows both SQL queries and PySpark jobs to be run directly on this table.
     public var analysisMethod: CleanRoomsClientTypes.AnalysisMethod?
     /// The identifier for the configured table to update. Currently accepts the configured table ID.
@@ -6134,19 +6190,25 @@ public struct UpdateConfiguredTableInput: Swift.Sendable {
     public var name: Swift.String?
     /// The selected analysis methods for the table configuration update.
     public var selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]?
+    /// A pointer to the dataset that underlies this table.
+    public var tableReference: CleanRoomsClientTypes.TableReference?
 
     public init(
+        allowedColumns: [Swift.String]? = nil,
         analysisMethod: CleanRoomsClientTypes.AnalysisMethod? = nil,
         configuredTableIdentifier: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
-        selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]? = nil
+        selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]? = nil,
+        tableReference: CleanRoomsClientTypes.TableReference? = nil
     ) {
+        self.allowedColumns = allowedColumns
         self.analysisMethod = analysisMethod
         self.configuredTableIdentifier = configuredTableIdentifier
         self.description = description
         self.name = name
         self.selectedAnalysisMethods = selectedAnalysisMethods
+        self.tableReference = tableReference
     }
 }
 
@@ -10920,6 +10982,7 @@ extension CreateAnalysisTemplateInput {
         guard let value else { return }
         try writer["analysisParameters"].writeList(value.analysisParameters, memberWritingClosure: CleanRoomsClientTypes.AnalysisParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["description"].write(value.description)
+        try writer["errorMessageConfiguration"].write(value.errorMessageConfiguration, with: CleanRoomsClientTypes.ErrorMessageConfiguration.write(value:to:))
         try writer["format"].write(value.format)
         try writer["name"].write(value.name)
         try writer["schema"].write(value.schema, with: CleanRoomsClientTypes.AnalysisSchema.write(value:to:))
@@ -11120,10 +11183,12 @@ extension UpdateConfiguredTableInput {
 
     static func write(value: UpdateConfiguredTableInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["allowedColumns"].writeList(value.allowedColumns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["analysisMethod"].write(value.analysisMethod)
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
         try writer["selectedAnalysisMethods"].writeList(value.selectedAnalysisMethods, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CleanRoomsClientTypes.SelectedAnalysisMethod>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tableReference"].write(value.tableReference, with: CleanRoomsClientTypes.TableReference.write(value:to:))
     }
 }
 
@@ -13524,6 +13589,7 @@ enum UpdateConfiguredTableOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -13821,6 +13887,22 @@ extension CleanRoomsClientTypes.CollaborationAnalysisTemplate {
         value.sourceMetadata = try reader["sourceMetadata"].readIfPresent(with: CleanRoomsClientTypes.AnalysisSourceMetadata.read(from:))
         value.analysisParameters = try reader["analysisParameters"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.validations = try reader["validations"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errorMessageConfiguration = try reader["errorMessageConfiguration"].readIfPresent(with: CleanRoomsClientTypes.ErrorMessageConfiguration.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ErrorMessageConfiguration {
+
+    static func write(value: CleanRoomsClientTypes.ErrorMessageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ErrorMessageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ErrorMessageConfiguration()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -14563,6 +14645,7 @@ extension CleanRoomsClientTypes.AnalysisTemplate {
         value.sourceMetadata = try reader["sourceMetadata"].readIfPresent(with: CleanRoomsClientTypes.AnalysisSourceMetadata.read(from:))
         value.analysisParameters = try reader["analysisParameters"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.validations = try reader["validations"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errorMessageConfiguration = try reader["errorMessageConfiguration"].readIfPresent(with: CleanRoomsClientTypes.ErrorMessageConfiguration.read(from:))
         return value
     }
 }

@@ -775,17 +775,21 @@ extension GuardDutyClientTypes {
         public var domainWithSuffix: Swift.String?
         /// The network connection protocol observed in the activity that prompted GuardDuty to generate the finding.
         public var `protocol`: Swift.String?
+        /// The Amazon Web Services account ID that owns the VPC through which the DNS request was made.
+        public var vpcOwnerAccountId: Swift.String?
 
         public init(
             blocked: Swift.Bool? = nil,
             domain: Swift.String? = nil,
             domainWithSuffix: Swift.String? = nil,
-            `protocol`: Swift.String? = nil
+            `protocol`: Swift.String? = nil,
+            vpcOwnerAccountId: Swift.String? = nil
         ) {
             self.blocked = blocked
             self.domain = domain
             self.domainWithSuffix = domainWithSuffix
             self.`protocol` = `protocol`
+            self.vpcOwnerAccountId = vpcOwnerAccountId
         }
     }
 }
@@ -3048,6 +3052,8 @@ public struct CreateFilterInput: Swift.Sendable {
     ///
     /// * service.action.dnsRequestAction.domainWithSuffix
     ///
+    /// * service.action.dnsRequestAction.vpcOwnerAccountId
+    ///
     /// * service.action.networkConnectionAction.blocked
     ///
     /// * service.action.networkConnectionAction.connectionDirection
@@ -3244,6 +3250,8 @@ public struct CreateIPSetInput: Swift.Sendable {
     /// The unique ID of the detector of the GuardDuty account for which you want to create an IPSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
     /// This member is required.
     public var detectorId: Swift.String?
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+    public var expectedBucketOwner: Swift.String?
     /// The format of the file that contains the IPSet.
     /// This member is required.
     public var format: GuardDutyClientTypes.IpSetFormat?
@@ -3260,6 +3268,7 @@ public struct CreateIPSetInput: Swift.Sendable {
         activate: Swift.Bool? = nil,
         clientToken: Swift.String? = nil,
         detectorId: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
         format: GuardDutyClientTypes.IpSetFormat? = nil,
         location: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -3268,6 +3277,7 @@ public struct CreateIPSetInput: Swift.Sendable {
         self.activate = activate
         self.clientToken = clientToken
         self.detectorId = detectorId
+        self.expectedBucketOwner = expectedBucketOwner
         self.format = format
         self.location = location
         self.name = name
@@ -3576,6 +3586,103 @@ public struct CreateSampleFindingsOutput: Swift.Sendable {
 
 extension GuardDutyClientTypes {
 
+    public enum ThreatEntitySetFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alienVault
+        case fireEye
+        case otxCsv
+        case proofPoint
+        case stix
+        case txt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThreatEntitySetFormat] {
+            return [
+                .alienVault,
+                .fireEye,
+                .otxCsv,
+                .proofPoint,
+                .stix,
+                .txt
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .alienVault: return "ALIEN_VAULT"
+            case .fireEye: return "FIRE_EYE"
+            case .otxCsv: return "OTX_CSV"
+            case .proofPoint: return "PROOF_POINT"
+            case .stix: return "STIX"
+            case .txt: return "TXT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateThreatEntitySetInput: Swift.Sendable {
+    /// A boolean value that indicates whether GuardDuty should start using the uploaded threat entity set to generate findings.
+    /// This member is required.
+    public var activate: Swift.Bool?
+    /// The idempotency token for the create request.
+    public var clientToken: Swift.String?
+    /// The unique ID of the detector of the GuardDuty account for which you want to create a threat entity set. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
+    /// This member is required.
+    public var detectorId: Swift.String?
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+    public var expectedBucketOwner: Swift.String?
+    /// The format of the file that contains the threat entity set.
+    /// This member is required.
+    public var format: GuardDutyClientTypes.ThreatEntitySetFormat?
+    /// The URI of the file that contains the threat entity set.
+    /// This member is required.
+    public var location: Swift.String?
+    /// A user-friendly name to identify the threat entity set. The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
+    /// This member is required.
+    public var name: Swift.String?
+    /// The tags to be added to a new threat entity set resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        activate: Swift.Bool? = nil,
+        clientToken: Swift.String? = nil,
+        detectorId: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        format: GuardDutyClientTypes.ThreatEntitySetFormat? = nil,
+        location: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.activate = activate
+        self.clientToken = clientToken
+        self.detectorId = detectorId
+        self.expectedBucketOwner = expectedBucketOwner
+        self.format = format
+        self.location = location
+        self.name = name
+        self.tags = tags
+    }
+}
+
+public struct CreateThreatEntitySetOutput: Swift.Sendable {
+    /// The ID returned by GuardDuty after creation of the threat entity set resource.
+    /// This member is required.
+    public var threatEntitySetId: Swift.String?
+
+    public init(
+        threatEntitySetId: Swift.String? = nil
+    ) {
+        self.threatEntitySetId = threatEntitySetId
+    }
+}
+
+extension GuardDutyClientTypes {
+
     public enum ThreatIntelSetFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case alienVault
         case fireEye
@@ -3621,9 +3728,11 @@ public struct CreateThreatIntelSetInput: Swift.Sendable {
     public var activate: Swift.Bool?
     /// The idempotency token for the create request.
     public var clientToken: Swift.String?
-    /// The unique ID of the detector of the GuardDuty account for which you want to create a ThreatIntelSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
+    /// The unique ID of the detector of the GuardDuty account for which you want to create a threatIntelSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
     /// This member is required.
     public var detectorId: Swift.String?
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+    public var expectedBucketOwner: Swift.String?
     /// The format of the file that contains the ThreatIntelSet.
     /// This member is required.
     public var format: GuardDutyClientTypes.ThreatIntelSetFormat?
@@ -3640,6 +3749,7 @@ public struct CreateThreatIntelSetInput: Swift.Sendable {
         activate: Swift.Bool? = nil,
         clientToken: Swift.String? = nil,
         detectorId: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
         format: GuardDutyClientTypes.ThreatIntelSetFormat? = nil,
         location: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -3648,6 +3758,7 @@ public struct CreateThreatIntelSetInput: Swift.Sendable {
         self.activate = activate
         self.clientToken = clientToken
         self.detectorId = detectorId
+        self.expectedBucketOwner = expectedBucketOwner
         self.format = format
         self.location = location
         self.name = name
@@ -3664,6 +3775,103 @@ public struct CreateThreatIntelSetOutput: Swift.Sendable {
         threatIntelSetId: Swift.String? = nil
     ) {
         self.threatIntelSetId = threatIntelSetId
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum TrustedEntitySetFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alienVault
+        case fireEye
+        case otxCsv
+        case proofPoint
+        case stix
+        case txt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrustedEntitySetFormat] {
+            return [
+                .alienVault,
+                .fireEye,
+                .otxCsv,
+                .proofPoint,
+                .stix,
+                .txt
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .alienVault: return "ALIEN_VAULT"
+            case .fireEye: return "FIRE_EYE"
+            case .otxCsv: return "OTX_CSV"
+            case .proofPoint: return "PROOF_POINT"
+            case .stix: return "STIX"
+            case .txt: return "TXT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateTrustedEntitySetInput: Swift.Sendable {
+    /// A boolean value that indicates whether GuardDuty is to start using the uploaded trusted entity set.
+    /// This member is required.
+    public var activate: Swift.Bool?
+    /// The idempotency token for the create request.
+    public var clientToken: Swift.String?
+    /// The unique ID of the detector of the GuardDuty account for which you want to create a trusted entity set. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
+    /// This member is required.
+    public var detectorId: Swift.String?
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+    public var expectedBucketOwner: Swift.String?
+    /// The format of the file that contains the trusted entity set.
+    /// This member is required.
+    public var format: GuardDutyClientTypes.TrustedEntitySetFormat?
+    /// The URI of the file that contains the trusted entity set.
+    /// This member is required.
+    public var location: Swift.String?
+    /// A user-friendly name to identify the trusted entity set. The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
+    /// This member is required.
+    public var name: Swift.String?
+    /// The tags to be added to a new trusted entity set resource.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        activate: Swift.Bool? = nil,
+        clientToken: Swift.String? = nil,
+        detectorId: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        format: GuardDutyClientTypes.TrustedEntitySetFormat? = nil,
+        location: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.activate = activate
+        self.clientToken = clientToken
+        self.detectorId = detectorId
+        self.expectedBucketOwner = expectedBucketOwner
+        self.format = format
+        self.location = location
+        self.name = name
+        self.tags = tags
+    }
+}
+
+public struct CreateTrustedEntitySetOutput: Swift.Sendable {
+    /// The ID returned by GuardDuty after creation of the trusted entity set resource.
+    /// This member is required.
+    public var trustedEntitySetId: Swift.String?
+
+    public init(
+        trustedEntitySetId: Swift.String? = nil
+    ) {
+        self.trustedEntitySetId = trustedEntitySetId
     }
 }
 
@@ -4117,6 +4325,28 @@ public struct DeletePublishingDestinationOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteThreatEntitySetInput: Swift.Sendable {
+    /// The unique ID of the detector associated with the threat entity set resource. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
+    /// This member is required.
+    public var detectorId: Swift.String?
+    /// The unique ID that helps GuardDuty identify which threat entity set needs to be deleted.
+    /// This member is required.
+    public var threatEntitySetId: Swift.String?
+
+    public init(
+        detectorId: Swift.String? = nil,
+        threatEntitySetId: Swift.String? = nil
+    ) {
+        self.detectorId = detectorId
+        self.threatEntitySetId = threatEntitySetId
+    }
+}
+
+public struct DeleteThreatEntitySetOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteThreatIntelSetInput: Swift.Sendable {
     /// The unique ID of the detector that is associated with the threatIntelSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
     /// This member is required.
@@ -4135,6 +4365,28 @@ public struct DeleteThreatIntelSetInput: Swift.Sendable {
 }
 
 public struct DeleteThreatIntelSetOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteTrustedEntitySetInput: Swift.Sendable {
+    /// The unique ID of the detector associated with the trusted entity set resource. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
+    /// This member is required.
+    public var detectorId: Swift.String?
+    /// The unique ID that helps GuardDuty identify which trusted entity set needs to be deleted.
+    /// This member is required.
+    public var trustedEntitySetId: Swift.String?
+
+    public init(
+        detectorId: Swift.String? = nil,
+        trustedEntitySetId: Swift.String? = nil
+    ) {
+        self.detectorId = detectorId
+        self.trustedEntitySetId = trustedEntitySetId
+    }
+}
+
+public struct DeleteTrustedEntitySetOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -8294,6 +8546,8 @@ extension GuardDutyClientTypes {
 }
 
 public struct GetIPSetOutput: Swift.Sendable {
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter. This field appears in the response only if it was provided during IPSet creation or update.
+    public var expectedBucketOwner: Swift.String?
     /// The format of the file that contains the IPSet.
     /// This member is required.
     public var format: GuardDutyClientTypes.IpSetFormat?
@@ -8310,12 +8564,14 @@ public struct GetIPSetOutput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        expectedBucketOwner: Swift.String? = nil,
         format: GuardDutyClientTypes.IpSetFormat? = nil,
         location: Swift.String? = nil,
         name: Swift.String? = nil,
         status: GuardDutyClientTypes.IpSetStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.expectedBucketOwner = expectedBucketOwner
         self.format = format
         self.location = location
         self.name = name
@@ -8918,6 +9174,114 @@ public struct GetRemainingFreeTrialDaysOutput: Swift.Sendable {
     }
 }
 
+public struct GetThreatEntitySetInput: Swift.Sendable {
+    /// The unique ID of the detector associated with the threat entity set resource. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
+    /// This member is required.
+    public var detectorId: Swift.String?
+    /// The unique ID that helps GuardDuty identify the threat entity set.
+    /// This member is required.
+    public var threatEntitySetId: Swift.String?
+
+    public init(
+        detectorId: Swift.String? = nil,
+        threatEntitySetId: Swift.String? = nil
+    ) {
+        self.detectorId = detectorId
+        self.threatEntitySetId = threatEntitySetId
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum ThreatEntitySetStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activating
+        case active
+        case deactivating
+        case deleted
+        case deletePending
+        case error
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThreatEntitySetStatus] {
+            return [
+                .activating,
+                .active,
+                .deactivating,
+                .deleted,
+                .deletePending,
+                .error,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .activating: return "ACTIVATING"
+            case .active: return "ACTIVE"
+            case .deactivating: return "DEACTIVATING"
+            case .deleted: return "DELETED"
+            case .deletePending: return "DELETE_PENDING"
+            case .error: return "ERROR"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetThreatEntitySetOutput: Swift.Sendable {
+    /// The timestamp when the associated threat entity set was created.
+    public var createdAt: Foundation.Date?
+    /// The error details when the status is shown as ERROR.
+    public var errorDetails: Swift.String?
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+    public var expectedBucketOwner: Swift.String?
+    /// The format of the file that contains the threat entity set.
+    /// This member is required.
+    public var format: GuardDutyClientTypes.ThreatEntitySetFormat?
+    /// The URI of the file that contains the threat entity set.
+    /// This member is required.
+    public var location: Swift.String?
+    /// The name of the threat entity set associated with the specified threatEntitySetId.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The status of the associated threat entity set.
+    /// This member is required.
+    public var status: GuardDutyClientTypes.ThreatEntitySetStatus?
+    /// The tags associated with the threat entity set resource.
+    public var tags: [Swift.String: Swift.String]?
+    /// The timestamp when the associated threat entity set was updated.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        errorDetails: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        format: GuardDutyClientTypes.ThreatEntitySetFormat? = nil,
+        location: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: GuardDutyClientTypes.ThreatEntitySetStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.createdAt = createdAt
+        self.errorDetails = errorDetails
+        self.expectedBucketOwner = expectedBucketOwner
+        self.format = format
+        self.location = location
+        self.name = name
+        self.status = status
+        self.tags = tags
+        self.updatedAt = updatedAt
+    }
+}
+
 public struct GetThreatIntelSetInput: Swift.Sendable {
     /// The unique ID of the detector that is associated with the threatIntelSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
     /// This member is required.
@@ -8980,6 +9344,8 @@ extension GuardDutyClientTypes {
 }
 
 public struct GetThreatIntelSetOutput: Swift.Sendable {
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter. This field appears in the response only if it was provided during ThreatIntelSet creation or update.
+    public var expectedBucketOwner: Swift.String?
     /// The format of the threatIntelSet.
     /// This member is required.
     public var format: GuardDutyClientTypes.ThreatIntelSetFormat?
@@ -8996,17 +9362,127 @@ public struct GetThreatIntelSetOutput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        expectedBucketOwner: Swift.String? = nil,
         format: GuardDutyClientTypes.ThreatIntelSetFormat? = nil,
         location: Swift.String? = nil,
         name: Swift.String? = nil,
         status: GuardDutyClientTypes.ThreatIntelSetStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.expectedBucketOwner = expectedBucketOwner
         self.format = format
         self.location = location
         self.name = name
         self.status = status
         self.tags = tags
+    }
+}
+
+public struct GetTrustedEntitySetInput: Swift.Sendable {
+    /// The unique ID of the GuardDuty detector associated with this trusted entity set.
+    /// This member is required.
+    public var detectorId: Swift.String?
+    /// The unique ID that helps GuardDuty identify the trusted entity set.
+    /// This member is required.
+    public var trustedEntitySetId: Swift.String?
+
+    public init(
+        detectorId: Swift.String? = nil,
+        trustedEntitySetId: Swift.String? = nil
+    ) {
+        self.detectorId = detectorId
+        self.trustedEntitySetId = trustedEntitySetId
+    }
+}
+
+extension GuardDutyClientTypes {
+
+    public enum TrustedEntitySetStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case activating
+        case active
+        case deactivating
+        case deleted
+        case deletePending
+        case error
+        case inactive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrustedEntitySetStatus] {
+            return [
+                .activating,
+                .active,
+                .deactivating,
+                .deleted,
+                .deletePending,
+                .error,
+                .inactive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .activating: return "ACTIVATING"
+            case .active: return "ACTIVE"
+            case .deactivating: return "DEACTIVATING"
+            case .deleted: return "DELETED"
+            case .deletePending: return "DELETE_PENDING"
+            case .error: return "ERROR"
+            case .inactive: return "INACTIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetTrustedEntitySetOutput: Swift.Sendable {
+    /// The timestamp when the associated trusted entity set was created.
+    public var createdAt: Foundation.Date?
+    /// The error details when the status is shown as ERROR.
+    public var errorDetails: Swift.String?
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+    public var expectedBucketOwner: Swift.String?
+    /// The format of the file that contains the trusted entity set.
+    /// This member is required.
+    public var format: GuardDutyClientTypes.TrustedEntitySetFormat?
+    /// The URI of the file that contains the trusted entity set.
+    /// This member is required.
+    public var location: Swift.String?
+    /// The name of the threat entity set associated with the specified trustedEntitySetId.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The status of the associated trusted entity set.
+    /// This member is required.
+    public var status: GuardDutyClientTypes.TrustedEntitySetStatus?
+    /// The tags associated with trusted entity set resource.
+    public var tags: [Swift.String: Swift.String]?
+    /// The timestamp when the associated trusted entity set was updated.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        errorDetails: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        format: GuardDutyClientTypes.TrustedEntitySetFormat? = nil,
+        location: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: GuardDutyClientTypes.TrustedEntitySetStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.createdAt = createdAt
+        self.errorDetails = errorDetails
+        self.expectedBucketOwner = expectedBucketOwner
+        self.format = format
+        self.location = location
+        self.name = name
+        self.status = status
+        self.tags = tags
+        self.updatedAt = updatedAt
     }
 }
 
@@ -9912,6 +10388,42 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
     }
 }
 
+public struct ListThreatEntitySetsInput: Swift.Sendable {
+    /// The unique ID of the GuardDuty detector that is associated with this threat entity set. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
+    /// This member is required.
+    public var detectorId: Swift.String?
+    /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50.
+    public var maxResults: Swift.Int?
+    /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+    public var nextToken: Swift.String?
+
+    public init(
+        detectorId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.detectorId = detectorId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListThreatEntitySetsOutput: Swift.Sendable {
+    /// The pagination parameter to be used on the next list operation to retrieve more items.
+    public var nextToken: Swift.String?
+    /// The IDs of the threat entity set resources.
+    /// This member is required.
+    public var threatEntitySetIds: [Swift.String]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        threatEntitySetIds: [Swift.String]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.threatEntitySetIds = threatEntitySetIds
+    }
+}
+
 public struct ListThreatIntelSetsInput: Swift.Sendable {
     /// The unique ID of the detector that is associated with the threatIntelSet. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
     /// This member is required.
@@ -9945,6 +10457,42 @@ public struct ListThreatIntelSetsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.threatIntelSetIds = threatIntelSetIds
+    }
+}
+
+public struct ListTrustedEntitySetsInput: Swift.Sendable {
+    /// The unique ID of the GuardDuty detector that is associated with this threat entity set. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
+    /// This member is required.
+    public var detectorId: Swift.String?
+    /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50.
+    public var maxResults: Swift.Int?
+    /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+    public var nextToken: Swift.String?
+
+    public init(
+        detectorId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.detectorId = detectorId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListTrustedEntitySetsOutput: Swift.Sendable {
+    /// The pagination parameter to be used on the next list operation to retrieve more items.
+    public var nextToken: Swift.String?
+    /// The IDs of the trusted entity set resources.
+    /// This member is required.
+    public var trustedEntitySetIds: [Swift.String]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        trustedEntitySetIds: [Swift.String]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.trustedEntitySetIds = trustedEntitySetIds
     }
 }
 
@@ -10211,6 +10759,8 @@ public struct UpdateIPSetInput: Swift.Sendable {
     /// The detectorID that specifies the GuardDuty service whose IPSet you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
     /// This member is required.
     public var detectorId: Swift.String?
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+    public var expectedBucketOwner: Swift.String?
     /// The unique ID that specifies the IPSet that you want to update.
     /// This member is required.
     public var ipSetId: Swift.String?
@@ -10222,12 +10772,14 @@ public struct UpdateIPSetInput: Swift.Sendable {
     public init(
         activate: Swift.Bool? = nil,
         detectorId: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
         ipSetId: Swift.String? = nil,
         location: Swift.String? = nil,
         name: Swift.String? = nil
     ) {
         self.activate = activate
         self.detectorId = detectorId
+        self.expectedBucketOwner = expectedBucketOwner
         self.ipSetId = ipSetId
         self.location = location
         self.name = name
@@ -10635,12 +11187,52 @@ public struct UpdatePublishingDestinationOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateThreatEntitySetInput: Swift.Sendable {
+    /// A boolean value that indicates whether GuardDuty is to start using this updated threat entity set. After you update an entity set, you will need to activate it again. It might take up to 15 minutes for the updated entity set to be effective.
+    public var activate: Swift.Bool?
+    /// The unique ID of the GuardDuty detector associated with the threat entity set that you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
+    /// This member is required.
+    public var detectorId: Swift.String?
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+    public var expectedBucketOwner: Swift.String?
+    /// The URI of the file that contains the trusted entity set.
+    public var location: Swift.String?
+    /// A user-friendly name to identify the trusted entity set. The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
+    public var name: Swift.String?
+    /// The ID returned by GuardDuty after updating the threat entity set resource.
+    /// This member is required.
+    public var threatEntitySetId: Swift.String?
+
+    public init(
+        activate: Swift.Bool? = nil,
+        detectorId: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        location: Swift.String? = nil,
+        name: Swift.String? = nil,
+        threatEntitySetId: Swift.String? = nil
+    ) {
+        self.activate = activate
+        self.detectorId = detectorId
+        self.expectedBucketOwner = expectedBucketOwner
+        self.location = location
+        self.name = name
+        self.threatEntitySetId = threatEntitySetId
+    }
+}
+
+public struct UpdateThreatEntitySetOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateThreatIntelSetInput: Swift.Sendable {
     /// The updated Boolean value that specifies whether the ThreateIntelSet is active or not.
     public var activate: Swift.Bool?
     /// The detectorID that specifies the GuardDuty service whose ThreatIntelSet you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
     /// This member is required.
     public var detectorId: Swift.String?
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+    public var expectedBucketOwner: Swift.String?
     /// The updated URI of the file that contains the ThreateIntelSet.
     public var location: Swift.String?
     /// The unique ID that specifies the ThreatIntelSet that you want to update.
@@ -10652,12 +11244,14 @@ public struct UpdateThreatIntelSetInput: Swift.Sendable {
     public init(
         activate: Swift.Bool? = nil,
         detectorId: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
         location: Swift.String? = nil,
         name: Swift.String? = nil,
         threatIntelSetId: Swift.String? = nil
     ) {
         self.activate = activate
         self.detectorId = detectorId
+        self.expectedBucketOwner = expectedBucketOwner
         self.location = location
         self.name = name
         self.threatIntelSetId = threatIntelSetId
@@ -10665,6 +11259,44 @@ public struct UpdateThreatIntelSetInput: Swift.Sendable {
 }
 
 public struct UpdateThreatIntelSetOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct UpdateTrustedEntitySetInput: Swift.Sendable {
+    /// A boolean value that indicates whether GuardDuty is to start using this updated trusted entity set. After you update an entity set, you will need to activate it again. It might take up to 15 minutes for the updated entity set to be effective.
+    public var activate: Swift.Bool?
+    /// The unique ID of the GuardDuty detector associated with the threat entity set that you want to update. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
+    /// This member is required.
+    public var detectorId: Swift.String?
+    /// The Amazon Web Services account ID that owns the Amazon S3 bucket specified in the location parameter.
+    public var expectedBucketOwner: Swift.String?
+    /// The URI of the file that contains the trusted entity set.
+    public var location: Swift.String?
+    /// A user-friendly name to identify the trusted entity set. The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
+    public var name: Swift.String?
+    /// The ID returned by GuardDuty after updating the trusted entity set resource.
+    /// This member is required.
+    public var trustedEntitySetId: Swift.String?
+
+    public init(
+        activate: Swift.Bool? = nil,
+        detectorId: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        location: Swift.String? = nil,
+        name: Swift.String? = nil,
+        trustedEntitySetId: Swift.String? = nil
+    ) {
+        self.activate = activate
+        self.detectorId = detectorId
+        self.expectedBucketOwner = expectedBucketOwner
+        self.location = location
+        self.name = name
+        self.trustedEntitySetId = trustedEntitySetId
+    }
+}
+
+public struct UpdateTrustedEntitySetOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -10763,6 +11395,16 @@ extension CreateSampleFindingsInput {
     }
 }
 
+extension CreateThreatEntitySetInput {
+
+    static func urlPathProvider(_ value: CreateThreatEntitySetInput) -> Swift.String? {
+        guard let detectorId = value.detectorId else {
+            return nil
+        }
+        return "/detector/\(detectorId.urlPercentEncoding())/threatentityset"
+    }
+}
+
 extension CreateThreatIntelSetInput {
 
     static func urlPathProvider(_ value: CreateThreatIntelSetInput) -> Swift.String? {
@@ -10770,6 +11412,16 @@ extension CreateThreatIntelSetInput {
             return nil
         }
         return "/detector/\(detectorId.urlPercentEncoding())/threatintelset"
+    }
+}
+
+extension CreateTrustedEntitySetInput {
+
+    static func urlPathProvider(_ value: CreateTrustedEntitySetInput) -> Swift.String? {
+        guard let detectorId = value.detectorId else {
+            return nil
+        }
+        return "/detector/\(detectorId.urlPercentEncoding())/trustedentityset"
     }
 }
 
@@ -10856,6 +11508,19 @@ extension DeletePublishingDestinationInput {
     }
 }
 
+extension DeleteThreatEntitySetInput {
+
+    static func urlPathProvider(_ value: DeleteThreatEntitySetInput) -> Swift.String? {
+        guard let detectorId = value.detectorId else {
+            return nil
+        }
+        guard let threatEntitySetId = value.threatEntitySetId else {
+            return nil
+        }
+        return "/detector/\(detectorId.urlPercentEncoding())/threatentityset/\(threatEntitySetId.urlPercentEncoding())"
+    }
+}
+
 extension DeleteThreatIntelSetInput {
 
     static func urlPathProvider(_ value: DeleteThreatIntelSetInput) -> Swift.String? {
@@ -10866,6 +11531,19 @@ extension DeleteThreatIntelSetInput {
             return nil
         }
         return "/detector/\(detectorId.urlPercentEncoding())/threatintelset/\(threatIntelSetId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteTrustedEntitySetInput {
+
+    static func urlPathProvider(_ value: DeleteTrustedEntitySetInput) -> Swift.String? {
+        guard let detectorId = value.detectorId else {
+            return nil
+        }
+        guard let trustedEntitySetId = value.trustedEntitySetId else {
+            return nil
+        }
+        return "/detector/\(detectorId.urlPercentEncoding())/trustedentityset/\(trustedEntitySetId.urlPercentEncoding())"
     }
 }
 
@@ -11112,6 +11790,19 @@ extension GetRemainingFreeTrialDaysInput {
     }
 }
 
+extension GetThreatEntitySetInput {
+
+    static func urlPathProvider(_ value: GetThreatEntitySetInput) -> Swift.String? {
+        guard let detectorId = value.detectorId else {
+            return nil
+        }
+        guard let threatEntitySetId = value.threatEntitySetId else {
+            return nil
+        }
+        return "/detector/\(detectorId.urlPercentEncoding())/threatentityset/\(threatEntitySetId.urlPercentEncoding())"
+    }
+}
+
 extension GetThreatIntelSetInput {
 
     static func urlPathProvider(_ value: GetThreatIntelSetInput) -> Swift.String? {
@@ -11122,6 +11813,19 @@ extension GetThreatIntelSetInput {
             return nil
         }
         return "/detector/\(detectorId.urlPercentEncoding())/threatintelset/\(threatIntelSetId.urlPercentEncoding())"
+    }
+}
+
+extension GetTrustedEntitySetInput {
+
+    static func urlPathProvider(_ value: GetTrustedEntitySetInput) -> Swift.String? {
+        guard let detectorId = value.detectorId else {
+            return nil
+        }
+        guard let trustedEntitySetId = value.trustedEntitySetId else {
+            return nil
+        }
+        return "/detector/\(detectorId.urlPercentEncoding())/trustedentityset/\(trustedEntitySetId.urlPercentEncoding())"
     }
 }
 
@@ -11371,6 +12075,32 @@ extension ListTagsForResourceInput {
     }
 }
 
+extension ListThreatEntitySetsInput {
+
+    static func urlPathProvider(_ value: ListThreatEntitySetsInput) -> Swift.String? {
+        guard let detectorId = value.detectorId else {
+            return nil
+        }
+        return "/detector/\(detectorId.urlPercentEncoding())/threatentityset"
+    }
+}
+
+extension ListThreatEntitySetsInput {
+
+    static func queryItemProvider(_ value: ListThreatEntitySetsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListThreatIntelSetsInput {
 
     static func urlPathProvider(_ value: ListThreatIntelSetsInput) -> Swift.String? {
@@ -11384,6 +12114,32 @@ extension ListThreatIntelSetsInput {
 extension ListThreatIntelSetsInput {
 
     static func queryItemProvider(_ value: ListThreatIntelSetsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListTrustedEntitySetsInput {
+
+    static func urlPathProvider(_ value: ListTrustedEntitySetsInput) -> Swift.String? {
+        guard let detectorId = value.detectorId else {
+            return nil
+        }
+        return "/detector/\(detectorId.urlPercentEncoding())/trustedentityset"
+    }
+}
+
+extension ListTrustedEntitySetsInput {
+
+    static func queryItemProvider(_ value: ListTrustedEntitySetsInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
@@ -11569,6 +12325,19 @@ extension UpdatePublishingDestinationInput {
     }
 }
 
+extension UpdateThreatEntitySetInput {
+
+    static func urlPathProvider(_ value: UpdateThreatEntitySetInput) -> Swift.String? {
+        guard let detectorId = value.detectorId else {
+            return nil
+        }
+        guard let threatEntitySetId = value.threatEntitySetId else {
+            return nil
+        }
+        return "/detector/\(detectorId.urlPercentEncoding())/threatentityset/\(threatEntitySetId.urlPercentEncoding())"
+    }
+}
+
 extension UpdateThreatIntelSetInput {
 
     static func urlPathProvider(_ value: UpdateThreatIntelSetInput) -> Swift.String? {
@@ -11579,6 +12348,19 @@ extension UpdateThreatIntelSetInput {
             return nil
         }
         return "/detector/\(detectorId.urlPercentEncoding())/threatintelset/\(threatIntelSetId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateTrustedEntitySetInput {
+
+    static func urlPathProvider(_ value: UpdateTrustedEntitySetInput) -> Swift.String? {
+        guard let detectorId = value.detectorId else {
+            return nil
+        }
+        guard let trustedEntitySetId = value.trustedEntitySetId else {
+            return nil
+        }
+        return "/detector/\(detectorId.urlPercentEncoding())/trustedentityset/\(trustedEntitySetId.urlPercentEncoding())"
     }
 }
 
@@ -11641,6 +12423,7 @@ extension CreateIPSetInput {
         guard let value else { return }
         try writer["activate"].write(value.activate)
         try writer["clientToken"].write(value.clientToken)
+        try writer["expectedBucketOwner"].write(value.expectedBucketOwner)
         try writer["format"].write(value.format)
         try writer["location"].write(value.location)
         try writer["name"].write(value.name)
@@ -11686,12 +12469,41 @@ extension CreateSampleFindingsInput {
     }
 }
 
+extension CreateThreatEntitySetInput {
+
+    static func write(value: CreateThreatEntitySetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["activate"].write(value.activate)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["expectedBucketOwner"].write(value.expectedBucketOwner)
+        try writer["format"].write(value.format)
+        try writer["location"].write(value.location)
+        try writer["name"].write(value.name)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateThreatIntelSetInput {
 
     static func write(value: CreateThreatIntelSetInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["activate"].write(value.activate)
         try writer["clientToken"].write(value.clientToken)
+        try writer["expectedBucketOwner"].write(value.expectedBucketOwner)
+        try writer["format"].write(value.format)
+        try writer["location"].write(value.location)
+        try writer["name"].write(value.name)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateTrustedEntitySetInput {
+
+    static func write(value: CreateTrustedEntitySetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["activate"].write(value.activate)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["expectedBucketOwner"].write(value.expectedBucketOwner)
         try writer["format"].write(value.format)
         try writer["location"].write(value.location)
         try writer["name"].write(value.name)
@@ -11933,6 +12745,7 @@ extension UpdateIPSetInput {
     static func write(value: UpdateIPSetInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["activate"].write(value.activate)
+        try writer["expectedBucketOwner"].write(value.expectedBucketOwner)
         try writer["location"].write(value.location)
         try writer["name"].write(value.name)
     }
@@ -11986,11 +12799,34 @@ extension UpdatePublishingDestinationInput {
     }
 }
 
+extension UpdateThreatEntitySetInput {
+
+    static func write(value: UpdateThreatEntitySetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["activate"].write(value.activate)
+        try writer["expectedBucketOwner"].write(value.expectedBucketOwner)
+        try writer["location"].write(value.location)
+        try writer["name"].write(value.name)
+    }
+}
+
 extension UpdateThreatIntelSetInput {
 
     static func write(value: UpdateThreatIntelSetInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["activate"].write(value.activate)
+        try writer["expectedBucketOwner"].write(value.expectedBucketOwner)
+        try writer["location"].write(value.location)
+        try writer["name"].write(value.name)
+    }
+}
+
+extension UpdateTrustedEntitySetInput {
+
+    static func write(value: UpdateTrustedEntitySetInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["activate"].write(value.activate)
+        try writer["expectedBucketOwner"].write(value.expectedBucketOwner)
         try writer["location"].write(value.location)
         try writer["name"].write(value.name)
     }
@@ -12097,6 +12933,18 @@ extension CreateSampleFindingsOutput {
     }
 }
 
+extension CreateThreatEntitySetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateThreatEntitySetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateThreatEntitySetOutput()
+        value.threatEntitySetId = try reader["threatEntitySetId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension CreateThreatIntelSetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateThreatIntelSetOutput {
@@ -12105,6 +12953,18 @@ extension CreateThreatIntelSetOutput {
         let reader = responseReader
         var value = CreateThreatIntelSetOutput()
         value.threatIntelSetId = try reader["threatIntelSetId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CreateTrustedEntitySetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTrustedEntitySetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTrustedEntitySetOutput()
+        value.trustedEntitySetId = try reader["trustedEntitySetId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -12180,10 +13040,24 @@ extension DeletePublishingDestinationOutput {
     }
 }
 
+extension DeleteThreatEntitySetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteThreatEntitySetOutput {
+        return DeleteThreatEntitySetOutput()
+    }
+}
+
 extension DeleteThreatIntelSetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteThreatIntelSetOutput {
         return DeleteThreatIntelSetOutput()
+    }
+}
+
+extension DeleteTrustedEntitySetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTrustedEntitySetOutput {
+        return DeleteTrustedEntitySetOutput()
     }
 }
 
@@ -12377,6 +13251,7 @@ extension GetIPSetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetIPSetOutput()
+        value.expectedBucketOwner = try reader["expectedBucketOwner"].readIfPresent()
         value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
         value.location = try reader["location"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
@@ -12481,6 +13356,26 @@ extension GetRemainingFreeTrialDaysOutput {
     }
 }
 
+extension GetThreatEntitySetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetThreatEntitySetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetThreatEntitySetOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.errorDetails = try reader["errorDetails"].readIfPresent()
+        value.expectedBucketOwner = try reader["expectedBucketOwner"].readIfPresent()
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
+        value.location = try reader["location"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension GetThreatIntelSetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetThreatIntelSetOutput {
@@ -12488,11 +13383,32 @@ extension GetThreatIntelSetOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetThreatIntelSetOutput()
+        value.expectedBucketOwner = try reader["expectedBucketOwner"].readIfPresent()
         value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
         value.location = try reader["location"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GetTrustedEntitySetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTrustedEntitySetOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTrustedEntitySetOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.errorDetails = try reader["errorDetails"].readIfPresent()
+        value.expectedBucketOwner = try reader["expectedBucketOwner"].readIfPresent()
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
+        value.location = try reader["location"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -12664,6 +13580,19 @@ extension ListTagsForResourceOutput {
     }
 }
 
+extension ListThreatEntitySetsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListThreatEntitySetsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListThreatEntitySetsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.threatEntitySetIds = try reader["threatEntitySetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension ListThreatIntelSetsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListThreatIntelSetsOutput {
@@ -12673,6 +13602,19 @@ extension ListThreatIntelSetsOutput {
         var value = ListThreatIntelSetsOutput()
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.threatIntelSetIds = try reader["threatIntelSetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ListTrustedEntitySetsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTrustedEntitySetsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTrustedEntitySetsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.trustedEntitySetIds = try reader["trustedEntitySetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -12807,10 +13749,24 @@ extension UpdatePublishingDestinationOutput {
     }
 }
 
+extension UpdateThreatEntitySetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateThreatEntitySetOutput {
+        return UpdateThreatEntitySetOutput()
+    }
+}
+
 extension UpdateThreatIntelSetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateThreatIntelSetOutput {
         return UpdateThreatIntelSetOutput()
+    }
+}
+
+extension UpdateTrustedEntitySetOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTrustedEntitySetOutput {
+        return UpdateTrustedEntitySetOutput()
     }
 }
 
@@ -12897,6 +13853,7 @@ enum CreateIPSetOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -12966,7 +13923,38 @@ enum CreateSampleFindingsOutputError {
     }
 }
 
+enum CreateThreatEntitySetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateThreatIntelSetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateTrustedEntitySetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -13103,7 +14091,37 @@ enum DeletePublishingDestinationOutputError {
     }
 }
 
+enum DeleteThreatEntitySetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteThreatIntelSetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteTrustedEntitySetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -13465,7 +14483,37 @@ enum GetRemainingFreeTrialDaysOutputError {
     }
 }
 
+enum GetThreatEntitySetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetThreatIntelSetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTrustedEntitySetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -13677,7 +14725,37 @@ enum ListTagsForResourceOutputError {
     }
 }
 
+enum ListThreatEntitySetsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListThreatIntelSetsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListTrustedEntitySetsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -13838,6 +14916,7 @@ enum UpdateIPSetOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -13922,7 +15001,38 @@ enum UpdatePublishingDestinationOutputError {
     }
 }
 
+enum UpdateThreatEntitySetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateThreatIntelSetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateTrustedEntitySetOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -15401,6 +16511,7 @@ extension GuardDutyClientTypes.DnsRequestAction {
         value.`protocol` = try reader["protocol"].readIfPresent()
         value.blocked = try reader["blocked"].readIfPresent()
         value.domainWithSuffix = try reader["domainWithSuffix"].readIfPresent()
+        value.vpcOwnerAccountId = try reader["vpcOwnerAccountId"].readIfPresent()
         return value
     }
 }

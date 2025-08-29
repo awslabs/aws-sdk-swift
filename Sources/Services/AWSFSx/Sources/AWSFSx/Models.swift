@@ -270,20 +270,24 @@ extension FSxClientTypes {
 extension FSxClientTypes {
 
     public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelled
         case completed
         case failed
         case inProgress
         case optimizing
+        case paused
         case pending
         case updatedOptimizing
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Status] {
             return [
+                .cancelled,
                 .completed,
                 .failed,
                 .inProgress,
                 .optimizing,
+                .paused,
                 .pending,
                 .updatedOptimizing
             ]
@@ -296,10 +300,12 @@ extension FSxClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .cancelled: return "CANCELLED"
             case .completed: return "COMPLETED"
             case .failed: return "FAILED"
             case .inProgress: return "IN_PROGRESS"
             case .optimizing: return "OPTIMIZING"
+            case .paused: return "PAUSED"
             case .pending: return "PENDING"
             case .updatedOptimizing: return "UPDATED_OPTIMIZING"
             case let .sdkUnknown(s): return s
@@ -941,6 +947,35 @@ extension FSxClientTypes {
 
 extension FSxClientTypes {
 
+    public enum NetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dual
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkType] {
+            return [
+                .dual,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dual: return "DUAL"
+            case .ipv4: return "IPV4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension FSxClientTypes {
+
     public enum OntapDeploymentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case multiAz1
         case multiAz2
@@ -1273,6 +1308,10 @@ extension FSxClientTypes {
         public var endpointIpAddress: Swift.String?
         /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables.
         public var endpointIpAddressRange: Swift.String?
+        /// The IPv6 address of the endpoint that is used to access data or to manage the file system.
+        public var endpointIpv6Address: Swift.String?
+        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /118 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        public var endpointIpv6AddressRange: Swift.String?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
         public var preferredSubnetId: Swift.String?
         /// Required when StorageType is set to INTELLIGENT_TIERING. Specifies the optional provisioned SSD read cache.
@@ -1295,6 +1334,8 @@ extension FSxClientTypes {
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
             endpointIpAddress: Swift.String? = nil,
             endpointIpAddressRange: Swift.String? = nil,
+            endpointIpv6Address: Swift.String? = nil,
+            endpointIpv6AddressRange: Swift.String? = nil,
             preferredSubnetId: Swift.String? = nil,
             readCacheConfiguration: FSxClientTypes.OpenZFSReadCacheConfiguration? = nil,
             rootVolumeId: Swift.String? = nil,
@@ -1310,6 +1351,8 @@ extension FSxClientTypes {
             self.diskIopsConfiguration = diskIopsConfiguration
             self.endpointIpAddress = endpointIpAddress
             self.endpointIpAddressRange = endpointIpAddressRange
+            self.endpointIpv6Address = endpointIpv6Address
+            self.endpointIpv6AddressRange = endpointIpv6AddressRange
             self.preferredSubnetId = preferredSubnetId
             self.readCacheConfiguration = readCacheConfiguration
             self.rootVolumeId = rootVolumeId
@@ -5624,6 +5667,8 @@ extension FSxClientTypes {
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
         /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /28 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
         public var endpointIpAddressRange: Swift.String?
+        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /118 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        public var endpointIpv6AddressRange: Swift.String?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
         public var preferredSubnetId: Swift.String?
         /// Specifies the optional provisioned SSD read cache on file systems that use the Intelligent-Tiering storage class.
@@ -5653,6 +5698,7 @@ extension FSxClientTypes {
             deploymentType: FSxClientTypes.OpenZFSDeploymentType? = nil,
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
             endpointIpAddressRange: Swift.String? = nil,
+            endpointIpv6AddressRange: Swift.String? = nil,
             preferredSubnetId: Swift.String? = nil,
             readCacheConfiguration: FSxClientTypes.OpenZFSReadCacheConfiguration? = nil,
             rootVolumeConfiguration: FSxClientTypes.OpenZFSCreateRootVolumeConfiguration? = nil,
@@ -5667,6 +5713,7 @@ extension FSxClientTypes {
             self.deploymentType = deploymentType
             self.diskIopsConfiguration = diskIopsConfiguration
             self.endpointIpAddressRange = endpointIpAddressRange
+            self.endpointIpv6AddressRange = endpointIpv6AddressRange
             self.preferredSubnetId = preferredSubnetId
             self.readCacheConfiguration = readCacheConfiguration
             self.rootVolumeConfiguration = rootVolumeConfiguration
@@ -5897,6 +5944,8 @@ public struct CreateFileSystemInput: Swift.Sendable {
     ///
     /// * ImportPath
     public var lustreConfiguration: FSxClientTypes.CreateFileSystemLustreConfiguration?
+    /// The network type of the Amazon FSx file system that you are creating. Valid values are IPV4 (which supports IPv4 only) and DUAL (for dual-stack mode, which supports both IPv4 and IPv6). The default is IPV4. Supported only for Amazon FSx for OpenZFS file systems.
+    public var networkType: FSxClientTypes.NetworkType?
     /// The ONTAP configuration properties of the FSx for ONTAP file system that you are creating.
     public var ontapConfiguration: FSxClientTypes.CreateFileSystemOntapConfiguration?
     /// The OpenZFS configuration for the file system that's being created.
@@ -5943,6 +5992,7 @@ public struct CreateFileSystemInput: Swift.Sendable {
         fileSystemTypeVersion: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         lustreConfiguration: FSxClientTypes.CreateFileSystemLustreConfiguration? = nil,
+        networkType: FSxClientTypes.NetworkType? = nil,
         ontapConfiguration: FSxClientTypes.CreateFileSystemOntapConfiguration? = nil,
         openZFSConfiguration: FSxClientTypes.CreateFileSystemOpenZFSConfiguration? = nil,
         securityGroupIds: [Swift.String]? = nil,
@@ -5957,6 +6007,7 @@ public struct CreateFileSystemInput: Swift.Sendable {
         self.fileSystemTypeVersion = fileSystemTypeVersion
         self.kmsKeyId = kmsKeyId
         self.lustreConfiguration = lustreConfiguration
+        self.networkType = networkType
         self.ontapConfiguration = ontapConfiguration
         self.openZFSConfiguration = openZFSConfiguration
         self.securityGroupIds = securityGroupIds
@@ -6000,6 +6051,8 @@ public struct CreateFileSystemFromBackupInput: Swift.Sendable {
     ///
     /// * ImportPath
     public var lustreConfiguration: FSxClientTypes.CreateFileSystemLustreConfiguration?
+    /// Sets the network type for the Amazon FSx for OpenZFS file system that you're creating from a backup.
+    public var networkType: FSxClientTypes.NetworkType?
     /// The OpenZFS configuration for the file system that's being created.
     public var openZFSConfiguration: FSxClientTypes.CreateFileSystemOpenZFSConfiguration?
     /// A list of IDs for the security groups that apply to the specified network interfaces created for file system access. These security groups apply to all network interfaces. This value isn't returned in later DescribeFileSystem requests.
@@ -6031,6 +6084,7 @@ public struct CreateFileSystemFromBackupInput: Swift.Sendable {
         fileSystemTypeVersion: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         lustreConfiguration: FSxClientTypes.CreateFileSystemLustreConfiguration? = nil,
+        networkType: FSxClientTypes.NetworkType? = nil,
         openZFSConfiguration: FSxClientTypes.CreateFileSystemOpenZFSConfiguration? = nil,
         securityGroupIds: [Swift.String]? = nil,
         storageCapacity: Swift.Int? = nil,
@@ -6044,6 +6098,7 @@ public struct CreateFileSystemFromBackupInput: Swift.Sendable {
         self.fileSystemTypeVersion = fileSystemTypeVersion
         self.kmsKeyId = kmsKeyId
         self.lustreConfiguration = lustreConfiguration
+        self.networkType = networkType
         self.openZFSConfiguration = openZFSConfiguration
         self.securityGroupIds = securityGroupIds
         self.storageCapacity = storageCapacity
@@ -8736,7 +8791,7 @@ extension FSxClientTypes {
         public var automaticBackupRetentionDays: Swift.Int?
         /// A recurring daily time, in the format HH:MM. HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 05:00 specifies 5 AM daily.
         public var dailyAutomaticBackupStartTime: Swift.String?
-        /// The SSD IOPS (input output operations per second) configuration for an Amazon FSx for NetApp ONTAP file system. The default is 3 IOPS per GB of storage capacity, but you can provision additional IOPS per GB of storage. The configuration consists of an IOPS mode (AUTOMATIC or USER_PROVISIONED), and in the case of USER_PROVISIONED IOPS, the total number of SSD IOPS provisioned. For more information, see [Updating SSD storage capacity and IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/increase-primary-storage.html).
+        /// The SSD IOPS (input output operations per second) configuration for an Amazon FSx for NetApp ONTAP file system. The default is 3 IOPS per GB of storage capacity, but you can provision additional IOPS per GB of storage. The configuration consists of an IOPS mode (AUTOMATIC or USER_PROVISIONED), and in the case of USER_PROVISIONED IOPS, the total number of SSD IOPS provisioned. For more information, see [File system storage capacity and IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/storage-capacity-and-IOPS.html).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
         /// Update the password for the fsxadmin user by entering a new password. You use the fsxadmin user to access the NetApp ONTAP CLI and REST API to manage your file system resources. For more information, see [Managing resources using NetApp Application](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-resources-ontap-apps.html).
         public var fsxAdminPassword: Swift.String?
@@ -8817,6 +8872,8 @@ extension FSxClientTypes {
         public var dailyAutomaticBackupStartTime: Swift.String?
         /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP, Amazon FSx for Windows File Server, or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
+        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default in the Amazon FSx API and Amazon FSx console, Amazon FSx selects an available /118 IP address range for you from one of the VPC's CIDR ranges. You can have overlapping endpoint IP addresses for file systems deployed in the same VPC/route tables, as long as they don't overlap with any subnet.
+        public var endpointIpv6AddressRange: Swift.String?
         /// The configuration for the optional provisioned SSD read cache on file systems that use the Intelligent-Tiering storage class.
         public var readCacheConfiguration: FSxClientTypes.OpenZFSReadCacheConfiguration?
         /// (Multi-AZ only) A list of IDs of existing virtual private cloud (VPC) route tables to disassociate (remove) from your Amazon FSx for OpenZFS file system. You can use the API operation to retrieve the list of VPC route table IDs for a file system.
@@ -8837,6 +8894,7 @@ extension FSxClientTypes {
             copyTagsToVolumes: Swift.Bool? = nil,
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
+            endpointIpv6AddressRange: Swift.String? = nil,
             readCacheConfiguration: FSxClientTypes.OpenZFSReadCacheConfiguration? = nil,
             removeRouteTableIds: [Swift.String]? = nil,
             throughputCapacity: Swift.Int? = nil,
@@ -8848,6 +8906,7 @@ extension FSxClientTypes {
             self.copyTagsToVolumes = copyTagsToVolumes
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.endpointIpv6AddressRange = endpointIpv6AddressRange
             self.readCacheConfiguration = readCacheConfiguration
             self.removeRouteTableIds = removeRouteTableIds
             self.throughputCapacity = throughputCapacity
@@ -8946,11 +9005,13 @@ public struct UpdateFileSystemInput: Swift.Sendable {
     public var fileSystemTypeVersion: Swift.String?
     /// The configuration object for Amazon FSx for Lustre file systems used in the UpdateFileSystem operation.
     public var lustreConfiguration: FSxClientTypes.UpdateFileSystemLustreConfiguration?
+    /// Changes the network type of an FSx for OpenZFS file system.
+    public var networkType: FSxClientTypes.NetworkType?
     /// The configuration updates for an Amazon FSx for NetApp ONTAP file system.
     public var ontapConfiguration: FSxClientTypes.UpdateFileSystemOntapConfiguration?
     /// The configuration updates for an FSx for OpenZFS file system.
     public var openZFSConfiguration: FSxClientTypes.UpdateFileSystemOpenZFSConfiguration?
-    /// Use this parameter to increase the storage capacity of an FSx for Windows File Server, FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system. Specifies the storage capacity target value, in GiB, to increase the storage capacity for the file system that you're updating. You can't make a storage capacity increase request if there is an existing storage capacity increase request in progress. For Lustre file systems, the storage capacity target value can be the following:
+    /// Use this parameter to increase the storage capacity of an FSx for Windows File Server, FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system. For second-generation FSx for ONTAP file systems, you can also decrease the storage capacity. Specifies the storage capacity target value, in GiB, for the file system that you're updating. You can't make a storage capacity increase request if there is an existing storage capacity increase request in progress. For Lustre file systems, the storage capacity target value can be the following:
     ///
     /// * For SCRATCH_2, PERSISTENT_1, and PERSISTENT_2 SSD deployment types, valid values are in multiples of 2400 GiB. The value must be greater than the current storage capacity.
     ///
@@ -8959,7 +9020,7 @@ public struct UpdateFileSystemInput: Swift.Sendable {
     /// * For SCRATCH_1 file systems, you can't increase the storage capacity.
     ///
     ///
-    /// For more information, see [Managing storage and throughput capacity](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html) in the FSx for Lustre User Guide. For FSx for OpenZFS file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-storage-capacity.html) in the FSx for OpenZFS User Guide. For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html) in the Amazon FSxfor Windows File Server User Guide. For ONTAP file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see [Managing storage capacity and provisioned IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-storage-capacity.html) in the Amazon FSx for NetApp ONTAP User Guide.
+    /// For more information, see [Managing storage and throughput capacity](https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html) in the FSx for Lustre User Guide. For FSx for OpenZFS file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-storage-capacity.html) in the FSx for OpenZFS User Guide. For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For more information, see [Managing storage capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html) in the Amazon FSxfor Windows File Server User Guide. For ONTAP file systems, when increasing storage capacity, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. When decreasing storage capacity on second-generation file systems, the target value must be at least 9 percent smaller than the current SSD storage capacity. For more information, see [File system storage capacity and IOPS](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/storage-capacity-and-IOPS.html) in the Amazon FSx for NetApp ONTAP User Guide.
     public var storageCapacity: Swift.Int?
     /// Specifies the file system's storage type.
     public var storageType: FSxClientTypes.StorageType?
@@ -8971,6 +9032,7 @@ public struct UpdateFileSystemInput: Swift.Sendable {
         fileSystemId: Swift.String? = nil,
         fileSystemTypeVersion: Swift.String? = nil,
         lustreConfiguration: FSxClientTypes.UpdateFileSystemLustreConfiguration? = nil,
+        networkType: FSxClientTypes.NetworkType? = nil,
         ontapConfiguration: FSxClientTypes.UpdateFileSystemOntapConfiguration? = nil,
         openZFSConfiguration: FSxClientTypes.UpdateFileSystemOpenZFSConfiguration? = nil,
         storageCapacity: Swift.Int? = nil,
@@ -8981,6 +9043,7 @@ public struct UpdateFileSystemInput: Swift.Sendable {
         self.fileSystemId = fileSystemId
         self.fileSystemTypeVersion = fileSystemTypeVersion
         self.lustreConfiguration = lustreConfiguration
+        self.networkType = networkType
         self.ontapConfiguration = ontapConfiguration
         self.openZFSConfiguration = openZFSConfiguration
         self.storageCapacity = storageCapacity
@@ -9298,6 +9361,8 @@ extension FSxClientTypes {
         public var administrativeActionType: FSxClientTypes.AdministrativeActionType?
         /// Provides information about a failed administrative action.
         public var failureDetails: FSxClientTypes.AdministrativeActionFailureDetails?
+        /// A detailed error message.
+        public var message: Swift.String?
         /// The percentage-complete status of a STORAGE_OPTIMIZATION or DOWNLOAD_DATA_FROM_BACKUP administrative action. Does not apply to any other administrative action type.
         public var progressPercent: Swift.Int?
         /// The remaining bytes to transfer for the FSx for OpenZFS snapshot that you're copying.
@@ -9332,6 +9397,7 @@ extension FSxClientTypes {
         public init(
             administrativeActionType: FSxClientTypes.AdministrativeActionType? = nil,
             failureDetails: FSxClientTypes.AdministrativeActionFailureDetails? = nil,
+            message: Swift.String? = nil,
             progressPercent: Swift.Int? = nil,
             remainingTransferBytes: Swift.Int? = nil,
             requestTime: Foundation.Date? = nil,
@@ -9343,6 +9409,7 @@ extension FSxClientTypes {
         ) {
             self.administrativeActionType = administrativeActionType
             self.failureDetails = failureDetails
+            self.message = message
             self.progressPercent = progressPercent
             self.remainingTransferBytes = remainingTransferBytes
             self.requestTime = requestTime
@@ -9403,6 +9470,8 @@ extension FSxClientTypes {
         public var lustreConfiguration: FSxClientTypes.LustreFileSystemConfiguration?
         /// The IDs of the elastic network interfaces from which a specific file system is accessible. The elastic network interface is automatically created in the same virtual private cloud (VPC) that the Amazon FSx file system was created in. For more information, see [Elastic Network Interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html) in the Amazon EC2 User Guide. For an Amazon FSx for Windows File Server file system, you can have one network interface ID. For an Amazon FSx for Lustre file system, you can have more than one.
         public var networkInterfaceIds: [Swift.String]?
+        /// The network type of the file system.
+        public var networkType: FSxClientTypes.NetworkType?
         /// The configuration for this Amazon FSx for NetApp ONTAP file system.
         public var ontapConfiguration: FSxClientTypes.OntapFileSystemConfiguration?
         /// The configuration for this Amazon FSx for OpenZFS file system.
@@ -9442,6 +9511,7 @@ extension FSxClientTypes {
             lifecycle: FSxClientTypes.FileSystemLifecycle? = nil,
             lustreConfiguration: FSxClientTypes.LustreFileSystemConfiguration? = nil,
             networkInterfaceIds: [Swift.String]? = nil,
+            networkType: FSxClientTypes.NetworkType? = nil,
             ontapConfiguration: FSxClientTypes.OntapFileSystemConfiguration? = nil,
             openZFSConfiguration: FSxClientTypes.OpenZFSFileSystemConfiguration? = nil,
             ownerId: Swift.String? = nil,
@@ -9464,6 +9534,7 @@ extension FSxClientTypes {
             self.lifecycle = lifecycle
             self.lustreConfiguration = lustreConfiguration
             self.networkInterfaceIds = networkInterfaceIds
+            self.networkType = networkType
             self.ontapConfiguration = ontapConfiguration
             self.openZFSConfiguration = openZFSConfiguration
             self.ownerId = ownerId
@@ -10399,6 +10470,7 @@ extension CreateFileSystemInput {
         try writer["FileSystemTypeVersion"].write(value.fileSystemTypeVersion)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["LustreConfiguration"].write(value.lustreConfiguration, with: FSxClientTypes.CreateFileSystemLustreConfiguration.write(value:to:))
+        try writer["NetworkType"].write(value.networkType)
         try writer["OntapConfiguration"].write(value.ontapConfiguration, with: FSxClientTypes.CreateFileSystemOntapConfiguration.write(value:to:))
         try writer["OpenZFSConfiguration"].write(value.openZFSConfiguration, with: FSxClientTypes.CreateFileSystemOpenZFSConfiguration.write(value:to:))
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -10419,6 +10491,7 @@ extension CreateFileSystemFromBackupInput {
         try writer["FileSystemTypeVersion"].write(value.fileSystemTypeVersion)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["LustreConfiguration"].write(value.lustreConfiguration, with: FSxClientTypes.CreateFileSystemLustreConfiguration.write(value:to:))
+        try writer["NetworkType"].write(value.networkType)
         try writer["OpenZFSConfiguration"].write(value.openZFSConfiguration, with: FSxClientTypes.CreateFileSystemOpenZFSConfiguration.write(value:to:))
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["StorageCapacity"].write(value.storageCapacity)
@@ -10770,6 +10843,7 @@ extension UpdateFileSystemInput {
         try writer["FileSystemId"].write(value.fileSystemId)
         try writer["FileSystemTypeVersion"].write(value.fileSystemTypeVersion)
         try writer["LustreConfiguration"].write(value.lustreConfiguration, with: FSxClientTypes.UpdateFileSystemLustreConfiguration.write(value:to:))
+        try writer["NetworkType"].write(value.networkType)
         try writer["OntapConfiguration"].write(value.ontapConfiguration, with: FSxClientTypes.UpdateFileSystemOntapConfiguration.write(value:to:))
         try writer["OpenZFSConfiguration"].write(value.openZFSConfiguration, with: FSxClientTypes.UpdateFileSystemOpenZFSConfiguration.write(value:to:))
         try writer["StorageCapacity"].write(value.storageCapacity)
@@ -12986,6 +13060,7 @@ extension FSxClientTypes.AdministrativeAction {
         value.targetSnapshotValues = try reader["TargetSnapshotValues"].readIfPresent(with: FSxClientTypes.Snapshot.read(from:))
         value.totalTransferBytes = try reader["TotalTransferBytes"].readIfPresent()
         value.remainingTransferBytes = try reader["RemainingTransferBytes"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -13071,6 +13146,7 @@ extension FSxClientTypes.FileSystem {
         value.ontapConfiguration = try reader["OntapConfiguration"].readIfPresent(with: FSxClientTypes.OntapFileSystemConfiguration.read(from:))
         value.fileSystemTypeVersion = try reader["FileSystemTypeVersion"].readIfPresent()
         value.openZFSConfiguration = try reader["OpenZFSConfiguration"].readIfPresent(with: FSxClientTypes.OpenZFSFileSystemConfiguration.read(from:))
+        value.networkType = try reader["NetworkType"].readIfPresent()
         return value
     }
 }
@@ -13091,8 +13167,10 @@ extension FSxClientTypes.OpenZFSFileSystemConfiguration {
         value.rootVolumeId = try reader["RootVolumeId"].readIfPresent()
         value.preferredSubnetId = try reader["PreferredSubnetId"].readIfPresent()
         value.endpointIpAddressRange = try reader["EndpointIpAddressRange"].readIfPresent()
+        value.endpointIpv6AddressRange = try reader["EndpointIpv6AddressRange"].readIfPresent()
         value.routeTableIds = try reader["RouteTableIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.endpointIpAddress = try reader["EndpointIpAddress"].readIfPresent()
+        value.endpointIpv6Address = try reader["EndpointIpv6Address"].readIfPresent()
         value.readCacheConfiguration = try reader["ReadCacheConfiguration"].readIfPresent(with: FSxClientTypes.OpenZFSReadCacheConfiguration.read(from:))
         return value
     }
@@ -14118,6 +14196,7 @@ extension FSxClientTypes.CreateFileSystemOpenZFSConfiguration {
         try writer["DeploymentType"].write(value.deploymentType)
         try writer["DiskIopsConfiguration"].write(value.diskIopsConfiguration, with: FSxClientTypes.DiskIopsConfiguration.write(value:to:))
         try writer["EndpointIpAddressRange"].write(value.endpointIpAddressRange)
+        try writer["EndpointIpv6AddressRange"].write(value.endpointIpv6AddressRange)
         try writer["PreferredSubnetId"].write(value.preferredSubnetId)
         try writer["ReadCacheConfiguration"].write(value.readCacheConfiguration, with: FSxClientTypes.OpenZFSReadCacheConfiguration.write(value:to:))
         try writer["RootVolumeConfiguration"].write(value.rootVolumeConfiguration, with: FSxClientTypes.OpenZFSCreateRootVolumeConfiguration.write(value:to:))
@@ -14406,6 +14485,7 @@ extension FSxClientTypes.UpdateFileSystemOpenZFSConfiguration {
         try writer["CopyTagsToVolumes"].write(value.copyTagsToVolumes)
         try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
         try writer["DiskIopsConfiguration"].write(value.diskIopsConfiguration, with: FSxClientTypes.DiskIopsConfiguration.write(value:to:))
+        try writer["EndpointIpv6AddressRange"].write(value.endpointIpv6AddressRange)
         try writer["ReadCacheConfiguration"].write(value.readCacheConfiguration, with: FSxClientTypes.OpenZFSReadCacheConfiguration.write(value:to:))
         try writer["RemoveRouteTableIds"].writeList(value.removeRouteTableIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ThroughputCapacity"].write(value.throughputCapacity)

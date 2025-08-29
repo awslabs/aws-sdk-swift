@@ -11,9 +11,9 @@ import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import protocol ClientRuntime.ClientConfiguration
 import protocol ClientRuntime.Plugin
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
-import struct AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain
+@_spi(ClientConfigDefaultIdentityResolver) import struct AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain
 import struct SmithyHTTPAuth.BearerTokenAuthScheme
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 

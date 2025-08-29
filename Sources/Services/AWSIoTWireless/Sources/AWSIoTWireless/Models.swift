@@ -1582,7 +1582,7 @@ public struct CreateDeviceProfileInput: Swift.Sendable {
     public var clientRequestToken: Swift.String?
     /// The device profile information to use to create the device profile.
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANDeviceProfile?
-    /// The name of the new resource.
+    /// The name of the new resource. The following special characters aren't accepted: <>^#~$
     public var name: Swift.String?
     /// The Sidewalk-related information for creating the Sidewalk device profile.
     public var sidewalk: IoTWirelessClientTypes.SidewalkCreateDeviceProfile?
@@ -2061,23 +2061,39 @@ extension IoTWirelessClientTypes {
         public var drMax: Swift.Int?
         /// The DrMin value.
         public var drMin: Swift.Int?
+        /// The maximum number of transmissions. Default: 3
+        public var nbTransMax: Swift.Int?
+        /// The minimum number of transmissions. Default: 0
+        public var nbTransMin: Swift.Int?
         /// The PRAllowed value that describes whether passive roaming is allowed.
         public var prAllowed: Swift.Bool
         /// The RAAllowed value that describes whether roaming activation is allowed.
         public var raAllowed: Swift.Bool
+        /// The Transmit Power Index maximum. Default: 15
+        public var txPowerIndexMax: Swift.Int?
+        /// The Transmit Power Index minimum. Default: 0
+        public var txPowerIndexMin: Swift.Int?
 
         public init(
             addGwMetadata: Swift.Bool = false,
             drMax: Swift.Int? = nil,
             drMin: Swift.Int? = nil,
+            nbTransMax: Swift.Int? = nil,
+            nbTransMin: Swift.Int? = nil,
             prAllowed: Swift.Bool = false,
-            raAllowed: Swift.Bool = false
+            raAllowed: Swift.Bool = false,
+            txPowerIndexMax: Swift.Int? = nil,
+            txPowerIndexMin: Swift.Int? = nil
         ) {
             self.addGwMetadata = addGwMetadata
             self.drMax = drMax
             self.drMin = drMin
+            self.nbTransMax = nbTransMax
+            self.nbTransMin = nbTransMin
             self.prAllowed = prAllowed
             self.raAllowed = raAllowed
+            self.txPowerIndexMax = txPowerIndexMax
+            self.txPowerIndexMin = txPowerIndexMin
         }
     }
 }
@@ -2087,7 +2103,7 @@ public struct CreateServiceProfileInput: Swift.Sendable {
     public var clientRequestToken: Swift.String?
     /// The service profile information to use to create the service profile.
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANServiceProfile?
-    /// The name of the new resource.
+    /// The name of the new resource. The following special characters aren't accepted: <>^#~$
     public var name: Swift.String?
     /// The tags to attach to the new service profile. Tags are metadata that you can use to manage a resource.
     public var tags: [IoTWirelessClientTypes.Tag]?
@@ -2350,7 +2366,7 @@ public struct CreateWirelessDeviceInput: Swift.Sendable {
     public var destinationName: Swift.String?
     /// The device configuration information to use to create the wireless device.
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANDevice?
-    /// The name of the new resource.
+    /// The name of the new resource. The following special characters aren't accepted: <>^#~$
     public var name: Swift.String?
     /// FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
     public var positioning: IoTWirelessClientTypes.PositioningConfigStatus?
@@ -2447,7 +2463,7 @@ public struct CreateWirelessGatewayInput: Swift.Sendable {
     /// The gateway configuration information to use to create the wireless gateway.
     /// This member is required.
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANGateway?
-    /// The name of the new resource.
+    /// The name of the new resource. The following special characters aren't accepted: <>^#~$
     public var name: Swift.String?
     /// The tags to attach to the new wireless gateway. Tags are metadata that you can use to manage a resource.
     public var tags: [IoTWirelessClientTypes.Tag]?
@@ -3608,7 +3624,6 @@ extension IoTWirelessClientTypes {
 
     public enum IdentifierType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case deveui
-        case fuotataskid
         case gatewayeui
         case partneraccountid
         case wirelessdeviceid
@@ -3618,7 +3633,6 @@ extension IoTWirelessClientTypes {
         public static var allCases: [IdentifierType] {
             return [
                 .deveui,
-                .fuotataskid,
                 .gatewayeui,
                 .partneraccountid,
                 .wirelessdeviceid,
@@ -3634,7 +3648,6 @@ extension IoTWirelessClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .deveui: return "DevEui"
-            case .fuotataskid: return "FuotaTaskId"
             case .gatewayeui: return "GatewayEui"
             case .partneraccountid: return "PartnerAccountId"
             case .wirelessdeviceid: return "WirelessDeviceId"
@@ -3701,7 +3714,6 @@ extension IoTWirelessClientTypes {
 extension IoTWirelessClientTypes {
 
     public enum EventNotificationResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case fuotatask
         case sidewalkaccount
         case wirelessdevice
         case wirelessgateway
@@ -3709,7 +3721,6 @@ extension IoTWirelessClientTypes {
 
         public static var allCases: [EventNotificationResourceType] {
             return [
-                .fuotatask,
                 .sidewalkaccount,
                 .wirelessdevice,
                 .wirelessgateway
@@ -3723,7 +3734,6 @@ extension IoTWirelessClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .fuotatask: return "FuotaTask"
             case .sidewalkaccount: return "SidewalkAccount"
             case .wirelessdevice: return "WirelessDevice"
             case .wirelessgateway: return "WirelessGateway"
@@ -4920,7 +4930,7 @@ extension IoTWirelessClientTypes {
         public var pingSlotPeriod: Swift.Int?
         /// Timestamp of when the multicast group session is to start.
         public var sessionStartTime: Foundation.Date?
-        /// How long before a multicast group session is to timeout.
+        /// How long before a multicast group session is to timeout. We recommend that you provide a timeout value that is a power-of-two (such as 64, 128, 256). If a non-power-of-two value is provided, it will automatically be rounded up to the next supported power-of-two within the allowed range.
         public var sessionTimeout: Swift.Int?
 
         public init(
@@ -5632,6 +5642,10 @@ extension IoTWirelessClientTypes {
         public var hrAllowed: Swift.Bool
         /// The MinGwDiversity value.
         public var minGwDiversity: Swift.Int?
+        /// The maximum number of transmissions. Default: 3
+        public var nbTransMax: Swift.Int?
+        /// The minimum number of transmissions. Default: 0
+        public var nbTransMin: Swift.Int?
         /// The NwkGeoLoc value.
         public var nwkGeoLoc: Swift.Bool
         /// The PRAllowed value that describes whether passive roaming is allowed.
@@ -5644,6 +5658,10 @@ extension IoTWirelessClientTypes {
         public var reportDevStatusMargin: Swift.Bool
         /// The TargetPER value.
         public var targetPer: Swift.Int
+        /// The Transmit Power Index maximum value. Default: 15
+        public var txPowerIndexMax: Swift.Int?
+        /// The Transmit Power Index minimum value. Default: 0
+        public var txPowerIndexMin: Swift.Int?
         /// The ULBucketSize value.
         public var ulBucketSize: Swift.Int?
         /// The ULRate value.
@@ -5662,12 +5680,16 @@ extension IoTWirelessClientTypes {
             drMin: Swift.Int = 0,
             hrAllowed: Swift.Bool = false,
             minGwDiversity: Swift.Int? = nil,
+            nbTransMax: Swift.Int? = nil,
+            nbTransMin: Swift.Int? = nil,
             nwkGeoLoc: Swift.Bool = false,
             prAllowed: Swift.Bool = false,
             raAllowed: Swift.Bool = false,
             reportDevStatusBattery: Swift.Bool = false,
             reportDevStatusMargin: Swift.Bool = false,
             targetPer: Swift.Int = 0,
+            txPowerIndexMax: Swift.Int? = nil,
+            txPowerIndexMin: Swift.Int? = nil,
             ulBucketSize: Swift.Int? = nil,
             ulRate: Swift.Int? = nil,
             ulRatePolicy: Swift.String? = nil
@@ -5682,12 +5704,16 @@ extension IoTWirelessClientTypes {
             self.drMin = drMin
             self.hrAllowed = hrAllowed
             self.minGwDiversity = minGwDiversity
+            self.nbTransMax = nbTransMax
+            self.nbTransMin = nbTransMin
             self.nwkGeoLoc = nwkGeoLoc
             self.prAllowed = prAllowed
             self.raAllowed = raAllowed
             self.reportDevStatusBattery = reportDevStatusBattery
             self.reportDevStatusMargin = reportDevStatusMargin
             self.targetPer = targetPer
+            self.txPowerIndexMax = txPowerIndexMax
+            self.txPowerIndexMin = txPowerIndexMin
             self.ulBucketSize = ulBucketSize
             self.ulRate = ulRate
             self.ulRatePolicy = ulRatePolicy
@@ -8558,7 +8584,7 @@ public struct UpdateWirelessDeviceInput: Swift.Sendable {
     public var id: Swift.String?
     /// The updated wireless device's configuration.
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANUpdateDevice?
-    /// The new name of the resource.
+    /// The new name of the resource. The following special characters aren't accepted: <>^#~$
     public var name: Swift.String?
     /// FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
     public var positioning: IoTWirelessClientTypes.PositioningConfigStatus?
@@ -8632,7 +8658,7 @@ public struct UpdateWirelessGatewayInput: Swift.Sendable {
     public var joinEuiFilters: [[Swift.String]]?
     /// The MaxEIRP value.
     public var maxEirp: Swift.Float?
-    /// The new name of the resource.
+    /// The new name of the resource. The following special characters aren't accepted: <>^#~$
     public var name: Swift.String?
     /// A list of NetId values that are used by LoRa gateways to filter the uplink frames.
     public var netIdFilters: [Swift.String]?
@@ -14798,6 +14824,10 @@ extension IoTWirelessClientTypes.LoRaWANGetServiceProfileInfo {
         value.nwkGeoLoc = try reader["NwkGeoLoc"].readIfPresent() ?? false
         value.targetPer = try reader["TargetPer"].readIfPresent() ?? 0
         value.minGwDiversity = try reader["MinGwDiversity"].readIfPresent()
+        value.txPowerIndexMin = try reader["TxPowerIndexMin"].readIfPresent()
+        value.txPowerIndexMax = try reader["TxPowerIndexMax"].readIfPresent()
+        value.nbTransMin = try reader["NbTransMin"].readIfPresent()
+        value.nbTransMax = try reader["NbTransMax"].readIfPresent()
         return value
     }
 }
@@ -15582,8 +15612,12 @@ extension IoTWirelessClientTypes.LoRaWANServiceProfile {
         try writer["AddGwMetadata"].write(value.addGwMetadata)
         try writer["DrMax"].write(value.drMax)
         try writer["DrMin"].write(value.drMin)
+        try writer["NbTransMax"].write(value.nbTransMax)
+        try writer["NbTransMin"].write(value.nbTransMin)
         try writer["PrAllowed"].write(value.prAllowed)
         try writer["RaAllowed"].write(value.raAllowed)
+        try writer["TxPowerIndexMax"].write(value.txPowerIndexMax)
+        try writer["TxPowerIndexMin"].write(value.txPowerIndexMin)
     }
 }
 

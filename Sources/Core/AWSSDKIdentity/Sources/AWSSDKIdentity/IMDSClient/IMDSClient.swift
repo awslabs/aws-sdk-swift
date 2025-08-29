@@ -70,7 +70,7 @@ public final class IMDSClient: EC2InstanceMetadataProvider {
     public func get(path: String) async throws -> String {
         var backoff: TimeInterval = 0.1
 
-        for attempt in 0...retries {
+        for _ in 0...retries {
             do {
                 let (data, response) = try await fetchMetadataResponse(path: path)
                 return try await processMetadataResponse(path: path, data: data, response: response)

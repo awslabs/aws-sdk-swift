@@ -14,8 +14,7 @@ import SmithyHTTPAuth
 import AWSSDKHTTPAuth
 import AWSSDKEventStreamsAuth
 import XCTest
-import AwsCommonRuntimeKit
-import ClientRuntime
+import struct AwsCommonRuntimeKit.CommonRuntimeKit
 
 final class AWSMessageEncoderStreamTests: XCTestCase {
     let baseStream = AsyncThrowingStream<TestEvent, Error> { continuation in
@@ -33,7 +32,7 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
     let messageEncoder = DefaultMessageEncoder()
 
     override class func setUp() {
-        AwsCommonRuntimeKit.CommonRuntimeKit.initialize()
+        CommonRuntimeKit.initialize()
     }
     
     // MARK: - Tests

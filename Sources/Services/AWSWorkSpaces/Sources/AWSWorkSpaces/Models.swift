@@ -3758,6 +3758,92 @@ public struct CreateWorkspacesPoolOutput: Swift.Sendable {
 
 extension WorkSpacesClientTypes {
 
+    public enum CustomImageProtocol: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case byop
+        case dcv
+        case pcoip
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomImageProtocol] {
+            return [
+                .byop,
+                .dcv,
+                .pcoip
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .byop: return "BYOP"
+            case .dcv: return "DCV"
+            case .pcoip: return "PCOIP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
+    /// Describes in-depth details about the error. These details include the possible causes of the error and troubleshooting information.
+    public struct CustomWorkspaceImageImportErrorDetails: Swift.Sendable {
+        /// The error code that is returned for the image import.
+        public var errorCode: Swift.String?
+        /// The text of the error message that is returned for the image import.
+        public var errorMessage: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
+    public enum CustomWorkspaceImageImportState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case completed
+        case error
+        case inProgress
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomWorkspaceImageImportState] {
+            return [
+                .completed,
+                .error,
+                .inProgress,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .completed: return "COMPLETED"
+            case .error: return "ERROR"
+            case .inProgress: return "IN_PROGRESS"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
     public enum DedicatedTenancyAccountType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case sourceAccount
         case targetAccount
@@ -4210,15 +4296,19 @@ public struct DescribeAccountOutput: Swift.Sendable {
     public var dedicatedTenancyManagementCidrRange: Swift.String?
     /// The status of BYOL (whether BYOL is enabled or disabled).
     public var dedicatedTenancySupport: WorkSpacesClientTypes.DedicatedTenancySupportResultEnum?
+    /// The text message to describe the status of BYOL.
+    public var message: Swift.String?
 
     public init(
         dedicatedTenancyAccountType: WorkSpacesClientTypes.DedicatedTenancyAccountType? = nil,
         dedicatedTenancyManagementCidrRange: Swift.String? = nil,
-        dedicatedTenancySupport: WorkSpacesClientTypes.DedicatedTenancySupportResultEnum? = nil
+        dedicatedTenancySupport: WorkSpacesClientTypes.DedicatedTenancySupportResultEnum? = nil,
+        message: Swift.String? = nil
     ) {
         self.dedicatedTenancyAccountType = dedicatedTenancyAccountType
         self.dedicatedTenancyManagementCidrRange = dedicatedTenancyManagementCidrRange
         self.dedicatedTenancySupport = dedicatedTenancySupport
+        self.message = message
     }
 }
 
@@ -4699,6 +4789,71 @@ public struct DescribeConnectionAliasPermissionsOutput: Swift.Sendable {
         self.aliasId = aliasId
         self.connectionAliasPermissions = connectionAliasPermissions
         self.nextToken = nextToken
+    }
+}
+
+public struct DescribeCustomWorkspaceImageImportInput: Swift.Sendable {
+    /// The identifier of the WorkSpace image.
+    /// This member is required.
+    public var imageId: Swift.String?
+
+    public init(
+        imageId: Swift.String? = nil
+    ) {
+        self.imageId = imageId
+    }
+}
+
+extension WorkSpacesClientTypes {
+
+    /// Describes the image import source.
+    public enum ImageSourceIdentifier: Swift.Sendable {
+        /// The EC2 import task ID to import the image from the Amazon EC2 VM import process.
+        case ec2importtaskid(Swift.String)
+        /// The ARN of the EC2 Image Builder image.
+        case imagebuildversionarn(Swift.String)
+        /// The identifier of the EC2 image.
+        case ec2imageid(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct DescribeCustomWorkspaceImageImportOutput: Swift.Sendable {
+    /// The timestamp when the WorkSpace image import was created.
+    public var created: Foundation.Date?
+    /// Describes in-depth details about the error. These details include the possible causes of the error and troubleshooting information.
+    public var errorDetails: [WorkSpacesClientTypes.CustomWorkspaceImageImportErrorDetails]?
+    /// The image builder instance ID of the WorkSpace image.
+    public var imageBuilderInstanceId: Swift.String?
+    /// The identifier of the WorkSpace image.
+    public var imageId: Swift.String?
+    /// Describes the image import source.
+    public var imageSource: WorkSpacesClientTypes.ImageSourceIdentifier?
+    /// The infrastructure configuration ARN that specifies how the WorkSpace image is built.
+    public var infrastructureConfigurationArn: Swift.String?
+    /// The timestamp when the WorkSpace image import was last updated.
+    public var lastUpdatedTime: Foundation.Date?
+    /// The state of the WorkSpace image.
+    public var state: WorkSpacesClientTypes.CustomWorkspaceImageImportState?
+
+    public init(
+        created: Foundation.Date? = nil,
+        errorDetails: [WorkSpacesClientTypes.CustomWorkspaceImageImportErrorDetails]? = nil,
+        imageBuilderInstanceId: Swift.String? = nil,
+        imageId: Swift.String? = nil,
+        imageSource: WorkSpacesClientTypes.ImageSourceIdentifier? = nil,
+        infrastructureConfigurationArn: Swift.String? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
+        state: WorkSpacesClientTypes.CustomWorkspaceImageImportState? = nil
+    ) {
+        self.created = created
+        self.errorDetails = errorDetails
+        self.imageBuilderInstanceId = imageBuilderInstanceId
+        self.imageId = imageId
+        self.imageSource = imageSource
+        self.infrastructureConfigurationArn = infrastructureConfigurationArn
+        self.lastUpdatedTime = lastUpdatedTime
+        self.state = state
     }
 }
 
@@ -6684,6 +6839,35 @@ public struct GetAccountLinkOutput: Swift.Sendable {
 
 extension WorkSpacesClientTypes {
 
+    public enum ImageComputeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case base
+        case graphicsG4dn
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ImageComputeType] {
+            return [
+                .base,
+                .graphicsG4dn
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .base: return "BASE"
+            case .graphicsG4dn: return "GRAPHICS_G4DN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
     /// The client branding attributes to import for iOS device types. These attributes are displayed on the iOS client login screen. Client branding attributes are public facing. Ensure you do not include sensitive information.
     public struct IosImportClientBrandingAttributes: Swift.Sendable {
         /// The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.
@@ -6793,6 +6977,127 @@ public struct ImportClientBrandingOutput: Swift.Sendable {
         self.deviceTypeOsx = deviceTypeOsx
         self.deviceTypeWeb = deviceTypeWeb
         self.deviceTypeWindows = deviceTypeWindows
+    }
+}
+
+extension WorkSpacesClientTypes {
+
+    public enum OSVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case windows10
+        case windows11
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OSVersion] {
+            return [
+                .windows10,
+                .windows11
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .windows10: return "Windows_10"
+            case .windows11: return "Windows_11"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
+
+    public enum Platform: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case windows
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Platform] {
+            return [
+                .windows
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .windows: return "WINDOWS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct ImportCustomWorkspaceImageInput: Swift.Sendable {
+    /// The supported compute type for the WorkSpace image.
+    /// This member is required.
+    public var computeType: WorkSpacesClientTypes.ImageComputeType?
+    /// The description of the WorkSpace image.
+    /// This member is required.
+    public var imageDescription: Swift.String?
+    /// The name of the WorkSpace image.
+    /// This member is required.
+    public var imageName: Swift.String?
+    /// The options for image import source.
+    /// This member is required.
+    public var imageSource: WorkSpacesClientTypes.ImageSourceIdentifier?
+    /// The infrastructure configuration ARN that specifies how the WorkSpace image is built.
+    /// This member is required.
+    public var infrastructureConfigurationArn: Swift.String?
+    /// The OS version for the WorkSpace image source.
+    /// This member is required.
+    public var osVersion: WorkSpacesClientTypes.OSVersion?
+    /// The platform for the WorkSpace image source.
+    /// This member is required.
+    public var platform: WorkSpacesClientTypes.Platform?
+    /// The supported protocol for the WorkSpace image. Windows 11 does not support PCOIP protocol.
+    /// This member is required.
+    public var `protocol`: WorkSpacesClientTypes.CustomImageProtocol?
+    /// The resource tags. Each WorkSpaces resource can have a maximum of 50 tags.
+    public var tags: [WorkSpacesClientTypes.Tag]?
+
+    public init(
+        computeType: WorkSpacesClientTypes.ImageComputeType? = nil,
+        imageDescription: Swift.String? = nil,
+        imageName: Swift.String? = nil,
+        imageSource: WorkSpacesClientTypes.ImageSourceIdentifier? = nil,
+        infrastructureConfigurationArn: Swift.String? = nil,
+        osVersion: WorkSpacesClientTypes.OSVersion? = nil,
+        platform: WorkSpacesClientTypes.Platform? = nil,
+        `protocol`: WorkSpacesClientTypes.CustomImageProtocol? = nil,
+        tags: [WorkSpacesClientTypes.Tag]? = nil
+    ) {
+        self.computeType = computeType
+        self.imageDescription = imageDescription
+        self.imageName = imageName
+        self.imageSource = imageSource
+        self.infrastructureConfigurationArn = infrastructureConfigurationArn
+        self.osVersion = osVersion
+        self.platform = platform
+        self.`protocol` = `protocol`
+        self.tags = tags
+    }
+}
+
+public struct ImportCustomWorkspaceImageOutput: Swift.Sendable {
+    /// The identifier of the WorkSpace image.
+    public var imageId: Swift.String?
+    /// The state of the WorkSpace image.
+    public var state: WorkSpacesClientTypes.CustomWorkspaceImageImportState?
+
+    public init(
+        imageId: Swift.String? = nil,
+        state: WorkSpacesClientTypes.CustomWorkspaceImageImportState? = nil
+    ) {
+        self.imageId = imageId
+        self.state = state
     }
 }
 
@@ -7057,8 +7362,14 @@ public struct ModifyAccountInput: Swift.Sendable {
 }
 
 public struct ModifyAccountOutput: Swift.Sendable {
+    /// The text message to describe the status of BYOL modification.
+    public var message: Swift.String?
 
-    public init() { }
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.message = message
+    }
 }
 
 public struct ModifyCertificateBasedAuthPropertiesInput: Swift.Sendable {
@@ -8258,6 +8569,13 @@ extension DescribeConnectionAliasPermissionsInput {
     }
 }
 
+extension DescribeCustomWorkspaceImageImportInput {
+
+    static func urlPathProvider(_ value: DescribeCustomWorkspaceImageImportInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeImageAssociationsInput {
 
     static func urlPathProvider(_ value: DescribeImageAssociationsInput) -> Swift.String? {
@@ -8380,6 +8698,13 @@ extension GetAccountLinkInput {
 extension ImportClientBrandingInput {
 
     static func urlPathProvider(_ value: ImportClientBrandingInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension ImportCustomWorkspaceImageInput {
+
+    static func urlPathProvider(_ value: ImportCustomWorkspaceImageInput) -> Swift.String? {
         return "/"
     }
 }
@@ -8978,6 +9303,14 @@ extension DescribeConnectionAliasPermissionsInput {
     }
 }
 
+extension DescribeCustomWorkspaceImageImportInput {
+
+    static func write(value: DescribeCustomWorkspaceImageImportInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ImageId"].write(value.imageId)
+    }
+}
+
 extension DescribeImageAssociationsInput {
 
     static func write(value: DescribeImageAssociationsInput?, to writer: SmithyJSON.Writer) throws {
@@ -9156,6 +9489,22 @@ extension ImportClientBrandingInput {
         try writer["DeviceTypeWeb"].write(value.deviceTypeWeb, with: WorkSpacesClientTypes.DefaultImportClientBrandingAttributes.write(value:to:))
         try writer["DeviceTypeWindows"].write(value.deviceTypeWindows, with: WorkSpacesClientTypes.DefaultImportClientBrandingAttributes.write(value:to:))
         try writer["ResourceId"].write(value.resourceId)
+    }
+}
+
+extension ImportCustomWorkspaceImageInput {
+
+    static func write(value: ImportCustomWorkspaceImageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComputeType"].write(value.computeType)
+        try writer["ImageDescription"].write(value.imageDescription)
+        try writer["ImageName"].write(value.imageName)
+        try writer["ImageSource"].write(value.imageSource, with: WorkSpacesClientTypes.ImageSourceIdentifier.write(value:to:))
+        try writer["InfrastructureConfigurationArn"].write(value.infrastructureConfigurationArn)
+        try writer["OsVersion"].write(value.osVersion)
+        try writer["Platform"].write(value.platform)
+        try writer["Protocol"].write(value.`protocol`)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: WorkSpacesClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -9771,6 +10120,7 @@ extension DescribeAccountOutput {
         value.dedicatedTenancyAccountType = try reader["DedicatedTenancyAccountType"].readIfPresent()
         value.dedicatedTenancyManagementCidrRange = try reader["DedicatedTenancyManagementCidrRange"].readIfPresent()
         value.dedicatedTenancySupport = try reader["DedicatedTenancySupport"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -9891,6 +10241,25 @@ extension DescribeConnectionAliasPermissionsOutput {
         value.aliasId = try reader["AliasId"].readIfPresent()
         value.connectionAliasPermissions = try reader["ConnectionAliasPermissions"].readListIfPresent(memberReadingClosure: WorkSpacesClientTypes.ConnectionAliasPermission.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeCustomWorkspaceImageImportOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeCustomWorkspaceImageImportOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeCustomWorkspaceImageImportOutput()
+        value.created = try reader["Created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.errorDetails = try reader["ErrorDetails"].readListIfPresent(memberReadingClosure: WorkSpacesClientTypes.CustomWorkspaceImageImportErrorDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.imageBuilderInstanceId = try reader["ImageBuilderInstanceId"].readIfPresent()
+        value.imageId = try reader["ImageId"].readIfPresent()
+        value.imageSource = try reader["ImageSource"].readIfPresent(with: WorkSpacesClientTypes.ImageSourceIdentifier.read(from:))
+        value.infrastructureConfigurationArn = try reader["InfrastructureConfigurationArn"].readIfPresent()
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.state = try reader["State"].readIfPresent()
         return value
     }
 }
@@ -10117,6 +10486,19 @@ extension ImportClientBrandingOutput {
     }
 }
 
+extension ImportCustomWorkspaceImageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ImportCustomWorkspaceImageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ImportCustomWorkspaceImageOutput()
+        value.imageId = try reader["ImageId"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        return value
+    }
+}
+
 extension ImportWorkspaceImageOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ImportWorkspaceImageOutput {
@@ -10171,7 +10553,12 @@ extension MigrateWorkspaceOutput {
 extension ModifyAccountOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ModifyAccountOutput {
-        return ModifyAccountOutput()
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ModifyAccountOutput()
+        value.message = try reader["Message"].readIfPresent()
+        return value
     }
 }
 
@@ -11066,6 +11453,21 @@ enum DescribeConnectionAliasPermissionsOutputError {
     }
 }
 
+enum DescribeCustomWorkspaceImageImportOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeImageAssociationsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11345,6 +11747,25 @@ enum ImportClientBrandingOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InvalidParameterValuesException": return try InvalidParameterValuesException.makeError(baseError: baseError)
+            case "ResourceLimitExceededException": return try ResourceLimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ImportCustomWorkspaceImageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidParameterValuesException": return try InvalidParameterValuesException.makeError(baseError: baseError)
+            case "OperationNotSupportedException": return try OperationNotSupportedException.makeError(baseError: baseError)
+            case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
             case "ResourceLimitExceededException": return try ResourceLimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -12840,6 +13261,49 @@ extension WorkSpacesClientTypes.ConnectionAliasPermission {
         var value = WorkSpacesClientTypes.ConnectionAliasPermission()
         value.sharedAccountId = try reader["SharedAccountId"].readIfPresent() ?? ""
         value.allowAssociation = try reader["AllowAssociation"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension WorkSpacesClientTypes.ImageSourceIdentifier {
+
+    static func write(value: WorkSpacesClientTypes.ImageSourceIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .ec2imageid(ec2imageid):
+                try writer["Ec2ImageId"].write(ec2imageid)
+            case let .ec2importtaskid(ec2importtaskid):
+                try writer["Ec2ImportTaskId"].write(ec2importtaskid)
+            case let .imagebuildversionarn(imagebuildversionarn):
+                try writer["ImageBuildVersionArn"].write(imagebuildversionarn)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.ImageSourceIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Ec2ImportTaskId":
+                return .ec2importtaskid(try reader["Ec2ImportTaskId"].read())
+            case "ImageBuildVersionArn":
+                return .imagebuildversionarn(try reader["ImageBuildVersionArn"].read())
+            case "Ec2ImageId":
+                return .ec2imageid(try reader["Ec2ImageId"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension WorkSpacesClientTypes.CustomWorkspaceImageImportErrorDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesClientTypes.CustomWorkspaceImageImportErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesClientTypes.CustomWorkspaceImageImportErrorDetails()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
     }
 }

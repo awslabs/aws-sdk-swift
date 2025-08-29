@@ -40,7 +40,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
 import struct AWSClientRuntime.AmzSdkInvocationIdMiddleware
@@ -58,14 +58,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TranscribeStreamingClient: ClientRuntime.Client {
     public static let clientName = "TranscribeStreamingClient"
-    public static let version = "1.3.50"
+    public static let version = "1.5.31"
     let client: ClientRuntime.SdkHttpClient
     let config: TranscribeStreamingClient.TranscribeStreamingClientConfiguration
     let serviceName = "Transcribe Streaming"
@@ -518,7 +518,7 @@ extension TranscribeStreamingClient {
 
     /// Performs the `StartMedicalScribeStream` operation on the `TranscribeStreaming` service.
     ///
-    /// Starts a bidirectional HTTP/2 stream, where audio is streamed to Amazon Web Services HealthScribe and the transcription results are streamed to your application. When you start a stream, you first specify the stream configuration in a MedicalScribeConfigurationEvent. This event includes channel definitions, encryption settings, and post-stream analytics settings, such as the output configuration for aggregated transcript and clinical note generation. These are additional streaming session configurations beyond those provided in your initial start request headers. Whether you are starting a new session or resuming an existing session, your first event must be a MedicalScribeConfigurationEvent. After you send a MedicalScribeConfigurationEvent, you start AudioEvents and Amazon Web Services HealthScribe responds with real-time transcription results. When you are finished, to start processing the results with the post-stream analytics, send a MedicalScribeSessionControlEvent with a Type of END_OF_SESSION and Amazon Web Services HealthScribe starts the analytics. You can pause or resume streaming. To pause streaming, complete the input stream without sending the MedicalScribeSessionControlEvent. To resume streaming, call the StartMedicalScribeStream and specify the same SessionId you used to start the stream. The following parameters are required:
+    /// Starts a bidirectional HTTP/2 stream, where audio is streamed to Amazon Web Services HealthScribe and the transcription results are streamed to your application. When you start a stream, you first specify the stream configuration in a MedicalScribeConfigurationEvent. This event includes channel definitions, encryption settings, medical scribe context, and post-stream analytics settings, such as the output configuration for aggregated transcript and clinical note generation. These are additional streaming session configurations beyond those provided in your initial start request headers. Whether you are starting a new session or resuming an existing session, your first event must be a MedicalScribeConfigurationEvent. After you send a MedicalScribeConfigurationEvent, you start AudioEvents and Amazon Web Services HealthScribe responds with real-time transcription results. When you are finished, to start processing the results with the post-stream analytics, send a MedicalScribeSessionControlEvent with a Type of END_OF_SESSION and Amazon Web Services HealthScribe starts the analytics. You can pause or resume streaming. To pause streaming, complete the input stream without sending the MedicalScribeSessionControlEvent. To resume streaming, call the StartMedicalScribeStream and specify the same SessionId you used to start the stream. The following parameters are required:
     ///
     /// * language-code
     ///

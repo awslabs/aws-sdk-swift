@@ -41,7 +41,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -64,14 +64,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class S3ControlClient: ClientRuntime.Client {
     public static let clientName = "S3ControlClient"
-    public static let version = "1.3.50"
+    public static let version = "1.5.31"
     let client: ClientRuntime.SdkHttpClient
     let config: S3ControlClient.S3ControlClientConfiguration
     let serviceName = "S3 Control"
@@ -384,7 +384,7 @@ extension S3ControlClient {
 extension S3ControlClient {
     /// Performs the `AssociateAccessGrantsIdentityCenter` operation on the `S3Control` service.
     ///
-    /// Associate your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance. Use this action if you want to create access grants for users or groups from your corporate identity directory. First, you must add your corporate identity directory to Amazon Web Services IAM Identity Center. Then, you can associate this IAM Identity Center instance with your S3 Access Grants instance. Permissions You must have the s3:AssociateAccessGrantsIdentityCenter permission to use this operation. Additional Permissions You must also have the following permissions: sso:CreateApplication, sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod.
+    /// Associate your S3 Access Grants instance with an Amazon Web Services IAM Identity Center instance. Use this action if you want to create access grants for users or groups from your corporate identity directory. First, you must add your corporate identity directory to Amazon Web Services IAM Identity Center. Then, you can associate this IAM Identity Center instance with your S3 Access Grants instance. Permissions You must have the s3:AssociateAccessGrantsIdentityCenter permission to use this operation. Additional Permissions You must also have the following permissions: sso:CreateApplication, sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter AssociateAccessGrantsIdentityCenterInput : [no documentation found]
     ///
@@ -448,7 +448,7 @@ extension S3ControlClient {
 
     /// Performs the `CreateAccessGrant` operation on the `S3Control` service.
     ///
-    /// Creates an access grant that gives a grantee access to your S3 data. The grantee can be an IAM user or role or a directory user, or group. Before you can create a grant, you must have an S3 Access Grants instance in the same Region as the S3 data. You can create an S3 Access Grants instance using the [CreateAccessGrantsInstance](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessGrantsInstance.html). You must also have registered at least one S3 data location in your S3 Access Grants instance using [CreateAccessGrantsLocation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessGrantsLocation.html). Permissions You must have the s3:CreateAccessGrant permission to use this operation. Additional Permissions For any directory identity - sso:DescribeInstance and sso:DescribeApplication For directory users - identitystore:DescribeUser For directory groups - identitystore:DescribeGroup
+    /// Creates an access grant that gives a grantee access to your S3 data. The grantee can be an IAM user or role or a directory user, or group. Before you can create a grant, you must have an S3 Access Grants instance in the same Region as the S3 data. You can create an S3 Access Grants instance using the [CreateAccessGrantsInstance](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessGrantsInstance.html). You must also have registered at least one S3 data location in your S3 Access Grants instance using [CreateAccessGrantsLocation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessGrantsLocation.html). Permissions You must have the s3:CreateAccessGrant permission to use this operation. Additional Permissions For any directory identity - sso:DescribeInstance and sso:DescribeApplication For directory users - identitystore:DescribeUser For directory groups - identitystore:DescribeGroup You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter CreateAccessGrantInput : [no documentation found]
     ///
@@ -512,7 +512,7 @@ extension S3ControlClient {
 
     /// Performs the `CreateAccessGrantsInstance` operation on the `S3Control` service.
     ///
-    /// Creates an S3 Access Grants instance, which serves as a logical grouping for access grants. You can create one S3 Access Grants instance per Region per account. Permissions You must have the s3:CreateAccessGrantsInstance permission to use this operation. Additional Permissions To associate an IAM Identity Center instance with your S3 Access Grants instance, you must also have the sso:DescribeInstance, sso:CreateApplication, sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod permissions.
+    /// Creates an S3 Access Grants instance, which serves as a logical grouping for access grants. You can create one S3 Access Grants instance per Region per account. Permissions You must have the s3:CreateAccessGrantsInstance permission to use this operation. Additional Permissions To associate an IAM Identity Center instance with your S3 Access Grants instance, you must also have the sso:DescribeInstance, sso:CreateApplication, sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod permissions. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter CreateAccessGrantsInstanceInput : [no documentation found]
     ///
@@ -585,7 +585,7 @@ extension S3ControlClient {
     /// * A bucket and prefix - S3:///
     ///
     ///
-    /// When you register a location, you must include the IAM role that has permission to manage the S3 location that you are registering. Give S3 Access Grants permission to assume this role [using a policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-location.html). S3 Access Grants assumes this role to manage access to the location and to vend temporary credentials to grantees or client applications. Permissions You must have the s3:CreateAccessGrantsLocation permission to use this operation. Additional Permissions You must also have the following permission for the specified IAM role: iam:PassRole
+    /// When you register a location, you must include the IAM role that has permission to manage the S3 location that you are registering. Give S3 Access Grants permission to assume this role [using a policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-location.html). S3 Access Grants assumes this role to manage access to the location and to vend temporary credentials to grantees or client applications. Permissions You must have the s3:CreateAccessGrantsLocation permission to use this operation. Additional Permissions You must also have the following permission for the specified IAM role: iam:PassRole You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter CreateAccessGrantsLocationInput : [no documentation found]
     ///
@@ -659,6 +659,9 @@ extension S3ControlClient {
     ///
     /// * [ListAccessPointsForDirectoryBuckets](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPointsForDirectoryBuckets.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter CreateAccessPointInput : [no documentation found]
     ///
     /// - Returns: `CreateAccessPointOutput` : [no documentation found]
@@ -727,6 +730,9 @@ extension S3ControlClient {
     /// * [GetAccessPointForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointForObjectLambda.html)
     ///
     /// * [ListAccessPointsForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPointsForObjectLambda.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter CreateAccessPointForObjectLambdaInput : [no documentation found]
     ///
@@ -888,6 +894,9 @@ extension S3ControlClient {
     ///
     /// * [JobOperation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_JobOperation.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter CreateJobInput : [no documentation found]
     ///
     /// - Returns: `CreateJobOutput` : [no documentation found]
@@ -968,6 +977,9 @@ extension S3ControlClient {
     ///
     /// * [ListMultiRegionAccessPoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListMultiRegionAccessPoints.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter CreateMultiRegionAccessPointInput : [no documentation found]
     ///
     /// - Returns: `CreateMultiRegionAccessPointOutput` : [no documentation found]
@@ -1031,7 +1043,7 @@ extension S3ControlClient {
 
     /// Performs the `CreateStorageLensGroup` operation on the `S3Control` service.
     ///
-    /// Creates a new S3 Storage Lens group and associates it with the specified Amazon Web Services account ID. An S3 Storage Lens group is a custom grouping of objects based on prefix, suffix, object tags, object size, object age, or a combination of these filters. For each Storage Lens group that you’ve created, you can also optionally add Amazon Web Services resource tags. For more information about S3 Storage Lens groups, see [Working with S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups-overview.html). To use this operation, you must have the permission to perform the s3:CreateStorageLensGroup action. If you’re trying to create a Storage Lens group with Amazon Web Services resource tags, you must also have permission to perform the s3:TagResource action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList).
+    /// Creates a new S3 Storage Lens group and associates it with the specified Amazon Web Services account ID. An S3 Storage Lens group is a custom grouping of objects based on prefix, suffix, object tags, object size, object age, or a combination of these filters. For each Storage Lens group that you’ve created, you can also optionally add Amazon Web Services resource tags. For more information about S3 Storage Lens groups, see [Working with S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups-overview.html). To use this operation, you must have the permission to perform the s3:CreateStorageLensGroup action. If you’re trying to create a Storage Lens group with Amazon Web Services resource tags, you must also have permission to perform the s3:TagResource action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter CreateStorageLensGroupInput : [no documentation found]
     ///
@@ -1094,7 +1106,7 @@ extension S3ControlClient {
 
     /// Performs the `DeleteAccessGrant` operation on the `S3Control` service.
     ///
-    /// Deletes the access grant from the S3 Access Grants instance. You cannot undo an access grant deletion and the grantee will no longer have access to the S3 data. Permissions You must have the s3:DeleteAccessGrant permission to use this operation.
+    /// Deletes the access grant from the S3 Access Grants instance. You cannot undo an access grant deletion and the grantee will no longer have access to the S3 data. Permissions You must have the s3:DeleteAccessGrant permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter DeleteAccessGrantInput : [no documentation found]
     ///
@@ -1155,7 +1167,7 @@ extension S3ControlClient {
 
     /// Performs the `DeleteAccessGrantsInstance` operation on the `S3Control` service.
     ///
-    /// Deletes your S3 Access Grants instance. You must first delete the access grants and locations before S3 Access Grants can delete the instance. See [DeleteAccessGrant](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessGrant.html) and [DeleteAccessGrantsLocation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessGrantsLocation.html). If you have associated an IAM Identity Center instance with your S3 Access Grants instance, you must first dissassociate the Identity Center instance from the S3 Access Grants instance before you can delete the S3 Access Grants instance. See [AssociateAccessGrantsIdentityCenter](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_AssociateAccessGrantsIdentityCenter.html) and [DissociateAccessGrantsIdentityCenter](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DissociateAccessGrantsIdentityCenter.html). Permissions You must have the s3:DeleteAccessGrantsInstance permission to use this operation.
+    /// Deletes your S3 Access Grants instance. You must first delete the access grants and locations before S3 Access Grants can delete the instance. See [DeleteAccessGrant](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessGrant.html) and [DeleteAccessGrantsLocation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessGrantsLocation.html). If you have associated an IAM Identity Center instance with your S3 Access Grants instance, you must first dissassociate the Identity Center instance from the S3 Access Grants instance before you can delete the S3 Access Grants instance. See [AssociateAccessGrantsIdentityCenter](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_AssociateAccessGrantsIdentityCenter.html) and [DissociateAccessGrantsIdentityCenter](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DissociateAccessGrantsIdentityCenter.html). Permissions You must have the s3:DeleteAccessGrantsInstance permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter DeleteAccessGrantsInstanceInput : [no documentation found]
     ///
@@ -1216,7 +1228,7 @@ extension S3ControlClient {
 
     /// Performs the `DeleteAccessGrantsInstanceResourcePolicy` operation on the `S3Control` service.
     ///
-    /// Deletes the resource policy of the S3 Access Grants instance. The resource policy is used to manage cross-account access to your S3 Access Grants instance. By deleting the resource policy, you delete any cross-account permissions to your S3 Access Grants instance. Permissions You must have the s3:DeleteAccessGrantsInstanceResourcePolicy permission to use this operation.
+    /// Deletes the resource policy of the S3 Access Grants instance. The resource policy is used to manage cross-account access to your S3 Access Grants instance. By deleting the resource policy, you delete any cross-account permissions to your S3 Access Grants instance. Permissions You must have the s3:DeleteAccessGrantsInstanceResourcePolicy permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter DeleteAccessGrantsInstanceResourcePolicyInput : [no documentation found]
     ///
@@ -1277,7 +1289,7 @@ extension S3ControlClient {
 
     /// Performs the `DeleteAccessGrantsLocation` operation on the `S3Control` service.
     ///
-    /// Deregisters a location from your S3 Access Grants instance. You can only delete a location registration from an S3 Access Grants instance if there are no grants associated with this location. See [Delete a grant](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessGrant.html) for information on how to delete grants. You need to have at least one registered location in your S3 Access Grants instance in order to create access grants. Permissions You must have the s3:DeleteAccessGrantsLocation permission to use this operation.
+    /// Deregisters a location from your S3 Access Grants instance. You can only delete a location registration from an S3 Access Grants instance if there are no grants associated with this location. See [Delete a grant](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessGrant.html) for information on how to delete grants. You need to have at least one registered location in your S3 Access Grants instance in order to create access grants. Permissions You must have the s3:DeleteAccessGrantsLocation permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter DeleteAccessGrantsLocationInput : [no documentation found]
     ///
@@ -1346,6 +1358,9 @@ extension S3ControlClient {
     ///
     /// * [ListAccessPoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPoints.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter DeleteAccessPointInput : [no documentation found]
     ///
     /// - Returns: `DeleteAccessPointOutput` : [no documentation found]
@@ -1412,6 +1427,9 @@ extension S3ControlClient {
     ///
     /// * [ListAccessPointsForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPointsForObjectLambda.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter DeleteAccessPointForObjectLambdaInput : [no documentation found]
     ///
     /// - Returns: `DeleteAccessPointForObjectLambdaOutput` : [no documentation found]
@@ -1475,6 +1493,9 @@ extension S3ControlClient {
     /// * [PutAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointPolicy.html)
     ///
     /// * [GetAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointPolicy.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter DeleteAccessPointPolicyInput : [no documentation found]
     ///
@@ -1540,6 +1561,9 @@ extension S3ControlClient {
     ///
     /// * [PutAccessPointPolicyForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointPolicyForObjectLambda.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter DeleteAccessPointPolicyForObjectLambdaInput : [no documentation found]
     ///
     /// - Returns: `DeleteAccessPointPolicyForObjectLambdaOutput` : [no documentation found]
@@ -1598,7 +1622,7 @@ extension S3ControlClient {
 
     /// Performs the `DeleteAccessPointScope` operation on the `S3Control` service.
     ///
-    /// Deletes an existing access point scope for a directory bucket. When you delete the scope of an access point, all prefixes and permissions are deleted. To use this operation, you must have the permission to perform the s3express:DeleteAccessPointScope action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses).
+    /// Deletes an existing access point scope for a directory bucket. When you delete the scope of an access point, all prefixes and permissions are deleted. To use this operation, you must have the permission to perform the s3express:DeleteAccessPointScope action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter DeleteAccessPointScopeInput : [no documentation found]
     ///
@@ -1730,6 +1754,9 @@ extension S3ControlClient {
     ///
     /// * [GetBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketLifecycleConfiguration.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter DeleteBucketLifecycleConfigurationInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketLifecycleConfigurationOutput` : [no documentation found]
@@ -1793,6 +1820,9 @@ extension S3ControlClient {
     /// * [GetBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketPolicy.html)
     ///
     /// * [PutBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketPolicy.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter DeleteBucketPolicyInput : [no documentation found]
     ///
@@ -1858,6 +1888,9 @@ extension S3ControlClient {
     ///
     /// * [GetBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketReplication.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter DeleteBucketReplicationInput : [no documentation found]
     ///
     /// - Returns: `DeleteBucketReplicationOutput` : [no documentation found]
@@ -1921,6 +1954,9 @@ extension S3ControlClient {
     /// * [GetBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketTagging.html)
     ///
     /// * [PutBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketTagging.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter DeleteBucketTaggingInput : [no documentation found]
     ///
@@ -1987,6 +2023,9 @@ extension S3ControlClient {
     /// * [GetJobTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetJobTagging.html)
     ///
     /// * [PutJobTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutJobTagging.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter DeleteJobTaggingInput : [no documentation found]
     ///
@@ -2063,6 +2102,9 @@ extension S3ControlClient {
     ///
     /// * [ListMultiRegionAccessPoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListMultiRegionAccessPoints.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter DeleteMultiRegionAccessPointInput : [no documentation found]
     ///
     /// - Returns: `DeleteMultiRegionAccessPointOutput` : [no documentation found]
@@ -2132,6 +2174,9 @@ extension S3ControlClient {
     ///
     /// * [PutPublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutPublicAccessBlock.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter DeletePublicAccessBlockInput : [no documentation found]
     ///
     /// - Returns: `DeletePublicAccessBlockOutput` : [no documentation found]
@@ -2190,7 +2235,7 @@ extension S3ControlClient {
 
     /// Performs the `DeleteStorageLensConfiguration` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Deletes the Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:DeleteStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
+    /// This operation is not supported by directory buckets. Deletes the Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:DeleteStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter DeleteStorageLensConfigurationInput : [no documentation found]
     ///
@@ -2250,7 +2295,7 @@ extension S3ControlClient {
 
     /// Performs the `DeleteStorageLensConfigurationTagging` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Deletes the Amazon S3 Storage Lens configuration tags. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:DeleteStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
+    /// This operation is not supported by directory buckets. Deletes the Amazon S3 Storage Lens configuration tags. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:DeleteStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter DeleteStorageLensConfigurationTaggingInput : [no documentation found]
     ///
@@ -2310,7 +2355,7 @@ extension S3ControlClient {
 
     /// Performs the `DeleteStorageLensGroup` operation on the `S3Control` service.
     ///
-    /// Deletes an existing S3 Storage Lens group. To use this operation, you must have the permission to perform the s3:DeleteStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList).
+    /// Deletes an existing S3 Storage Lens group. To use this operation, you must have the permission to perform the s3:DeleteStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter DeleteStorageLensGroupInput : [no documentation found]
     ///
@@ -2379,6 +2424,9 @@ extension S3ControlClient {
     /// * [UpdateJobPriority](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_UpdateJobPriority.html)
     ///
     /// * [UpdateJobStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_UpdateJobStatus.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter DescribeJobInput : [no documentation found]
     ///
@@ -2456,6 +2504,9 @@ extension S3ControlClient {
     ///
     /// * [ListMultiRegionAccessPoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListMultiRegionAccessPoints.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter DescribeMultiRegionAccessPointOperationInput : [no documentation found]
     ///
     /// - Returns: `DescribeMultiRegionAccessPointOperationOutput` : [no documentation found]
@@ -2515,7 +2566,7 @@ extension S3ControlClient {
 
     /// Performs the `DissociateAccessGrantsIdentityCenter` operation on the `S3Control` service.
     ///
-    /// Dissociates the Amazon Web Services IAM Identity Center instance from the S3 Access Grants instance. Permissions You must have the s3:DissociateAccessGrantsIdentityCenter permission to use this operation. Additional Permissions You must have the sso:DeleteApplication permission to use this operation.
+    /// Dissociates the Amazon Web Services IAM Identity Center instance from the S3 Access Grants instance. Permissions You must have the s3:DissociateAccessGrantsIdentityCenter permission to use this operation. Additional Permissions You must have the sso:DeleteApplication permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter DissociateAccessGrantsIdentityCenterInput : [no documentation found]
     ///
@@ -2576,7 +2627,7 @@ extension S3ControlClient {
 
     /// Performs the `GetAccessGrant` operation on the `S3Control` service.
     ///
-    /// Get the details of an access grant from your S3 Access Grants instance. Permissions You must have the s3:GetAccessGrant permission to use this operation.
+    /// Get the details of an access grant from your S3 Access Grants instance. Permissions You must have the s3:GetAccessGrant permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter GetAccessGrantInput : [no documentation found]
     ///
@@ -2637,7 +2688,7 @@ extension S3ControlClient {
 
     /// Performs the `GetAccessGrantsInstance` operation on the `S3Control` service.
     ///
-    /// Retrieves the S3 Access Grants instance for a Region in your account. Permissions You must have the s3:GetAccessGrantsInstance permission to use this operation. GetAccessGrantsInstance is not supported for cross-account access. You can only call the API from the account that owns the S3 Access Grants instance.
+    /// Retrieves the S3 Access Grants instance for a Region in your account. Permissions You must have the s3:GetAccessGrantsInstance permission to use this operation. GetAccessGrantsInstance is not supported for cross-account access. You can only call the API from the account that owns the S3 Access Grants instance. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter GetAccessGrantsInstanceInput : [no documentation found]
     ///
@@ -2698,7 +2749,7 @@ extension S3ControlClient {
 
     /// Performs the `GetAccessGrantsInstanceForPrefix` operation on the `S3Control` service.
     ///
-    /// Retrieve the S3 Access Grants instance that contains a particular prefix. Permissions You must have the s3:GetAccessGrantsInstanceForPrefix permission for the caller account to use this operation. Additional Permissions The prefix owner account must grant you the following permissions to their S3 Access Grants instance: s3:GetAccessGrantsInstanceForPrefix.
+    /// Retrieve the S3 Access Grants instance that contains a particular prefix. Permissions You must have the s3:GetAccessGrantsInstanceForPrefix permission for the caller account to use this operation. Additional Permissions The prefix owner account must grant you the following permissions to their S3 Access Grants instance: s3:GetAccessGrantsInstanceForPrefix. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter GetAccessGrantsInstanceForPrefixInput : [no documentation found]
     ///
@@ -2760,7 +2811,7 @@ extension S3ControlClient {
 
     /// Performs the `GetAccessGrantsInstanceResourcePolicy` operation on the `S3Control` service.
     ///
-    /// Returns the resource policy of the S3 Access Grants instance. Permissions You must have the s3:GetAccessGrantsInstanceResourcePolicy permission to use this operation.
+    /// Returns the resource policy of the S3 Access Grants instance. Permissions You must have the s3:GetAccessGrantsInstanceResourcePolicy permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter GetAccessGrantsInstanceResourcePolicyInput : [no documentation found]
     ///
@@ -2821,7 +2872,7 @@ extension S3ControlClient {
 
     /// Performs the `GetAccessGrantsLocation` operation on the `S3Control` service.
     ///
-    /// Retrieves the details of a particular location registered in your S3 Access Grants instance. Permissions You must have the s3:GetAccessGrantsLocation permission to use this operation.
+    /// Retrieves the details of a particular location registered in your S3 Access Grants instance. Permissions You must have the s3:GetAccessGrantsLocation permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter GetAccessGrantsLocationInput : [no documentation found]
     ///
@@ -2890,6 +2941,9 @@ extension S3ControlClient {
     ///
     /// * [ListAccessPoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPoints.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter GetAccessPointInput : [no documentation found]
     ///
     /// - Returns: `GetAccessPointOutput` : [no documentation found]
@@ -2951,6 +3005,9 @@ extension S3ControlClient {
     /// This operation is not supported by directory buckets. Returns configuration for an Object Lambda Access Point. The following actions are related to GetAccessPointConfigurationForObjectLambda:
     ///
     /// * [PutAccessPointConfigurationForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointConfigurationForObjectLambda.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter GetAccessPointConfigurationForObjectLambdaInput : [no documentation found]
     ///
@@ -3018,6 +3075,9 @@ extension S3ControlClient {
     ///
     /// * [ListAccessPointsForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPointsForObjectLambda.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter GetAccessPointForObjectLambdaInput : [no documentation found]
     ///
     /// - Returns: `GetAccessPointForObjectLambdaOutput` : [no documentation found]
@@ -3081,6 +3141,9 @@ extension S3ControlClient {
     /// * [PutAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointPolicy.html)
     ///
     /// * [DeleteAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPointPolicy.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter GetAccessPointPolicyInput : [no documentation found]
     ///
@@ -3146,6 +3209,9 @@ extension S3ControlClient {
     ///
     /// * [PutAccessPointPolicyForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointPolicyForObjectLambda.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter GetAccessPointPolicyForObjectLambdaInput : [no documentation found]
     ///
     /// - Returns: `GetAccessPointPolicyForObjectLambdaOutput` : [no documentation found]
@@ -3204,7 +3270,7 @@ extension S3ControlClient {
 
     /// Performs the `GetAccessPointPolicyStatus` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Indicates whether the specified access point currently has a policy that allows public access. For more information about public access through access points, see [Managing Data Access with Amazon S3 access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html) in the Amazon S3 User Guide.
+    /// This operation is not supported by directory buckets. Indicates whether the specified access point currently has a policy that allows public access. For more information about public access through access points, see [Managing Data Access with Amazon S3 access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter GetAccessPointPolicyStatusInput : [no documentation found]
     ///
@@ -3264,7 +3330,7 @@ extension S3ControlClient {
 
     /// Performs the `GetAccessPointPolicyStatusForObjectLambda` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Returns the status of the resource policy associated with an Object Lambda Access Point.
+    /// This operation is not supported by directory buckets. Returns the status of the resource policy associated with an Object Lambda Access Point. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter GetAccessPointPolicyStatusForObjectLambdaInput : [no documentation found]
     ///
@@ -3324,7 +3390,7 @@ extension S3ControlClient {
 
     /// Performs the `GetAccessPointScope` operation on the `S3Control` service.
     ///
-    /// Returns the access point scope for a directory bucket. To use this operation, you must have the permission to perform the s3express:GetAccessPointScope action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses).
+    /// Returns the access point scope for a directory bucket. To use this operation, you must have the permission to perform the s3express:GetAccessPointScope action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter GetAccessPointScopeInput : [no documentation found]
     ///
@@ -3391,6 +3457,9 @@ extension S3ControlClient {
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateBucket.html)
     ///
     /// * [DeleteBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucket.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter GetBucketInput : [no documentation found]
     ///
@@ -3470,6 +3539,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketLifecycleConfiguration.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter GetBucketLifecycleConfigurationInput : [no documentation found]
     ///
     /// - Returns: `GetBucketLifecycleConfigurationOutput` : [no documentation found]
@@ -3535,6 +3607,9 @@ extension S3ControlClient {
     /// * [PutBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketPolicy.html)
     ///
     /// * [DeleteBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketPolicy.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter GetBucketPolicyInput : [no documentation found]
     ///
@@ -3798,7 +3873,7 @@ extension S3ControlClient {
 
     /// Performs the `GetDataAccess` operation on the `S3Control` service.
     ///
-    /// Returns a temporary access credential from S3 Access Grants to the grantee or client application. The [temporary credential](https://docs.aws.amazon.com/STS/latest/APIReference/API_Credentials.html) is an Amazon Web Services STS token that grants them access to the S3 data. Permissions You must have the s3:GetDataAccess permission to use this operation. Additional Permissions The IAM role that S3 Access Grants assumes must have the following permissions specified in the trust policy when registering the location: sts:AssumeRole, for directory users or groups sts:SetContext, and for IAM users or roles sts:SetSourceIdentity.
+    /// Returns a temporary access credential from S3 Access Grants to the grantee or client application. The [temporary credential](https://docs.aws.amazon.com/STS/latest/APIReference/API_Credentials.html) is an Amazon Web Services STS token that grants them access to the S3 data. Permissions You must have the s3:GetDataAccess permission to use this operation. Additional Permissions The IAM role that S3 Access Grants assumes must have the following permissions specified in the trust policy when registering the location: sts:AssumeRole, for directory users or groups sts:SetContext, and for IAM users or roles sts:SetSourceIdentity. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter GetDataAccessInput : [no documentation found]
     ///
@@ -3867,6 +3942,9 @@ extension S3ControlClient {
     /// * [PutJobTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutJobTagging.html)
     ///
     /// * [DeleteJobTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteJobTagging.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter GetJobTaggingInput : [no documentation found]
     ///
@@ -3943,6 +4021,9 @@ extension S3ControlClient {
     ///
     /// * [ListMultiRegionAccessPoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListMultiRegionAccessPoints.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter GetMultiRegionAccessPointInput : [no documentation found]
     ///
     /// - Returns: `GetMultiRegionAccessPointOutput` : [no documentation found]
@@ -4008,6 +4089,9 @@ extension S3ControlClient {
     ///
     /// * [PutMultiRegionAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPointPolicy.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter GetMultiRegionAccessPointPolicyInput : [no documentation found]
     ///
     /// - Returns: `GetMultiRegionAccessPointPolicyOutput` : [no documentation found]
@@ -4072,6 +4156,9 @@ extension S3ControlClient {
     /// * [GetMultiRegionAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPointPolicy.html)
     ///
     /// * [PutMultiRegionAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPointPolicy.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter GetMultiRegionAccessPointPolicyStatusInput : [no documentation found]
     ///
@@ -4144,6 +4231,9 @@ extension S3ControlClient {
     ///
     /// * eu-west-1
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter GetMultiRegionAccessPointRoutesInput : [no documentation found]
     ///
     /// - Returns: `GetMultiRegionAccessPointRoutesOutput` : [no documentation found]
@@ -4209,6 +4299,9 @@ extension S3ControlClient {
     ///
     /// * [PutPublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutPublicAccessBlock.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter GetPublicAccessBlockInput : [no documentation found]
     ///
     /// - Returns: `GetPublicAccessBlockOutput` : [no documentation found]
@@ -4272,7 +4365,7 @@ extension S3ControlClient {
 
     /// Performs the `GetStorageLensConfiguration` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Gets the Amazon S3 Storage Lens configuration. For more information, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:GetStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
+    /// This operation is not supported by directory buckets. Gets the Amazon S3 Storage Lens configuration. For more information, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:GetStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter GetStorageLensConfigurationInput : [no documentation found]
     ///
@@ -4332,7 +4425,7 @@ extension S3ControlClient {
 
     /// Performs the `GetStorageLensConfigurationTagging` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Gets the tags of Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:GetStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
+    /// This operation is not supported by directory buckets. Gets the tags of Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:GetStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter GetStorageLensConfigurationTaggingInput : [no documentation found]
     ///
@@ -4392,7 +4485,7 @@ extension S3ControlClient {
 
     /// Performs the `GetStorageLensGroup` operation on the `S3Control` service.
     ///
-    /// Retrieves the Storage Lens group configuration details. To use this operation, you must have the permission to perform the s3:GetStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList).
+    /// Retrieves the Storage Lens group configuration details. To use this operation, you must have the permission to perform the s3:GetStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter GetStorageLensGroupInput : [no documentation found]
     ///
@@ -4452,7 +4545,7 @@ extension S3ControlClient {
 
     /// Performs the `ListAccessGrants` operation on the `S3Control` service.
     ///
-    /// Returns the list of access grants in your S3 Access Grants instance. Permissions You must have the s3:ListAccessGrants permission to use this operation.
+    /// Returns the list of access grants in your S3 Access Grants instance. Permissions You must have the s3:ListAccessGrants permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter ListAccessGrantsInput : [no documentation found]
     ///
@@ -4514,7 +4607,7 @@ extension S3ControlClient {
 
     /// Performs the `ListAccessGrantsInstances` operation on the `S3Control` service.
     ///
-    /// Returns a list of S3 Access Grants instances. An S3 Access Grants instance serves as a logical grouping for your individual access grants. You can only have one S3 Access Grants instance per Region per account. Permissions You must have the s3:ListAccessGrantsInstances permission to use this operation.
+    /// Returns a list of S3 Access Grants instances. An S3 Access Grants instance serves as a logical grouping for your individual access grants. You can only have one S3 Access Grants instance per Region per account. Permissions You must have the s3:ListAccessGrantsInstances permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter ListAccessGrantsInstancesInput : [no documentation found]
     ///
@@ -4576,7 +4669,7 @@ extension S3ControlClient {
 
     /// Performs the `ListAccessGrantsLocations` operation on the `S3Control` service.
     ///
-    /// Returns a list of the locations registered in your S3 Access Grants instance. Permissions You must have the s3:ListAccessGrantsLocations permission to use this operation.
+    /// Returns a list of the locations registered in your S3 Access Grants instance. Permissions You must have the s3:ListAccessGrantsLocations permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter ListAccessGrantsLocationsInput : [no documentation found]
     ///
@@ -4646,6 +4739,9 @@ extension S3ControlClient {
     ///
     /// * [GetAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPoint.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter ListAccessPointsInput : [no documentation found]
     ///
     /// - Returns: `ListAccessPointsOutput` : [no documentation found]
@@ -4705,7 +4801,7 @@ extension S3ControlClient {
 
     /// Performs the `ListAccessPointsForDirectoryBuckets` operation on the `S3Control` service.
     ///
-    /// Returns a list of the access points that are owned by the Amazon Web Services account and that are associated with the specified directory bucket. To list access points for general purpose buckets, see [ListAccesspoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPoints.html). To use this operation, you must have the permission to perform the s3express:ListAccessPointsForDirectoryBuckets action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses).
+    /// Returns a list of the access points that are owned by the Amazon Web Services account and that are associated with the specified directory bucket. To list access points for general purpose buckets, see [ListAccesspoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPoints.html). To use this operation, you must have the permission to perform the s3express:ListAccessPointsForDirectoryBuckets action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter ListAccessPointsForDirectoryBucketsInput : [no documentation found]
     ///
@@ -4774,6 +4870,9 @@ extension S3ControlClient {
     ///
     /// * [GetAccessPointForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointForObjectLambda.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter ListAccessPointsForObjectLambdaInput : [no documentation found]
     ///
     /// - Returns: `ListAccessPointsForObjectLambdaOutput` : [no documentation found]
@@ -4833,7 +4932,7 @@ extension S3ControlClient {
 
     /// Performs the `ListCallerAccessGrants` operation on the `S3Control` service.
     ///
-    /// Use this API to list the access grants that grant the caller access to Amazon S3 data through S3 Access Grants. The caller (grantee) can be an Identity and Access Management (IAM) identity or Amazon Web Services Identity Center corporate directory identity. You must pass the Amazon Web Services account of the S3 data owner (grantor) in the request. You can, optionally, narrow the results by GrantScope, using a fragment of the data's S3 path, and S3 Access Grants will return only the grants with a path that contains the path fragment. You can also pass the AllowedByApplication filter in the request, which returns only the grants authorized for applications, whether the application is the caller's Identity Center application or any other application (ALL). For more information, see [List the caller's access grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-list-grants.html) in the Amazon S3 User Guide. Permissions You must have the s3:ListCallerAccessGrants permission to use this operation.
+    /// Use this API to list the access grants that grant the caller access to Amazon S3 data through S3 Access Grants. The caller (grantee) can be an Identity and Access Management (IAM) identity or Amazon Web Services Identity Center corporate directory identity. You must pass the Amazon Web Services account of the S3 data owner (grantor) in the request. You can, optionally, narrow the results by GrantScope, using a fragment of the data's S3 path, and S3 Access Grants will return only the grants with a path that contains the path fragment. You can also pass the AllowedByApplication filter in the request, which returns only the grants authorized for applications, whether the application is the caller's Identity Center application or any other application (ALL). For more information, see [List the caller's access grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-list-grants.html) in the Amazon S3 User Guide. Permissions You must have the s3:ListCallerAccessGrants permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter ListCallerAccessGrantsInput : [no documentation found]
     ///
@@ -4904,6 +5003,9 @@ extension S3ControlClient {
     /// * [UpdateJobPriority](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_UpdateJobPriority.html)
     ///
     /// * [UpdateJobStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_UpdateJobStatus.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter ListJobsInput : [no documentation found]
     ///
@@ -4981,6 +5083,9 @@ extension S3ControlClient {
     ///
     /// * [GetMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPoint.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter ListMultiRegionAccessPointsInput : [no documentation found]
     ///
     /// - Returns: `ListMultiRegionAccessPointsOutput` : [no documentation found]
@@ -5041,7 +5146,7 @@ extension S3ControlClient {
 
     /// Performs the `ListRegionalBuckets` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Returns a list of all Outposts buckets in an Outpost that are owned by the authenticated sender of the request. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and x-amz-outpost-id in your request, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListRegionalBuckets.html#API_control_ListRegionalBuckets_Examples) section.
+    /// This operation is not supported by directory buckets. Returns a list of all Outposts buckets in an Outpost that are owned by the authenticated sender of the request. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and x-amz-outpost-id in your request, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListRegionalBuckets.html#API_control_ListRegionalBuckets_Examples) section. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter ListRegionalBucketsInput : [no documentation found]
     ///
@@ -5102,7 +5207,7 @@ extension S3ControlClient {
 
     /// Performs the `ListStorageLensConfigurations` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Gets a list of Amazon S3 Storage Lens configurations. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:ListStorageLensConfigurations action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
+    /// This operation is not supported by directory buckets. Gets a list of Amazon S3 Storage Lens configurations. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:ListStorageLensConfigurations action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter ListStorageLensConfigurationsInput : [no documentation found]
     ///
@@ -5163,7 +5268,7 @@ extension S3ControlClient {
 
     /// Performs the `ListStorageLensGroups` operation on the `S3Control` service.
     ///
-    /// Lists all the Storage Lens groups in the specified home Region. To use this operation, you must have the permission to perform the s3:ListStorageLensGroups action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList).
+    /// Lists all the Storage Lens groups in the specified home Region. To use this operation, you must have the permission to perform the s3:ListStorageLensGroups action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter ListStorageLensGroupsInput : [no documentation found]
     ///
@@ -5226,6 +5331,10 @@ extension S3ControlClient {
     ///
     /// This operation allows you to list all of the tags for a specified resource. Each tag is a label consisting of a key and value. Tags can help you organize, track costs for, and control access to resources. This operation is only supported for the following Amazon S3 resources:
     ///
+    /// * [Access Points for directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-db-tagging.html)
+    ///
+    /// * [Access Points for general purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-tagging.html)
+    ///
     /// * [Directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html)
     ///
     /// * [Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html)
@@ -5233,7 +5342,7 @@ extension S3ControlClient {
     /// * [S3 Access Grants instances, registered locations, and grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html).
     ///
     ///
-    /// Permissions For Storage Lens groups and S3 Access Grants, you must have the s3:ListTagsForResource permission to use this operation. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). Directory bucket permissions For directory buckets, you must have the s3express:ListTagsForResource permission to use this operation. For more information about directory buckets policies and permissions, see [Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-permissions.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. For information about S3 Tagging errors, see [List of Amazon S3 Tagging error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList).
+    /// Permissions For Storage Lens groups and S3 Access Grants, you must have the s3:ListTagsForResource permission to use this operation. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). Directory bucket permissions For directory buckets and access points for directory buckets, you must have the s3express:ListTagsForResource permission to use this operation. For more information about directory buckets policies and permissions, see [Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-permissions.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. For information about S3 Tagging errors, see [List of Amazon S3 Tagging error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
@@ -5293,7 +5402,7 @@ extension S3ControlClient {
 
     /// Performs the `PutAccessGrantsInstanceResourcePolicy` operation on the `S3Control` service.
     ///
-    /// Updates the resource policy of the S3 Access Grants instance. Permissions You must have the s3:PutAccessGrantsInstanceResourcePolicy permission to use this operation.
+    /// Updates the resource policy of the S3 Access Grants instance. Permissions You must have the s3:PutAccessGrantsInstanceResourcePolicy permission to use this operation. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter PutAccessGrantsInstanceResourcePolicyInput : [no documentation found]
     ///
@@ -5360,6 +5469,9 @@ extension S3ControlClient {
     /// This operation is not supported by directory buckets. Replaces configuration for an Object Lambda Access Point. The following actions are related to PutAccessPointConfigurationForObjectLambda:
     ///
     /// * [GetAccessPointConfigurationForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointConfigurationForObjectLambda.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter PutAccessPointConfigurationForObjectLambdaInput : [no documentation found]
     ///
@@ -5428,6 +5540,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPointPolicy.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter PutAccessPointPolicyInput : [no documentation found]
     ///
     /// - Returns: `PutAccessPointPolicyOutput` : [no documentation found]
@@ -5495,6 +5610,9 @@ extension S3ControlClient {
     ///
     /// * [GetAccessPointPolicyForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointPolicyForObjectLambda.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter PutAccessPointPolicyForObjectLambdaInput : [no documentation found]
     ///
     /// - Returns: `PutAccessPointPolicyForObjectLambdaOutput` : [no documentation found]
@@ -5556,7 +5674,7 @@ extension S3ControlClient {
 
     /// Performs the `PutAccessPointScope` operation on the `S3Control` service.
     ///
-    /// Creates or replaces the access point scope for a directory bucket. You can use the access point scope to restrict access to specific prefixes, API operations, or a combination of both. You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size. To use this operation, you must have the permission to perform the s3express:PutAccessPointScope action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses).
+    /// Creates or replaces the access point scope for a directory bucket. You can use the access point scope to restrict access to specific prefixes, API operations, or a combination of both. You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size. To use this operation, you must have the permission to perform the s3express:PutAccessPointScope action. For information about REST API errors, see [REST error responses](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#RESTErrorResponses). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter PutAccessPointScopeInput : [no documentation found]
     ///
@@ -5946,6 +6064,9 @@ extension S3ControlClient {
     ///
     /// * [GetBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketLifecycleConfiguration.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter PutBucketVersioningInput : [no documentation found]
     ///
     /// - Returns: `PutBucketVersioningOutput` : [no documentation found]
@@ -6038,6 +6159,9 @@ extension S3ControlClient {
     ///
     /// * [DeleteJobTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteJobTagging.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter PutJobTaggingInput : [no documentation found]
     ///
     /// - Returns: `PutJobTaggingOutput` : [no documentation found]
@@ -6113,6 +6237,9 @@ extension S3ControlClient {
     ///
     /// * [GetMultiRegionAccessPointPolicyStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPointPolicyStatus.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter PutMultiRegionAccessPointPolicyInput : [no documentation found]
     ///
     /// - Returns: `PutMultiRegionAccessPointPolicyOutput` : [no documentation found]
@@ -6182,6 +6309,9 @@ extension S3ControlClient {
     ///
     /// * [DeletePublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeletePublicAccessBlock.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter PutPublicAccessBlockInput : [no documentation found]
     ///
     /// - Returns: `PutPublicAccessBlockOutput` : [no documentation found]
@@ -6243,7 +6373,7 @@ extension S3ControlClient {
 
     /// Performs the `PutStorageLensConfiguration` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Puts an Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Working with Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:PutStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
+    /// This operation is not supported by directory buckets. Puts an Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Working with Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:PutStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter PutStorageLensConfigurationInput : [no documentation found]
     ///
@@ -6306,7 +6436,7 @@ extension S3ControlClient {
 
     /// Performs the `PutStorageLensConfigurationTagging` operation on the `S3Control` service.
     ///
-    /// This operation is not supported by directory buckets. Put or replace tags on an existing Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:PutStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
+    /// This operation is not supported by directory buckets. Put or replace tags on an existing Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:PutStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter PutStorageLensConfigurationTaggingInput : [no documentation found]
     ///
@@ -6381,6 +6511,9 @@ extension S3ControlClient {
     ///
     /// * eu-west-1
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter SubmitMultiRegionAccessPointRoutesInput : [no documentation found]
     ///
     /// - Returns: `SubmitMultiRegionAccessPointRoutesOutput` : [no documentation found]
@@ -6445,6 +6578,10 @@ extension S3ControlClient {
     ///
     /// Creates a new user-defined tag or updates an existing tag. Each tag is a label consisting of a key and value that is applied to your resource. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 Amazon Web Services resource tags for each S3 resource. This operation is only supported for the following Amazon S3 resource:
     ///
+    /// * [Access Points for directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-db-tagging.html)
+    ///
+    /// * [Access Points for general purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-tagging.html)
+    ///
     /// * [Directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html)
     ///
     /// * [S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html)
@@ -6452,7 +6589,16 @@ extension S3ControlClient {
     /// * [S3 Access Grants instances, registered locations, or grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html).
     ///
     ///
-    /// Permissions For Storage Lens groups and S3 Access Grants, you must have the s3:TagResource permission to use this operation. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). Directory bucket permissions For directory buckets, you must have the s3express:TagResource permission to use this operation. For more information about directory buckets policies and permissions, see [Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-permissions.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. For information about S3 Tagging errors, see [List of Amazon S3 Tagging error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList).
+    /// This operation is only supported for the following Amazon S3 resource:
+    ///
+    /// * [Directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html)
+    ///
+    /// * [S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html)
+    ///
+    /// * [S3 Access Grants instances, registered locations, or grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html).
+    ///
+    ///
+    /// Permissions For Storage Lens groups and S3 Access Grants, you must have the s3:TagResource permission to use this operation. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). Directory bucket permissions For directory buckets and access points for directory buckets, you must have the s3express:TagResource permission to use this operation. For more information about directory buckets policies and permissions, see [Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-permissions.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. For information about S3 Tagging errors, see [List of Amazon S3 Tagging error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -6517,6 +6663,10 @@ extension S3ControlClient {
     ///
     /// This operation removes the specified user-defined tags from an S3 resource. You can pass one or more tag keys. This operation is only supported for the following Amazon S3 resources:
     ///
+    /// * [Access Points for directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-db-tagging.html)
+    ///
+    /// * [Access Points for general purpose buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-tagging.html)
+    ///
     /// * [Directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html)
     ///
     /// * [Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens-groups.html)
@@ -6524,7 +6674,7 @@ extension S3ControlClient {
     /// * [S3 Access Grants instances, registered locations, and grants](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-grants-tagging.html).
     ///
     ///
-    /// Permissions For Storage Lens groups and S3 Access Grants, you must have the s3:UntagResource permission to use this operation. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). Directory bucket permissions For directory buckets, you must have the s3express:UntagResource permission to use this operation. For more information about directory buckets policies and permissions, see [Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-permissions.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. For information about S3 Tagging errors, see [List of Amazon S3 Tagging error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList).
+    /// Permissions For Storage Lens groups and S3 Access Grants, you must have the s3:UntagResource permission to use this operation. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). Directory bucket permissions For directory buckets and access points for directory buckets, you must have the s3express:UntagResource permission to use this operation. For more information about directory buckets policies and permissions, see [Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-permissions.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. For information about S3 Tagging errors, see [List of Amazon S3 Tagging error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3TaggingErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
@@ -6585,7 +6735,7 @@ extension S3ControlClient {
 
     /// Performs the `UpdateAccessGrantsLocation` operation on the `S3Control` service.
     ///
-    /// Updates the IAM role of a registered location in your S3 Access Grants instance. Permissions You must have the s3:UpdateAccessGrantsLocation permission to use this operation. Additional Permissions You must also have the following permission: iam:PassRole
+    /// Updates the IAM role of a registered location in your S3 Access Grants instance. Permissions You must have the s3:UpdateAccessGrantsLocation permission to use this operation. Additional Permissions You must also have the following permission: iam:PassRole You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter UpdateAccessGrantsLocationInput : [no documentation found]
     ///
@@ -6658,6 +6808,9 @@ extension S3ControlClient {
     /// * [DescribeJob](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeJob.html)
     ///
     /// * [UpdateJobStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_UpdateJobStatus.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter UpdateJobPriorityInput : [no documentation found]
     ///
@@ -6736,6 +6889,9 @@ extension S3ControlClient {
     ///
     /// * [UpdateJobStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_UpdateJobStatus.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter UpdateJobStatusInput : [no documentation found]
     ///
     /// - Returns: `UpdateJobStatusOutput` : [no documentation found]
@@ -6804,7 +6960,7 @@ extension S3ControlClient {
 
     /// Performs the `UpdateStorageLensGroup` operation on the `S3Control` service.
     ///
-    /// Updates the existing Storage Lens group. To use this operation, you must have the permission to perform the s3:UpdateStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList).
+    /// Updates the existing Storage Lens group. To use this operation, you must have the permission to perform the s3:UpdateStorageLensGroup action. For more information about the required Storage Lens Groups permissions, see [Setting account permissions to use S3 Storage Lens groups](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_iam_permissions.html#storage_lens_groups_permissions). For information about Storage Lens groups errors, see [List of Amazon S3 Storage Lens error codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#S3LensErrorCodeList). You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter UpdateStorageLensGroupInput : [no documentation found]
     ///

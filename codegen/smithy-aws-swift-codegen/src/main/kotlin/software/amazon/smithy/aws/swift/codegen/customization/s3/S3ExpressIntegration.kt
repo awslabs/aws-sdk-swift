@@ -1,5 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.customization.s3
 
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityAPITypes
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSSDKIdentityTypes
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.Model
@@ -42,7 +43,7 @@ class S3ExpressIntegration : SwiftIntegration {
                     "}",
                     ClientRuntimeTypes.Core.DefaultClientConfiguration,
                     SwiftTypes.String,
-                    AWSSDKIdentityTypes.S3ExpressIdentity,
+                    AWSSDKIdentityAPITypes.S3ExpressIdentity,
                 ) {
                     writer.openBlock(
                         "guard let config = clientConfig as? S3Client.Config else {",
@@ -56,7 +57,7 @@ class S3ExpressIntegration : SwiftIntegration {
                     writer.write(
                         "guard let creds = output.credentials, let accessKeyID = creds.accessKeyId, let secretAccessKey = creds.secretAccessKey, let sessionToken = creds.sessionToken else { fatalError() }",
                     )
-                    writer.openBlock("return \$N(", ")", AWSSDKIdentityTypes.S3ExpressIdentity) {
+                    writer.openBlock("return \$N(", ")", AWSSDKIdentityAPITypes.S3ExpressIdentity) {
                         writer.write("accessKeyID: accessKeyID,")
                         writer.write("secretAccessKey: secretAccessKey,")
                         writer.write("sessionToken: sessionToken,")
@@ -79,7 +80,7 @@ class S3ExpressClientConfiguration : ClientConfiguration {
         setOf(
             ConfigProperty(
                 "s3ExpressIdentityResolver",
-                AWSSDKIdentityTypes.S3ExpressIdentityResolver.toGeneric(),
+                AWSSDKIdentityAPITypes.S3ExpressIdentityResolver.toGeneric(),
                 DefaultProvider({ it.format("\$N()", AWSSDKIdentityTypes.DefaultS3ExpressIdentityResolver) }, false, false),
             ),
         )

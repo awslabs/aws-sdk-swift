@@ -18,6 +18,7 @@ extension Target.Dependency {
     // AWS modules
     static var awsClientRuntime: Self { .product(name: "AWSClientRuntime", package: "aws-sdk-swift") }
     static var awsSDKCommon: Self { .product(name: "AWSSDKCommon", package: "aws-sdk-swift") }
+    static var awsSDKIdentityAPI: Self { .product(name: "AWSSDKIdentityAPI", package: "aws-sdk-swift") }
     static var awsSDKIdentity: Self { .product(name: "AWSSDKIdentity", package: "aws-sdk-swift") }
 
     // Smithy modules
@@ -63,7 +64,7 @@ private var integrationTestTargets: [Target] {
         "AWSBedrockRuntime",
         "AWSCloudWatch",
     ].map { integrationTestTarget($0) }
-    return integrationTests + [.target(name: "AWSIntegrationTestUtils", path: "./AWSIntegrationTestUtils")]
+    return integrationTests + [.target(name: "AWSIntegrationTestUtils", dependencies: [.clientRuntime], path: "./AWSIntegrationTestUtils")]
 }
 
 private func integrationTestTarget(_ name: String) -> Target {
@@ -93,7 +94,7 @@ private func integrationTestTarget(_ name: String) -> Target {
     case "AWSSTS":
         additionalDependencies = ["AWSIAM", "AWSCognitoIdentity"]
     case "AWSCognitoIdentity":
-        additionalDependencies = ["AWSSTS"]
+        additionalDependencies = ["AWSSTS", "AWSIAM"]
     default:
         break
     }
@@ -104,6 +105,7 @@ private func integrationTestTarget(_ name: String) -> Target {
             .awsClientRuntime,
             .smithyTestUtil,
             .awsSDKIdentity,
+            .awsSDKIdentityAPI,
             .smithyIdentity,
             .awsSDKCommon,
             .awsIntegrationTestUtils,

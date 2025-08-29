@@ -40,7 +40,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -59,14 +59,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AuditManagerClient: ClientRuntime.Client {
     public static let clientName = "AuditManagerClient"
-    public static let version = "1.3.50"
+    public static let version = "1.5.31"
     let client: ClientRuntime.SdkHttpClient
     let config: AuditManagerClient.AuditManagerClientConfiguration
     let serviceName = "AuditManager"
@@ -3751,6 +3751,7 @@ extension AuditManagerClient {
     /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The request has invalid or missing parameters.
     public func registerOrganizationAdminAccount(input: RegisterOrganizationAdminAccountInput) async throws -> RegisterOrganizationAdminAccountOutput {
         let context = Smithy.ContextBuilder()
@@ -4250,6 +4251,7 @@ extension AuditManagerClient {
     /// - `AccessDeniedException` : Your account isn't registered with Audit Manager. Check the delegated administrator setup on the Audit Manager settings page, and try again.
     /// - `InternalServerException` : An internal service error occurred during the processing of your request. Try again later.
     /// - `ResourceNotFoundException` : The resource that's specified in the request can't be found.
+    /// - `ServiceQuotaExceededException` : You've reached your account quota for this resource type. To perform the requested action, delete some existing resources or [request a quota increase](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) from the Service Quotas console. For a list of Audit Manager service quotas, see [Quotas and restrictions for Audit Manager](https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html).
     /// - `ValidationException` : The request has invalid or missing parameters.
     public func updateAssessmentFramework(input: UpdateAssessmentFrameworkInput) async throws -> UpdateAssessmentFrameworkOutput {
         let context = Smithy.ContextBuilder()

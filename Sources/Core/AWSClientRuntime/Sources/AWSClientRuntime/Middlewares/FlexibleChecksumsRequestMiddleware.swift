@@ -11,7 +11,6 @@ import enum Smithy.ClientError
 import struct Smithy.URIQueryItem
 import class Smithy.Context
 import struct Foundation.Data
-import AwsCommonRuntimeKit
 import AWSSDKChecksums
 import ClientRuntime
 import SmithyHTTPAPI

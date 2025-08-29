@@ -41,7 +41,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -61,14 +61,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LightsailClient: ClientRuntime.Client {
     public static let clientName = "LightsailClient"
-    public static let version = "1.3.50"
+    public static let version = "1.5.31"
     let client: ClientRuntime.SdkHttpClient
     let config: LightsailClient.LightsailClientConfiguration
     let serviceName = "Lightsail"
@@ -386,6 +386,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func allocateStaticIp(input: AllocateStaticIpInput) async throws -> AllocateStaticIpOutput {
@@ -533,6 +534,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func attachDisk(input: AttachDiskInput) async throws -> AttachDiskOutput {
@@ -607,6 +609,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func attachInstancesToLoadBalancer(input: AttachInstancesToLoadBalancerInput) async throws -> AttachInstancesToLoadBalancerOutput {
@@ -681,6 +684,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func attachLoadBalancerTlsCertificate(input: AttachLoadBalancerTlsCertificateInput) async throws -> AttachLoadBalancerTlsCertificateOutput {
@@ -755,6 +759,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func attachStaticIp(input: AttachStaticIpInput) async throws -> AttachStaticIpOutput {
@@ -829,6 +834,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func closeInstancePublicPorts(input: CloseInstancePublicPortsInput) async throws -> CloseInstancePublicPortsOutput {
@@ -903,6 +909,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func copySnapshot(input: CopySnapshotInput) async throws -> CopySnapshotOutput {
@@ -974,6 +981,7 @@ extension LightsailClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutput {
@@ -1046,6 +1054,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createBucketAccessKey(input: CreateBucketAccessKeyInput) async throws -> CreateBucketAccessKeyOutput {
@@ -1118,6 +1127,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createCertificate(input: CreateCertificateInput) async throws -> CreateCertificateOutput {
@@ -1192,6 +1202,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createCloudFormationStack(input: CreateCloudFormationStackInput) async throws -> CreateCloudFormationStackOutput {
@@ -1265,6 +1276,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createContactMethod(input: CreateContactMethodInput) async throws -> CreateContactMethodOutput {
@@ -1337,6 +1349,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createContainerService(input: CreateContainerServiceInput) async throws -> CreateContainerServiceOutput {
@@ -1409,6 +1422,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createContainerServiceDeployment(input: CreateContainerServiceDeploymentInput) async throws -> CreateContainerServiceDeploymentOutput {
@@ -1481,6 +1495,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createContainerServiceRegistryLogin(input: CreateContainerServiceRegistryLoginInput) async throws -> CreateContainerServiceRegistryLoginOutput {
@@ -1555,6 +1570,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createDisk(input: CreateDiskInput) async throws -> CreateDiskOutput {
@@ -1629,6 +1645,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createDiskFromSnapshot(input: CreateDiskFromSnapshotInput) async throws -> CreateDiskFromSnapshotOutput {
@@ -1703,6 +1720,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createDiskSnapshot(input: CreateDiskSnapshotInput) async throws -> CreateDiskSnapshotOutput {
@@ -1850,6 +1868,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutput {
@@ -1924,6 +1943,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createDomainEntry(input: CreateDomainEntryInput) async throws -> CreateDomainEntryOutput {
@@ -1996,6 +2016,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createGUISessionAccessDetails(input: CreateGUISessionAccessDetailsInput) async throws -> CreateGUISessionAccessDetailsOutput {
@@ -2070,6 +2091,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createInstanceSnapshot(input: CreateInstanceSnapshotInput) async throws -> CreateInstanceSnapshotOutput {
@@ -2144,6 +2166,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createInstances(input: CreateInstancesInput) async throws -> CreateInstancesOutput {
@@ -2218,6 +2241,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createInstancesFromSnapshot(input: CreateInstancesFromSnapshotInput) async throws -> CreateInstancesFromSnapshotOutput {
@@ -2292,6 +2316,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createKeyPair(input: CreateKeyPairInput) async throws -> CreateKeyPairOutput {
@@ -2366,6 +2391,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createLoadBalancer(input: CreateLoadBalancerInput) async throws -> CreateLoadBalancerOutput {
@@ -2440,6 +2466,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createLoadBalancerTlsCertificate(input: CreateLoadBalancerTlsCertificateInput) async throws -> CreateLoadBalancerTlsCertificateOutput {
@@ -2514,6 +2541,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createRelationalDatabase(input: CreateRelationalDatabaseInput) async throws -> CreateRelationalDatabaseOutput {
@@ -2588,6 +2616,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createRelationalDatabaseFromSnapshot(input: CreateRelationalDatabaseFromSnapshotInput) async throws -> CreateRelationalDatabaseFromSnapshotOutput {
@@ -2662,6 +2691,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func createRelationalDatabaseSnapshot(input: CreateRelationalDatabaseSnapshotInput) async throws -> CreateRelationalDatabaseSnapshotOutput {
@@ -2735,6 +2765,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteAlarm(input: DeleteAlarmInput) async throws -> DeleteAlarmOutput {
@@ -2808,6 +2839,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteAutoSnapshot(input: DeleteAutoSnapshotInput) async throws -> DeleteAutoSnapshotOutput {
@@ -2880,6 +2912,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutput {
@@ -2952,6 +2985,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteBucketAccessKey(input: DeleteBucketAccessKeyInput) async throws -> DeleteBucketAccessKeyOutput {
@@ -3024,6 +3058,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteCertificate(input: DeleteCertificateInput) async throws -> DeleteCertificateOutput {
@@ -3097,6 +3132,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteContactMethod(input: DeleteContactMethodInput) async throws -> DeleteContactMethodOutput {
@@ -3169,6 +3205,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteContainerImage(input: DeleteContainerImageInput) async throws -> DeleteContainerImageOutput {
@@ -3241,6 +3278,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteContainerService(input: DeleteContainerServiceInput) async throws -> DeleteContainerServiceOutput {
@@ -3315,6 +3353,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteDisk(input: DeleteDiskInput) async throws -> DeleteDiskOutput {
@@ -3389,6 +3428,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteDiskSnapshot(input: DeleteDiskSnapshotInput) async throws -> DeleteDiskSnapshotOutput {
@@ -3536,6 +3576,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutput {
@@ -3610,6 +3651,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteDomainEntry(input: DeleteDomainEntryInput) async throws -> DeleteDomainEntryOutput {
@@ -3684,6 +3726,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteInstance(input: DeleteInstanceInput) async throws -> DeleteInstanceOutput {
@@ -3758,6 +3801,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteInstanceSnapshot(input: DeleteInstanceSnapshotInput) async throws -> DeleteInstanceSnapshotOutput {
@@ -3832,6 +3876,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteKeyPair(input: DeleteKeyPairInput) async throws -> DeleteKeyPairOutput {
@@ -3906,6 +3951,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteKnownHostKeys(input: DeleteKnownHostKeysInput) async throws -> DeleteKnownHostKeysOutput {
@@ -3980,6 +4026,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteLoadBalancer(input: DeleteLoadBalancerInput) async throws -> DeleteLoadBalancerOutput {
@@ -4054,6 +4101,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteLoadBalancerTlsCertificate(input: DeleteLoadBalancerTlsCertificateInput) async throws -> DeleteLoadBalancerTlsCertificateOutput {
@@ -4128,6 +4176,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteRelationalDatabase(input: DeleteRelationalDatabaseInput) async throws -> DeleteRelationalDatabaseOutput {
@@ -4202,6 +4251,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func deleteRelationalDatabaseSnapshot(input: DeleteRelationalDatabaseSnapshotInput) async throws -> DeleteRelationalDatabaseSnapshotOutput {
@@ -4349,6 +4399,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func detachDisk(input: DetachDiskInput) async throws -> DetachDiskOutput {
@@ -4423,6 +4474,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func detachInstancesFromLoadBalancer(input: DetachInstancesFromLoadBalancerInput) async throws -> DetachInstancesFromLoadBalancerOutput {
@@ -4497,6 +4549,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func detachStaticIp(input: DetachStaticIpInput) async throws -> DetachStaticIpOutput {
@@ -4570,6 +4623,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func disableAddOn(input: DisableAddOnInput) async throws -> DisableAddOnOutput {
@@ -4644,6 +4698,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func downloadDefaultKeyPair(input: DownloadDefaultKeyPairInput) async throws -> DownloadDefaultKeyPairOutput {
@@ -4717,6 +4772,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func enableAddOn(input: EnableAddOnInput) async throws -> EnableAddOnOutput {
@@ -4791,6 +4847,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func exportSnapshot(input: ExportSnapshotInput) async throws -> ExportSnapshotOutput {
@@ -4865,6 +4922,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getActiveNames(input: GetActiveNamesInput) async throws -> GetActiveNamesOutput {
@@ -4938,6 +4996,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getAlarms(input: GetAlarmsInput) async throws -> GetAlarmsOutput {
@@ -5011,6 +5070,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getAutoSnapshots(input: GetAutoSnapshotsInput) async throws -> GetAutoSnapshotsOutput {
@@ -5085,6 +5145,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getBlueprints(input: GetBlueprintsInput) async throws -> GetBlueprintsOutput {
@@ -5157,6 +5218,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getBucketAccessKeys(input: GetBucketAccessKeysInput) async throws -> GetBucketAccessKeysOutput {
@@ -5228,6 +5290,7 @@ extension LightsailClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getBucketBundles(input: GetBucketBundlesInput) async throws -> GetBucketBundlesOutput {
@@ -5300,6 +5363,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getBucketMetricData(input: GetBucketMetricDataInput) async throws -> GetBucketMetricDataOutput {
@@ -5372,6 +5436,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getBuckets(input: GetBucketsInput) async throws -> GetBucketsOutput {
@@ -5446,6 +5511,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getBundles(input: GetBundlesInput) async throws -> GetBundlesOutput {
@@ -5518,6 +5584,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getCertificates(input: GetCertificatesInput) async throws -> GetCertificatesOutput {
@@ -5592,6 +5659,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getCloudFormationStackRecords(input: GetCloudFormationStackRecordsInput) async throws -> GetCloudFormationStackRecordsOutput {
@@ -5665,6 +5733,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getContactMethods(input: GetContactMethodsInput) async throws -> GetContactMethodsOutput {
@@ -5735,6 +5804,7 @@ extension LightsailClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getContainerAPIMetadata(input: GetContainerAPIMetadataInput) async throws -> GetContainerAPIMetadataOutput {
@@ -5807,6 +5877,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getContainerImages(input: GetContainerImagesInput) async throws -> GetContainerImagesOutput {
@@ -5879,6 +5950,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getContainerLog(input: GetContainerLogInput) async throws -> GetContainerLogOutput {
@@ -5952,6 +6024,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getContainerServiceDeployments(input: GetContainerServiceDeploymentsInput) async throws -> GetContainerServiceDeploymentsOutput {
@@ -6024,6 +6097,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getContainerServiceMetricData(input: GetContainerServiceMetricDataInput) async throws -> GetContainerServiceMetricDataOutput {
@@ -6097,6 +6171,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getContainerServicePowers(input: GetContainerServicePowersInput) async throws -> GetContainerServicePowersOutput {
@@ -6169,6 +6244,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getContainerServices(input: GetContainerServicesInput) async throws -> GetContainerServicesOutput {
@@ -6242,6 +6318,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getCostEstimate(input: GetCostEstimateInput) async throws -> GetCostEstimateOutput {
@@ -6316,6 +6393,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getDisk(input: GetDiskInput) async throws -> GetDiskOutput {
@@ -6390,6 +6468,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getDiskSnapshot(input: GetDiskSnapshotInput) async throws -> GetDiskSnapshotOutput {
@@ -6464,6 +6543,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getDiskSnapshots(input: GetDiskSnapshotsInput) async throws -> GetDiskSnapshotsOutput {
@@ -6538,6 +6618,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getDisks(input: GetDisksInput) async throws -> GetDisksOutput {
@@ -6904,6 +6985,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getDomain(input: GetDomainInput) async throws -> GetDomainOutput {
@@ -6978,6 +7060,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getDomains(input: GetDomainsInput) async throws -> GetDomainsOutput {
@@ -7052,6 +7135,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getExportSnapshotRecords(input: GetExportSnapshotRecordsInput) async throws -> GetExportSnapshotRecordsOutput {
@@ -7126,6 +7210,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getInstance(input: GetInstanceInput) async throws -> GetInstanceOutput {
@@ -7200,6 +7285,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getInstanceAccessDetails(input: GetInstanceAccessDetailsInput) async throws -> GetInstanceAccessDetailsOutput {
@@ -7274,6 +7360,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getInstanceMetricData(input: GetInstanceMetricDataInput) async throws -> GetInstanceMetricDataOutput {
@@ -7348,6 +7435,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getInstancePortStates(input: GetInstancePortStatesInput) async throws -> GetInstancePortStatesOutput {
@@ -7422,6 +7510,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getInstanceSnapshot(input: GetInstanceSnapshotInput) async throws -> GetInstanceSnapshotOutput {
@@ -7496,6 +7585,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getInstanceSnapshots(input: GetInstanceSnapshotsInput) async throws -> GetInstanceSnapshotsOutput {
@@ -7570,6 +7660,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getInstanceState(input: GetInstanceStateInput) async throws -> GetInstanceStateOutput {
@@ -7644,6 +7735,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getInstances(input: GetInstancesInput) async throws -> GetInstancesOutput {
@@ -7718,6 +7810,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getKeyPair(input: GetKeyPairInput) async throws -> GetKeyPairOutput {
@@ -7792,6 +7885,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getKeyPairs(input: GetKeyPairsInput) async throws -> GetKeyPairsOutput {
@@ -7866,6 +7960,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getLoadBalancer(input: GetLoadBalancerInput) async throws -> GetLoadBalancerOutput {
@@ -7940,6 +8035,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getLoadBalancerMetricData(input: GetLoadBalancerMetricDataInput) async throws -> GetLoadBalancerMetricDataOutput {
@@ -8014,6 +8110,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getLoadBalancerTlsCertificates(input: GetLoadBalancerTlsCertificatesInput) async throws -> GetLoadBalancerTlsCertificatesOutput {
@@ -8086,6 +8183,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `AccountSetupInProgressException` : Lightsail throws this exception when an account is still in the setup in progress state.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getLoadBalancerTlsPolicies(input: GetLoadBalancerTlsPoliciesInput) async throws -> GetLoadBalancerTlsPoliciesOutput {
@@ -8160,6 +8258,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getLoadBalancers(input: GetLoadBalancersInput) async throws -> GetLoadBalancersOutput {
@@ -8234,6 +8333,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getOperation(input: GetOperationInput) async throws -> GetOperationOutput {
@@ -8308,6 +8408,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getOperations(input: GetOperationsInput) async throws -> GetOperationsOutput {
@@ -8382,6 +8483,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getOperationsForResource(input: GetOperationsForResourceInput) async throws -> GetOperationsForResourceOutput {
@@ -8456,6 +8558,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRegions(input: GetRegionsInput) async throws -> GetRegionsOutput {
@@ -8530,6 +8633,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabase(input: GetRelationalDatabaseInput) async throws -> GetRelationalDatabaseOutput {
@@ -8604,6 +8708,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabaseBlueprints(input: GetRelationalDatabaseBlueprintsInput) async throws -> GetRelationalDatabaseBlueprintsOutput {
@@ -8678,6 +8783,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabaseBundles(input: GetRelationalDatabaseBundlesInput) async throws -> GetRelationalDatabaseBundlesOutput {
@@ -8752,6 +8858,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabaseEvents(input: GetRelationalDatabaseEventsInput) async throws -> GetRelationalDatabaseEventsOutput {
@@ -8826,6 +8933,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabaseLogEvents(input: GetRelationalDatabaseLogEventsInput) async throws -> GetRelationalDatabaseLogEventsOutput {
@@ -8900,6 +9008,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabaseLogStreams(input: GetRelationalDatabaseLogStreamsInput) async throws -> GetRelationalDatabaseLogStreamsOutput {
@@ -8974,6 +9083,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabaseMasterUserPassword(input: GetRelationalDatabaseMasterUserPasswordInput) async throws -> GetRelationalDatabaseMasterUserPasswordOutput {
@@ -9048,6 +9158,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabaseMetricData(input: GetRelationalDatabaseMetricDataInput) async throws -> GetRelationalDatabaseMetricDataOutput {
@@ -9122,6 +9233,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabaseParameters(input: GetRelationalDatabaseParametersInput) async throws -> GetRelationalDatabaseParametersOutput {
@@ -9196,6 +9308,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabaseSnapshot(input: GetRelationalDatabaseSnapshotInput) async throws -> GetRelationalDatabaseSnapshotOutput {
@@ -9270,6 +9383,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabaseSnapshots(input: GetRelationalDatabaseSnapshotsInput) async throws -> GetRelationalDatabaseSnapshotsOutput {
@@ -9344,6 +9458,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getRelationalDatabases(input: GetRelationalDatabasesInput) async throws -> GetRelationalDatabasesOutput {
@@ -9416,6 +9531,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getSetupHistory(input: GetSetupHistoryInput) async throws -> GetSetupHistoryOutput {
@@ -9490,6 +9606,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getStaticIp(input: GetStaticIpInput) async throws -> GetStaticIpOutput {
@@ -9564,6 +9681,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func getStaticIps(input: GetStaticIpsInput) async throws -> GetStaticIpsOutput {
@@ -9638,6 +9756,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func importKeyPair(input: ImportKeyPairInput) async throws -> ImportKeyPairOutput {
@@ -9712,6 +9831,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func isVpcPeered(input: IsVpcPeeredInput) async throws -> IsVpcPeeredOutput {
@@ -9786,6 +9906,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func openInstancePublicPorts(input: OpenInstancePublicPortsInput) async throws -> OpenInstancePublicPortsOutput {
@@ -9860,6 +9981,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func peerVpc(input: PeerVpcInput) async throws -> PeerVpcOutput {
@@ -9933,6 +10055,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func putAlarm(input: PutAlarmInput) async throws -> PutAlarmOutput {
@@ -10007,6 +10130,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func putInstancePublicPorts(input: PutInstancePublicPortsInput) async throws -> PutInstancePublicPortsOutput {
@@ -10081,6 +10205,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func rebootInstance(input: RebootInstanceInput) async throws -> RebootInstanceOutput {
@@ -10155,6 +10280,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func rebootRelationalDatabase(input: RebootRelationalDatabaseInput) async throws -> RebootRelationalDatabaseOutput {
@@ -10227,6 +10353,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func registerContainerImage(input: RegisterContainerImageInput) async throws -> RegisterContainerImageOutput {
@@ -10301,6 +10428,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func releaseStaticIp(input: ReleaseStaticIpInput) async throws -> ReleaseStaticIpOutput {
@@ -10447,6 +10575,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func sendContactMethodVerification(input: SendContactMethodVerificationInput) async throws -> SendContactMethodVerificationOutput {
@@ -10521,6 +10650,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func setIpAddressType(input: SetIpAddressTypeInput) async throws -> SetIpAddressTypeOutput {
@@ -10593,6 +10723,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func setResourceAccessForBucket(input: SetResourceAccessForBucketInput) async throws -> SetResourceAccessForBucketOutput {
@@ -10665,6 +10796,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func setupInstanceHttps(input: SetupInstanceHttpsInput) async throws -> SetupInstanceHttpsOutput {
@@ -10737,6 +10869,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func startGUISession(input: StartGUISessionInput) async throws -> StartGUISessionOutput {
@@ -10811,6 +10944,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func startInstance(input: StartInstanceInput) async throws -> StartInstanceOutput {
@@ -10885,6 +11019,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func startRelationalDatabase(input: StartRelationalDatabaseInput) async throws -> StartRelationalDatabaseOutput {
@@ -10957,6 +11092,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func stopGUISession(input: StopGUISessionInput) async throws -> StopGUISessionOutput {
@@ -11031,6 +11167,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func stopInstance(input: StopInstanceInput) async throws -> StopInstanceOutput {
@@ -11105,6 +11242,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func stopRelationalDatabase(input: StopRelationalDatabaseInput) async throws -> StopRelationalDatabaseOutput {
@@ -11179,6 +11317,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
@@ -11252,6 +11391,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func testAlarm(input: TestAlarmInput) async throws -> TestAlarmOutput {
@@ -11326,6 +11466,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func unpeerVpc(input: UnpeerVpcInput) async throws -> UnpeerVpcOutput {
@@ -11400,6 +11541,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
@@ -11472,6 +11614,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func updateBucket(input: UpdateBucketInput) async throws -> UpdateBucketOutput {
@@ -11544,6 +11687,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func updateBucketBundle(input: UpdateBucketBundleInput) async throws -> UpdateBucketBundleOutput {
@@ -11616,6 +11760,7 @@ extension LightsailClient {
     /// - `AccessDeniedException` : Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func updateContainerService(input: UpdateContainerServiceInput) async throws -> UpdateContainerServiceOutput {
@@ -11836,6 +11981,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func updateDomainEntry(input: UpdateDomainEntryInput) async throws -> UpdateDomainEntryOutput {
@@ -11910,6 +12056,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func updateInstanceMetadataOptions(input: UpdateInstanceMetadataOptionsInput) async throws -> UpdateInstanceMetadataOptionsOutput {
@@ -11984,6 +12131,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func updateLoadBalancerAttribute(input: UpdateLoadBalancerAttributeInput) async throws -> UpdateLoadBalancerAttributeOutput {
@@ -12058,6 +12206,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func updateRelationalDatabase(input: UpdateRelationalDatabaseInput) async throws -> UpdateRelationalDatabaseOutput {
@@ -12132,6 +12281,7 @@ extension LightsailClient {
     /// - `InvalidInputException` : Lightsail throws this exception when user input does not conform to the validation rules of an input field. Domain and distribution APIs are only available in the N. Virginia (us-east-1) Amazon Web Services Region. Please set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit these resources.
     /// - `NotFoundException` : Lightsail throws this exception when it cannot find a resource.
     /// - `OperationFailureException` : Lightsail throws this exception when an operation fails to execute.
+    /// - `RegionSetupInProgressException` : Lightsail throws this exception when an operation is performed on resources in an opt-in Region that is currently being set up.
     /// - `ServiceException` : A general service exception.
     /// - `UnauthenticatedException` : Lightsail throws this exception when the user has not been authenticated.
     public func updateRelationalDatabaseParameters(input: UpdateRelationalDatabaseParametersInput) async throws -> UpdateRelationalDatabaseParametersOutput {

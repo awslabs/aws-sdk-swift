@@ -3190,11 +3190,11 @@ extension RDSClientTypes {
 
 extension RDSClientTypes {
 
-    /// Specifies any Aurora Serverless v2 properties or limits that differ between Aurora engine versions. You can test the values of this attribute when deciding which Aurora version to use in a new or upgraded DB cluster. You can also retrieve the version of an existing DB cluster and check whether that version supports certain Aurora Serverless v2 features before you attempt to use those features.
+    /// Specifies any Aurora Serverless v2 properties or limits that differ between Aurora engine versions and platform versions. You can test the values of this attribute when deciding which Aurora version to use in a new or upgraded DB cluster. You can also retrieve the version of an existing DB cluster and check whether that version supports certain Aurora Serverless v2 features before you attempt to use those features.
     public struct ServerlessV2FeaturesSupport: Swift.Sendable {
-        /// Specifies the upper Aurora Serverless v2 capacity limit for a particular engine version. Depending on the engine version, the maximum capacity for an Aurora Serverless v2 cluster might be 256 or 128.
+        /// Specifies the upper Aurora Serverless v2 capacity limit for a particular engine version or platform version. Depending on the engine version, the maximum capacity for an Aurora Serverless v2 cluster might be 256 or 128.
         public var maxCapacity: Swift.Double?
-        /// If the minimum capacity is 0 ACUs, the engine version supports the automatic pause/resume feature of Aurora Serverless v2.
+        /// If the minimum capacity is 0 ACUs, the engine version or platform version supports the automatic pause/resume feature of Aurora Serverless v2.
         public var minCapacity: Swift.Double?
 
         public init(
@@ -3877,7 +3877,7 @@ extension RDSClientTypes {
 
     /// Contains the scaling configuration of an Aurora Serverless v2 DB cluster. For more information, see [Using Amazon Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html) in the Amazon Aurora User Guide.
     public struct ServerlessV2ScalingConfiguration: Swift.Sendable {
-        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions.
+        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions. You can check the attributes of your engine version or platform version to determine the specific maximum capacity supported.
         public var maxCapacity: Swift.Double?
         /// The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0. For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5.
         public var minCapacity: Swift.Double?
@@ -3902,7 +3902,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var allocatedStorage: Swift.Int?
     /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB cluster. For more information about automatic minor version upgrades, see [Automatically upgrading the minor engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Upgrading.html#USER_UpgradeDBInstance.Upgrading.AutoMinorVersionUpgrades).
     public var autoMinorVersionUpgrade: Swift.Bool?
-    /// A list of Availability Zones (AZs) where you specifically want to create DB instances in the DB cluster. For information on AZs, see [Availability Zones](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.RegionsAndAvailabilityZones.html#Concepts.RegionsAndAvailabilityZones.AvailabilityZones) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only Constraints:
+    /// A list of Availability Zones (AZs) where you specifically want to create DB instances in the DB cluster. For the first three DB instances that you create, RDS distributes each DB instance to a different AZ that you specify. For additional DB instances that you create, RDS randomly distributes them to the AZs that you specified. For example, if you create a DB cluster with one writer instance and three reader instances, RDS might distribute the writer instance to AZ 1, the first reader instance to AZ 2, the second reader instance to AZ 3, and the third reader instance to either AZ 1, AZ 2, or AZ 3. For more information, see [Availability Zones](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.RegionsAndAvailabilityZones.html#Concepts.RegionsAndAvailabilityZones.AvailabilityZones) and [High availability for Aurora DB instances](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.AuroraHighAvailability.html#Concepts.AuroraHighAvailability.Instances) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only Constraints:
     ///
     /// * Can't specify more than three AZs.
     public var availabilityZones: [Swift.String]?
@@ -4703,7 +4703,7 @@ extension RDSClientTypes {
 
     /// The scaling configuration for an Aurora Serverless v2 DB cluster. For more information, see [Using Amazon Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html) in the Amazon Aurora User Guide.
     public struct ServerlessV2ScalingConfigurationInfo: Swift.Sendable {
-        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions.
+        /// The maximum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 32, 32.5, 33, and so on. The largest value that you can use is 256 for recent Aurora versions, or 128 for older versions. You can check the attributes of your engine version or platform version to determine the specific maximum capacity supported.
         public var maxCapacity: Swift.Double?
         /// The minimum number of Aurora capacity units (ACUs) for a DB instance in an Aurora Serverless v2 cluster. You can specify ACU values in half-step increments, such as 8, 8.5, 9, and so on. For Aurora versions that support the Aurora Serverless v2 auto-pause feature, the smallest value that you can use is 0. For versions that don't support Aurora Serverless v2 auto-pause, the smallest value that you can use is 0.5.
         public var minCapacity: Swift.Double?
@@ -4912,6 +4912,8 @@ extension RDSClientTypes {
         public var replicationSourceIdentifier: Swift.String?
         /// The scaling configuration for an Aurora DB cluster in serverless DB engine mode. For more information, see [Using Amazon Aurora Serverless v1](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html) in the Amazon Aurora User Guide.
         public var scalingConfigurationInfo: RDSClientTypes.ScalingConfigurationInfo?
+        /// The version of the Aurora Serverless V2 platform used by the DB cluster. For more information, see [Using Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html) in the Amazon Aurora User Guide.
+        public var serverlessV2PlatformVersion: Swift.String?
         /// The scaling configuration for an Aurora Serverless v2 DB cluster. For more information, see [Using Amazon Aurora Serverless v2](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless-v2.html) in the Amazon Aurora User Guide.
         public var serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfigurationInfo?
         /// The current state of this DB cluster.
@@ -5005,6 +5007,7 @@ extension RDSClientTypes {
             readerEndpoint: Swift.String? = nil,
             replicationSourceIdentifier: Swift.String? = nil,
             scalingConfigurationInfo: RDSClientTypes.ScalingConfigurationInfo? = nil,
+            serverlessV2PlatformVersion: Swift.String? = nil,
             serverlessV2ScalingConfiguration: RDSClientTypes.ServerlessV2ScalingConfigurationInfo? = nil,
             status: Swift.String? = nil,
             statusInfos: [RDSClientTypes.DBClusterStatusInfo]? = nil,
@@ -5089,6 +5092,7 @@ extension RDSClientTypes {
             self.readerEndpoint = readerEndpoint
             self.replicationSourceIdentifier = replicationSourceIdentifier
             self.scalingConfigurationInfo = scalingConfigurationInfo
+            self.serverlessV2PlatformVersion = serverlessV2PlatformVersion
             self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
             self.status = status
             self.statusInfos = statusInfos
@@ -5903,7 +5907,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     public var iops: Swift.Int?
     /// The Amazon Web Services KMS key identifier for an encrypted DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. This setting doesn't apply to Amazon Aurora DB instances. The Amazon Web Services KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster. If StorageEncrypted is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS uses your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. For Amazon RDS Custom, a KMS key is required for DB instances. For most RDS engines, if you leave this parameter empty while enabling StorageEncrypted, the engine uses the default KMS key. However, RDS Custom doesn't use the default key when this parameter is empty. You must explicitly specify a key.
     public var kmsKeyId: Swift.String?
-    /// The license model information for this DB instance. License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [Amazon RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. The default for RDS for Db2 is bring-your-own-license. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
+    /// The license model information for this DB instance. License models for RDS for Db2 require additional configuration. The bring your own license (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [Amazon RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. The default for RDS for Db2 is bring-your-own-license. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
     ///
     /// * RDS for Db2 - bring-your-own-license | marketplace-license
     ///
@@ -6765,7 +6769,7 @@ extension RDSClientTypes {
         public var readReplicaSourceDBClusterIdentifier: Swift.String?
         /// The identifier of the source DB instance if this DB instance is a read replica.
         public var readReplicaSourceDBInstanceIdentifier: Swift.String?
-        /// The open mode of a Db2 or an Oracle read replica. The default is open-read-only. For more information, see [Working with read replicas for Amazon RDS for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-replication.html) and [Working with read replicas for Amazon RDS for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. This attribute is only supported in RDS for Db2, RDS for Oracle, and RDS Custom for Oracle.
+        /// The open mode of a Db2 or an Oracle read replica. The default is open-read-only. For more information, see [Working with replicas for Amazon RDS for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-replication.html) and [Working with read replicas for Amazon RDS for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. This attribute is only supported in RDS for Db2, RDS for Oracle, and RDS Custom for Oracle.
         public var replicaMode: RDSClientTypes.ReplicaMode?
         /// The number of minutes to pause the automation. When the time period ends, RDS Custom resumes full automation. The minimum value is 60 (default). The maximum value is 1,440.
         public var resumeFullAutomationModeTime: Foundation.Date?
@@ -7037,7 +7041,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     /// The DB instance identifier of the read replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.
     /// This member is required.
     public var dbInstanceIdentifier: Swift.String?
-    /// The name of the DB parameter group to associate with this read replica DB instance. For the Db2 DB engine, if your source DB instance uses the Bring Your Own License model, then a custom parameter group must be associated with the replica. For a same Amazon Web Services Region replica, if you don't specify a custom parameter group, Amazon RDS associates the custom parameter group associated with the source DB instance. For a cross-Region replica, you must specify a custom parameter group. This custom parameter group must include your IBM Site ID and IBM Customer ID. For more information, see [ IBM IDs for Bring Your Own License for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html#db2-prereqs-ibm-info). For Single-AZ or Multi-AZ DB instance read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the DBParameterGroup of the source DB instance for a same Region read replica, or the default DBParameterGroup for the specified DB engine for a cross-Region read replica. For Multi-AZ DB cluster same Region read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the default DBParameterGroup. Specifying a parameter group for this operation is only supported for MySQL DB instances for cross-Region read replicas, for Multi-AZ DB cluster read replica instances, for Db2 DB instances, and for Oracle DB instances. It isn't supported for MySQL DB instances for same Region read replicas or for RDS Custom. Constraints:
+    /// The name of the DB parameter group to associate with this read replica DB instance. For the Db2 DB engine, if your source DB instance uses the bring your own license (BYOL) model, then a custom parameter group must be associated with the replica. For a same Amazon Web Services Region replica, if you don't specify a custom parameter group, Amazon RDS associates the custom parameter group associated with the source DB instance. For a cross-Region replica, you must specify a custom parameter group. This custom parameter group must include your IBM Site ID and IBM Customer ID. For more information, see [IBM IDs for bring your own license (BYOL) for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html#db2-prereqs-ibm-info). For Single-AZ or Multi-AZ DB instance read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the DBParameterGroup of the source DB instance for a same Region read replica, or the default DBParameterGroup for the specified DB engine for a cross-Region read replica. For Multi-AZ DB cluster same Region read replica instances, if you don't specify a value for DBParameterGroupName, then Amazon RDS uses the default DBParameterGroup. Specifying a parameter group for this operation is only supported for MySQL DB instances for cross-Region read replicas, for Multi-AZ DB cluster read replica instances, for Db2 DB instances, and for Oracle DB instances. It isn't supported for MySQL DB instances for same Region read replicas or for RDS Custom. Constraints:
     ///
     /// * Must be 1 to 255 letters, numbers, or hyphens.
     ///
@@ -7157,7 +7161,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Sendable {
     public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
     /// Specifies whether the DB instance is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see [CreateDBInstance].
     public var publiclyAccessible: Swift.Bool?
-    /// The open mode of the replica database. This parameter is only supported for Db2 DB instances and Oracle DB instances. Db2 Standby DB replicas are included in Db2 Advanced Edition (AE) and Db2 Standard Edition (SE). The main use case for standby replicas is cross-Region disaster recovery. Because it doesn't accept user connections, a standby replica can't serve a read-only workload. You can create a combination of standby and read-only DB replicas for the same primary DB instance. For more information, see [Working with read replicas for Amazon RDS for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-replication.html) in the Amazon RDS User Guide. To create standby DB replicas for RDS for Db2, set this parameter to mounted. Oracle Mounted DB replicas are included in Oracle Database Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. You can create a combination of mounted and read-only DB replicas for the same primary DB instance. For more information, see [Working with read replicas for Amazon RDS for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. For RDS Custom, you must specify this parameter and set it to mounted. The value won't be set by default. After replica creation, you can manage the open mode manually.
+    /// The open mode of the replica database. This parameter is only supported for Db2 DB instances and Oracle DB instances. Db2 Standby DB replicas are included in Db2 Advanced Edition (AE) and Db2 Standard Edition (SE). The main use case for standby replicas is cross-Region disaster recovery. Because it doesn't accept user connections, a standby replica can't serve a read-only workload. You can create a combination of standby and read-only DB replicas for the same primary DB instance. For more information, see [Working with replicas for Amazon RDS for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-replication.html) in the Amazon RDS User Guide. To create standby DB replicas for RDS for Db2, set this parameter to mounted. Oracle Mounted DB replicas are included in Oracle Database Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. You can create a combination of mounted and read-only DB replicas for the same primary DB instance. For more information, see [Working with read replicas for Amazon RDS for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. For RDS Custom, you must specify this parameter and set it to mounted. The value won't be set by default. After replica creation, you can manage the open mode manually.
     public var replicaMode: RDSClientTypes.ReplicaMode?
     /// The identifier of the Multi-AZ DB cluster that will act as the source for the read replica. Each DB cluster can have up to 15 read replicas. Constraints:
     ///
@@ -7614,7 +7618,7 @@ public struct CreateDBProxyInput: Swift.Sendable {
     /// The identifier for the proxy. This name must be unique for all proxies owned by your Amazon Web Services account in the specified Amazon Web Services Region. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
     /// This member is required.
     public var dbProxyName: Swift.String?
-    /// Specifies whether the proxy includes detailed information about SQL statements in its logs. This information helps you to debug issues involving SQL behavior or the performance and scalability of the proxy connections. The debug information includes the text of SQL statements that you submit through the proxy. Thus, only enable this setting when needed for debugging, and only when you have security measures in place to safeguard any sensitive information that appears in the logs.
+    /// Specifies whether the proxy logs detailed connection and query information. When you enable DebugLogging, the proxy captures connection details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
     public var debugLogging: Swift.Bool?
     /// The kinds of databases that the proxy can connect to. This value determines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. For Aurora MySQL, RDS for MariaDB, and RDS for MySQL databases, specify MYSQL. For Aurora PostgreSQL and RDS for PostgreSQL databases, specify POSTGRESQL. For RDS for Microsoft SQL Server, specify SQLSERVER.
     /// This member is required.
@@ -7756,7 +7760,7 @@ extension RDSClientTypes {
         public var dbProxyArn: Swift.String?
         /// The identifier for the proxy. This name must be unique for all proxies owned by your Amazon Web Services account in the specified Amazon Web Services Region.
         public var dbProxyName: Swift.String?
-        /// Indicates whether the proxy includes detailed information about SQL statements in its logs. This information helps you to debug issues involving SQL behavior or the performance and scalability of the proxy connections. The debug information includes the text of SQL statements that you submit through the proxy. Thus, only enable this setting when needed for debugging, and only when you have security measures in place to safeguard any sensitive information that appears in the logs.
+        /// Specifies whether the proxy logs detailed connection and query information. When you enable DebugLogging, the proxy captures connection details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
         public var debugLogging: Swift.Bool?
         /// The endpoint that you can use to connect to the DB proxy. You include the endpoint value in the connection string for a database client application.
         public var endpoint: Swift.String?
@@ -8981,7 +8985,7 @@ extension RDSClientTypes {
         public var globalClusterIdentifier: Swift.String?
         /// The list of primary and secondary clusters within the global database cluster.
         public var globalClusterMembers: [RDSClientTypes.GlobalClusterMember]?
-        /// The Amazon Web Services Region-unique, immutable identifier for the global database cluster. This identifier is found in Amazon Web Services CloudTrail log entries whenever the Amazon Web Services KMS key for the DB cluster is accessed.
+        /// The Amazon Web Services [partition](https://docs.aws.amazon.com/glossary/latest/reference/glos-chap.html?id=docs_gateway#partition)-unique, immutable identifier for the global database cluster. This identifier is found in Amazon Web Services CloudTrail log entries whenever the Amazon Web Services KMS key for the DB cluster is accessed.
         public var globalClusterResourceId: Swift.String?
         /// Specifies the current state of this global database cluster.
         public var status: Swift.String?
@@ -15422,6 +15426,8 @@ extension RDSClientTypes {
         public var supportsEnhancedMonitoring: Swift.Bool?
         /// Indicates whether you can use Aurora global databases with a specific combination of other DB engine attributes.
         public var supportsGlobalDatabases: Swift.Bool?
+        /// Indicates whether a DB instance supports HTTP endpoints.
+        public var supportsHttpEndpoint: Swift.Bool?
         /// Indicates whether a DB instance supports IAM database authentication.
         public var supportsIAMDatabaseAuthentication: Swift.Bool?
         /// Indicates whether a DB instance supports provisioned IOPS.
@@ -15468,6 +15474,7 @@ extension RDSClientTypes {
             supportsDedicatedLogVolume: Swift.Bool? = nil,
             supportsEnhancedMonitoring: Swift.Bool? = nil,
             supportsGlobalDatabases: Swift.Bool? = nil,
+            supportsHttpEndpoint: Swift.Bool? = nil,
             supportsIAMDatabaseAuthentication: Swift.Bool? = nil,
             supportsIops: Swift.Bool? = nil,
             supportsKerberosAuthentication: Swift.Bool? = nil,
@@ -15505,6 +15512,7 @@ extension RDSClientTypes {
             self.supportsDedicatedLogVolume = supportsDedicatedLogVolume
             self.supportsEnhancedMonitoring = supportsEnhancedMonitoring
             self.supportsGlobalDatabases = supportsGlobalDatabases
+            self.supportsHttpEndpoint = supportsHttpEndpoint
             self.supportsIAMDatabaseAuthentication = supportsIAMDatabaseAuthentication
             self.supportsIops = supportsIops
             self.supportsKerberosAuthentication = supportsKerberosAuthentication
@@ -17652,7 +17660,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     public var promotionTier: Swift.Int?
     /// Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. PubliclyAccessible only applies to DB instances in a VPC. The DB instance must be part of a public subnet and PubliclyAccessible must be enabled for it to be publicly accessible. Changes to the PubliclyAccessible parameter are applied immediately regardless of the value of the ApplyImmediately parameter.
     public var publiclyAccessible: Swift.Bool?
-    /// The open mode of a replica database. This parameter is only supported for Db2 DB instances and Oracle DB instances. Db2 Standby DB replicas are included in Db2 Advanced Edition (AE) and Db2 Standard Edition (SE). The main use case for standby replicas is cross-Region disaster recovery. Because it doesn't accept user connections, a standby replica can't serve a read-only workload. You can create a combination of standby and read-only DB replicas for the same primary DB instance. For more information, see [Working with read replicas for Amazon RDS for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-replication.html) in the Amazon RDS User Guide. To create standby DB replicas for RDS for Db2, set this parameter to mounted. Oracle Mounted DB replicas are included in Oracle Database Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. You can create a combination of mounted and read-only DB replicas for the same primary DB instance. For more information, see [Working with read replicas for Amazon RDS for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. For RDS Custom, you must specify this parameter and set it to mounted. The value won't be set by default. After replica creation, you can manage the open mode manually.
+    /// The open mode of a replica database. This parameter is only supported for Db2 DB instances and Oracle DB instances. Db2 Standby DB replicas are included in Db2 Advanced Edition (AE) and Db2 Standard Edition (SE). The main use case for standby replicas is cross-Region disaster recovery. Because it doesn't accept user connections, a standby replica can't serve a read-only workload. You can create a combination of standby and read-only DB replicas for the same primary DB instance. For more information, see [Working with replicas for Amazon RDS for Db2](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-replication.html) in the Amazon RDS User Guide. To create standby DB replicas for RDS for Db2, set this parameter to mounted. Oracle Mounted DB replicas are included in Oracle Database Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. You can create a combination of mounted and read-only DB replicas for the same primary DB instance. For more information, see [Working with read replicas for Amazon RDS for Oracle](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html) in the Amazon RDS User Guide. For RDS Custom, you must specify this parameter and set it to mounted. The value won't be set by default. After replica creation, you can manage the open mode manually.
     public var replicaMode: RDSClientTypes.ReplicaMode?
     /// The number of minutes to pause the automation. When the time period ends, RDS Custom resumes full automation. Default: 60 Constraints:
     ///
@@ -17862,7 +17870,7 @@ public struct ModifyDBProxyInput: Swift.Sendable {
     /// The identifier for the DBProxy to modify.
     /// This member is required.
     public var dbProxyName: Swift.String?
-    /// Whether the proxy includes detailed information about SQL statements in its logs. This information helps you to debug issues involving SQL behavior or the performance and scalability of the proxy connections. The debug information includes the text of SQL statements that you submit through the proxy. Thus, only enable this setting when needed for debugging, and only when you have security measures in place to safeguard any sensitive information that appears in the logs.
+    /// Specifies whether the proxy logs detailed connection and query information. When you enable DebugLogging, the proxy captures connection details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
     public var debugLogging: Swift.Bool?
     /// The number of seconds that a connection to the proxy can be inactive before the proxy disconnects it. You can set this value higher or lower than the connection timeout limit for the associated database.
     public var idleClientTimeout: Swift.Int?
@@ -18167,7 +18175,11 @@ public struct ModifyDBSnapshotInput: Swift.Sendable {
     /// The identifier of the DB snapshot to modify.
     /// This member is required.
     public var dbSnapshotIdentifier: Swift.String?
-    /// The engine version to upgrade the DB snapshot to. The following are the database engines and engine versions that are available when you upgrade a DB snapshot. MySQL For the list of engine versions that are available for upgrading a DB snapshot, see [ Upgrading a MySQL DB snapshot engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/mysql-upgrade-snapshot.html) in the Amazon RDS User Guide. Oracle
+    /// The engine version to upgrade the DB snapshot to. The following are the database engines and engine versions that are available when you upgrade a DB snapshot. MariaDB For the list of engine versions that are available for upgrading a DB snapshot, see [ Upgrading a MariaDB DB snapshot engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/mariadb-upgrade-snapshot.html) in the Amazon RDS User Guide. MySQL For the list of engine versions that are available for upgrading a DB snapshot, see [ Upgrading a MySQL DB snapshot engine version](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/mysql-upgrade-snapshot.html) in the Amazon RDS User Guide. Oracle
+    ///
+    /// * 21.0.0.0.ru-2025-04.rur-2025-04.r1 (supported for 21.0.0.0.ru-2022-01.rur-2022-01.r1, 21.0.0.0.ru-2022-04.rur-2022-04.r1, 21.0.0.0.ru-2022-07.rur-2022-07.r1, 21.0.0.0.ru-2022-10.rur-2022-10.r1, 21.0.0.0.ru-2023-01.rur-2023-01.r1 and 21.0.0.0.ru-2023-01.rur-2023-01.r2 DB snapshots)
+    ///
+    /// * 19.0.0.0.ru-2025-04.rur-2025-04.r1 (supported for 19.0.0.0.ru-2019-07.rur-2019-07.r1, 19.0.0.0.ru-2019-10.rur-2019-10.r1 and 0.0.0.ru-2020-01.rur-2020-01.r1 DB snapshots)
     ///
     /// * 19.0.0.0.ru-2022-01.rur-2022-01.r1 (supported for 12.2.0.1 DB snapshots)
     ///
@@ -20171,7 +20183,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
     public var engineLifecycleSupport: Swift.String?
     /// Specifies the amount of provisioned IOPS for the DB instance, expressed in I/O operations per second. If this parameter isn't specified, the IOPS value is taken from the backup. If this parameter is set to 0, the new instance is converted to a non-PIOPS instance. The conversion takes additional time, though your DB instance is available for connections before the conversion starts. The provisioned IOPS value must follow the requirements for your database engine. For more information, see [Amazon RDS Provisioned IOPS storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS) in the Amazon RDS User Guide. Constraints: Must be an integer greater than 1000.
     public var iops: Swift.Int?
-    /// License model information for the restored DB instance. License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [Amazon RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
+    /// License model information for the restored DB instance. License models for RDS for Db2 require additional configuration. The bring your own license (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [Amazon RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
     ///
     /// * RDS for Db2 - bring-your-own-license | marketplace-license
     ///
@@ -20820,7 +20832,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
     ///
     /// * Must be an integer greater than 1000.
     public var iops: Swift.Int?
-    /// The license model information for the restored DB instance. License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [Amazon RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
+    /// The license model information for the restored DB instance. License models for RDS for Db2 require additional configuration. The bring your own license (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see [Amazon RDS for Db2 licensing options](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-licensing.html) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:
     ///
     /// * RDS for Db2 - bring-your-own-license | marketplace-license
     ///
@@ -32764,6 +32776,7 @@ extension RDSClientTypes.DBCluster {
         value.performanceInsightsKMSKeyId = try reader["PerformanceInsightsKMSKeyId"].readIfPresent()
         value.performanceInsightsRetentionPeriod = try reader["PerformanceInsightsRetentionPeriod"].readIfPresent()
         value.serverlessV2ScalingConfiguration = try reader["ServerlessV2ScalingConfiguration"].readIfPresent(with: RDSClientTypes.ServerlessV2ScalingConfigurationInfo.read(from:))
+        value.serverlessV2PlatformVersion = try reader["ServerlessV2PlatformVersion"].readIfPresent()
         value.networkType = try reader["NetworkType"].readIfPresent()
         value.dbSystemId = try reader["DBSystemId"].readIfPresent()
         value.masterUserSecret = try reader["MasterUserSecret"].readIfPresent(with: RDSClientTypes.MasterUserSecret.read(from:))
@@ -34133,6 +34146,7 @@ extension RDSClientTypes.OrderableDBInstanceOption {
         value.minStorageThroughputPerIops = try reader["MinStorageThroughputPerIops"].readIfPresent()
         value.maxStorageThroughputPerIops = try reader["MaxStorageThroughputPerIops"].readIfPresent()
         value.supportsDedicatedLogVolume = try reader["SupportsDedicatedLogVolume"].readIfPresent()
+        value.supportsHttpEndpoint = try reader["SupportsHttpEndpoint"].readIfPresent()
         return value
     }
 }

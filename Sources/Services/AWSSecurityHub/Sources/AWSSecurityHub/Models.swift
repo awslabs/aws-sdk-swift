@@ -19336,6 +19336,29 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    /// Details about an external code repository with which you can connect your Amazon Web Services resources. The connection is established through Amazon Inspector.
+    public struct CodeRepositoryDetails: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the code security integration associated with the repository.
+        public var codeSecurityIntegrationArn: Swift.String?
+        /// The name of the project in the code repository.
+        public var projectName: Swift.String?
+        /// The type of repository provider.
+        public var providerType: Swift.String?
+
+        public init(
+            codeSecurityIntegrationArn: Swift.String? = nil,
+            projectName: Swift.String? = nil,
+            providerType: Swift.String? = nil
+        ) {
+            self.codeSecurityIntegrationArn = codeSecurityIntegrationArn
+            self.projectName = projectName
+            self.providerType = providerType
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     /// Describes the mounting of a volume in a container.
     public struct VolumeMount: Swift.Sendable {
         /// The path in the container at which the volume should be mounted.
@@ -19590,6 +19613,8 @@ extension SecurityHubClientTypes {
         public var awsWafv2WebAcl: SecurityHubClientTypes.AwsWafv2WebAclDetails?
         /// Information about the encryption configuration for X-Ray.
         public var awsXrayEncryptionConfig: SecurityHubClientTypes.AwsXrayEncryptionConfigDetails?
+        /// Details about an external code repository with which you can connect your Amazon Web Services resources. The connection is established through Amazon Inspector.
+        public var codeRepository: SecurityHubClientTypes.CodeRepositoryDetails?
         /// Details about a container resource related to a finding.
         public var container: SecurityHubClientTypes.ContainerDetails?
         /// Details about a resource that are not available in a type-specific details object. Use the Other object in the following cases.
@@ -19697,6 +19722,7 @@ extension SecurityHubClientTypes {
             awsWafv2RuleGroup: SecurityHubClientTypes.AwsWafv2RuleGroupDetails? = nil,
             awsWafv2WebAcl: SecurityHubClientTypes.AwsWafv2WebAclDetails? = nil,
             awsXrayEncryptionConfig: SecurityHubClientTypes.AwsXrayEncryptionConfigDetails? = nil,
+            codeRepository: SecurityHubClientTypes.CodeRepositoryDetails? = nil,
             container: SecurityHubClientTypes.ContainerDetails? = nil,
             other: [Swift.String: Swift.String]? = nil
         ) {
@@ -19797,6 +19823,7 @@ extension SecurityHubClientTypes {
             self.awsWafv2RuleGroup = awsWafv2RuleGroup
             self.awsWafv2WebAcl = awsWafv2WebAcl
             self.awsXrayEncryptionConfig = awsXrayEncryptionConfig
+            self.codeRepository = codeRepository
             self.container = container
             self.other = other
         }
@@ -25828,7 +25855,7 @@ public struct GetFindingAggregatorOutput: Swift.Sendable {
 }
 
 public struct GetFindingHistoryInput: Swift.Sendable {
-    /// An ISO 8601-formatted timestamp that indicates the end time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub returns finding history from the [CreatedAt](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_AwsSecurityFindingFilters.html#securityhub-Type-AwsSecurityFindingFilters-CreatedAt) timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results, and the maximum time period is limited to 90 days. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+    /// An ISO 8601-formatted timestamp that indicates the end time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub returns finding history from the [CreatedAt](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_AwsSecurityFindingFilters.html#securityhub-Type-AwsSecurityFindingFilters-CreatedAt) timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
     public var endTime: Foundation.Date?
     /// Identifies which finding to get the finding history for.
     /// This member is required.
@@ -25837,7 +25864,7 @@ public struct GetFindingHistoryInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// A token for pagination purposes. Provide NULL as the initial value. In subsequent requests, provide the token included in the response to get up to an additional 100 results of finding history. If you don’t provide NextToken, Security Hub returns up to 100 results of finding history for each request.
     public var nextToken: Swift.String?
-    /// A timestamp that indicates the start time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub returns finding history from the [CreatedAt](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_AwsSecurityFindingFilters.html#securityhub-Type-AwsSecurityFindingFilters-CreatedAt) timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results, and the maximum time period is limited to 90 days. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
+    /// A timestamp that indicates the start time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub returns finding history from the [CreatedAt](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_AwsSecurityFindingFilters.html#securityhub-Type-AwsSecurityFindingFilters-CreatedAt) timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results. For more information about the validation and formatting of timestamp fields in Security Hub, see [Timestamps](https://docs.aws.amazon.com/securityhub/1.0/APIReference/Welcome.html#timestamps).
     public var startTime: Foundation.Date?
 
     public init(
@@ -35672,6 +35699,7 @@ extension SecurityHubClientTypes.ResourceDetails {
         try writer["AwsWafv2RuleGroup"].write(value.awsWafv2RuleGroup, with: SecurityHubClientTypes.AwsWafv2RuleGroupDetails.write(value:to:))
         try writer["AwsWafv2WebAcl"].write(value.awsWafv2WebAcl, with: SecurityHubClientTypes.AwsWafv2WebAclDetails.write(value:to:))
         try writer["AwsXrayEncryptionConfig"].write(value.awsXrayEncryptionConfig, with: SecurityHubClientTypes.AwsXrayEncryptionConfigDetails.write(value:to:))
+        try writer["CodeRepository"].write(value.codeRepository, with: SecurityHubClientTypes.CodeRepositoryDetails.write(value:to:))
         try writer["Container"].write(value.container, with: SecurityHubClientTypes.ContainerDetails.write(value:to:))
         try writer["Other"].writeMap(value.other, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -35778,6 +35806,26 @@ extension SecurityHubClientTypes.ResourceDetails {
         value.awsMskCluster = try reader["AwsMskCluster"].readIfPresent(with: SecurityHubClientTypes.AwsMskClusterDetails.read(from:))
         value.awsS3AccessPoint = try reader["AwsS3AccessPoint"].readIfPresent(with: SecurityHubClientTypes.AwsS3AccessPointDetails.read(from:))
         value.awsEc2ClientVpnEndpoint = try reader["AwsEc2ClientVpnEndpoint"].readIfPresent(with: SecurityHubClientTypes.AwsEc2ClientVpnEndpointDetails.read(from:))
+        value.codeRepository = try reader["CodeRepository"].readIfPresent(with: SecurityHubClientTypes.CodeRepositoryDetails.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.CodeRepositoryDetails {
+
+    static func write(value: SecurityHubClientTypes.CodeRepositoryDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CodeSecurityIntegrationArn"].write(value.codeSecurityIntegrationArn)
+        try writer["ProjectName"].write(value.projectName)
+        try writer["ProviderType"].write(value.providerType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.CodeRepositoryDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.CodeRepositoryDetails()
+        value.providerType = try reader["ProviderType"].readIfPresent()
+        value.projectName = try reader["ProjectName"].readIfPresent()
+        value.codeSecurityIntegrationArn = try reader["CodeSecurityIntegrationArn"].readIfPresent()
         return value
     }
 }

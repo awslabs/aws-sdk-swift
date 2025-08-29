@@ -5,13 +5,6 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-//
-// Copyright Amazon.com Inc. or its affiliates.
-// All Rights Reserved.
-//
-// SPDX-License-Identifier: Apache-2.0
-//
-
 @_spi(FileBasedConfig) import AWSSDKCommon
 import class Foundation.ProcessInfo
 import protocol SmithyIdentity.AWSCredentialIdentityResolver
@@ -74,11 +67,20 @@ public struct SharedConfigStaticAWSCredentialIdentityResolver: AWSCredentialIden
 
         // Take session token if available.
         let sessionToken = profileSection.string(for: "aws_session_token")
+        // Take account ID if available.
+        let accountID = profileSection.string(for: "aws_account_id")
 
+        var properties = Attributes()
+        properties.set(
+            key: AWSIdentityPropertyKeys.credentialFeatureIDs,
+            value: [CredentialFeatureID.CREDENTIALS_PROFILE.rawValue]
+        )
         return AWSCredentialIdentity(
             accessKey: accessKey,
             secret: secretKey,
-            sessionToken: sessionToken
+            accountID: accountID,
+            sessionToken: sessionToken,
+            properties: properties
         )
     }
 }

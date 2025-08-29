@@ -27,7 +27,7 @@ extension MachineLearningClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "COMPLETED") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "COMPLETED") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeBatchPredictionsInput, result: Swift.Result<DescribeBatchPredictionsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Results[].Status"
@@ -73,7 +73,7 @@ extension MachineLearningClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "COMPLETED") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "COMPLETED") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeDataSourcesInput, result: Swift.Result<DescribeDataSourcesOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Results[].Status"
@@ -119,7 +119,7 @@ extension MachineLearningClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "COMPLETED") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "COMPLETED") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeEvaluationsInput, result: Swift.Result<DescribeEvaluationsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Results[].Status"
@@ -165,7 +165,7 @@ extension MachineLearningClient {
                     let status = original.status
                     return status
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "COMPLETED") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "COMPLETED") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeMLModelsInput, result: Swift.Result<DescribeMLModelsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Results[].Status"

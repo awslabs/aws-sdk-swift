@@ -27,7 +27,7 @@ extension AppStreamClient {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "RUNNING") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "RUNNING") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeFleetsInput, result: Swift.Result<DescribeFleetsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Fleets[].State"
@@ -85,7 +85,7 @@ extension AppStreamClient {
                     let state = original.state
                     return state
                 }
-                return (projection?.count ?? 0) > 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "STOPPED") } ?? false)
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "STOPPED") } ?? false)
             }),
             .init(state: .failure, matcher: { (input: DescribeFleetsInput, result: Swift.Result<DescribeFleetsOutput, Swift.Error>) -> Bool in
                 // JMESPath expression: "Fleets[].State"

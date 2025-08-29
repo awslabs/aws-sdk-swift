@@ -11,11 +11,10 @@ import class AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain
 import protocol ClientRuntime.ClientConfiguration
 import protocol ClientRuntime.Plugin
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 import struct AWSSDKHTTPAuth.SigV4AuthScheme
-import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SocialMessagingClientEndpointPlugin: Plugin {
@@ -45,7 +44,7 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
             config.authSchemeResolver = DefaultSocialMessagingAuthSchemeResolver()
             config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
-            config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
+            config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver()
         }
     }
 }

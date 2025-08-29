@@ -6,7 +6,6 @@
 //
 
 import SmithyIdentity
-import SmithyIdentityAPI
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
 
 public protocol AWSDefaultClientConfiguration {

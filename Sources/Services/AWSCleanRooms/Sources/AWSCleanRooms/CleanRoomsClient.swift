@@ -40,7 +40,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -59,14 +59,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CleanRoomsClient: ClientRuntime.Client {
     public static let clientName = "CleanRoomsClient"
-    public static let version = "1.3.50"
+    public static let version = "1.5.31"
     let client: ClientRuntime.SdkHttpClient
     let config: CleanRoomsClient.CleanRoomsClientConfiguration
     let serviceName = "CleanRooms"
@@ -1310,7 +1310,7 @@ extension CleanRoomsClient {
 
     /// Performs the `CreatePrivacyBudgetTemplate` operation on the `CleanRooms` service.
     ///
-    /// Creates a privacy budget template for a specified membership. Each membership can have only one privacy budget template, but it can be deleted and recreated. If you need to change the privacy budget template for a membership, use the [UpdatePrivacyBudgetTemplate] operation.
+    /// Creates a privacy budget template for a specified collaboration. Each collaboration can have only one privacy budget template. If you need to change the privacy budget template, use the [UpdatePrivacyBudgetTemplate] operation.
     ///
     /// - Parameter CreatePrivacyBudgetTemplateInput : [no documentation found]
     ///
@@ -2135,7 +2135,7 @@ extension CleanRoomsClient {
 
     /// Performs the `DeletePrivacyBudgetTemplate` operation on the `CleanRooms` service.
     ///
-    /// Deletes a privacy budget template for a specified membership.
+    /// Deletes a privacy budget template for a specified collaboration.
     ///
     /// - Parameter DeletePrivacyBudgetTemplateInput : [no documentation found]
     ///
@@ -5511,6 +5511,7 @@ extension CleanRoomsClient {
     /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalServerException` : Unexpected error during processing of request.
     /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request denied because service quota has been exceeded.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the specified constraints.
     public func updateConfiguredTable(input: UpdateConfiguredTableInput) async throws -> UpdateConfiguredTableOutput {
@@ -6000,7 +6001,7 @@ extension CleanRoomsClient {
 
     /// Performs the `UpdatePrivacyBudgetTemplate` operation on the `CleanRooms` service.
     ///
-    /// Updates the privacy budget template for the specified membership.
+    /// Updates the privacy budget template for the specified collaboration.
     ///
     /// - Parameter UpdatePrivacyBudgetTemplateInput : [no documentation found]
     ///

@@ -40,7 +40,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -59,14 +59,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BudgetsClient: ClientRuntime.Client {
     public static let clientName = "BudgetsClient"
-    public static let version = "1.3.50"
+    public static let version = "1.5.31"
     let client: ClientRuntime.SdkHttpClient
     let config: BudgetsClient.BudgetsClientConfiguration
     let serviceName = "Budgets"
@@ -384,6 +384,7 @@ extension BudgetsClient {
     /// - `DuplicateRecordException` : The budget name already exists. Budget names must be unique within an account.
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `InvalidParameterException` : An error on the client occurred. Typically, the cause is an invalid input value.
+    /// - `NotFoundException` : We can’t locate the resource that you specified.
     /// - `ServiceQuotaExceededException` : You've reached the limit on the number of tags you can associate with a resource.
     /// - `ThrottlingException` : The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public func createBudget(input: CreateBudgetInput) async throws -> CreateBudgetOutput {

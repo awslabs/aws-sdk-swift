@@ -40,7 +40,7 @@ import protocol ClientRuntime.TelemetryProvider
 import protocol Smithy.LogAgent
 import protocol SmithyHTTPAPI.HTTPClient
 import protocol SmithyHTTPAuthAPI.AuthSchemeResolver
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(AWSCredentialIdentityResolver) import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import protocol SmithyIdentity.BearerTokenIdentityResolver
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(AWSEndpointResolverMiddleware) import struct AWSClientRuntime.AWSEndpointResolverMiddleware
@@ -58,14 +58,14 @@ import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
 import struct Smithy.Attributes
 import struct SmithyIdentity.BearerTokenIdentity
-import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(StaticBearerTokenIdentityResolver) import struct SmithyIdentity.StaticBearerTokenIdentityResolver
 import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SNSClient: ClientRuntime.Client {
     public static let clientName = "SNSClient"
-    public static let version = "1.3.50"
+    public static let version = "1.5.31"
     let client: ClientRuntime.SdkHttpClient
     let config: SNSClient.SNSClientConfiguration
     let serviceName = "SNS"
@@ -519,7 +519,7 @@ extension SNSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
-    /// - `FilterPolicyLimitExceededException` : Indicates that the number of filter polices in your Amazon Web Services account exceeds the limit. To add more filter polices, submit an Amazon SNS Limit Increase case in the Amazon Web Services Support Center.
+    /// - `FilterPolicyLimitExceededException` : Indicates that the number of filter polices in your Amazon Web Services account exceeds the limit. To add more filter polices, submit an Amazon SNS Limit Increase case in the Amazon Web ServicesSupport Center.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
@@ -594,7 +594,7 @@ extension SNSClient {
     ///
     /// * For GCM (Firebase Cloud Messaging) using key credentials, there is no PlatformPrincipal. The PlatformCredential is API key.
     ///
-    /// * For GCM (Firebase Cloud Messaging) using token credentials, there is no PlatformPrincipal. The PlatformCredential is a JSON formatted private key file. When using the Amazon Web Services CLI, the file must be in string format and special characters must be ignored. To format the file correctly, Amazon SNS recommends using the following command: SERVICE_JSON=`jq @json <<< cat service.json`.
+    /// * For GCM (Firebase Cloud Messaging) using token credentials, there is no PlatformPrincipal. The PlatformCredential is a JSON formatted private key file. When using the Amazon Web Services CLI or Amazon Web Services SDKs, the file must be in string format and special characters must be ignored. To format the file correctly, Amazon SNS recommends using the following command: SERVICE_JSON=$(jq @json < service.json).
     ///
     /// * For MPNS, PlatformPrincipal is TLS certificate and PlatformCredential is private key.
     ///
@@ -2443,7 +2443,7 @@ extension SNSClient {
 
     /// Performs the `PublishBatch` operation on the `SNS` service.
     ///
-    /// Publishes up to ten messages to the specified topic. This is a batch version of Publish. For FIFO topics, multiple messages within a single batch are published in the order they are sent, and messages are deduplicated within the batch and across batches for 5 minutes. The result of publishing each message is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200. The maximum allowed individual message size and the maximum total payload size (the sum of the individual lengths of all of the batched messages) are both 256 KB (262,144 bytes). Some actions take lists of parameters. These lists are specified using the param.n notation. Values of n are integers starting from 1. For example, a parameter list with two elements looks like this: &AttributeName.1=first &AttributeName.2=second If you send a batch message to a topic, Amazon SNS publishes the batch message to each endpoint that is subscribed to the topic. The format of the batch message depends on the notification protocol for each subscribed endpoint. When a messageId is returned, the batch message is saved and Amazon SNS immediately delivers the message to subscribers.
+    /// Publishes up to 10 messages to the specified topic in a single batch. This is a batch version of the Publish API. If you try to send more than 10 messages in a single batch request, you will receive a TooManyEntriesInBatchRequest exception. For FIFO topics, multiple messages within a single batch are published in the order they are sent, and messages are deduplicated within the batch and across batches for five minutes. The result of publishing each message is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200. The maximum allowed individual message size and the maximum total payload size (the sum of the individual lengths of all of the batched messages) are both 256 KB (262,144 bytes). The PublishBatch API can send up to 10 messages at a time. If you attempt to send more than 10 messages in one request, you will encounter a TooManyEntriesInBatchRequest exception. In such cases, split your messages into multiple requests, each containing no more than 10 messages. Some actions take lists of parameters. These lists are specified using the param.n notation. Values of n are integers starting from 1. For example, a parameter list with two elements looks like this: &AttributeName.1=first&AttributeName.2=second If you send a batch message to a topic, Amazon SNS publishes the batch message to each endpoint that is subscribed to the topic. The format of the batch message depends on the notification protocol for each subscribed endpoint. When a messageId is returned, the batch message is saved, and Amazon SNS immediately delivers the message to subscribers.
     ///
     /// - Parameter PublishBatchInput : [no documentation found]
     ///
@@ -2470,7 +2470,7 @@ extension SNSClient {
     /// - `KMSThrottlingException` : The request was denied due to request throttling. For more information about throttling, see [Limits](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html#requests-per-second) in the Key Management Service Developer Guide.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
     /// - `PlatformApplicationDisabledException` : Exception error indicating platform application disabled.
-    /// - `TooManyEntriesInBatchRequestException` : The batch request contains more entries than permissible.
+    /// - `TooManyEntriesInBatchRequestException` : The batch request contains more entries than permissible (more than 10).
     /// - `ValidationException` : Indicates that a parameter in the request is invalid.
     public func publishBatch(input: PublishBatchInput) async throws -> PublishBatchOutput {
         let context = Smithy.ContextBuilder()
@@ -2890,7 +2890,7 @@ extension SNSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
-    /// - `FilterPolicyLimitExceededException` : Indicates that the number of filter polices in your Amazon Web Services account exceeds the limit. To add more filter polices, submit an Amazon SNS Limit Increase case in the Amazon Web Services Support Center.
+    /// - `FilterPolicyLimitExceededException` : Indicates that the number of filter polices in your Amazon Web Services account exceeds the limit. To add more filter polices, submit an Amazon SNS Limit Increase case in the Amazon Web ServicesSupport Center.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `NotFoundException` : Indicates that the requested resource does not exist.
@@ -3033,7 +3033,7 @@ extension SNSClient {
     ///
     /// __Possible Exceptions:__
     /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
-    /// - `FilterPolicyLimitExceededException` : Indicates that the number of filter polices in your Amazon Web Services account exceeds the limit. To add more filter polices, submit an Amazon SNS Limit Increase case in the Amazon Web Services Support Center.
+    /// - `FilterPolicyLimitExceededException` : Indicates that the number of filter polices in your Amazon Web Services account exceeds the limit. To add more filter polices, submit an Amazon SNS Limit Increase case in the Amazon Web ServicesSupport Center.
     /// - `InternalErrorException` : Indicates an internal service error.
     /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
@@ -3180,7 +3180,7 @@ extension SNSClient {
 
     /// Performs the `Unsubscribe` operation on the `SNS` service.
     ///
-    /// Deletes a subscription. If the subscription requires authentication for deletion, only the owner of the subscription or the topic's owner can unsubscribe, and an Amazon Web Services signature is required. If the Unsubscribe call does not require authentication and the requester is not the subscription owner, a final cancellation message is delivered to the endpoint, so that the endpoint owner can easily resubscribe to the topic if the Unsubscribe request was unintended. Amazon SQS queue subscriptions require authentication for deletion. Only the owner of the subscription, or the owner of the topic can unsubscribe using the required Amazon Web Services signature. This action is throttled at 100 transactions per second (TPS).
+    /// Deletes a subscription. If the subscription requires authentication for deletion, only the owner of the subscription or the topic's owner can unsubscribe, and an Amazon Web Services signature is required. If the Unsubscribe call does not require authentication and the requester is not the subscription owner, a final cancellation message is delivered to the endpoint, so that the endpoint owner can easily resubscribe to the topic if the Unsubscribe request was unintended. This action is throttled at 100 transactions per second (TPS).
     ///
     /// - Parameter UnsubscribeInput : Input for Unsubscribe action.
     ///

@@ -229,7 +229,9 @@ extension DescribeCapacityBlockOfferingsInput: ClientRuntime.PaginateToken {
             instanceType: self.instanceType,
             maxResults: self.maxResults,
             nextToken: token,
-            startDateRange: self.startDateRange
+            startDateRange: self.startDateRange,
+            ultraserverCount: self.ultraserverCount,
+            ultraserverType: self.ultraserverType
         )}
 }
 
@@ -239,6 +241,72 @@ extension PaginatorSequence where OperationStackInput == DescribeCapacityBlockOf
     /// - Returns: `[EC2ClientTypes.CapacityBlockOffering]`
     public func capacityBlockOfferings() async throws -> [EC2ClientTypes.CapacityBlockOffering] {
         return try await self.asyncCompactMap { item in item.capacityBlockOfferings }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[DescribeCapacityBlocksOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeCapacityBlocksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCapacityBlocksOutput`
+    public func describeCapacityBlocksPaginated(input: DescribeCapacityBlocksInput) -> ClientRuntime.PaginatorSequence<DescribeCapacityBlocksInput, DescribeCapacityBlocksOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeCapacityBlocksInput, DescribeCapacityBlocksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeCapacityBlocks(input:))
+    }
+}
+
+extension DescribeCapacityBlocksInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeCapacityBlocksInput {
+        return DescribeCapacityBlocksInput(
+            capacityBlockIds: self.capacityBlockIds,
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeCapacityBlocksInput, OperationStackOutput == DescribeCapacityBlocksOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeCapacityBlocksPaginated`
+    /// to access the nested member `[EC2ClientTypes.CapacityBlock]`
+    /// - Returns: `[EC2ClientTypes.CapacityBlock]`
+    public func capacityBlocks() async throws -> [EC2ClientTypes.CapacityBlock] {
+        return try await self.asyncCompactMap { item in item.capacityBlocks }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[DescribeCapacityBlockStatusOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeCapacityBlockStatusInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCapacityBlockStatusOutput`
+    public func describeCapacityBlockStatusPaginated(input: DescribeCapacityBlockStatusInput) -> ClientRuntime.PaginatorSequence<DescribeCapacityBlockStatusInput, DescribeCapacityBlockStatusOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeCapacityBlockStatusInput, DescribeCapacityBlockStatusOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeCapacityBlockStatus(input:))
+    }
+}
+
+extension DescribeCapacityBlockStatusInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeCapacityBlockStatusInput {
+        return DescribeCapacityBlockStatusInput(
+            capacityBlockIds: self.capacityBlockIds,
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeCapacityBlockStatusInput, OperationStackOutput == DescribeCapacityBlockStatusOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeCapacityBlockStatusPaginated`
+    /// to access the nested member `[EC2ClientTypes.CapacityBlockStatus]`
+    /// - Returns: `[EC2ClientTypes.CapacityBlockStatus]`
+    public func capacityBlockStatuses() async throws -> [EC2ClientTypes.CapacityBlockStatus] {
+        return try await self.asyncCompactMap { item in item.capacityBlockStatuses }
     }
 }
 extension EC2Client {
@@ -1001,6 +1069,40 @@ extension PaginatorSequence where OperationStackInput == DescribeIamInstanceProf
     }
 }
 extension EC2Client {
+    /// Paginate over `[DescribeImageReferencesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeImageReferencesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeImageReferencesOutput`
+    public func describeImageReferencesPaginated(input: DescribeImageReferencesInput) -> ClientRuntime.PaginatorSequence<DescribeImageReferencesInput, DescribeImageReferencesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeImageReferencesInput, DescribeImageReferencesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeImageReferences(input:))
+    }
+}
+
+extension DescribeImageReferencesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeImageReferencesInput {
+        return DescribeImageReferencesInput(
+            dryRun: self.dryRun,
+            imageIds: self.imageIds,
+            includeAllResourceTypes: self.includeAllResourceTypes,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceTypes: self.resourceTypes
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeImageReferencesInput, OperationStackOutput == DescribeImageReferencesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeImageReferencesPaginated`
+    /// to access the nested member `[EC2ClientTypes.ImageReference]`
+    /// - Returns: `[EC2ClientTypes.ImageReference]`
+    public func imageReferences() async throws -> [EC2ClientTypes.ImageReference] {
+        return try await self.asyncCompactMap { item in item.imageReferences }
+    }
+}
+extension EC2Client {
     /// Paginate over `[DescribeImagesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -1035,6 +1137,74 @@ extension PaginatorSequence where OperationStackInput == DescribeImagesInput, Op
     /// - Returns: `[EC2ClientTypes.Image]`
     public func images() async throws -> [EC2ClientTypes.Image] {
         return try await self.asyncCompactMap { item in item.images }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[DescribeImageUsageReportEntriesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeImageUsageReportEntriesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeImageUsageReportEntriesOutput`
+    public func describeImageUsageReportEntriesPaginated(input: DescribeImageUsageReportEntriesInput) -> ClientRuntime.PaginatorSequence<DescribeImageUsageReportEntriesInput, DescribeImageUsageReportEntriesOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeImageUsageReportEntriesInput, DescribeImageUsageReportEntriesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeImageUsageReportEntries(input:))
+    }
+}
+
+extension DescribeImageUsageReportEntriesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeImageUsageReportEntriesInput {
+        return DescribeImageUsageReportEntriesInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            imageIds: self.imageIds,
+            maxResults: self.maxResults,
+            nextToken: token,
+            reportIds: self.reportIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeImageUsageReportEntriesInput, OperationStackOutput == DescribeImageUsageReportEntriesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeImageUsageReportEntriesPaginated`
+    /// to access the nested member `[EC2ClientTypes.ImageUsageReportEntry]`
+    /// - Returns: `[EC2ClientTypes.ImageUsageReportEntry]`
+    public func imageUsageReportEntries() async throws -> [EC2ClientTypes.ImageUsageReportEntry] {
+        return try await self.asyncCompactMap { item in item.imageUsageReportEntries }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[DescribeImageUsageReportsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeImageUsageReportsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeImageUsageReportsOutput`
+    public func describeImageUsageReportsPaginated(input: DescribeImageUsageReportsInput) -> ClientRuntime.PaginatorSequence<DescribeImageUsageReportsInput, DescribeImageUsageReportsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeImageUsageReportsInput, DescribeImageUsageReportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeImageUsageReports(input:))
+    }
+}
+
+extension DescribeImageUsageReportsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeImageUsageReportsInput {
+        return DescribeImageUsageReportsInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            imageIds: self.imageIds,
+            maxResults: self.maxResults,
+            nextToken: token,
+            reportIds: self.reportIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeImageUsageReportsInput, OperationStackOutput == DescribeImageUsageReportsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeImageUsageReportsPaginated`
+    /// to access the nested member `[EC2ClientTypes.ImageUsageReport]`
+    /// - Returns: `[EC2ClientTypes.ImageUsageReport]`
+    public func imageUsageReports() async throws -> [EC2ClientTypes.ImageUsageReport] {
+        return try await self.asyncCompactMap { item in item.imageUsageReports }
     }
 }
 extension EC2Client {
@@ -2959,6 +3129,7 @@ extension DescribeSpotPriceHistoryInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> DescribeSpotPriceHistoryInput {
         return DescribeSpotPriceHistoryInput(
             availabilityZone: self.availabilityZone,
+            availabilityZoneId: self.availabilityZoneId,
             dryRun: self.dryRun,
             endTime: self.endTime,
             filters: self.filters,
