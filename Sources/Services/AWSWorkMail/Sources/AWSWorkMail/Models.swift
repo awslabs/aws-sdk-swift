@@ -4778,8 +4778,7 @@ public struct PutEmailMonitoringConfigurationInput: Swift.Sendable {
     /// The ID of the organization for which the email monitoring configuration is set.
     /// This member is required.
     public var organizationId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the IAM Role associated with the email monitoring configuration.
-    /// This member is required.
+    /// The Amazon Resource Name (ARN) of the IAM Role associated with the email monitoring configuration. If absent, the IAM Role Arn of AWSServiceRoleForAmazonWorkMailEvents will be used.
     public var roleArn: Swift.String?
 
     public init(
@@ -9604,6 +9603,7 @@ enum RegisterToWorkMailOutputError {
             case "MailDomainStateException": return try MailDomainStateException.makeError(baseError: baseError)
             case "OrganizationNotFoundException": return try OrganizationNotFoundException.makeError(baseError: baseError)
             case "OrganizationStateException": return try OrganizationStateException.makeError(baseError: baseError)
+            case "UnsupportedOperationException": return try UnsupportedOperationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }

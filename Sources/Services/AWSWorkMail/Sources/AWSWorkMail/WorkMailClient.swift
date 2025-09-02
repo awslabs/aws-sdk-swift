@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WorkMailClient: ClientRuntime.Client {
     public static let clientName = "WorkMailClient"
-    public static let version = "1.5.32"
+    public static let version = "1.5.33"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkMailClient.WorkMailClientConfiguration
     let serviceName = "WorkMail"
@@ -5893,6 +5893,7 @@ extension WorkMailClient {
     /// - `MailDomainStateException` : After a domain has been added to the organization, it must be verified. The domain is not yet verified.
     /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     public func registerToWorkMail(input: RegisterToWorkMailInput) async throws -> RegisterToWorkMailOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)

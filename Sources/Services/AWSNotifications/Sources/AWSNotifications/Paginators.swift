@@ -41,3 +41,37 @@ extension PaginatorSequence where OperationStackInput == ListManagedNotification
         return try await self.asyncCompactMap { item in item.channelAssociations }
     }
 }
+extension NotificationsClient {
+    /// Paginate over `[ListMemberAccountsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMemberAccountsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMemberAccountsOutput`
+    public func listMemberAccountsPaginated(input: ListMemberAccountsInput) -> ClientRuntime.PaginatorSequence<ListMemberAccountsInput, ListMemberAccountsOutput> {
+        return ClientRuntime.PaginatorSequence<ListMemberAccountsInput, ListMemberAccountsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMemberAccounts(input:))
+    }
+}
+
+extension ListMemberAccountsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListMemberAccountsInput {
+        return ListMemberAccountsInput(
+            maxResults: self.maxResults,
+            memberAccount: self.memberAccount,
+            nextToken: token,
+            notificationConfigurationArn: self.notificationConfigurationArn,
+            organizationalUnitId: self.organizationalUnitId,
+            status: self.status
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListMemberAccountsInput, OperationStackOutput == ListMemberAccountsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listMemberAccountsPaginated`
+    /// to access the nested member `[NotificationsClientTypes.MemberAccount]`
+    /// - Returns: `[NotificationsClientTypes.MemberAccount]`
+    public func memberAccounts() async throws -> [NotificationsClientTypes.MemberAccount] {
+        return try await self.asyncCompactMap { item in item.memberAccounts }
+    }
+}
