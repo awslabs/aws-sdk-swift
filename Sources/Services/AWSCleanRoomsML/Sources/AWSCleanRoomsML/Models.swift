@@ -2156,6 +2156,103 @@ extension CleanRoomsMLClientTypes {
 
 extension CleanRoomsMLClientTypes {
 
+    /// The configuration for defining custom patterns to be redacted from logs and error messages. This is for the CUSTOM config under entitiesToRedact. Both CustomEntityConfig and entitiesToRedact need to be present or not present.
+    public struct CustomEntityConfig: Swift.Sendable {
+        /// Defines data identifiers for the custom entity configuration. Provide this only if CUSTOM redaction is configured.
+        /// This member is required.
+        public var customDataIdentifiers: [Swift.String]?
+
+        public init(
+            customDataIdentifiers: [Swift.String]? = nil
+        ) {
+            self.customDataIdentifiers = customDataIdentifiers
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    public enum EntityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allPersonallyIdentifiableInformation
+        case custom
+        case numbers
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EntityType] {
+            return [
+                .allPersonallyIdentifiableInformation,
+                .custom,
+                .numbers
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .allPersonallyIdentifiableInformation: return "ALL_PERSONALLY_IDENTIFIABLE_INFORMATION"
+            case .custom: return "CUSTOM"
+            case .numbers: return "NUMBERS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    /// The configuration for log redaction.
+    public struct LogRedactionConfiguration: Swift.Sendable {
+        /// Specifies the configuration for custom entities in the context of log redaction.
+        public var customEntityConfig: CleanRoomsMLClientTypes.CustomEntityConfig?
+        /// Specifies the entities to be redacted from logs. Entities to redact are "ALL_PERSONALLY_IDENTIFIABLE_INFORMATION", "NUMBERS","CUSTOM". If CUSTOM is supplied or configured, custom patterns (customDataIdentifiers) should be provided, and the patterns will be redacted in logs or error messages.
+        /// This member is required.
+        public var entitiesToRedact: [CleanRoomsMLClientTypes.EntityType]?
+
+        public init(
+            customEntityConfig: CleanRoomsMLClientTypes.CustomEntityConfig? = nil,
+            entitiesToRedact: [CleanRoomsMLClientTypes.EntityType]? = nil
+        ) {
+            self.customEntityConfig = customEntityConfig
+            self.entitiesToRedact = entitiesToRedact
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
+    public enum LogType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case errorSummary
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LogType] {
+            return [
+                .all,
+                .errorSummary
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .errorSummary: return "ERROR_SUMMARY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsMLClientTypes {
+
     /// Provides the information necessary for a user to access the logs.
     public struct LogsConfigurationPolicy: Swift.Sendable {
         /// A list of account IDs that are allowed to access the logs.
@@ -2163,13 +2260,21 @@ extension CleanRoomsMLClientTypes {
         public var allowedAccountIds: [Swift.String]?
         /// A regular expression pattern that is used to parse the logs and return information that matches the pattern.
         public var filterPattern: Swift.String?
+        /// Specifies the log redaction configuration for this policy.
+        public var logRedactionConfiguration: CleanRoomsMLClientTypes.LogRedactionConfiguration?
+        /// Specifies the type of log this policy applies to. The currently supported policies are ALL or ERROR_SUMMARY.
+        public var logType: CleanRoomsMLClientTypes.LogType?
 
         public init(
             allowedAccountIds: [Swift.String]? = nil,
-            filterPattern: Swift.String? = nil
+            filterPattern: Swift.String? = nil,
+            logRedactionConfiguration: CleanRoomsMLClientTypes.LogRedactionConfiguration? = nil,
+            logType: CleanRoomsMLClientTypes.LogType? = .all
         ) {
             self.allowedAccountIds = allowedAccountIds
             self.filterPattern = filterPattern
+            self.logRedactionConfiguration = logRedactionConfiguration
+            self.logType = logType
         }
     }
 }
@@ -4388,6 +4493,15 @@ extension CleanRoomsMLClientTypes {
         case mlC6i4xlarge
         case mlC6i8xlarge
         case mlC6iXlarge
+        case mlC7i12xlarge
+        case mlC7i16xlarge
+        case mlC7i24xlarge
+        case mlC7i2xlarge
+        case mlC7i48xlarge
+        case mlC7i4xlarge
+        case mlC7i8xlarge
+        case mlC7iLarge
+        case mlC7iXlarge
         case mlG4dn12xlarge
         case mlG4dn16xlarge
         case mlG4dn2xlarge
@@ -4402,6 +4516,22 @@ extension CleanRoomsMLClientTypes {
         case mlG54xlarge
         case mlG58xlarge
         case mlG5Xlarge
+        case mlG6e12xlarge
+        case mlG6e16xlarge
+        case mlG6e24xlarge
+        case mlG6e2xlarge
+        case mlG6e48xlarge
+        case mlG6e4xlarge
+        case mlG6e8xlarge
+        case mlG6eXlarge
+        case mlG612xlarge
+        case mlG616xlarge
+        case mlG624xlarge
+        case mlG62xlarge
+        case mlG648xlarge
+        case mlG64xlarge
+        case mlG68xlarge
+        case mlG6Xlarge
         case mlM410xlarge
         case mlM416xlarge
         case mlM42xlarge
@@ -4422,6 +4552,15 @@ extension CleanRoomsMLClientTypes {
         case mlM6i8xlarge
         case mlM6iLarge
         case mlM6iXlarge
+        case mlM7i12xlarge
+        case mlM7i16xlarge
+        case mlM7i24xlarge
+        case mlM7i2xlarge
+        case mlM7i48xlarge
+        case mlM7i4xlarge
+        case mlM7i8xlarge
+        case mlM7iLarge
+        case mlM7iXlarge
         case mlP216xlarge
         case mlP28xlarge
         case mlP2Xlarge
@@ -4431,6 +4570,7 @@ extension CleanRoomsMLClientTypes {
         case mlP38xlarge
         case mlP4de24xlarge
         case mlP4d24xlarge
+        case mlP5en48xlarge
         case mlP548xlarge
         case mlR5d12xlarge
         case mlR5d16xlarge
@@ -4448,6 +4588,15 @@ extension CleanRoomsMLClientTypes {
         case mlR58xlarge
         case mlR5Large
         case mlR5Xlarge
+        case mlR7i12xlarge
+        case mlR7i16xlarge
+        case mlR7i24xlarge
+        case mlR7i2xlarge
+        case mlR7i48xlarge
+        case mlR7i4xlarge
+        case mlR7i8xlarge
+        case mlR7iLarge
+        case mlR7iXlarge
         case mlT32xlarge
         case mlT3Large
         case mlT3Medium
@@ -4481,6 +4630,15 @@ extension CleanRoomsMLClientTypes {
                 .mlC6i4xlarge,
                 .mlC6i8xlarge,
                 .mlC6iXlarge,
+                .mlC7i12xlarge,
+                .mlC7i16xlarge,
+                .mlC7i24xlarge,
+                .mlC7i2xlarge,
+                .mlC7i48xlarge,
+                .mlC7i4xlarge,
+                .mlC7i8xlarge,
+                .mlC7iLarge,
+                .mlC7iXlarge,
                 .mlG4dn12xlarge,
                 .mlG4dn16xlarge,
                 .mlG4dn2xlarge,
@@ -4495,6 +4653,22 @@ extension CleanRoomsMLClientTypes {
                 .mlG54xlarge,
                 .mlG58xlarge,
                 .mlG5Xlarge,
+                .mlG6e12xlarge,
+                .mlG6e16xlarge,
+                .mlG6e24xlarge,
+                .mlG6e2xlarge,
+                .mlG6e48xlarge,
+                .mlG6e4xlarge,
+                .mlG6e8xlarge,
+                .mlG6eXlarge,
+                .mlG612xlarge,
+                .mlG616xlarge,
+                .mlG624xlarge,
+                .mlG62xlarge,
+                .mlG648xlarge,
+                .mlG64xlarge,
+                .mlG68xlarge,
+                .mlG6Xlarge,
                 .mlM410xlarge,
                 .mlM416xlarge,
                 .mlM42xlarge,
@@ -4515,6 +4689,15 @@ extension CleanRoomsMLClientTypes {
                 .mlM6i8xlarge,
                 .mlM6iLarge,
                 .mlM6iXlarge,
+                .mlM7i12xlarge,
+                .mlM7i16xlarge,
+                .mlM7i24xlarge,
+                .mlM7i2xlarge,
+                .mlM7i48xlarge,
+                .mlM7i4xlarge,
+                .mlM7i8xlarge,
+                .mlM7iLarge,
+                .mlM7iXlarge,
                 .mlP216xlarge,
                 .mlP28xlarge,
                 .mlP2Xlarge,
@@ -4524,6 +4707,7 @@ extension CleanRoomsMLClientTypes {
                 .mlP38xlarge,
                 .mlP4de24xlarge,
                 .mlP4d24xlarge,
+                .mlP5en48xlarge,
                 .mlP548xlarge,
                 .mlR5d12xlarge,
                 .mlR5d16xlarge,
@@ -4541,6 +4725,15 @@ extension CleanRoomsMLClientTypes {
                 .mlR58xlarge,
                 .mlR5Large,
                 .mlR5Xlarge,
+                .mlR7i12xlarge,
+                .mlR7i16xlarge,
+                .mlR7i24xlarge,
+                .mlR7i2xlarge,
+                .mlR7i48xlarge,
+                .mlR7i4xlarge,
+                .mlR7i8xlarge,
+                .mlR7iLarge,
+                .mlR7iXlarge,
                 .mlT32xlarge,
                 .mlT3Large,
                 .mlT3Medium,
@@ -4580,6 +4773,15 @@ extension CleanRoomsMLClientTypes {
             case .mlC6i4xlarge: return "ml.c6i.4xlarge"
             case .mlC6i8xlarge: return "ml.c6i.8xlarge"
             case .mlC6iXlarge: return "ml.c6i.xlarge"
+            case .mlC7i12xlarge: return "ml.c7i.12xlarge"
+            case .mlC7i16xlarge: return "ml.c7i.16xlarge"
+            case .mlC7i24xlarge: return "ml.c7i.24xlarge"
+            case .mlC7i2xlarge: return "ml.c7i.2xlarge"
+            case .mlC7i48xlarge: return "ml.c7i.48xlarge"
+            case .mlC7i4xlarge: return "ml.c7i.4xlarge"
+            case .mlC7i8xlarge: return "ml.c7i.8xlarge"
+            case .mlC7iLarge: return "ml.c7i.large"
+            case .mlC7iXlarge: return "ml.c7i.xlarge"
             case .mlG4dn12xlarge: return "ml.g4dn.12xlarge"
             case .mlG4dn16xlarge: return "ml.g4dn.16xlarge"
             case .mlG4dn2xlarge: return "ml.g4dn.2xlarge"
@@ -4594,6 +4796,22 @@ extension CleanRoomsMLClientTypes {
             case .mlG54xlarge: return "ml.g5.4xlarge"
             case .mlG58xlarge: return "ml.g5.8xlarge"
             case .mlG5Xlarge: return "ml.g5.xlarge"
+            case .mlG6e12xlarge: return "ml.g6e.12xlarge"
+            case .mlG6e16xlarge: return "ml.g6e.16xlarge"
+            case .mlG6e24xlarge: return "ml.g6e.24xlarge"
+            case .mlG6e2xlarge: return "ml.g6e.2xlarge"
+            case .mlG6e48xlarge: return "ml.g6e.48xlarge"
+            case .mlG6e4xlarge: return "ml.g6e.4xlarge"
+            case .mlG6e8xlarge: return "ml.g6e.8xlarge"
+            case .mlG6eXlarge: return "ml.g6e.xlarge"
+            case .mlG612xlarge: return "ml.g6.12xlarge"
+            case .mlG616xlarge: return "ml.g6.16xlarge"
+            case .mlG624xlarge: return "ml.g6.24xlarge"
+            case .mlG62xlarge: return "ml.g6.2xlarge"
+            case .mlG648xlarge: return "ml.g6.48xlarge"
+            case .mlG64xlarge: return "ml.g6.4xlarge"
+            case .mlG68xlarge: return "ml.g6.8xlarge"
+            case .mlG6Xlarge: return "ml.g6.xlarge"
             case .mlM410xlarge: return "ml.m4.10xlarge"
             case .mlM416xlarge: return "ml.m4.16xlarge"
             case .mlM42xlarge: return "ml.m4.2xlarge"
@@ -4614,6 +4832,15 @@ extension CleanRoomsMLClientTypes {
             case .mlM6i8xlarge: return "ml.m6i.8xlarge"
             case .mlM6iLarge: return "ml.m6i.large"
             case .mlM6iXlarge: return "ml.m6i.xlarge"
+            case .mlM7i12xlarge: return "ml.m7i.12xlarge"
+            case .mlM7i16xlarge: return "ml.m7i.16xlarge"
+            case .mlM7i24xlarge: return "ml.m7i.24xlarge"
+            case .mlM7i2xlarge: return "ml.m7i.2xlarge"
+            case .mlM7i48xlarge: return "ml.m7i.48xlarge"
+            case .mlM7i4xlarge: return "ml.m7i.4xlarge"
+            case .mlM7i8xlarge: return "ml.m7i.8xlarge"
+            case .mlM7iLarge: return "ml.m7i.large"
+            case .mlM7iXlarge: return "ml.m7i.xlarge"
             case .mlP216xlarge: return "ml.p2.16xlarge"
             case .mlP28xlarge: return "ml.p2.8xlarge"
             case .mlP2Xlarge: return "ml.p2.xlarge"
@@ -4623,6 +4850,7 @@ extension CleanRoomsMLClientTypes {
             case .mlP38xlarge: return "ml.p3.8xlarge"
             case .mlP4de24xlarge: return "ml.p4de.24xlarge"
             case .mlP4d24xlarge: return "ml.p4d.24xlarge"
+            case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
             case .mlR5d16xlarge: return "ml.r5d.16xlarge"
@@ -4640,6 +4868,15 @@ extension CleanRoomsMLClientTypes {
             case .mlR58xlarge: return "ml.r5.8xlarge"
             case .mlR5Large: return "ml.r5.large"
             case .mlR5Xlarge: return "ml.r5.xlarge"
+            case .mlR7i12xlarge: return "ml.r7i.12xlarge"
+            case .mlR7i16xlarge: return "ml.r7i.16xlarge"
+            case .mlR7i24xlarge: return "ml.r7i.24xlarge"
+            case .mlR7i2xlarge: return "ml.r7i.2xlarge"
+            case .mlR7i48xlarge: return "ml.r7i.48xlarge"
+            case .mlR7i4xlarge: return "ml.r7i.4xlarge"
+            case .mlR7i8xlarge: return "ml.r7i.8xlarge"
+            case .mlR7iLarge: return "ml.r7i.large"
+            case .mlR7iXlarge: return "ml.r7i.xlarge"
             case .mlT32xlarge: return "ml.t3.2xlarge"
             case .mlT3Large: return "ml.t3.large"
             case .mlT3Medium: return "ml.t3.medium"
@@ -9711,6 +9948,8 @@ extension CleanRoomsMLClientTypes.LogsConfigurationPolicy {
         guard let value else { return }
         try writer["allowedAccountIds"].writeList(value.allowedAccountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["filterPattern"].write(value.filterPattern)
+        try writer["logRedactionConfiguration"].write(value.logRedactionConfiguration, with: CleanRoomsMLClientTypes.LogRedactionConfiguration.write(value:to:))
+        try writer["logType"].write(value.logType)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.LogsConfigurationPolicy {
@@ -9718,6 +9957,40 @@ extension CleanRoomsMLClientTypes.LogsConfigurationPolicy {
         var value = CleanRoomsMLClientTypes.LogsConfigurationPolicy()
         value.allowedAccountIds = try reader["allowedAccountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.filterPattern = try reader["filterPattern"].readIfPresent()
+        value.logType = try reader["logType"].readIfPresent() ?? CleanRoomsMLClientTypes.LogType.all
+        value.logRedactionConfiguration = try reader["logRedactionConfiguration"].readIfPresent(with: CleanRoomsMLClientTypes.LogRedactionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.LogRedactionConfiguration {
+
+    static func write(value: CleanRoomsMLClientTypes.LogRedactionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customEntityConfig"].write(value.customEntityConfig, with: CleanRoomsMLClientTypes.CustomEntityConfig.write(value:to:))
+        try writer["entitiesToRedact"].writeList(value.entitiesToRedact, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CleanRoomsMLClientTypes.EntityType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.LogRedactionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.LogRedactionConfiguration()
+        value.entitiesToRedact = try reader["entitiesToRedact"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsMLClientTypes.EntityType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.customEntityConfig = try reader["customEntityConfig"].readIfPresent(with: CleanRoomsMLClientTypes.CustomEntityConfig.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsMLClientTypes.CustomEntityConfig {
+
+    static func write(value: CleanRoomsMLClientTypes.CustomEntityConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customDataIdentifiers"].writeList(value.customDataIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsMLClientTypes.CustomEntityConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsMLClientTypes.CustomEntityConfig()
+        value.customDataIdentifiers = try reader["customDataIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }

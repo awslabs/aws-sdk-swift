@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class NetworkFlowMonitorClient: ClientRuntime.Client {
     public static let clientName = "NetworkFlowMonitorClient"
-    public static let version = "1.5.33"
+    public static let version = "1.5.34"
     let client: ClientRuntime.SdkHttpClient
     let config: NetworkFlowMonitorClient.NetworkFlowMonitorClientConfiguration
     let serviceName = "NetworkFlowMonitor"
