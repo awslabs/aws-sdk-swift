@@ -343,6 +343,7 @@ extension Route53ClientTypes {
         case apSoutheast3
         case apSoutheast4
         case apSoutheast5
+        case apSoutheast6
         case apSoutheast7
         case caCentral1
         case caWest1
@@ -390,6 +391,7 @@ extension Route53ClientTypes {
                 .apSoutheast3,
                 .apSoutheast4,
                 .apSoutheast5,
+                .apSoutheast6,
                 .apSoutheast7,
                 .caCentral1,
                 .caWest1,
@@ -443,6 +445,7 @@ extension Route53ClientTypes {
             case .apSoutheast3: return "ap-southeast-3"
             case .apSoutheast4: return "ap-southeast-4"
             case .apSoutheast5: return "ap-southeast-5"
+            case .apSoutheast6: return "ap-southeast-6"
             case .apSoutheast7: return "ap-southeast-7"
             case .caCentral1: return "ca-central-1"
             case .caWest1: return "ca-west-1"
@@ -812,6 +815,7 @@ extension Route53ClientTypes {
         case apSoutheast3
         case apSoutheast4
         case apSoutheast5
+        case apSoutheast6
         case apSoutheast7
         case caCentral1
         case caWest1
@@ -859,6 +863,7 @@ extension Route53ClientTypes {
                 .apSoutheast3,
                 .apSoutheast4,
                 .apSoutheast5,
+                .apSoutheast6,
                 .apSoutheast7,
                 .caCentral1,
                 .caWest1,
@@ -912,6 +917,7 @@ extension Route53ClientTypes {
             case .apSoutheast3: return "ap-southeast-3"
             case .apSoutheast4: return "ap-southeast-4"
             case .apSoutheast5: return "ap-southeast-5"
+            case .apSoutheast6: return "ap-southeast-6"
             case .apSoutheast7: return "ap-southeast-7"
             case .caCentral1: return "ca-central-1"
             case .caWest1: return "ca-west-1"
@@ -1404,6 +1410,7 @@ extension Route53ClientTypes {
         case apSoutheast3
         case apSoutheast4
         case apSoutheast5
+        case apSoutheast6
         case apSoutheast7
         case caCentral1
         case caWest1
@@ -1445,6 +1452,7 @@ extension Route53ClientTypes {
                 .apSoutheast3,
                 .apSoutheast4,
                 .apSoutheast5,
+                .apSoutheast6,
                 .apSoutheast7,
                 .caCentral1,
                 .caWest1,
@@ -1492,6 +1500,7 @@ extension Route53ClientTypes {
             case .apSoutheast3: return "ap-southeast-3"
             case .apSoutheast4: return "ap-southeast-4"
             case .apSoutheast5: return "ap-southeast-5"
+            case .apSoutheast6: return "ap-southeast-6"
             case .apSoutheast7: return "ap-southeast-7"
             case .caCentral1: return "ca-central-1"
             case .caWest1: return "ca-west-1"
@@ -6689,7 +6698,7 @@ public struct UpdateHealthCheckInput: Swift.Sendable {
     /// * Health checks that monitor CloudWatch alarms: Route 53 stops monitoring the corresponding CloudWatch metrics.
     ///
     ///
-    /// After you disable a health check, Route 53 considers the status of the health check to always be healthy. If you configured DNS failover, Route 53 continues to route traffic to the corresponding resources. If you want to stop routing traffic to a resource, change the value of [Inverted](https://docs.aws.amazon.com/Route53/latest/APIReference/API_UpdateHealthCheck.html#Route53-UpdateHealthCheck-request-Inverted). Charges for a health check still apply when the health check is disabled. For more information, see [Amazon Route 53 Pricing](http://aws.amazon.com/route53/pricing/).
+    /// After you disable a health check, Route 53 considers the status of the health check to always be healthy. If you configured DNS failover, Route 53 continues to route traffic to the corresponding resources. Additionally, in disabled state, you can also invert the status of the health check to route traffic differently. For more information, see [Inverted](https://docs.aws.amazon.com/Route53/latest/APIReference/API_UpdateHealthCheck.html#Route53-UpdateHealthCheck-request-Inverted). Charges for a health check still apply when the health check is disabled. For more information, see [Amazon Route 53 Pricing](http://aws.amazon.com/route53/pricing/).
     public var disabled: Swift.Bool?
     /// Specify whether you want Amazon Route 53 to send the value of FullyQualifiedDomainName to the endpoint in the client_hello message during TLS negotiation. This allows the endpoint to respond to HTTPS health check requests with the applicable SSL/TLS certificate. Some endpoints require that HTTPS requests include the host name in the client_hello message. If you don't enable SNI, the status of the health check will be SSL alert handshake_failure. A health check can also have that status for other reasons. If SNI is enabled and you're still getting the error, check the SSL/TLS configuration on your endpoint and confirm that your certificate is valid. The SSL/TLS certificate on your endpoint includes a domain name in the Common Name field and possibly several more in the Subject Alternative Names field. One of the domain names in the certificate should match the value that you specify for FullyQualifiedDomainName. If the endpoint responds to the client_hello message with a certificate that does not include the domain name that you specified in FullyQualifiedDomainName, a health checker will retry the handshake. In the second attempt, the health checker will omit FullyQualifiedDomainName from the client_hello message.
     public var enableSNI: Swift.Bool?

@@ -3861,6 +3861,38 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
+    public enum IpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualstack
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpAddressType] {
+            return [
+                .dualstack,
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "dualstack"
+            case .ipv4: return "ipv4"
+            case .ipv6: return "ipv6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
     public enum OriginProtocolPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case httpOnly
         case httpsOnly
@@ -3957,6 +3989,8 @@ extension CloudFrontClientTypes {
         /// The HTTPS port that CloudFront uses to connect to the origin. Specify the HTTPS port that the origin listens on.
         /// This member is required.
         public var httpsPort: Swift.Int?
+        /// Specifies which IP protocol CloudFront uses when connecting to your origin. If your origin uses both IPv4 and IPv6 protocols, you can choose dualstack to help optimize reliability.
+        public var ipAddressType: CloudFrontClientTypes.IpAddressType?
         /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 5 seconds. For more information, see [Keep-alive timeout (custom origins only)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginKeepaliveTimeout) in the Amazon CloudFront Developer Guide.
         public var originKeepaliveTimeout: Swift.Int?
         /// Specifies the protocol (HTTP or HTTPS) that CloudFront uses to connect to the origin. Valid values are:
@@ -3976,6 +4010,7 @@ extension CloudFrontClientTypes {
         public init(
             httpPort: Swift.Int? = nil,
             httpsPort: Swift.Int? = nil,
+            ipAddressType: CloudFrontClientTypes.IpAddressType? = nil,
             originKeepaliveTimeout: Swift.Int? = nil,
             originProtocolPolicy: CloudFrontClientTypes.OriginProtocolPolicy? = nil,
             originReadTimeout: Swift.Int? = nil,
@@ -3983,6 +4018,7 @@ extension CloudFrontClientTypes {
         ) {
             self.httpPort = httpPort
             self.httpsPort = httpsPort
+            self.ipAddressType = ipAddressType
             self.originKeepaliveTimeout = originKeepaliveTimeout
             self.originProtocolPolicy = originProtocolPolicy
             self.originReadTimeout = originReadTimeout
@@ -25863,6 +25899,7 @@ extension CloudFrontClientTypes.CustomOriginConfig {
         guard let value else { return }
         try writer["HTTPPort"].write(value.httpPort)
         try writer["HTTPSPort"].write(value.httpsPort)
+        try writer["IpAddressType"].write(value.ipAddressType)
         try writer["OriginKeepaliveTimeout"].write(value.originKeepaliveTimeout)
         try writer["OriginProtocolPolicy"].write(value.originProtocolPolicy)
         try writer["OriginReadTimeout"].write(value.originReadTimeout)
@@ -25878,6 +25915,7 @@ extension CloudFrontClientTypes.CustomOriginConfig {
         value.originSslProtocols = try reader["OriginSslProtocols"].readIfPresent(with: CloudFrontClientTypes.OriginSslProtocols.read(from:))
         value.originReadTimeout = try reader["OriginReadTimeout"].readIfPresent()
         value.originKeepaliveTimeout = try reader["OriginKeepaliveTimeout"].readIfPresent()
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
         return value
     }
 }

@@ -3788,6 +3788,35 @@ extension RDSClientTypes {
 
 extension RDSClientTypes {
 
+    public enum MasterUserAuthenticationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case iamDbAuth
+        case password
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MasterUserAuthenticationType] {
+            return [
+                .iamDbAuth,
+                .password
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .iamDbAuth: return "iam-db-auth"
+            case .password: return "password"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
     public enum ReplicaMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mounted
         case openReadOnly
@@ -4047,6 +4076,15 @@ public struct CreateDBClusterInput: Swift.Sendable {
     ///
     /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
     public var manageMasterUserPassword: Swift.Bool?
+    /// Specifies the authentication type for the master user. With IAM master user authentication, you can configure the master DB user with IAM database authentication when you create a DB cluster. You can specify one of the following values:
+    ///
+    /// * password - Use standard database authentication with a password.
+    ///
+    /// * iam-db-auth - Use IAM database authentication for the master user.
+    ///
+    ///
+    /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters This option is only valid for RDS for PostgreSQL and Aurora PostgreSQL engines.
+    public var masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType?
     /// The password for the master database user. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
     ///
     /// * Must contain from 8 to 41 characters.
@@ -4202,6 +4240,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         iops: Swift.Int? = nil,
         kmsKeyId: Swift.String? = nil,
         manageMasterUserPassword: Swift.Bool? = nil,
+        masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType? = nil,
         masterUserPassword: Swift.String? = nil,
         masterUserSecretKmsKeyId: Swift.String? = nil,
         masterUsername: Swift.String? = nil,
@@ -4259,6 +4298,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         self.iops = iops
         self.kmsKeyId = kmsKeyId
         self.manageMasterUserPassword = manageMasterUserPassword
+        self.masterUserAuthenticationType = masterUserAuthenticationType
         self.masterUserPassword = masterUserPassword
         self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.masterUsername = masterUsername
@@ -5925,6 +5965,15 @@ public struct CreateDBInstanceInput: Swift.Sendable {
     ///
     /// * Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
     public var manageMasterUserPassword: Swift.Bool?
+    /// Specifies the authentication type for the master user. With IAM master user authentication, you can configure the master DB user with IAM database authentication when you create a DB instance. You can specify one of the following values:
+    ///
+    /// * password - Use standard database authentication with a password.
+    ///
+    /// * iam-db-auth - Use IAM database authentication for the master user.
+    ///
+    ///
+    /// This option is only valid for RDS for PostgreSQL and Aurora PostgreSQL engines.
+    public var masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType?
     /// The password for the master user. This setting doesn't apply to Amazon Aurora DB instances. The password for the master user is managed by the DB cluster. Constraints:
     ///
     /// * Can't be specified if ManageMasterUserPassword is turned on.
@@ -6106,6 +6155,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         kmsKeyId: Swift.String? = nil,
         licenseModel: Swift.String? = nil,
         manageMasterUserPassword: Swift.Bool? = nil,
+        masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType? = nil,
         masterUserPassword: Swift.String? = nil,
         masterUserSecretKmsKeyId: Swift.String? = nil,
         masterUsername: Swift.String? = nil,
@@ -6171,6 +6221,7 @@ public struct CreateDBInstanceInput: Swift.Sendable {
         self.kmsKeyId = kmsKeyId
         self.licenseModel = licenseModel
         self.manageMasterUserPassword = manageMasterUserPassword
+        self.masterUserAuthenticationType = masterUserAuthenticationType
         self.masterUserPassword = masterUserPassword
         self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.masterUsername = masterUsername
@@ -16901,7 +16952,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration?
     /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var copyTagsToSnapshot: Swift.Bool?
-    /// Specifies the mode of Database Insights to enable for the DB cluster. If you change the value from standard to advanced, you must set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. If you change the value from advanced to standard, you must set the PerformanceInsightsEnabled parameter to false. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    /// Specifies the mode of Database Insights to enable for the DB cluster. If you change the value from standard to advanced, you must set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. If you change the value from advanced to standard, you can set the PerformanceInsightsEnabled parameter to true to collect detailed database counter and per-query metrics. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var databaseInsightsMode: RDSClientTypes.DatabaseInsightsMode?
     /// The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
     ///
@@ -16946,6 +16997,15 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     public var iops: Swift.Int?
     /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the DB cluster doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPassword. If the DB cluster already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword. In this case, RDS deletes the secret and uses the new password for the master user specified by MasterUserPassword. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide and [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var manageMasterUserPassword: Swift.Bool?
+    /// Specifies the authentication type for the master user. With IAM master user authentication, you can change the master DB user to use IAM database authentication. You can specify one of the following values:
+    ///
+    /// * password - Use standard database authentication with a password.
+    ///
+    /// * iam-db-auth - Use IAM database authentication for the master user.
+    ///
+    ///
+    /// Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters This option is only valid for RDS for PostgreSQL and Aurora PostgreSQL engines.
+    public var masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType?
     /// The new password for the master database user. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
     ///
     /// * Must contain from 8 to 41 characters.
@@ -17071,6 +17131,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         engineVersion: Swift.String? = nil,
         iops: Swift.Int? = nil,
         manageMasterUserPassword: Swift.Bool? = nil,
+        masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType? = nil,
         masterUserPassword: Swift.String? = nil,
         masterUserSecretKmsKeyId: Swift.String? = nil,
         monitoringInterval: Swift.Int? = nil,
@@ -17118,6 +17179,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         self.engineVersion = engineVersion
         self.iops = iops
         self.manageMasterUserPassword = manageMasterUserPassword
+        self.masterUserAuthenticationType = masterUserAuthenticationType
         self.masterUserPassword = masterUserPassword
         self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.monitoringInterval = monitoringInterval
@@ -17555,6 +17617,15 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
     ///
     /// * Can't specify the parameters ManageMasterUserPassword and MultiTenant in the same operation.
     public var manageMasterUserPassword: Swift.Bool?
+    /// Specifies the authentication type for the master user. With IAM master user authentication, you can change the master DB user to use IAM database authentication. You can specify one of the following values:
+    ///
+    /// * password - Use standard database authentication with a password.
+    ///
+    /// * iam-db-auth - Use IAM database authentication for the master user.
+    ///
+    ///
+    /// This option is only valid for RDS for PostgreSQL and Aurora PostgreSQL engines.
+    public var masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType?
     /// The new password for the master user. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response. Amazon RDS API operations never return the password, so this operation provides a way to regain access to a primary instance user if the password is lost. This includes restoring privileges that might have been accidentally revoked. This setting doesn't apply to the following DB instances:
     ///
     /// * Amazon Aurora The password for the master user is managed by the DB cluster. For more information, see ModifyDBCluster.
@@ -17730,6 +17801,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         iops: Swift.Int? = nil,
         licenseModel: Swift.String? = nil,
         manageMasterUserPassword: Swift.Bool? = nil,
+        masterUserAuthenticationType: RDSClientTypes.MasterUserAuthenticationType? = nil,
         masterUserPassword: Swift.String? = nil,
         masterUserSecretKmsKeyId: Swift.String? = nil,
         maxAllocatedStorage: Swift.Int? = nil,
@@ -17792,6 +17864,7 @@ public struct ModifyDBInstanceInput: Swift.Sendable {
         self.iops = iops
         self.licenseModel = licenseModel
         self.manageMasterUserPassword = manageMasterUserPassword
+        self.masterUserAuthenticationType = masterUserAuthenticationType
         self.masterUserPassword = masterUserPassword
         self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.maxAllocatedStorage = maxAllocatedStorage
@@ -23077,6 +23150,7 @@ extension CreateDBClusterInput {
         try writer["Iops"].write(value.iops)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
+        try writer["MasterUserAuthenticationType"].write(value.masterUserAuthenticationType)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
         try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MasterUsername"].write(value.masterUsername)
@@ -23185,6 +23259,7 @@ extension CreateDBInstanceInput {
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["LicenseModel"].write(value.licenseModel)
         try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
+        try writer["MasterUserAuthenticationType"].write(value.masterUserAuthenticationType)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
         try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MasterUsername"].write(value.masterUsername)
@@ -24487,6 +24562,7 @@ extension ModifyDBClusterInput {
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["Iops"].write(value.iops)
         try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
+        try writer["MasterUserAuthenticationType"].write(value.masterUserAuthenticationType)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
         try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MonitoringInterval"].write(value.monitoringInterval)
@@ -24585,6 +24661,7 @@ extension ModifyDBInstanceInput {
         try writer["Iops"].write(value.iops)
         try writer["LicenseModel"].write(value.licenseModel)
         try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
+        try writer["MasterUserAuthenticationType"].write(value.masterUserAuthenticationType)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
         try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MaxAllocatedStorage"].write(value.maxAllocatedStorage)
