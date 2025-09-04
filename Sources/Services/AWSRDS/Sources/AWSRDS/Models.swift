@@ -7632,6 +7632,38 @@ extension RDSClientTypes {
 
 extension RDSClientTypes {
 
+    public enum EndpointNetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dual
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndpointNetworkType] {
+            return [
+                .dual,
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dual: return "DUAL"
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
     public enum EngineFamily: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case mysql
         case postgresql
@@ -7662,6 +7694,35 @@ extension RDSClientTypes {
     }
 }
 
+extension RDSClientTypes {
+
+    public enum TargetConnectionNetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TargetConnectionNetworkType] {
+            return [
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ipv4: return "IPV4"
+            case .ipv6: return "IPV6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateDBProxyInput: Swift.Sendable {
     /// The authorization mechanism that the proxy uses.
     /// This member is required.
@@ -7671,6 +7732,21 @@ public struct CreateDBProxyInput: Swift.Sendable {
     public var dbProxyName: Swift.String?
     /// Specifies whether the proxy logs detailed connection and query information. When you enable DebugLogging, the proxy captures connection details and connection pool behavior from your queries. Debug logging increases CloudWatch costs and can impact proxy performance. Enable this option only when you need to troubleshoot connection or performance issues.
     public var debugLogging: Swift.Bool?
+    /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:
+    ///
+    /// * IPV4 - The proxy endpoint supports IPv4 only.
+    ///
+    /// * IPV6 - The proxy endpoint supports IPv6 only.
+    ///
+    /// * DUAL - The proxy endpoint supports both IPv4 and IPv6.
+    ///
+    ///
+    /// Default: IPV4 Constraints:
+    ///
+    /// * If you specify IPV6 or DUAL, the VPC and all subnets must have an IPv6 CIDR block.
+    ///
+    /// * If you specify IPV6 or DUAL, the VPC tenancy cannot be dedicated.
+    public var endpointNetworkType: RDSClientTypes.EndpointNetworkType?
     /// The kinds of databases that the proxy can connect to. This value determines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. For Aurora MySQL, RDS for MariaDB, and RDS for MySQL databases, specify MYSQL. For Aurora PostgreSQL and RDS for PostgreSQL databases, specify POSTGRESQL. For RDS for Microsoft SQL Server, specify SQLSERVER.
     /// This member is required.
     public var engineFamily: RDSClientTypes.EngineFamily?
@@ -7683,6 +7759,19 @@ public struct CreateDBProxyInput: Swift.Sendable {
     public var roleArn: Swift.String?
     /// An optional set of key-value pairs to associate arbitrary data of your choosing with the proxy.
     public var tags: [RDSClientTypes.Tag]?
+    /// The network type that the proxy uses to connect to the target database. The network type determines the IP version that the proxy uses for connections to the database. Valid values:
+    ///
+    /// * IPV4 - The proxy connects to the database using IPv4 only.
+    ///
+    /// * IPV6 - The proxy connects to the database using IPv6 only.
+    ///
+    ///
+    /// Default: IPV4 Constraints:
+    ///
+    /// * If you specify IPV6, the database must support dual-stack mode. RDS doesn't support IPv6-only databases.
+    ///
+    /// * All targets registered with the proxy must be compatible with the specified network type.
+    public var targetConnectionNetworkType: RDSClientTypes.TargetConnectionNetworkType?
     /// One or more VPC security group IDs to associate with the new proxy.
     public var vpcSecurityGroupIds: [Swift.String]?
     /// One or more VPC subnet IDs to associate with the new proxy.
@@ -7693,22 +7782,26 @@ public struct CreateDBProxyInput: Swift.Sendable {
         auth: [RDSClientTypes.UserAuthConfig]? = nil,
         dbProxyName: Swift.String? = nil,
         debugLogging: Swift.Bool? = nil,
+        endpointNetworkType: RDSClientTypes.EndpointNetworkType? = nil,
         engineFamily: RDSClientTypes.EngineFamily? = nil,
         idleClientTimeout: Swift.Int? = nil,
         requireTLS: Swift.Bool? = nil,
         roleArn: Swift.String? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
+        targetConnectionNetworkType: RDSClientTypes.TargetConnectionNetworkType? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
         vpcSubnetIds: [Swift.String]? = nil
     ) {
         self.auth = auth
         self.dbProxyName = dbProxyName
         self.debugLogging = debugLogging
+        self.endpointNetworkType = endpointNetworkType
         self.engineFamily = engineFamily
         self.idleClientTimeout = idleClientTimeout
         self.requireTLS = requireTLS
         self.roleArn = roleArn
         self.tags = tags
+        self.targetConnectionNetworkType = targetConnectionNetworkType
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
         self.vpcSubnetIds = vpcSubnetIds
     }
@@ -7815,6 +7908,14 @@ extension RDSClientTypes {
         public var debugLogging: Swift.Bool?
         /// The endpoint that you can use to connect to the DB proxy. You include the endpoint value in the connection string for a database client application.
         public var endpoint: Swift.String?
+        /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:
+        ///
+        /// * IPV4 - The proxy endpoint supports IPv4 only.
+        ///
+        /// * IPV6 - The proxy endpoint supports IPv6 only.
+        ///
+        /// * DUAL - The proxy endpoint supports both IPv4 and IPv6.
+        public var endpointNetworkType: RDSClientTypes.EndpointNetworkType?
         /// The kinds of databases that the proxy can connect to. This value determines which database network protocol the proxy recognizes when it interprets network traffic to and from the database. MYSQL supports Aurora MySQL, RDS for MariaDB, and RDS for MySQL databases. POSTGRESQL supports Aurora PostgreSQL and RDS for PostgreSQL databases. SQLSERVER supports RDS for Microsoft SQL Server databases.
         public var engineFamily: Swift.String?
         /// The number of seconds a connection to the proxy can have no activity before the proxy drops the client connection. The proxy keeps the underlying database connection open and puts it back into the connection pool for reuse by later connection requests. Default: 1800 (30 minutes) Constraints: 1 to 28,800
@@ -7825,6 +7926,12 @@ extension RDSClientTypes {
         public var roleArn: Swift.String?
         /// The current status of this proxy. A status of available means the proxy is ready to handle requests. Other values indicate that you must wait for the proxy to be ready, or take some action to resolve an issue.
         public var status: RDSClientTypes.DBProxyStatus?
+        /// The network type that the proxy uses to connect to the target database. The network type determines the IP version that the proxy uses for connections to the database. Valid values:
+        ///
+        /// * IPV4 - The proxy connects to the database using IPv4 only.
+        ///
+        /// * IPV6 - The proxy connects to the database using IPv6 only.
+        public var targetConnectionNetworkType: RDSClientTypes.TargetConnectionNetworkType?
         /// The date and time when the proxy was last updated.
         public var updatedDate: Foundation.Date?
         /// Provides the VPC ID of the DB proxy.
@@ -7841,11 +7948,13 @@ extension RDSClientTypes {
             dbProxyName: Swift.String? = nil,
             debugLogging: Swift.Bool? = nil,
             endpoint: Swift.String? = nil,
+            endpointNetworkType: RDSClientTypes.EndpointNetworkType? = nil,
             engineFamily: Swift.String? = nil,
             idleClientTimeout: Swift.Int? = nil,
             requireTLS: Swift.Bool? = nil,
             roleArn: Swift.String? = nil,
             status: RDSClientTypes.DBProxyStatus? = nil,
+            targetConnectionNetworkType: RDSClientTypes.TargetConnectionNetworkType? = nil,
             updatedDate: Foundation.Date? = nil,
             vpcId: Swift.String? = nil,
             vpcSecurityGroupIds: [Swift.String]? = nil,
@@ -7857,11 +7966,13 @@ extension RDSClientTypes {
             self.dbProxyName = dbProxyName
             self.debugLogging = debugLogging
             self.endpoint = endpoint
+            self.endpointNetworkType = endpointNetworkType
             self.engineFamily = engineFamily
             self.idleClientTimeout = idleClientTimeout
             self.requireTLS = requireTLS
             self.roleArn = roleArn
             self.status = status
+            self.targetConnectionNetworkType = targetConnectionNetworkType
             self.updatedDate = updatedDate
             self.vpcId = vpcId
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -7986,6 +8097,21 @@ public struct CreateDBProxyEndpointInput: Swift.Sendable {
     /// The name of the DB proxy associated with the DB proxy endpoint that you create.
     /// This member is required.
     public var dbProxyName: Swift.String?
+    /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:
+    ///
+    /// * IPV4 - The proxy endpoint supports IPv4 only.
+    ///
+    /// * IPV6 - The proxy endpoint supports IPv6 only.
+    ///
+    /// * DUAL - The proxy endpoint supports both IPv4 and IPv6.
+    ///
+    ///
+    /// Default: IPV4 Constraints:
+    ///
+    /// * If you specify IPV6 or DUAL, the VPC and all subnets must have an IPv6 CIDR block.
+    ///
+    /// * If you specify IPV6 or DUAL, the VPC tenancy cannot be dedicated.
+    public var endpointNetworkType: RDSClientTypes.EndpointNetworkType?
     /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
     public var tags: [RDSClientTypes.Tag]?
     /// The role of the DB proxy endpoint. The role determines whether the endpoint can be used for read/write or only read operations. The default is READ_WRITE. The only role that proxies for RDS for Microsoft SQL Server support is READ_WRITE.
@@ -7999,6 +8125,7 @@ public struct CreateDBProxyEndpointInput: Swift.Sendable {
     public init(
         dbProxyEndpointName: Swift.String? = nil,
         dbProxyName: Swift.String? = nil,
+        endpointNetworkType: RDSClientTypes.EndpointNetworkType? = nil,
         tags: [RDSClientTypes.Tag]? = nil,
         targetRole: RDSClientTypes.DBProxyEndpointTargetRole? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil,
@@ -8006,6 +8133,7 @@ public struct CreateDBProxyEndpointInput: Swift.Sendable {
     ) {
         self.dbProxyEndpointName = dbProxyEndpointName
         self.dbProxyName = dbProxyName
+        self.endpointNetworkType = endpointNetworkType
         self.tags = tags
         self.targetRole = targetRole
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -8068,6 +8196,14 @@ extension RDSClientTypes {
         public var dbProxyName: Swift.String?
         /// The endpoint that you can use to connect to the DB proxy. You include the endpoint value in the connection string for a database client application.
         public var endpoint: Swift.String?
+        /// The network type of the DB proxy endpoint. The network type determines the IP version that the proxy endpoint supports. Valid values:
+        ///
+        /// * IPV4 - The proxy endpoint supports IPv4 only.
+        ///
+        /// * IPV6 - The proxy endpoint supports IPv6 only.
+        ///
+        /// * DUAL - The proxy endpoint supports both IPv4 and IPv6.
+        public var endpointNetworkType: RDSClientTypes.EndpointNetworkType?
         /// Indicates whether this endpoint is the default endpoint for the associated DB proxy. Default DB proxy endpoints always have read/write capability. Other endpoints that you associate with the DB proxy can be either read/write or read-only.
         public var isDefault: Swift.Bool?
         /// The current status of this DB proxy endpoint. A status of available means the endpoint is ready to handle requests. Other values indicate that you must wait for the endpoint to be ready, or take some action to resolve an issue.
@@ -8087,6 +8223,7 @@ extension RDSClientTypes {
             dbProxyEndpointName: Swift.String? = nil,
             dbProxyName: Swift.String? = nil,
             endpoint: Swift.String? = nil,
+            endpointNetworkType: RDSClientTypes.EndpointNetworkType? = nil,
             isDefault: Swift.Bool? = nil,
             status: RDSClientTypes.DBProxyEndpointStatus? = nil,
             targetRole: RDSClientTypes.DBProxyEndpointTargetRole? = nil,
@@ -8099,6 +8236,7 @@ extension RDSClientTypes {
             self.dbProxyEndpointName = dbProxyEndpointName
             self.dbProxyName = dbProxyName
             self.endpoint = endpoint
+            self.endpointNetworkType = endpointNetworkType
             self.isDefault = isDefault
             self.status = status
             self.targetRole = targetRole
@@ -23368,11 +23506,13 @@ extension CreateDBProxyInput {
         try writer["Auth"].writeList(value.auth, memberWritingClosure: RDSClientTypes.UserAuthConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DBProxyName"].write(value.dbProxyName)
         try writer["DebugLogging"].write(value.debugLogging)
+        try writer["EndpointNetworkType"].write(value.endpointNetworkType)
         try writer["EngineFamily"].write(value.engineFamily)
         try writer["IdleClientTimeout"].write(value.idleClientTimeout)
         try writer["RequireTLS"].write(value.requireTLS)
         try writer["RoleArn"].write(value.roleArn)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
+        try writer["TargetConnectionNetworkType"].write(value.targetConnectionNetworkType)
         try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VpcSubnetIds"].writeList(value.vpcSubnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Action"].write("CreateDBProxy")
@@ -23386,6 +23526,7 @@ extension CreateDBProxyEndpointInput {
         guard let value else { return }
         try writer["DBProxyEndpointName"].write(value.dbProxyEndpointName)
         try writer["DBProxyName"].write(value.dbProxyName)
+        try writer["EndpointNetworkType"].write(value.endpointNetworkType)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: RDSClientTypes.Tag.write(value:to:), memberNodeInfo: "Tag", isFlattened: false)
         try writer["TargetRole"].write(value.targetRole)
         try writer["VpcSecurityGroupIds"].writeList(value.vpcSecurityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -33310,6 +33451,8 @@ extension RDSClientTypes.DBProxy {
         value.debugLogging = try reader["DebugLogging"].readIfPresent()
         value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedDate = try reader["UpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endpointNetworkType = try reader["EndpointNetworkType"].readIfPresent()
+        value.targetConnectionNetworkType = try reader["TargetConnectionNetworkType"].readIfPresent()
         return value
     }
 }
@@ -33345,6 +33488,7 @@ extension RDSClientTypes.DBProxyEndpoint {
         value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.targetRole = try reader["TargetRole"].readIfPresent()
         value.isDefault = try reader["IsDefault"].readIfPresent()
+        value.endpointNetworkType = try reader["EndpointNetworkType"].readIfPresent()
         return value
     }
 }

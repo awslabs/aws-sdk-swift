@@ -504,6 +504,25 @@ public struct BatchGetCollectionInput: Swift.Sendable {
 
 extension OpenSearchServerlessClientTypes {
 
+    /// FIPS-compliant endpoint URLs for an OpenSearch Serverless collection. These endpoints ensure all data transmission uses FIPS 140-3 validated cryptographic implementations, meeting federal security requirements for government workloads.
+    public struct FipsEndpoints: Swift.Sendable {
+        /// FIPS-compliant collection endpoint used to submit index, search, and data upload requests to an OpenSearch Serverless collection. This endpoint uses FIPS 140-3 validated cryptography and is required for federal government workloads.
+        public var collectionEndpoint: Swift.String?
+        /// FIPS-compliant endpoint used to access OpenSearch Dashboards. This endpoint uses FIPS 140-3 validated cryptography and is required for federal government workloads that need dashboard visualization capabilities.
+        public var dashboardEndpoint: Swift.String?
+
+        public init(
+            collectionEndpoint: Swift.String? = nil,
+            dashboardEndpoint: Swift.String? = nil
+        ) {
+            self.collectionEndpoint = collectionEndpoint
+            self.dashboardEndpoint = dashboardEndpoint
+        }
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+
     public enum StandbyReplicas: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         /// Standby replicas disabled
         case disabled
@@ -609,7 +628,7 @@ extension OpenSearchServerlessClientTypes {
 
 extension OpenSearchServerlessClientTypes {
 
-    /// Details about each OpenSearch Serverless collection, including the collection endpoint and the OpenSearch Dashboards endpoint.
+    /// Details about each OpenSearch Serverless collection, including the collection endpoint, the OpenSearch Dashboards endpoint, and FIPS-compliant endpoints for federal government workloads.
     public struct CollectionDetail: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the collection.
         public var arn: Swift.String?
@@ -625,6 +644,8 @@ extension OpenSearchServerlessClientTypes {
         public var failureCode: Swift.String?
         /// A message associated with the failure code.
         public var failureMessage: Swift.String?
+        /// FIPS-compliant endpoints for the collection. These endpoints use FIPS 140-3 validated cryptographic modules and are required for federal government workloads that must comply with FedRAMP security standards.
+        public var fipsEndpoints: OpenSearchServerlessClientTypes.FipsEndpoints?
         /// A unique identifier for the collection.
         public var id: Swift.String?
         /// The ARN of the Amazon Web Services KMS key used to encrypt the collection.
@@ -648,6 +669,7 @@ extension OpenSearchServerlessClientTypes {
             description: Swift.String? = nil,
             failureCode: Swift.String? = nil,
             failureMessage: Swift.String? = nil,
+            fipsEndpoints: OpenSearchServerlessClientTypes.FipsEndpoints? = nil,
             id: Swift.String? = nil,
             kmsKeyArn: Swift.String? = nil,
             lastModifiedDate: Swift.Int? = nil,
@@ -663,6 +685,7 @@ extension OpenSearchServerlessClientTypes {
             self.description = description
             self.failureCode = failureCode
             self.failureMessage = failureMessage
+            self.fipsEndpoints = fipsEndpoints
             self.id = id
             self.kmsKeyArn = kmsKeyArn
             self.lastModifiedDate = lastModifiedDate
@@ -4913,8 +4936,20 @@ extension OpenSearchServerlessClientTypes.CollectionDetail {
         value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
         value.collectionEndpoint = try reader["collectionEndpoint"].readIfPresent()
         value.dashboardEndpoint = try reader["dashboardEndpoint"].readIfPresent()
+        value.fipsEndpoints = try reader["fipsEndpoints"].readIfPresent(with: OpenSearchServerlessClientTypes.FipsEndpoints.read(from:))
         value.failureCode = try reader["failureCode"].readIfPresent()
         value.failureMessage = try reader["failureMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.FipsEndpoints {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.FipsEndpoints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.FipsEndpoints()
+        value.collectionEndpoint = try reader["collectionEndpoint"].readIfPresent()
+        value.dashboardEndpoint = try reader["dashboardEndpoint"].readIfPresent()
         return value
     }
 }

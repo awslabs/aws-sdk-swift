@@ -7924,6 +7924,66 @@ public struct GetProtectedJobInput: Swift.Sendable {
 
 extension CleanRoomsClientTypes {
 
+    public enum ProtectedJobWorkerComputeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cr1x
+        case cr4x
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProtectedJobWorkerComputeType] {
+            return [
+                .cr1x,
+                .cr4x
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cr1x: return "CR.1X"
+            case .cr4x: return "CR.4X"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The configuration of the compute resources for a PySpark job.
+    public struct ProtectedJobWorkerComputeConfiguration: Swift.Sendable {
+        /// The number of workers for a PySpark job.
+        /// This member is required.
+        public var number: Swift.Int?
+        /// The worker compute configuration type.
+        /// This member is required.
+        public var type: CleanRoomsClientTypes.ProtectedJobWorkerComputeType?
+
+        public init(
+            number: Swift.Int? = nil,
+            type: CleanRoomsClientTypes.ProtectedJobWorkerComputeType? = nil
+        ) {
+            self.number = number
+            self.type = type
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// The configuration of the compute resources for a PySpark job.
+    public enum ProtectedJobComputeConfiguration: Swift.Sendable {
+        /// The worker configuration for the compute environment.
+        case worker(CleanRoomsClientTypes.ProtectedJobWorkerComputeConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// The protected job error.
     public struct ProtectedJobError: Swift.Sendable {
         /// The error code for the protected job.
@@ -8162,6 +8222,8 @@ extension CleanRoomsClientTypes {
 
     /// The parameters for an Clean Rooms protected job.
     public struct ProtectedJob: Swift.Sendable {
+        /// The compute configuration for the protected job.
+        public var computeConfiguration: CleanRoomsClientTypes.ProtectedJobComputeConfiguration?
         /// The creation time of the protected job.
         /// This member is required.
         public var createTime: Foundation.Date?
@@ -8189,6 +8251,7 @@ extension CleanRoomsClientTypes {
         public var status: CleanRoomsClientTypes.ProtectedJobStatus?
 
         public init(
+            computeConfiguration: CleanRoomsClientTypes.ProtectedJobComputeConfiguration? = nil,
             createTime: Foundation.Date? = nil,
             error: CleanRoomsClientTypes.ProtectedJobError? = nil,
             id: Swift.String? = nil,
@@ -8200,6 +8263,7 @@ extension CleanRoomsClientTypes {
             statistics: CleanRoomsClientTypes.ProtectedJobStatistics? = nil,
             status: CleanRoomsClientTypes.ProtectedJobStatus? = nil
         ) {
+            self.computeConfiguration = computeConfiguration
             self.createTime = createTime
             self.error = error
             self.id = id
@@ -8276,7 +8340,7 @@ extension CleanRoomsClientTypes {
 
     /// The configuration of the compute resources for workers running an analysis with the Clean Rooms SQL analytics engine.
     public struct WorkerComputeConfiguration: Swift.Sendable {
-        /// The number of workers.
+        /// The number of workers. SQL queries support a minimum value of 2 and a maximum value of 400. PySpark jobs support a minimum value of 4 and a maximum value of 128.
         public var number: Swift.Int?
         /// The worker compute configuration type.
         public var type: CleanRoomsClientTypes.WorkerComputeType?
@@ -9387,6 +9451,8 @@ extension CleanRoomsClientTypes {
 }
 
 public struct StartProtectedJobInput: Swift.Sendable {
+    /// The compute configuration for the protected job.
+    public var computeConfiguration: CleanRoomsClientTypes.ProtectedJobComputeConfiguration?
     /// The job parameters.
     /// This member is required.
     public var jobParameters: CleanRoomsClientTypes.ProtectedJobParameters?
@@ -9400,11 +9466,13 @@ public struct StartProtectedJobInput: Swift.Sendable {
     public var type: CleanRoomsClientTypes.ProtectedJobType?
 
     public init(
+        computeConfiguration: CleanRoomsClientTypes.ProtectedJobComputeConfiguration? = nil,
         jobParameters: CleanRoomsClientTypes.ProtectedJobParameters? = nil,
         membershipIdentifier: Swift.String? = nil,
         resultConfiguration: CleanRoomsClientTypes.ProtectedJobResultConfigurationInput? = nil,
         type: CleanRoomsClientTypes.ProtectedJobType? = nil
     ) {
+        self.computeConfiguration = computeConfiguration
         self.jobParameters = jobParameters
         self.membershipIdentifier = membershipIdentifier
         self.resultConfiguration = resultConfiguration
@@ -11585,6 +11653,7 @@ extension StartProtectedJobInput {
 
     static func write(value: StartProtectedJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["computeConfiguration"].write(value.computeConfiguration, with: CleanRoomsClientTypes.ProtectedJobComputeConfiguration.write(value:to:))
         try writer["jobParameters"].write(value.jobParameters, with: CleanRoomsClientTypes.ProtectedJobParameters.write(value:to:))
         try writer["resultConfiguration"].write(value.resultConfiguration, with: CleanRoomsClientTypes.ProtectedJobResultConfigurationInput.write(value:to:))
         try writer["type"].write(value.type)
@@ -16093,6 +16162,48 @@ extension CleanRoomsClientTypes.ProtectedJob {
         value.statistics = try reader["statistics"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJobStatistics.read(from:))
         value.result = try reader["result"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJobResult.read(from:))
         value.error = try reader["error"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJobError.read(from:))
+        value.computeConfiguration = try reader["computeConfiguration"].readIfPresent(with: CleanRoomsClientTypes.ProtectedJobComputeConfiguration.read(from:))
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobComputeConfiguration {
+
+    static func write(value: CleanRoomsClientTypes.ProtectedJobComputeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .worker(worker):
+                try writer["worker"].write(worker, with: CleanRoomsClientTypes.ProtectedJobWorkerComputeConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobComputeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "worker":
+                return .worker(try reader["worker"].read(with: CleanRoomsClientTypes.ProtectedJobWorkerComputeConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobWorkerComputeConfiguration {
+
+    static func write(value: CleanRoomsClientTypes.ProtectedJobWorkerComputeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["number"].write(value.number)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobWorkerComputeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.ProtectedJobWorkerComputeConfiguration()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.number = try reader["number"].readIfPresent() ?? 0
         return value
     }
 }

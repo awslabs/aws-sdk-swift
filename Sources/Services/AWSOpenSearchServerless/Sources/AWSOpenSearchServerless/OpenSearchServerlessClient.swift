@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OpenSearchServerlessClient: ClientRuntime.Client {
     public static let clientName = "OpenSearchServerlessClient"
-    public static let version = "1.5.34"
+    public static let version = "1.5.35"
     let client: ClientRuntime.SdkHttpClient
     let config: OpenSearchServerlessClient.OpenSearchServerlessClientConfiguration
     let serviceName = "OpenSearchServerless"
@@ -372,7 +372,7 @@ extension OpenSearchServerlessClient {
 extension OpenSearchServerlessClient {
     /// Performs the `BatchGetCollection` operation on the `OpenSearchServerless` service.
     ///
-    /// Returns attributes for one or more collections, including the collection endpoint and the OpenSearch Dashboards endpoint. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
+    /// Returns attributes for one or more collections, including the collection endpoint, the OpenSearch Dashboards endpoint, and FIPS-compliant endpoints. For more information, see [Creating and managing Amazon OpenSearch Serverless collections](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-manage.html).
     ///
     /// - Parameter BatchGetCollectionInput : [no documentation found]
     ///
