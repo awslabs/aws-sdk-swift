@@ -2608,7 +2608,7 @@ extension VerifiedPermissionsClientTypes.StaticPolicyDefinitionItem: Swift.Custo
 
 extension VerifiedPermissionsClientTypes {
 
-    /// Contains information about a policy created by instantiating a policy template. This
+    /// Contains information about a policy created by instantiating a policy template.
     public struct TemplateLinkedPolicyDefinitionItem: Swift.Sendable {
         /// The unique identifier of the policy template used to create this policy.
         /// This member is required.
@@ -3402,6 +3402,10 @@ extension VerifiedPermissionsClientTypes {
         case ipaddr(Swift.String)
         /// An attribute value of [decimal](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-decimal) type. Example: {"decimal": "1.1"}
         case decimal(Swift.String)
+        /// An attribute value of [datetime](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-datetime) type. Example: {"datetime": "2024-10-15T11:35:00Z"}
+        case datetime(Swift.String)
+        /// An attribute value of [duration](https://docs.cedarpolicy.com/policies/syntax-datatypes.html#datatype-duration) type. Example: {"duration": "1h30m"}
+        case duration(Swift.String)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5445,8 +5449,12 @@ extension VerifiedPermissionsClientTypes.AttributeValue {
         switch value {
             case let .boolean(boolean):
                 try writer["boolean"].write(boolean)
+            case let .datetime(datetime):
+                try writer["datetime"].write(datetime)
             case let .decimal(decimal):
                 try writer["decimal"].write(decimal)
+            case let .duration(duration):
+                try writer["duration"].write(duration)
             case let .entityidentifier(entityidentifier):
                 try writer["entityIdentifier"].write(entityidentifier, with: VerifiedPermissionsClientTypes.EntityIdentifier.write(value:to:))
             case let .ipaddr(ipaddr):
@@ -5484,6 +5492,10 @@ extension VerifiedPermissionsClientTypes.AttributeValue {
                 return .ipaddr(try reader["ipaddr"].read())
             case "decimal":
                 return .decimal(try reader["decimal"].read())
+            case "datetime":
+                return .datetime(try reader["datetime"].read())
+            case "duration":
+                return .duration(try reader["duration"].read())
             default:
                 return .sdkUnknown(name ?? "")
         }
