@@ -107,6 +107,13 @@ jobs:
         run: |
           cd aws-sdk-swift
           ./scripts/ci_steps/prepare_protocol_and_unit_tests.sh
+      - name: Show Destinations
+        run: |
+          cd aws-sdk-swift
+          set -o pipefail && \
+          NSUnbufferedIO=YES xcodebuild \
+            -scheme aws-sdk-swift-Package \
+            -showDestinations
       - name: Build and Run Unit Tests
         run: |
           cd aws-sdk-swift
