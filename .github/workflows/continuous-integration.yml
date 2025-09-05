@@ -62,6 +62,13 @@ jobs:
           sudo xcrun simctl list
           sudo xcodebuild -downloadPlatform visionOS
           sudo xcodebuild -runFirstLaunch
+      - name: Install v26 sims
+        if: ${{ contains(matrix.xcode, '26') }}
+        run: |
+          sudo xcodebuild -runFirstLaunch
+          sudo xcrun simctl list
+          sudo xcodebuild -downloadAllPlatforms
+          sudo xcodebuild -runFirstLaunch
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v4
         with:
