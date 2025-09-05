@@ -59,15 +59,19 @@ jobs:
         if: ${{ contains(matrix.destination, 'platform=visionOS') }}
         run: |
           sudo xcodebuild -runFirstLaunch
-          sudo xcrun simctl list
           sudo xcodebuild -downloadPlatform visionOS
           sudo xcodebuild -runFirstLaunch
-      - name: Install v26 sims
-        if: ${{ contains(matrix.xcode, '26') }}
+      - name: Install iOS 26 sim if needed
+        if: ${{ contains(matrix.xcode, '26') && contains(matrix.destination, 'iOS Simulator') }}
         run: |
           sudo xcodebuild -runFirstLaunch
-          sudo xcrun simctl list
-          sudo xcodebuild -downloadAllPlatforms
+          sudo xcodebuild -downloadPlatform iOS
+          sudo xcodebuild -runFirstLaunch
+      - name: Install tvOS 26 sim if needed
+        if: ${{ contains(matrix.xcode, '26') && contains(matrix.destination, 'tvOS Simulator') }}
+        run: |
+          sudo xcodebuild -runFirstLaunch
+          sudo xcodebuild -downloadPlatform tvOS
           sudo xcodebuild -runFirstLaunch
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v4
