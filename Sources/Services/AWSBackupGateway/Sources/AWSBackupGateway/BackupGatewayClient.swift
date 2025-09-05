@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BackupGatewayClient: ClientRuntime.Client {
     public static let clientName = "BackupGatewayClient"
-    public static let version = "1.5.35"
+    public static let version = "1.5.36"
     let client: ClientRuntime.SdkHttpClient
     let config: BackupGatewayClient.BackupGatewayClientConfiguration
     let serviceName = "Backup Gateway"

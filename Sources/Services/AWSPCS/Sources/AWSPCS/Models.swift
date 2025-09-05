@@ -180,7 +180,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-/// Amazon Web Services PCS can't process your request right now. Try again later.
+/// PCS can't process your request right now. Try again later.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -412,7 +412,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension PCSClientTypes {
 
-    /// An Amazon EC2 launch template Amazon Web Services PCS uses to launch compute nodes.
+    /// An Amazon EC2 launch template PCS uses to launch compute nodes.
     public struct CustomLaunchTemplate: Swift.Sendable {
         /// The ID of the EC2 launch template to use to provision instances. Example: lt-xxxx
         /// This member is required.
@@ -433,9 +433,9 @@ extension PCSClientTypes {
 
 extension PCSClientTypes {
 
-    /// An EC2 instance configuration Amazon Web Services PCS uses to launch compute nodes.
+    /// An EC2 instance configuration PCS uses to launch compute nodes.
     public struct InstanceConfig: Swift.Sendable {
-        /// The EC2 instance type that Amazon Web Services PCS can provision in the compute node group. Example: t2.xlarge
+        /// The EC2 instance type that PCS can provision in the compute node group. Example: t2.xlarge
         public var instanceType: Swift.String?
 
         public init(
@@ -500,7 +500,7 @@ extension PCSClientTypes {
 
     /// Additional settings that directly map to Slurm settings.
     public struct SlurmCustomSetting: Swift.Sendable {
-        /// Amazon Web Services PCS supports configuration of the following Slurm parameters:
+        /// PCS supports configuration of the following Slurm parameters:
         ///
         /// * For clusters
         ///
@@ -509,6 +509,8 @@ extension PCSClientTypes {
         /// * [Epilog](https://slurm.schedmd.com/slurm.conf.html#OPT_Epilog_1)
         ///
         /// * [SelectTypeParameters](https://slurm.schedmd.com/slurm.conf.html#OPT_SelectTypeParameters)
+        ///
+        /// * [AccountingStorageEnforce](https://slurm.schedmd.com/slurm.conf.html#OPT_AccountingStorageEnforce) PCS supports a subset of the options for AccountingStorageEnforce. For more information, see [Slurm accounting in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-accounting.html) in the PCS User Guide.
         ///
         ///
         ///
@@ -597,7 +599,7 @@ extension PCSClientTypes {
 }
 
 public struct CreateComputeNodeGroupInput: Swift.Sendable {
-    /// The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to launch compute nodes (Amazon EC2 instances). If you don't provide this value, Amazon Web Services PCS uses the AMI ID specified in the custom launch template.
+    /// The ID of the Amazon Machine Image (AMI) that PCS uses to launch compute nodes (Amazon EC2 instances). If you don't provide this value, PCS uses the AMI ID specified in the custom launch template.
     public var amiId: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
     public var clientToken: Swift.String?
@@ -607,7 +609,7 @@ public struct CreateComputeNodeGroupInput: Swift.Sendable {
     /// A name to identify the cluster. Example: MyCluster
     /// This member is required.
     public var computeNodeGroupName: Swift.String?
-    /// An Amazon EC2 launch template Amazon Web Services PCS uses to launch compute nodes.
+    /// An Amazon EC2 launch template PCS uses to launch compute nodes.
     /// This member is required.
     public var customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate?
     /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see [IAM instance profiles for PCS](https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html) in the PCS User Guide.
@@ -774,7 +776,7 @@ extension PCSClientTypes {
 
     /// A compute node group associated with a cluster.
     public struct ComputeNodeGroup: Swift.Sendable {
-        /// The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to launch instances. If not provided, Amazon Web Services PCS uses the AMI ID specified in the custom launch template.
+        /// The ID of the Amazon Machine Image (AMI) that PCS uses to launch instances. If not provided, PCS uses the AMI ID specified in the custom launch template.
         public var amiId: Swift.String?
         /// The unique Amazon Resource Name (ARN) of the compute node group.
         /// This member is required.
@@ -785,7 +787,7 @@ extension PCSClientTypes {
         /// The date and time the resource was created.
         /// This member is required.
         public var createdAt: Foundation.Date?
-        /// An Amazon EC2 launch template Amazon Web Services PCS uses to launch compute nodes.
+        /// An Amazon EC2 launch template PCS uses to launch compute nodes.
         /// This member is required.
         public var customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate?
         /// The list of errors that occurred during compute node group provisioning.
@@ -1024,7 +1026,7 @@ extension PCSClientTypes {
 }
 
 public struct UpdateComputeNodeGroupInput: Swift.Sendable {
-    /// The ID of the Amazon Machine Image (AMI) that Amazon Web Services PCS uses to launch instances. If not provided, Amazon Web Services PCS uses the AMI ID specified in the custom launch template.
+    /// The ID of the Amazon Machine Image (AMI) that PCS uses to launch instances. If not provided, PCS uses the AMI ID specified in the custom launch template.
     public var amiId: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the CLI and SDK automatically generate 1 for you.
     public var clientToken: Swift.String?
@@ -1034,7 +1036,7 @@ public struct UpdateComputeNodeGroupInput: Swift.Sendable {
     /// The name or ID of the compute node group.
     /// This member is required.
     public var computeNodeGroupIdentifier: Swift.String?
-    /// An Amazon EC2 launch template Amazon Web Services PCS uses to launch compute nodes.
+    /// An Amazon EC2 launch template PCS uses to launch compute nodes.
     public var customLaunchTemplate: PCSClientTypes.CustomLaunchTemplate?
     /// The Amazon Resource Name (ARN) of the IAM instance profile used to pass an IAM role when launching EC2 instances. The role contained in your instance profile must have the pcs:RegisterComputeNodeGroupInstance permission and the role name must start with AWSPCS or must have the path /aws-pcs/. For more information, see [IAM instance profiles for PCS](https://docs.aws.amazon.com/pcs/latest/userguide/security-instance-profiles.html) in the PCS User Guide.
     public var iamInstanceProfileArn: Swift.String?
@@ -1169,10 +1171,10 @@ extension PCSClientTypes {
 
     /// The cluster management and job scheduling software associated with the cluster.
     public struct SchedulerRequest: Swift.Sendable {
-        /// The software Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
+        /// The software PCS uses to manage cluster scaling and job scheduling.
         /// This member is required.
         public var type: PCSClientTypes.SchedulerType?
-        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in Amazon Web Services PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the Amazon Web Services PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
+        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
         /// This member is required.
         public var version: Swift.String?
 
@@ -1387,7 +1389,7 @@ extension PCSClientTypes {
         ///
         /// * Destination: Self
         public var securityGroupIds: [Swift.String]?
-        /// The ID of the subnet where Amazon Web Services PCS creates an Elastic Network Interface (ENI) to enable communication between managed controllers and Amazon Web Services PCS resources. The subnet must have an available IP address, cannot reside in AWS Outposts, AWS Wavelength, or an AWS Local Zone. Example: subnet-abcd1234
+        /// The ID of the subnet where PCS creates an Elastic Network Interface (ENI) to enable communication between managed controllers and PCS resources. The subnet must have an available IP address, cannot reside in Outposts, Wavelength, or an Amazon Web Services Local Zone. Example: subnet-abcd1234
         public var subnetIds: [Swift.String]?
 
         public init(
@@ -1406,10 +1408,10 @@ extension PCSClientTypes {
 
     /// The cluster management and job scheduling software associated with the cluster.
     public struct Scheduler: Swift.Sendable {
-        /// The software Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
+        /// The software PCS uses to manage cluster scaling and job scheduling.
         /// This member is required.
         public var type: PCSClientTypes.SchedulerType?
-        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in Amazon Web Services PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the Amazon Web Services PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
+        /// The version of the specified scheduling software that PCS uses to manage cluster scaling and job scheduling. For more information, see [Slurm versions in PCS](https://docs.aws.amazon.com/pcs/latest/userguide/slurm-versions.html) in the PCS User Guide. Valid Values: 23.11 | 24.05 | 24.11
         /// This member is required.
         public var version: Swift.String?
 

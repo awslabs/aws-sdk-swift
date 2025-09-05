@@ -1168,6 +1168,7 @@ extension SageMakerClientTypes {
         case mlP5en48xlarge
         case mlP5e48xlarge
         case mlP548xlarge
+        case mlP54xlarge
         case mlP6eGb20036xlarge
         case mlP6B20048xlarge
         case mlR5d12xlarge
@@ -1435,6 +1436,7 @@ extension SageMakerClientTypes {
                 .mlP5en48xlarge,
                 .mlP5e48xlarge,
                 .mlP548xlarge,
+                .mlP54xlarge,
                 .mlP6eGb20036xlarge,
                 .mlP6B20048xlarge,
                 .mlR5d12xlarge,
@@ -1708,6 +1710,7 @@ extension SageMakerClientTypes {
             case .mlP5en48xlarge: return "ml.p5en.48xlarge"
             case .mlP5e48xlarge: return "ml.p5e.48xlarge"
             case .mlP548xlarge: return "ml.p5.48xlarge"
+            case .mlP54xlarge: return "ml.p5.4xlarge"
             case .mlP6eGb20036xlarge: return "ml.p6e-gb200.36xlarge"
             case .mlP6B20048xlarge: return "ml.p6-b200.48xlarge"
             case .mlR5d12xlarge: return "ml.r5d.12xlarge"
@@ -10852,6 +10855,35 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum ClusterConfigMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disable
+        case enable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterConfigMode] {
+            return [
+                .disable,
+                .enable
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disable: return "Disable"
+            case .enable: return "Enable"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Defines the configuration for attaching an additional Amazon Elastic Block Store (EBS) volume to each instance of the SageMaker HyperPod cluster instance group. To learn more, see [SageMaker HyperPod release notes: June 20, 2024](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-release-notes.html#sagemaker-hyperpod-release-notes-20240620).
     public struct ClusterEbsVolumeConfig: Swift.Sendable {
         /// Specifies whether the configuration is for the cluster's root or secondary Amazon EBS volume. You can specify two ClusterEbsVolumeConfig fields to configure both the root and secondary volumes. Set the value to True if you'd like to provide your own customer managed Amazon Web Services KMS key to encrypt the root volume. When True:
@@ -12555,6 +12587,26 @@ extension SageMakerClientTypes {
             self.clusterStatus = clusterStatus
             self.creationTime = creationTime
             self.trainingPlanArns = trainingPlanArns
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// Defines the configuration for managed tier checkpointing in a HyperPod cluster. Managed tier checkpointing uses multiple storage tiers, including cluster CPU memory, to provide faster checkpoint operations and improved fault tolerance for large-scale model training. The system automatically saves checkpoints at high frequency to memory and periodically persists them to durable storage, like Amazon S3.
+    public struct ClusterTieredStorageConfig: Swift.Sendable {
+        /// The percentage (int) of cluster memory to allocate for checkpointing.
+        public var instanceMemoryAllocationPercentage: Swift.Int?
+        /// Specifies whether managed tier checkpointing is enabled or disabled for the HyperPod cluster. When set to Enable, the system installs a memory management daemon that provides disaggregated memory as a service for checkpoint storage. When set to Disable, the feature is turned off and the memory management daemon is removed from the cluster.
+        /// This member is required.
+        public var mode: SageMakerClientTypes.ClusterConfigMode?
+
+        public init(
+            instanceMemoryAllocationPercentage: Swift.Int? = nil,
+            mode: SageMakerClientTypes.ClusterConfigMode? = nil
+        ) {
+            self.instanceMemoryAllocationPercentage = instanceMemoryAllocationPercentage
+            self.mode = mode
         }
     }
 }
@@ -14635,6 +14687,8 @@ public struct CreateClusterInput: Swift.Sendable {
     public var restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]?
     /// Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web Services resource. You can add tags to your cluster in the same way you add them in other Amazon Web Services services that support tagging. To learn more about tagging Amazon Web Services resources in general, see [Tagging Amazon Web Services Resources User Guide](https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html).
     public var tags: [SageMakerClientTypes.Tag]?
+    /// The configuration for managed tier checkpointing on the HyperPod cluster. When enabled, this feature uses a multi-tier storage approach for storing model checkpoints, providing faster checkpoint operations and improved fault tolerance across cluster nodes.
+    public var tieredStorageConfig: SageMakerClientTypes.ClusterTieredStorageConfig?
     /// Specifies the Amazon Virtual Private Cloud (VPC) that is associated with the Amazon SageMaker HyperPod cluster. You can control access to and from your resources by configuring your VPC. For more information, see [Give SageMaker access to resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html). When your Amazon VPC and subnets support IPv6, network communications differ based on the cluster orchestration platform:
     ///
     /// * Slurm-orchestrated clusters automatically configure nodes with dual IPv6 and IPv4 addresses, allowing immediate IPv6 network communications.
@@ -14661,6 +14715,7 @@ public struct CreateClusterInput: Swift.Sendable {
         orchestrator: SageMakerClientTypes.ClusterOrchestrator? = nil,
         restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
+        tieredStorageConfig: SageMakerClientTypes.ClusterTieredStorageConfig? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
     ) {
         self.autoScaling = autoScaling
@@ -14672,6 +14727,7 @@ public struct CreateClusterInput: Swift.Sendable {
         self.orchestrator = orchestrator
         self.restrictedInstanceGroups = restrictedInstanceGroups
         self.tags = tags
+        self.tieredStorageConfig = tieredStorageConfig
         self.vpcConfig = vpcConfig
     }
 }
@@ -17037,7 +17093,7 @@ extension SageMakerClientTypes {
     public struct DockerSettings: Swift.Sendable {
         /// Indicates whether the domain can access Docker.
         public var enableDockerAccess: SageMakerClientTypes.FeatureStatus?
-        /// Indicates whether to use rootless Docker. Default value is DISABLED.
+        /// Indicates whether to use rootless Docker.
         public var rootlessDocker: SageMakerClientTypes.FeatureStatus?
         /// The list of Amazon Web Services accounts that are trusted when the domain is created in VPC-only mode.
         public var vpcOnlyTrustedAccounts: [Swift.String]?
@@ -22869,9 +22925,9 @@ public struct CreateLabelingJobInput: Swift.Sendable {
     ///
     /// * The name can't end with "-metadata".
     ///
-    /// * If you are using one of the following [built-in task types](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-task-types.html), the attribute name must end with "-ref". If the task type you are using is not listed below, the attribute name must not end with "-ref".
+    /// * If you are using one of the [built-in task types](https://docs.aws.amazon.com/sagemaker/latest/dg/sms-task-types.html) or one of the following, the attribute name must end with "-ref".
     ///
-    /// * Verification (VerificationSemanticSegmentation) labeling jobs for this task type.
+    /// * Image semantic segmentation (SemanticSegmentation) and adjustment (AdjustmentSemanticSegmentation) labeling jobs for this task type. One exception is that verification (VerificationSemanticSegmentation) must not end with -"ref".
     ///
     /// * Video frame object detection (VideoObjectDetection), and adjustment and verification (AdjustmentVideoObjectDetection) labeling jobs for this task type.
     ///
@@ -24690,6 +24746,35 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    public enum IPAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualstack
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IPAddressType] {
+            return [
+                .dualstack,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "dualstack"
+            case .ipv4: return "ipv4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum RootAccess: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -24731,6 +24816,8 @@ public struct CreateNotebookInstanceInput: Swift.Sendable {
     /// The type of ML compute instance to launch for the notebook instance.
     /// This member is required.
     public var instanceType: SageMakerClientTypes.InstanceType?
+    /// The IP address type for the notebook instance. Specify ipv4 for IPv4-only connectivity or dualstack for both IPv4 and IPv6 connectivity. When you specify dualstack, the subnet must support IPv6 CIDR blocks. If not specified, defaults to ipv4.
+    public var ipAddressType: SageMakerClientTypes.IPAddressType?
     /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker AI uses to encrypt data on the storage volume attached to your notebook instance. The KMS key you provide must be enabled. For information, see [Enabling and Disabling Keys](https://docs.aws.amazon.com/kms/latest/developerguide/enabling-keys.html) in the Amazon Web Services Key Management Service Developer Guide.
     public var kmsKeyId: Swift.String?
     /// The name of a lifecycle configuration to associate with the notebook instance. For information about lifestyle configurations, see [Step 2.1: (Optional) Customize a Notebook Instance](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html).
@@ -24761,6 +24848,7 @@ public struct CreateNotebookInstanceInput: Swift.Sendable {
         directInternetAccess: SageMakerClientTypes.DirectInternetAccess? = nil,
         instanceMetadataServiceConfiguration: SageMakerClientTypes.InstanceMetadataServiceConfiguration? = nil,
         instanceType: SageMakerClientTypes.InstanceType? = nil,
+        ipAddressType: SageMakerClientTypes.IPAddressType? = nil,
         kmsKeyId: Swift.String? = nil,
         lifecycleConfigName: Swift.String? = nil,
         notebookInstanceName: Swift.String? = nil,
@@ -24778,6 +24866,7 @@ public struct CreateNotebookInstanceInput: Swift.Sendable {
         self.directInternetAccess = directInternetAccess
         self.instanceMetadataServiceConfiguration = instanceMetadataServiceConfiguration
         self.instanceType = instanceType
+        self.ipAddressType = ipAddressType
         self.kmsKeyId = kmsKeyId
         self.lifecycleConfigName = lifecycleConfigName
         self.notebookInstanceName = notebookInstanceName
@@ -29921,6 +30010,8 @@ public struct DescribeClusterOutput: Swift.Sendable {
     public var orchestrator: SageMakerClientTypes.ClusterOrchestrator?
     /// The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
     public var restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupDetails]?
+    /// The current configuration for managed tier checkpointing on the HyperPod cluster. For example, this shows whether the feature is enabled and the percentage of cluster memory allocated for checkpoint storage.
+    public var tieredStorageConfig: SageMakerClientTypes.ClusterTieredStorageConfig?
     /// Specifies an Amazon Virtual Private Cloud (VPC) that your SageMaker jobs, hosted models, and compute resources have access to. You can control access to and from your resources by configuring a VPC. For more information, see [Give SageMaker Access to Resources in your Amazon VPC](https://docs.aws.amazon.com/sagemaker/latest/dg/infrastructure-give-access.html).
     public var vpcConfig: SageMakerClientTypes.VpcConfig?
 
@@ -29937,6 +30028,7 @@ public struct DescribeClusterOutput: Swift.Sendable {
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
         orchestrator: SageMakerClientTypes.ClusterOrchestrator? = nil,
         restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupDetails]? = nil,
+        tieredStorageConfig: SageMakerClientTypes.ClusterTieredStorageConfig? = nil,
         vpcConfig: SageMakerClientTypes.VpcConfig? = nil
     ) {
         self.autoScaling = autoScaling
@@ -29951,6 +30043,7 @@ public struct DescribeClusterOutput: Swift.Sendable {
         self.nodeRecovery = nodeRecovery
         self.orchestrator = orchestrator
         self.restrictedInstanceGroups = restrictedInstanceGroups
+        self.tieredStorageConfig = tieredStorageConfig
         self.vpcConfig = vpcConfig
     }
 }
@@ -35660,6 +35753,8 @@ public struct DescribeNotebookInstanceOutput: Swift.Sendable {
     public var instanceMetadataServiceConfiguration: SageMakerClientTypes.InstanceMetadataServiceConfiguration?
     /// The type of ML compute instance running on the notebook instance.
     public var instanceType: SageMakerClientTypes.InstanceType?
+    /// The IP address type configured for the notebook instance. Returns ipv4 for IPv4-only connectivity or dualstack for both IPv4 and IPv6 connectivity.
+    public var ipAddressType: SageMakerClientTypes.IPAddressType?
     /// The Amazon Web Services KMS key ID SageMaker AI uses to encrypt data when storing it on the ML storage volume attached to the instance.
     public var kmsKeyId: Swift.String?
     /// A timestamp. Use this parameter to retrieve the time when the notebook instance was last modified.
@@ -35698,6 +35793,7 @@ public struct DescribeNotebookInstanceOutput: Swift.Sendable {
         failureReason: Swift.String? = nil,
         instanceMetadataServiceConfiguration: SageMakerClientTypes.InstanceMetadataServiceConfiguration? = nil,
         instanceType: SageMakerClientTypes.InstanceType? = nil,
+        ipAddressType: SageMakerClientTypes.IPAddressType? = nil,
         kmsKeyId: Swift.String? = nil,
         lastModifiedTime: Foundation.Date? = nil,
         networkInterfaceId: Swift.String? = nil,
@@ -35721,6 +35817,7 @@ public struct DescribeNotebookInstanceOutput: Swift.Sendable {
         self.failureReason = failureReason
         self.instanceMetadataServiceConfiguration = instanceMetadataServiceConfiguration
         self.instanceType = instanceType
+        self.ipAddressType = ipAddressType
         self.kmsKeyId = kmsKeyId
         self.lastModifiedTime = lastModifiedTime
         self.networkInterfaceId = networkInterfaceId
@@ -36036,6 +36133,20 @@ public struct DescribePartnerAppOutput: Swift.Sendable {
     /// The name of the SageMaker Partner AI App.
     public var name: Swift.String?
     /// The status of the SageMaker Partner AI App.
+    ///
+    /// * Creating: SageMaker AI is creating the partner AI app. The partner AI app is not available during creation.
+    ///
+    /// * Updating: SageMaker AI is updating the partner AI app. The partner AI app is not available when updating.
+    ///
+    /// * Deleting: SageMaker AI is deleting the partner AI app. The partner AI app is not available during deletion.
+    ///
+    /// * Available: The partner AI app is provisioned and accessible.
+    ///
+    /// * Failed: The partner AI app is in a failed state and isn't available. SageMaker AI is investigating the issue. For further guidance, contact Amazon Web Services Support.
+    ///
+    /// * UpdateFailed: The partner AI app couldn't be updated but is available.
+    ///
+    /// * Deleted: The partner AI app is permanently deleted and not available.
     public var status: SageMakerClientTypes.PartnerAppStatus?
     /// The instance type and size of the cluster attached to the SageMaker Partner AI App.
     public var tier: Swift.String?
@@ -53050,6 +53161,8 @@ public struct UpdateClusterInput: Swift.Sendable {
     public var nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery?
     /// The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
     public var restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]?
+    /// Updates the configuration for managed tier checkpointing on the HyperPod cluster. For example, you can enable or disable the feature and modify the percentage of cluster memory allocated for checkpoint storage.
+    public var tieredStorageConfig: SageMakerClientTypes.ClusterTieredStorageConfig?
 
     public init(
         autoScaling: SageMakerClientTypes.ClusterAutoScalingConfig? = nil,
@@ -53058,7 +53171,8 @@ public struct UpdateClusterInput: Swift.Sendable {
         instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]? = nil,
         instanceGroupsToDelete: [Swift.String]? = nil,
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
-        restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]? = nil
+        restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]? = nil,
+        tieredStorageConfig: SageMakerClientTypes.ClusterTieredStorageConfig? = nil
     ) {
         self.autoScaling = autoScaling
         self.clusterName = clusterName
@@ -53067,6 +53181,7 @@ public struct UpdateClusterInput: Swift.Sendable {
         self.instanceGroupsToDelete = instanceGroupsToDelete
         self.nodeRecovery = nodeRecovery
         self.restrictedInstanceGroups = restrictedInstanceGroups
+        self.tieredStorageConfig = tieredStorageConfig
     }
 }
 
@@ -54279,6 +54394,8 @@ public struct UpdateNotebookInstanceInput: Swift.Sendable {
     public var instanceMetadataServiceConfiguration: SageMakerClientTypes.InstanceMetadataServiceConfiguration?
     /// The Amazon ML compute instance type.
     public var instanceType: SageMakerClientTypes.InstanceType?
+    /// The IP address type for the notebook instance. Specify ipv4 for IPv4-only connectivity or dualstack for both IPv4 and IPv6 connectivity. The notebook instance must be stopped before updating this setting. When you specify dualstack, the subnet must support IPv6 addressing.
+    public var ipAddressType: SageMakerClientTypes.IPAddressType?
     /// The name of a lifecycle configuration to associate with the notebook instance. For information about lifestyle configurations, see [Step 2.1: (Optional) Customize a Notebook Instance](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html).
     public var lifecycleConfigName: Swift.String?
     /// The name of the notebook instance to update.
@@ -54301,6 +54418,7 @@ public struct UpdateNotebookInstanceInput: Swift.Sendable {
         disassociateLifecycleConfig: Swift.Bool? = nil,
         instanceMetadataServiceConfiguration: SageMakerClientTypes.InstanceMetadataServiceConfiguration? = nil,
         instanceType: SageMakerClientTypes.InstanceType? = nil,
+        ipAddressType: SageMakerClientTypes.IPAddressType? = nil,
         lifecycleConfigName: Swift.String? = nil,
         notebookInstanceName: Swift.String? = nil,
         roleArn: Swift.String? = nil,
@@ -54316,6 +54434,7 @@ public struct UpdateNotebookInstanceInput: Swift.Sendable {
         self.disassociateLifecycleConfig = disassociateLifecycleConfig
         self.instanceMetadataServiceConfiguration = instanceMetadataServiceConfiguration
         self.instanceType = instanceType
+        self.ipAddressType = ipAddressType
         self.lifecycleConfigName = lifecycleConfigName
         self.notebookInstanceName = notebookInstanceName
         self.roleArn = roleArn
@@ -57720,6 +57839,7 @@ extension CreateClusterInput {
         try writer["Orchestrator"].write(value.orchestrator, with: SageMakerClientTypes.ClusterOrchestrator.write(value:to:))
         try writer["RestrictedInstanceGroups"].writeList(value.restrictedInstanceGroups, memberWritingClosure: SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TieredStorageConfig"].write(value.tieredStorageConfig, with: SageMakerClientTypes.ClusterTieredStorageConfig.write(value:to:))
         try writer["VpcConfig"].write(value.vpcConfig, with: SageMakerClientTypes.VpcConfig.write(value:to:))
     }
 }
@@ -58265,6 +58385,7 @@ extension CreateNotebookInstanceInput {
         try writer["DirectInternetAccess"].write(value.directInternetAccess)
         try writer["InstanceMetadataServiceConfiguration"].write(value.instanceMetadataServiceConfiguration, with: SageMakerClientTypes.InstanceMetadataServiceConfiguration.write(value:to:))
         try writer["InstanceType"].write(value.instanceType)
+        try writer["IpAddressType"].write(value.ipAddressType)
         try writer["KmsKeyId"].write(value.kmsKeyId)
         try writer["LifecycleConfigName"].write(value.lifecycleConfigName)
         try writer["NotebookInstanceName"].write(value.notebookInstanceName)
@@ -61321,6 +61442,7 @@ extension UpdateClusterInput {
         try writer["InstanceGroupsToDelete"].writeList(value.instanceGroupsToDelete, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["NodeRecovery"].write(value.nodeRecovery)
         try writer["RestrictedInstanceGroups"].writeList(value.restrictedInstanceGroups, memberWritingClosure: SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TieredStorageConfig"].write(value.tieredStorageConfig, with: SageMakerClientTypes.ClusterTieredStorageConfig.write(value:to:))
     }
 }
 
@@ -61645,6 +61767,7 @@ extension UpdateNotebookInstanceInput {
         try writer["DisassociateLifecycleConfig"].write(value.disassociateLifecycleConfig)
         try writer["InstanceMetadataServiceConfiguration"].write(value.instanceMetadataServiceConfiguration, with: SageMakerClientTypes.InstanceMetadataServiceConfiguration.write(value:to:))
         try writer["InstanceType"].write(value.instanceType)
+        try writer["IpAddressType"].write(value.ipAddressType)
         try writer["LifecycleConfigName"].write(value.lifecycleConfigName)
         try writer["NotebookInstanceName"].write(value.notebookInstanceName)
         try writer["RoleArn"].write(value.roleArn)
@@ -63344,6 +63467,7 @@ extension DescribeClusterOutput {
         value.nodeRecovery = try reader["NodeRecovery"].readIfPresent()
         value.orchestrator = try reader["Orchestrator"].readIfPresent(with: SageMakerClientTypes.ClusterOrchestrator.read(from:))
         value.restrictedInstanceGroups = try reader["RestrictedInstanceGroups"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.ClusterRestrictedInstanceGroupDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tieredStorageConfig = try reader["TieredStorageConfig"].readIfPresent(with: SageMakerClientTypes.ClusterTieredStorageConfig.read(from:))
         value.vpcConfig = try reader["VpcConfig"].readIfPresent(with: SageMakerClientTypes.VpcConfig.read(from:))
         return value
     }
@@ -64290,6 +64414,7 @@ extension DescribeNotebookInstanceOutput {
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.instanceMetadataServiceConfiguration = try reader["InstanceMetadataServiceConfiguration"].readIfPresent(with: SageMakerClientTypes.InstanceMetadataServiceConfiguration.read(from:))
         value.instanceType = try reader["InstanceType"].readIfPresent()
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.networkInterfaceId = try reader["NetworkInterfaceId"].readIfPresent()
@@ -74145,6 +74270,23 @@ extension SageMakerClientTypes.ClusterOrchestratorEksConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ClusterOrchestratorEksConfig()
         value.clusterArn = try reader["ClusterArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ClusterTieredStorageConfig {
+
+    static func write(value: SageMakerClientTypes.ClusterTieredStorageConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceMemoryAllocationPercentage"].write(value.instanceMemoryAllocationPercentage)
+        try writer["Mode"].write(value.mode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ClusterTieredStorageConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ClusterTieredStorageConfig()
+        value.mode = try reader["Mode"].readIfPresent() ?? .sdkUnknown("")
+        value.instanceMemoryAllocationPercentage = try reader["InstanceMemoryAllocationPercentage"].readIfPresent()
         return value
     }
 }

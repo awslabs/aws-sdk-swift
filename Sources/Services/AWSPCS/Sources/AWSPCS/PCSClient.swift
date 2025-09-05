@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PCSClient: ClientRuntime.Client {
     public static let clientName = "PCSClient"
-    public static let version = "1.5.35"
+    public static let version = "1.5.36"
     let client: ClientRuntime.SdkHttpClient
     let config: PCSClient.PCSClientConfiguration
     let serviceName = "PCS"
@@ -371,7 +371,7 @@ extension PCSClient {
 extension PCSClient {
     /// Performs the `CreateCluster` operation on the `PCS` service.
     ///
-    /// Creates a cluster in your account. Amazon Web Services PCS creates the cluster controller in a service-owned account. The cluster controller communicates with the cluster resources in your account. The subnets and security groups for the cluster must already exist before you use this API action. It takes time for Amazon Web Services PCS to create the cluster. The cluster is in a Creating state until it is ready to use. There can only be 1 cluster in a Creating state per Amazon Web Services Region per Amazon Web Services account. CreateCluster fails with a ServiceQuotaExceededException if there is already a cluster in a Creating state.
+    /// Creates a cluster in your account. PCS creates the cluster controller in a service-owned account. The cluster controller communicates with the cluster resources in your account. The subnets and security groups for the cluster must already exist before you use this API action. It takes time for PCS to create the cluster. The cluster is in a Creating state until it is ready to use. There can only be 1 cluster in a Creating state per Amazon Web Services Region per Amazon Web Services account. CreateCluster fails with a ServiceQuotaExceededException if there is already a cluster in a Creating state.
     ///
     /// - Parameter CreateClusterInput : [no documentation found]
     ///
@@ -398,7 +398,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ServiceQuotaExceededException` : You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account. To learn how to increase your service quota, see [Requesting a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html) in the Service Quotas User Guide Examples
     ///
     /// * The max number of clusters or queues has been reached for the account.
@@ -475,7 +475,7 @@ extension PCSClient {
 
     /// Performs the `CreateComputeNodeGroup` operation on the `PCS` service.
     ///
-    /// Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more Amazon Web Services PCS queues or as part of the login fleet. A compute node group includes the definition of the compute properties and lifecycle management. Amazon Web Services PCS uses the information you provide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that Amazon Web Services PCS launches in your account. You must already have a launch template before you call this API. For more information, see [Launch an instance from a launch template](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html) in the Amazon Elastic Compute Cloud User Guide for Linux Instances.
+    /// Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more PCS queues or as part of the login fleet. A compute node group includes the definition of the compute properties and lifecycle management. PCS uses the information you provide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that PCS launches in your account. You must already have a launch template before you call this API. For more information, see [Launch an instance from a launch template](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html) in the Amazon Elastic Compute Cloud User Guide for Linux Instances.
     ///
     /// - Parameter CreateComputeNodeGroupInput : [no documentation found]
     ///
@@ -502,7 +502,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ServiceQuotaExceededException` : You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account. To learn how to increase your service quota, see [Requesting a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html) in the Service Quotas User Guide Examples
     ///
@@ -607,7 +607,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ServiceQuotaExceededException` : You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account. To learn how to increase your service quota, see [Requesting a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html) in the Service Quotas User Guide Examples
     ///
@@ -712,7 +712,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ThrottlingException` : Your request exceeded a request rate quota. Check the resource's request rate quota and try again.
     /// - `ValidationException` : The request isn't valid. Examples
@@ -810,7 +810,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ThrottlingException` : Your request exceeded a request rate quota. Check the resource's request rate quota and try again.
     /// - `ValidationException` : The request isn't valid. Examples
@@ -881,7 +881,7 @@ extension PCSClient {
 
     /// Performs the `DeleteQueue` operation on the `PCS` service.
     ///
-    /// Deletes a job queue. If the compute node group associated with this queue isn't associated with any other queues, Amazon Web Services PCS terminates all the compute nodes for this queue.
+    /// Deletes a job queue. If the compute node group associated with this queue isn't associated with any other queues, PCS terminates all the compute nodes for this queue.
     ///
     /// - Parameter DeleteQueueInput : [no documentation found]
     ///
@@ -908,7 +908,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ThrottlingException` : Your request exceeded a request rate quota. Check the resource's request rate quota and try again.
     /// - `ValidationException` : The request isn't valid. Examples
@@ -1006,7 +1006,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ThrottlingException` : Your request exceeded a request rate quota. Check the resource's request rate quota and try again.
     /// - `ValidationException` : The request isn't valid. Examples
@@ -1103,7 +1103,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ThrottlingException` : Your request exceeded a request rate quota. Check the resource's request rate quota and try again.
     /// - `ValidationException` : The request isn't valid. Examples
@@ -1200,7 +1200,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ThrottlingException` : Your request exceeded a request rate quota. Check the resource's request rate quota and try again.
     /// - `ValidationException` : The request isn't valid. Examples
@@ -1297,7 +1297,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ThrottlingException` : Your request exceeded a request rate quota. Check the resource's request rate quota and try again.
     /// - `ValidationException` : The request isn't valid. Examples
@@ -1394,7 +1394,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ThrottlingException` : Your request exceeded a request rate quota. Check the resource's request rate quota and try again.
     /// - `ValidationException` : The request isn't valid. Examples
@@ -1491,7 +1491,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ThrottlingException` : Your request exceeded a request rate quota. Check the resource's request rate quota and try again.
     /// - `ValidationException` : The request isn't valid. Examples
@@ -1561,7 +1561,7 @@ extension PCSClient {
 
     /// Performs the `ListTagsForResource` operation on the `PCS` service.
     ///
-    /// Returns a list of all tags on an Amazon Web Services PCS resource.
+    /// Returns a list of all tags on an PCS resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
@@ -1629,7 +1629,7 @@ extension PCSClient {
 
     /// Performs the `RegisterComputeNodeGroupInstance` operation on the `PCS` service.
     ///
-    /// This API action isn't intended for you to use. Amazon Web Services PCS uses this API action to register the compute nodes it launches in your account.
+    /// This API action isn't intended for you to use. PCS uses this API action to register the compute nodes it launches in your account.
     ///
     /// - Parameter RegisterComputeNodeGroupInstanceInput : [no documentation found]
     ///
@@ -1647,7 +1647,7 @@ extension PCSClient {
     /// * The cluster ID doesn't exist.
     ///
     /// * The EC2 instance isn't present.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     public func registerComputeNodeGroupInstance(input: RegisterComputeNodeGroupInstanceInput) async throws -> RegisterComputeNodeGroupInstanceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1706,7 +1706,7 @@ extension PCSClient {
 
     /// Performs the `TagResource` operation on the `PCS` service.
     ///
-    /// Adds or edits tags on an Amazon Web Services PCS resource. Each tag consists of a tag key and a tag value. The tag key and tag value are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value.
+    /// Adds or edits tags on an PCS resource. Each tag consists of a tag key and a tag value. The tag key and tag value are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -1781,7 +1781,7 @@ extension PCSClient {
 
     /// Performs the `UntagResource` operation on the `PCS` service.
     ///
-    /// Deletes tags from an Amazon Web Services PCS resource. To delete a tag, specify the tag key and the Amazon Resource Name (ARN) of the Amazon Web Services PCS resource.
+    /// Deletes tags from an PCS resource. To delete a tag, specify the tag key and the Amazon Resource Name (ARN) of the PCS resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
@@ -1876,7 +1876,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ServiceQuotaExceededException` : You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account. To learn how to increase your service quota, see [Requesting a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html) in the Service Quotas User Guide Examples
     ///
@@ -1981,7 +1981,7 @@ extension PCSClient {
     /// * A cluster to delete is in an unstable state. For example, because it still has ACTIVE node groups or queues.
     ///
     /// * A queue already exists in a cluster.
-    /// - `InternalServerException` : Amazon Web Services PCS can't process your request right now. Try again later.
+    /// - `InternalServerException` : PCS can't process your request right now. Try again later.
     /// - `ResourceNotFoundException` : The requested resource can't be found. The cluster, node group, or queue you're attempting to get, update, list, or delete doesn't exist. Examples
     /// - `ServiceQuotaExceededException` : You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account. To learn how to increase your service quota, see [Requesting a quota increase](https://docs.aws.amazon.com/servicequotas/latest/userguide/request-quota-increase.html) in the Service Quotas User Guide Examples
     ///

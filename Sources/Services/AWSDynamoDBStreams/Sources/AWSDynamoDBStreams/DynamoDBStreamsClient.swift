@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DynamoDBStreamsClient: ClientRuntime.Client {
     public static let clientName = "DynamoDBStreamsClient"
-    public static let version = "1.5.35"
+    public static let version = "1.5.36"
     let client: ClientRuntime.SdkHttpClient
     let config: DynamoDBStreamsClient.DynamoDBStreamsClientConfiguration
     let serviceName = "DynamoDB Streams"
