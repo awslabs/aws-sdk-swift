@@ -46,6 +46,15 @@ else
 fi
 echo
 
+if command -v xcrun &> /dev/null
+then
+  which xcrun
+  xcrun simctl list
+else
+  echo "xcrun not installed"
+fi
+echo
+
 if command -v java &> /dev/null
 then
   which java
