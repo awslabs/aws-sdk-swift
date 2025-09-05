@@ -44,7 +44,7 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
             config.authSchemeResolver = DefaultCodeCatalystAuthSchemeResolver()
             config.authSchemes = [SmithyHTTPAuth.BearerTokenAuthScheme()]
             config.awsCredentialIdentityResolver = AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
-            config.bearerTokenIdentityResolver = try AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain()
+            config.bearerTokenIdentityResolver = AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain()
         }
     }
 }

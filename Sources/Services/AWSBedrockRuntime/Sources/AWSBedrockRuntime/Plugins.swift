@@ -45,7 +45,7 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
             config.authSchemeResolver = DefaultBedrockRuntimeAuthSchemeResolver()
             config.authSchemes = [SmithyHTTPAuth.BearerTokenAuthScheme(), AWSSDKHTTPAuth.SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
-            config.bearerTokenIdentityResolver = try AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain()
+            config.bearerTokenIdentityResolver = AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain()
         }
     }
 }

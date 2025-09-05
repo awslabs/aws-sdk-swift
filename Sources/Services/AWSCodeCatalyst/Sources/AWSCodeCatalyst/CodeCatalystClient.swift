@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CodeCatalystClient: ClientRuntime.Client {
     public static let clientName = "CodeCatalystClient"
-    public static let version = "1.5.35"
+    public static let version = "1.5.36"
     let client: ClientRuntime.SdkHttpClient
     let config: CodeCatalystClient.CodeCatalystClientConfiguration
     let serviceName = "CodeCatalyst"
@@ -223,7 +223,7 @@ extension CodeCatalystClient {
                 authSchemes ?? [SmithyHTTPAuth.BearerTokenAuthScheme()],
                 authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultCodeCatalystAuthSchemeResolver(),
-                try bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
+                bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
             )
@@ -279,7 +279,7 @@ extension CodeCatalystClient {
                 authSchemes ?? [SmithyHTTPAuth.BearerTokenAuthScheme()],
                 authSchemePreference ?? nil,
                 authSchemeResolver ?? DefaultCodeCatalystAuthSchemeResolver(),
-                try bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
+                bearerTokenIdentityResolver ?? AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 interceptorProviders ?? [],
                 httpInterceptorProviders ?? []
             )
@@ -339,7 +339,7 @@ extension CodeCatalystClient {
                 [SmithyHTTPAuth.BearerTokenAuthScheme()],
                 nil,
                 DefaultCodeCatalystAuthSchemeResolver(),
-                try AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
+                AWSSDKIdentity.DefaultBearerTokenIdentityResolverChain(),
                 [],
                 []
             )
