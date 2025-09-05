@@ -12,14 +12,13 @@ public struct ConfigFileReader {
     public let credentialsFilePath: String
     
     public init?(_ configFilePath: String?, _ credentialsFilePath: String?) async throws {
-        
-        // You will likely have to modify this code.
+    
         self.configFilePath = configFilePath ?? "~/.aws/config"
         self.credentialsFilePath = credentialsFilePath ?? "~/.aws/credentials"
     }
     
     func config() -> FileBasedConfigurationSectionProviding? {
-        // Replace this function body with code that works.
+    
         guard let storedConfigData = FileManager.default.contents(atPath: configFilePath) else {
             print("Could not open File")
             return nil
@@ -36,6 +35,7 @@ public struct ConfigFileReader {
         
         var sections = [String: ConfigFileSection]()
         var currentSectionName: String? // Keep track of current section name
+        var currentSubsectionName: String? // Keep track of current subsection name
         let profileSection = try! NSRegularExpression(pattern: "profile", options: .caseInsensitive) // Regex pattern to match any line containing "profile"
         
         for line in arrayConfigData{
@@ -57,12 +57,15 @@ public struct ConfigFileReader {
                     print("Found profile: \(profileName)") // For demonstration
                 }
             case _ where currentSectionName != nil && line.contains("="):
-                //Ignore lines that start with whitespace
-                    guard !line.hasPrefix(" ") && !line.hasPrefix("\t") else {
-                        print("Skipping line due to leading whitespace: '\(line)'") // Optional: for debugging
-                        break // Or `return` if this is inside a function/loop
-                    }
+                //Identify new subsection
+                if line.contains("nested"){
+                    let subSectionName = String(line)
+                    currentSubsectionName = subSectionName
+                    print("Found subsection: \(currentSubsectionName)") // For demonstration
+                }
+                
                 // This case handles key-value pairs within a section
+                if !line.hasPrefix(" ") && !line.hasPrefix("\t"){
                     let components = line.split(separator: "=", maxSplits: 1).map(String.init)
                     if components.count == 2, let currentName = currentSectionName {
                         let key = components[0].trimmingCharacters(in: .whitespaces)
@@ -70,12 +73,14 @@ public struct ConfigFileReader {
                         sections[currentName]?.keys[key] = value
                         print("  Added key and value '\(key)' = '\(value)' to section '\(currentName)'")
                     }
-            case _ where line.contains("nested") || line.hasPrefix(" "):
-                let property = String(line)
-                if line.hasPrefix(" ") && line.hasPrefix("\t"), let currentName = currentSectionName {
-                    let value = String(line)
-                    sections[currentName]?.properties[property] = value
-                    print("  Added property and value '\(property)' = '\(value)' to section '\(currentName)'")
+                } else if line.hasPrefix(" ") && line.hasPrefix("\t") {
+                    let components = line.split(separator: "=", maxSplits: 1).map(String.init)
+                    if components.count == 2, let currentName = currentSubsectionName {
+                        let key = components[0].trimmingCharacters(in: .whitespaces)
+                        let value = components[1].trimmingCharacters(in: .whitespaces)
+                        sections[currentName]?.keys[key] = value
+                        print("  Added key and value '\(key)' = '\(value)' to section '\(currentName)'")
+                    }
                 }
             default:
                 print ("No profile found, values will be placed in [default] section")
@@ -113,7 +118,7 @@ struct ConfigFile: FileBasedConfiguration {
 struct ConfigFileSection: FileBasedConfigurationSection {
     let name: String
     var keys: [String: String] = ["":""]
-    var properties: [String: String] = ["":""]
+    var properties: [String: String] = [:]
     
     func property(for name: FileBasedConfigurationKey) -> FileBasedConfigurationProperty? {
         // Replace this function body with code that works.
