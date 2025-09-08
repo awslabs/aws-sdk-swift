@@ -6274,11 +6274,15 @@ public struct DescribeComputationModelInput: Swift.Sendable {
     /// The ID of the computation model.
     /// This member is required.
     public var computationModelId: Swift.String?
+    /// The version of the computation model.
+    public var computationModelVersion: Swift.String?
 
     public init(
-        computationModelId: Swift.String? = nil
+        computationModelId: Swift.String? = nil,
+        computationModelVersion: Swift.String? = nil
     ) {
         self.computationModelId = computationModelId
+        self.computationModelVersion = computationModelVersion
     }
 }
 
@@ -7577,7 +7581,7 @@ public struct ExecuteQueryInput: Swift.Sendable {
     ///
     /// * Maximum is 20000
     ///
-    /// * Default is 250
+    /// * Default is 20000
     public var maxResults: Swift.Int?
     /// The string that specifies the next page of results.
     public var nextToken: Swift.String?
@@ -11696,6 +11700,18 @@ extension DescribeComputationModelInput {
             return nil
         }
         return "/computation-models/\(computationModelId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeComputationModelInput {
+
+    static func queryItemProvider(_ value: DescribeComputationModelInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let computationModelVersion = value.computationModelVersion {
+            let computationModelVersionQueryItem = Smithy.URIQueryItem(name: "computationModelVersion".urlPercentEncoding(), value: Swift.String(computationModelVersion).urlPercentEncoding())
+            items.append(computationModelVersionQueryItem)
+        }
+        return items
     }
 }
 
