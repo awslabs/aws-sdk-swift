@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTSiteWiseClient: ClientRuntime.Client {
     public static let clientName = "IoTSiteWiseClient"
-    public static let version = "1.5.36"
+    public static let version = "1.5.37"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTSiteWiseClient.IoTSiteWiseClientConfiguration
     let serviceName = "IoTSiteWise"
@@ -953,7 +953,7 @@ extension IoTSiteWiseClient {
 
     /// Performs the `CreateAccessPolicy` operation on the `IoTSiteWise` service.
     ///
-    /// Creates an access policy that grants the specified identity (IAM Identity Center user, IAM Identity Center group, or IAM user) access to the specified IoT SiteWise Monitor portal or project resource.
+    /// Creates an access policy that grants the specified identity (IAM Identity Center user, IAM Identity Center group, or IAM user) access to the specified IoT SiteWise Monitor portal or project resource. Support for access policies that use an SSO Group as the identity is not supported at this time.
     ///
     /// - Parameter CreateAccessPolicyInput : [no documentation found]
     ///
@@ -3261,6 +3261,7 @@ extension IoTSiteWiseClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeComputationModelInput, DescribeComputationModelOutput>(DescribeComputationModelInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeComputationModelInput, DescribeComputationModelOutput>(hostPrefix: "api."))
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeComputationModelInput, DescribeComputationModelOutput>(DescribeComputationModelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeComputationModelOutput>(DescribeComputationModelOutput.httpOutput(from:), DescribeComputationModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeComputationModelInput, DescribeComputationModelOutput>(clientLogMode: config.clientLogMode))
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))

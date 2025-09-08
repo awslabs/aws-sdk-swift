@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PCSClient: ClientRuntime.Client {
     public static let clientName = "PCSClient"
-    public static let version = "1.5.36"
+    public static let version = "1.5.37"
     let client: ClientRuntime.SdkHttpClient
     let config: PCSClient.PCSClientConfiguration
     let serviceName = "PCS"
