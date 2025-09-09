@@ -61,10 +61,10 @@ public struct ConfigFileReader {
                 if line.contains("nested"){
                     let subSectionName = String(line)
                     currentSubsectionName = subSectionName
-                    print("Found subsection: \(currentSubsectionName)") // For demonstration
+                    print("Found subsection: \(String(describing: currentSubsectionName))") // For demonstration
                 }
                 
-                // This case handles key-value pairs within a section
+                // This case handles key-value pairs within a section/subsection
                 if !line.hasPrefix(" ") && !line.hasPrefix("\t"){
                     let components = line.split(separator: "=", maxSplits: 1).map(String.init)
                     if components.count == 2, let currentName = currentSectionName {
@@ -73,7 +73,7 @@ public struct ConfigFileReader {
                         sections[currentName]?.keys[key] = value
                         print("  Added key and value '\(key)' = '\(value)' to section '\(currentName)'")
                     }
-                } else if line.hasPrefix(" ") && line.hasPrefix("\t") {
+                } else {
                     let components = line.split(separator: "=", maxSplits: 1).map(String.init)
                     if components.count == 2, let currentName = currentSubsectionName {
                         let key = components[0].trimmingCharacters(in: .whitespaces)
@@ -103,7 +103,6 @@ struct ConfigFile: FileBasedConfiguration {
     let sections: [String: ConfigFileSection]
 
     func section(for name: String, type: FileBasedConfigurationSectionType) -> (any FileBasedConfigurationSection)? {
-        // Replace this function body with code that works.
         let sectionName: String
         switch type {
         case .profile:
@@ -121,7 +120,6 @@ struct ConfigFileSection: FileBasedConfigurationSection {
     var properties: [String: String] = [:]
     
     func property(for name: FileBasedConfigurationKey) -> FileBasedConfigurationProperty? {
-        // Replace this function body with code that works.
         if let value = keys[name.rawValue]{
             return .string(value)
         }else {
